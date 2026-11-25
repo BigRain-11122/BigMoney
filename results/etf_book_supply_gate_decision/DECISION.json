@@ -1,7 +1,7 @@
 {
  "face": "etf_book_supply_gate_decision",
  "question": "two receipts read separately -- does the caliber dispute (r1445) and the blind ruler (r1444) combine into one answer for the 2026-11-11 rebalance?",
- "generated": "2026-11-26T07:06:40+0800",
+ "generated": "2026-11-26T07:20:43+0800",
  "evidence_cutoff": "2026-11-25",
  "forward": {
   "composite": "RULER_BLIND",
@@ -360,7 +360,39 @@
    "names_in_ticket": 5
   },
   "money_constructions_that_are_gifts": [],
-  "second_reading": "the judge and the money are two different objects: the judged book's word survives the caliber choice, while no construction -- the construction the ticket prices -- reads ADMIT only while a partial year counts as a year (r1440 priced the same k_now)",
+  "ticket_permission": {
+   "construction": "ticket_construction_plain_plus_overlay",
+   "permission_word": "CONDITIONAL",
+   "reading": "TICKET_PRICED_ON_A_MOVED_PERMISSION",
+   "sentence": "the construction reads CONDITIONAL while etf_book_ticket_floor.json=TRADABLE_AT_1000000, etf_book_ticket_band.json=BOTH_LINES_HOLD_AT_SIGNED, capital_union_decision.json=TRADABLE_AT_1000000 still print a size: those sizes are liquidity statements, not permissions",
+   "readers": [
+    {
+     "path": "results/etf_book_ticket_floor.json",
+     "field": "verdict",
+     "word": "TRADABLE_AT_1000000",
+     "evidence_cutoff": "2026-11-25",
+     "asof_bar": "2026-11-25",
+     "sha16": "8e46e7e120762f4a"
+    },
+    {
+     "path": "results/etf_book_ticket_band.json",
+     "field": "verdict",
+     "word": "BOTH_LINES_HOLD_AT_SIGNED",
+     "evidence_cutoff": "2026-11-25",
+     "asof_bar": null,
+     "sha16": "32fbebebf351fc78"
+    },
+    {
+     "path": "results/capital_union_decision.json",
+     "field": "etf_book.ticket_verdict",
+     "word": "TRADABLE_AT_1000000",
+     "evidence_cutoff": "2026-11-25",
+     "asof_bar": null,
+     "sha16": "197954786edecd68"
+    }
+   ]
+  },
+  "second_reading": "the judge and the money are two different objects: the judged book's word survives the caliber choice, while no construction reads ADMIT only while a partial year counts as a year (on this cutoff the strict reading is the reading)",
   "cross_receipt_agreement": [
    {
     "name": "plain_book_n5_r20_vt08",
@@ -434,7 +466,7 @@
  "sources": {
   "caliber": {
    "path": "results/etf_book_partial_year_caliber/CALIBER.json",
-   "sha16": "afe5f3f725dfaf8c"
+   "sha16": "47bbfedc78534039"
   },
   "forward": {
    "path": "results/etf_book_ruler_forward/RULER-FORWARD.json",

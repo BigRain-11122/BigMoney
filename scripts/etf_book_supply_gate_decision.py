@@ -72,6 +72,13 @@ CALIBER_RECEIPT = "results/etf_book_partial_year_caliber/CALIBER.json"
 FORWARD_RECEIPT = "results/etf_book_ruler_forward/RULER-FORWARD.json"
 GAP_RECEIPT = "results/etf_book_execution_admission_gap.json"
 WRAPPER_RECEIPT = "results/etf_book_year_gate/WRAPPER-GATE.json"
+TICKET_READERS = (
+    ("results/etf_book_ticket_floor.json", "verdict"),
+    ("results/etf_book_ticket_band.json", "verdict"),
+    ("results/capital_union_decision.json", "etf_book.ticket_verdict"),
+)
+# a reader word that says "you may put money here" -- the whole point of the check
+SIZE_WORDS = ("TRADABLE_AT_", "BOTH_LINES_HOLD", "OPEN", "ADMIT")
 
 CLASSES = ("INVARIANT", "MOVES_ON_CONTROL_ONLY", "MOVES_ON_BLIND_CHECK",
            "MOVES_ON_SEEN_CHECK", "UNREADABLE")
@@ -193,6 +200,59 @@ def desk_decision(executed_class: str, fwd: dict) -> tuple[str, str]:
     return "MISSING_RECEIPT", "the executed book could not be classified from the receipts"
 
 
+def _says_size(word: str | None) -> bool:
+    w = (word or "").upper()
+    return any(w.startswith(s) for s in SIZE_WORDS)
+
+
+def ticket_reading(permission: str | None, readers: list[dict]) -> tuple[str, str]:
+    """Does the face that prints a size read the word that grants it?
+
+    Pure function: `readers` are the size-printing faces, each with its own word and
+    cutoff.  The gate never overrides a size -- it reports whether the size was priced
+    on the word that is in force *today*, and names both words when it was not."""
+    named = [r for r in readers if r.get("word")]
+    if permission is None or not named:
+        return ("TICKET_READER_MISSING",
+                "the size faces or the permission word could not be read: an unreadable "
+                "ticket is not a tradable ticket")
+    sized = [r for r in named if _says_size(r["word"])]
+    if permission.upper() == "ADMIT":
+        if sized:
+            return ("TICKET_PERMISSION_MATCH",
+                    "every size face prints a size and the construction's word is ADMIT")
+        return ("TICKET_REFUSED_ON_A_GRANTED_PERMISSION",
+                "the construction is ADMIT while no size face prints a size")
+    if sized:
+        return ("TICKET_PRICED_ON_A_MOVED_PERMISSION",
+                "the construction reads %s while %s still print%s a size: those sizes are "
+                "liquidity statements, not permissions"
+                % (permission,
+                   ", ".join("%s=%s" % (r["path"].rsplit("/", 1)[-1], r["word"])
+                             for r in sized),
+                   "" if len(sized) > 1 else "s"))
+    return ("TICKET_PERMISSION_MATCH",
+            "no size face prints a size while the construction reads %s" % permission)
+
+
+def read_ticket_faces() -> list[dict]:
+    out = []
+    for rel, key in TICKET_READERS:
+        d, sha = _load(rel)
+        word = None
+        if d is not None:
+            word = d
+            for part in key.split("."):
+                word = (word or {}).get(part) if isinstance(word, dict) else None
+        out.append({"path": rel,
+                    "field": key,
+                    "word": word,
+                    "evidence_cutoff": None if d is None else d.get("evidence_cutoff"),
+                    "asof_bar": None if d is None else d.get("asof_bar"),
+                    "sha16": sha})
+    return out
+
+
 # ------------------------------------------------------------------ build
 def build() -> dict:
     cal, cal_sha = _load(CALIBER_RECEIPT)
@@ -259,6 +319,13 @@ def build() -> dict:
                                   "class": cal_row["class"] if cal_row else "UNREADABLE",
                                   "words": cal_row["words"] if cal_row else {}})
 
+    ticket_name = "ticket_construction_plain_plus_overlay"
+    ticket_cross = next((c for c in cross if c["name"] == ticket_name), None)
+    permission = None
+    if ticket_cross is not None:
+        permission = ticket_cross["wrapper_word"] or ticket_cross["caliber_A_word"]
+    ticket_words, ticket_sentence = ticket_reading(permission, read_ticket_faces())
+
     desk = {
         "verdict": word,
         "sentence": sentence,
@@ -281,12 +348,22 @@ def build() -> dict:
             "names_in_ticket": money.get("names_in_ticket"),
         },
         "money_constructions_that_are_gifts": constructions,
+        "ticket_permission": {
+            "construction": ticket_name,
+            "permission_word": permission,
+            "reading": ticket_words,
+            "sentence": ticket_sentence,
+            "readers": read_ticket_faces(),
+        },
         "second_reading": (
             "the judge and the money are two different objects: the judged book's word "
             "survives the caliber choice, while "
-            + (", ".join(c["name"] for c in constructions) or "no construction")
-            + " -- the construction the ticket prices -- reads ADMIT only while a partial "
-              "year counts as a year (r1440 priced the same k_now)"),
+            + (", ".join(c["name"] for c in constructions)
+               + " -- the construction the ticket prices -- reads ADMIT only while a partial "
+                 "year counts as a year (r1440 priced the same k_now)"
+               if constructions else
+               "no construction reads ADMIT only while a partial year counts as a year "
+               "(on this cutoff the strict reading is the reading)")),
         "cross_receipt_agreement": cross,
         "gift_arms": [{"face": b["face"], "name": b["name"], "words": b["words"],
                        "moving_checks": b["moving_checks"]} for b in gift_arms],
@@ -358,6 +435,15 @@ def md_lines(d: dict) -> list[str]:
             (", ".join(g["name"] for g in desk.get("floored_arms") or []) or "none"), ""]
     if desk.get("second_reading"):
         out += ["## Second reading", "", desk["second_reading"], ""]
+    tp = desk.get("ticket_permission") or {}
+    if tp:
+        out += [f"size faces vs the permission word: **{tp.get('reading')}** -- "
+                f"{tp.get('sentence')}",
+                "construction `%s` reads %s; the size faces say: "
+                % (tp.get("construction"), tp.get("permission_word"))
+                + ", ".join("%s=%s @ %s" % (r["path"].rsplit("/", 1)[-1], r["word"],
+                                            r["evidence_cutoff"])
+                            for r in tp.get("readers") or []), ""]
     fw = d.get("forward") or {}
     out += [f"forward read: {fw.get('composite')} ({fw.get('source')})", ""]
     return out
@@ -400,7 +486,7 @@ def check() -> int:
     fails = []
     for key in ("verdict", "executed_book", "gift_arms", "floored_arms", "class_counts",
                 "money_constructions_that_are_gifts", "second_reading",
-                "cross_receipt_agreement"):
+                "cross_receipt_agreement", "ticket_permission"):
         left = json.dumps((pub.get("desk") or {}).get(key), sort_keys=True, ensure_ascii=False)
         right = json.dumps((fresh.get("desk") or {}).get(key), sort_keys=True, ensure_ascii=False)
         if left == right:
@@ -412,8 +498,15 @@ def check() -> int:
         ok += 1
     else:
         fails.append("sources")
-    total = 9
+    total = 10
     if fails:
+        # a size face or a receipt that moved is drift (pay the rewrite); a number that
+        # disagrees on the same inputs is a defect (never dressed up as drift)
+        if set(fails) <= {"ticket_permission", "sources"}:
+            print("[supply_gate_decision] STALE %d/%d  moved=%s -- the receipts or the size "
+                  "faces moved under this page; re-run to re-say it"
+                  % (ok, total, ",".join(fails)))
+            return 1
         print("[supply_gate_decision] CHECK FAIL %d/%d  drift=%s" % (ok, total, ",".join(fails)))
         return 1
     print("[supply_gate_decision] CHECK OK %d/%d  verdict=%s class=%s"
@@ -535,17 +628,37 @@ def selftest() -> int:
     leg("L13 wrapper receipt and caliber receipt agree on every shared arm",
         bool(cross) and all(c["agree"] for c in cross),
         str([c["name"] for c in cross if not c["agree"]]))
-    leg("L13b the agent that prices the ticket reads ADMIT in the wrapper receipt",
-        any(c["name"] == "ticket_construction_plain_plus_overlay" and c["wrapper_word"] == "ADMIT"
-            for c in cross))
+    tp = (d.get("desk") or {}).get("ticket_permission") or {}
+    ticket_cross = next((c for c in cross
+                         if c["name"] == "ticket_construction_plain_plus_overlay"), None)
+    leg("L13b the ticket's permission word is the receipt's word, never a literal",
+        ticket_cross is not None and tp.get("permission_word") == ticket_cross["wrapper_word"])
 
-    # L14 the money construction is one of the gift arms and is named on the second reading
+    # L14 the faces that print a size must be read, and the reading must follow the words
     mc = (d.get("desk") or {}).get("money_constructions_that_are_gifts") or []
     gifts = {g["name"] for g in (d.get("desk") or {}).get("gift_arms") or []}
-    leg("L14 every named money construction is a gift arm and appears in the second reading",
-        bool(mc) and all(c["name"] in gifts for c in mc)
-        and all(c["name"] in (d["desk"]["second_reading"] or "") for c in mc),
+    leg("L14 every named gift construction is a gift arm and is named on the second reading",
+        all(c["name"] in gifts and c["name"] in (d["desk"]["second_reading"] or "") for c in mc),
         str(mc))
+    rederived = ticket_reading(tp.get("permission_word"), tp.get("readers") or [])
+    leg("L15 the size reading is re-derived from the faces' own words, not stored",
+        tp.get("reading") == rederived[0] and tp.get("sentence") == rederived[1],
+        "%s vs %s" % (tp.get("reading"), rederived[0]))
+    leg("L16 the readable page names the size reading and the permission word",
+        bool(tp) and tp.get("reading") in lines and str(tp.get("permission_word")) in lines)
+    leg("L17 a size priced on a moved permission says 'liquidity', not 'permission'",
+        tp.get("reading") != "TICKET_PRICED_ON_A_MOVED_PERMISSION"
+        or "liquidity statements" in lines)
+    # controls: the detector must fire on the old contradiction and stay quiet otherwise
+    sized = [{"path": "results/x.json", "word": "TRADABLE_AT_1000000",
+              "evidence_cutoff": "2026-11-25"}]
+    leg("L18 control: CONDITIONAL + a printed size must read MOVED",
+        ticket_reading("CONDITIONAL", sized)[0] == "TICKET_PRICED_ON_A_MOVED_PERMISSION")
+    leg("L19 control: ADMIT + a printed size must read MATCH",
+        ticket_reading("ADMIT", sized)[0] == "TICKET_PERMISSION_MATCH")
+    leg("L20 control: an unreadable size face is missing, never a pass",
+        ticket_reading(None, sized)[0] == "TICKET_READER_MISSING"
+        and ticket_reading("ADMIT", [{"path": "x", "word": None}])[0] == "TICKET_READER_MISSING")
 
     for name, good, detail in legs:
         print("  %s  %s%s" % ("PASS" if good else "FAIL", name,
