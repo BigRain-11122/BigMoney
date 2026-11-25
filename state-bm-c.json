@@ -1568,7 +1568,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2115,
+ "round_no": 2116,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2494,5 +2494,11 @@
  "通过_r2069": "orders 117 件 vs 心跳 orders_ack 331（state 面 273）-> 未回执 0；face_divergence 已用 Tools/orders_ack_append.py 补齐（O-20261124-2300-bm-c）后 rc0 CLEAN；origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 -> 零新决策零动作；attrition_ledger_guard CLEAN（4 件·三条历史缩行 healed 照录）",
  "通过_r2073": "orders 117 件（与 r2069/r2072 同数）/ fleet/inbox 空；origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 -> 零新决策零动作；attrition tripwire 与 schtasks 自愈本轮未触碰（竞争窗）",
  "通过_r2083": "orders 117 件 / fleet/inbox 空；集团 origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 → 零新决策零动作；attrition_ledger_guard CLEAN（4 账本，三处历史缩行 healed 照录）；Bigmoney-IterationLoop 重注册 no-op（pin=0）；watchdog S4U 翻转被拒（管理员提权面，LogonType 回归注记保留）；pre-commit / pre-push 爪未触发新装",
- "通过_r2090": "orders 117 件 / 心跳 orders_ack 331 条 / state 273 条 → 未回执 44 件全为 2026-10-26 以前的他机 lane 广播（r2066 判例不逐令补 ack）；集团 origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 → 零新决策零动作；fleet/inbox 空；attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）；pre-commit / pre-push MATCH；Bigmoney-AtlasArmsReburn-bm-c 按设计自 DISABLE（Get-ScheduledTask State=Disabled）"
+ "通过_r2090": "orders 117 件 / 心跳 orders_ack 331 条 / state 273 条 → 未回执 44 件全为 2026-10-26 以前的他机 lane 广播（r2066 判例不逐令补 ack）；集团 origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 → 零新决策零动作；fleet/inbox 空；attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）；pre-commit / pre-push MATCH；Bigmoney-AtlasArmsReburn-bm-c 按设计自 DISABLE（Get-ScheduledTask State=Disabled）",
+ "本轮_r2116": "r2116 DELIVERY: disk had 1,970 machine-derived faces (panels through the 2026-11-25 close, plus yesterday's dated products) that git never saw; publishing them is what makes a face priced on that close reproducible off this box (same shape as r2084)",
+ "竞争_r2116": "rc=0 CLEAN（results/_repo_write_contention.bm-c.json：fewer than two codely hosts alive，本宿主 pid=101604 自 03:40:04）→ 可写共享面，本轮据此整批发布 1,970 件",
+ "通过_r2116": "orders 117 文件 / 心跳 orders_ack 331 / state 273 -> 未回执 0；集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作；orders.md 25d37786…（111,305B）为新值仅档案面；fleet/inbox 空；attrition_ledger_guard CLEAN（4 账本，三处历史缩行 healed 照录）；orphan_face_probe py_faces=4 orphans=0 resident_servers=2；idle_trigger green_idle=true（RAM 46.2% / VRAM 14.01GB）池空板空 agenda_starved=true -> 本轮自驱产品件即工作",
+ "送达自证_r2116": "commit **89e675cfdd** 已直推 origin/main（f233619075..89e675cfdd），fetch 后 `git rev-list --left-right --count origin/main...HEAD` = **0/0**，ls-tree 抽验四件在位（data/etf_premium/snap/2026-11-25.csv、docs/divlowvol_live/TRACK-2026-11-25.md、docs/futures_lane/TSMOM-2026-11-25.md、research/PAGE_FMT_GUARD_V2.md）→ **本地未达 origin commit 数=0**；批次规模 1,970 件 / +22,022 −13,201 行 / 119.9 MB 工作树字节（单件最大 results/post_review.jsonl 21.0 MB）",
+ "记账_r2116": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3",
+ "smoke_r2116": "full suite not closed (detached run logs/smoke_r2116.log still going at round end; every leg read so far PASS; first attempt was cancelled at the tool's 5-min no-output cap)"
 }
