@@ -1,0 +1,333 @@
+{
+ "face": "paper_recon_date_alignment",
+ "why": "an export-vs-ledger gap is read at the export's own bar; a gap that survives repricing is a drift, one that disappears is a bar lag",
+ "inputs": [
+  "results/paper_export/latest.json",
+  "results/paper/*_paper.json",
+  "data/daily"
+ ],
+ "rows": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 983136.21,
+   "ledger_equity": 974675.54,
+   "export_positions_value": 943531.7,
+   "ledger_positions_value": 935071.04,
+   "cash_export": 39604.51,
+   "cash_ledger": 39604.5,
+   "problems": [],
+   "unattributed_cny": 0.01,
+   "raw_gap_cny": 8460.67,
+   "cash_gap_cny": 0.01,
+   "positions_value_at_export_bar": 943531.7,
+   "decomposition": [
+    {
+     "symbol": "159996",
+     "quantity": 140117.99,
+     "close_export_bar": 1.376,
+     "close_ledger_bar": 1.35,
+     "value_export_bar": 192802.35,
+     "value_ledger_bar": 189159.29,
+     "attributable_cny": -3643.07
+    },
+    {
+     "symbol": "511010",
+     "quantity": 1343.33,
+     "close_export_bar": 141.438,
+     "close_ledger_bar": 141.416,
+     "value_export_bar": 189997.91,
+     "value_ledger_bar": 189968.36,
+     "attributable_cny": -29.55
+    },
+    {
+     "symbol": "511090",
+     "quantity": 1559.88,
+     "close_export_bar": 121.595,
+     "close_ledger_bar": 121.1,
+     "value_export_bar": 189673.61,
+     "value_ledger_bar": 188901.47,
+     "attributable_cny": -772.14
+    },
+    {
+     "symbol": "511260",
+     "quantity": 1396.24,
+     "close_export_bar": 136.038,
+     "close_ledger_bar": 135.83,
+     "value_export_bar": 189941.7,
+     "value_ledger_bar": 189651.28,
+     "attributable_cny": -290.42
+    },
+    {
+     "symbol": "513500",
+     "quantity": 71644.04,
+     "close_export_bar": 2.528,
+     "close_ledger_bar": 2.476,
+     "value_export_bar": 181116.13,
+     "value_ledger_bar": 177390.64,
+     "attributable_cny": -3725.49
+    }
+   ],
+   "residual_cny": -0.0,
+   "residual_bp_of_equity": -0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 974837.9,
+   "ledger_equity": 968280.54,
+   "export_positions_value": 828124.68,
+   "ledger_positions_value": 821567.32,
+   "cash_export": 146713.22,
+   "cash_ledger": 146713.22,
+   "problems": [],
+   "unattributed_cny": -0.01,
+   "raw_gap_cny": 6557.36,
+   "cash_gap_cny": 0.0,
+   "positions_value_at_export_bar": 828124.69,
+   "decomposition": [
+    {
+     "symbol": "159920",
+     "quantity": 84664.76,
+     "close_export_bar": 1.297,
+     "close_ledger_bar": 1.286,
+     "value_export_bar": 109810.19,
+     "value_ledger_bar": 108878.88,
+     "attributable_cny": -931.31
+    },
+    {
+     "symbol": "159996",
+     "quantity": 87536.87,
+     "close_export_bar": 1.376,
+     "close_ledger_bar": 1.35,
+     "value_export_bar": 120450.73,
+     "value_ledger_bar": 118174.77,
+     "attributable_cny": -2275.96
+    },
+    {
+     "symbol": "510050",
+     "quantity": 41044.26,
+     "close_export_bar": 2.888,
+     "close_ledger_bar": 2.857,
+     "value_export_bar": 118535.82,
+     "value_ledger_bar": 117263.45,
+     "attributable_cny": -1272.37
+    },
+    {
+     "symbol": "511010",
+     "quantity": 839.23,
+     "close_export_bar": 141.438,
+     "close_ledger_bar": 141.416,
+     "value_export_bar": 118699.01,
+     "value_ledger_bar": 118680.55,
+     "attributable_cny": -18.46
+    },
+    {
+     "symbol": "511090",
+     "quantity": 974.52,
+     "close_export_bar": 121.595,
+     "close_ledger_bar": 121.1,
+     "value_export_bar": 118496.76,
+     "value_ledger_bar": 118014.37,
+     "attributable_cny": -482.39
+    },
+    {
+     "symbol": "511260",
+     "quantity": 872.28,
+     "close_export_bar": 136.038,
+     "close_ledger_bar": 135.83,
+     "value_export_bar": 118663.23,
+     "value_ledger_bar": 118481.79,
+     "attributable_cny": -181.43
+    },
+    {
+     "symbol": "512800",
+     "quantity": 67366.63,
+     "close_export_bar": 0.923,
+     "close_ledger_bar": 0.921,
+     "value_export_bar": 62179.4,
+     "value_ledger_bar": 62044.67,
+     "attributable_cny": -134.73
+    },
+    {
+     "symbol": "513500",
+     "quantity": 24244.28,
+     "close_export_bar": 2.528,
+     "close_ledger_bar": 2.476,
+     "value_export_bar": 61289.54,
+     "value_ledger_bar": 60028.84,
+     "attributable_cny": -1260.7
+    }
+   ],
+   "residual_cny": -0.01,
+   "residual_bp_of_equity": -0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 994450.43,
+   "ledger_equity": 994450.43,
+   "export_positions_value": 0,
+   "ledger_positions_value": 0,
+   "cash_export": 994450.43,
+   "cash_ledger": 994450.43,
+   "problems": [],
+   "unattributed_cny": 0.0,
+   "raw_gap_cny": 0.0,
+   "cash_gap_cny": 0.0,
+   "positions_value_at_export_bar": 0.0,
+   "decomposition": [],
+   "residual_cny": 0.0,
+   "residual_bp_of_equity": 0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  },
+  {
+   "trader": "ENGULF-CE-01",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 985442.6,
+   "ledger_equity": 981744.25,
+   "export_positions_value": 98718.85,
+   "ledger_positions_value": 95020.51,
+   "cash_export": 886723.75,
+   "cash_ledger": 886723.74,
+   "problems": [],
+   "unattributed_cny": 0.01,
+   "raw_gap_cny": 3698.35,
+   "cash_gap_cny": 0.01,
+   "positions_value_at_export_bar": 98718.85,
+   "decomposition": [
+    {
+     "symbol": "512980",
+     "quantity": 66577.9,
+     "close_export_bar": 0.736,
+     "close_ledger_bar": 0.711,
+     "value_export_bar": 49001.33,
+     "value_ledger_bar": 47336.89,
+     "attributable_cny": -1664.45
+    },
+    {
+     "symbol": "515000",
+     "quantity": 56497.18,
+     "close_export_bar": 0.88,
+     "close_ledger_bar": 0.844,
+     "value_export_bar": 49717.52,
+     "value_ledger_bar": 47683.62,
+     "attributable_cny": -2033.9
+    }
+   ],
+   "residual_cny": -0.0,
+   "residual_bp_of_equity": -0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  },
+  {
+   "trader": "NEEDLE-DE-01",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 1000000.0,
+   "ledger_equity": 1000000.0,
+   "export_positions_value": 0,
+   "ledger_positions_value": 0,
+   "cash_export": 1000000.0,
+   "cash_ledger": 1000000.0,
+   "problems": [],
+   "unattributed_cny": 0.0,
+   "raw_gap_cny": 0.0,
+   "cash_gap_cny": 0.0,
+   "positions_value_at_export_bar": 0.0,
+   "decomposition": [],
+   "residual_cny": 0.0,
+   "residual_bp_of_equity": 0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  },
+  {
+   "trader": "VOLATILITY-CE-01",
+   "export_date": "2026-11-24",
+   "ledger_cutoff": "2026-11-25",
+   "export_equity": 989194.59,
+   "ledger_equity": 987294.19,
+   "export_positions_value": 400033.0,
+   "ledger_positions_value": 398132.6,
+   "cash_export": 589161.59,
+   "cash_ledger": 589161.59,
+   "problems": [],
+   "unattributed_cny": -0.0,
+   "raw_gap_cny": 1900.4,
+   "cash_gap_cny": 0.0,
+   "positions_value_at_export_bar": 400033.0,
+   "decomposition": [
+    {
+     "symbol": "510050",
+     "quantity": 17325.02,
+     "close_export_bar": 2.888,
+     "close_ledger_bar": 2.857,
+     "value_export_bar": 50034.66,
+     "value_ledger_bar": 49497.58,
+     "attributable_cny": -537.08
+    },
+    {
+     "symbol": "510330",
+     "quantity": 11947.43,
+     "close_export_bar": 4.202,
+     "close_ledger_bar": 4.136,
+     "value_export_bar": 50203.1,
+     "value_ledger_bar": 49414.57,
+     "attributable_cny": -788.53
+    },
+    {
+     "symbol": "511010",
+     "quantity": 707.01,
+     "close_export_bar": 141.438,
+     "close_ledger_bar": 141.416,
+     "value_export_bar": 99998.08,
+     "value_ledger_bar": 99982.53,
+     "attributable_cny": -15.55
+    },
+    {
+     "symbol": "511090",
+     "quantity": 820.99,
+     "close_export_bar": 121.595,
+     "close_ledger_bar": 121.1,
+     "value_export_bar": 99828.28,
+     "value_ledger_bar": 99421.89,
+     "attributable_cny": -406.39
+    },
+    {
+     "symbol": "511260",
+     "quantity": 734.86,
+     "close_export_bar": 136.038,
+     "close_ledger_bar": 135.83,
+     "value_export_bar": 99968.88,
+     "value_ledger_bar": 99816.03,
+     "attributable_cny": -152.85
+    }
+   ],
+   "residual_cny": -0.0,
+   "residual_bp_of_equity": -0.0,
+   "verdict": "ALIGNED_AT_EXPORT_BAR"
+  }
+ ],
+ "problems": [],
+ "zeros": {
+  "engine_runs": 0,
+  "ledger_trials_added": 0,
+  "network": "zero"
+ },
+ "export_date": "2026-11-24",
+ "n_ledgers": 6,
+ "n_rows": 6,
+ "n_explained": 6,
+ "n_same_bar": 0,
+ "raw_gap_total_cny": 20616.78,
+ "residual_total_cny": 0.01,
+ "verdict": "PASS",
+ "readings": "every export row is reproduced at its own bar, or shares the ledger's bar",
+ "by_verdict": {
+  "ALIGNED_AT_EXPORT_BAR": 6
+ }
+}
