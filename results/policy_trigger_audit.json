@@ -1,0 +1,317 @@
+{
+ "kind": "policy_trigger_audit_v1",
+ "face": "policy_trigger_audit",
+ "generated": "2026-11-25T21:52:17+0800",
+ "evidence_cutoff": "2026-11-25",
+ "question": "the strategy document says its trigger table is frozen; is it arithmetic anywhere, and what is the one unfixed number worth?",
+ "inputs": {
+  "strategy_doc": "research\\STRATEGY-20261125.md",
+  "engine": "scripts\\policy_engine.py",
+  "policy": "results\\policy\\POLICY.json",
+  "carry_risk": "results\\idx_fut_carry_risk.json",
+  "policy_generated": "2026-11-25T20:37:18+08:00"
+ },
+ "claims": {
+  "target_lo_pct": {
+   "value": 8.0,
+   "line": 11,
+   "text": "| 目标年化 | 8%–12% | 不做「越高越好」，做「可重复」 |"
+  },
+  "target_hi_pct": {
+   "value": 12.0,
+   "line": 11,
+   "text": "| 目标年化 | 8%–12% | 不做「越高越好」，做「可重复」 |"
+  },
+  "vol_target_s1_pct": {
+   "value": 7.0,
+   "line": 12,
+   "text": "| 波动目标 | 7%（上限 8%） | 三条腿的帽加起来约 6.5%：L1 5.8% + L2 3.5% 在 ρ=0.1 下合成 6.3%。写 9% 是自欺——要 9% 必须加第三条不相关腿。 |"
+  },
+  "vol_cap_s1_pct": {
+   "value": 8.0,
+   "line": 12,
+   "text": "| 波动目标 | 7%（上限 8%） | 三条腿的帽加起来约 6.5%：L1 5.8% + L2 3.5% 在 ρ=0.1 下合成 6.3%。写 9% 是自欺——要 9% 必须加第三条不相关腿。 |"
+  },
+  "vol_target_s3_pct": {
+   "value": 9.0,
+   "line": 28,
+   "text": "- 组合波动目标 **9%**；按「风险贡献」而非「资金」分配："
+  },
+  "drawdown_red_pct": {
+   "value": 10.0,
+   "line": 13,
+   "text": "| 回撤红线 | 10%（硬） | 触发即降档，见第四条 |"
+  },
+  "corr_cap": {
+   "value": 0.35,
+   "line": 14,
+   "text": "| 与 A 股相关性 | ≤0.35 | 这本书的用途是「不完全跟着 A 股」 |"
+  },
+  "l1_budget_pct": {
+   "value": 4.6,
+   "line": 29,
+   "text": "- L1 ≤ **4.6%**（k≤0.55 硬帽，当前 0.435 → 约 4.6%）"
+  },
+  "l2_budget_pct": {
+   "value": 3.5,
+   "line": 30,
+   "text": "- L2 ≤ **3.5%**（用 carry 序列实测波动折算名义）"
+  },
+  "notional_cap_x": {
+   "value": 2.5,
+   "line": 32,
+   "text": "- L2 名义 ≤ **2.5×NAV**；保证金占用 ≤ **35% NAV**（留 65% 应对追加与机会）"
+  },
+  "margin_cap_pct": {
+   "value": 35.0,
+   "line": 32,
+   "text": "- L2 名义 ≤ **2.5×NAV**；保证金占用 ≤ **35% NAV**（留 65% 应对追加与机会）"
+  },
+  "dd_half_pct": {
+   "value": 6.0,
+   "line": 40,
+   "text": "| 组合回撤 ≥6% | 全部腿降半（L1 k×0.5、L2 权重×0.5） |"
+  },
+  "dd_clear_pct": {
+   "value": 10.0,
+   "line": 41,
+   "text": "| 组合回撤 ≥10% | L2 清零；L1 降到 k=0.25；只留现金 |"
+  },
+  "carry_pause": {
+   "value": -2.0,
+   "line": 42,
+   "text": "| 单腿 60 日累计 carry < −2pp | 该腿暂停，回研究面 |",
+   "placeholder": false
+  }
+ },
+ "vol_target": {
+  "statements_pct": {
+   "document_section_1_pct": 7.0,
+   "document_section_1_cap_pct": 8.0,
+   "document_section_3_pct": 9.0,
+   "engine_VOL_TARGET_pct": 7.0
+  },
+  "arithmetic": {
+   "combined_at_rho_0.0_pct": 5.78,
+   "combined_at_rho_0.1_pct": 6.05,
+   "combined_at_rho_0.3_pct": 6.56,
+   "scale_needed_for_section_3": 1.487,
+   "budgets_at_that_scale_pct": [
+    6.84,
+    5.2
+   ]
+  }
+ },
+ "notional": {
+  "cap_x_nav": 2.5,
+  "nav_cny": 1000000.0,
+  "target_by_leg_x_nav": {
+   "IC": 2.5,
+   "IM": 2.2582
+  },
+  "target_total_x_nav": 4.7583,
+  "actual_by_leg_x_nav": {
+   "IC": 1.1538,
+   "IM": 1.0869
+  },
+  "actual_total_x_nav": 2.2407
+ },
+ "margin": {
+  "cap_cny": 350000.0,
+  "actual_cny": 268882.0,
+  "steps_applied": [
+   "margin 537763 > 350000 -> lots scaled by 0.65"
+  ],
+  "implemented": true
+ },
+ "drawdown": {
+  "engine_ladder": [
+   [
+    0.06,
+    "HALVE_ALL"
+   ]
+  ],
+  "engine_drives_on": "paper carry",
+  "document_lines_pct": [
+   6.0,
+   10.0
+  ],
+  "book_mdd_pct": -10.556,
+  "book_underwater_open_bars": 75,
+  "book_underwater_max_bars": 207,
+  "book_mdd_vs_red_line": "breached"
+ },
+ "carry_pause_pricing": {
+  "placeholder": {
+   "value": -2.0,
+   "line": 42,
+   "text": "| 单腿 60 日累计 carry < −2pp | 该腿暂停，回研究面 |",
+   "placeholder": false
+  },
+  "written_line_pp": -2.0,
+  "priced_line_pp": -2.0,
+  "legs": [
+   {
+    "leg": "IC",
+    "window_days": 60,
+    "ann_vol_pct": 5.87,
+    "ann_mean_pct": 8.462,
+    "sigma_window_pp": 2.864,
+    "drift_window_pp": 2.015,
+    "line_pp": -2.0,
+    "trip_rate_at_line": 0.0805,
+    "trip_windows_per_year_at_line": 0.34,
+    "threshold_pp_for": {
+     "2.5pct": -3.6,
+     "5pct": -2.7,
+     "10pct": -1.66
+    },
+    "note": "noise-only: the drift is the sample mean of the same window and the distribution is treated as normal"
+   },
+   {
+    "leg": "IM",
+    "window_days": 60,
+    "ann_vol_pct": 6.823,
+    "ann_mean_pct": 9.732,
+    "sigma_window_pp": 3.329,
+    "drift_window_pp": 2.317,
+    "line_pp": -2.0,
+    "trip_rate_at_line": 0.0974,
+    "trip_windows_per_year_at_line": 0.41,
+    "threshold_pp_for": {
+     "2.5pct": -4.21,
+     "5pct": -3.16,
+     "10pct": -1.95
+    },
+    "note": "noise-only: the drift is the sample mean of the same window and the distribution is treated as normal"
+   }
+  ],
+  "recommendation_pp": {
+   "IC": -3.6,
+   "IM": -4.21
+  }
+ },
+ "correlation": {
+  "document_cap": 0.35,
+  "measured": {
+   "IC": -0.038,
+   "IM": -0.063,
+   "IF": 0.052,
+   "IH": 0.055
+  },
+  "implemented": true
+ },
+ "triggers": {
+  "basis_percentile_ge_80_zero_weight": {
+   "state": "IMPLEMENTED",
+   "evidence": "engine basis percentile rule feeds target_weight (POLICY.l2_basis.*.weight)",
+   "today_weight": {
+    "IC": 1.0,
+    "IM": 0.9033
+   }
+  },
+  "composite_drawdown_6_10": {
+   "state": "MISMEASURED",
+   "evidence": {
+    "engine_ladder": [
+     [
+      0.06,
+      "HALVE_ALL"
+     ]
+    ],
+    "engine_drives_on": "paper carry",
+    "document_lines_pct": [
+     6.0,
+     10.0
+    ],
+    "book_mdd_pct": -10.556,
+    "book_underwater_open_bars": 75,
+    "book_underwater_max_bars": 207,
+    "book_mdd_vs_red_line": "breached"
+   }
+  },
+  "carry_60d_pause": {
+   "state": "NOT_WIRED",
+   "evidence": "no code path reads a 60-day carry sum; the document still carries the placeholder"
+  },
+  "corr_cap_0_35": {
+   "state": "IMPLEMENTED_IN_OUTPUT",
+   "evidence": {
+    "document_cap": 0.35,
+    "measured": {
+     "IC": -0.038,
+     "IM": -0.063,
+     "IF": 0.052,
+     "IH": 0.055
+    },
+    "implemented": true
+   }
+  },
+  "annual_retirement_p_005": {
+   "state": "OFFLINE_ONLY",
+   "evidence": "quarterly permutation/bootstrap exists as a batch; nothing in the daily engine evaluates it"
+  },
+  "margin_cap_35pct": {
+   "state": "IMPLEMENTED",
+   "evidence": {
+    "cap_cny": 350000.0,
+    "actual_cny": 268882.0,
+    "steps_applied": [
+     "margin 537763 > 350000 -> lots scaled by 0.65"
+    ],
+    "implemented": true
+   }
+  },
+  "notional_cap_2_5x": {
+   "state": "MISAPPLIED",
+   "evidence": {
+    "cap_x_nav": 2.5,
+    "nav_cny": 1000000.0,
+    "target_by_leg_x_nav": {
+     "IC": 2.5,
+     "IM": 2.2582
+    },
+    "target_total_x_nav": 4.7583,
+    "actual_by_leg_x_nav": {
+     "IC": 1.1538,
+     "IM": 1.0869
+    },
+    "actual_total_x_nav": 2.2407
+   }
+  }
+ },
+ "findings": [
+  {
+   "id": "VOL_TARGET_STATED_2_WAYS",
+   "severity": "blocks_a_frozen_table",
+   "detail": "the same risk target is stated as [7.0, 9.0] (bound 8.0); the engine uses 7.0",
+   "consequence": "a drawdown or derisk step derived from 'the target' has no single target to derive from"
+  },
+  {
+   "id": "NOTIONAL_CAP_NOT_APPLIED_TO_THE_SLEEVE",
+   "severity": "cap_declared_but_the_engine_splits_it_per_leg",
+   "detail": "engine constant L2_NOTIONAL_CAP_X=2.5 (of NAV) is used as *each* leg's budget, so the published targets add up to 4.758x NAV",
+   "masked_by": "today the margin cap binds first (27% of NAV margin on a 35% cap) and the lots land at 2.241x NAV",
+   "consequence": "at a lower margin rate the sleeve would run 2x the cap it declares"
+  },
+  {
+   "id": "DRAWDOWN_LINE_MEASURED_ON_ONE_LEG",
+   "severity": "mismeasured_not_missing",
+   "detail": "the document calls these 组合回撤 lines; the engine computes them from the carry leg's own cumulative series (paper carry)",
+   "consequence": "a 6% composite drawdown driven by the equity leg cannot trip the ladder today; the book's own backtest is -10.556% at 75 bars underwater"
+  },
+  {
+   "id": "CARRY_PAUSE_LINE_TOO_TIGHT",
+   "severity": "written_but_mis_priced",
+   "detail": "the line is written at -2.00pp, which the measured drift trips on IC 8.1%, IM 9.7% of 60-day windows",
+   "consequence": "the 2.5% tail line is {'IC': -3.6, 'IM': -4.21}"
+  }
+ ],
+ "verdict": "4_TRIGGER_CONTRACT_FINDINGS",
+ "honest": [
+  "this reads the document by regex: a reworded claim becomes a MISSING claim, not a silent pass",
+  "the pause pricing is noise-only (normal, drift = sample mean of the same leg); it prices the false-pause rate, not the value of pausing",
+  "sections 1 and 3 disagree on the volatility target; this face reports the disagreement and does not choose for the author",
+  "the notional finding is about the *target*; today's lots stay under the cap because the margin step scaled them"
+ ]
+}
