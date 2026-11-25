@@ -1,0 +1,146 @@
+{
+ "base_margin_pct": 12.0,
+ "cash_net_annual": 0.01777,
+ "cash_source": "results/capital_placement.json::config.cash_net_annual",
+ "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-25T17:32:32+0800",
+ "inputs": {
+  "results/bench_basis_timing_perm_masks.json": "69926880b3c91f1bc15e4e28071c460164fdec2007ef27bedd93c3762f970d34",
+  "results/capital_placement.json": "2f8a3d54ffc1e9e8dc421b1c5e565b0c9b70322eb5bd864ec29a48fc1cb1e086",
+  "results/idx_fut_carry_margin.json": "c95bbe98fa2157691ce9134e25f78ca5166b52901a719b486af45a7214e87d39",
+  "results/idx_fut_carry_sizing_spec.json": "3b8565df73533637043effe92d882f8b933b9d39e4da0cb6b9c01f378c3cee1f"
+ },
+ "kind": "idx_fut_carry_always_on_price",
+ "not_recomputed": [
+  "the carry series and its levels (results/bench_basis_timing_perm_masks.json)",
+  "notional per lot and the margin sweep (results/idx_fut_carry_margin.json)",
+  "the first executable capital rung (results/idx_fut_carry_sizing_spec.json)",
+  "the net repo rate (results/capital_placement.json::config.cash_net_annual)"
+ ],
+ "products": {
+  "IC": {
+   "always_on_max_pct": 9.68,
+   "always_on_min_pct": 2.76,
+   "cash_on_idle_cny": 17503.18,
+   "first_rung_cny": 1129565.88,
+   "idle_cash_cny": 984985.08,
+   "margin_cny": 144580.8,
+   "margin_share_of_capital_pct": 12.7997,
+   "min_excess_pct_of_capital": 2.7165,
+   "min_excess_pct_of_capital_timed": 10.5669,
+   "notional_per_lot_cny": 1204840.0,
+   "park_the_whole_rung_cny": 20072.39,
+   "rate_spread_across_rulers_pp": 6.92,
+   "rulers": {
+    "calendar": {
+     "always_on_ann_pct": 9.65,
+     "always_on_carry_cny": 116267.06,
+     "always_on_excess_cny": 113697.86,
+     "always_on_excess_pct_of_capital": 10.0656,
+     "always_on_total_cny": 133770.24,
+     "days_excluded": 118,
+     "timed_ann_pct": 12.02,
+     "timed_carry_cny": 144821.77,
+     "timed_excess_cny": 142252.57,
+     "timed_excess_pct_of_capital": 12.5936,
+     "timed_total_cny": 162324.95
+    },
+    "published": {
+     "always_on_ann_pct": 2.76,
+     "always_on_carry_cny": 33253.58,
+     "always_on_excess_cny": 30684.38,
+     "always_on_excess_pct_of_capital": 2.7165,
+     "always_on_total_cny": 50756.77,
+     "days_excluded": 22,
+     "timed_ann_pct": 10.12,
+     "timed_carry_cny": 121929.81,
+     "timed_excess_cny": 119360.61,
+     "timed_excess_pct_of_capital": 10.5669,
+     "timed_total_cny": 139432.99
+    },
+    "strictest": {
+     "always_on_ann_pct": 9.68,
+     "always_on_carry_cny": 116628.51,
+     "always_on_excess_cny": 114059.31,
+     "always_on_excess_pct_of_capital": 10.0976,
+     "always_on_total_cny": 134131.7,
+     "days_excluded": 128,
+     "timed_ann_pct": 11.36,
+     "timed_carry_cny": 136869.82,
+     "timed_excess_cny": 134300.62,
+     "timed_excess_pct_of_capital": 11.8896,
+     "timed_total_cny": 154373.01
+    }
+   },
+   "status": "ok",
+   "timed_beats_always_on_strictest": true,
+   "timed_max_pct": 12.02,
+   "timed_min_pct": 10.12,
+   "timing_adds_cny_on_one_lot_strictest": 20241.31
+  },
+  "IM": {
+   "always_on_max_pct": 11.96,
+   "always_on_min_pct": 5.74,
+   "cash_on_idle_cny": 18158.79,
+   "first_rung_cny": 1159159.0,
+   "idle_cash_cny": 1021879.0,
+   "margin_cny": 137280.0,
+   "margin_share_of_capital_pct": 11.8431,
+   "min_excess_pct_of_capital": 5.4545,
+   "min_excess_pct_of_capital_timed": 9.116,
+   "notional_per_lot_cny": 1144000.0,
+   "park_the_whole_rung_cny": 20598.26,
+   "rate_spread_across_rulers_pp": 6.22,
+   "rulers": {
+    "calendar": {
+     "always_on_ann_pct": 11.96,
+     "always_on_carry_cny": 136822.4,
+     "always_on_excess_cny": 134382.93,
+     "always_on_excess_pct_of_capital": 11.5931,
+     "always_on_total_cny": 154981.19,
+     "days_excluded": 51,
+     "timed_ann_pct": 12.75,
+     "timed_carry_cny": 145860.0,
+     "timed_excess_cny": 143420.53,
+     "timed_excess_pct_of_capital": 12.3728,
+     "timed_total_cny": 164018.79
+    },
+    "published": {
+     "always_on_ann_pct": 5.74,
+     "always_on_carry_cny": 65665.6,
+     "always_on_excess_cny": 63226.13,
+     "always_on_excess_pct_of_capital": 5.4545,
+     "always_on_total_cny": 83824.39,
+     "days_excluded": 18,
+     "timed_ann_pct": 9.45,
+     "timed_carry_cny": 108108.0,
+     "timed_excess_cny": 105668.53,
+     "timed_excess_pct_of_capital": 9.116,
+     "timed_total_cny": 126266.79
+    },
+    "strictest": {
+     "always_on_ann_pct": 11.5,
+     "always_on_carry_cny": 131560.0,
+     "always_on_excess_cny": 129120.53,
+     "always_on_excess_pct_of_capital": 11.1392,
+     "always_on_total_cny": 149718.79,
+     "days_excluded": 60,
+     "timed_ann_pct": 11.31,
+     "timed_carry_cny": 129386.4,
+     "timed_excess_cny": 126946.93,
+     "timed_excess_pct_of_capital": 10.9516,
+     "timed_total_cny": 147545.19
+    }
+   },
+   "status": "ok",
+   "timed_beats_always_on_strictest": false,
+   "timed_max_pct": 12.75,
+   "timed_min_pct": 9.45,
+   "timing_adds_cny_on_one_lot_strictest": -2173.6
+  }
+ },
+ "question": "what does one lot of this carry book pay per year, always-on vs timed, once the cash leg on the unlocked margin is credited?",
+ "reading": "one lot still clears parking on the worst ruler, but the yearly rate moves with the ruler: quote the range and the ruler name, never a single headline number",
+ "spread_line_pp": 3.0,
+ "verdict": "PAYS_ON_ITS_WORST_RULER_BUT_THE_RATE_IS_RULER_BOUND"
+}
