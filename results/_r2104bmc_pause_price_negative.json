@@ -1,0 +1,33 @@
+{
+ "schema": "pause-price-controls/v1",
+ "controls": [
+  {
+   "control": "C1_true_negative",
+   "passed": true,
+   "detail": "episodes=1 paused_bars=251 ann_gain_from_pausing=+5.17 pp"
+  },
+  {
+   "control": "C2_identity",
+   "passed": true,
+   "detail": "filtered == raw, no episodes, zero cost"
+  },
+  {
+   "control": "C3_ceiling",
+   "passed": true,
+   "detail": "always-paused leaves the warm-up (60 bars) intact and is flat after; ann=0.9806%"
+  },
+  {
+   "control": "C4_resume_clause",
+   "passed": true,
+   "detail": "paused 101..117, window cleared 0 on bar 118 (resume next bar)"
+  },
+  {
+   "control": "C5_independent_recompute",
+   "passed": true,
+   "detail": "checked 4 product-legs on the live face"
+  }
+ ],
+ "passed": 5,
+ "total": 5,
+ "verdict": "ALL_CONTROLS_PASS"
+}
