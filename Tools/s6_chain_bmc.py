@@ -1740,6 +1740,14 @@ LEGS = [
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
     ("minute_feed", ["python", "scripts/update_minute_feed.py"]),
+    # r2117: the minute panel had a writer here and no reader anywhere -- product on disk
+    # that nothing consumed (r1108 family). This leg is that reader: it audits what the
+    # collector delivered, prices the 10:00-vs-open fill and sizes the intraday-reversal
+    # question the block board still files as data-blocked. check() asks the CSVs, so a
+    # panel that advances past the face says STALE and the refresh below is paid.
+    ("minute_feed_first_reader",
+     ["python", "scripts/minute_feed_first_reader.py", "--check"],
+     ["python", "scripts/minute_feed_first_reader.py", "run"]),
     ("ths_panel", ["python", "scripts/update_ths_panel.py"]),
     ("ah_panel", ["python", "scripts/ah_panel_puller.py"]),
     ("fund_premium", ["python", "scripts/update_fund_premium.py", "snapshot"]),
