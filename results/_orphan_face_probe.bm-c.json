@@ -1,31 +1,36 @@
 {
- "ts": "2026-11-25T11:50:26",
+ "ts": "2026-11-25T12:00:42",
  "mode": "probe",
- "py_faces_seen": 4,
+ "py_faces_seen": 3,
  "orphans": 0,
  "orphans_cleared": 0,
  "killed": [],
  "idle_servers_exempt": 0,
- "resident_servers_exempt": 1,
+ "resident_servers_exempt": 2,
  "faces": [
   {
    "pid": 17700,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory",
-   "age_min": 2373.6,
-   "cpu_delta_20s": 0.469,
+   "age_min": 2383.9,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0,
+   "listen_ports": [
+    8189
    ]
   },
   {
    "pid": 37836,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\artifact_intake.",
-   "age_min": 789.6,
+   "age_min": 799.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -40,27 +45,11 @@
    ]
   },
   {
-   "pid": 88524,
-   "name": "pythonw.exe",
-   "cmd": "D:\\ComfyUI\\python_embeded\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\cph4\\fleet\\idle-guard-kit\\bmc_idleguard.py",
-   "age_min": 0.1,
-   "cpu_delta_20s": 999.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "svchost.exe",
-    "services.exe",
-    "wininit.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 88724,
+   "pid": 91640,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.6,
-   "cpu_delta_20s": 0.766,
+   "cpu_delta_20s": 0.75,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -77,10 +66,28 @@
  "idle_server_details": [],
  "resident_server_details": [
   {
+   "pid": 17700,
+   "name": "python.exe",
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory",
+   "age_min": 2383.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ],
+   "confirm_cpu_20s": 0.0,
+   "confirm_new_children": 0,
+   "listen_ports": [
+    8189
+   ]
+  },
+  {
    "pid": 37836,
    "name": "pythonw.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\pythonw.exe K:\\Fluxgroup\\FluxGroup\\Tools\\fleet\\artifact_intake.",
-   "age_min": 789.6,
+   "age_min": 799.9,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
