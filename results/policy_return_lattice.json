@@ -1,0 +1,443 @@
+{
+ "generated": "2026-11-25T21:04:41+08:00",
+ "evidence_cutoff": "2026-11-24",
+ "nav_cny": 1000000.0,
+ "inputs": {
+  "k": 0.4347,
+  "l1_arm": "nobond_vt08",
+  "l1_cagr_published_pct": 11.11,
+  "l1_cagr_next_open_pct": 10.08,
+  "l1_vol_pct": 10.51,
+  "l1_maxdd_pct": -10.11,
+  "l1_bar": "2026-11-24",
+  "cash_rate_pct": 1.395,
+  "cash_bar": "2026-11-20",
+  "carry_per_lot": {
+   "IC": {
+    "cny_per_lot": 85150.0,
+    "source": "observed_from_instruction",
+    "notional_per_lot_cny": 1153800.0
+   },
+   "IM": {
+    "cny_per_lot": 40649.0,
+    "source": "observed_from_instruction",
+    "notional_per_lot_cny": 1086880.0
+   }
+  },
+  "engine_lots": {
+   "IC": 1,
+   "IM": 1
+  },
+  "l1_bar_instruction": "2026-11-24",
+  "l2_bars_instruction": [
+   "2026-11-25"
+  ]
+ },
+ "caps": {
+  "margin_cap_pct_nav": 35.0,
+  "notional_cap_x_nav": 2.5,
+  "target_band_pct": [
+   8.0,
+   12.0
+  ]
+ },
+ "lattice": [
+  {
+   "ic_lots": 0,
+   "im_lots": 0,
+   "notional_cny": 0.0,
+   "notional_x_nav": 0.0,
+   "margin_cny": 0.0,
+   "margin_pct_nav": 0.0,
+   "l1_cny": 43818.0,
+   "carry_cny": 0.0,
+   "cash_cny": 565300.0,
+   "cash_interest_cny": 7886.0,
+   "expected_total_cny": 51704.0,
+   "expected_return_pct": 5.17,
+   "vol_capped_pct": 4.57,
+   "vol_uncapped_pct": 4.57,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 5.618
+  },
+  {
+   "ic_lots": 0,
+   "im_lots": 1,
+   "notional_cny": 1086880.0,
+   "notional_x_nav": 1.0869,
+   "margin_cny": 130426.0,
+   "margin_pct_nav": 13.04,
+   "l1_cny": 43818.0,
+   "carry_cny": 40649.0,
+   "cash_cny": 434874.0,
+   "cash_interest_cny": 6066.0,
+   "expected_total_cny": 90533.0,
+   "expected_return_pct": 9.053,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 6.61,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 9.501
+  },
+  {
+   "ic_lots": 0,
+   "im_lots": 2,
+   "notional_cny": 2173760.0,
+   "notional_x_nav": 2.1738,
+   "margin_cny": 260851.0,
+   "margin_pct_nav": 26.09,
+   "l1_cny": 43818.0,
+   "carry_cny": 81298.0,
+   "cash_cny": 304449.0,
+   "cash_interest_cny": 4247.0,
+   "expected_total_cny": 129363.0,
+   "expected_return_pct": 12.936,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 10.22,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 13.384
+  },
+  {
+   "ic_lots": 0,
+   "im_lots": 3,
+   "notional_cny": 3260640.0,
+   "notional_x_nav": 3.2606,
+   "margin_cny": 391277.0,
+   "margin_pct_nav": 39.13,
+   "l1_cny": 43818.0,
+   "carry_cny": 121947.0,
+   "cash_cny": 174023.0,
+   "cash_interest_cny": 2428.0,
+   "expected_total_cny": 168192.0,
+   "expected_return_pct": 16.819,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 14.24,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 39.1% > 35%",
+    "NOTIONAL_CAP: 3.26x > 2.50x"
+   ],
+   "expected_return_pct_published": 17.267
+  },
+  {
+   "ic_lots": 1,
+   "im_lots": 0,
+   "notional_cny": 1153800.0,
+   "notional_x_nav": 1.1538,
+   "margin_cny": 138456.0,
+   "margin_pct_nav": 13.85,
+   "l1_cny": 43818.0,
+   "carry_cny": 85150.0,
+   "cash_cny": 426844.0,
+   "cash_interest_cny": 5954.0,
+   "expected_total_cny": 134922.0,
+   "expected_return_pct": 13.492,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 6.81,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 13.94
+  },
+  {
+   "ic_lots": 1,
+   "im_lots": 1,
+   "notional_cny": 2240680.0,
+   "notional_x_nav": 2.2407,
+   "margin_cny": 268882.0,
+   "margin_pct_nav": 26.89,
+   "l1_cny": 43818.0,
+   "carry_cny": 125799.0,
+   "cash_cny": 296418.0,
+   "cash_interest_cny": 4135.0,
+   "expected_total_cny": 173752.0,
+   "expected_return_pct": 17.375,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 10.46,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 17.823
+  },
+  {
+   "ic_lots": 1,
+   "im_lots": 2,
+   "notional_cny": 3327560.0,
+   "notional_x_nav": 3.3276,
+   "margin_cny": 399307.0,
+   "margin_pct_nav": 39.93,
+   "l1_cny": 43818.0,
+   "carry_cny": 166448.0,
+   "cash_cny": 165993.0,
+   "cash_interest_cny": 2316.0,
+   "expected_total_cny": 212581.0,
+   "expected_return_pct": 21.258,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 14.5,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 39.9% > 35%",
+    "NOTIONAL_CAP: 3.33x > 2.50x"
+   ],
+   "expected_return_pct_published": 21.706
+  },
+  {
+   "ic_lots": 1,
+   "im_lots": 3,
+   "notional_cny": 4414440.0,
+   "notional_x_nav": 4.4144,
+   "margin_cny": 529733.0,
+   "margin_pct_nav": 52.97,
+   "l1_cny": 43818.0,
+   "carry_cny": 207097.0,
+   "cash_cny": 35567.0,
+   "cash_interest_cny": 496.0,
+   "expected_total_cny": 251411.0,
+   "expected_return_pct": 25.141,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 18.68,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 53.0% > 35%",
+    "NOTIONAL_CAP: 4.41x > 2.50x"
+   ],
+   "expected_return_pct_published": 25.589
+  },
+  {
+   "ic_lots": 2,
+   "im_lots": 0,
+   "notional_cny": 2307600.0,
+   "notional_x_nav": 2.3076,
+   "margin_cny": 276912.0,
+   "margin_pct_nav": 27.69,
+   "l1_cny": 43818.0,
+   "carry_cny": 170300.0,
+   "cash_cny": 288388.0,
+   "cash_interest_cny": 4023.0,
+   "expected_total_cny": 218141.0,
+   "expected_return_pct": 21.814,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 10.7,
+   "feasible": true,
+   "gate_reason": [],
+   "expected_return_pct_published": 22.262
+  },
+  {
+   "ic_lots": 2,
+   "im_lots": 1,
+   "notional_cny": 3394480.0,
+   "notional_x_nav": 3.3945,
+   "margin_cny": 407338.0,
+   "margin_pct_nav": 40.73,
+   "l1_cny": 43818.0,
+   "carry_cny": 210949.0,
+   "cash_cny": 157962.0,
+   "cash_interest_cny": 2204.0,
+   "expected_total_cny": 256970.0,
+   "expected_return_pct": 25.697,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 14.75,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 40.7% > 35%",
+    "NOTIONAL_CAP: 3.39x > 2.50x"
+   ],
+   "expected_return_pct_published": 26.145
+  },
+  {
+   "ic_lots": 2,
+   "im_lots": 2,
+   "notional_cny": 4481360.0,
+   "notional_x_nav": 4.4814,
+   "margin_cny": 537763.0,
+   "margin_pct_nav": 53.78,
+   "l1_cny": 43818.0,
+   "carry_cny": 251598.0,
+   "cash_cny": 27537.0,
+   "cash_interest_cny": 384.0,
+   "expected_total_cny": 295800.0,
+   "expected_return_pct": 29.58,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 18.94,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 53.8% > 35%",
+    "NOTIONAL_CAP: 4.48x > 2.50x"
+   ],
+   "expected_return_pct_published": 30.028
+  },
+  {
+   "ic_lots": 2,
+   "im_lots": 3,
+   "notional_cny": 5568240.0,
+   "notional_x_nav": 5.5682,
+   "margin_cny": 668189.0,
+   "margin_pct_nav": 66.82,
+   "l1_cny": 43818.0,
+   "carry_cny": 292247.0,
+   "cash_cny": -102889.0,
+   "cash_interest_cny": -1435.0,
+   "expected_total_cny": 334629.0,
+   "expected_return_pct": 33.463,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 23.18,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 66.8% > 35%",
+    "NOTIONAL_CAP: 5.57x > 2.50x",
+    "CASH_NEGATIVE: -102889"
+   ],
+   "expected_return_pct_published": 33.911
+  },
+  {
+   "ic_lots": 3,
+   "im_lots": 0,
+   "notional_cny": 3461400.0,
+   "notional_x_nav": 3.4614,
+   "margin_cny": 415368.0,
+   "margin_pct_nav": 41.54,
+   "l1_cny": 43818.0,
+   "carry_cny": 255450.0,
+   "cash_cny": 149932.0,
+   "cash_interest_cny": 2092.0,
+   "expected_total_cny": 301359.0,
+   "expected_return_pct": 30.136,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 15.01,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 41.5% > 35%",
+    "NOTIONAL_CAP: 3.46x > 2.50x"
+   ],
+   "expected_return_pct_published": 30.584
+  },
+  {
+   "ic_lots": 3,
+   "im_lots": 1,
+   "notional_cny": 4548280.0,
+   "notional_x_nav": 4.5483,
+   "margin_cny": 545794.0,
+   "margin_pct_nav": 54.58,
+   "l1_cny": 43818.0,
+   "carry_cny": 296099.0,
+   "cash_cny": 19506.0,
+   "cash_interest_cny": 272.0,
+   "expected_total_cny": 340189.0,
+   "expected_return_pct": 34.019,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 19.2,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 54.6% > 35%",
+    "NOTIONAL_CAP: 4.55x > 2.50x"
+   ],
+   "expected_return_pct_published": 34.467
+  },
+  {
+   "ic_lots": 3,
+   "im_lots": 2,
+   "notional_cny": 5635160.0,
+   "notional_x_nav": 5.6352,
+   "margin_cny": 676219.0,
+   "margin_pct_nav": 67.62,
+   "l1_cny": 43818.0,
+   "carry_cny": 336748.0,
+   "cash_cny": -110919.0,
+   "cash_interest_cny": -1547.0,
+   "expected_total_cny": 379018.0,
+   "expected_return_pct": 37.902,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 23.44,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 67.6% > 35%",
+    "NOTIONAL_CAP: 5.64x > 2.50x",
+    "CASH_NEGATIVE: -110919"
+   ],
+   "expected_return_pct_published": 38.35
+  },
+  {
+   "ic_lots": 3,
+   "im_lots": 3,
+   "notional_cny": 6722040.0,
+   "notional_x_nav": 6.722,
+   "margin_cny": 806645.0,
+   "margin_pct_nav": 80.66,
+   "l1_cny": 43818.0,
+   "carry_cny": 377397.0,
+   "cash_cny": -241345.0,
+   "cash_interest_cny": -3367.0,
+   "expected_total_cny": 417848.0,
+   "expected_return_pct": 41.785,
+   "vol_capped_pct": 6.03,
+   "vol_uncapped_pct": 27.72,
+   "feasible": false,
+   "gate_reason": [
+    "MARGIN_CAP: 80.7% > 35%",
+    "NOTIONAL_CAP: 6.72x > 2.50x",
+    "CASH_NEGATIVE: -241345"
+   ],
+   "expected_return_pct_published": 42.233
+  }
+ ],
+ "engine_rung": {
+  "ic_lots": 1,
+  "im_lots": 1,
+  "notional_cny": 2240680.0,
+  "notional_x_nav": 2.2407,
+  "margin_cny": 268882.0,
+  "margin_pct_nav": 26.89,
+  "l1_cny": 43818.0,
+  "carry_cny": 125799.0,
+  "cash_cny": 296418.0,
+  "cash_interest_cny": 4135.0,
+  "expected_total_cny": 173752.0,
+  "expected_return_pct": 17.375,
+  "vol_capped_pct": 6.03,
+  "vol_uncapped_pct": 10.46,
+  "feasible": true,
+  "gate_reason": [],
+  "expected_return_pct_published": 17.823
+ },
+ "judgment": {
+  "verdict": "INSTRUCTION_ABOVE_TARGET_BAND",
+  "engine_pct": 17.375,
+  "gap_to_band_pp": 5.375,
+  "in_band_rungs": [
+   [
+    0,
+    1,
+    9.053
+   ]
+  ],
+  "in_band_count": 1
+ },
+ "capital_line": {
+  "resolution": "counterfactual_lots_held",
+  "lots_held": {
+   "IC": 1,
+   "IM": 1
+  },
+  "nav_at_target_high": 1787038.0,
+  "nav_at_target_low": 4313217.0,
+  "note": "same legs, same lots; at these capitals the engine's weight rule would ask for more than one lot, so this is a line, not a plan"
+ },
+ "assumptions": [
+  "L1 expectation is the arm's backtest CAGR (published and next-open both printed); it is not a forecast",
+  "carry is the engine's declared per-year rate on contract notional, held flat",
+  "cash interest uses the last GC001 close, not a forecast of the roll",
+  "vol is an estimate from declared pieces (rho=0.10), not a measurement of this book",
+  "ETF universe is the surviving panel: the L1 number carries survivorship"
+ ],
+ "sources": {
+  "instruction": "results/policy/POLICY.json",
+  "l1_arm": "results/etf_nobond_vt.json",
+  "cash_rate": "data/repo_daily/GC001.csv",
+  "target": "research/STRATEGY-20261125.md §一"
+ },
+ "input_digest": {
+  "POLICY.json": "e446b5f38251d2826e8caabcf80d3d2f678de9b55148d6a3d67fd39a71ae56f6",
+  "etf_nobond_vt.json": "128722ecf9cc6147cce96804cfc37bfe7aa2aff8a7a8fe14442571e5f989610c",
+  "GC001.csv": "564df41b677636502d65eab6f9df1c2237369282f39eb7a2e098828422e25319"
+ }
+}
