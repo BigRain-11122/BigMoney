@@ -1,0 +1,365 @@
+{
+  "schema": "idx-fut-carry-rent-by-component/v1",
+  "kind": "carry_rent_by_component",
+  "evidence_cutoff": "2026-11-25",
+  "inputs": {
+    "lattice": {
+      "path": "results/policy_return_lattice.json",
+      "sha256": "6d00e45a0cb3247825a8a1e1b21e64bc852c530229a87b20f23c2c8b6007dc22"
+    },
+    "l1_arm": {
+      "path": "results/etf_nobond_vt.json",
+      "sha256": "128722ecf9cc6147cce96804cfc37bfe7aa2aff8a7a8fe14442571e5f989610c"
+    },
+    "ladder_risk": {
+      "path": "results/idx_fut_carry_ladder_risk.json",
+      "sha256": "cde0dc68f9a333a2baa20c334ca8f4da9746160937d0b6d9605bb60f4225283b"
+    },
+    "nav_cny": 1000000.0,
+    "k": 0.4347,
+    "cash_rate_pct": 1.395,
+    "trading_days": 244.0,
+    "legs": {
+      "IC": {
+        "span": [
+          "2018-10-23",
+          "2026-11-25"
+        ],
+        "days": 1964,
+        "index": "sh000905"
+      },
+      "IM": {
+        "span": [
+          "2022-07-25",
+          "2026-11-25"
+        ],
+        "days": 1052,
+        "index": "sh000852"
+      }
+    },
+    "equity_span": [
+      "2020-01-06",
+      "2026-11-25"
+    ],
+    "thresholds": {
+      "rent_paid": 1.25,
+      "rent_underpaid": 0.8,
+      "neutral_r2": 0.05,
+      "sharpe_gain_pp": 0.1
+    }
+  },
+  "question": "of the book's annual return, which arm makes it and which arm eats the risk -- and does an equal-risk-share re-budget buy a better Sharpe without leveraging any arm past 100% of NAV?",
+  "rule": "contribution_i = weight_i x daily series_i; return share = mean(contribution_i) / mean(sum); risk share = cov(contribution_i, sum) / var(sum); rent = return share / risk share; leave-one-out subtracts the arm's contribution bar by bar; equal-risk-share scales each arm by 1/cov_i and the free scalar so the largest implied notional is 100% of NAV",
+  "rungs": {
+    "1/1": {
+      "ic_lots": 1,
+      "im_lots": 1,
+      "weights_x_nav": {
+        "equity_arm": 0.4347,
+        "IC_leg": 1.1538,
+        "IM_leg": 1.08688,
+        "cash": 0.0
+      },
+      "days": 1052,
+      "span": [
+        "2022-07-25",
+        "2026-11-25"
+      ],
+      "components": [
+        {
+          "name": "equity_arm",
+          "label": "equity sleeve (k x L1)",
+          "weight_x_nav": 0.4347,
+          "ann_arith_pct": 6.257397,
+          "return_share": 0.249882,
+          "cov_with_total": 6.079008102134233e-06,
+          "risk_share": 0.07511,
+          "rent": 3.326862,
+          "vol_pct": 4.2587,
+          "corr_with_total": 0.24785
+        },
+        {
+          "name": "IC_leg",
+          "label": "IC basis leg",
+          "weight_x_nav": 1.1538,
+          "ann_arith_pct": 7.793015,
+          "return_share": 0.311205,
+          "cov_with_total": 3.5850589091474254e-05,
+          "risk_share": 0.442959,
+          "rent": 0.702559,
+          "vol_pct": 6.8269,
+          "corr_with_total": 0.9118
+        },
+        {
+          "name": "IM_leg",
+          "label": "IM basis leg",
+          "weight_x_nav": 1.08688,
+          "ann_arith_pct": 10.577518,
+          "return_share": 0.422401,
+          "cov_with_total": 3.900477295530413e-05,
+          "risk_share": 0.481931,
+          "rent": 0.876476,
+          "vol_pct": 7.4157,
+          "corr_with_total": 0.91326
+        },
+        {
+          "name": "cash",
+          "label": "cash arm (riskless)",
+          "weight_x_nav": 0.0,
+          "ann_arith_pct": 0.4135,
+          "return_share": 0.016513,
+          "cov_with_total": 0.0,
+          "risk_share": 0.0,
+          "rent": null,
+          "vol_pct": 0.0,
+          "corr_with_total": null
+        }
+      ],
+      "book": {
+        "ann_compound_pct": 27.1913,
+        "ann_arith_pct": 25.0414,
+        "vol_pct": 14.0528,
+        "sharpe": 1.8357,
+        "mdd_pct": -10.964,
+        "days": 1052
+      },
+      "leave_one_out": {
+        "equity_arm": {
+          "ann_compound_pct": 19.5527,
+          "vol_pct": 13.6364,
+          "sharpe": 1.3316,
+          "d_ann_pp": -7.6387
+        },
+        "IC_leg": {
+          "ann_compound_pct": 18.4105,
+          "vol_pct": 8.3148,
+          "sharpe": 2.0464,
+          "d_ann_pp": -8.7808
+        },
+        "IM_leg": {
+          "ann_compound_pct": 15.1998,
+          "vol_pct": 7.8822,
+          "sharpe": 1.7514,
+          "d_ann_pp": -11.9915
+        },
+        "cash": {
+          "ann_compound_pct": 26.667,
+          "vol_pct": 14.0528,
+          "sharpe": 1.7984,
+          "d_ann_pp": -0.5244
+        }
+      },
+      "carry_vs_equity": {
+        "beta": -0.18216,
+        "corr": -0.056889,
+        "r2": 0.003236,
+        "carry_ann_arith_pct": 18.370533,
+        "equity_vol_pct": 4.2587,
+        "beta_times_equity_vol_pp": -0.775764
+      },
+      "equal_risk_share_capped": {
+        "implied_notional_x_nav": {
+          "equity_arm": 1.0,
+          "IC_leg": 0.450067,
+          "IM_leg": 0.389679
+        },
+        "book": {
+          "ann_compound_pct": 23.4312,
+          "ann_arith_pct": 21.6405,
+          "vol_pct": 10.7841,
+          "sharpe": 2.0434,
+          "mdd_pct": -9.294,
+          "days": 1052
+        }
+      },
+      "judgment": {
+        "rent": "MIXED_RENT",
+        "rents": {
+          "equity_arm": 3.3269,
+          "IC_leg": 0.7026,
+          "IM_leg": 0.8765
+        },
+        "biggest_risk_buyer": "IM_leg",
+        "biggest_earner": "IM_leg",
+        "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
+        "rebudget": "REBUDGETING_WOULD_HELP",
+        "rebudget_sharpe_gain": 0.2077
+      }
+    },
+    "0/1": {
+      "ic_lots": 0,
+      "im_lots": 1,
+      "weights_x_nav": {
+        "equity_arm": 0.4347,
+        "IC_leg": 0.0,
+        "IM_leg": 1.08688,
+        "cash": 0.0
+      },
+      "days": 1052,
+      "span": [
+        "2022-07-25",
+        "2026-11-25"
+      ],
+      "components": [
+        {
+          "name": "equity_arm",
+          "label": "equity sleeve (k x L1)",
+          "weight_x_nav": 0.4347,
+          "ann_arith_pct": 6.257397,
+          "return_share": 0.358765,
+          "cov_with_total": 6.614874649475682e-06,
+          "risk_share": 0.233457,
+          "rent": 1.53675,
+          "vol_pct": 4.2587,
+          "corr_with_total": 0.45581
+        },
+        {
+          "name": "IC_leg",
+          "label": "IC basis leg",
+          "weight_x_nav": 0.0,
+          "ann_arith_pct": 0.0,
+          "return_share": 0.0,
+          "cov_with_total": 0.0,
+          "risk_share": 0.0,
+          "rent": null,
+          "vol_pct": 0.0,
+          "corr_with_total": null
+        },
+        {
+          "name": "IM_leg",
+          "label": "IM basis leg",
+          "weight_x_nav": 1.08688,
+          "ann_arith_pct": 10.577518,
+          "return_share": 0.606456,
+          "cov_with_total": 2.1719607632748784e-05,
+          "risk_share": 0.766543,
+          "rent": 0.791157,
+          "vol_pct": 7.4157,
+          "corr_with_total": 0.85949
+        },
+        {
+          "name": "cash",
+          "label": "cash arm (riskless)",
+          "weight_x_nav": 0.0,
+          "ann_arith_pct": 0.6066,
+          "return_share": 0.034779,
+          "cov_with_total": 0.0,
+          "risk_share": 0.0,
+          "rent": null,
+          "vol_pct": 0.0,
+          "corr_with_total": null
+        }
+      ],
+      "book": {
+        "ann_compound_pct": 18.6392,
+        "ann_arith_pct": 17.4415,
+        "vol_pct": 8.3148,
+        "sharpe": 2.0739,
+        "mdd_pct": -5.7759,
+        "days": 1052
+      },
+      "leave_one_out": {
+        "equity_arm": {
+          "ann_compound_pct": 11.526,
+          "vol_pct": 7.4157,
+          "sharpe": 1.3662,
+          "d_ann_pp": -7.1132
+        },
+        "IC_leg": {
+          "ann_compound_pct": 18.6392,
+          "vol_pct": 8.3148,
+          "sharpe": 2.0739,
+          "d_ann_pp": 0.0
+        },
+        "IM_leg": {
+          "ann_compound_pct": 7.0071,
+          "vol_pct": 4.2587,
+          "sharpe": 1.3178,
+          "d_ann_pp": -11.6321
+        },
+        "cash": {
+          "ann_compound_pct": 17.9222,
+          "vol_pct": 8.3148,
+          "sharpe": 1.9877,
+          "d_ann_pp": -0.717
+        }
+      },
+      "carry_vs_equity": {
+        "beta": -0.110067,
+        "corr": -0.06321,
+        "r2": 0.003995,
+        "carry_ann_arith_pct": 10.577518,
+        "equity_vol_pct": 4.2587,
+        "beta_times_equity_vol_pp": -0.468742
+      },
+      "equal_risk_share_capped": null,
+      "judgment": {
+        "rent": "MIXED_RENT",
+        "rents": {
+          "equity_arm": 1.5368,
+          "IC_leg": null,
+          "IM_leg": 0.7912
+        },
+        "biggest_risk_buyer": "IM_leg",
+        "biggest_earner": "IM_leg",
+        "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
+        "rebudget": "REBUDGET_NOT_APPLICABLE",
+        "rebudget_sharpe_gain": null
+      }
+    }
+  },
+  "judgment": {
+    "engine_rung": "1/1",
+    "band_rung": "0/1",
+    "engine": {
+      "rent": "MIXED_RENT",
+      "rents": {
+        "equity_arm": 3.3269,
+        "IC_leg": 0.7026,
+        "IM_leg": 0.8765
+      },
+      "biggest_risk_buyer": "IM_leg",
+      "biggest_earner": "IM_leg",
+      "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
+      "rebudget": "REBUDGETING_WOULD_HELP",
+      "rebudget_sharpe_gain": 0.2077
+    },
+    "band": {
+      "rent": "MIXED_RENT",
+      "rents": {
+        "equity_arm": 1.5368,
+        "IC_leg": null,
+        "IM_leg": 0.7912
+      },
+      "biggest_risk_buyer": "IM_leg",
+      "biggest_earner": "IM_leg",
+      "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
+      "rebudget": "REBUDGET_NOT_APPLICABLE",
+      "rebudget_sharpe_gain": null
+    }
+  },
+  "cross_face": {
+    "face": "results/idx_fut_carry_drawdown_experience.json",
+    "sha256": "8e55395200d55ef8033b8eb0195e440f73da3a38d7f24072d678b1012ffc9323",
+    "engine_rung": "1/1",
+    "their_ann_pct": 26.667,
+    "my_book_without_cash_pct": 26.667,
+    "delta_pp": 0.0,
+    "with_cash_pct": 27.1913,
+    "verdict": "CROSS_FACE_MATCHES",
+    "explanation": "that face prices the rung without the riskless cash arm; this face adds it as a fourth component, so the like-for-like comparison is with the leave-the-cash-out column"
+  },
+  "scope_limits": [
+    "the equity sleeve is rebuilt at run time; check pins it by digest only",
+    "the cash arm inherits the ladder's cash assumption (cash_interest_cny/nav/bars)",
+    "risk shares decompose today's book; they are not an optimisation or a recommendation",
+    "the equal-risk-share arm is a counterfactual with a notional cap of 100% of NAV; it ignores the equity book's own capacity and the futures margin line"
+  ],
+  "not_recomputed": [
+    "equity sleeve daily series (check uses digests)",
+    "the ladder's cash rate",
+    "the futures leg spreads (check re-probes their presence, not their values)"
+  ],
+  "check_scope": "check re-probes the two input faces' digests and re-derives every share / rent / sign / verdict token from the stored component moments; it never re-derives the equity sleeve, and it does not gate on the cross_face snapshot (that face is another writer's surface)",
+  "generated": "2026-11-26T01:46:19+08:00"
+}
