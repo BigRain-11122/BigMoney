@@ -1866,7 +1866,16 @@ def _selftest():
             os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
             OUT_JSON = tmp
             rc = check()
-            chk(rc == 0, "a face that equals its re-derivation passes the gate (rc=%r)" % rc)
+            _coh = (p2.get("panel_coherence") or {}).get("verdict")
+            if _coh in (None, "ONE_WORLD"):
+                chk(rc == 0, "a face that equals its re-derivation passes the gate (rc=%r)" % rc)
+            else:
+                # r2089: matching the inputs does not make a split family current. While the
+                # arms sit on different panels the gate is red for the WORLD, never green for
+                # the arithmetic -- and it must say the word the chain pays attention to.
+                chk(rc == 2 and bool(_world_split_problem(p2.get("panel_coherence"))),
+                    "a face that equals its re-derivation is STALE while its arms sit on "
+                    "different panels (rc=%r, coherence=%r)" % (rc, _coh))
             p2["arms"]["cost05"]["verdict"] = "ADOPT"
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(p2, f, ensure_ascii=False, indent=1)
@@ -2476,6 +2485,19 @@ def _selftest():
     chk(coherence({"baseline": "a", "x": None})[0] == "UNSTAMPED",
         "a missing stamp is unproven, not the same world")
 
+    # L39b r2089: the coherence block must MOVE THE GATE, not just the labels. A family split
+    # across panels is stale (an engine re-price is the only cure), and the sentence has to say
+    # so in the word the chain's run_leg looks for.
+    chk(_world_split_problem({"verdict": "ONE_WORLD"}) is None
+        and _world_split_problem(None) is None,
+        "a one-world family (or a face predating the block) is never called stale")
+    _split = _world_split_problem({"verdict": "MIXED_WORLDS", "panels": ["a", "b"],
+                                   "withheld_arms": ["k10", "k20"]})
+    chk(bool(_split) and _split.startswith("face is stale") and "k10" in _split,
+        "a family split across panels is STALE and names the arms waiting for an engine re-price")
+    chk("re-aggregation" in (_split or ""),
+        "the stale sentence says why re-deriving the aggregate cannot fix it")
+
     def _fake():
         return {"arms": {"k05": {"verdict": "REJECT", "verdict_reasons": ["r"],
                                   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL"}},
@@ -2695,6 +2717,27 @@ def _source_moved(pub, drift, sources):
     return None
 
 
+def _world_split_problem(coh):
+    """A family whose own arms sit on different panels cannot be re-aggregated into health.
+
+    r2089: this gate used to pass a MIXED_WORLDS family green as long as the aggregation
+    matched its inputs (r1935 family -- a check that only re-derives itself can never say
+    "I am out of date"). Eight of eleven arm faces were priced on the 2026-11-20 world while
+    the baseline sat on 2026-11-24; every chain leg stayed green while the floor fit quietly
+    lost its rungs. The remedy is an engine re-price, never a re-aggregation, so the honest
+    word is STALE: the chain's run_leg pays for a writer only when it sees that word.
+    """
+    verdict = (coh or {}).get("verdict")
+    if verdict in (None, "ONE_WORLD"):
+        return None
+    withheld = list((coh or {}).get("withheld_arms") or [])
+    panels = list((coh or {}).get("panels") or [])
+    return ("face is stale: %s -- %d arm face(s) priced on another panel (%s); "
+            "the remedy is an engine re-price of [%s], not a re-aggregation"
+            % (verdict, len(withheld), ",".join(panels) or "-",
+               ",".join(withheld) or "-"))
+
+
 def check():
     """Gate: the published face must equal a re-derivation from the four arm faces.
 
@@ -2721,6 +2764,12 @@ def check():
     rebuilt = json.loads(json.dumps(build()))   # compare what a reader sees, not Python types
     drift = _diff(pub, rebuilt)
     if not drift:
+        # r2089: matching the inputs is not the same as being current -- a family split across
+        # panels re-derives to itself every time (r1935), so the world question is asked first.
+        split = _world_split_problem(rebuilt.get("panel_coherence"))
+        if split:
+            print(split)
+            return 2
         verdicts = " | ".join("%s=%s" % (k, v["verdict"]) for k, v in rebuilt["arms"].items())
         print("arms face matches its own sources on cutoff %s: %s"
               % (rebuilt["baseline"]["evidence_cutoff"], verdicts))
