@@ -1,0 +1,231 @@
+{
+ "cross_face": {
+  "capacity_summary": {
+   "from_sessions": {
+    "median_cny": 496475.93,
+    "worst_cny": 340837.76
+   },
+   "from_summary": {
+    "median_cny": 496475.93,
+    "worst_cny": 340837.76
+   },
+   "status": "CROSS_FACE_MATCHES"
+  },
+  "open_capital": {
+   "rows": {
+    "IC": {
+     "notional_ruler_cny": 1153800.0,
+     "ratio_vol_over_notional": 0.981232,
+     "vol_ruler_first_rung_cny": 1132145.38
+    },
+    "IM": {
+     "notional_ruler_cny": 1086880.0,
+     "ratio_vol_over_notional": 1.068344,
+     "vol_ruler_first_rung_cny": 1161161.25
+    }
+   },
+   "status": "DIFFERENT_RULER_NAMED",
+   "why": "the first rung on the open-capital face divides per-lot volatility by the 8% risk budget; this face divides a lot's notional by a weight. Two rulers, not two answers -- neither is averaged into the other"
+  }
+ },
+ "equity_capacity": {
+  "best_cny": 1043800.91,
+  "line_pct": 1.0,
+  "median_cny": 496475.93,
+  "n_sessions": 60,
+  "names": [
+   "159549",
+   "159207",
+   "515300",
+   "562060",
+   "159307"
+  ],
+  "today_bar": "2026-11-24",
+  "today_cny": 1043800.91,
+  "worst_cny": 340837.76
+ },
+ "generated": "2026-11-26T02:07:43+0800",
+ "inputs": {
+  "capacity_edge": {
+   "path": "results/etf_book_capacity_edge.json",
+   "sha256": "d05b6874ecb5c69a9145964dc1b7fc7b0761cb372941998de0a4974f73ca9f73"
+  },
+  "margin": {
+   "path": "results/idx_fut_carry_margin.json",
+   "sha256": "556195da06b241b76d5aa9dea7625e9c738b708a60cd30b9cd1406843c90e293"
+  },
+  "open_capital": {
+   "path": "results/idx_fut_carry_open_capital.json",
+   "sha256": "e3355402c673f21766a21da8f2624e0d1f01e8a8e84295091b991a7c44e4ad8e"
+  },
+  "rent_by_component": {
+   "path": "results/idx_fut_carry_rent_by_component.json",
+   "sha256": "ac700c6095508a7fafbd863c5164546a5be0eeb62640497d82fd6a0dc82e48f0"
+  }
+ },
+ "kind": "idx_fut_carry_rebudget_floor",
+ "notionals": {
+  "IC": {
+   "bar": "2026-11-25",
+   "close": 5769.0,
+   "notional_per_lot_cny": 1153800.0
+  },
+  "IM": {
+   "bar": "2026-11-25",
+   "close": 5434.4,
+   "notional_per_lot_cny": 1086880.0
+  }
+ },
+ "question": "r2113 judged the equal-risk re-budget worth 0.208 of Sharpe on paper -- at what capital, if any, can those weights actually be held without breaching either end of the book: one whole futures lot, and the equity sleeve's own 1% ADV line?",
+ "rules": {
+  "lens_nav_cny": 1000000.0,
+  "line_pct": 1.0,
+  "lower_end": "NAV at which a weighted futures leg holds one whole lot: notional_per_lot / weight. Below it the book is either 0 lots or over its own target weight",
+  "not_recomputed": [
+   "per-lot notional",
+   "the ADV line and its 60-session window",
+   "r2113's weights and its Sharpe arithmetic"
+  ],
+  "one_lot_notional": "imported from idx_fut_carry_margin at the panel's own close",
+  "upper_end": "NAV at which the equity weight reaches the 1% ADV line: capacity_where_at_line / equity_weight",
+  "verdict_rule": "OPEN if lower <= upper read on the most permissive session (today); EMPTY otherwise. A face that fails on its friendliest reading is a strong statement"
+ },
+ "rungs": {
+  "0/1": {
+   "ic_lots_published": 0,
+   "im_lots_published": 1,
+   "judgment_rebudget": "REBUDGET_NOT_APPLICABLE",
+   "sets": {
+    "as_built": {
+     "binding_leg": "IM_leg",
+     "equity": {
+      "nav_where_at_line_median_cny": 1142111.64,
+      "nav_where_at_line_today_cny": 2401198.32,
+      "nav_where_at_line_worst_cny": 784075.82,
+      "share_of_line_at_lens_nav_pct": 41.645873,
+      "weight_x_nav": 0.4347
+     },
+     "legs": {
+      "IC_leg": {
+       "lots_at_lens_nav": 0.0,
+       "notional_per_lot_cny": 1153800.0,
+       "one_lot_floor_nav_cny": null,
+       "product": "IC",
+       "weight_x_nav": 0.0
+      },
+      "IM_leg": {
+       "lots_at_lens_nav": 1.0,
+       "notional_per_lot_cny": 1086880.0,
+       "one_lot_floor_nav_cny": 1000000.0,
+       "product": "IM",
+       "weight_x_nav": 1.08688
+      }
+     },
+     "verdict": "WINDOW_OPEN",
+     "window": {
+      "equity_weight_that_would_fit_at_floor": 1.043801,
+      "floor_over_upper_today": 0.416459,
+      "lower_cny": 1000000.0,
+      "open_today": true,
+      "upper_median_cny": 1142111.64,
+      "upper_today_cny": 2401198.32,
+      "upper_worst_cny": 784075.82,
+      "width_today_cny": 1401198.32
+     }
+    }
+   }
+  },
+  "1/1": {
+   "ic_lots_published": 1,
+   "im_lots_published": 1,
+   "judgment_rebudget": "REBUDGETING_WOULD_HELP",
+   "sets": {
+    "as_built": {
+     "binding_leg": "IC_leg",
+     "equity": {
+      "nav_where_at_line_median_cny": 1142111.64,
+      "nav_where_at_line_today_cny": 2401198.32,
+      "nav_where_at_line_worst_cny": 784075.82,
+      "share_of_line_at_lens_nav_pct": 41.645873,
+      "weight_x_nav": 0.4347
+     },
+     "legs": {
+      "IC_leg": {
+       "lots_at_lens_nav": 1.0,
+       "notional_per_lot_cny": 1153800.0,
+       "one_lot_floor_nav_cny": 1000000.0,
+       "product": "IC",
+       "weight_x_nav": 1.1538
+      },
+      "IM_leg": {
+       "lots_at_lens_nav": 1.0,
+       "notional_per_lot_cny": 1086880.0,
+       "one_lot_floor_nav_cny": 1000000.0,
+       "product": "IM",
+       "weight_x_nav": 1.08688
+      }
+     },
+     "verdict": "WINDOW_OPEN",
+     "window": {
+      "equity_weight_that_would_fit_at_floor": 1.043801,
+      "floor_over_upper_today": 0.416459,
+      "lower_cny": 1000000.0,
+      "open_today": true,
+      "upper_median_cny": 1142111.64,
+      "upper_today_cny": 2401198.32,
+      "upper_worst_cny": 784075.82,
+      "width_today_cny": 1401198.32
+     }
+    },
+    "re_budget": {
+     "binding_leg": "IM_leg",
+     "equity": {
+      "nav_where_at_line_median_cny": 496475.93,
+      "nav_where_at_line_today_cny": 1043800.91,
+      "nav_where_at_line_worst_cny": 340837.76,
+      "share_of_line_at_lens_nav_pct": 95.80371,
+      "weight_x_nav": 1.0
+     },
+     "legs": {
+      "IC_leg": {
+       "lots_at_lens_nav": 0.390074,
+       "notional_per_lot_cny": 1153800.0,
+       "one_lot_floor_nav_cny": 2563618.31,
+       "product": "IC",
+       "weight_x_nav": 0.450067
+      },
+      "IM_leg": {
+       "lots_at_lens_nav": 0.35853,
+       "notional_per_lot_cny": 1086880.0,
+       "one_lot_floor_nav_cny": 2789167.49,
+       "product": "IM",
+       "weight_x_nav": 0.389679
+      }
+     },
+     "verdict": "FLOOR_ABOVE_CAPACITY",
+     "window": {
+      "equity_weight_that_would_fit_at_floor": 0.374234,
+      "floor_over_upper_today": 2.672126,
+      "lower_cny": 2789167.49,
+      "open_today": false,
+      "upper_median_cny": 496475.93,
+      "upper_today_cny": 1043800.91,
+      "upper_worst_cny": 340837.76,
+      "width_today_cny": -1745366.58
+     }
+    }
+   }
+  }
+ },
+ "schema": "idx-fut-carry-rebudget-floor/v1",
+ "scope_limits": [
+  "容量上限读的是容量面自己的五个名字；更宽的票池会抬高上限，本面只说「会更高」不猜高多少",
+  "1% ADV 是闸选的线不是量出来的线；换线每个上限按同一比例移动（0.5% 减半、2% 翻倍）",
+  "整手地板用的是面板自己的收盘价；隔日价格移动会把地板按同一比例拖动",
+  "不印冲击成本：日线没有深度，本面停在「占成交额多少」这一端",
+  "r2113 的夏普增益是历史分段的算术，不是对未来的承诺；本面只回答它能不能被持有"
+ ],
+ "sentence": "在 r2113 判「重配会更好」的那一档上，重配权重没有任何资本能放下：两条期货腿的整手地板是 2,789,167 元（约束腿 IM_leg），而权益袖 1.000 倍在今天的 1% ADV 线上只容得下 1,043,801 元——下限是上限的 2.67 倍。作为对照，现在的权重在这条线上是开着的：[1,000,000, 2,401,198]（今日口径）。",
+ "verdict": "FLOOR_ABOVE_CAPACITY",
+ "verdict_rung": "1/1"
+}
