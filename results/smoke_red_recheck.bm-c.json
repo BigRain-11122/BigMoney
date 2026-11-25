@@ -1,24 +1,24 @@
 {
  "schema": "smoke-red-recheck/v1",
  "machine_id": "bm-c",
- "generated": "2026-11-25T12:12:09+0800",
+ "generated": "2026-11-25T12:41:11+0800",
  "source_triage": "results/smoke_red_triage.bm-c.json",
  "source_ts": "2026-11-25T10:38:54",
  "budget_sec": 420.0,
- "elapsed_sec": 38.7,
+ "elapsed_sec": 34.8,
  "legs": 29,
- "still_red": 8,
- "now_green": 7,
+ "still_red": 1,
+ "now_green": 14,
  "green_but_mapping_guessed": 0,
  "guessed_rows": 0,
  "counts": {
-  "GREEN": 7,
+  "GREEN": 14,
   "GREEN_ENTRY_GUESSED": 0,
-  "RED_CONTRADICTION": 3,
-  "RED_STALE": 1,
+  "RED_CONTRADICTION": 0,
+  "RED_STALE": 0,
   "RED_SELFTEST": 1,
   "RED_EXCEPTION": 0,
-  "RED_OTHER": 3,
+  "RED_OTHER": 0,
   "RED_SILENT": 0,
   "RED_MAPPING_GUESS": 0,
   "NO_CHECK_ENTRY": 14,
@@ -143,12 +143,12 @@
     "check"
    ],
    "script": "scripts/etf_label_census.py",
-   "verdict": "RED_OTHER",
+   "verdict": "GREEN",
    "argv": [
     "check"
    ],
-   "rc": 1,
-   "line": "{\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 510980/510760: census 0.1456 vs sibling face 0.1479\"], \"labels_multi\": 135, \"groups\": 121, \"shared_pairs_crosschecked\": 2}",
+   "rc": 0,
+   "line": "{\"ok\": true, \"problems\": [], \"labels_multi\": 86, \"groups\": 76, \"shared_pairs_crosschecked\": 2}",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -164,12 +164,12 @@
     "check"
    ],
    "script": "scripts/etf_book_ticket_band.py",
-   "verdict": "RED_CONTRADICTION",
+   "verdict": "GREEN",
    "argv": [
     "check"
    ],
-   "rc": 1,
-   "line": "{\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.958, face says 0.982\", \"impact_breach_cny re-derives to -43800.91, face says -18315.34\", \"best_largest_cny re-derives to 1043000, face says 1018000\", \"one_",
+   "rc": 0,
+   "line": "{\"ok\": true, \"problems\": [], \"verdict\": \"BOTH_LINES_HOLD_AT_SIGNED\"}",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -185,12 +185,12 @@
     "--check"
    ],
    "script": "scripts/etf_book_cash_roll_today.py",
-   "verdict": "RED_OTHER",
+   "verdict": "GREEN",
    "argv": [
     "--check"
    ],
-   "rc": 1,
-   "line": "\"ok\": false,",
+   "rc": 0,
+   "line": "\"ok\": true,",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -323,11 +323,11 @@
     "selftest"
    ],
    "script": "scripts/etf_book_year_concentration_money.py",
-   "verdict": "RED_STALE",
+   "verdict": "GREEN",
    "argv": [
     "selftest"
    ],
-   "rc": 1,
+   "rc": 0,
    "line": "PASS L17 a number that disagrees while the source holds still stays a defect and must not be excused as stale",
    "check_wrote_face": false,
    "restored": false,
@@ -344,12 +344,12 @@
     "check"
    ],
    "script": "scripts/etf_book_year_concentration_money.py",
-   "verdict": "RED_CONTRADICTION",
+   "verdict": "GREEN",
    "argv": [
     "check"
    ],
-   "rc": 3,
-   "line": "CHECK FAILED (12 problems)",
+   "rc": 0,
+   "line": "CHECK OK: 3 books re-derived, line 70.00%, capital 1,000,000",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -386,12 +386,12 @@
     "--check"
    ],
    "script": "scripts/etf_book_year_gate_vote.py",
-   "verdict": "RED_CONTRADICTION",
+   "verdict": "GREEN",
    "argv": [
     "--check"
    ],
-   "rc": 1,
-   "line": "CHECK_FAIL 12 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote.py`",
+   "rc": 0,
+   "line": "CHECK_OK readings=153 books=42 y4_false=110 y4_only=14 | admit R0=40 R1=40 R2=54",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -407,12 +407,12 @@
     "--check"
    ],
    "script": "scripts/etf_book_premium_swap.py",
-   "verdict": "RED_OTHER",
+   "verdict": "GREEN",
    "argv": [
     "--check"
    ],
-   "rc": 2,
-   "line": "{\"ok\": false, \"problems\": [\"face as_of '2026-11-20' != ticket as_of '2026-11-24'\", \"510760 premium -0.259909 on the face but -0.153859 in the snapshot\", \"512040 premium -0.210881 on the face but -0.228872 in the snapshot",
+   "rc": 0,
+   "line": "{\"ok\": true, \"problems\": [], \"verdict\": \"HOLD_STRETCHED\", \"re_derived_from_inputs\": [\"premium_pct\", \"premium_cny\", \"stretched\", \"verdict words\", \"face verdict\"], \"not_re_derived\": [\"ranking scores (panel build ~60s)\", \"s",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],

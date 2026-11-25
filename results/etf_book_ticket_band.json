@@ -2,65 +2,65 @@
  "verdict": "BOTH_LINES_HOLD_AT_SIGNED",
  "signed_capital_cny": 1000000.0,
  "impact_cap_cny": {
-  "best": 1018315.34,
+  "best": 1043800.91,
   "typical": 496475.93,
   "worst": 340837.76
  },
- "impact_pct_at_signed": 0.982,
+ "impact_pct_at_signed": 0.958,
  "line_pct": 1.0,
- "impact_breach_cny": -18315.34,
- "impact_pass_rate_at_signed": 0.0333,
+ "impact_breach_cny": -43800.91,
+ "impact_pass_rate_at_signed": 0.0667,
  "n_sessions": 60,
  "residue": {
   "verdict": "TRADABLE_AT_1000000",
-  "residual_pct_nav": 0.1051,
+  "residual_pct_nav": 0.0958,
   "n_unfilled": 0,
   "unfilled": [],
-  "traded_amount_cny": 908548.7
+  "traded_amount_cny": 908642.0
  },
  "residual_max_pct": 0.5,
  "bands": {
   "best": {
-   "lo_cny": 160000,
-   "hi_cny": 1018000,
-   "n_points": 752,
+   "lo_cny": 162000,
+   "hi_cny": 1043000,
+   "n_points": 777,
    "step_cny": 1000.0,
-   "n_grid": 1004,
-   "span_points": 859,
+   "n_grid": 1029,
+   "span_points": 882,
    "contiguous": false
   },
   "typical": {
-   "lo_cny": 160000,
+   "lo_cny": 162000,
    "hi_cny": 496000,
    "n_points": 230,
    "step_cny": 1000.0,
    "n_grid": 482,
-   "span_points": 337,
+   "span_points": 335,
    "contiguous": false
   },
   "worst": {
-   "lo_cny": 160000,
+   "lo_cny": 162000,
    "hi_cny": 340000,
-   "n_points": 78,
+   "n_points": 77,
    "step_cny": 1000.0,
    "n_grid": 326,
-   "span_points": 181,
+   "span_points": 179,
    "contiguous": false
   }
  },
- "best_largest_cny": 1018000,
+ "best_largest_cny": 1043000,
  "typical_largest_cny": 496000,
  "worst_largest_cny": 340000,
  "n_rungs_with_band": 3,
- "one_lot_floor_cny": 14453.83,
+ "one_lot_floor_cny": 14666.23,
  "gate_verdict": "BELOW_LINE_MOST_SESSIONS",
  "gate_binding_today": "159549",
  "artifact": "etf_book_ticket_band",
  "face": "results/etf_book_ticket_band.json",
  "script": "scripts/etf_book_ticket_band.py",
- "ticket_file": "results/etf_book_order/TICKET-2026-11-20-card.json",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-24-card.json",
  "capacity_face": "results/etf_book_capacity_edge.json",
- "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff": "2026-11-24",
  "frozen": {
   "lot_shares": 100,
   "residual_max_pct": 0.5,
@@ -71,5 +71,5 @@
    "worst"
   ]
  },
- "sentence": "签出的 1,000,000 元两条线同时成立：成交额占比 0.9820%（闸线 1%），整手残差 0.1051% 的净值（门 0.5%）。"
+ "sentence": "签出的 1,000,000 元两条线同时成立：成交额占比 0.9580%（闸线 1%），整手残差 0.0958% 的净值（门 0.5%）。"
 }

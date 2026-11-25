@@ -276,8 +276,8 @@
  "last_run_at": "2026-10-26T21:20:55+08:00",
  "last_seen": "2026-11-24T09:22:18+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
- "last_task": "cash leg shelf decision (which shelf may hold the cash leg)",
- "last_task_at": "2026-11-19T16:38:11+08:00",
+ "last_task": "r2088 red-leg recovery: six faces re-derived to green, 29-leg recheck 14 GREEN, s6 4/4 rc0",
+ "last_task_at": "2026-11-25T12:42+08:00",
  "last_ts": "2026-10-19T20:11:25+08:00",
  "last_updated": "2026-11-23T17:28:45+08:00",
  "latest_artifact": "research/IDX_FUT_CARRY_LEND_BREAKEVEN.md",
@@ -1551,7 +1551,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2087,
+ "round_no": 2088,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
@@ -2462,5 +2462,6 @@
  "verify_r2085_futures": "idx_fut_proxy_noise 重 derive 后 CHECK_OK（原红是上一 bar 的面代差 0.245 vs 0.246）；futures_tsmom_signal 重 derive：面板指纹 542ff59bffa256a3 == 盘上，flips raw 1477 → damped 413，页面带生产候选节 → 冒烟该腿四项断言逐条复算成立；idx_fut_roll_gap/roll_tenor/carry_margin 本轮 check 全绿（rc0）",
  "记账_r2085": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「链序里读者晚写一步」变成一次可支付重建属证据与载体）",
  "竞争_r2085": "repo_write_contention rc=0 CLEAN（单宿主 pid=86056）——20 余轮竞争窗本轮关闭，可写共享面",
- "CEO 三行": "当前活＝给「引用了别人票面的面」装一条 0.2 秒的哨兵，让它在票面重定价后自己说出来，而不是整天挂在「没法比较」｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_return_regime.json（2026-11-25T11:36·identity MATCHED·selftest 25/25）｜下个里程碑＝剩余红按族收口 + 全量冒烟一次（≤48h）"
+ "CEO 三行": "当前活＝给「引用了别人票面的面」装一条 0.2 秒的哨兵，让它在票面重定价后自己说出来，而不是整天挂在「没法比较」｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_return_regime.json（2026-11-25T11:36·identity MATCHED·selftest 25/25）｜下个里程碑＝剩余红按族收口 + 全量冒烟一次（≤48h）",
+ "round_r2088_next": "(a) re-price the three buffer arms (k10/k20/k40) on the current panel to unstick etf_book_phase_atlas_arms floor fit (7 selftest legs, ~6min each, must run as a self-healing runner because a Start-Process child dies with the CLI job object); (b) give smoke_red_recheck a chain leg; (c) 14 inline suite legs have no re-runnable command"
 }
