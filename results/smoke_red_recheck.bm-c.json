@@ -1,18 +1,18 @@
 {
  "schema": "smoke-red-recheck/v1",
  "machine_id": "bm-c",
- "generated": "2026-11-25T15:00:37+0800",
+ "generated": "2026-11-25T15:11:16+0800",
  "source_triage": "results/smoke_red_triage.json",
- "source_ts": "2026-11-25T14:36:02",
+ "source_ts": "2026-11-25T15:05:57",
  "budget_sec": 420.0,
- "elapsed_sec": 220.8,
- "legs": 18,
+ "elapsed_sec": 0.6,
+ "legs": 7,
  "still_red": 1,
- "now_green": 3,
+ "now_green": 0,
  "green_but_mapping_guessed": 0,
  "guessed_rows": 0,
  "counts": {
-  "GREEN": 3,
+  "GREEN": 0,
   "GREEN_ENTRY_GUESSED": 0,
   "RED_CONTRADICTION": 1,
   "RED_STALE": 0,
@@ -21,64 +21,11 @@
   "RED_OTHER": 0,
   "RED_SILENT": 0,
   "RED_MAPPING_GUESS": 0,
-  "NO_CHECK_ENTRY": 14,
+  "NO_CHECK_ENTRY": 6,
   "NOT_RUN": 0
  },
  "newly_dirty_paths": [],
  "rows": [
-  {
-   "leg": "product: treasury curve verdict is re-derived from its own criteria (r1691)",
-   "face": null,
-   "triage_class": "STALE_OR_MISSING",
-   "triage_subject": "r1691",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: etf_book_reader_faces (live pair says ok or names which reader lags)",
-   "face": "etf_book_reader_faces",
-   "triage_class": "STALE_OR_MISSING",
-   "triage_subject": "live pair says ok or names which reader lags",
-   "mapping": "table",
-   "argv_tail": [
-    "check"
-   ],
-   "script": "scripts/etf_book_reader_faces.py",
-   "verdict": "GREEN",
-   "argv": [
-    "check"
-   ],
-   "rc": 0,
-   "line": "ok reader faces newer than the width family (card +712s, sheet +763s)",
-   "check_wrote_face": false,
-   "restored": false,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
-  {
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "face": "etf_book_forward",
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "exit-code contract",
-   "mapping": "table",
-   "argv_tail": [
-    "--selftest"
-   ],
-   "script": "scripts/etf_book_forward.py",
-   "verdict": "GREEN",
-   "argv": [
-    "--selftest"
-   ],
-   "rc": 0,
-   "line": "SELFTEST OK",
-   "check_wrote_face": false,
-   "restored": false,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
   {
    "leg": "product: a declared starting book is named as a declaration on both faces",
    "face": null,
@@ -124,27 +71,6 @@
    "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "face": "etf_book_forward",
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "exit-code contract",
-   "mapping": "table",
-   "argv_tail": [
-    "--selftest"
-   ],
-   "script": "scripts/etf_book_forward.py",
-   "verdict": "GREEN",
-   "argv": [
-    "--selftest"
-   ],
-   "rc": 0,
-   "line": "SELFTEST OK",
-   "check_wrote_face": false,
-   "restored": false,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
-  {
    "leg": "product: etf_book_promotion_provenance (census re-derives from the vote)",
    "face": "etf_book_promotion_provenance",
    "triage_class": "UNCLASSIFIED",
@@ -177,87 +103,10 @@
    "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
-   "leg": "config: no CEO-facing page prints one measurement twice",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "config: no CEO-facing page prints one measurement twice",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the executable ticket decomposes its own headline",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the executable ticket decomposes its own headline",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: every face a reader holds says whether the width's family was one world",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: every face a reader holds says whether the width's family was one world",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
    "leg": "product: the CEO page's sections each name the bar they were priced on",
    "face": null,
    "triage_class": "UNCLASSIFIED",
    "triage_subject": "product: the CEO page's sections each name the bar they were priced on",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the sheet prints what it pays and where that price sits in history",
-   "face": null,
-   "triage_class": "CONTRADICTION",
-   "triage_subject": "product: the sheet prints what it pays and where that price sits in history",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the sheet prints what the price did after a reading like today's",
-   "face": null,
-   "triage_class": "CONTRADICTION",
-   "triage_subject": "product: the sheet prints what the price did after a reading like today's",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: what carrying the sibling costs per year is on the sheet",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: what carrying the sibling costs per year is on the sheet",
    "mapping": null,
    "argv_tail": [],
    "script": null,

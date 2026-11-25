@@ -1,38 +1,17 @@
 {
- "source_ts": "2026-11-25T14:36:02",
+ "source_ts": "2026-11-25T15:05:57",
  "legs": 767,
- "pass": 749,
- "fail": 18,
+ "pass": 760,
+ "fail": 7,
  "unverified": 0,
  "counts": {
   "EXCEPTION": 0,
   "SUBCHAIN_FAILED": 0,
-  "CONTRADICTION": 3,
-  "STALE_OR_MISSING": 2,
-  "UNCLASSIFIED": 13
+  "CONTRADICTION": 1,
+  "STALE_OR_MISSING": 0,
+  "UNCLASSIFIED": 6
  },
  "rows": [
-  {
-   "leg": "product: treasury curve verdict is re-derived from its own criteria (r1691)",
-   "subject": "r1691",
-   "class": "STALE_OR_MISSING",
-   "empty_detail": false,
-   "detail": "derived=KILL said=KILL page_check_rc=3 CHECK_STALE line 2 drifted: page='证据 cutoff 2026-11-23 · 2389 根 bar · 2017-01-17 → 2026-11-23 · 换手 158 次 · 在场 66.14%：' face='证据 cutoff 2026-11-24 · 2390 根 bar ·"
-  },
-  {
-   "leg": "product: etf_book_reader_faces (live pair says ok or names which reader lags)",
-   "subject": "live pair says ok or names which reader lags",
-   "class": "STALE_OR_MISSING",
-   "empty_detail": false,
-   "detail": "exit=3 | STALE reader faces older than the width family (card -70368s, sheet -70308s)"
-  },
-  {
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "subject": "exit-code contract",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "exit=1 | PASS carry rate plausible mean_daily=7.673e-05 -> 2.80%/yr"
-  },
   {
    "leg": "product: a declared starting book is named as a declaration on both faces",
    "subject": "product: a declared starting book is named as a declaration on both faces",
@@ -62,13 +41,6 @@
    "detail": "k-gap face is 2026-11-20, the sheet is 2026-11-24"
   },
   {
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "subject": "exit-code contract",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "exit=1 | PASS carry rate plausible mean_daily=7.673e-05 -> 2.80%/yr"
-  },
-  {
    "leg": "product: etf_book_promotion_provenance (census re-derives from the vote)",
    "subject": "census re-derives from the vote",
    "class": "UNCLASSIFIED",
@@ -83,60 +55,11 @@
    "detail": "verdict=ORDERING_DECAYS_WITHOUT_A_CLEAN_DOSE break_even=9.346 rungs=5 spread@8bp=6.473 band=6.722"
   },
   {
-   "leg": "config: no CEO-facing page prints one measurement twice",
-   "subject": "config: no CEO-facing page prints one measurement twice",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-20、这张单是 2026-11-24：两个 bar 的数不能相减（r1516 律）。"
-  },
-  {
-   "leg": "product: the executable ticket decomposes its own headline",
-   "subject": "product: the executable ticket decomposes its own headline",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "split priced on artifact 23fbb01657022e7b but the artifact on disk is 695701e5d5b6b486 -- re-run the ticket"
-  },
-  {
-   "leg": "product: every face a reader holds says whether the width's family was one world",
-   "subject": "product: every face a reader holds says whether the width's family was one world",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "card does not print ONE_WORLD; ticket does not print the width's lineage; ticket does not print the arm count"
-  },
-  {
    "leg": "product: the CEO page's sections each name the bar they were priced on",
    "subject": "product: the CEO page's sections each name the bar they were priced on",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
    "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it; section 'k_gap' is behind the page and no chain leg re-runs it"
-  },
-  {
-   "leg": "product: the sheet prints what it pays and where that price sits in history",
-   "subject": "product: the sheet prints what it pays and where that price sits in history",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
-  },
-  {
-   "leg": "product: the sheet prints what the price did after a reading like today's",
-   "subject": "product: the sheet prints what the price did after a reading like today's",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "the producer's forward sentence is dropped or rewritten; 510760 bucket mean disagrees with its producer; 510760 forward mean is not printed"
-  },
-  {
-   "leg": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "subject": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "ticket's exec_delta is not what this bar's own faces produce: declaration {'bar': '2026-11-24', 'from_bar': '2026-11-23', 'actions': 0, 'status': 'UNEXPLAINED_TARGET_WITHOUT_TRADES', 'vanished': [], 'appeared': [], 'lots"
-  },
-  {
-   "leg": "product: what carrying the sibling costs per year is on the sheet",
-   "subject": "product: what carrying the sibling costs per year is on the sheet",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "nothing was swapped and the carry face does not say why its table is empty"
   }
  ],
  "fix_order": [
@@ -144,31 +67,6 @@
    "class": "CONTRADICTION",
    "leg": "product: the paper book owns the book the card sells",
    "detail": "agrees=True decision_bar=2026-11-11 wt_maxdiff=1.8e-05 navdev=6.5e-09 gate=NAV_IDENTITY_BROKEN(rc1) drift=-"
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: the sheet prints what it pays and where that price sits in history",
-   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: the sheet prints what the price did after a reading like today's",
-   "detail": "the producer's forward sentence is dropped or rewritten; 510760 bucket mean disagrees with its producer; 510760 forward mean is not printed"
-  },
-  {
-   "class": "STALE_OR_MISSING",
-   "leg": "product: treasury curve verdict is re-derived from its own criteria (r1691)",
-   "detail": "derived=KILL said=KILL page_check_rc=3 CHECK_STALE line 2 drifted: page='证据 cutoff 2026-11-23 · 2389 根 bar · 2017-01-17 → 2026-11-23 · 换手 158 次 · 在场 66.14%：' face='证据 cutoff 2026-11-24 · 2390 根 bar ·"
-  },
-  {
-   "class": "STALE_OR_MISSING",
-   "leg": "product: etf_book_reader_faces (live pair says ok or names which reader lags)",
-   "detail": "exit=3 | STALE reader faces older than the width family (card -70368s, sheet -70308s)"
-  },
-  {
-   "class": "UNCLASSIFIED",
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "detail": "exit=1 | PASS carry rate plausible mean_daily=7.673e-05 -> 2.80%/yr"
   },
   {
    "class": "UNCLASSIFIED",
@@ -187,11 +85,6 @@
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: etf_book_forward ledger (exit-code contract)",
-   "detail": "exit=1 | PASS carry rate plausible mean_daily=7.673e-05 -> 2.80%/yr"
-  },
-  {
-   "class": "UNCLASSIFIED",
    "leg": "product: etf_book_promotion_provenance (census re-derives from the vote)",
    "detail": "exit=1 |   sentence: '13 promoted reading(s) carry 6 distinct pair(s) of the two publishe"
   },
@@ -202,33 +95,8 @@
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "config: no CEO-facing page prints one measurement twice",
-   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-20、这张单是 2026-11-24：两个 bar 的数不能相减（r1516 律）。"
-  },
-  {
-   "class": "UNCLASSIFIED",
-   "leg": "product: the executable ticket decomposes its own headline",
-   "detail": "split priced on artifact 23fbb01657022e7b but the artifact on disk is 695701e5d5b6b486 -- re-run the ticket"
-  },
-  {
-   "class": "UNCLASSIFIED",
-   "leg": "product: every face a reader holds says whether the width's family was one world",
-   "detail": "card does not print ONE_WORLD; ticket does not print the width's lineage; ticket does not print the arm count"
-  },
-  {
-   "class": "UNCLASSIFIED",
    "leg": "product: the CEO page's sections each name the bar they were priced on",
    "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it; section 'k_gap' is behind the page and no chain leg re-runs it"
-  },
-  {
-   "class": "UNCLASSIFIED",
-   "leg": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "detail": "ticket's exec_delta is not what this bar's own faces produce: declaration {'bar': '2026-11-24', 'from_bar': '2026-11-23', 'actions': 0, 'status': 'UNEXPLAINED_TARGET_WITHOUT_TRADES', 'vanished': [], 'appeared': [], 'lots"
-  },
-  {
-   "class": "UNCLASSIFIED",
-   "leg": "product: what carrying the sibling costs per year is on the sheet",
-   "detail": "nothing was swapped and the carry face does not say why its table is empty"
   }
  ],
  "legs_face": "logs/smoke_legs.json"
