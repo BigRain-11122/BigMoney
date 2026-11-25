@@ -1,0 +1,67 @@
+{
+ "schema": "r2108bmc-chain-legs-probe/v1",
+ "why": "repo_write_contention rc3 (peer host pid 98008 writing at 23:31:43) -> new files only",
+ "premise": "Tools/s6_chain_bmc.py has five uncommitted legs (working-tree, 20:08)",
+ "legs": [
+  {
+   "leg": "idx_fut_carry_always_on_price",
+   "script": "scripts/idx_fut_carry_always_on_price.py",
+   "exists": true,
+   "mentions_STALE": true,
+   "rc": 0,
+   "last_stdout": "CHECK_OK idx_fut_carry_always_on_price (2 products, verdict PAYS_ON_ITS_WORST_RULER_BUT_THE_RATE_IS_RULER_BOUND)",
+   "last_stderr": "",
+   "says_STALE": false,
+   "verdict": "OK"
+  },
+  {
+   "leg": "idx_fut_carry_roll_step_reversal",
+   "script": "scripts/idx_fut_carry_roll_step_reversal.py",
+   "exists": true,
+   "mentions_STALE": true,
+   "rc": 0,
+   "last_stdout": "CHECK_OK verdict=MIXED_BY_PRODUCT cutoff=2026-11-25",
+   "last_stderr": "",
+   "says_STALE": false,
+   "verdict": "OK"
+  },
+  {
+   "leg": "idx_fut_carry_capacity_lots",
+   "script": "scripts/idx_fut_carry_capacity_lots.py",
+   "exists": true,
+   "mentions_STALE": true,
+   "rc": 0,
+   "last_stdout": "CHECK_OK idx_fut_carry_capacity_lots (2026-11-25, verdict MARKET_IS_NOT_THE_GATE)",
+   "last_stderr": "",
+   "says_STALE": false,
+   "verdict": "OK"
+  },
+  {
+   "leg": "idx_fut_carry_decision_face",
+   "script": "scripts/idx_fut_carry_decision_face.py",
+   "exists": true,
+   "mentions_STALE": true,
+   "rc": 0,
+   "last_stdout": "CHECK_OK cutoff=2026-11-24 verdict=NO_ORDER_ON_BOTH_LEGS",
+   "last_stderr": "",
+   "says_STALE": false,
+   "verdict": "OK"
+  },
+  {
+   "leg": "etf_book_defense_spells",
+   "script": "scripts/etf_book_defense_spells.py",
+   "exists": true,
+   "mentions_STALE": true,
+   "rc": 0,
+   "last_stdout": "CHECK OK 17 spells, 1670 bars, defensive 54.5%",
+   "last_stderr": "",
+   "says_STALE": false,
+   "verdict": "OK"
+  }
+ ],
+ "headline": {
+  "legs": 5,
+  "ok": 5,
+  "problems": []
+ }
+}
