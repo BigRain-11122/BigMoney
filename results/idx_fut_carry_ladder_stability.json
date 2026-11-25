@@ -1,0 +1,218 @@
+{
+ "schema": "idx-fut-carry-ladder-stability/v1",
+ "kind": "carry_ladder_parameter_stability",
+ "evidence_cutoff": "2026-11-25",
+ "inputs": {
+  "lattice": {
+   "path": "results/policy_return_lattice.json",
+   "sha256": "6d00e45a0cb3247825a8a1e1b21e64bc852c530229a87b20f23c2c8b6007dc22"
+  },
+  "sibling": {
+   "path": "results/idx_fut_carry_ladder_risk.json",
+   "sha256": "cde0dc68f9a333a2baa20c334ca8f4da9746160937d0b6d9605bb60f4225283b"
+  },
+  "legs": {
+   "IC": {
+    "index": "sh000905",
+    "span": [
+     "2018-10-23",
+     "2026-11-25"
+    ],
+    "days": 1964
+   },
+   "IM": {
+    "index": "sh000852",
+    "span": [
+     "2022-07-25",
+     "2026-11-25"
+    ],
+    "days": 1052
+   }
+  }
+ },
+ "params": {
+  "windows": [
+   60,
+   120,
+   250
+  ],
+  "declared_l2_vol_pct": 4.0,
+  "declared_rho": 0.1,
+  "instruction_rung": [
+   1,
+   1
+  ],
+  "nav_cny": 1000000.0
+ },
+ "scope_limits": [
+  "futures block only (1 lot IC + 1 lot IM); the equity sleeve, financing,",
+  "margin and costs stay in results/idx_fut_carry_ladder_risk.json"
+ ],
+ "generated": "2026-11-25T23:52:01+08:00",
+ "headline": {
+  "rho_full": 0.8331,
+  "sigma_ic_pct": 5.917,
+  "sigma_im_pct": 6.823,
+  "block_vol_full_pct": 13.636,
+  "declared_block_vol_pct": 8.963,
+  "declared_rho": 0.1,
+  "declared_l2_vol_pct": 4.0,
+  "common_days": 1052,
+  "span": [
+   "2022-07-25",
+   "2026-11-25"
+  ]
+ },
+ "weights": {
+  "w_ic": 1.1538,
+  "w_im": 1.08688,
+  "notional_per_lot_cny": {
+   "IC": 1153800.0,
+   "IM": 1086880.0
+  },
+  "nav_cny": 1000000.0
+ },
+ "rolling": {
+  "60": {
+   "windows": 993,
+   "rho_min": 0.4616,
+   "rho_p05": 0.652,
+   "rho_median": 0.8126,
+   "rho_p95": 0.9513,
+   "rho_max": 0.9742,
+   "block_vol_min_pct": 4.675,
+   "block_vol_median_pct": 9.637,
+   "block_vol_p95_pct": 28.496,
+   "block_vol_max_pct": 34.216,
+   "share_windows_above_declared": 0.574,
+   "worst_window": {
+    "end": "2024-03-19",
+    "block_vol_pct": 34.216,
+    "rho": 0.9556
+   },
+   "most_correlated_window": {
+    "end": "2024-02-07",
+    "rho": 0.9742,
+    "block_vol_pct": 33.388
+   },
+   "least_correlated_window": {
+    "end": "2024-12-31",
+    "rho": 0.4616,
+    "block_vol_pct": 10.923
+   }
+  },
+  "120": {
+   "windows": 933,
+   "rho_min": 0.6189,
+   "rho_p05": 0.7005,
+   "rho_median": 0.8235,
+   "rho_p95": 0.9396,
+   "rho_max": 0.9658,
+   "block_vol_min_pct": 5.656,
+   "block_vol_median_pct": 11.691,
+   "block_vol_p95_pct": 24.546,
+   "block_vol_max_pct": 24.704,
+   "share_windows_above_declared": 0.7042,
+   "worst_window": {
+    "end": "2024-06-19",
+    "block_vol_pct": 24.704,
+    "rho": 0.9386
+   },
+   "most_correlated_window": {
+    "end": "2024-02-07",
+    "rho": 0.9658,
+    "block_vol_pct": 23.914
+   },
+   "least_correlated_window": {
+    "end": "2025-04-03",
+    "rho": 0.6189,
+    "block_vol_pct": 10.401
+   }
+  },
+  "250": {
+   "windows": 803,
+   "rho_min": 0.666,
+   "rho_p05": 0.7137,
+   "rho_median": 0.8316,
+   "rho_p95": 0.9326,
+   "rho_max": 0.9557,
+   "block_vol_min_pct": 6.25,
+   "block_vol_median_pct": 14.357,
+   "block_vol_p95_pct": 21.389,
+   "block_vol_max_pct": 21.439,
+   "share_windows_above_declared": 0.8555,
+   "worst_window": {
+    "end": "2024-12-31",
+    "block_vol_pct": 21.439,
+    "rho": 0.846
+   },
+   "most_correlated_window": {
+    "end": "2024-02-07",
+    "rho": 0.9557,
+    "block_vol_pct": 17.17
+   },
+   "least_correlated_window": {
+    "end": "2025-10-16",
+    "rho": 0.666,
+    "block_vol_pct": 13.266
+   }
+  }
+ },
+ "by_year": {
+  "2022": {
+   "days": 109,
+   "rho": 0.7535,
+   "sig_ic_pct": 3.1,
+   "sig_im_pct": 4.192,
+   "block_vol_pct": 7.623
+  },
+  "2023": {
+   "days": 242,
+   "rho": 0.7922,
+   "sig_ic_pct": 2.817,
+   "sig_im_pct": 3.332,
+   "block_vol_pct": 6.506
+  },
+  "2024": {
+   "days": 242,
+   "rho": 0.8467,
+   "sig_ic_pct": 9.449,
+   "sig_im_pct": 10.767,
+   "block_vol_pct": 21.723
+  },
+  "2025": {
+   "days": 243,
+   "rho": 0.7914,
+   "sig_ic_pct": 4.474,
+   "sig_im_pct": 5.91,
+   "block_vol_pct": 10.972
+  },
+  "2026": {
+   "days": 216,
+   "rho": 0.8641,
+   "sig_ic_pct": 5.886,
+   "sig_im_pct": 6.068,
+   "block_vol_pct": 12.924
+  }
+ },
+ "judgment": {
+  "rho_stability": "RHO_RANGE_WIDE",
+  "rho_range_120d": 0.2391,
+  "stress_concentration": "DIVERSIFICATION_DISAPPEARS_IN_STRESS",
+  "stress_vol_ratio": 2.0996,
+  "declaration_coverage": "BLOCK_VOL_SOMETIMES_ABOVE_DECLARATION",
+  "declared_block_vol_pct": 8.963,
+  "median_block_vol_pct": 11.691,
+  "p95_block_vol_pct": 24.546,
+  "understatement_at_p95_pp": 15.583,
+  "understatement_at_median_pp": 2.728
+ },
+ "cross_face": {
+  "status": "CROSS_FACE_MATCHES",
+  "sibling_face": "results/idx_fut_carry_ladder_risk.json",
+  "sibling_l2_vol_measured_pct": 13.636,
+  "this_face_block_vol_full_pct": 13.636,
+  "delta_pp": 0.0,
+  "why_the_declared_labels_differ": "the sibling's rung declares 10.46% because that column already includes the equity sleeve; this face's 8.96% is the futures block alone, so the two declared numbers are not two answers to one question"
+ }
+}
