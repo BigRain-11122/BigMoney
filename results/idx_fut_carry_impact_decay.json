@@ -1,0 +1,631 @@
+{
+ "kind": "idx_fut_carry_impact_decay",
+ "generated": "2026-11-25T21:17:43+0800",
+ "evidence_cutoff": "2026-11-25",
+ "question": "how much may one side of a roll cost before this carry book is worth nothing, and where does a declared impact model cross that budget?",
+ "verdict": "DECAY_DOES_NOT_BITE",
+ "reading": "execution cost is not what sizes this book -- at the desk rung the roll keeps almost all of the carry",
+ "rules_declared": {
+  "impact_k": 0.5,
+  "impact_model": "bp = k * sigma_daily_bp * sqrt(lots / (adv * roll_days)) -- RULE, not measurement",
+  "roll_days": 3,
+  "sessions_per_year": 252,
+  "budget": "carry_cny / (rolls_per_year * 2 * notional) -- one roll = two sides of one notional",
+  "binding_ruler": "the worst ruler per product, because a book must survive its worst accounting",
+  "sigma_excludes_roll_sessions": true,
+  "lot_ladder": [
+   1,
+   2,
+   5,
+   10,
+   25,
+   50,
+   100,
+   200,
+   400
+  ]
+ },
+ "not_measured": [
+  "actual market impact: daily bars carry no depth (r2095 refused the same number)",
+  "whether the published carry already deducts a spread line: printed as-is, per ruler",
+  "fill probability beyond the 1% ADV line: a share above 1% is a rule breach, not a price"
+ ],
+ "inputs": {
+  "idx_fut_carry_capacity_lots.json": "7304058e2d1423d9e19085710e56f7f605a6feaa17faa09d2ac5b7b9d85db73f",
+  "idx_fut_carry_always_on_price.json": "17fef4b85b8e0cf02cfaed98a8d1b02d33e1a9cfcad34579a893770471cb2858"
+ },
+ "products": {
+  "IC": {
+   "status": "ok",
+   "adv_lots": 103615.0,
+   "capacity_lots": 468.45,
+   "notional_per_lot_cny": 1153800.0,
+   "rung_lots": 2.0,
+   "measurement": {
+    "sessions": 60,
+    "rolls_in_window": 1,
+    "rolls_per_year": 4.2,
+    "roll_free_returns": 58,
+    "sigma_daily": 0.019425339791132413,
+    "sigma_daily_bp": 194.25339791132413,
+    "window_first": "2026-08-26",
+    "window_last": "2026-11-25",
+    "window_digest": "43022bb728d34534aedd975503ddc9a2210ea2f4c610ad9e3718dd5aeac6dee3"
+   },
+   "rulers": {
+    "published": {
+     "carry_cny_per_lot_year": 31844.88,
+     "carry_pct_of_notional": 2.76,
+     "budget_per_side_bp": 32.85714285714286,
+     "budget_per_roll_bp": 65.71428571428572,
+     "impact_crossover_lots": 35573.46921997331,
+     "crossover_x_rung": 17786.734609986655,
+     "impact_at_rung_bp": 0.24636651683127,
+     "retained_at_rung": 0.9925018886181787,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00032170374302305005,
+       "rule_impact_bp": 0.1742074347087007,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9946980345958222
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.0006434074860461001,
+       "rule_impact_bp": 0.24636651683127,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9925018886181787
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0016085187151152504,
+       "rule_impact_bp": 0.389539666194511,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9881444449419062
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.003217037430230501,
+       "rule_impact_bp": 0.5508922790145657,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9832337132473827
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.008042593575576252,
+       "rule_impact_bp": 0.8710371735435034,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9734901729791108
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.016085187151152504,
+       "rule_impact_bp": 1.2318325841563498,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9625094430908937
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.03217037430230501,
+       "rule_impact_bp": 1.7420743470870068,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9469803459582216
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.06434074860461002,
+       "rule_impact_bp": 2.4636651683126995,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.9250188861817874
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.12868149720922004,
+       "rule_impact_bp": 3.4841486941740136,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.8939606919164431
+      },
+      {
+       "lots": 468.45,
+       "participation_pct_of_adv": 0.1507021184191478,
+       "rule_impact_bp": 3.7704944619615146,
+       "budget_per_side_bp": 32.85714285714286,
+       "retained_share": 0.8852458207229104
+      }
+     ]
+    },
+    "calendar": {
+     "carry_cny_per_lot_year": 111341.7,
+     "carry_pct_of_notional": 9.65,
+     "budget_per_side_bp": 114.88095238095238,
+     "budget_per_roll_bp": 229.76190476190476,
+     "impact_crossover_lots": 434873.2392665623,
+     "crossover_x_rung": 217436.61963328114,
+     "impact_at_rung_bp": 0.24636651683127,
+     "retained_at_rung": 0.997855462444163,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00032170374302305005,
+       "rule_impact_bp": 0.1742074347087007,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9984835829517584
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.0006434074860461001,
+       "rule_impact_bp": 0.24636651683127,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.997855462444163
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0016085187151152504,
+       "rule_impact_bp": 0.389539666194511,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9966091883978924
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.003217037430230501,
+       "rule_impact_bp": 0.5508922790145657,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9952046682448473
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.008042593575576252,
+       "rule_impact_bp": 0.8710371735435034,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9924179147587924
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.016085187151152504,
+       "rule_impact_bp": 1.2318325841563498,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9892773122208152
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.03217037430230501,
+       "rule_impact_bp": 1.7420743470870068,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9848358295175845
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.06434074860461002,
+       "rule_impact_bp": 2.4636651683126995,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9785546244416303
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.12868149720922004,
+       "rule_impact_bp": 3.4841486941740136,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9696716590351693
+      },
+      {
+       "lots": 468.45,
+       "participation_pct_of_adv": 0.1507021184191478,
+       "rule_impact_bp": 3.7704944619615146,
+       "budget_per_side_bp": 114.88095238095238,
+       "retained_share": 0.9671791155642728
+      }
+     ]
+    },
+    "strictest": {
+     "carry_cny_per_lot_year": 111687.84,
+     "carry_pct_of_notional": 9.68,
+     "budget_per_side_bp": 115.23809523809523,
+     "budget_per_roll_bp": 230.47619047619045,
+     "impact_crossover_lots": 437581.3172439649,
+     "crossover_x_rung": 218790.65862198244,
+     "impact_at_rung_bp": 0.24636651683127,
+     "retained_at_rung": 0.997862108738241,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00032170374302305005,
+       "rule_impact_bp": 0.1742074347087007,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9984882825913708
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.0006434074860461001,
+       "rule_impact_bp": 0.24636651683127,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.997862108738241
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0016085187151152504,
+       "rule_impact_bp": 0.389539666194511,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9966196971115353
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.003217037430230501,
+       "rule_impact_bp": 0.5508922790145657,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9952195298102042
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.008042593575576252,
+       "rule_impact_bp": 0.8710371735435034,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.992441412956854
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.016085187151152504,
+       "rule_impact_bp": 1.2318325841563498,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9893105436912052
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.03217037430230501,
+       "rule_impact_bp": 1.7420743470870068,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9848828259137078
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.06434074860461002,
+       "rule_impact_bp": 2.4636651683126995,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9786210873824105
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.12868149720922004,
+       "rule_impact_bp": 3.4841486941740136,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9697656518274156
+      },
+      {
+       "lots": 468.45,
+       "participation_pct_of_adv": 0.1507021184191478,
+       "rule_impact_bp": 3.7704944619615146,
+       "budget_per_side_bp": 115.23809523809523,
+       "retained_share": 0.9672808331813256
+      }
+     ]
+    }
+   },
+   "binding_ruler": "published",
+   "verdict": "DECAY_DOES_NOT_BITE",
+   "gate_order": [
+    {
+     "gate": "capital_at_the_desk_rung",
+     "lots": 2.0,
+     "source": "results/idx_fut_carry_sizing_spec.json via the capacity face",
+     "rank": 1
+    },
+    {
+     "gate": "one_percent_adv_line",
+     "lots": 468.45,
+     "source": "results/idx_fut_carry_capacity_lots.json",
+     "rank": 2
+    },
+    {
+     "gate": "standing_open_interest_at_one_percent",
+     "lots": 1706.515,
+     "source": "results/idx_fut_carry_capacity_lots.json (a position bound, not a trade)",
+     "rank": 3
+    },
+    {
+     "gate": "rule_impact_equals_budget",
+     "lots": 35573.46921997331,
+     "source": "this face: declared square-root rule, worst ruler",
+     "rank": 4
+    }
+   ],
+   "first_gate": "capital_at_the_desk_rung",
+   "impact_is_last_gate": true
+  },
+  "IM": {
+   "status": "ok",
+   "adv_lots": 163009.5,
+   "capacity_lots": 752.15,
+   "notional_per_lot_cny": 1086880.0,
+   "rung_lots": 2.0,
+   "measurement": {
+    "sessions": 60,
+    "rolls_in_window": 1,
+    "rolls_per_year": 4.2,
+    "roll_free_returns": 58,
+    "sigma_daily": 0.021507131576149436,
+    "sigma_daily_bp": 215.07131576149436,
+    "window_first": "2026-08-26",
+    "window_last": "2026-11-25",
+    "window_digest": "142532494a1f8ca3ece8e451fc624c0d9043827101d80b166ee9df6c3961f8ae"
+   },
+   "rulers": {
+    "published": {
+     "carry_cny_per_lot_year": 62386.91,
+     "carry_pct_of_notional": 5.739999815987045,
+     "budget_per_side_bp": 68.33333114270293,
+     "budget_per_roll_bp": 136.66666228540586,
+     "impact_crossover_lots": 197466.92446304392,
+     "crossover_x_rung": 98733.46223152196,
+     "impact_at_rung_bp": 0.21747052814412304,
+     "retained_at_rung": 0.9968175043641592,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00020448705954765418,
+       "rule_impact_bp": 0.15377488515892934,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9977496357548004
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.00040897411909530837,
+       "rule_impact_bp": 0.21747052814412304,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9968175043641592
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0010224352977382708,
+       "rule_impact_bp": 0.34385109644758954,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9949680325735984
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.0020448705954765416,
+       "rule_impact_bp": 0.4862788840330403,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9928837234201633
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.005112176488691354,
+       "rule_impact_bp": 0.7688744257946467,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9887481787740015
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.010224352977382709,
+       "rule_impact_bp": 1.087352640720615,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9840875218207956
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.020448705954765417,
+       "rule_impact_bp": 1.5377488515892934,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.977496357548003
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.040897411909530834,
+       "rule_impact_bp": 2.17470528144123,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9681750436415909
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.08179482381906167,
+       "rule_impact_bp": 3.075497703178587,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9549927150960061
+      },
+      {
+       "lots": 752.15,
+       "participation_pct_of_adv": 0.15380494183876808,
+       "rule_impact_bp": 4.2173305439743,
+       "budget_per_side_bp": 68.33333114270293,
+       "retained_share": 0.9382829656706315
+      }
+     ]
+    },
+    "calendar": {
+     "carry_cny_per_lot_year": 129990.85,
+     "carry_pct_of_notional": 11.960000184012955,
+     "budget_per_side_bp": 142.3809545715828,
+     "budget_per_roll_bp": 284.7619091431656,
+     "impact_crossover_lots": 857300.3041939747,
+     "crossover_x_rung": 428650.15209698735,
+     "impact_at_rung_bp": 0.21747052814412304,
+     "retained_at_rung": 0.9984726150432234,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00020448705954765418,
+       "rule_impact_bp": 0.15377488515892934,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.998919975739581
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.00040897411909530837,
+       "rule_impact_bp": 0.21747052814412304,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9984726150432234
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0010224352977382708,
+       "rule_impact_bp": 0.34385109644758954,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9975849923363541
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.0020448705954765416,
+       "rule_impact_bp": 0.4862788840330403,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9965846634088371
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.005112176488691354,
+       "rule_impact_bp": 0.7688744257946467,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9945998786979048
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.010224352977382709,
+       "rule_impact_bp": 1.087352640720615,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9923630752161172
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.020448705954765417,
+       "rule_impact_bp": 1.5377488515892934,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9891997573958097
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.040897411909530834,
+       "rule_impact_bp": 2.17470528144123,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9847261504322344
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.08179482381906167,
+       "rule_impact_bp": 3.075497703178587,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.9783995147916194
+      },
+      {
+       "lots": 752.15,
+       "participation_pct_of_adv": 0.15380494183876808,
+       "rule_impact_bp": 4.2173305439743,
+       "budget_per_side_bp": 142.3809545715828,
+       "retained_share": 0.970379953156909
+      }
+     ]
+    },
+    "strictest": {
+     "carry_cny_per_lot_year": 124991.2,
+     "carry_pct_of_notional": 11.5,
+     "budget_per_side_bp": 136.9047619047619,
+     "budget_per_roll_bp": 273.8095238095238,
+     "impact_crossover_lots": 792622.2982744519,
+     "crossover_x_rung": 396311.14913722593,
+     "impact_at_rung_bp": 0.21747052814412304,
+     "retained_at_rung": 0.9984115196205124,
+     "ladder": [
+      {
+       "lots": 1.0,
+       "participation_pct_of_adv": 0.00020448705954765418,
+       "rule_impact_bp": 0.15377488515892934,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9988767747518826
+      },
+      {
+       "lots": 2.0,
+       "participation_pct_of_adv": 0.00040897411909530837,
+       "rule_impact_bp": 0.21747052814412304,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9984115196205124
+      },
+      {
+       "lots": 5.0,
+       "participation_pct_of_adv": 0.0010224352977382708,
+       "rule_impact_bp": 0.34385109644758954,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9974883919911653
+      },
+      {
+       "lots": 10.0,
+       "participation_pct_of_adv": 0.0020448705954765416,
+       "rule_impact_bp": 0.4862788840330403,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9964480498905414
+      },
+      {
+       "lots": 25.0,
+       "participation_pct_of_adv": 0.005112176488691354,
+       "rule_impact_bp": 0.7688744257946467,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.994383873759413
+      },
+      {
+       "lots": 50.0,
+       "participation_pct_of_adv": 0.010224352977382709,
+       "rule_impact_bp": 1.087352640720615,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9920575981025626
+      },
+      {
+       "lots": 100.0,
+       "participation_pct_of_adv": 0.020448705954765417,
+       "rule_impact_bp": 1.5377488515892934,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.988767747518826
+      },
+      {
+       "lots": 200.0,
+       "participation_pct_of_adv": 0.040897411909530834,
+       "rule_impact_bp": 2.17470528144123,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.984115196205125
+      },
+      {
+       "lots": 400.0,
+       "participation_pct_of_adv": 0.08179482381906167,
+       "rule_impact_bp": 3.075497703178587,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.977535495037652
+      },
+      {
+       "lots": 752.15,
+       "participation_pct_of_adv": 0.15380494183876808,
+       "rule_impact_bp": 4.2173305439743,
+       "budget_per_side_bp": 136.9047619047619,
+       "retained_share": 0.9691951508092312
+      }
+     ]
+    }
+   },
+   "binding_ruler": "published",
+   "verdict": "DECAY_DOES_NOT_BITE",
+   "gate_order": [
+    {
+     "gate": "capital_at_the_desk_rung",
+     "lots": 2.0,
+     "source": "results/idx_fut_carry_sizing_spec.json via the capacity face",
+     "rank": 1
+    },
+    {
+     "gate": "one_percent_adv_line",
+     "lots": 752.15,
+     "source": "results/idx_fut_carry_capacity_lots.json",
+     "rank": 2
+    },
+    {
+     "gate": "standing_open_interest_at_one_percent",
+     "lots": 2798.595,
+     "source": "results/idx_fut_carry_capacity_lots.json (a position bound, not a trade)",
+     "rank": 3
+    },
+    {
+     "gate": "rule_impact_equals_budget",
+     "lots": 197466.92446304392,
+     "source": "this face: declared square-root rule, worst ruler",
+     "rank": 4
+    }
+   ],
+   "first_gate": "capital_at_the_desk_rung",
+   "impact_is_last_gate": true
+  }
+ }
+}
