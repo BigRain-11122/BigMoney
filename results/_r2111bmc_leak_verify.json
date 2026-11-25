@@ -1,0 +1,16 @@
+{
+  "schema": "page-fmt-guard-leak-verify/v1",
+  "kind": "page_fmt_guard_leak_verify",
+  "writer_leak_findings": 13,
+  "pages_checked": 3,
+  "pages_carrying_literal_double_pct": 1,
+  "leaked_pages": [
+    {
+      "page": "research/ETF_BOOK_CAP_BETA_POWER.md",
+      "double_pct": 1,
+      "script": "scripts/etf_book_cap_beta_power.py",
+      "line": 399
+    }
+  ],
+  "verdict": "SHIPPED_LITERAL_DOUBLE_PCT"
+}
