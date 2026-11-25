@@ -31,12 +31,14 @@
 - `scripts/etf_book_capacity_floor_gap.py:328` 是 `L.append("| reading | 1%% ADV | ...")`——未走 `%` 的写入器实参，**真缺陷**，页面确实印 `1%% ADV`。
 - `scripts/astock_veto_hedge_band.py:551` 是 `("%." + str(digits) + "f") % float(x)`——拼接片段，**误报**，已加片段排除规则后消失（48→5）。
 
+第三条是闸门顺手捡到的**别类缺陷**（不是百分号）：`Tools/_r820bmc_close.py:130` 编译不过（`py_compile` rc=1），自 r822 入库起就是一具尸体。它不在本闸的判据射程内，但「先 ast.parse、解析失败要报不要吞」这条让它在队列里露了头——**能读的树里还有烂件**这件事本身值得记一笔。
+
 ## 没做到的（如实）
 
 - **未接进 `Tools/s6_chain_bmc.py` 与 `smoke_test.py`**：这两个文件本轮是对端未提交的脏面，竞争窗内禁写共享面（r1907）。因此本闸目前是**独立可跑工具**，不是链上腿。
 - **未修那 31 条真实泄漏**：全部在他人脚本面里，改它们属于改共享面；修法明确（未格式化的串把 `%%` 改回 `%`），留待独占窗。
 - **不判实参个数不匹配**（"not enough arguments"）：需要类型信息，本遍没有。
-- 编码：`utf-8-sig` 优先、`gbk` 兜底；仍剩 1 个 `SYNTAX_ERROR`（非 UTF-8 且 GBK 也解不了的旧脚本），照报不藏。
+- 编码：`utf-8-sig` 优先、`gbk` 兜底。剩下的那 1 条 `SYNTAX_ERROR` 起初被我写成「非 UTF-8 且 GBK 也解不了」，**这句是错的**：`python -m py_compile Tools\_r820bmc_close.py` 当场判 `unterminated string literal (detected at line 130)`，rc=1——那是一个**真编译不了的脚本**（第 130 行用单引号收尾了双引号开的串，131 行裸着 CJK 括号），自 e1ee753a8a（r822）进库起从未能跑。闸门报对了，是我的说明写错了，就地改正。
 
 ## 复跑
 
