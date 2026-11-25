@@ -1,0 +1,367 @@
+{
+ "source_ts": "2026-11-25T10:38:54",
+ "legs": 767,
+ "pass": 738,
+ "fail": 29,
+ "unverified": 0,
+ "counts": {
+  "EXCEPTION": 0,
+  "SUBCHAIN_FAILED": 1,
+  "CONTRADICTION": 12,
+  "STALE_OR_MISSING": 4,
+  "UNCLASSIFIED": 12
+ },
+ "rows": [
+  {
+   "leg": "product: index-futures proxy noise re-derived",
+   "subject": "product: index-futures proxy noise re-derived",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | CHECK_FAIL IF.level_offset_pct 0.245 != 0.246; IF.agree_pct moved; IC.daily_noise_bp 34.13 != 34.14; IC.agree_"
+  },
+  {
+   "leg": "product: roll tenor re-derives from the contract panel",
+   "subject": "product: roll tenor re-derives from the contract panel",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=3 |   .products.IF.latest_index: 3958.294 vs 3963.823"
+  },
+  {
+   "leg": "product: carry sleeve margin arm (which floor wins, re-derived)",
+   "subject": "which floor wins, re-derived",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | [carry_margin] CHECK FAIL drift=IC:notional_per_lot_cny,IC:breakeven_margin_rate_pct,IM:notional_per_lot_cny,IM:breakeven_margin_rate_pct"
+  },
+  {
+   "leg": "product: treasury curve verdict is re-derived from its own criteria (r1691)",
+   "subject": "r1691",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "derived=KILL said=KILL page_check_rc=3 CHECK_STALE line 2 drifted: page='证据 cutoff 2026-11-23 · 2389 根 bar · 2017-01-17 → 2026-11-23 · 换手 158 次 · 在场 66.14%：' face='证据 cutoff 2026-11-24 · 2390 根 bar ·"
+  },
+  {
+   "leg": "product: etf_book_do_or_wait (decision and ladder re-derived)",
+   "subject": "decision and ladder re-derived",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=2 | STALE: the receipts moved ({'cut_order_gap': '2026-11-24', 'late_sheet_price': '"
+  },
+  {
+   "leg": "product: etf_book_concentration_levers (published arms re-derived)",
+   "subject": "published arms re-derived",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | [check] DRIFT control did not reproduce the published book"
+  },
+  {
+   "leg": "product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
+   "subject": "quoted rungs and verdict re-derived",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=3 | [check] PROBLEMS | verdict=NO_ARMS_PRICED | n_arms=0 survivors_20bp=[] | problem"
+  },
+  {
+   "leg": "product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
+   "subject": "face re-derived from its own pair table, ruler cross-checked",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 51076"
+  },
+  {
+   "leg": "product: etf_book_ticket_band (face re-derives from the two source faces)",
+   "subject": "face re-derives from the two source faces",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.958, face says"
+  },
+  {
+   "leg": "product: etf_book_cash_roll_today (instruction re-derived from disk)",
+   "subject": "instruction re-derived from disk",
+   "class": "UNCLASSIFIED",
+   "empty_detail": true,
+   "detail": "exit=1 | }"
+  },
+  {
+   "leg": "product: the ticket behind the page states the same two days (link walk)",
+   "subject": "link walk",
+   "class": "SUBCHAIN_FAILED",
+   "empty_detail": false,
+   "detail": "exit=1 | Summary: 476/477 PASS -- 1 FAIL"
+  },
+  {
+   "leg": "product: the discount subset sits on the ledger's own line (r1528)",
+   "subject": "r1528",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+  },
+  {
+   "leg": "product: etf_book_positions (position ledger and base divergence re-derived)",
+   "subject": "position ledger and base divergence re-derived",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+  },
+  {
+   "leg": "product: the Chinese CEO pages carry no new English prose (r1582)",
+   "subject": "r1582",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "day=2026-11-24 hits=10 inherited=8 new=2 first_new=LIVE-2026-11-24.md:24"
+  },
+  {
+   "leg": "product: the paper book owns the book the card sells",
+   "subject": "product: the paper book owns the book the card sells",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "agrees=True decision_bar=2026-11-11 wt_maxdiff=1.8e-05 navdev=6.5e-09 gate=NAV_IDENTITY_BROKEN(rc1) drift=-"
+  },
+  {
+   "leg": "product: the order sheet prints the floor's per-name cut, not only its total",
+   "subject": "product: the order sheet prints the floor's per-name cut, not only its total",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "k-gap face is 2026-11-20, the sheet is 2026-11-24"
+  },
+  {
+   "leg": "product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
+   "subject": "arms vs their own band + publish gate",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=1 | selftest: 141 legs, 7 failed"
+  },
+  {
+   "leg": "product: year_concentration_money (top-2 year shares priced in yuan)",
+   "subject": "top-2 year shares priced in yuan",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=1 | selftest 29/30 PASS"
+  },
+  {
+   "leg": "product: year_concentration_money (published money face re-derives from YEAR-GATE)",
+   "subject": "published money face re-derives from YEAR-GATE",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=3 |  - all_classes_published.margin.delta_pp: receipt -16.7 vs recomputed -16.676667"
+  },
+  {
+   "leg": "product: astock_resid_veto_layer (published cutoff still matches the panel frontier)",
+   "subject": "published cutoff still matches the panel frontier",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=3 | STALE panel moved: face cutoff 2026-11-23, panel reaches 2026-11-24 (sample 40 f"
+  },
+  {
+   "leg": "product: etf_book_year_gate_vote (census still re-derives from the faces)",
+   "subject": "census still re-derives from the faces",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | CHECK_FAIL 12 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote."
+  },
+  {
+   "leg": "product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
+   "subject": "verdicts still re-derive from the ticket",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"face as_of '2026-11-20' != ticket as_of '2026-11-24'"
+  },
+  {
+   "leg": "product: the adopted flip damper reaches the live shadow book",
+   "subject": "product: the adopted flip damper reaches the live shadow book",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the face was computed on ANOTHER panel (face 1bb76fd35584f718 vs panel 542ff59bffa256a3, same bar date -- rerun futures_tsmom_signal); damped flips published 412 != recomputed 413"
+  },
+  {
+   "leg": "config: no CEO-facing page prints one measurement twice",
+   "subject": "config: no CEO-facing page prints one measurement twice",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-20、这张单是 2026-11-24：两个 bar 的数不能相减（r1516 律）。"
+  },
+  {
+   "leg": "product: the carry split reproduces the ticket and stays ordered",
+   "subject": "product: the carry split reproduces the ticket and stays ordered",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the artifact itself records a failed identity check"
+  },
+  {
+   "leg": "product: the CEO page's sections each name the bar they were priced on",
+   "subject": "product: the CEO page's sections each name the bar they were priced on",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it; section 'k_gap' is behind the page and no chain leg re-runs it"
+  },
+  {
+   "leg": "product: the sheet prints what it pays and where that price sits in history",
+   "subject": "product: the sheet prints what it pays and where that price sits in history",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
+  },
+  {
+   "leg": "product: the sheet prints what the price did after a reading like today's",
+   "subject": "product: the sheet prints what the price did after a reading like today's",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "the producer's forward sentence is dropped or rewritten; 510760 bucket mean disagrees with its producer; 510760 forward mean is not printed"
+  },
+  {
+   "leg": "product: what carrying the sibling costs per year is on the sheet",
+   "subject": "product: what carrying the sibling costs per year is on the sheet",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "nothing was swapped and the carry face does not say why its table is empty"
+  }
+ ],
+ "fix_order": [
+  {
+   "class": "SUBCHAIN_FAILED",
+   "leg": "product: the ticket behind the page states the same two days (link walk)",
+   "detail": "exit=1 | Summary: 476/477 PASS -- 1 FAIL"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: index-futures proxy noise re-derived",
+   "detail": "exit=1 | CHECK_FAIL IF.level_offset_pct 0.245 != 0.246; IF.agree_pct moved; IC.daily_noise_bp 34.13 != 34.14; IC.agree_"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: carry sleeve margin arm (which floor wins, re-derived)",
+   "detail": "exit=1 | [carry_margin] CHECK FAIL drift=IC:notional_per_lot_cny,IC:breakeven_margin_rate_pct,IM:notional_per_lot_cny,IM:breakeven_margin_rate_pct"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_book_concentration_levers (published arms re-derived)",
+   "detail": "exit=1 | [check] DRIFT control did not reproduce the published book"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 51076"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_book_ticket_band (face re-derives from the two source faces)",
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.958, face says"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: the discount subset sits on the ledger's own line (r1528)",
+   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_book_positions (position ledger and base divergence re-derived)",
+   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: the paper book owns the book the card sells",
+   "detail": "agrees=True decision_bar=2026-11-11 wt_maxdiff=1.8e-05 navdev=6.5e-09 gate=NAV_IDENTITY_BROKEN(rc1) drift=-"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_book_year_gate_vote (census still re-derives from the faces)",
+   "detail": "exit=1 | CHECK_FAIL 12 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote."
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
+   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"face as_of '2026-11-20' != ticket as_of '2026-11-24'"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: the sheet prints what it pays and where that price sits in history",
+   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
+  },
+  {
+   "class": "CONTRADICTION",
+   "leg": "product: the sheet prints what the price did after a reading like today's",
+   "detail": "the producer's forward sentence is dropped or rewritten; 510760 bucket mean disagrees with its producer; 510760 forward mean is not printed"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: treasury curve verdict is re-derived from its own criteria (r1691)",
+   "detail": "derived=KILL said=KILL page_check_rc=3 CHECK_STALE line 2 drifted: page='证据 cutoff 2026-11-23 · 2389 根 bar · 2017-01-17 → 2026-11-23 · 换手 158 次 · 在场 66.14%：' face='证据 cutoff 2026-11-24 · 2390 根 bar ·"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: etf_book_do_or_wait (decision and ladder re-derived)",
+   "detail": "exit=2 | STALE: the receipts moved ({'cut_order_gap': '2026-11-24', 'late_sheet_price': '"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
+   "detail": "exit=3 | [check] PROBLEMS | verdict=NO_ARMS_PRICED | n_arms=0 survivors_20bp=[] | problem"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: astock_resid_veto_layer (published cutoff still matches the panel frontier)",
+   "detail": "exit=3 | STALE panel moved: face cutoff 2026-11-23, panel reaches 2026-11-24 (sample 40 f"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: roll tenor re-derives from the contract panel",
+   "detail": "exit=3 |   .products.IF.latest_index: 3958.294 vs 3963.823"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: etf_book_cash_roll_today (instruction re-derived from disk)",
+   "detail": "exit=1 | }"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the Chinese CEO pages carry no new English prose (r1582)",
+   "detail": "day=2026-11-24 hits=10 inherited=8 new=2 first_new=LIVE-2026-11-24.md:24"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the order sheet prints the floor's per-name cut, not only its total",
+   "detail": "k-gap face is 2026-11-20, the sheet is 2026-11-24"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
+   "detail": "exit=1 | selftest: 141 legs, 7 failed"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: year_concentration_money (top-2 year shares priced in yuan)",
+   "detail": "exit=1 | selftest 29/30 PASS"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: year_concentration_money (published money face re-derives from YEAR-GATE)",
+   "detail": "exit=3 |  - all_classes_published.margin.delta_pp: receipt -16.7 vs recomputed -16.676667"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the adopted flip damper reaches the live shadow book",
+   "detail": "the face was computed on ANOTHER panel (face 1bb76fd35584f718 vs panel 542ff59bffa256a3, same bar date -- rerun futures_tsmom_signal); damped flips published 412 != recomputed 413"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "config: no CEO-facing page prints one measurement twice",
+   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-20、这张单是 2026-11-24：两个 bar 的数不能相减（r1516 律）。"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the carry split reproduces the ticket and stays ordered",
+   "detail": "the artifact itself records a failed identity check"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the CEO page's sections each name the bar they were priced on",
+   "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it; section 'k_gap' is behind the page and no chain leg re-runs it"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: what carrying the sibling costs per year is on the sheet",
+   "detail": "nothing was swapped and the carry face does not say why its table is empty"
+  }
+ ],
+ "legs_face": "logs/smoke_legs.json"
+}
