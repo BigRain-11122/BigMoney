@@ -1,9 +1,9 @@
 {
- "legs": 369,
- "pairs": 118,
- "reader_faces": 157,
- "writer_faces": 308,
- "paired": 154,
+ "legs": 372,
+ "pairs": 120,
+ "reader_faces": 159,
+ "writer_faces": 311,
+ "paired": 155,
  "findings": [
   {
    "script": "Tools/card_ledger_guard.py",
@@ -69,26 +69,50 @@
     {
      "artifact": "bandit_queue.json",
      "exists": true,
-     "age_h": 1374.9,
+     "age_h": 1378.3,
      "cutoff": "2026-09-23"
     },
     {
      "artifact": "runnable_pool.json",
      "exists": true,
-     "age_h": 111.6,
+     "age_h": 115.0,
      "cutoff": null
     }
    ]
+  },
+  {
+   "script": "scripts/smoke_red_recheck.py",
+   "scope": [],
+   "legs": [
+    "smoke_red_recheck"
+   ],
+   "reason": "no writer leg for this script+scope on the chain",
+   "verdict": "NO_WRITER_MODE",
+   "modes": {
+    "subcommands": [],
+    "flags": [
+     "--budget",
+     "--check",
+     "--only",
+     "--selftest",
+     "--timeout",
+     "--triage"
+    ],
+    "bare_writes": false,
+    "writer_modes": []
+   },
+   "artifacts": []
   }
  ],
- "generated": "2026-11-25T11:38:46+0800",
+ "generated": "2026-11-25T15:02:35+0800",
  "chain": "Tools\\s6_chain_bmc.py",
  "red": 0,
- "disclosed": 3,
+ "disclosed": 4,
  "known": [
   "Tools/card_ledger_guard.py ",
   "Tools/tree_shrink_guard.py . 20",
-  "scripts/py_watermark.py "
+  "scripts/py_watermark.py ",
+  "scripts/smoke_red_recheck.py "
  ],
  "verdict": "EVERY_CHECKED_FACE_HAS_A_WRITER"
 }

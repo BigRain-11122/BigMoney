@@ -9,7 +9,7 @@ Config: 12 names of a 1531-instrument bond-free pool, rebalance every 20 bars, 1
 | 2020-2023 -- as coded | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
 | 2024 onwards -- as coded | 17.0% | 1.61 | -10.7% | 10.5% | 8% (1.31x) |
 
-**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-24 bar buys **5 of the same names** under the beta rule at k=0.4350 (-0.75pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
+**This card is the research basket, not today's ticket.** It ranks 12 names under the vol rule; the ticket priced on the 2026-11-24 bar buys **5 of the same names** under the beta rule at k=0.4350 (-0.73pp/yr apart on the same panel). Size from the ticket and read this card as the rule behind it -- results/etf_book_order/latest.json.
 
 Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row 2 is the same rule with the score held one bar back -- the fill this card declares. Size off row 2.
 
@@ -24,14 +24,11 @@ Row 1 is the engine as coded (score off bar d's close, paid bar d's *open*); row
 
 **Panel digest:** `706c06e09a2cc87d` (5287 bars x 1640 symbols, 2005-02-23->2026-11-24, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
-**Priced day: DIFFERENT_DAYS** -- card 2026-11-24 / ticket 2026-11-24 / page 2026-11-20 (compared at 2026-11-24 18:35:57); priced on different bars: card 2026-11-24 / ticket 2026-11-24 / page 2026-11-20. A reader comparing numbers across these papers is comparing two different books, so read the lagging one only as history.
+**Priced day: SAME_DAY** -- card 2026-11-24 / ticket 2026-11-24 / page 2026-11-24 (compared at 2026-11-25 14:35:18); this card, the executable sheet and the CEO page all priced the same closing bar.
 
-**Family coherence: MIXED_WORLDS** -- 11 faces priced 2 different panels (2e875bf4, 706c06e0): per-cell deltas across worlds are world differences, not rule effects.
-2 of 10 arms priced the card's own panel and keep their labels (buffer_k02, buffer_k05); the 8 withheld one(s) still price another panel (buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40), so their verdicts are not part of this reading.
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `706c06e09a2cc87d` (cutoff 2026-11-24); the verdicts that license this card's width are measurements on one panel.
 
-**Label null: 96.5% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.5%, ADOPT 0.0%) is the one that reads.
-
-The null was simulated on 2026-11-20; these arm faces price 2026-11-24 -- do not read the frequency as today's.
+**Label null: 96.7% REJECT** -- the same rule called an effect-free panel REJECT in that share of 20000 trials, so a published REJECT carries almost no information; the rare branch (NOT-SEPARABLE 3.4%, ADOPT 0.0%) is the one that reads.
 
 **Width floor: an extrapolation, and its own test point refutes it.** The name count comes from continuing a fitted line past its last measured arm; priced at the unseen k=0.30 the line predicted +0.298pp and the arm's own cells said +0.470pp -- gap 0.172pp against a 0.057pp tolerance, so the read-back face publishes REFUTED. Read the width as an extrapolation with no support at that distance, not as a measurement.
 

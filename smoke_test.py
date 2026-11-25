@@ -2106,11 +2106,32 @@ def main() -> int:
             _rc = capture_pinned([sys.executable,
                                   os.path.join("scripts", "treasury_curve_page.py"),
                                   "--check"], 60)
+            _out = ((_rc.stdout or "") + (_rc.stderr or "")).strip()
+            _pg_note = ""
+            # r2090: the spread face advances with the futures panel, so by the time this
+            # suite runs (S1, before S6) the page is one bar behind on almost every morning
+            # somebody has not already run the chain -- judging that red is the r1789
+            # permanent-red shape and teaches the reader to skip the leg. Grading it green
+            # would instead hide a chain that never runs. What this leg can assert without
+            # guessing either is the page's own contract: it is rendered from the face, so
+            # it must stay re-derivable from it. STALE -> pay the 0.1s re-render (the same
+            # word contract the chain leg `treasury_curve_page` reads, r1850) and require
+            # the regenerated page to match. A page that disagrees with the face, or a
+            # re-render that still disagrees, stays red.
+            if _rc.returncode != 0 and "CHECK_STALE" in _out:
+                _rw = capture_pinned([sys.executable,
+                                      os.path.join("scripts", "treasury_curve_page.py"),
+                                      "--write"], 60)
+                _pg_note = "was one generation behind, re-rendered (rc=%d); " % _rw.returncode
+                _rc = capture_pinned([sys.executable,
+                                      os.path.join("scripts", "treasury_curve_page.py"),
+                                      "--check"], 60)
+                _out = ((_rc.stdout or "") + (_rc.stderr or "")).strip()
             _pg_ok = _rc.returncode == 0
             _ok = (_re == _said) and _pg_ok
             check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
-                  _ok, f"derived={_re} said={_said} page_check_rc={_rc.returncode} "
-                       f"{((_rc.stdout or '').strip() or (_rc.stderr or '').strip())[:160]}")
+                  _ok, f"derived={_re} said={_said} {_pg_note}page_check_rc={_rc.returncode} "
+                       f"{_out[:160]}")
     except Exception as e:
         check("product: treasury curve verdict is re-derived from its own criteria (r1691)",
               False, str(e))

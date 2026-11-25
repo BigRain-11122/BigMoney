@@ -2,7 +2,7 @@
  "kind": "card_config",
  "asof_bar": "2026-11-24",
  "capital_cny": 1000000.0,
- "generated": "2026-11-24T18:36:59+08:00",
+ "generated": "2026-11-25T14:36:11+08:00",
  "card_capital_cny": 1000000.0,
  "scale": 0.9094,
  "config": {
@@ -582,10 +582,9 @@
  },
  "family_coherence": {
   "artifact": "results/etf_book_phase_atlas_arms.json",
-  "verdict": "MIXED_WORLDS",
-  "detail": "11 faces priced 2 different panels (2e875bf4, 706c06e0): per-cell deltas across worlds are world differences, not rule effects",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced 706c06e09a2cc87d",
   "panels": [
-   "2e875bf4876e25e5",
    "706c06e09a2cc87d"
   ],
   "arms": 10,
@@ -606,16 +605,7 @@
     "faces": [
      "baseline",
      "buffer_k02",
-     "buffer_k05"
-    ],
-    "last": "2026-11-24",
-    "bars": 5287,
-    "columns": 1640,
-    "bars_fewer_than_newest": 0
-   },
-   {
-    "digest": "2e875bf4876e25e5",
-    "faces": [
+     "buffer_k05",
      "buffer_k05_cost20",
      "buffer_k10",
      "buffer_k20",
@@ -625,18 +615,16 @@
      "cost20",
      "cost40"
     ],
-    "last": "2026-11-20",
-    "bars": 5285,
-    "columns": 1637,
-    "bars_fewer_than_newest": 2
+    "last": "2026-11-24",
+    "bars": 5287,
+    "columns": 1640,
+    "bars_fewer_than_newest": 0
    }
   ],
-  "priced_same_panel": false,
+  "priced_same_panel": true,
   "comparable": [
    "buffer_k02",
-   "buffer_k05"
-  ],
-  "withheld": [
+   "buffer_k05",
    "buffer_k05_cost20",
    "buffer_k10",
    "buffer_k20",
@@ -646,18 +634,10 @@
    "cost20",
    "cost40"
   ],
+  "withheld": [],
   "cost_axis": {
-   "readable": false,
-   "withheld": [
-    "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "buffer_k40",
-    "cost0",
-    "cost05",
-    "cost20",
-    "cost40"
-   ],
+   "readable": true,
+   "withheld": [],
    "arms": [
     {
      "arm": "buffer_k02",
@@ -673,50 +653,50 @@
     },
     {
      "arm": "buffer_k05_cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?"
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
      "arm": "buffer_k40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)"
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
      "arm": "cost05",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "5bp/side on the whole grid (half the production toll)"
     },
     {
      "arm": "cost20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "20bp/side on the whole grid (double the production toll)"
     },
     {
      "arm": "cost40",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "REJECT",
+     "readable": true,
      "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)"
     }
    ]
@@ -724,53 +704,59 @@
   "null_calibration": {
    "artifact": "results/etf_book_rule_null.json",
    "status": "ok",
-   "detail": "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.8x smaller than one sigma (2.07pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
-   "reject_share": 0.9649,
-   "not_separable_share": 0.0351,
+   "detail": "an effect-free panel reads REJECT 96.7% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.4%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.4x smaller than one sigma (2.02pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction",
+   "reject_share": 0.9665,
+   "not_separable_share": 0.0335,
    "adopt_share": null,
    "trials": 20000,
    "label": "REJECT_IS_THE_DEFAULT",
-   "evidence_cutoff": "2026-11-20",
+   "evidence_cutoff": "2026-11-24",
    "bar_now": "2026-11-24"
   },
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "2 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 4,
-   "n_reject_standing": 2,
+   "detail": "3 of 10 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
+   "n_reject": 10,
+   "n_reject_standing": 3,
    "standing": [
     "buffer_k05_cost20",
+    "cost20",
     "cost40"
    ],
    "overturned": [
+    "buffer_k02",
     "buffer_k05",
-    "cost0",
-    "cost05",
-    "cost20"
-   ],
-   "overstated": [
-    "buffer_k05",
-    "cost20"
-   ],
-   "understated": [
+    "buffer_k10",
+    "buffer_k20",
+    "buffer_k40",
     "cost0",
     "cost05"
    ],
+   "overstated": [
+    "buffer_k02",
+    "buffer_k05",
+    "buffer_k10",
+    "buffer_k20",
+    "buffer_k40",
+    "cost0",
+    "cost05"
+   ],
+   "understated": [],
    "arms": [
     {
      "arm": "buffer_k02",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
-     "sign_cells": 12,
-     "cells_positive": 7
+     "sign_cells": 11,
+     "cells_positive": 3
     },
     {
      "arm": "buffer_k05",
      "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 8
+     "cells_positive": 5
     },
     {
      "arm": "buffer_k05_cost20",
@@ -781,45 +767,45 @@
     },
     {
      "arm": "buffer_k10",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 7
+     "cells_positive": 6
     },
     {
      "arm": "buffer_k20",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 8
     },
     {
      "arm": "buffer_k40",
-     "frozen_label": "NOT-SEPARABLE",
+     "frozen_label": "REJECT",
+     "verdict": "NOT-SEPARABLE",
+     "sign_cells": 11,
+     "cells_positive": 8
+    },
+    {
+     "arm": "cost0",
+     "frozen_label": "REJECT",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 9
     },
     {
-     "arm": "cost0",
-     "frozen_label": "NOT-SEPARABLE",
-     "verdict": "BETTER",
-     "sign_cells": 12,
-     "cells_positive": 12
-    },
-    {
      "arm": "cost05",
-     "frozen_label": "NOT-SEPARABLE",
-     "verdict": "BETTER",
+     "frozen_label": "REJECT",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 12
+     "cells_positive": 9
     },
     {
      "arm": "cost20",
      "frozen_label": "REJECT",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "WORSE",
      "sign_cells": 12,
-     "cells_positive": 2
+     "cells_positive": 0
     },
     {
      "arm": "cost40",
@@ -830,40 +816,30 @@
     }
    ],
    "verdict": "SOME_REJECTS_STAND",
-   "evidence_cutoff": "2026-11-20",
+   "evidence_cutoff": "2026-11-24",
    "bar_now": "2026-11-24"
   },
   "receipt": {
    "present": true,
-   "stale": true,
+   "stale": false,
    "group": "all",
    "group_arms": 11,
-   "group_verdict": "SPLIT_WORLDS",
-   "world": null,
+   "group_verdict": "ONE_WORLD",
+   "world": "706c06e09a2cc87d",
    "world_now": "706c06e09a2cc87d",
    "bar": "2026-11-24",
    "covers_family": true,
    "family": {
-    "stale_arms": [
-     "buffer_k10",
-     "buffer_k20",
-     "buffer_k40",
-     "cost0",
-     "cost05",
-     "cost20",
-     "cost40",
-     "buffer_k05_cost20"
-    ],
+    "stale_arms": [],
     "total": 11
    },
-   "detail": "the run itself left 2 panels across its own faces (2e875bf4, 706c06e0)",
+   "detail": "the whole family (11 arms) paid for 706c06e0 -- still the family's world (bar 2026-11-24)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-24T18:34:35+0800",
-   "elapsed_sec": 1025.1,
+   "generated": "2026-11-25T14:23:26+0800",
+   "elapsed_sec": 654.8,
    "rebuilt": [
-    "base",
-    "buffer_k02",
-    "buffer_k05"
+    "cost40",
+    "buffer_k05_cost20"
    ]
   },
   "floor_extrapolation": {

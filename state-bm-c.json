@@ -1551,7 +1551,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2089,
+ "round_no": 2090,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2052 收口（state 上轮停在 2050，2050/2051 两轮提交已上链但报告行缺失，本轮补齐 r2052 行）",
@@ -2458,10 +2458,15 @@
  "竞争_r2083": "repo_write_contention rc=0 CLEAN：fewer than two codely hosts alive（对端 pid 79608 已退）；本宿主 pid=84212 自 09:20:03 起；排除 9 次 scheduler/self 写入（saturation_engine/watermark_red/idle_trigger/orders_ack_scan/orphan_face_probe/repo_write_contention/host_contention）",
  "记账_r2083": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「日期判据要对到产出那个数的那张面」再落一处属证据与载体，方法卡已在库 E685）",
  "送达自证_r2083": "commit 9414c79b29 已直推 origin/main（2ba05dad1b..9414c79b29，非 FF 未发生）；fetch 后 rev-list --left-right --count origin/main...HEAD = 0/0；ls-tree origin/main 四件抽验在位（scripts/etf_book_size_rulers_decision.py、scripts/etf_book_permission_persistence.py、results/etf_book_size_rulers_decision.json、qa/smoke-red-r2083.md）→ 本地未达 origin/main commit 数=0",
- "last_round_no": 2084,
+ "last_round_no": 2090,
  "verify_r2085_futures": "idx_fut_proxy_noise 重 derive 后 CHECK_OK（原红是上一 bar 的面代差 0.245 vs 0.246）；futures_tsmom_signal 重 derive：面板指纹 542ff59bffa256a3 == 盘上，flips raw 1477 → damped 413，页面带生产候选节 → 冒烟该腿四项断言逐条复算成立；idx_fut_roll_gap/roll_tenor/carry_margin 本轮 check 全绿（rc0）",
  "记账_r2085": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「链序里读者晚写一步」变成一次可支付重建属证据与载体）",
  "竞争_r2085": "repo_write_contention rc=0 CLEAN（单宿主 pid=86056）——20 余轮竞争窗本轮关闭，可写共享面",
- "CEO 三行": "当前活＝给「引用了别人票面的面」装一条 0.2 秒的哨兵，让它在票面重定价后自己说出来，而不是整天挂在「没法比较」｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_return_regime.json（2026-11-25T11:36·identity MATCHED·selftest 25/25）｜下个里程碑＝剩余红按族收口 + 全量冒烟一次（≤48h）",
- "round_r2088_next": "(a) re-price the three buffer arms (k10/k20/k40) on the current panel to unstick etf_book_phase_atlas_arms floor fit (7 selftest legs, ~6min each, must run as a self-healing runner because a Start-Process child dies with the CLI job object); (b) give smoke_red_recheck a chain leg; (c) 14 inline suite legs have no re-runnable command"
+ "CEO 三行": "当前活＝把「8 臂停在 20 号世界」这件事真的烧完，并让「红名单」从此有人自动重问｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_phase_atlas_arms.json（2026-11-25T14:23·十臂同一世界·selftest 144/144）｜下个里程碑＝18 条红里 14 条内联腿的可独立化 + 唯一真红修复（≤48h）",
+ "round_r2088_next": "(a) re-price the three buffer arms (k10/k20/k40) on the current panel to unstick etf_book_phase_atlas_arms floor fit (7 selftest legs, ~6min each, must run as a self-healing runner because a Start-Process child dies with the CLI job object); (b) give smoke_red_recheck a chain leg; (c) 14 inline suite legs have no re-runnable command",
+ "竞争_r2090": "repo_write_contention rc=0 CLEAN：fewer than two codely hosts alive（本宿主 pid=87972 自 14:20:34 起）；排除 9 次 scheduler/self 写入（saturation_engine/watermark_red/idle_trigger/orders_ack_scan/orphan_face_probe/repo_write_contention/host_contention）",
+ "通过_r2090": "orders 117 件 / 心跳 orders_ack 331 条 / state 273 条 → 未回执 44 件全为 2026-10-26 以前的他机 lane 广播（r2066 判例不逐令补 ack）；集团 origin/main:docs/decisions.md 原生字节 250,586B sha256 79e3083b85c130b8… == 自持水位 → 零新决策零动作；fleet/inbox 空；attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）；pre-commit / pre-push MATCH；Bigmoney-AtlasArmsReburn-bm-c 按设计自 DISABLE（Get-ScheduledTask State=Disabled）",
+ "自捕_r2090": "两枚本窗自捕，都由自己的守卫抓到：①**一个不校验 argv 的记账工具会把 `--check` 当成一张待收令**——`Tools/orders_ack_append.py` 只把 argv[1] 当令号，我按惯例传 `--check` 想「核对」，它却把 `--check` 与随后的 `--help` 当成两条真令 append 进 state(273→275) 与心跳(331→333) 两面。发现靠计数自己涨了 2；正法=先核清该工具的 argv 约定（头注写了 `<O-file-name>`，无 flag），再用 python 精确剔除两条伪 ack 并断言回 273/331——**判据是计数回到 r2069 的实测值，不是「我看它删了」**。②剔除时又踩第二枚：我按 state 的 indent=2 顺手写回心跳，`git diff --numstat` 立刻给出 953/953（r2043 同族：心跳 indent=1、state indent=1 但**两者都带 CRLF 且 state 结尾多一个 CRLF**）——整档 diff 会把对端并发字段一起埋掉。正法=先用「load→dump→比对原字节」自证往返恒等再落盘，两面各一次断言。两枚合起来是一条：**工程动作的对象若不是自己写的，先问它认什么格式/参数，再问字节能不能原样回来**。",
+ "round_r2090_next": "(a) 18 红里的 14 条内联腿：把其中可独立化的搬进 smoke_test.py 的声明式腿表，让 recheck 能重问；(b) 唯一真红 etf_book_promotion_provenance：rows_per_face 与台账不符，先判面代差还是真分歧；(c) smoke_red_recheck 的 run 形状（--triage ...）在 chain_writer_audit 里仍算 NO_WRITER_MODE；(d) S6 全链 372 腿仍未一次性跑完",
+ "记账_r2090": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3（无方法论新增：把「照片型面」的每轮问题收窄成「名册动过没有」属证据与载体）"
 }

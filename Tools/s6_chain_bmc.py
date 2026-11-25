@@ -159,6 +159,27 @@ LEGS = [
     # mechanism under four masks and publishing the envelope. ~10s + ~4s, no network.
     ("treasury_curve_spread", ["python", "scripts/treasury_curve_spread.py"]),
     ("treasury_curve_mask_audit", ["python", "scripts/treasury_curve_mask_audit.py"]),
+    # r2090: r1860 taught that the page a reader opens is only fixed for ONE generation --
+    # its readings now live in a marker block re-rendered from results/treasury_curve_verdict.json,
+    # but no leg ever paid for that re-render, so every bar the spread face advances leaves
+    # research/TREASURY_CURVE_VERDICT.md quoting yesterday (measured 2026-11-25: page cutoff
+    # 2026-11-23 / 2389 bars vs face 2026-11-24 / 2390 bars; smoke leg red rc3 CHECK_STALE).
+    # check=--check says STALE in its own words (r1850: the contract word, not a description),
+    # run=--write costs ~0.1s and touches only the block between its markers. No network.
+    ("treasury_curve_page", ["python", "scripts/treasury_curve_page.py", "--check"],
+     ["python", "scripts/treasury_curve_page.py", "--write"]),
+    # r2090: "which of the red legs are real" was answered by hand for three rounds and
+    # neither face ever got a producer -- the r1282 orphan shape, where a photograph of
+    # one smoke roster drifts silently while rounds keep landing. Both legs key their
+    # identity on the roster's own `ts` (logs/smoke_legs.json), so they cost nothing on a
+    # round that did not run the suite and pay exactly once when it did. triage is ~2s and
+    # re-buckets the roster; recheck re-asks each red leg's own check entry (~35s for 18
+    # legs) and says STALE in its own words -- the word the chain reads (r1850).
+    ("smoke_red_triage", ["python", "scripts/smoke_red_triage.py"]),
+    ("smoke_red_recheck",
+     ["python", "scripts/smoke_red_recheck.py", "--check"],
+     ["python", "scripts/smoke_red_recheck.py", "--triage",
+      "results/smoke_red_triage.json"]),
     # r1693 (adopted from the killed r1692 body): the index-futures splice audit was written
     # on 11-14/15 and left untracked with no leg -- the same "no producer" shape. It reads
     # the IF/IC/IH/IM panel refreshed above and re-derives the carry under a calendar-anchored

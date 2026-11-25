@@ -50,6 +50,7 @@ sys.path.insert(0, SCRIPTS)
 MACHINE = os.environ.get("BIGMONEY_MACHINE") or "bm-c"
 DEFAULT_TRIAGE = os.path.join(ROOT, "results", "smoke_red_triage.%s.json" % MACHINE)
 DEFAULT_OUT = os.path.join(ROOT, "results", "smoke_red_recheck.%s.json" % MACHINE)
+DEFAULT_SMOKE = os.path.join(ROOT, "logs", "smoke_legs.json")
 
 CHECK_ARGVS = (["check"], ["--check"])
 TIMEOUT = 90
@@ -435,9 +436,74 @@ def selftest():
         resolve_module("product: the carry split reproduces the ticket and "
                        "stays ordered")[0] is None)
 
-    total = 20
+    # r2090: the face is a photograph of ONE smoke roster, so the only question
+    # it can be asked every round is whether that roster has moved since.
+    chk("no face on disk is STALE, never a silent pass",
+        roster_verdict(None, "2026-11-25T14:00:00", face_exists=False)
+        == (2, "STALE face missing: no recheck face on disk -- the roster has "
+               "never been re-asked"))
+    chk("a roster that moved is STALE and names both sides",
+        roster_verdict("2026-11-25T10:38:54", "2026-11-25T14:00:00")[0] == 2
+        and "STALE" in roster_verdict("2026-11-25T10:38:54",
+                                      "2026-11-25T14:00:00")[1]
+        and "2026-11-25T10:38:54" in roster_verdict("2026-11-25T10:38:54",
+                                                   "2026-11-25T14:00:00")[1])
+    chk("the same roster twice is green and stays silent about STALE",
+        roster_verdict("2026-11-25T14:00:00", "2026-11-25T14:00:00")[0] == 0
+        and "STALE" not in roster_verdict("2026-11-25T14:00:00",
+                                          "2026-11-25T14:00:00")[1])
+
+    total = 23
     print("\n%d/%d PASS" % (ok, total))
     return 0 if ok == total else 1
+
+
+# ------------------------------------------------------- freshness probe (r2090)
+#
+# r1850 taught that a face which only re-derives itself can never say "I am out
+# of date".  This face is a photograph of one smoke roster, so the question it
+# must answer every round is narrower than its own arithmetic: has the roster
+# moved since I was taken?  The roster's identity is the smoke run's own `ts`.
+# Word contract (r1850): a roster that moved is STALE -- the chain then pays the
+# ~35s re-ask; a face that claims the same roster but cannot be reproduced is a
+# defect and would say CHECK FAILED, never STALE.
+
+def roster_verdict(face_ts, roster_ts, face_exists=True):
+    """Return (rc, line).  Pure so the selftest can pin every state."""
+    if not face_exists:
+        return (2, "STALE face missing: no recheck face on disk -- the roster "
+                   "has never been re-asked")
+    if not roster_ts:
+        return (2, "STALE cannot compare: logs/smoke_legs.json carries no ts")
+    if not face_ts:
+        return (2, "STALE face carries no source_ts: re-ask the roster")
+    if face_ts != roster_ts:
+        return (2, "STALE smoke roster moved (%s -> %s): re-ask the red legs"
+                   % (face_ts, roster_ts))
+    return (0, "recheck face matches the smoke roster (%s)" % roster_ts)
+
+
+def _json_get(path, *keys):
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+    except Exception:
+        return None
+    for k in keys:
+        if isinstance(d, dict) and d.get(k):
+            return d[k]
+    return None
+
+
+def check_mode(smoke_path=None, face_path=None):
+    smoke_path = smoke_path or DEFAULT_SMOKE
+    face_path = face_path or DEFAULT_OUT
+    exists = os.path.exists(face_path)
+    face_ts = _json_get(face_path, "source_ts") if exists else None
+    rc, line = roster_verdict(face_ts, _json_get(smoke_path, "ts", "generated"),
+                              exists)
+    print(line)
+    return rc
 
 
 # ----------------------------------------------------------------------- main
@@ -449,9 +515,14 @@ def main(argv=None):
     ap.add_argument("--only", type=int, default=0)
     ap.add_argument("--timeout", type=int, default=TIMEOUT)
     ap.add_argument("--selftest", action="store_true")
+    ap.add_argument("--check", action="store_true",
+                    help="is the published face still taken from the current "
+                         "smoke roster? STALE (rc2) says no.")
     a = ap.parse_args(argv)
     if a.selftest:
         return selftest()
+    if a.check:
+        return check_mode()
     if not os.path.exists(a.triage):
         print("no triage face at %s -- run scripts/smoke_red_triage.py first" % a.triage)
         return 2

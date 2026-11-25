@@ -2785,6 +2785,16 @@ def check():
         return 0
 
     why = _source_moved(pub, drift, [BASE] + [p for p, _ in ARMS.values()])
+    if not why:
+        # r2089: while the family is being re-priced arm by arm, a sweep writes new numbers into
+        # an arm face without moving its copied run metadata -- so "every copied field still
+        # matches" no longer means "nobody touched this by hand", it means "we are mid-reprice".
+        # A split family is stale by construction; calling it hand-edited would keep the chain
+        # from paying the 0.9s re-aggregate that puts the face back in step with its arms.
+        split = _world_split_problem(rebuilt.get("panel_coherence"))
+        if split and _world_split_problem(pub.get("panel_coherence")):
+            print("%s; drift=%s" % (split, "; ".join(drift)[:240]))
+            return 2
     if why:
         print("face is stale: priced on cutoff %r -- %s; drift=%s"
               % (pub.get("baseline", {}).get("evidence_cutoff"), why,

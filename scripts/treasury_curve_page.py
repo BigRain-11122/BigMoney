@@ -27,6 +27,7 @@ import argparse
 import io
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -144,6 +145,41 @@ def compare(page_text, face):
                                                                   len(exp_lines))
 
 
+_CUTOFF_RE = re.compile(r"证据 cutoff (\d{4}-\d{2}-\d{2})")
+
+
+def _page_cutoff(page_text):
+    """The evidence cutoff the page's own block claims, or None when it names none."""
+    try:
+        i, j = _span(page_text)
+    except ValueError:
+        return None
+    m = _CUTOFF_RE.search(page_text[i:j])
+    return m.group(1) if m else None
+
+
+def classify(page_text, face):
+    """(kind, message): OK / STALE / FAILED.
+
+    r2090: one word for two different conditions is how a gate stops being readable.
+    A block priced on an OLDER cutoff than its face is simply one generation behind --
+    the spread face moves with the futures panel, so this happens every morning and
+    the repair is free (0.1s re-render). A block that disagrees with the face on the
+    SAME cutoff is a real difference (hand edit, or a renderer that drifted) and must
+    not be papered over by re-rendering. Chain legs read the word STALE (r1850), and
+    r1934 requires the disagreement branch to carry no STALE spelling at all.
+    """
+    ok, msg = compare(page_text, face)
+    if ok:
+        return "OK", msg
+    pg_cut, fc_cut = _page_cutoff(page_text), face.get("evidence_cutoff")
+    if pg_cut and fc_cut and pg_cut < fc_cut:
+        return "STALE", ("%s -- the page's block is priced on %s while its face now ends %s"
+                         % (msg, pg_cut, fc_cut))
+    return "FAILED", ("%s -- the page disagrees with the face it was rendered from on the "
+                      "same cutoff" % msg)
+
+
 def _load(path):
     with io.open(path, encoding="utf-8") as fh:
         return json.load(fh)
@@ -178,6 +214,17 @@ def _selftest():
     one("a single hand-edited digit fails", not ok, msg)
 
     one("page without markers refuses", compare("no markers here", face)[0] is False)
+
+    # r2090: two different "does not match" conditions were sharing one word. A page one
+    # bar behind its face has a free repair (re-render); a page that disagrees on the SAME
+    # cutoff does not, and papering that over with --write would erase a real difference.
+    newer = _mutate(face, 0.0)
+    newer["evidence_cutoff"] = "2099-01-01"
+    kind, msg = classify("head\n" + block + "\ntail\n", newer)
+    one("a page behind its face reads STALE, not a defect", kind == "STALE", msg)
+    kind, msg = classify(tampered, face)
+    one("a hand edit on the same cutoff reads FAILED and never says stale",
+        kind == "FAILED" and "stale" not in msg.lower(), msg)
 
     moved = splice("head\n" + block + "\ntail\n", _mutate(face, -1.0))
     one("splice leaves prose outside the markers untouched",
@@ -223,8 +270,15 @@ def main(argv=None):
         return 0
 
     ok, msg = compare(page, face)
-    print("%s %s" % ("CHECK_OK" if ok else "CHECK_STALE", msg))
-    return 0 if ok else 3
+    if ok:
+        print("CHECK_OK %s" % msg)
+        return 0
+    kind, msg = classify(page, face)
+    if kind == "STALE":
+        print("CHECK_STALE %s -- the remedy is a re-render (--write), not an edit" % msg)
+        return 3
+    print("CHECK_FAILED %s -- re-rendering would overwrite a real difference" % msg)
+    return 2
 
 
 if __name__ == "__main__":
