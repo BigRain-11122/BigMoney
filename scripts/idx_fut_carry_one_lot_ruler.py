@@ -20,6 +20,10 @@ Rules the code keeps:
     other to the cent (they are one measurement three ways); if they do not, that is
     AUTHORITY_DISAGREE and nothing downstream is worth judging.
   * money tolerance is 0.01 CNY -- these faces store cents; 1e-9 would redden on rounding.
+  * one index tick (multiplier x 0.0001 = 0.02 CNY for IC/IM) is PRECISION_ONLY: two faces
+    that agree to a tick print the same money, so neither a rebuild nor a defect is bought.
+    Anything above a tick is still DISAGREE -- the third state names a size, it does not
+    widen the door.
   * a missing face or field is DATA_BLOCKED, never a default of 0 (r98 family).
   * only the STALE branch says "STALE". The word is a contract: run_leg pays to rebuild
     only when it reads it (r1850/r1934), and a real defect must not buy a rebuild.
@@ -48,6 +52,14 @@ DOC_PATH = os.path.join(ROOT, "research", "IDX_FUT_CARRY_ONE_LOT_RULER.md")
 SCHEMA = "idx-fut-carry-one-lot-ruler/v1"
 MONEY_TOL = 0.01
 PRODUCTS = ("IC", "IM")
+
+# The smallest amount of money this measurement can express. Index quotes are stored at four
+# decimals, so one contract carries a quantum of multiplier x 0.0001 CNY: 0.02 for IC and IM
+# (200 CNY a point). Two faces that both say "1132145.xx" and differ by one quantum are not
+# printing two answers -- they accumulated the same sigma in a different order.
+PRICE_QUANTUM = 0.0001
+MULTIPLIER = {"IC": 200, "IM": 200}
+DEFAULT_TICK_CNY = 0.02
 
 # The three faces that each carry "what one legal lot costs". They are written by the same
 # chain legs in the same pass; if they ever disagree the ruler itself is broken.
@@ -191,13 +203,29 @@ def _authority_number(auth, prod):
     return {"label": best[1], "value": best[2], "gen_epoch": best[0] if best[0] >= 0 else None}
 
 
-def _judge(value, gen_epoch, auth_value, auth_epoch):
-    """Fresh / stale-by-generation / disagree / unreadable. The word choice is the contract."""
+def _tick_cny(prod):
+    return round(MULTIPLIER.get(prod, 200) * PRICE_QUANTUM, 4)
+
+
+def _judge(value, gen_epoch, auth_value, auth_epoch, prod=None):
+    """Fresh / precision-only / stale-by-generation / disagree / unreadable.
+
+    The word choice is the contract. PRECISION_ONLY sits between FRESH and STALE: the two
+    faces print the same money up to one index tick, so there is nothing to rebuild and
+    nothing to escalate -- but it is also not an equality, and a reader should see it.
+    """
     if not _money(value):
         return "DATA_BLOCKED", None, "no readable number on this face (not defaulted to 0)"
     delta = round(float(value) - float(auth_value), 2)
     if abs(delta) <= MONEY_TOL:
         return "FRESH", 0.0, "prints the current ruler"
+    tick = _tick_cny(prod)
+    if abs(delta) <= tick + MONEY_TOL:
+        extra = "" if abs(delta) <= tick else " plus a cent of display rounding"
+        return "PRECISION_ONLY", delta, (
+            "one index tick%s: %.2f CNY at %dx multiplier -- the same measurement accumulated "
+            "in a different order, not a second ruler"
+            % (extra, tick, MULTIPLIER.get(prod, 200)))
     if gen_epoch is None or auth_epoch is None:
         return "UNATTRIBUTED", delta, ("cannot tell which generation this came from "
                                        "(missing timestamp) -- treat as a defect, not as drift")
@@ -233,7 +261,8 @@ def derive():
             if ruler is None:
                 status, delta, note = "DATA_BLOCKED", None, "authority unreadable"
             else:
-                status, delta, note = _judge(value, gen_ep, ruler["value"], ruler["gen_epoch"])
+                status, delta, note = _judge(value, gen_ep, ruler["value"],
+                                             ruler["gen_epoch"], prod)
             consumers.append({
                 "label": label, "face": face, "product": prod,
                 "field": "/".join(path).replace("{p}", prod),
@@ -253,6 +282,8 @@ def derive():
         verdict = "CONSUMERS_ONE_GENERATION_BEHIND"
     elif "DATA_BLOCKED" in statuses:
         verdict = "DATA_BLOCKED"
+    elif "PRECISION_ONLY" in statuses:
+        verdict = "ONE_RULER_UP_TO_ONE_TICK"
     else:
         verdict = "ONE_RULER"
 
@@ -324,6 +355,11 @@ def derive():
         "rule": {
             "authority": [l for l, _f, _p in AUTHORITY],
             "money_tol_cny": MONEY_TOL,
+            "precision_tick_cny": {p: _tick_cny(p) for p in PRODUCTS},
+            "precision_tick_basis": "multiplier x price quantum: 200 x 0.0001 = 0.02 CNY; "
+                                    "a sub-tick difference is the same measurement summed "
+                                    "in another order, so it is PRECISION_ONLY and neither "
+                                    "a rebuild nor a defect",
             "attribution": "a consumer older than the authority and printing another number "
                            "is STALE (rebuild); one at or after the authority is DISAGREE",
             "only_stale_says_stale": "the word STALE is reserved for rebuildable drift",
@@ -558,6 +594,19 @@ def selftest():
     results.append(_leg("undated consumer is UNATTRIBUTED and treated as a defect",
                         s == "UNATTRIBUTED" and "STALE" not in note.upper()))
 
+    # The third state: one index tick is the same money, two ticks are two numbers.
+    s, d, note = _judge(auth_v - 0.02, auth_e, auth_v, auth_e, "IC")
+    results.append(_leg("one tick (0.02 on IC) is PRECISION_ONLY, not drift and not a defect "
+                        "(%s, delta %.2f)" % (s, d or 0),
+                        s == "PRECISION_ONLY" and "tick" in note and "STALE" not in note.upper()))
+    s, d, note = _judge(auth_v - 0.02, auth_e - 100, auth_v, auth_e, "IC")
+    results.append(_leg("one tick on an older face is still PRECISION_ONLY -- nothing to rebuild",
+                        s == "PRECISION_ONLY"))
+    s, d, note = _judge(auth_v - 0.05, auth_e, auth_v, auth_e, "IC")
+    results.append(_leg("two and a half ticks is DISAGREE -- the third state names a size, "
+                        "it does not widen the door",
+                        s == "DISAGREE" and "STALE" not in note.upper()))
+
     # The whole-derivation legs, on the live repo (read-only): the judge must actually
     # separate fresh from stale here, not just in the toy cases above.
     live = derive()
@@ -572,9 +621,14 @@ def selftest():
     results.append(_leg("live: the three 11-23 faces are classified (stale or already rebuilt)",
                         len(stale_side) >= 3))
     results.append(_leg("live: verdict is one of the declared words",
-                        live["verdict"] in ("ONE_RULER", "CONSUMERS_ONE_GENERATION_BEHIND",
+                        live["verdict"] in ("ONE_RULER", "ONE_RULER_UP_TO_ONE_TICK",
+                                            "CONSUMERS_ONE_GENERATION_BEHIND",
                                             "CONSUMERS_DISAGREE_WITH_AUTHORITY",
                                             "AUTHORITY_DISAGREE", "DATA_BLOCKED")))
+    tick_rows = [c for c in live["consumers"] if c["status"] == "PRECISION_ONLY"]
+    results.append(_leg("live: a PRECISION_ONLY row never also reads as STALE "
+                        "(the two states are exclusive)",
+                        all("STALE" not in (c.get("note") or "").upper() for c in tick_rows)))
     proj = live.get("arithmetic_only") or {}
     pf = proj.get("portfolio_capital_floor")
     results.append(_leg("live: the floor projection is a sum of the two per-lot deltas",

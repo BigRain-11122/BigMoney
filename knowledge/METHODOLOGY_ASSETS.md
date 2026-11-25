@@ -17777,3 +17777,26 @@ How：任何「按多个读数报区间」的面，下一轮必须回答两件�
 本判例正身 `scripts/idx_fut_carry_decision_face.py`（selftest 26/26）+ 负控
 `results/_r2097bmc_decision_face_negative.py`（11/11 PASS）+ 面 `results/idx_fut_carry_decision_face.json`
 + 文档 `research/IDX_FUT_CARRY_DECISION_FACE.md` + QA `qa/decision-face-r2097.md`。
+
+## E-20261126-r2119 · 两张手抄的「可接受词表」会漂移，漂移的那天一边判死一边照印
+
+本轮两处同形：①成本带读者返回 `status='no_control'`，页面自己的渲染器**本来就印**这个词
+（「未通过控制臂」），而 `reader_probe` 的 `_READER_STATUS` 是另一份手抄元组，于是**页面能读的面被算成死的**
+（CEO 页自检 476/477）。②一手尺跨面核对里，`tradeable_hedge_capital` 与权威面只差 **0.02 / 0.03 元**
+（相对 1.8e-8，指数报价 4 位小数 × 乘数 200 = 一个 tick），却被判 `DISAGREE`——因为容差写死一分钱，
+而这两个数根本不在「一分钱」这个分辨率上比较。
+
+正法两件：①**词表单一来源**——`_READER_STATUS` 由渲染器自己那张表派生（`_NEEDS_VERIFY_STATUS_WORDS`），
+新增状态只改一处；②**容差要有来历**——第三种状态 `PRECISION_ONLY`，阈值 = 乘数 × 报价最小单位
+（最坏再给一分钱显示舍入），并在面里写出来；超出仍判 `DISAGREE`，自检腿钉死「两个半 tick 必红」
+（第三态是**说出一个尺寸**，不是把门放宽）。
+
+姊妹面（同日）：`live_book_day_words` 判 `PRINTED_BUT_UNANCHORED` 不是页面有话没日期，而是两句话各印
+**两个**日期、`CLAIM_RULES` 只认领了别人——补规则时只指向页面**已经读到的**字段
+（`premium_forward.face_asof` / `floor_provenance.evidence_cutoff` / 自己的 `priced_bar`），判据零改动，
+并加负控腿证明「源面缺席 → unverifiable，不是通」。
+
+How：任何「A 能不能渲染/接受 B 的产物」的判断，先从 A 自己的表里派生允许集；任何容差先问它对应哪个
+存储分辨率，说不出来就是一张嘴。正身 `scripts/etf_book_ceo_page.py`（selftest 477/477）、
+`scripts/idx_fut_carry_one_lot_ruler.py`（selftest 16/16）、`scripts/live_book_day_words.py`（selftest 46/46）、
+QA `qa/daywords-two-date-r2119.md`。

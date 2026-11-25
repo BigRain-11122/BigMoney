@@ -8,17 +8,17 @@ byte-for-byte with what the face would render today.
 
 | account | bars | holdable | lots in ledger | lots allowed | margin used | implied vol (unhedged) | budget multiple |
 |---|---|---|---|---|---|---|---|
-| IC | 5 | **0** | 4 | 0 | 566,592 CNY (56.66%) | 181.00% | 22.62x |
-| IM | 5 | **0** | 4 | 0 | 532,376 CNY (53.24%) | 174.16% | 21.77x |
+| IC | 8 | **0** | 4 | 0 | 553,824 CNY (55.38%) | 181.53% | 22.69x |
+| IM | 8 | **0** | 4 | 0 | 521,704 CNY (52.17%) | 175.21% | 21.90x |
 
-The ledger holds the long leg only, so the unhedged column is the one the record actually ran at.  The hedged column is published beside it because the ticket's design hedges with IF: even with the hedge on, 4/4 lots is **4.61x** the budget, which is the part that does not depend on the hedge being cheap.
+The ledger holds the long leg only, so the unhedged column is the one the record actually ran at.  The hedged column is published beside it because the ticket's design hedges with IF: even with the hedge on, 4/4 lots is **4.64x** the budget, which is the part that does not depend on the hedge being cheap.
 
 ### Where the loss came from
 
 | account | total | index leg | sleeve's own excess | alpha | worst bar | worst bar as multiple of the year's 8% budget |
 |---|---|---|---|---|---|---|
-| IC | -378,400 CNY (-37.84%) | -362,380 | -16,020 | LOST | 2026-11-20 (-221,600 CNY, -22.16% of capital) | 2.77x |
-| IM | -584,960 CNY (-58.50%) | -559,730 | -25,230 | LOST | 2026-11-20 (-264,960 CNY, -26.50% of capital) | 3.31x |
+| IC | -484,800 CNY (-48.48%) | -453,619 | -31,181 | LOST | 2026-11-20 (-221,600 CNY, -22.16% of capital) | 2.77x |
+| IM | -673,920 CNY (-67.39%) | -644,307 | -29,613 | LOST | 2026-11-20 (-264,960 CNY, -26.50% of capital) | 3.31x |
 
 The excess column is what the sleeve itself did (futures minus the index over the same lots).  It is not positive, so this is not a story about an unlucky beta month stacked on a working carry trade: over these five sessions the sleeve lost on both legs.
 
@@ -26,18 +26,18 @@ The excess column is what the sleeve itself did (futures minus the index over th
 
 | account | capital declared | notional held | capital the ticket needs | first rung (one legal lot) | P&L on notional | P&L on ticket capital | P&L per lot on first rung |
 |---|---|---|---|---|---|---|---|
-| IC | 1,000,000 | 5,100,000 | 4,497,916 | 1,124,479 | -7.42% | -8.41% | -8.41% |
-| IM | 1,000,000 | 5,021,440 | 4,610,384 | 1,152,596 | -11.65% | -12.69% | -12.69% |
+| IC | 1,000,000 | 5,100,000 | 4,528,582 | 1,132,145 | -9.51% | -10.71% | -10.71% |
+| IM | 1,000,000 | 5,021,440 | 4,644,645 | 1,161,161 | -13.42% | -14.51% | -14.51% |
 
 Notional column is arithmetic on the ledger's own `notional_basis_cny`.  The last two columns agree by construction -- `capital_the_ticket_needs` is exactly `lots x first_rung` -- so they are one measurement read two ways, not two pieces of evidence.
 
 ### Verdict
 
-- record: **FORWARD_RECORD_IS_A_LEVERAGE_STATEMENT** (10 account-bars recorded across 2 accounts, 0 holdable by the accounts that wrote them)
-- sleeve alpha: **THE_SLEEVE_LOST_ON_ITS_OWN_ALPHA_TOO** (excess -16,020 / -25,230 CNY)
+- record: **FORWARD_RECORD_IS_A_LEVERAGE_STATEMENT** (16 account-bars recorded across 2 accounts, 0 holdable by the accounts that wrote them)
+- sleeve alpha: **THE_SLEEVE_LOST_ON_ITS_OWN_ALPHA_TOO** (excess -31,181 / -29,613 CNY)
 - money at risk per bad day: 3.31x the whole year's 8% budget
 
-Each account declares 1,000,000 CNY and its own 8% vol budget allows 0/0 lot(s) (IC / IM); the record was written at 4/4 lot(s) instead, i.e. 181.0% implied annual volatility and 57% of capital posted as margin, so none of its 10 account-bars is evidence about this account. The same money (-963,360 CNY) read on the capital the ticket needs (9,108,300 CNY) is -8.41% / -12.69% -- which is the same as one lot on the first funding rung (2,277,075 CNY), because the ticket is exactly 4 lots of it -- so even the smallest implementable size lost money in these five sessions.
+Each account declares 1,000,000 CNY and its own 8% vol budget allows 0/0 lot(s) (IC / IM); the record was written at 4/4 lot(s) instead, i.e. 181.5% implied annual volatility and 55% of capital posted as margin, so none of its 16 account-bars is evidence about this account. The same money (-1,158,720 CNY) read on the capital the ticket needs (9,173,226 CNY) is -10.71% / -14.51% -- which is the same as one lot on the first funding rung (2,293,307 CNY), because the ticket is exactly 4 lots of it -- so even the smallest implementable size lost money in these five sessions.
 
-Read this next to `research/IDX_FUT_CARRY_OPEN_CAPITAL.md`: that face prices opening the book; this one prices the record that has been kept while it is closed.  The clock on this sleeve has not started -- what the ledger holds is a demonstration of what a 9,108,300 CNY account would look like, not evidence about a 2,000,000 CNY one.  Nothing here says the carry is gone; it says the five sessions that were recorded were run at a size this account cannot buy, so they are not the first five days of its forward record.
+Read this next to `research/IDX_FUT_CARRY_OPEN_CAPITAL.md`: that face prices opening the book; this one prices the record that has been kept while it is closed.  The clock on this sleeve has not started -- what the ledger holds is a demonstration of what a 9,173,226 CNY account would look like, not evidence about a 2,000,000 CNY one.  Nothing here says the carry is gone; it says the five sessions that were recorded were run at a size this account cannot buy, so they are not the first five days of its forward record.
 <!-- END GENERATED -->

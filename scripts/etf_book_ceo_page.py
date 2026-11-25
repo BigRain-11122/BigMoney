@@ -11463,7 +11463,7 @@ def render_md(p, sb=None, page_stamp=None):
         add("这一节没有数：盘口面%s（`%s`）。"
             "缺面、读不出、或控制臂没能复现卡片自己的年化（那就不是同一本书）就写「无法核验」，"
             "绝不默认读成「卡片是保守的」。"
-            % ({"absent": "未产出", "no_control": "未通过控制臂"}.get(ct.get("status"), "读不出"),
+            % (_NEEDS_VERIFY_STATUS_WORDS.get(ct.get("status"), "读不出"),
                _rel(ct.get("artifact") or COST_JSON, ROOT).replace(os.sep, "/")))
         add("")
     else:
@@ -11914,7 +11914,14 @@ _REAL_FILE_READERS = (
     ("derisk", derisk_face),
     ("supply_capacity", supply_capacity_face),
 )
-_READER_STATUS = ("ok", "absent", "unreadable", "drifted")
+# r2119: the words the page already prints when a face cannot be trusted. A reader that
+# returns one of these IS renderable -- the page has a sentence for it -- so the probe
+# vocabulary is built from this table instead of from a hand-kept tuple. The two lists had
+# drifted: the cost-tape reader started answering `no_control` (its control arm failed to
+# reproduce the card's own CAGR, which the page prints as 未通过控制臂) while the probe
+# called that an unrenderable status, so a face the page could read counted as dead.
+_NEEDS_VERIFY_STATUS_WORDS = {"absent": "未产出", "no_control": "未通过控制臂"}
+_READER_STATUS = ("ok", "unreadable", "drifted") + tuple(_NEEDS_VERIFY_STATUS_WORDS)
 
 
 def reader_probe():

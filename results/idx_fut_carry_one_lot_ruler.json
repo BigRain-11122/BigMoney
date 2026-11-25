@@ -1,7 +1,7 @@
 {
  "schema": "idx-fut-carry-one-lot-ruler/v1",
  "kind": "one_lot_ruler_cross_face_check",
- "generated": "2026-11-25T20:45:51+08:00",
+ "generated": "2026-11-26T06:50:47+08:00",
  "evidence_cutoff": "2026-11-25",
  "question": "does every face that prints the cost of one legal lot print today's number?",
  "rule": {
@@ -11,14 +11,19 @@
    "always_on_price"
   ],
   "money_tol_cny": 0.01,
+  "precision_tick_cny": {
+   "IC": 0.02,
+   "IM": 0.02
+  },
+  "precision_tick_basis": "multiplier x price quantum: 200 x 0.0001 = 0.02 CNY; a sub-tick difference is the same measurement summed in another order, so it is PRECISION_ONLY and neither a rebuild nor a defect",
   "attribution": "a consumer older than the authority and printing another number is STALE (rebuild); one at or after the authority is DISAGREE",
   "only_stale_says_stale": "the word STALE is reserved for rebuildable drift"
  },
  "authority": {
   "sizing_spec": {
    "face": "results/idx_fut_carry_sizing_spec.json",
-   "generated": "2026-11-25T20:30:15+08:00",
-   "gen_epoch": 1795609815.0,
+   "generated": "2026-11-26T05:32:38+08:00",
+   "gen_epoch": 1795642358.0,
    "cutoff": "2026-11-25",
    "values": {
     "IC": 1132145.38,
@@ -27,8 +32,8 @@
   },
   "open_capital": {
    "face": "results/idx_fut_carry_open_capital.json",
-   "generated": "2026-11-25T20:30:15+08:00",
-   "gen_epoch": 1795609815.0,
+   "generated": "2026-11-26T05:32:38+08:00",
+   "gen_epoch": 1795642358.0,
    "cutoff": "2026-11-25",
    "values": {
     "IC": 1132145.38,
@@ -53,84 +58,84 @@
    "face": "results/idx_fut_carry_forward_clock.json",
    "product": "IC",
    "field": "accounts/IC/first_rung_cny",
-   "value": 1124479.0,
-   "generated": "2026-11-23T06:49:06+08:00",
-   "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -7666.38,
+   "value": 1132145.38,
+   "generated": "2026-11-26T06:48:08+08:00",
+   "cutoff": "2026-11-25",
+   "status": "FRESH",
+   "delta_cny": 0.0,
    "authority_label": "sizing_spec",
    "authority_value": 1132145.38,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "prints the current ruler"
   },
   {
    "label": "forward_clock",
    "face": "results/idx_fut_carry_forward_clock.json",
    "product": "IM",
    "field": "accounts/IM/first_rung_cny",
-   "value": 1152596.0,
-   "generated": "2026-11-23T06:49:06+08:00",
-   "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -8565.25,
+   "value": 1161161.25,
+   "generated": "2026-11-26T06:48:08+08:00",
+   "cutoff": "2026-11-25",
+   "status": "FRESH",
+   "delta_cny": 0.0,
    "authority_label": "sizing_spec",
    "authority_value": 1161161.25,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "prints the current ruler"
   },
   {
    "label": "portfolio_capital",
    "face": "results/idx_fut_carry_portfolio_capital.json",
    "product": "IC",
    "field": "measured_arms/IC/first_rung_cny",
-   "value": 1124479.0,
-   "generated": "2026-11-23T17:39:34+08:00",
+   "value": 1132145.38,
+   "generated": "2026-11-26T06:48:08+08:00",
    "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -7666.38,
+   "status": "FRESH",
+   "delta_cny": 0.0,
    "authority_label": "sizing_spec",
    "authority_value": 1132145.38,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "prints the current ruler"
   },
   {
    "label": "portfolio_capital",
    "face": "results/idx_fut_carry_portfolio_capital.json",
    "product": "IM",
    "field": "measured_arms/IM/first_rung_cny",
-   "value": 1152596.0,
-   "generated": "2026-11-23T17:39:34+08:00",
+   "value": 1161161.25,
+   "generated": "2026-11-26T06:48:08+08:00",
    "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -8565.25,
+   "status": "FRESH",
+   "delta_cny": 0.0,
    "authority_label": "sizing_spec",
    "authority_value": 1161161.25,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "prints the current ruler"
   },
   {
    "label": "tradeable_hedge_capital",
    "face": "results/idx_fut_carry_tradeable_hedge_capital.json",
    "product": "IC",
    "field": "accounts/IC/reference/capital_cny",
-   "value": 1124478.99,
-   "generated": "2026-11-23T19:44:50+08:00",
-   "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -7666.39,
+   "value": 1132145.36,
+   "generated": "2026-11-26T06:48:12+08:00",
+   "cutoff": "2026-11-25",
+   "status": "PRECISION_ONLY",
+   "delta_cny": -0.02,
    "authority_label": "sizing_spec",
    "authority_value": 1132145.38,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "one index tick: 0.02 CNY at 200x multiplier -- the same measurement accumulated in a different order, not a second ruler"
   },
   {
    "label": "tradeable_hedge_capital",
    "face": "results/idx_fut_carry_tradeable_hedge_capital.json",
    "product": "IM",
    "field": "accounts/IM/reference/capital_cny",
-   "value": 1152595.98,
-   "generated": "2026-11-23T19:44:50+08:00",
-   "cutoff": "2026-11-20",
-   "status": "STALE_BY_GENERATION",
-   "delta_cny": -8565.27,
+   "value": 1161161.22,
+   "generated": "2026-11-26T06:48:12+08:00",
+   "cutoff": "2026-11-25",
+   "status": "PRECISION_ONLY",
+   "delta_cny": -0.03,
    "authority_label": "sizing_spec",
    "authority_value": 1161161.25,
-   "note": "written before the ruler moved; it read the previous inputs -- rebuild this face"
+   "note": "one index tick plus a cent of display rounding: 0.02 CNY at 200x multiplier -- the same measurement accumulated in a different order, not a second ruler"
   },
   {
    "label": "decision_face",
@@ -138,7 +143,7 @@
    "product": "IC",
    "field": "products/IC/capital/first_rung_cny",
    "value": 1132145.38,
-   "generated": "2026-11-25T20:30:18+0800",
+   "generated": "2026-11-26T05:32:41+0800",
    "cutoff": "2026-11-24",
    "status": "FRESH",
    "delta_cny": 0.0,
@@ -152,7 +157,7 @@
    "product": "IM",
    "field": "products/IM/capital/first_rung_cny",
    "value": 1161161.25,
-   "generated": "2026-11-25T20:30:18+0800",
+   "generated": "2026-11-26T05:32:41+0800",
    "cutoff": "2026-11-24",
    "status": "FRESH",
    "delta_cny": 0.0,
@@ -166,7 +171,7 @@
    "product": "IC",
    "field": "products/IC/desk/capital_per_lot_cny",
    "value": 1132145.38,
-   "generated": "2026-11-25T20:30:17+0800",
+   "generated": "2026-11-26T05:32:40+0800",
    "cutoff": "2026-11-25",
    "status": "FRESH",
    "delta_cny": 0.0,
@@ -180,7 +185,7 @@
    "product": "IM",
    "field": "products/IM/desk/capital_per_lot_cny",
    "value": 1161161.25,
-   "generated": "2026-11-25T20:30:17+0800",
+   "generated": "2026-11-26T05:32:40+0800",
    "cutoff": "2026-11-25",
    "status": "FRESH",
    "delta_cny": 0.0,
@@ -189,73 +194,42 @@
    "note": "prints the current ruler"
   }
  ],
- "rebuild_list": [
-  {
-   "face": "results/idx_fut_carry_forward_clock.json",
-   "label": "forward_clock",
-   "status": "STALE_BY_GENERATION",
-   "generated": "2026-11-23T06:49:06+08:00",
-   "products": [
-    "IC",
-    "IM"
-   ]
-  },
-  {
-   "face": "results/idx_fut_carry_portfolio_capital.json",
-   "label": "portfolio_capital",
-   "status": "STALE_BY_GENERATION",
-   "generated": "2026-11-23T17:39:34+08:00",
-   "products": [
-    "IC",
-    "IM"
-   ]
-  },
-  {
-   "face": "results/idx_fut_carry_tradeable_hedge_capital.json",
-   "label": "tradeable_hedge_capital",
-   "status": "STALE_BY_GENERATION",
-   "generated": "2026-11-23T19:44:50+08:00",
-   "products": [
-    "IC",
-    "IM"
-   ]
-  }
- ],
+ "rebuild_list": [],
  "arithmetic_only": {
   "portfolio_capital_floor": {
    "old_cny": 2277075.0,
-   "new_cny": 2260843.37,
-   "delta_cny": -16231.63,
+   "new_cny": 2277075.0,
+   "delta_cny": 0.0,
    "basis": "arithmetic_only: sum of the two per-lot deltas added to the published floor; the face itself must still be rebuilt"
   },
   "forward_clock_one_lot_pct": {
    "rows": [
     {
      "product": "IC",
-     "pnl_pct_on_first_rung_published": -8.4128,
-     "pnl_pct_on_first_rung_on_current_ruler": -8.3558,
-     "shift_pp": 0.057
+     "pnl_pct_on_first_rung_published": -10.7053,
+     "pnl_pct_on_first_rung_on_current_ruler": -10.7053,
+     "shift_pp": -0.0
     },
     {
      "product": "IM",
-     "pnl_pct_on_first_rung_published": -12.6879,
-     "pnl_pct_on_first_rung_on_current_ruler": -12.5943,
-     "shift_pp": 0.0936
+     "pnl_pct_on_first_rung_published": -14.5096,
+     "pnl_pct_on_first_rung_on_current_ruler": -14.5096,
+     "shift_pp": -0.0
     }
    ],
    "basis": "arithmetic_only: same P&L per lot, denominator moved to today's ruler"
   }
  },
- "verdict": "CONSUMERS_ONE_GENERATION_BEHIND",
+ "verdict": "ONE_RULER_UP_TO_ONE_TICK",
  "inputs": {
-  "results/idx_fut_carry_sizing_spec.json": "fd9a0559a62d2cc435c429c4e3846f5dc0fb344748de2d2f3e0f306f5a117332",
-  "results/idx_fut_carry_open_capital.json": "e3355402c673f21766a21da8f2624e0d1f01e8a8e84295091b991a7c44e4ad8e",
+  "results/idx_fut_carry_sizing_spec.json": "7e0c27970f8046048acefa8ee668e2f2441073787e08ee8890c60e955ff4ac98",
+  "results/idx_fut_carry_open_capital.json": "70151cacce84f01656ca9c2527d73c8809b8da1866cfeac706d54bb61b28725f",
   "results/idx_fut_carry_always_on_price.json": "ebf21419d6b7cdf808fea7641d303438c6cdbdf667cdc2931f7b8e9066d9ed34",
-  "results/idx_fut_carry_forward_clock.json": "b23cdb31bc5aa3f65fe0ebba6250f13f4c5c39194655bcdccbfafcf07308b988",
-  "results/idx_fut_carry_portfolio_capital.json": "f0ea5b03111355c001fddcfb92b4e6a805f85568ecf90940c15179501657b120",
-  "results/idx_fut_carry_tradeable_hedge_capital.json": "4bf84c161892e7b038749eecd859270f6e47fa63d44d5df9296c5fce87f337e6",
-  "results/idx_fut_carry_decision_face.json": "e65140599746dc9649abf91603a4d342657949eb8dd4676742c29e8d35dbbc67",
-  "results/idx_fut_carry_capacity_lots.json": "ddbbb51bcc57d3ed0f32e29feff9919d939252fd2ec1bc3dec2da2f9ffc18c14"
+  "results/idx_fut_carry_forward_clock.json": "b88a32fcbb18106def0ff85d71f101e02db5b62a73fec5ca0be2410a6799839c",
+  "results/idx_fut_carry_portfolio_capital.json": "e8caa77f0c9c836f44ad88844e75c0176578f9fb9d097eea86a558c54d1a8bac",
+  "results/idx_fut_carry_tradeable_hedge_capital.json": "ca49391a168ef0fcb6587ed0f36dd3e7767f6abf4d63d15ce14ee9705384ba7d",
+  "results/idx_fut_carry_decision_face.json": "6b899ae2ab7be4842513884b41e94676c373f0401a75e768c76f92145b7ff143",
+  "results/idx_fut_carry_capacity_lots.json": "e90fc1aac7be4a197cc1b30a87f0281ba053ee750b9a69ec4595972faa110e4d"
  },
  "not_recomputed": [
   "the per-lot capital itself (results/idx_fut_carry_sizing_spec.json and its two peers)",

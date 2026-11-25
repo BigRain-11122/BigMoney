@@ -114,6 +114,15 @@ CLAIM_RULES = [
     (re.compile(r"（本页 bar " + _D + r"）"), ["priced_bar"]),
     (re.compile(r"族面重定价的回执付的是世界 [^（]*（" + _D),
      ["family_coherence.receipt.generated"]),
+    # r2119 bm-c: two sentences print TWO dates in one breath -- the day the source face is
+    # priced on, and the day this page is priced on -- and both were unclaimed, so a page
+    # whose every day word is anchored still carried four unpaid dates. Each date is read
+    # against the field that issued it (the sentence names the face; the page carries it),
+    # and the second date of each sentence is the page's own `priced_bar`, not a new one.
+    (re.compile(r"这张读数按 \*\*" + _D + r"\*\* 的票面算，本页价的日期是 \*\*" + _D + r"\*\*"),
+     ["premium_forward.face_asof", "priced_bar"]),
+    (re.compile(r"额度来源面锚在 \*\*" + _D + r"\*\*，本页的价是 \*\*" + _D + r"\*\*"),
+     ["floor_provenance.evidence_cutoff", "priced_bar"]),
 ]
 
 
@@ -800,6 +809,8 @@ def selftest():
         ("注意这一行定价在 **2026-11-19** 那根 bar（本页 bar 2026-11-20）", 1),
         ("（本页 bar 2026-11-20）", 1),
         ("上一次族面重定价的回执付的是世界 `?`（2026-11-20T18:02:26+0800）", 1),
+        ("这张读数按 **2026-11-24** 的票面算，本页价的日期是 **2026-11-25**——两个日子对不上", 2),
+        ("额度来源面锚在 **2026-11-24**，本页的价是 **2026-11-25**——两个日子对不上", 2),
     ]
     leg("every date rule has a sample of its own language, and every sample fires one rule",
         len(_samples) == len(CLAIM_RULES)
@@ -826,6 +837,29 @@ def selftest():
         and _with_era["date_claims"].get("n_ok") == 2
         and _with_era["date_claims"].get("n_unmapped") == 0,
         (_no_era["date_claims"], _with_era["date_claims"]))
+
+    # r2119: same shape for the two two-date sentences. The page can print both dates only
+    # because it read a face that carries them; if that face is missing the dates must read
+    # unverifiable -- a rule that maps a sentence to a field must not turn a missing field
+    # into a green check (r98 family).
+    _two_date_line = ("这张读数按 **2026-11-24** 的票面算，本页价的日期是 **2026-11-25**——两个日子"
+                      "对不上，下面这些数不能直接搬到今天的单上。\n"
+                      "额度来源面锚在 **2026-11-24**，本页的价是 **2026-11-25**——两个日子对不上，"
+                      "下面的拆分不能直接当作今天的。\n")
+    _bare = census({"generated_for_date": "2026-11-26", "priced_bar": "2026-11-25"},
+                   artifact="fixture/no-two-date-faces.json", printed=_two_date_line)
+    _full = census({"generated_for_date": "2026-11-26", "priced_bar": "2026-11-25",
+                    "premium_forward": {"face_asof": "2026-11-24"},
+                    "floor_provenance": {"evidence_cutoff": "2026-11-24"}},
+                   artifact="fixture/two-date-faces.json", printed=_two_date_line)
+    leg("the two-date sentences are unverifiable without their faces and ok with them",
+        _bare["date_claims"].get("n_unmapped") == 0
+        # the page's own price day is still checkable; only the two face days go unverified
+        and _bare["date_claims"].get("n_ok") == 2
+        and _bare["date_claims"].get("n_unverifiable") == 2
+        and _full["date_claims"].get("n_ok") == 4
+        and _full["date_claims"].get("n_unmapped") == 0,
+        (_bare["date_claims"], _full["date_claims"]))
 
     _doc = {"generated_for_date": "2026-11-14", "book_decided_at": "2026-11-11",
             "priced_bar": "2026-11-13", "next_rebalance_date": "2026-12-09",

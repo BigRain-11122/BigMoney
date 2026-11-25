@@ -6,7 +6,7 @@
 
 <!-- one-lot-ruler:begin -->
 
-generated 2026-11-25T20:45:51+08:00 | verdict **CONSUMERS_ONE_GENERATION_BEHIND** | evidence cutoff 2026-11-25
+generated 2026-11-26T06:50:47+08:00 | verdict **ONE_RULER_UP_TO_ONE_TICK** | evidence cutoff 2026-11-25
 
 ## What one legal lot costs today
 
@@ -19,30 +19,24 @@ generated 2026-11-25T20:45:51+08:00 | verdict **CONSUMERS_ONE_GENERATION_BEHIND*
 
 | face | product | prints | today | delta | written | status |
 |---|---|---|---|---|---|---|
-| forward_clock | IC | 1,124,479.00 | 1,132,145.38 | -7,666.38 | 2026-11-23 | **STALE_BY_GENERATION** |
-| forward_clock | IM | 1,152,596.00 | 1,161,161.25 | -8,565.25 | 2026-11-23 | **STALE_BY_GENERATION** |
-| portfolio_capital | IC | 1,124,479.00 | 1,132,145.38 | -7,666.38 | 2026-11-23 | **STALE_BY_GENERATION** |
-| portfolio_capital | IM | 1,152,596.00 | 1,161,161.25 | -8,565.25 | 2026-11-23 | **STALE_BY_GENERATION** |
-| tradeable_hedge_capital | IC | 1,124,478.99 | 1,132,145.38 | -7,666.39 | 2026-11-23 | **STALE_BY_GENERATION** |
-| tradeable_hedge_capital | IM | 1,152,595.98 | 1,161,161.25 | -8,565.27 | 2026-11-23 | **STALE_BY_GENERATION** |
-| decision_face | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-25 | **FRESH** |
-| decision_face | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-25 | **FRESH** |
-| capacity_lots | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-25 | **FRESH** |
-| capacity_lots | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-25 | **FRESH** |
+| forward_clock | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-26 | **FRESH** |
+| forward_clock | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-26 | **FRESH** |
+| portfolio_capital | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-26 | **FRESH** |
+| portfolio_capital | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-26 | **FRESH** |
+| tradeable_hedge_capital | IC | 1,132,145.36 | 1,132,145.38 | -0.02 | 2026-11-26 | **PRECISION_ONLY** |
+| tradeable_hedge_capital | IM | 1,161,161.22 | 1,161,161.25 | -0.03 | 2026-11-26 | **PRECISION_ONLY** |
+| decision_face | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-26 | **FRESH** |
+| decision_face | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-26 | **FRESH** |
+| capacity_lots | IC | 1,132,145.38 | 1,132,145.38 | 0.00 | 2026-11-26 | **FRESH** |
+| capacity_lots | IM | 1,161,161.25 | 1,161,161.25 | 0.00 | 2026-11-26 | **FRESH** |
 
 ## If the stale faces are rebuilt (arithmetic only)
 
-- opening one lot of every measured arm: 2,277,075.00 -> 2,260,843.37 (delta -16,231.63)
+- opening one lot of every measured arm: 2,277,075.00 -> 2,277,075.00 (delta 0.00)
   - arithmetic_only: sum of the two per-lot deltas added to the published floor; the face itself must still be rebuilt
-- IC one lot P&L on its first rung: -8.4128% -> -8.3558% (shift 0.057 pp)
-- IM one lot P&L on its first rung: -12.6879% -> -12.5943% (shift 0.0936 pp)
+- IC one lot P&L on its first rung: -10.7053% -> -10.7053% (shift -0.0 pp)
+- IM one lot P&L on its first rung: -14.5096% -> -14.5096% (shift -0.0 pp)
   - arithmetic_only: same P&L per lot, denominator moved to today's ruler
-
-## Rebuild these, in this order
-
-- `results/idx_fut_carry_forward_clock.json` (forward_clock, written 2026-11-23) -- STALE_BY_GENERATION
-- `results/idx_fut_carry_portfolio_capital.json` (portfolio_capital, written 2026-11-23) -- STALE_BY_GENERATION
-- `results/idx_fut_carry_tradeable_hedge_capital.json` (tradeable_hedge_capital, written 2026-11-23) -- STALE_BY_GENERATION
 
 `--check` re-reads every one of these faces and re-derives the table; a face that moved says STALE, a number that moved with the same inputs says CHECK FAILED.
 
