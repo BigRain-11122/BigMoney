@@ -59,7 +59,7 @@
  "carrier_debt_r2140": "竞争窗 rc=3（对端 interactive pid=107624 自 11:49 存活）：S6 链与全量冒烟连续第 9 轮未跑，如实记",
  "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
  "chain_note": "peer chain 1930 (pid 47848) finished 15:21:36 with every leg rc0; it predates the new leg, so the leg was proven separately",
- "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在写共享面），按 r1907 同树多宿主律只落新增文件面；全量冒烟改在分离进程跑，收轮时读到 3 红（etf_book_year_gate / swap freshness 两面代差 + etf_book_production selftest 超 300s），如实挂账",
+ "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在，重叠窗 19 张共享面不可归因），按 r1907 同树多宿主律只落新增文件面。全量冒烟在分离进程内跑完整（34 分钟）：**771/783 PASS · 11 FAIL · 1 UNVERIFIED**，11 红分三族——面代差 3 条（etf_book_year_gate / swap freshness ×2）、超时 1 条（etf_book_production selftest >300s；同轮 4 腿 >180s，套件在负载机上关不进一轮）、CEO 一页纸内容缺 6 条（页面在盘上仍是旧渲染）+ 确定性腿 1 条（lag 小数）",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -2322,6 +2322,19 @@
  "smoke_r2127": "not run and no total claimed: contention rc=3 forbids editing smoke_test.py, and a full suite reads faces the peer rewrites. The 10:06 suite read 773 PASS / 10 FAIL; two of those ten now read clean from the regenerated faces (ticket premium rows 5/5 equal to PREMIUM-PERSISTENCE, cost_tape control published_cagr == engine_cagr == 0.0898, same_window_gap 0.0pp) but that is a face reading, not a suite run.",
  "smoke_r2128": "未跑，不宣称套件总数：竞争窗 rc=3 禁改 smoke_test.py，且对端宿主正在重写共享面（全量套件读的正是那些面）；上一趟可引用读数仍是 10:06 那趟 773 PASS / 10 FAIL（其中 r2124/r2125 各关 3、4 条，cost_tape 与 premium 两族已自愈）",
  "smoke_r2129": "未跑，不宣称套件总数：竞争窗 rc=3 禁改 smoke_test.py，且对端宿主正在重写共享面（全量套件读的正是那些面）。可引用读数仍是 r2125 那趟 773 PASS / 10 FAIL（其中 r2124/r2125 各关 3、4 条）。",
+ "smoke_r2144": {
+  "fail": 11,
+  "families": {
+   "ceo_page_content": 6,
+   "determinism_lag_decimal": 1,
+   "stale_face": 3,
+   "timeout": 1
+  },
+  "legs": 783,
+  "note": "seed the next clean window with ceo_live_usage writer first",
+  "pass": 771,
+  "unverified": 1
+ },
  "smoke_started": "2026-11-16T14:25:48+08:00",
  "smoke_verdict": "1942 log: 760/762 PASS / 1 FAIL / 1 UNVERIFIED (891.3s); the FAIL was rc=0xC000013A STATUS_CONTROL_C_EXIT -- killed child, not a verdict",
  "src": "smoke_test.py (_verdict_record, flush=True) + Tools/smoke_red.py",
