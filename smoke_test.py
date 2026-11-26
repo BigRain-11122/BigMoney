@@ -3302,6 +3302,15 @@ def main() -> int:
              "scripts/etf_book_cadence_regime_split.py", ["assert-dedup", "--leg", "independent"]),
             ("product: cadence regime split (de-duplicated regime channel still on top)",
              "scripts/etf_book_cadence_regime_split.py", ["assert-dedup", "--leg", "channel"]),
+            # r2161: both cadence readers below had a published face and no leg anywhere --
+            # not on the chain, not here (r1282 orphan class found while closing r2160). The
+            # chain legs now re-derive them; these two legs pin the half a panel-advance would
+            # silently break: that a moved input panel / a missing face is called STALE (so the
+            # chain pays one write) instead of being read as a wrong answer. Offline, no panel.
+            ("product: cadence comparable (a moved panel reads STALE, a shifted sign is MATCHED_SEPARATION_FAILS)",
+             "scripts/etf_book_cadence_comparable.py", ["selftest"]),
+            ("product: cadence start dates (a moved panel reads STALE by sha1, not by eye)",
+             "scripts/etf_book_cadence_start_dates.py", ["selftest"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet

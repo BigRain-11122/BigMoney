@@ -2747,6 +2747,19 @@ LEGS = [
     ("bench_census_arm_contradiction",
      ["python", "scripts/bench_census_arm_contradiction.py", "--check"],
      ["python", "scripts/bench_census_arm_contradiction.py"]),
+    # r2161: r2160 closed the rebal_adoption face-lag debt and, on its way out, noticed two
+    # downstream readers had no leg here at all (r1282 orphan class): when the panel moved the
+    # chain rewrote both faces they read, while these two kept quoting the previous bar -- and
+    # the only warning was a red smoke leg that looked like the readers had gone wrong. Both
+    # checks already speak STALE for a missing face / moved input panel (so `run` is paid only
+    # when the probe asks), and both writers read the same results/*.json panels upstream of
+    # this point, hence the placement at the tail.
+    ("cadence_comparable",
+     ["python", "scripts/etf_book_cadence_comparable.py", "check"],
+     ["python", "scripts/etf_book_cadence_comparable.py", "run"]),
+    ("cadence_start_dates",
+     ["python", "scripts/etf_book_cadence_start_dates.py", "check"],
+     ["python", "scripts/etf_book_cadence_start_dates.py", "run"]),
 ]
 
 
