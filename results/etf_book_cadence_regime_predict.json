@@ -1,0 +1,589 @@
+{
+ "schema": "etf-book-cadence-regime-predict/v1",
+ "face": "results/etf_book_cadence_regime_predict.json",
+ "question": "can the regime (segment) channel be read before the segment opens?",
+ "rule": {
+  "P1_target": "segment column effect from the same two-way median polish r2130 used",
+  "P2_inputs": "observables from bars dated strictly before the segment lo bound",
+  "P3_stats": "Spearman rho, 999-shuffle permutation p, pp/q over always-fast",
+  "P4_verdict": "ACTIONABLE only if |rho|>=0.50 and improvement>0 and the family-wise permutation p (best of the shared-set observables) <= 0.10 and the direction carried out of the first half still earns on the second half; fewer than 12 segments = refused",
+  "primary_cost": "8bp"
+ },
+ "upstream": {
+  "face": "results/etf_book_cadence_regime_split.json",
+  "cutoff": "2026-11-25",
+  "cells": 142,
+  "headline_words": "REGIME_DOMINATES | BOTH_CHANNELS_READ"
+ },
+ "observable_definitions": {
+  "trail_vol60": "annualised realised vol of the equal-weight book universe, last 60 bars",
+  "trail_ret60": "cumulative return of the equal-weight book universe, last 60 bars",
+  "trail_dd60": "peak-to-last drawdown depth of that universe, last 60 bars",
+  "xs_disp60": "median cross-sectional |60-bar return - median| across the universe",
+  "trail_vol20": "annualised realised vol of that universe, last 20 bars",
+  "own_prev_q": "the previous readable segment's own column effect"
+ },
+ "segments": [
+  {
+   "segment": "2022Q1",
+   "col_eff": null,
+   "bars_in_segment": null,
+   "asof": "2021-12-31",
+   "trail_vol60": 10.933346052639287,
+   "trail_ret60": 1.0337333432776097,
+   "trail_dd60": 3.883109425545509,
+   "xs_disp60": 2.7738045572838987,
+   "trail_vol20": 13.352742451930732,
+   "names": 479,
+   "bars": 4103
+  },
+  {
+   "segment": "2022Q2",
+   "col_eff": null,
+   "bars_in_segment": null,
+   "asof": "2022-03-31",
+   "trail_vol60": 22.450367547594748,
+   "trail_ret60": -13.355872659843438,
+   "trail_dd60": 19.679134405477157,
+   "xs_disp60": 4.4144756560474825,
+   "trail_vol20": 31.956611603874048,
+   "names": 536,
+   "bars": 4161
+  },
+  {
+   "segment": "2022Q3",
+   "col_eff": null,
+   "bars_in_segment": null,
+   "asof": "2022-06-30",
+   "trail_vol60": 23.542070486947754,
+   "trail_ret60": 4.31496704361205,
+   "trail_dd60": 14.7310498045913,
+   "xs_disp60": 3.714341395306059,
+   "trail_vol20": 17.151510093399626,
+   "names": 578,
+   "bars": 4220
+  },
+  {
+   "segment": "2022Q4",
+   "col_eff": -2.65640286817892,
+   "bars_in_segment": null,
+   "asof": "2022-09-30",
+   "trail_vol60": 14.668527701889534,
+   "trail_ret60": -13.937517197939531,
+   "trail_dd60": 13.937517197939531,
+   "xs_disp60": 3.978829578103749,
+   "trail_vol20": 14.936800588794885,
+   "names": 593,
+   "bars": 4285
+  },
+  {
+   "segment": "2023Q1",
+   "col_eff": 2.1457648459509704,
+   "bars_in_segment": null,
+   "asof": "2022-12-30",
+   "trail_vol60": 18.774914691558998,
+   "trail_ret60": 4.9073556892002435,
+   "trail_dd60": 5.60077594112467,
+   "xs_disp60": 3.3175513729217787,
+   "trail_vol20": 11.105280586182696,
+   "names": 633,
+   "bars": 4345
+  },
+  {
+   "segment": "2023Q2",
+   "col_eff": 1.2520661951130885,
+   "bars_in_segment": null,
+   "asof": "2023-03-31",
+   "trail_vol60": 12.545244879455888,
+   "trail_ret60": 6.476465022579103,
+   "trail_dd60": 6.140301294888821,
+   "xs_disp60": 3.7803534632861897,
+   "trail_vol20": 12.385335668242472,
+   "names": 660,
+   "bars": 4404
+  },
+  {
+   "segment": "2023Q3",
+   "col_eff": -1.6335083260290206,
+   "bars_in_segment": null,
+   "asof": "2023-06-30",
+   "trail_vol60": 12.563955474820554,
+   "trail_ret60": -2.6686067627967436,
+   "trail_dd60": 7.410620326143547,
+   "xs_disp60": 3.362406358207221,
+   "trail_vol20": 14.085516876566837,
+   "names": 690,
+   "bars": 4463
+  },
+  {
+   "segment": "2023Q4",
+   "col_eff": -8.113571037786938,
+   "bars_in_segment": null,
+   "asof": "2023-09-28",
+   "trail_vol60": 13.841956425862593,
+   "trail_ret60": -5.026709345257629,
+   "trail_dd60": 8.983031020840796,
+   "xs_disp60": 4.105010659307185,
+   "trail_vol20": 11.993170880114326,
+   "names": 723,
+   "bars": 4527
+  },
+  {
+   "segment": "2024Q1",
+   "col_eff": -1.512155798679271,
+   "bars_in_segment": null,
+   "asof": "2023-12-29",
+   "trail_vol60": 13.316151179646244,
+   "trail_ret60": -4.509046113532589,
+   "trail_dd60": 8.402733744570705,
+   "xs_disp60": 2.1751878843156494,
+   "trail_vol20": 14.085502619104417,
+   "names": 770,
+   "bars": 4587
+  },
+  {
+   "segment": "2024Q2",
+   "col_eff": 0.041713078668870196,
+   "bars_in_segment": null,
+   "asof": "2024-03-29",
+   "trail_vol60": 21.882258226601657,
+   "trail_ret60": 1.4091493405385513,
+   "trail_dd60": 14.227405495813755,
+   "xs_disp60": 4.886862546437021,
+   "trail_vol20": 14.464526453575294,
+   "names": 811,
+   "bars": 4645
+  },
+  {
+   "segment": "2024Q3",
+   "col_eff": 5.2639950334609225,
+   "bars_in_segment": null,
+   "asof": "2024-06-28",
+   "trail_vol60": 14.669864510318964,
+   "trail_ret60": -2.269854762918244,
+   "trail_dd60": 7.060332040604445,
+   "xs_disp60": 5.018863538975316,
+   "trail_vol20": 10.893278212652929,
+   "names": 852,
+   "bars": 4704
+  },
+  {
+   "segment": "2024Q4",
+   "col_eff": -3.8832713010979174,
+   "bars_in_segment": null,
+   "asof": "2024-09-30",
+   "trail_vol60": 28.20797817586215,
+   "trail_ret60": 20.184731351322327,
+   "trail_dd60": 8.011952292560881,
+   "xs_disp60": 5.603650860531964,
+   "trail_vol20": 41.738888112189855,
+   "names": 900,
+   "bars": 4768
+  },
+  {
+   "segment": "2025Q1",
+   "col_eff": -2.1501190267313675,
+   "bars_in_segment": null,
+   "asof": "2024-12-31",
+   "trail_vol60": 25.165558486688344,
+   "trail_ret60": -5.958415870639177,
+   "trail_dd60": 10.812315738384257,
+   "xs_disp60": 4.436627677677318,
+   "trail_vol20": 13.664715708036452,
+   "names": 926,
+   "bars": 4829
+  },
+  {
+   "segment": "2025Q2",
+   "col_eff": 1.3010478190366381,
+   "bars_in_segment": null,
+   "asof": "2025-03-31",
+   "trail_vol60": 17.036607548204163,
+   "trail_ret60": 1.36117077345852,
+   "trail_dd60": 7.104557427173698,
+   "xs_disp60": 3.187573069762767,
+   "trail_vol20": 13.561978380178044,
+   "names": 974,
+   "bars": 4886
+  },
+  {
+   "segment": "2025Q3",
+   "col_eff": 0.2004639819481291,
+   "bars_in_segment": null,
+   "asof": "2025-06-30",
+   "trail_vol60": 21.524660217457146,
+   "trail_ret60": 3.009884534561169,
+   "trail_dd60": 9.650117031101598,
+   "xs_disp60": 2.362535936801513,
+   "trail_vol20": 10.85361979362494,
+   "names": 1043,
+   "bars": 4946
+  },
+  {
+   "segment": "2025Q4",
+   "col_eff": 2.3812527258415206,
+   "bars_in_segment": null,
+   "asof": "2025-09-30",
+   "trail_vol60": 15.551367759014914,
+   "trail_ret60": 22.407249949017547,
+   "trail_dd60": 4.561380981764277,
+   "xs_disp60": 10.861589443162309,
+   "trail_vol20": 19.578386710764132,
+   "names": 1125,
+   "bars": 5012
+  }
+ ],
+ "holes": [],
+ "read": {
+  "n_segments": 13,
+  "best_by_abs_rho": "trail_dd60",
+  "cleared_gates": [
+   "trail_ret60"
+  ],
+  "oos_survivors": [
+   "trail_ret60"
+  ],
+  "best_oos": {
+   "improvement_pp_per_q": 1.6546323620606533,
+   "observable": "trail_dd60"
+  },
+  "words": "REGIME_CHANNEL_HAS_AN_ENTRY_TIME_READER",
+  "family_p": 0.08,
+  "family_observed_max_abs_rho": 0.6703296703296703,
+  "family_observables": [
+   "trail_vol60",
+   "trail_ret60",
+   "trail_dd60",
+   "xs_disp60",
+   "trail_vol20"
+  ],
+  "gates": {
+   "min_abs_rho": 0.5,
+   "max_perm_p": 0.1,
+   "min_segments": 12
+  },
+  "observables": {
+   "trail_vol60": {
+    "n": 13,
+    "rho": -0.04945054945054945,
+    "perm_p": 0.88,
+    "switched_pp_per_q": 0.20568642107953394,
+    "always_fast_pp_per_q": -0.5663634368064073,
+    "improvement_pp_per_q": 0.7720498578859413,
+    "segments_used": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 13,
+     "train_n": 6,
+     "test_n": 7,
+     "train_rho": -0.02857142857142857,
+     "carried_sign": -1,
+     "train_median": 13.57905380275442,
+     "oos_realised_pp_per_q": -0.45072604444668507,
+     "oos_baseline_pp_per_q": 0.45072604444668507,
+     "oos_improvement_pp_per_q": -0.9014520888933701,
+     "oos_hit_share": 0.2857142857142857,
+     "train_segments": [
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1"
+     ],
+     "test_segments": [
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4"
+     ]
+    }
+   },
+   "trail_ret60": {
+    "n": 13,
+    "rho": 0.5,
+    "perm_p": 0.084,
+    "switched_pp_per_q": 0.8952849024102014,
+    "always_fast_pp_per_q": -0.5663634368064073,
+    "improvement_pp_per_q": 1.4616483392166089,
+    "segments_used": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 13,
+     "train_n": 6,
+     "test_n": 7,
+     "train_rho": 0.8285714285714286,
+     "carried_sign": 1,
+     "train_median": -3.5888264381646664,
+     "oos_realised_pp_per_q": 1.0650457663699329,
+     "oos_baseline_pp_per_q": 0.45072604444668507,
+     "oos_improvement_pp_per_q": 0.6143197219232478,
+     "oos_hit_share": 0.8571428571428571,
+     "train_segments": [
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1"
+     ],
+     "test_segments": [
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4"
+     ]
+    }
+   },
+   "trail_dd60": {
+    "n": 13,
+    "rho": -0.6703296703296703,
+    "perm_p": 0.016,
+    "switched_pp_per_q": -1.6167245125412075,
+    "always_fast_pp_per_q": -0.5663634368064073,
+    "improvement_pp_per_q": -1.0503610757348003,
+    "segments_used": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 13,
+     "train_n": 6,
+     "test_n": 7,
+     "train_rho": -0.8857142857142857,
+     "carried_sign": -1,
+     "train_median": 7.906677035357125,
+     "oos_realised_pp_per_q": 2.1053584065073383,
+     "oos_baseline_pp_per_q": 0.45072604444668507,
+     "oos_improvement_pp_per_q": 1.6546323620606533,
+     "oos_hit_share": 0.7142857142857143,
+     "train_segments": [
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1"
+     ],
+     "test_segments": [
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4"
+     ]
+    }
+   },
+   "xs_disp60": {
+    "n": 13,
+    "rho": -0.02197802197802198,
+    "perm_p": 0.944,
+    "switched_pp_per_q": -0.42748279821588653,
+    "always_fast_pp_per_q": -0.5663634368064073,
+    "improvement_pp_per_q": 0.1388806385905208,
+    "segments_used": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 13,
+     "train_n": 6,
+     "test_n": 7,
+     "train_rho": -0.7142857142857143,
+     "carried_sign": -1,
+     "train_median": 3.571379910746705,
+     "oos_realised_pp_per_q": -0.021722672736751596,
+     "oos_baseline_pp_per_q": 0.45072604444668507,
+     "oos_improvement_pp_per_q": -0.4724487171834367,
+     "oos_hit_share": 0.5714285714285714,
+     "train_segments": [
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1"
+     ],
+     "test_segments": [
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4"
+     ]
+    }
+   },
+   "trail_vol20": {
+    "n": 13,
+    "rho": -0.36813186813186816,
+    "perm_p": 0.215,
+    "switched_pp_per_q": -0.5509246384973985,
+    "always_fast_pp_per_q": -0.5663634368064073,
+    "improvement_pp_per_q": 0.01543879830900885,
+    "segments_used": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 13,
+     "train_n": 6,
+     "test_n": 7,
+     "train_rho": -0.42857142857142855,
+     "carried_sign": -1,
+     "train_median": 13.235419143673445,
+     "oos_realised_pp_per_q": 1.1105479599559012,
+     "oos_baseline_pp_per_q": 0.45072604444668507,
+     "oos_improvement_pp_per_q": 0.6598219155092161,
+     "oos_hit_share": 0.5714285714285714,
+     "train_segments": [
+      "2022Q4",
+      "2023Q1",
+      "2023Q2",
+      "2023Q3",
+      "2023Q4",
+      "2024Q1"
+     ],
+     "test_segments": [
+      "2024Q2",
+      "2024Q3",
+      "2024Q4",
+      "2025Q1",
+      "2025Q2",
+      "2025Q3",
+      "2025Q4"
+     ]
+    }
+   },
+   "own_prev_q": {
+    "n": 12,
+    "rho": 0.006993006993006993,
+    "perm_p": 0.99,
+    "switched_pp_per_q": 0.989026535731485,
+    "always_fast_pp_per_q": -0.3921934841920313,
+    "improvement_pp_per_q": 1.3812200199235163,
+    "segments_used": [
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1",
+     "2024Q2",
+     "2024Q3",
+     "2024Q4",
+     "2025Q1",
+     "2025Q2",
+     "2025Q3",
+     "2025Q4"
+    ],
+    "out_of_sample": {
+     "n": 0,
+     "reason": "not enough segments to split"
+    }
+   }
+  },
+  "base_rate_fast_wins_share": 0.5384615384615384,
+  "mean_always_fast_pp_per_q": -0.5663634368064073,
+  "oracle_abs_pp_per_q": 2.5027178491171984
+ },
+ "headline": {
+  "words": "REGIME_CHANNEL_HAS_AN_ENTRY_TIME_READER",
+  "n_segments": 13,
+  "best_by_abs_rho": "trail_dd60",
+  "cleared_gates": [
+   "trail_ret60"
+  ],
+  "family_p": 0.08,
+  "family_observables": [
+   "trail_vol60",
+   "trail_ret60",
+   "trail_dd60",
+   "xs_disp60",
+   "trail_vol20"
+  ],
+  "oos_survivors": [
+   "trail_ret60"
+  ],
+  "best_oos": {
+   "improvement_pp_per_q": 1.6546323620606533,
+   "observable": "trail_dd60"
+  },
+  "oracle_abs_pp_per_q": 2.5027178491171984,
+  "mean_always_fast_pp_per_q": -0.5663634368064073
+ },
+ "desk_sentence": "4.45 pp 的行情段通道有入场时可读的读者。；trail_vol60 ρ=-0.05（置换 p=0.88，全样本多 +0.77 pp/季，前半定方向→后半 -0.90 pp/季）；trail_ret60 ρ=+0.50（置换 p=0.08，全样本多 +1.46 pp/季，前半定方向→后半 +0.61 pp/季）；trail_dd60 ρ=-0.67（置换 p=0.02，全样本多 -1.05 pp/季，前半定方向→后半 +1.65 pp/季）；xs_disp60 ρ=-0.02（置换 p=0.94，全样本多 +0.14 pp/季，前半定方向→后半 -0.47 pp/季）；trail_vol20 ρ=-0.37（置换 p=0.21，全样本多 +0.02 pp/季，前半定方向→后半 +0.66 pp/季）；own_prev_q ρ=+0.01（置换 p=0.99，全样本多 +1.38 pp/季，前半定方向→后半 n/a）；同时试 5 个观察量，族级置换 p=0.080（单个观察量的 p 不算数），样本 13 个季度，快节奏在 54% 的季度里赢，换成完美先知也只有 2.50 pp/季",
+ "honest": [
+  "the column effect is a median polish property of the segment, not a trade; it prices the quarter, it does not fill an order",
+  "n_segments is the whole sample: 13 readable segments is a small-sample read, and the permutation p is the only defence offered against that",
+  "observables are measured on the equal-weight book universe; a different universe would give different vol/dispersion numbers on the same dates",
+  "own_prev_q is the previous readable segment's effect, so the first readable segment cannot be scored and overlapping quarters are not modelled"
+ ]
+}
