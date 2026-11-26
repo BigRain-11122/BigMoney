@@ -3,8 +3,8 @@
  "CEO 三行": "当前活＝把 r2048 那条「接任何 ETF 面板先量单日 |r| 分布」的正法施加到全部 7 条价格面板上，并机械点出有多少脚本读了脏面却没修｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\PANEL-PRICE-FLIP-CENSUS.md（2026-11-26 19:2x·1,939 万 bar / 910 格 ≥35% 跳变 / ETF 188 格里 181 格落在 2020 年后 / 4 只 ETF 各有一段 3-4 年整段价格错 10 倍 / 期货·指数·分钟线 0 格 / 读 ETF 的 500 个脚本只有 1 个实现了修复）｜下个里程碑＝(a) 把 repair_flips 从个案升为库级面板读取契约（≤48h，需无竞争窗）；(b) 核 cb_daily 404xxx 四文件是否根本不是可转债（≤48h）；(c) 无竞争窗补跑 S6 链（连续第 15 轮欠账）",
  "active_lane": "研究面消费：回测臂自审计（信号输入单位 / 修法一致性）",
  "activity": "product",
- "activity_now": "bench ledger donchian exposure audit (r2145)",
- "activity_now_round": 2145,
+ "activity_now": "r2158 bench_cash_yardstick: 59 published arms vs rolling GC001",
+ "activity_now_round": 2158,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -39,7 +39,7 @@
   "withheld_arms": [],
   "workers": 6
  },
- "artifacts": "results/bench_signal_scale_invariance.json",
+ "artifacts": "scripts/bench_cash_yardstick.py ; results/bench_cash_yardstick.json ; research/BENCH_CASH_YARDSTICK.md ; qa/cash-yardstick-r2158.md",
  "attrition": "not run this round (chain in flight; ledger untouched, zero deletions)",
  "batch": "none (contended round, no compute batch)",
  "behind_origin": 0,
@@ -57,7 +57,7 @@
  "carrier_debt_r2128": "etf_book_cadence_comparable 无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）；接线顺序=phase_atlas_k_axis 之后；r2126 的 money_rounding_gap_fix --apply 与 r2127 的 k_axis 接线仍挂账，同属无竞争窗任务",
  "carrier_debt_r2129": "etf_book_cadence_start_dates 与 heartbeat_alias_audit 均无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）：接线顺序＝cadence_start_dates 接在 etf_book_cadence_comparable 之后（先 check 48s，STALE 才付 73s 重跑）、heartbeat_alias_audit 一条零网络零计算腿；另仍挂账 Tools/money_rounding_gap_fix.py --apply（r2126）、k_axis 接线（r2127）、cadence_comparable 接线（r2128）。 新增挂账一件：Tools/gpu_face.py 的 GB_KEYS 缺 gpu_free_vram_gib（共享面，竞争窗禁改），修法＝把该键加入 GB_KEYS 或停止产出 _gib 别名；修完两台心跳的 unit_mislabel 应归零。",
  "carrier_debt_r2140": "竞争窗 rc=3（对端 interactive pid=107624 自 11:49 存活）：S6 链与全量冒烟连续第 9 轮未跑，如实记",
- "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
+ "chain": "peer chain 2155 in flight (pythonw pid 118992); this round --only bench_cash_yardstick,bench_census_arm_contradiction 2/2 rc0 3.6s",
  "chain_note": "r2145: competitor host still live (contention rc=3) -> new-file faces only; S6 chain not run for the 14th consecutive round (honest debt)",
  "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在，重叠 2 张共享面不可归因），按 r1907 同树多宿主律只落新增文件面。r2147 面 etf_book_flip_reach 只有 selftest 5/5 + check ok，未入链（连续第 16 轮欠账）。",
  "chain_writer_audit": {
@@ -275,7 +275,7 @@
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
  "last_round": 2156,
- "last_round_at": "2026-11-27T01:06:09+08:00",
+ "last_round_at": "2026-11-27T03:08:31+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
  "last_round_closed_at": "2026-11-22T19:21:00+08:00",
@@ -331,7 +331,7 @@
  "note_r2065": "reader-silent-upstream patch proven (13/13); not applied -- contention window, new files only",
  "note_r2068": "block_red_triage: 25/25 selftest, check rc0, negative 7/7 incl. STALE behavioural leg; patches proven-not-applied (shared faces)",
  "now_active": "r1331: ex-ante identifiability of the carrier month that every E186/E189/E190 verdict rests on",
- "open_defect": "Bigmoney-IterationLoop / Bigmoney-LoopWatchdog: S4U flip still refused (needs an elevated host) -> both run as InteractiveToken",
+ "open_defect": "LoopWatchdog S4U flip refused (needs admin) -- pre-existing, not introduced this round",
  "ord_sha_method": "git rev-parse origin/main:docs/orders.md blob SHA-1 (ALGORITHM PIN per r537 law; r867 fresh probe rc0 via standing composer Tools/s05_probe.py: ORD delta FALSE f90233c7==f90233c7 zero-delta, post-r865 healed real blob holds; facts results/_s05_probe.bm-c.json, 40hex shape-asserted, zero literal constants (r583 law)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -1688,7 +1688,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2157,
+ "round_no": 2158,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2722,5 +2722,6 @@
  "通过_r2132": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（2 宿主：本窗 pid 92488 + 交互宿主 pid 107624 龄 91m；21 张共享面别宿主先写过、重叠窗 0）→ 只落新增文件面 · 孤儿面 py_faces=9 orphans=0 resident_servers=1 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 文件 / 心跳 orders_ack 332 → 未回执 43 全为 2026-10-26 以前他机 lane 广播（r2066 判例不逐令补 ack）· fleet/inbox 空 · 冒烟上次全量读数 781/783（12:50）两红：①`product: etf_book_cash_roll_today` 已由本轮重推导转绿（`--check` ok=true）②`fleet: GPU face self-consistent` 本轮做成 census 面并抓到 bm-b 3,765 MiB 分裂 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit/pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪（无需重注册）",
  "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
  "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）",
- "通过_r2155": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本仓唯一宿主）-> 本轮可动共享面 · 孤儿面 py_faces=3 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执差集全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit / pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均存在（未重注册）"
+ "通过_r2155": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本仓唯一宿主）-> 本轮可动共享面 · 孤儿面 py_faces=3 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执差集全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit / pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均存在（未重注册）",
+ "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390"
 }

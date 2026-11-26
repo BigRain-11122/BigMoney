@@ -2723,6 +2723,22 @@ LEGS = [
     ("cadence_cell_independence",
      ["python", "scripts/etf_book_cadence_cell_independence.py", "check"],
      ["python", "scripts/etf_book_cadence_cell_independence.py", "run"]),
+    # r2158: the yardstick nobody had asked. Every published bench arm is priced against a
+    # 4.0% line (H1), against buy-and-hold on its own basket (r2151), or against itself after
+    # size normalisation (r2152) -- none of which is what a CNY account can do instead: lend
+    # overnight on GC001. The face reads the arms' own panels and the repo tape, so it must be
+    # rewritten whenever either moves; check re-derives both (~60s, offline).
+    ("bench_cash_yardstick",
+     ["python", "scripts/bench_cash_yardstick.py", "--check"],
+     ["python", "scripts/bench_cash_yardstick.py"]),
+    # r2158: r2157 published the census-headline-vs-arms probe straight to results/ with no
+    # chain leg, and by the next morning it was already answering with yesterday's digests
+    # (`STALE inputs moved` on a 0s check). Its check is a digest compare, so a check/run pair
+    # costs nothing on a settled face and keeps the probe advancing with the bench panels it
+    # reads (r1282 orphan class, caught one round later).
+    ("bench_census_arm_contradiction",
+     ["python", "scripts/bench_census_arm_contradiction.py", "--check"],
+     ["python", "scripts/bench_census_arm_contradiction.py"]),
 ]
 
 

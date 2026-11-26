@@ -13099,6 +13099,45 @@ def main() -> int:
     except Exception as e:
         check("config: every cap face is on the chain with a check, in DAG order",
               False, repr(e)[:160])
+    # ---- r2158: the cash yardstick -- every published arm priced against lending the money ----
+    # The question had no face: H1 prices arms against 4.0%, r2151 against buy-and-hold, r2152
+    # against themselves after size normalisation, and none of those is what the account can
+    # actually do instead. This leg pins the two things a reader decides on: the multiplicity
+    # verdict is derived from the row count (not typed) and both tokens plus the cash rate
+    # reach the page the reader opens (r1782 class).
+    _cy = "product: cash yardstick (what lending the money pays, what beats it)"
+    try:
+        _r = _leg_memo([sys.executable, "scripts/bench_cash_yardstick.py", "--selftest"], 90)
+        _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+        check(_cy + " (selftest)", _r.returncode == 0 and "6/6" in _tail,
+              f"exit={_r.returncode} | {_tail[:90]}")
+    except Exception as e:
+        check(_cy + " (selftest)", False, str(e)[:160])
+    try:
+        _p = os.path.join(PATHS.root, "results", "bench_cash_yardstick.json")
+        _face = json.load(open(_p, encoding="utf-8")) if os.path.exists(_p) else {}
+        _h = _face.get("headline") or {}
+        _rows = [r for f in (_face.get("faces") or []) for r in (f.get("rows") or [])]
+        _beats = sum(1 for r in _rows
+                     if r.get("label") in ("BEATS_CASH", "BEATS_CASH_SIGNIFICANTLY"))
+        _exp = round(len(_rows) * 0.025, 1) if _rows else None
+        _legs = [tuple(t) for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _wired = any(t[0] == "bench_cash_yardstick" and len(t) >= 3
+                     and any("check" in str(x) for x in (t[1] or [])) for t in _legs)
+        _pg = os.path.join(PATHS.root, "research", "BENCH_CASH_YARDSTICK.md")
+        _txt = open(_pg, encoding="utf-8").read() if os.path.exists(_pg) else ""
+        _ok = (bool(_face.get("decision_after_multiplicity"))
+               and _h.get("n_beats_cash") == _beats
+               and _h.get("expected_false_positives_one_sided") == _exp
+               and _wired
+               and str(_face.get("decision_after_multiplicity")) in _txt
+               and "GC001" in _txt)
+        check(_cy + " (face derived from rows, on the chain, verdict on the page)",
+              _ok, "" if _ok else
+              "counts disagree, no check-first chain leg, or page lacks the verdict")
+    except Exception as e:
+        check(_cy + " (face derived from rows, on the chain, verdict on the page)",
+              False, repr(e)[:160])
     # ---- r1994: W20 ran for the first time in 38 days and named a funnel defect ----
     # The reform gate admits on a TWO-SIDED p plus a batch-internal percentile
     # composite, so a reliably-losing arm passes FDR; W20 is the first wave in
