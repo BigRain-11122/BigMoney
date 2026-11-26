@@ -1,0 +1,292 @@
+{
+ "schema": "bench_census_arm_contradiction.v1",
+ "generated": "2026-11-27T02:21:54+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "cutoff_rule": "the newest evidence_cutoff among the census faces read",
+ "n_faces_read": 3,
+ "n_faces_skipped": 49,
+ "skipped": [
+  {
+   "path": "bench_ah_premium.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_astock_lowvol.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_audit_basis_timing.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_audit_fut_trend.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_capacity.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_timing_perm.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_timing_perm_masks.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_timing_replicate.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_timing_size.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_basis_timing_size_masks.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_bond_curve.json",
+   "why": "type=None"
+  },
+  {
+   "path": "bench_bond_defensive.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_cash_vehicle_window.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_cash_window_sensitivity.json",
+   "why": "type=None"
+  },
+  {
+   "path": "bench_cb_floor.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_cmdty_xsec.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_cost_stamp_census.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_defensive_sleeve_vehicle.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_donchian_repair_rerun.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_donchian_unit_audit.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_etf_census.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_excess_paired_test.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_fut_pair.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_fut_trend.json",
+   "why": "type=None"
+  },
+  {
+   "path": "bench_go_ruler_audit.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_ledger_donchian_exposure.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_live_thread_dedupe.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_night_rollup.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_pair_all10_60d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_pair_bond_curve_60d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_pair_commodity_60d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_pair_index_60d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_power.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_queue_truth.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_repo_ladder.json",
+   "why": "type=None"
+  },
+  {
+   "path": "bench_revalidate.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_reversal_commodity_5d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_reversal_index_5d.json",
+   "why": "type=pair"
+  },
+  {
+   "path": "bench_robust_donchian_index.json",
+   "why": "type=robust"
+  },
+  {
+   "path": "bench_robust_ma_index.json",
+   "why": "type=robust"
+  },
+  {
+   "path": "bench_robust_tsmom_commodity.json",
+   "why": "type=robust"
+  },
+  {
+   "path": "bench_signal_scale_invariance.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_size_normalized_h1.json",
+   "why": "not a bench face"
+  },
+  {
+   "path": "bench_trend_single_AU_long.json",
+   "why": "type=single"
+  },
+  {
+   "path": "bench_trend_single_IC_long.json",
+   "why": "type=single"
+  },
+  {
+   "path": "bench_trend_single_RB_long.json",
+   "why": "type=single"
+  },
+  {
+   "path": "bench_trend_single_SC_long.json",
+   "why": "type=single"
+  },
+  {
+   "path": "bench_trend_single_T_long.json",
+   "why": "type=single"
+  },
+  {
+   "path": "bench_verdict_book.json",
+   "why": "not a bench face"
+  }
+ ],
+ "verdict_counts": {
+  "LEANS_WITHOUT_A_PASS": 1,
+  "AGREES": 2
+ },
+ "n_flagged": 1,
+ "flagged": [
+  {
+   "cell": "census_bond_futures",
+   "verdict": "LEANS_WITHOUT_A_PASS",
+   "headline": "CENSUS_LEANS_POSITIVE",
+   "why": "headline says the space leans positive, but 0/5 arms passed every gate (1/5 cleared only the 4.0% H1 line; best arm 4.02%)"
+  }
+ ],
+ "faces": [
+  {
+   "cell": "census_bond_futures",
+   "path": "bench_census_bond_futures.json",
+   "headline": "CENSUS_LEANS_POSITIVE",
+   "evidence_cutoff": "2026-11-26",
+   "n_arms": 5,
+   "counts": {
+    "GO": 0,
+    "INCOMPLETE": 0,
+    "NO_EDGE": 5,
+    "UNINFORMATIVE_AT_TARGET": 0,
+    "OTHER": 0
+   },
+   "n_clears_h1": 1,
+   "h1_line_pct": 4.0,
+   "min_ann_pct": 1.92,
+   "max_ann_pct": 4.02,
+   "median_ann_pct": 3.21,
+   "verdict": "LEANS_WITHOUT_A_PASS",
+   "why": "headline says the space leans positive, but 0/5 arms passed every gate (1/5 cleared only the 4.0% H1 line; best arm 4.02%)"
+  },
+  {
+   "cell": "census_commodity",
+   "path": "bench_census_commodity.json",
+   "headline": "CENSUS_LEANS_POSITIVE",
+   "evidence_cutoff": "2026-11-26",
+   "n_arms": 14,
+   "counts": {
+    "GO": 2,
+    "INCOMPLETE": 0,
+    "NO_EDGE": 12,
+    "UNINFORMATIVE_AT_TARGET": 0,
+    "OTHER": 0
+   },
+   "n_clears_h1": 6,
+   "h1_line_pct": 4.0,
+   "min_ann_pct": 1.52,
+   "max_ann_pct": 5.19,
+   "median_ann_pct": 3.37,
+   "verdict": "AGREES",
+   "why": "headline CENSUS_LEANS_POSITIVE with 2/14 arms GO and 6/14 over the 4.0% H1 line"
+  },
+  {
+   "cell": "census_index_futures",
+   "path": "bench_census_index_futures.json",
+   "headline": "CENSUS_UNPOWERED",
+   "evidence_cutoff": "2026-11-26",
+   "n_arms": 20,
+   "counts": {
+    "GO": 0,
+    "INCOMPLETE": 0,
+    "NO_EDGE": 18,
+    "UNINFORMATIVE_AT_TARGET": 2,
+    "OTHER": 0
+   },
+   "n_clears_h1": 3,
+   "h1_line_pct": 4.0,
+   "min_ann_pct": -2.93,
+   "max_ann_pct": 6.78,
+   "median_ann_pct": 2.75,
+   "verdict": "AGREES",
+   "why": "headline CENSUS_UNPOWERED makes no directional claim; 0/20 arms GO"
+  }
+ ],
+ "h1_default_pct": 4.0,
+ "decision": "HEADLINE_OVERSTATES_MERIT",
+ "what_this_does_not_do": [
+  "it does not re-issue any arm or face verdict (frozen set untouched)",
+  "it does not reload panels; every number is read off published faces",
+  "it does not decide whether a census space is worth another burn -- it only says whether its headline is supported by its own arms"
+ ],
+ "inputs_digest": "9367783b41ec5f6e7581af55a019d75dd37c4875708b138d3ba05aeb3a6c6271"
+}
