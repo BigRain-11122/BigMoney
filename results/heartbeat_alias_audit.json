@@ -1,0 +1,594 @@
+{
+ "schema": "heartbeat-alias-audit/v1",
+ "face": "results/heartbeat_alias_audit.json",
+ "question": "does each heartbeat publish one value per quantity, and can a case-insensitive reader open it at all?",
+ "rule": {
+  "R1_groups": "only keys whose name states the same measurement are grouped; a bare 'cpu'/'gpu' key is never assumed to be the machine total",
+  "R2_units": "GB/GiB are converted at 1024 to MiB before comparing; percentages are never mixed with memory",
+  "R3_tolerance": "agreement means spread <= max({'pct': 2.0, 'mib': 64.0}, 2% of the median) -- frozen before the first read",
+  "R4_missing": "a quantity no writer published is MISSING, never zero",
+  "R5_dupes": "a case-insensitive duplicate key is reported even when the numbers agree, because it breaks strict readers",
+  "R6_readonly": "this tool never rewrites a heartbeat and never picks a winner",
+  "R7_mislabel": "a key whose name ends in GB/GiB but whose raw number matches the MiB median is reported as a unit mislabel -- detected without trusting the key name, because the shared GPU writer has this defect"
+ },
+ "tolerance": {
+  "rel": 0.02,
+  "abs": {
+   "pct": 2.0,
+   "mib": 64.0
+  }
+ },
+ "machines_read": 3,
+ "machines": [
+  {
+   "machine_file": "bm-a.json",
+   "key_count": 324,
+   "duplicate_case_keys": [],
+   "unit_mislabels": [
+    {
+     "key": "gpu_free_vram_gib",
+     "raw_written": 1038.0,
+     "reads_as_mib": 1038.0,
+     "reads_as_gib_mib": 1062912.0,
+     "why": "the number under a GB/GiB key is already MiB"
+    }
+   ],
+   "quantities": {
+    "cpu_load_pct": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 33.0,
+     "spread": 25.7,
+     "tolerance": 2.0,
+     "unit_mislabels": [],
+     "named": [
+      {
+       "key": "cpu_pct",
+       "value": 14.3,
+       "distance_from_median": -18.7
+      },
+      {
+       "key": "cpu_util_pct",
+       "value": 20.2,
+       "distance_from_median": -12.8
+      },
+      {
+       "key": "cpu_load_pct",
+       "value": 40.0,
+       "distance_from_median": 7.0
+      },
+      {
+       "key": "cpu_total_pct",
+       "value": 33.0,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "cpu_load_pct",
+      "cpu_util_pct",
+      "cpu_pct",
+      "cpu_total_pct"
+     ]
+    },
+    "ram_free_mb": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 44215.0,
+     "spread": 18157.5,
+     "tolerance": 884.3000000000001,
+     "unit_mislabels": [],
+     "named": [
+      {
+       "key": "ram_free_gb",
+       "value": 28774.4,
+       "distance_from_median": -15440.6
+      },
+      {
+       "key": "free_ram_gb",
+       "value": 38912.0,
+       "distance_from_median": -5303.0
+      },
+      {
+       "key": "ram_free_mb",
+       "value": 46931.9,
+       "distance_from_median": 2716.9
+      },
+      {
+       "key": "free_ram_mb",
+       "value": 44215.0,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "ram_free_mb",
+      "free_ram_mb",
+      "ram_free_gb",
+      "free_ram_gb"
+     ]
+    },
+    "ram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 95846.4,
+     "spread": 0.0,
+     "tolerance": 1916.9279999999999,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "ram_total_gb"
+     ]
+    },
+    "vram_free_mb": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 1038.0,
+     "spread": 1061888.0,
+     "tolerance": 64.0,
+     "unit_mislabels": [
+      {
+       "key": "gpu_free_vram_gib",
+       "raw_written": 1038.0,
+       "reads_as_mib": 1038.0,
+       "reads_as_gib_mib": 1062912.0,
+       "why": "the number under a GB/GiB key is already MiB"
+      }
+     ],
+     "named": [
+      {
+       "key": "gpu_free_vram_gib",
+       "value": 1062912.0,
+       "distance_from_median": 1061874.0
+      },
+      {
+       "key": "free_vram_gb",
+       "value": 1024.0,
+       "distance_from_median": -14.0
+      },
+      {
+       "key": "gpu_free_gb",
+       "value": 1024.0,
+       "distance_from_median": -14.0
+      },
+      {
+       "key": "gpu_free_vram_gb",
+       "value": 1024.0,
+       "distance_from_median": -14.0
+      },
+      {
+       "key": "vram_free_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_mib",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_vram_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_vram_mib",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_vram_free_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_vram_free_mib",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_mib",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_vram_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_vram_mib",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "free_vram_mb",
+       "value": 1038.0,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "vram_free_mb",
+      "gpu_free_mib",
+      "gpu_free_mb",
+      "gpu_free_vram_mb",
+      "gpu_free_vram_mib",
+      "gpu_vram_free_mb",
+      "gpu_vram_free_mib",
+      "gpu_idle_mb",
+      "gpu_idle_mib",
+      "gpu_idle_vram_mb",
+      "gpu_idle_vram_mib",
+      "free_vram_mb",
+      "free_vram_gb",
+      "gpu_free_gb",
+      "gpu_free_vram_gb",
+      "gpu_free_vram_gib"
+     ]
+    },
+    "vram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 12282.0,
+     "spread": 0.0,
+     "tolerance": 245.64000000000001,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "gpu_total_mb",
+      "gpu_mem_total_mib",
+      "gpu_total_vram_mib"
+     ]
+    }
+   },
+   "verdict": "DISAGREEING_ALIASES"
+  },
+  {
+   "machine_file": "bm-b.json",
+   "key_count": 162,
+   "duplicate_case_keys": [],
+   "unit_mislabels": [],
+   "quantities": {
+    "cpu_load_pct": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 3.1,
+     "spread": 2.1,
+     "tolerance": 2.0,
+     "unit_mislabels": [],
+     "named": [
+      {
+       "key": "cpu_pct",
+       "value": 1.0,
+       "distance_from_median": -2.1
+      },
+      {
+       "key": "cpu_load_pct",
+       "value": 3.1,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "cpu_util_pct",
+       "value": 3.1,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "cpu_load_pct",
+      "cpu_util_pct",
+      "cpu_pct"
+     ]
+    },
+    "ram_free_mb": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 9758.72,
+     "spread": 2466.3999999999996,
+     "tolerance": 195.1744,
+     "unit_mislabels": [],
+     "named": [
+      {
+       "key": "ram_free_gb",
+       "value": 7577.6,
+       "distance_from_median": -2181.12
+      },
+      {
+       "key": "ram_free_mb",
+       "value": 10044.0,
+       "distance_from_median": 285.28
+      },
+      {
+       "key": "free_ram_mb",
+       "value": 9758.7,
+       "distance_from_median": -0.02
+      },
+      {
+       "key": "free_ram_gb",
+       "value": 9758.72,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "ram_free_mb",
+      "free_ram_mb",
+      "ram_free_gb",
+      "free_ram_gb"
+     ]
+    },
+    "ram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 24473.6,
+     "spread": 0.0,
+     "tolerance": 489.472,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "ram_total_gb"
+     ]
+    },
+    "vram_free_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 3788.0,
+     "spread": 0.8000000000001819,
+     "tolerance": 75.76,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "gpu_free_mib",
+      "gpu_free_mb",
+      "gpu_free_vram_mb",
+      "gpu_free_vram_mib",
+      "gpu_vram_free_mb",
+      "gpu_vram_free_mib",
+      "gpu_idle_mb",
+      "gpu_idle_mib",
+      "gpu_idle_vram_mb",
+      "gpu_idle_vram_mib",
+      "free_vram_mb",
+      "free_vram_gb",
+      "gpu_free_gb",
+      "gpu_free_vram_gb"
+     ]
+    },
+    "vram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 8192.0,
+     "spread": 0.0,
+     "tolerance": 163.84,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "gpu_mem_total_mib",
+      "gpu_total_vram_mib"
+     ]
+    }
+   },
+   "verdict": "DISAGREEING_ALIASES"
+  },
+  {
+   "machine_file": "bm-c.json",
+   "key_count": 601,
+   "duplicate_case_keys": [],
+   "unit_mislabels": [
+    {
+     "key": "gpu_free_vram_gib",
+     "raw_written": 13754.0,
+     "reads_as_mib": 13754.0,
+     "reads_as_gib_mib": 14084096.0,
+     "why": "the number under a GB/GiB key is already MiB"
+    }
+   ],
+   "quantities": {
+    "cpu_load_pct": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 59.0,
+     "spread": 35.0,
+     "tolerance": 2.0,
+     "unit_mislabels": [],
+     "named": [
+      {
+       "key": "cpu_total_pct",
+       "value": 24.0,
+       "distance_from_median": -35.0
+      },
+      {
+       "key": "cpu_pct",
+       "value": 37.0,
+       "distance_from_median": -22.0
+      },
+      {
+       "key": "cpu_load_pct",
+       "value": 59.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "cpu_util_pct",
+       "value": 59.0,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "cpu_load_pct",
+      "cpu_util_pct",
+      "cpu_pct",
+      "cpu_total_pct"
+     ]
+    },
+    "ram_free_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 32153.6,
+     "spread": 11.599999999998545,
+     "tolerance": 643.072,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "ram_free_mb",
+      "free_ram_mb",
+      "ram_free_gb",
+      "free_ram_gb"
+     ]
+    },
+    "ram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 57258.0,
+     "spread": 16.400000000001455,
+     "tolerance": 1145.16,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "ram_total_mb",
+      "ram_total_gb"
+     ]
+    },
+    "vram_free_mb": {
+     "verdict": "DISAGREE_ALIASES",
+     "canonical_median": 13754.0,
+     "spread": 14070374.4,
+     "tolerance": 275.08,
+     "unit_mislabels": [
+      {
+       "key": "gpu_free_vram_gib",
+       "raw_written": 13754.0,
+       "reads_as_mib": 13754.0,
+       "reads_as_gib_mib": 14084096.0,
+       "why": "the number under a GB/GiB key is already MiB"
+      }
+     ],
+     "named": [
+      {
+       "key": "gpu_free_vram_gib",
+       "value": 14084096.0,
+       "distance_from_median": 14070342.0
+      },
+      {
+       "key": "free_vram_gb",
+       "value": 13721.6,
+       "distance_from_median": -32.4
+      },
+      {
+       "key": "gpu_free_gb",
+       "value": 13721.6,
+       "distance_from_median": -32.4
+      },
+      {
+       "key": "gpu_free_vram_gb",
+       "value": 13721.6,
+       "distance_from_median": -32.4
+      },
+      {
+       "key": "vram_free_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "vram_free_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_vram_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_free_vram_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_vram_free_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_vram_free_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_vram_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "gpu_idle_vram_mib",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      },
+      {
+       "key": "free_vram_mb",
+       "value": 13754.0,
+       "distance_from_median": 0.0
+      }
+     ],
+     "keys_read": [
+      "vram_free_mib",
+      "vram_free_mb",
+      "gpu_free_mib",
+      "gpu_free_mb",
+      "gpu_free_vram_mb",
+      "gpu_free_vram_mib",
+      "gpu_vram_free_mb",
+      "gpu_vram_free_mib",
+      "gpu_idle_mb",
+      "gpu_idle_mib",
+      "gpu_idle_vram_mb",
+      "gpu_idle_vram_mib",
+      "free_vram_mb",
+      "free_vram_gb",
+      "gpu_free_gb",
+      "gpu_free_vram_gb",
+      "gpu_free_vram_gib"
+     ]
+    },
+    "vram_total_mb": {
+     "verdict": "AGREE",
+     "canonical_median": 16384.0,
+     "spread": 0.0,
+     "tolerance": 327.68,
+     "unit_mislabels": [],
+     "named": [],
+     "keys_read": [
+      "vram_total_mib",
+      "gpu_total_mib",
+      "gpu_total_mb",
+      "gpu_mem_total_mib",
+      "gpu_total_vram_mib",
+      "gpu_vram_total_mib"
+     ]
+    }
+   },
+   "verdict": "DISAGREEING_ALIASES"
+  }
+ ],
+ "read_errors": [],
+ "summary": {
+  "machines_with_duplicate_case_keys": 0,
+  "machines_with_disagreeing_aliases": 3,
+  "quantity_disagreements": 7,
+  "quantity_missing": 0,
+  "machines_with_unit_mislabels": 2,
+  "unit_mislabel_keys": 2
+ }
+}
