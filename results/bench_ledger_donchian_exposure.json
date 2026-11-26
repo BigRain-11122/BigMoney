@@ -1,0 +1,832 @@
+{
+ "buckets": {
+  "bench_card": {
+   "affected": true,
+   "basis": "RETURN_INDEX_VS_RAW_LEVEL",
+   "evidence": "r2142: bench_core.align_futures hands a 1.0-based return index to the rule while high/low stay raw (ratio 96x-6980x)",
+   "faces": 5,
+   "records": 41
+  },
+  "mass_trial": {
+   "affected": false,
+   "basis": "RAW_OHLC",
+   "evidence": "raw-OHLC panel gate scripts\\trial_labor_w4.py:1071 -- runner asserts the panel carries raw OHLC columns",
+   "faces": 60,
+   "records": 1089
+  },
+  "other": {
+   "affected": null,
+   "basis": "UNCLASSIFIED",
+   "evidence": "schema carried both bench and mass markers, or neither",
+   "faces": 12,
+   "records": 24
+  }
+ },
+ "closed_families_cited": [],
+ "closed_families_citing_any_bench_face": [],
+ "closed_families_total": 9,
+ "closed_family_citation_map": [],
+ "closed_registry_error": null,
+ "cta_faces": [
+  {
+   "donchian_records": 71,
+   "face": "results/shortline_cta_p1.json",
+   "lineage": "mass_trial",
+   "screen_consistent": true
+  },
+  {
+   "donchian_records": 71,
+   "face": "results/shortline_cta_p2_noau.json",
+   "lineage": "mass_trial",
+   "screen_consistent": true
+  },
+  {
+   "donchian_records": 142,
+   "face": "results/shortline_cta_wave1.json",
+   "lineage": "mass_trial",
+   "screen_consistent": true
+  }
+ ],
+ "cta_screen": {
+  "args": [
+   "close",
+   "hi",
+   "lo"
+  ],
+  "consistent": true,
+  "found": true,
+  "rolling_bases": [
+   "close"
+  ],
+  "where": "scripts/cta_p1_screen.py:69",
+  "why": "both channel bounds are rolling windows over the same input series, so a common scale factor cancels"
+ },
+ "face_table": [
+  {
+   "donchian_records": 9,
+   "face": "results/bench_census_commodity.json",
+   "labels": [
+    "donchian",
+    "donchian|{'entry': 20, 'exit': 10}|long",
+    "donchian|{'entry': 20, 'exit': 10}|ls",
+    "donchian|{'entry': 55, 'exit': 20}|long",
+    "donchian|{'entry': 55, 'exit': 20}|ls"
+   ],
+   "lineage": "bench_card",
+   "records": 39
+  },
+  {
+   "donchian_records": 13,
+   "face": "results/bench_census_index_futures.json",
+   "labels": [
+    "donchian",
+    "donchian|{'entry': 20, 'exit': 10}|long",
+    "donchian|{'entry': 20, 'exit': 10}|ls",
+    "donchian|{'entry': 40, 'exit': 15}|long",
+    "donchian|{'entry': 40, 'exit': 15}|ls",
+    "donchian|{'entry': 55, 'exit': 20}|long"
+   ],
+   "lineage": "bench_card",
+   "records": 51
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/bench_cost_stamp_census.json",
+   "labels": [
+    "results/bench_robust_donchian_index.json",
+    "robust_donchian_index"
+   ],
+   "lineage": "mass_trial",
+   "records": 29
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/bench_fut_trend.json",
+   "labels": [
+    "donchian"
+   ],
+   "lineage": "bench_card",
+   "records": 29
+  },
+  {
+   "donchian_records": 4,
+   "face": "results/bench_night_rollup.json",
+   "labels": [
+    "results/bench_robust_donchian_index.json",
+    "robust_donchian_index"
+   ],
+   "lineage": "mass_trial",
+   "records": 24
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/bench_power.json",
+   "labels": [
+    "donchian"
+   ],
+   "lineage": "unknown",
+   "records": 17
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/bench_revalidate.json",
+   "labels": [
+    "robust_donchian_index"
+   ],
+   "lineage": "unknown",
+   "records": 29
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/bench_robust_donchian_index.json",
+   "labels": [
+    "donchian",
+    "robust_donchian_index"
+   ],
+   "lineage": "bench_card",
+   "records": 15
+  },
+  {
+   "donchian_records": 15,
+   "face": "results/bench_verdict_book.json",
+   "labels": [
+    "donchian",
+    "results/bench_robust_donchian_index.json",
+    "robust_donchian_index",
+    "variant=donchian|{'entry': 20, 'exit': 10}|long",
+    "variant=donchian|{'entry': 20, 'exit': 10}|ls",
+    "variant=donchian|{'entry': 40, 'exit': 15}|long"
+   ],
+   "lineage": "bench_card",
+   "records": 98
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/cn_trend_ETF/p1_results.json",
+   "labels": [],
+   "lineage": "mass_trial",
+   "records": 610
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/contest_p1/contest_table.json",
+   "labels": [
+    "trend.donchian_breakout(entry_n=34,exit_n=7;R=bear,S=delever,T=weekly,X=own)"
+   ],
+   "lineage": "unknown",
+   "records": 225
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/contest_p1/entrants.json",
+   "labels": [
+    "trend.donchian_breakout",
+    "trend.donchian_breakout|W1-00001"
+   ],
+   "lineage": "unknown",
+   "records": 221
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/dashboard_status.json",
+   "labels": [
+    "池本地技能线≈1.285（随机p95+被动+0.1，为权益池3倍）；tsmom/donchian CE 最佳未达线；袖珍候选 0"
+   ],
+   "lineage": "unknown",
+   "records": 509
+  },
+  {
+   "donchian_records": 3,
+   "face": "results/face_consumer_census.json",
+   "labels": [
+    "results/bench_robust_donchian_index.json"
+   ],
+   "lineage": "unknown",
+   "records": 8606
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/factor_registry.json",
+   "labels": [
+    "趋势·动量系 (zoo s4: MA-cross/donchian/PSAR/supertrend/TS-mom/12-1/accel/RSRS)"
+   ],
+   "lineage": "unknown",
+   "records": 74
+  },
+  {
+   "donchian_records": 3,
+   "face": "results/lfc_p1.json",
+   "labels": [
+    "donchian_55_20"
+   ],
+   "lineage": "mass_trial",
+   "records": 54
+  },
+  {
+   "donchian_records": 14,
+   "face": "results/mass_trial/w1_candidates.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 976
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/mass_trial/w1_judge.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 193
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/mass_trial/w1_roster.json",
+   "labels": [
+    "donchian_breakout",
+    "trend.donchian_breakout"
+   ],
+   "lineage": "unknown",
+   "records": 77
+  },
+  {
+   "donchian_records": 67,
+   "face": "results/mass_trial/w2_candidates.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 4837
+  },
+  {
+   "donchian_records": 10,
+   "face": "results/mass_trial/w2_judge.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 832
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/mass_trial/w2_roster.json",
+   "labels": [
+    "donchian_breakout",
+    "trend.donchian_breakout"
+   ],
+   "lineage": "unknown",
+   "records": 77
+  },
+  {
+   "donchian_records": 67,
+   "face": "results/mass_trial/w3_candidates.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 4815
+  },
+  {
+   "donchian_records": 13,
+   "face": "results/mass_trial/w3_judge.json",
+   "labels": [
+    "trend.donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 804
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/mass_trial/w3_roster.json",
+   "labels": [
+    "donchian_breakout",
+    "trend.donchian_breakout"
+   ],
+   "lineage": "unknown",
+   "records": 77
+  },
+  {
+   "donchian_records": 15,
+   "face": "results/n2_w15/n2_w15_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 2103
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/new_signal_p1.json",
+   "labels": [
+    "donchian_20_10",
+    "donchian_20_10@ce",
+    "donchian_20_10@default",
+    "donchian_55_20"
+   ],
+   "lineage": "mass_trial",
+   "records": 62
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/p1_screen.json",
+   "labels": [
+    "donchian_20_10"
+   ],
+   "lineage": "mass_trial",
+   "records": 67
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/p2_calibration.json",
+   "labels": [
+    "donchian_20_10"
+   ],
+   "lineage": "mass_trial",
+   "records": 174
+  },
+  {
+   "donchian_records": 1,
+   "face": "results/registration_reform/REEVAL_ROSTER_W1_W12.json",
+   "labels": [],
+   "lineage": "unknown",
+   "records": 53
+  },
+  {
+   "donchian_records": 71,
+   "face": "results/shortline_cta_p1.json",
+   "labels": [
+    "donchian_55_20@daily"
+   ],
+   "lineage": "mass_trial",
+   "records": 1099
+  },
+  {
+   "donchian_records": 71,
+   "face": "results/shortline_cta_p2_noau.json",
+   "labels": [
+    "donchian_55_20@daily"
+   ],
+   "lineage": "mass_trial",
+   "records": 1079
+  },
+  {
+   "donchian_records": 142,
+   "face": "results/shortline_cta_wave1.json",
+   "labels": [
+    "donchian_120_50@daily",
+    "donchian_20_10@daily",
+    "donchian_20_10@r20"
+   ],
+   "lineage": "mass_trial",
+   "records": 1645
+  },
+  {
+   "donchian_records": 7,
+   "face": "results/sleeve_p3.json",
+   "labels": [
+    "donchian_20_10@ce",
+    "donchian_20_10@default"
+   ],
+   "lineage": "mass_trial",
+   "records": 158
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/t33_attack_wave.json",
+   "labels": [
+    "donchian_20_10",
+    "lib_donchian"
+   ],
+   "lineage": "mass_trial",
+   "records": 37
+  },
+  {
+   "donchian_records": 38,
+   "face": "results/trial_labor_w10/w10_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 8100
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w10/w10_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 280
+  },
+  {
+   "donchian_records": 8,
+   "face": "results/trial_labor_w10/w10_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 1100
+  },
+  {
+   "donchian_records": 16,
+   "face": "results/trial_labor_w11/w11_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 6465
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w11/w11_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 294
+  },
+  {
+   "donchian_records": 7,
+   "face": "results/trial_labor_w11/w11_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 1159
+  },
+  {
+   "donchian_records": 19,
+   "face": "results/trial_labor_w12/w12_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 3515
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w12/w12_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 310
+  },
+  {
+   "donchian_records": 3,
+   "face": "results/trial_labor_w12/w12_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 1240
+  },
+  {
+   "donchian_records": 3,
+   "face": "results/trial_labor_w13/w13_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 1251
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w13/w13_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 330
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/trial_labor_w14/w14_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 1101
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w14/w14_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 340
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w14/w14_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 674
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w16/w16_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 344
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/trial_labor_w1/w1_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 659
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w1/w1_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 932
+  },
+  {
+   "donchian_records": 44,
+   "face": "results/trial_labor_w2/w2_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 6131
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w2/w2_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 214
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/trial_labor_w2/w2_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 428
+  },
+  {
+   "donchian_records": 46,
+   "face": "results/trial_labor_w3/w3_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 7230
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w3/w3_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 215
+  },
+  {
+   "donchian_records": 6,
+   "face": "results/trial_labor_w3/w3_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 541
+  },
+  {
+   "donchian_records": 52,
+   "face": "results/trial_labor_w4/w4_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 7703
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w4/w4_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 217
+  },
+  {
+   "donchian_records": 8,
+   "face": "results/trial_labor_w4/w4_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 503
+  },
+  {
+   "donchian_records": 58,
+   "face": "results/trial_labor_w5/w5_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 7908
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w5/w5_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 219
+  },
+  {
+   "donchian_records": 7,
+   "face": "results/trial_labor_w5/w5_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 436
+  },
+  {
+   "donchian_records": 57,
+   "face": "results/trial_labor_w6/w6_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 7964
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w6/w6_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 221
+  },
+  {
+   "donchian_records": 4,
+   "face": "results/trial_labor_w6/w6_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 397
+  },
+  {
+   "donchian_records": 55,
+   "face": "results/trial_labor_w7/w7_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 7844
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w7/w7_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 229
+  },
+  {
+   "donchian_records": 9,
+   "face": "results/trial_labor_w7/w7_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 486
+  },
+  {
+   "donchian_records": 47,
+   "face": "results/trial_labor_w8/w8_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 8465
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w8/w8_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 243
+  },
+  {
+   "donchian_records": 6,
+   "face": "results/trial_labor_w8/w8_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 812
+  },
+  {
+   "donchian_records": 40,
+   "face": "results/trial_labor_w9/w9_candidates.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 8821
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/trial_labor_w9/w9_grammar.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 260
+  },
+  {
+   "donchian_records": 5,
+   "face": "results/trial_labor_w9/w9_judge.json",
+   "labels": [
+    "donchian_breakout"
+   ],
+   "lineage": "mass_trial",
+   "records": 790
+  },
+  {
+   "donchian_records": 2,
+   "face": "results/work_bank_supply_truth.json",
+   "labels": [
+    "results/bench_robust_donchian_index.json",
+    "robust_donchian_index"
+   ],
+   "lineage": "unknown",
+   "records": 36
+  }
+ ],
+ "faces_scanned": 77,
+ "generated": "2026-11-26T18:56:12+0800",
+ "mass_gate": {
+  "cols": [
+   "close",
+   "high",
+   "low",
+   "open",
+   "volume"
+  ],
+  "found": true,
+  "where": "scripts\\trial_labor_w4.py:1071",
+  "why": "runner asserts the panel carries raw OHLC columns"
+ },
+ "schema": "bench-ledger-donchian-exposure/v1",
+ "self_audit_excluded": [
+  {
+   "face": "results/bench_donchian_repair_rerun.json",
+   "schema": "",
+   "why": "payload describes a defect over cards (repair-rerun shape)"
+  },
+  {
+   "face": "results/bench_donchian_unit_audit.json",
+   "schema": "bench-donchian-unit-audit/1",
+   "why": "schema 'bench-donchian-unit-audit/1' declares this face as an audit"
+  },
+  {
+   "face": "results/bench_go_ruler_audit.json",
+   "schema": "bench-go-ruler-audit/v1",
+   "why": "schema 'bench-go-ruler-audit/v1' declares this face as an audit"
+  },
+  {
+   "face": "results/bench_ledger_donchian_exposure.json",
+   "schema": "bench-ledger-donchian-exposure/v1",
+   "why": "this report"
+  },
+  {
+   "face": "results/bench_live_thread_dedupe.json",
+   "schema": "bench_live_thread_dedupe.v1",
+   "why": "schema 'bench_live_thread_dedupe.v1' declares this face as an audit"
+  },
+  {
+   "face": "results/bench_signal_scale_invariance.json",
+   "schema": "bench_signal_scale_invariance/v1",
+   "why": "schema 'bench_signal_scale_invariance/v1' declares this face as an audit"
+  }
+ ],
+ "verdict": "LEDGER_NOT_EXPOSED"
+}
