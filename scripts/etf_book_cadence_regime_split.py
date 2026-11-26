@@ -69,6 +69,9 @@ PATH_DOMINATES_RATIO = 2.0    # path spread >= 2x regime spread -> the entry dat
 REGIME_DOMINATES_RATIO = 2.0  # regime spread >= 2x path spread -> the market segment is the knob
 MIN_BOOKS_PER_SEGMENT = 2     # a quarter with one book cannot separate path from itself
 MIN_SEGMENTS_PER_BOOK = 3     # a book read on two quarters cannot show a regime spread
+DEDUPE_TOL_PP = 1e-9          # r2155: two starts whose deltas agree this closely are one book,
+                              # not two independent readings (r2153 measured 1.5e-13 agreement
+                              # between 2022-09-01 and 2024-03-01 from 2024Q2 on)
 
 RULE = {
     "R1_starts": "six quarterly start dates 2021-09-01..2024-03-01, deliberately outside the "
@@ -163,8 +166,27 @@ def polish(grid, sweeps=9):
             "rows": rows, "cols": cols}
 
 
+def dedupe_vals(vals, tol=DEDUPE_TOL_PP):
+    """collapse readings that agree to `tol` -- they come from the same book, not two books.
+
+    r2153 measured 2022-09-01 and 2024-03-01 agreeing to 1.5e-13 in both leg returns and both
+    cost variants from 2024Q2 on. Counting them as two independent cells lets one quarter's
+    quartile straddle a gap that only exists because a value is printed twice.
+    """
+    out = []
+    for v in sorted(vals):
+        if not out or (v - out[-1]) > tol:
+            out.append(v)
+    return out
+
+
 def channels(cells, min_books=MIN_BOOKS_PER_SEGMENT, min_segs=MIN_SEGMENTS_PER_BOOK):
-    """split the delta grid into a start-date spread and a regime spread."""
+    """split the delta grid into a start-date spread and a regime spread.
+
+    Every group is read twice: once on the raw cells (so the published table stays comparable
+    with older runs) and once on de-duplicated cells -- a group whose readings collapse to
+    fewer independent points cannot carry a spread at the thinner count.
+    """
     by_seg, by_start = {}, {}
     for c in cells:
         d = c.get("delta_pp")
@@ -173,27 +195,42 @@ def channels(cells, min_books=MIN_BOOKS_PER_SEGMENT, min_segs=MIN_SEGMENTS_PER_B
         by_seg.setdefault(c["segment"], []).append(d)
         by_start.setdefault(c["start"], []).append(d)
 
-    path_cells = {g: v for g, v in by_seg.items() if len(v) >= min_books}
-    regime_cells = {s: v for s, v in by_start.items() if len(v) >= min_segs}
+    ind_seg = {g: dedupe_vals(v) for g, v in by_seg.items()}
+    ind_start = {s: dedupe_vals(v) for s, v in by_start.items()}
+
+    path_cells = {g: v for g, v in ind_seg.items() if len(v) >= min_books}
+    regime_cells = {s: v for s, v in ind_start.items() if len(v) >= min_segs}
 
     path_spreads = [spread(v) for v in path_cells.values() if len(v) >= min_books]
     regime_spreads = [spread(v) for v in regime_cells.values() if len(v) >= min_segs]
     path_spreads = [x for x in path_spreads if x is not None]
     regime_spreads = [x for x in regime_spreads if x is not None]
 
+    raw_path = [spread(v) for g, v in by_seg.items() if len(v) >= min_books]
+    raw_path = [x for x in raw_path if x is not None]
+    raw_regime = [spread(v) for s, v in by_start.items() if len(v) >= min_segs]
+    raw_regime = [x for x in raw_regime if x is not None]
+
     return {
-        "by_segment": {g: {"n_books": len(v), "median_pp": st.median(v),
-                           "spread_pp": spread(v), "min_pp": min(v), "max_pp": max(v)}
-                       for g, v in sorted(by_seg.items())},
-        "by_start": {s: {"n_segments": len(v), "median_pp": st.median(v),
-                         "spread_pp": spread(v), "min_pp": min(v), "max_pp": max(v)}
-                     for s, v in sorted(by_start.items())},
+        "by_segment": {g: {"n_books": len(by_seg[g]), "n_independent": len(ind_seg[g]),
+                           "median_pp": st.median(ind_seg[g]), "spread_pp": spread(ind_seg[g]),
+                           "min_pp": min(ind_seg[g]), "max_pp": max(ind_seg[g])}
+                       for g in sorted(by_seg)},
+        "by_start": {s: {"n_segments": len(by_start[s]), "n_independent": len(ind_start[s]),
+                         "median_pp": st.median(ind_start[s]), "spread_pp": spread(ind_start[s]),
+                         "min_pp": min(ind_start[s]), "max_pp": max(ind_start[s])}
+                     for s in sorted(by_start)},
         "path_spread_median_pp": st.median(path_spreads) if path_spreads else None,
         "path_spread_n": len(path_spreads),
         "regime_spread_median_pp": st.median(regime_spreads) if regime_spreads else None,
         "regime_spread_n": len(regime_spreads),
-        "excluded_thin_segments": sorted(g for g, v in by_seg.items() if len(v) < min_books),
-        "excluded_thin_starts": sorted(s for s, v in by_start.items() if len(v) < min_segs),
+        "path_spread_median_pp_raw": st.median(raw_path) if raw_path else None,
+        "regime_spread_median_pp_raw": st.median(raw_regime) if raw_regime else None,
+        "collapsed_segments": sorted(g for g in by_seg if len(ind_seg[g]) < len(by_seg[g])),
+        "collapsed_starts": sorted(s for s in by_start if len(ind_start[s]) < len(by_start[s])),
+        "dedupe_tol_pp": DEDUPE_TOL_PP,
+        "excluded_thin_segments": sorted(g for g, v in ind_seg.items() if len(v) < min_books),
+        "excluded_thin_starts": sorted(s for s, v in ind_start.items() if len(v) < min_segs),
     }
 
 
@@ -351,8 +388,13 @@ def compute():
             "words_8bp": w8,
             "path_spread_median_pp": ch8.get("path_spread_median_pp"),
             "regime_spread_median_pp": ch8.get("regime_spread_median_pp"),
+            "path_spread_median_pp_raw": ch8.get("path_spread_median_pp_raw"),
+            "regime_spread_median_pp_raw": ch8.get("regime_spread_median_pp_raw"),
             "path_spread_n": ch8.get("path_spread_n"),
             "regime_spread_n": ch8.get("regime_spread_n"),
+            "collapsed_segments": ch8.get("collapsed_segments"),
+            "collapsed_starts": ch8.get("collapsed_starts"),
+            "dedupe_tol_pp": DEDUPE_TOL_PP,
             "median_delta_pp": main.get("median_delta_pp"),
             "both_positive_share": main.get("both_positive_share"),
             "row_spread_pp": pol8.get("row_spread_pp"),
@@ -372,6 +414,10 @@ def compute():
             "about how that winter's reading behaves",
             "quarter returns are total returns inside a quarter, not annualised; they size the "
             "movement of the answer, they do not sum to an annual number",
+            "readings that agree to %.0e pp inside one group are counted ONCE (r2153 measured "
+            "2022-09-01 and 2024-03-01 agreeing to 1.5e-13 from 2024Q2 on); the headline spread "
+            "uses the independent count, the *_raw fields keep the pre-de-dup number so older "
+            "runs stay comparable" % DEDUPE_TOL_PP,
         ],
     }
 
@@ -429,6 +475,21 @@ def check():
         ch = channels(sub)
         stored = (old.get("by_cost") or {}).get(cost_key) or {}
         st_ch = stored.get("channels") or {}
+        if st_ch.get("dedupe_tol_pp") is None:
+            print("STALE face predates the de-dup pass: %s channels has no dedupe_tol_pp"
+                  % cost_key)
+            return 3
+        if list(ch.get("collapsed_segments") or []) != list(st_ch.get("collapsed_segments") or []):
+            bad.append("%s collapsed_segments: recomputed %r != stored %r"
+                       % (cost_key, ch.get("collapsed_segments"), st_ch.get("collapsed_segments")))
+        for g, row in (ch.get("by_segment") or {}).items():
+            s_row = (st_ch.get("by_segment") or {}).get(g) or {}
+            if row["n_independent"] != s_row.get("n_independent"):
+                bad.append("%s by_segment[%s] n_independent: recomputed %r != stored %r"
+                           % (cost_key, g, row["n_independent"], s_row.get("n_independent")))
+            if row["n_independent"] >= row["n_books"] and row["n_books"] != s_row.get("n_books"):
+                bad.append("%s by_segment[%s] n_books: recomputed %r != stored %r"
+                           % (cost_key, g, row["n_books"], s_row.get("n_books")))
         for k in ("path_spread_median_pp", "regime_spread_median_pp"):
             a, b = ch.get(k), st_ch.get(k)
             if a is None or b is None:
@@ -501,8 +562,10 @@ def selftest():
     #    quartile spread exists on both axes -- three points is a number, not a spread)
     cells_path = []
     for s_i, s_ in enumerate(("s1", "s2", "s3", "s4")):
-        for g in ("q1", "q2", "q3", "q4"):
-            cells_path.append({"start": s_, "segment": g, "delta_pp": 2.0 * s_i})
+        for g_i, g in enumerate(("q1", "q2", "q3", "q4")):
+            # a small quarter-to-quarter wiggle keeps de-dup from collapsing a book into one
+            # reading; the row effect is still the knob
+            cells_path.append({"start": s_, "segment": g, "delta_pp": 2.0 * s_i + 0.05 * g_i})
     ch = channels(cells_path)
     ok("path-dominated sheet names START_DATE_DOMINATES",
        "START_DATE_DOMINATES" in words(ch), "words=%s" % words(ch))
@@ -513,9 +576,9 @@ def selftest():
 
     # 5) regime-dominated sheet (same geometry, effects transposed)
     cells_reg = []
-    for s_ in ("s1", "s2", "s3", "s4"):
+    for s_i, s_ in enumerate(("s1", "s2", "s3", "s4")):
         for g_i, g in enumerate(("q1", "q2", "q3", "q4")):
-            cells_reg.append({"start": s_, "segment": g, "delta_pp": 2.0 * g_i})
+            cells_reg.append({"start": s_, "segment": g, "delta_pp": 2.0 * g_i + 0.05 * s_i})
     ch2 = channels(cells_reg)
     ok("regime-dominated sheet names REGIME_DOMINATES",
        "REGIME_DOMINATES" in words(ch2), "words=%s" % words(ch2))
@@ -550,6 +613,33 @@ def selftest():
        abs((doc["cells"][0]["ret_fast_pct"] - doc["cells"][0]["ret_slow_pct"])
            - doc["cells"][0]["delta_pp"]) < TOL)
 
+    # 11) r2155 de-dup pass: a copied book is one reading, not two
+    ok("dedupe collapses readings that agree to 1e-13",
+       len(dedupe_vals([-8.0, -8.0 + 1e-13, 2.84, 3.20, 5.59, 6.16])) == 5,
+       "n=%d" % len(dedupe_vals([-8.0, -8.0 + 1e-13, 2.84, 3.20, 5.59, 6.16])))
+    ok("dedupe leaves readings 1e-6 apart alone",
+       len(dedupe_vals([-8.0, -8.0 + 1e-6])) == 2)
+    sp_raw = spread([-8.0, -8.0 + 1e-13, 2.84, 3.20, 5.59, 6.16])
+    sp_ind = spread(dedupe_vals([-8.0, -8.0 + 1e-13, 2.84, 3.20, 5.59, 6.16]))
+    ok("the copied cell is what moves the spread (10.28 -> 2.75 pp)",
+       sp_raw > 10.0 and abs(sp_ind - (5.59 - 2.84)) < 1e-9,
+       "raw=%.2f ind=%.2f" % (sp_raw, sp_ind))
+    dup_cells = []
+    for s_, base in (("s1", 0.0), ("s2", 0.0), ("s3", 3.0), ("s4", 6.0)):
+        for g in ("q1", "q2", "q3"):
+            dup_cells.append({"start": s_, "segment": g, "delta_pp": base})
+    ch_dup = channels(dup_cells)
+    ok("a copied quarter prints n_independent below n_books",
+       ch_dup["by_segment"]["q1"]["n_independent"] == 3
+       and ch_dup["by_segment"]["q1"]["n_books"] == 4,
+       "n_books=%s n_independent=%s"
+       % (ch_dup["by_segment"]["q1"]["n_books"], ch_dup["by_segment"]["q1"]["n_independent"]))
+    ok("the copied quarter is named in collapsed_segments",
+       "q1" in (ch_dup.get("collapsed_segments") or []),
+       "collapsed=%s" % ch_dup.get("collapsed_segments"))
+    ok("the pre-de-dup number stays printable",
+       ch_dup.get("path_spread_median_pp_raw") is not None)
+
     npass = sum(1 for _, good, _ in legs if good)
     for name, good, detail in legs:
         print("%s %s%s" % ("PASS" if good else "FAIL", name, (" | " + detail) if detail else ""))
@@ -571,6 +661,63 @@ def run():
     return 0
 
 
+def assert_dedup(leg=None):
+    """two published claims that a reader can get wrong, checked against the stored cells.
+
+    leg=independent: every quarter that holds a copied book must be DECLARED in
+                     `collapsed_segments` -- a face that prints six readings out of five
+                     books is the r2153 trap and this is the leg that goes red on it.
+    leg=channel:     after de-duplication the regime channel still clears the path channel,
+                     i.e. the family verdict does not depend on the copy.
+    """
+    if not os.path.exists(OUT_PATH):
+        print("STALE face missing: %s" % FACE)
+        return 3
+    with open(OUT_PATH, "r", encoding="utf-8") as fh:
+        doc = json.load(fh)
+    cells = doc.get("cells") or []
+    main = (doc.get("by_cost") or {}).get("8bp") or {}
+    ch = main.get("channels") or {}
+    if not cells or not ch:
+        print("CHECK FAILED the face carries no cells or no 8bp channels")
+        return 1
+
+    sub = [c for c in cells if c.get("cost") == "8bp"]
+    by_seg = {}
+    for c in sub:
+        by_seg.setdefault(c["segment"], []).append(c["delta_pp"])
+    expect = sorted(g for g, v in by_seg.items() if len(dedupe_vals(v)) < len(v))
+    declared = sorted(ch.get("collapsed_segments") or [])
+
+    bad = []
+    if leg in (None, "independent"):
+        if expect != declared:
+            bad.append("quarters holding a copied book: recomputed %r != declared %r"
+                       % (expect, declared))
+        for g in declared:
+            row = (ch.get("by_segment") or {}).get(g) or {}
+            if row.get("n_independent", 0) >= row.get("n_books", 0):
+                bad.append("%s is declared collapsed but prints n_independent %r >= n_books %r"
+                           % (g, row.get("n_independent"), row.get("n_books")))
+    if leg in (None, "channel"):
+        p, r = ch.get("path_spread_median_pp"), ch.get("regime_spread_median_pp")
+        if p is None or r is None:
+            bad.append("a channel spread is missing (path=%r regime=%r)" % (p, r))
+        elif r < REGIME_DOMINATES_RATIO * p:
+            bad.append("de-duplicated regime spread %.3f pp no longer clears %.1fx path %.3f pp"
+                       % (r, REGIME_DOMINATES_RATIO, p))
+
+    if bad:
+        print("CHECK FAILED")
+        for b in bad[:8]:
+            print("  " + b)
+        return 1
+    print("CHECK_OK DEDUP_DECLARED collapsed=%s path=%.3f pp regime=%.3f pp"
+          % (",".join(declared) or "none", ch.get("path_spread_median_pp") or 0.0,
+             ch.get("regime_spread_median_pp") or 0.0))
+    return 0
+
+
 def main(argv):
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -583,6 +730,11 @@ def main(argv):
         return run()
     if cmd == "check":
         return check()
+    if cmd == "assert-dedup":
+        leg = None
+        if len(argv) > 3 and argv[2] == "--leg":
+            leg = argv[3]
+        return assert_dedup(leg)
     print("unknown command: %s" % cmd)
     return 2
 

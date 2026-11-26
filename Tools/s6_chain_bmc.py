@@ -2711,6 +2711,18 @@ LEGS = [
     ("carry_risk_dial_vs_book",
      ["python", "scripts/carry_risk_dial_vs_book.py", "check"],
      ["python", "scripts/carry_risk_dial_vs_book.py", "run"]),
+    # r2155: the cadence regime-split face answered "start date or market segment" and then
+    # had no reader, so it sat at 11-25 while the panel had already moved to 11-26 -- and the
+    # half of its answer a reader can get wrong (one quarter counting the same book twice) had
+    # no gate at all. The face now de-dups readings that agree to 1e-9 pp and names them in
+    # `collapsed_*`; the cell-independence face (r2153) re-reads that published table, so the
+    # writer runs first and the checker second.
+    ("cadence_regime_split",
+     ["python", "scripts/etf_book_cadence_regime_split.py", "check"],
+     ["python", "scripts/etf_book_cadence_regime_split.py", "run"]),
+    ("cadence_cell_independence",
+     ["python", "scripts/etf_book_cadence_cell_independence.py", "check"],
+     ["python", "scripts/etf_book_cadence_cell_independence.py", "run"]),
 ]
 
 

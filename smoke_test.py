@@ -3284,6 +3284,16 @@ def main() -> int:
              "scripts/etf_book_half_year_provenance.py", ["selftest"]),
             ("product: etf_book_half_year_provenance (published sentences re-derived)", 
              "scripts/etf_book_half_year_provenance.py", ["check"]),
+            # r2155: r2153 found one quarter holding the SAME book twice (two start dates
+            # agreeing to 1.5e-13 from 2024Q2 on) and printed the finding as a side face.
+            # The upstream grid now de-duplicates those readings and names them in
+            # `collapsed_segments`; these two legs pin the halves a reader can get wrong --
+            # a copy that is counted as an independent cell, and a family verdict that
+            # quietly depended on the copy.
+            ("product: cadence regime split (a quarter holding a copied book is declared)",
+             "scripts/etf_book_cadence_regime_split.py", ["assert-dedup", "--leg", "independent"]),
+            ("product: cadence regime split (de-duplicated regime channel still on top)",
+             "scripts/etf_book_cadence_regime_split.py", ["assert-dedup", "--leg", "channel"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet
