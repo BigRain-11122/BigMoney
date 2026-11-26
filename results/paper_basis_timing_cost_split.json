@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-26T14:03:05+08:00",
+ "generated": "2026-11-26T15:06:37+08:00",
  "ok": true,
  "verdict": "SPLIT",
  "last_bar": "2026-11-25",
@@ -131,28 +131,28 @@
   ]
  },
  "ledger_health": {
-  "verdict": "DUPLICATE_DATES",
+  "verdict": "CLEAN",
   "products": {
    "IC": {
-    "rows_in_ledger": 3728,
+    "rows_in_ledger": 2390,
     "distinct_dates": 2390,
-    "duplicate_rows": 1338,
-    "duplicate_dates": 1338,
-    "first_duplicate_date": "2017-01-18",
-    "last_duplicate_date": "2022-07-22",
-    "rows_per_date": 1.56,
+    "duplicate_rows": 0,
+    "duplicate_dates": 0,
+    "first_duplicate_date": null,
+    "last_duplicate_date": null,
+    "rows_per_date": 1.0,
     "deduped_days": 2390,
     "deduped_cumulative_pct": 155.924,
     "deduped_annualised_pct": 10.069
    },
    "IM": {
-    "rows_in_ledger": 2103,
+    "rows_in_ledger": 1052,
     "distinct_dates": 1052,
-    "duplicate_rows": 1051,
-    "duplicate_dates": 1051,
-    "first_duplicate_date": "2022-07-25",
-    "last_duplicate_date": "2026-11-24",
-    "rows_per_date": 1.999,
+    "duplicate_rows": 0,
+    "duplicate_dates": 0,
+    "first_duplicate_date": null,
+    "last_duplicate_date": null,
+    "rows_per_date": 1.0,
     "deduped_days": 1052,
     "deduped_cumulative_pct": 47.0,
     "deduped_annualised_pct": 9.347
@@ -163,18 +163,18 @@
   "fix_prepared_not_applied": "key the load map by 'product:date' too (`{f\"{m['product']}:{m['date']}\": m ...}`) and dedupe the existing ledger once under the treasure-guard prescan; not applied this round -- another host holds the shared faces"
  },
  "published_state_reference": {
-  "generated": "2026-11-25T22:22:55+08:00",
+  "generated": "2026-11-26T15:06:17+08:00",
   "last_bar": "2026-11-25",
   "products": {
    "IC": {
-    "days": 3728,
-    "annualised_pct": 10.66,
-    "cumulative_carry_pct": 370.06
+    "days": 2390,
+    "annualised_pct": 10.07,
+    "cumulative_carry_pct": 155.924
    },
    "IM": {
-    "days": 2103,
-    "annualised_pct": 9.4,
-    "cumulative_carry_pct": 116.862
+    "days": 1052,
+    "annualised_pct": 9.35,
+    "cumulative_carry_pct": 47.0
    }
   },
   "why": "the paper book's own numbers, printed unchanged so the split can be read against the number a reader already has"

@@ -88,7 +88,7 @@ def weight_for(basis):
 
 def run():
     ledger = read_json(LEDGER, {"marks": []})
-    marks = {m["date"]: m for m in ledger.get("marks", [])}
+    marks = {f"{m['product']}:{m['date']}": m for m in ledger.get("marks", [])}
     added = []
     for code in PRODUCTS:
         dates, f, i = series(code)
@@ -141,11 +141,13 @@ def run():
     write_json(LEDGER, {"updated": now().isoformat(timespec="seconds"), "marks": ordered})
     state = {
         "generated": now().isoformat(timespec="seconds"),
+        "evidence_cutoff": last_bar,
         "last_bar": last_bar,
         "products": per_product,
         "rule": {"window": WINDOW, "min_obs": MIN_OBS,
                  "weight": "clamp((80-percentile)/60,0,1)",
                  "cost_bp_side": COST_BP_SIDE},
+        "cost": {"basis": "per_side_bp", "side_bp": COST_BP_SIDE},
         "verdict": ("TRACKING" if per_product else "NO_DATA"),
         "new_marks": len(added),
     }
