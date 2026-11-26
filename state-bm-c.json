@@ -2609,5 +2609,16 @@
  "通过_r2127": "orphan_face_probe py_faces=33 orphans=1 (pid 70424, 'scripts/update...' 60min old, all three faces hit, report only - not killed), resident_servers=0; fleet decisions watermark not re-read this round (contention), carried from r2126 at 250,586B / 79e3083b...; orders diff still the pre-2026-10-26 lane broadcasts (r2066).",
  "通过_r2128": "machine.json=bm-c · orphan_face_probe py_faces=7 orphans=1（pid 70424 'scripts/update...' 龄 78.9min 三面全中，report 只读未击杀） · 登记簿/水位本轮未重读（竞争约束），沿用 r2126 字节级水位 250,586B / 79e3083b…；fleet/orders 差集仍为 2026-10-26 前 lane 广播（r2066 判例） · attrition_ledger_guard / 钩子自愈 / 饱和引擎 status 本轮未跑（同上），下个无竞争轮补",
  "通过_r2129": "machine.json=bm-c · orphan_face_probe py_faces=8 orphans=1（report 只读未击杀）· 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · fleet/orders 117 文件 / heartbeat orders_ack 332（差集仍为 2026-10-26 前 lane 广播，r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本 3 处历史缩行 healed）· Bigmoney-IterationLoop 在运行（下次 12:20）与 Bigmoney-LoopWatchdog 就绪（12:19）双任务存续 · saturation_engine status rc0 engine_alive=true heartbeat_age 55s · 心跳已写（epoch int / clock_read T 分隔 / idle_rounds 0 / agenda_starved false）",
- "通过_r2132": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（2 宿主：本窗 pid 92488 + 交互宿主 pid 107624 龄 91m；21 张共享面别宿主先写过、重叠窗 0）→ 只落新增文件面 · 孤儿面 py_faces=9 orphans=0 resident_servers=1 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 文件 / 心跳 orders_ack 332 → 未回执 43 全为 2026-10-26 以前他机 lane 广播（r2066 判例不逐令补 ack）· fleet/inbox 空 · 冒烟上次全量读数 781/783（12:50）两红：①`product: etf_book_cash_roll_today` 已由本轮重推导转绿（`--check` ok=true）②`fleet: GPU face self-consistent` 本轮做成 census 面并抓到 bm-b 3,765 MiB 分裂 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit/pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪（无需重注册）"
+ "通过_r2132": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（2 宿主：本窗 pid 92488 + 交互宿主 pid 107624 龄 91m；21 张共享面别宿主先写过、重叠窗 0）→ 只落新增文件面 · 孤儿面 py_faces=9 orphans=0 resident_servers=1 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 文件 / 心跳 orders_ack 332 → 未回执 43 全为 2026-10-26 以前他机 lane 广播（r2066 判例不逐令补 ack）· fleet/inbox 空 · 冒烟上次全量读数 781/783（12:50）两红：①`product: etf_book_cash_roll_today` 已由本轮重推导转绿（`--check` ok=true）②`fleet: GPU face self-consistent` 本轮做成 census 面并抓到 bm-b 3,765 MiB 分裂 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit/pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪（无需重注册）",
+ "送达自证_r2132": {
+  "ahead_behind": "0\t0",
+  "sha": "b3cf3eac61",
+  "prev": "1008fb1851",
+  "paths_on_origin": [
+   "Tools/gpu_alias_writer_census.py",
+   "results/gpu_alias_writer_census.json",
+   "research/GPU_ALIAS_WRITER_CENSUS.md"
+  ],
+  "note": "path-limited commit; ~200 peer-modified faces left untouched"
+ }
 }
