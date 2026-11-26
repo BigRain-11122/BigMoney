@@ -29,9 +29,11 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
+import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -61,6 +63,60 @@ def _read_json(path):
             return json.load(fh)
     except (ValueError, OSError):
         return None
+
+
+def _digest(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _pin(path):
+    if not path:
+        return None
+    try:
+        return os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:            # a temp dir on another drive (selftest) has no relative form
+        return os.path.abspath(path).replace("\\", "/")
+
+
+def recorded_inputs(stack_path=None, trigger_path=None):
+    """The two faces this one is priced on, by identity (r1311: bytes, never a date)."""
+    out = {}
+    for key, path in (("stack", stack_path or STACK_FACE),
+                      ("trigger", trigger_path or TRIGGER_FACE)):
+        if path and os.path.exists(path):
+            out[key] = {"path": _pin(path), "sha256": _digest(path)}
+        else:
+            out[key] = None
+    return out
+
+
+def drift(pub, stack_path=None, trigger_path=None):
+    """Which recorded input moved since this face was written.  [] = nothing moved.
+
+    r1934/r2163: this face's arithmetic is internal, so before it learned to look
+    outside, a re-derived trigger or stack left it printing CHECK_OK over numbers
+    priced on yesterday's actions -- self-consistent and frozen (r1850/r1935).  The
+    chain buys a rebuild only on the literal word STALE.
+    """
+    moved = []
+    rec = (pub or {}).get("inputs") or {}
+    for key, path, word in (("stack", stack_path or STACK_FACE, "stack"),
+                            ("trigger", trigger_path or TRIGGER_FACE, "trigger")):
+        r = rec.get(key) or {}
+        if not r:
+            moved.append("this face records no %s-face fingerprint, so it cannot prove it is current"
+                         % word)
+        elif r.get("path") != _pin(path):
+            moved.append("the %s face is now %s and this face was priced on %s"
+                         % (word, _pin(path), r.get("path")))
+        elif os.path.exists(path) and r.get("sha256") != _digest(path):
+            moved.append("the %s face %s was re-derived since this face was written"
+                         % (word, _pin(path)))
+    return moved
 
 
 def _refuse(face, why):
@@ -305,8 +361,8 @@ def _fixture():
 def selftest():
     legs = []
 
-    def leg(name, cond):
-        legs.append((name, bool(cond)))
+    def leg(name, cond, detail=None):
+        legs.append((name, bool(cond), detail))
 
     ctx = _fixture()
     f = compute(ctx)
@@ -383,6 +439,53 @@ def selftest():
     md5 = md_lines(f5)
     leg("L20 md explains a zero-action sheet", any("没有换票动作" in x for x in md5))
 
+    # r2163: this face's arithmetic is internal, so before it looked outside it printed
+    # CHECK_OK over costs priced on yesterday's actions (rx1850/r1935 family).
+    rec = recorded_inputs()
+    leg("L22 the face records both input fingerprints",
+        bool(rec.get("stack")) and bool(rec.get("trigger")), rec)
+    if rec.get("stack") and rec.get("trigger"):
+        leg("L23 nothing moved -> no drift", drift({"inputs": rec}) == [], drift({"inputs": rec}))
+        stale = {"inputs": json.loads(json.dumps(rec))}
+        stale["inputs"]["trigger"]["sha256"] = "0" * 64
+        leg("L24 a re-derived trigger reads as drift", len(drift(stale)) == 1, drift(stale))
+        leg("L25 a face with no fingerprint cannot prove it is current",
+            bool(drift({"inputs": {}})), drift({"inputs": {}}))
+
+        import contextlib
+        import io as _io
+        import tempfile as _tempfile
+        tmp = os.path.join(_tempfile.gettempdir(), "swap_toll_selftest.json")
+        keep = globals()["OUT_JSON"]
+        try:
+            frozen = json.loads(json.dumps(f))
+            frozen["inputs"] = json.loads(json.dumps(rec))
+            frozen["inputs"]["trigger"]["sha256"] = "0" * 64
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(frozen, fh, ensure_ascii=False, indent=1)
+            globals()["OUT_JSON"] = tmp
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = main(["check"])
+            text = buf.getvalue()
+            leg("L26 a frozen face answers 3 and says STALE", rc == 3 and "STALE" in text,
+                (rc, text.strip()))
+            wrong = json.loads(json.dumps(frozen))
+            wrong["inputs"] = json.loads(json.dumps(rec))
+            wrong["rows"][0]["entry_cost_cny"] += 5.0
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(wrong, fh, ensure_ascii=False, indent=1)
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = main(["check"])
+            text = buf.getvalue()
+            leg("L27 a wrong number with still inputs stays a defect and never says STALE",
+                rc == 1 and "CHECK_FAIL" in text and "STALE" not in text, (rc, text.strip()))
+        finally:
+            globals()["OUT_JSON"] = keep
+            if os.path.exists(tmp):
+                os.remove(tmp)
+
     # a gap that is missing must print as unreadable, not as 0%
     ctx9 = _fixture()
     ctx9["swap_trigger"]["pairs"][0]["today_gap_pp"] = None
@@ -391,10 +494,11 @@ def selftest():
         f9["rows"][0]["share_of_today_gap"] is None
         and any("读不出" in x for x in md_lines(f9)))
 
-    ok = sum(1 for _, v in legs if v)
+    ok = sum(1 for _, v, _d in legs if v)
     print("etf_book_swap_toll selftest %d/%d" % (ok, len(legs)))
-    for n, v in legs:
-        print("  %-6s %s" % ("PASS" if v else "FAIL", n))
+    for n, v, d in legs:
+        print("  %-6s %s%s" % ("PASS" if v else "FAIL", n,
+                               "" if v or d is None else " :: %r" % (d,)))
     return 0 if ok == len(legs) else 1
 
 
@@ -416,6 +520,7 @@ def run():
         as_of = (ticket or {}).get("as_of")
     face = compute({"as_of": as_of, "ticket_bar": as_of,
                     "swap_stack": stack, "swap_trigger": trig})
+    face["inputs"] = recorded_inputs()
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(face, fh, ensure_ascii=False, indent=2, sort_keys=True)
@@ -442,6 +547,15 @@ def main(argv=None):
         return selftest()
     if a.check or a.cmd == "check":
         face = _read_json(OUT_JSON)
+        if face is None:
+            print("CHECK_FAIL no face at %s" % _pin(OUT_JSON))
+            return 1
+        moved = drift(face)
+        if moved:
+            # the actions or the gaps moved: these costs were right for the faces they were
+            # priced on.  The one word the chain pays a rebuild on (r1934), not a defect.
+            print("STALE " + "; ".join(moved))
+            return 3
         probs = check(face)
         if probs:
             print("CHECK_FAIL " + "; ".join(probs))

@@ -1,8 +1,14 @@
 {
  "artifact": "etf_book_swap_trigger",
- "session": "2026-11-25",
- "ticket": "TICKET-2026-11-24.json",
+ "session": "2026-11-26",
+ "ticket": "TICKET-2026-11-26.json",
  "source_face": "results/etf_book_sibling_gap.json",
+ "inputs": {
+  "gap": {
+   "path": "results/etf_book_sibling_gap.json",
+   "sha256": "d9d1d22055f29c7095bded5cca30bbde302a68dfebc95c23424f729190117a9d"
+  }
+ },
  "criteria": {
   "episode_share": 0.5,
   "tail_percentile": 90.0,
@@ -26,16 +32,16 @@
  "pairs": [
   {
    "leg_symbol": "510760",
-   "sibling_symbol": "530060",
-   "sibling_name": "上证指数ETF易方达",
+   "sibling_symbol": "510910",
+   "sibling_name": "上证指数ETF南方",
    "index": "LBL:上证指数ETF",
    "source_verdict": "GAP_IMMATERIAL",
-   "today_gap_pp": 0.162,
-   "mean_gap_pp": -2.6708,
+   "today_gap_pp": 0.118,
+   "mean_gap_pp": -2.9243,
    "toll_pp": 0.16,
-   "today_excess_pp": 2.8328,
-   "window_share": 0.0368,
-   "percentile": 97.37,
+   "today_excess_pp": 3.0423,
+   "window_share": 0.0583,
+   "percentile": 94.17,
    "expiry": {
     "n_episodes": 1,
     "n_completed": 0,

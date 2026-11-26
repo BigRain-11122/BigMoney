@@ -45,10 +45,12 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import statistics
 import sys
+import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
@@ -59,6 +61,57 @@ import etf_book_swap_toll as swap_toll  # noqa: E402  (r1522's side counts, neve
 GAP_JSON = os.path.join(ROOT, "results", "etf_book_sibling_gap.json")
 OUT_JSON = os.path.join(ROOT, "results", "etf_book_swap_trigger.json")
 OUT_MD = os.path.join(ROOT, "results", "etf_book_swap_trigger.md")
+
+
+def _digest(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _pin(path):
+    if not path:
+        return None
+    try:
+        return os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:            # a temp dir on another drive (selftest) has no relative form
+        return os.path.abspath(path).replace("\\", "/")
+
+
+def recorded_inputs(path=None):
+    """The one file this face is priced on, by identity (r1311: bytes, never a date).
+
+    The gap face is re-derived every time the panel moves, and a same-session revision
+    changes every number below while the session stays put -- a date comparison cannot
+    answer "am I behind".
+    """
+    path = path or GAP_JSON
+    if not path or not os.path.exists(path):
+        return {"gap": None}
+    return {"gap": {"path": _pin(path), "sha256": _digest(path)}}
+
+
+def drift(pub, path=None):
+    """Which recorded input moved since this face was written.  [] = nothing moved.
+
+    r1934/r2162: `run_leg` buys a rebuild only on the literal word STALE, so a check
+    that prints "re-derives to different numbers" about an upstream that simply moved
+    is a *permanent* red -- the face freezes on an old session (r1850) and only a human
+    running it by hand ever clears it.
+    """
+    path = path or GAP_JSON
+    moved = []
+    rec = ((pub or {}).get("inputs") or {}).get("gap") or {}
+    if not rec:
+        moved.append("this face records no gap-face fingerprint, so it cannot prove it is current")
+    elif rec.get("path") != _pin(path):
+        moved.append("the gap face is now %s and this face was priced on %s"
+                     % (_pin(path), rec.get("path")))
+    elif os.path.exists(path) and rec.get("sha256") != _digest(path):
+        moved.append("the gap face %s was re-derived since this face was written" % _pin(path))
+    return moved
 
 # ---- frozen criteria (echoed into the payload; --check refuses a face that disagrees) ----
 EPISODE_SHARE = 0.5     # a "comparable" session carries at least half of today's excess
@@ -284,6 +337,7 @@ def build():
         "session": found.get("session"),
         "ticket": found.get("ticket"),
         "source_face": os.path.relpath(GAP_JSON, ROOT).replace(os.sep, "/"),
+        "inputs": recorded_inputs(),
         "criteria": {"episode_share": EPISODE_SHARE, "tail_percentile": TAIL_PERCENTILE,
                      "fast_expiry_sessions": FAST_EXPIRY,
                      "structural_share": STRUCTURAL_SHARE,
@@ -459,6 +513,16 @@ def check():
         return 1
     with open(OUT_JSON, encoding="utf-8") as fh:
         published = json.load(fh)
+    moved = drift(published)
+    if moved:
+        # the gap face rolled: these numbers were right for the file they were priced on.
+        # Say the one word the chain pays for a rebuild on, and do not re-derive (the
+        # rebuild is the writer's job, and re-deriving here would print a phantom defect).
+        print("CHECK_STALE: " + "; ".join(moved))
+        return 3
+    if not os.path.exists(GAP_JSON):
+        print("CHECK_FAIL: no gap face at %s -- the upstream writer has not run" % _pin(GAP_JSON))
+        return 1
     fresh = build()
     bad = []
     if published.get("criteria") != fresh.get("criteria"):
@@ -570,6 +634,57 @@ def selftest():
     tampered3 = {"toll_scope": tripped, "recheck_rule": "ok", "caveats": [], "pairs": []}
     ok("the guard catches a manoeuvre priced as one exchange", bool(label_violations(tampered3)),
        label_violations(tampered3))
+
+    # r2163: a face whose upstream moved must answer STALE (rc 3), not CHECK_FAIL -- the
+    # chain buys a rebuild only on that word (r1934) and otherwise the face freezes (r1850).
+    published = None
+    if os.path.exists(OUT_JSON):
+        with open(OUT_JSON, encoding="utf-8") as fh:
+            published = json.load(fh)
+    ok("the published face records the gap fingerprint it was priced on",
+       bool(((published or {}).get("inputs") or {}).get("gap")),
+       (published or {}).get("inputs"))
+    if published and os.path.exists(GAP_JSON):
+        ok("nothing moved -> no drift", drift(published) == [], drift(published))
+        stale = json.loads(json.dumps(published))
+        stale["inputs"]["gap"]["sha256"] = "0" * 64
+        ok("a re-derived gap face reads as drift", len(drift(stale)) == 1, drift(stale))
+        bare = json.loads(json.dumps(published))
+        bare.pop("inputs", None)
+        ok("a face with no fingerprint cannot prove it is current", bool(drift(bare)), drift(bare))
+
+        # end to end, on a temp copy of the face (never the shared one): pin it to a gap
+        # face that is not the one on disk and make sure the reader hears exactly STALE.
+        import contextlib
+        import io as _io
+        tmp = os.path.join(tempfile.gettempdir(), "swap_trigger_selftest.json")
+        keep = globals()["OUT_JSON"]
+        try:
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(stale, fh, ensure_ascii=False, indent=1)
+            globals()["OUT_JSON"] = tmp
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = check()
+            text = buf.getvalue()
+            ok("a frozen face answers 3 and says STALE", rc == 3 and "STALE" in text,
+               (rc, text.strip()))
+            wrong = json.loads(json.dumps(published))
+            if wrong.get("pairs"):
+                wrong["pairs"][0]["toll_pp"] = round(float(wrong["pairs"][0]["toll_pp"]) + 1.0, 6)
+                with open(tmp, "w", encoding="utf-8") as fh:
+                    json.dump(wrong, fh, ensure_ascii=False, indent=1)
+                buf = _io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    rc = check()
+                text = buf.getvalue()
+                ok("a wrong number with still inputs stays a defect and never says STALE",
+                   rc == 1 and "CHECK_FAIL" in text and "STALE" not in text,
+                   (rc, text.strip()))
+        finally:
+            globals()["OUT_JSON"] = keep
+            if os.path.exists(tmp):
+                os.remove(tmp)
 
     # the published face, if present, must reproduce
     if os.path.exists(OUT_JSON):

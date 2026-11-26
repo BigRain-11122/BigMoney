@@ -17846,3 +17846,57 @@ r2159 的审计面点名 22 条「结构风险腿」：链里写着 `(check, run
 How：任何 (check,run) 对先问「check 有没有 STALE 这个词」，没有就等于没有修；任何新 drift 锚先在盘上确认它真有值
 （None 的锚是装饰）。正身 `scripts/etf_book_width_fit.py`（selftest 26/26）、`qa/width-fit-stale-contract-r2162.md`；
 余额 21 条在 `results/chain_contract_word_audit.json` 的 rows 里逐条点名。
+## E-20261127-r2163 判例：冻结件与被证物不同代时，「不一致」不是缺陷而是代差——两条 (check,run) 对的解冻
+
+r2162 的配方（drift 只读外部锚、check 三态、行为腿钉死）在 premium_phases / year_caliber 上复现两次，
+各带一枚新面孔：
+
+①**锚常常已经写在面上，只是没人去比**。`etf_book_year_caliber` 的面里本来就存了 `published_arm`
+（as_of + cagr/sharpe/maxdd），run 时用来做 identity leg，可 `check()` 只从自己的 cells 重算判词——
+于是这个面自 2026-10-23 起一直绿着，实际证明的是 10-23 那本账（drift 一接上立刻印
+`STALE: the published arm re-derived on 2026-11-26, this face proved identity on 2026-10-23`）。
+判据：任何 run 里出现「我必须以 X 为准」的比对，X 就必须进 check 的锚，否则这个面在 X 前进那天静默作废。
+
+②**冻结 receipt 落后不是本面的错，但也不能沉默**。year_caliber 的 phase identity 拿 r1425 的
+`etf_book_sleeve_cap_phases.json`（11-22：5,285 bars / 1,528 names）逐格比 top2_share；面板推进到
+5,289 bars / 1,536 names 后 max|d|=0.0236 → 旧逻辑直接 `REFUSED`，run 返回 3，面永远停在旧 bar。
+正法=先比 vintage（bars+universe），不同代就印 `phase identity SKIPPED: receipt priced 5285 bars /
+1528 names, this run 5289 / 1536` 并写进面里，**不 refuse**——同一代而数字不等仍然 refuse。
+判据：凡「与被冻结件比」，先问两件是不是同一代；不是就披露，是才判定。
+
+③**缺锚=STALE 而不是「干净」**。旧面没有 upstream 字段时，drift 若返回空，就把「我不知道在跟谁比」
+读成了「没问题」。两条脚本都改成「没有记录锚 → STALE：请重生一次」，首次运行补上锚后转绿。
+
+④**自愈必须实测到链会付钱**。毒化 published_arm.as_of 到 2026-10-23 → check rc3+STALE →
+`Tools/s6_chain_bmc.py --only=year_caliber` 印 `76.1s check PASS +refresh(rc=0,73.7s)` → 面回到 11-26。
+这行日志是唯一能证明「这根腿不再永久红」的东西；只跑绿不算。
+
+How：任何 (check,run) 对解冻三步=①把 run 里「以谁为准」的那个件写成面的字段 ②check 开头读它并只比
+身份（bar / 数字 / vintage）③行为腿拷真面改一格调真 check() 断言 rc 与词。正身=scripts/etf_book_premium_phases.py
+（selftest 37/37）、scripts/etf_book_year_caliber.py（selftest 40/40）、qa/stale-contract-premium-year-r2163.md；
+余额 19 条在 results/chain_contract_word_audit.json。
+
+
+## E-20261127-r2164 — 绿着冻住的成本面比红着冻住的更贵
+
+换票族有两只表：swap_trigger（何时要再看）与 swap_toll（换回来要多少钱）。两种冻法同时存在：
+
+①**重生型 check 把上游移动印成缺陷**。trigger 的 check 从 gap 面整条重算再逐字段比，面板滚一根
+bar 就印 CHECK_FAIL: verdict, today_gap_pp …。链只在探针说 **STALE** 时才买重生（r1850），于是
+永久红、面停在旧 session。修法=把输入的字节身份写进面（inputs.gap.sha256），check 先比身份：
+动了 → CHECK_STALE rc3 且**不重生**（重生是写者的活，在这儿重生只把上游事件印成幻影缺陷）。
+
+②**纯内部算术的 check 根本不会说过期**。toll 只在已发布的 rows 上验 
+otional*bp/10000*sides，
+上游换了一整套动作它也印 CHECK_OK rows=0。这类面比红面更危险：红面有人看见，绿面被当成今天
+可下单的过路费（r1935「自检只重算自己」在**成本/许可**面上的实例）。修法=同一枚 drift() 锚住
+它读的**每一份**上游（stack + trigger），缺指纹也判 STALE（「不知道在跟谁比」不是「我很好」）。
+
+判据：凡 (check, run) 对，check 必须能对**面外**说一句话；selftest 里要有三腿——原样 rc0 无
+STALE / 钉旧输入 rc3 有 STALE / 同输入改一格 rc1 有 CHECK_FAIL 且无 STALE。再补一条真面探针
+（钉 sha → 问 → 恢复并断言字节恒等），因为「一条永远喊 STALE 的面」也能过前两腿。
+
+How：解冻 2 步=①run 把你以谁为准写成字段 ②check 开头只比身份，是才做逐项比对。正身=
+scripts/etf_book_swap_trigger.py（selftest 33/33）、scripts/etf_book_swap_toll.py（27/27）、
+
+esults/_r2163bmc_swap_stale_probe.py（4/4）、qa/swap-watch-clock-r2164.md；审计面 19→17。

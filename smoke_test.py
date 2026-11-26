@@ -3311,6 +3311,15 @@ def main() -> int:
              "scripts/etf_book_cadence_comparable.py", ["selftest"]),
             ("product: cadence start dates (a moved panel reads STALE by sha1, not by eye)",
              "scripts/etf_book_cadence_start_dates.py", ["selftest"]),
+            # r2163: the swap watch clock is a two-step chain (gap face -> trigger -> toll).
+            # Both readers used to hide a moved upstream: the trigger re-derived and printed
+            # CHECK_FAIL (a permanent red), the toll never looked outside at all and printed
+            # CHECK_OK over yesterday's actions. These legs pin the contract word in both
+            # directions -- STALE when an input moved, a defect when one did not.
+            ("product: swap trigger (a re-derived gap face reads STALE, a wrong toll stays a defect)",
+             "scripts/etf_book_swap_trigger.py", ["selftest"]),
+            ("product: swap toll (costs priced on yesterday's actions read STALE, never OK)",
+             "scripts/etf_book_swap_toll.py", ["selftest"]),
             # r1205: the line's freshness faces all read the instant, so a
             # stall followed by one heartbeat is invisible. This leg prices the
             # history reader: fuzzy stamps widen instead of narrowing, quiet

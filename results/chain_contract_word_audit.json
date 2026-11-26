@@ -2,7 +2,7 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-27T05:28:26+0800",
+ "generated": "2026-11-27T06:23:12+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
@@ -11,12 +11,12 @@
  "chain_sha256": "47e7d2c5ef3b627c094dda66bb9d4589fc046f9e230d0c05dbf2d3b6de8bcfeb",
  "n_legs": 392,
  "n_writer_legs": 136,
- "n_candidates": 21,
- "n_probed": 21,
+ "n_candidates": 17,
+ "n_probed": 17,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 30.1,
+ "elapsed_sec": 28.2,
  "rows": [
   {
    "leg": "etf_book_dividend_credit",
@@ -193,43 +193,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "����Ҫ **0.458463**�����ֻ�� **0.435003**���� 2.35pp�������ŵ�������� **39 �� + 40 �� + 25 �� + 42 �� + 28 ��**�������Եļ��۳� **23,447.80 Ԫ**�� ���Ȳ���**һ��**������˵��� **159519**��159519 �Ķ���ϵ� **0.0172pp** �͹�������һ�֣�����ÿ����Ҫ 0.0237~0.0540pp��"
-  },
-  {
-   "leg": "premium_phases",
-   "script": "scripts/etf_book_premium_phases.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_premium_phases.py",
-    "--check"
-   ],
-   "script_sha256": "f0277beca3a59b5913bd9c91a7cf9fb818cff85fecf8ab0ec2b43834f4ddc6ec",
-   "drift_words": [
-    "moved",
-    "drift",
-    "changed"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "premium_phases --check OK {'phases': 4, 'positive_phases': 4, 'median_pp': 6.59} -> level: the premium is positive on 4/4 phases (median +6.59pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence"
-  },
-  {
-   "leg": "year_caliber",
-   "script": "scripts/etf_book_year_caliber.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_year_caliber.py",
-    "check"
-   ],
-   "script_sha256": "be09c4cd0dc43b63120ab7e80027c88a7a6f9cc9ced563c77b03a3238e48c648",
-   "drift_words": [
-    "moved",
-    "drift",
-    "changed"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "check PASS: primary=effective_years composite=FAIL"
+   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **39 手 + 40 手 + 25 手 + 42 手 + 28 手**，按各自的价折成 **23,447.80 元**。 想先补回**一手**，最便宜的是 **159519**：159519 的额度上调 **0.0172pp** 就够买它那一手，其余每名各要 0.0237~0.0540pp。"
   },
   {
    "leg": "sibling_entry",
@@ -246,39 +210,6 @@
    "state": "CURRENT",
    "rc": 0,
    "first_line": "[sibling_entry] CHECK_OK the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,684"
-  },
-  {
-   "leg": "swap_trigger",
-   "script": "scripts/etf_book_swap_trigger.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_swap_trigger.py",
-    "check"
-   ],
-   "script_sha256": "3b4ac713bbc7681a491b09cae26c834654ee5d3ca3966795c32ffc7c4b394139",
-   "drift_words": [
-    "moved"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "CHECK_OK: 1 pair(s), threshold 0.16 pp = one exchange (2 sides); manoeuvre 0.32 pp (4 sides) is published, not the threshold"
-  },
-  {
-   "leg": "swap_toll",
-   "script": "scripts/etf_book_swap_toll.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_swap_toll.py",
-    "check"
-   ],
-   "script_sha256": "99f20069f6528cea3ea4eff724797658fa0359638874cdbebed2f2b402b0b66f",
-   "drift_words": [
-    "drift",
-    "changed"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "CHECK_OK rows=0"
   },
   {
    "leg": "toll_scope",

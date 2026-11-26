@@ -57,6 +57,7 @@
  "carrier_debt_r2128": "etf_book_cadence_comparable 无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）；接线顺序=phase_atlas_k_axis 之后；r2126 的 money_rounding_gap_fix --apply 与 r2127 的 k_axis 接线仍挂账，同属无竞争窗任务",
  "carrier_debt_r2129": "etf_book_cadence_start_dates 与 heartbeat_alias_audit 均无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）：接线顺序＝cadence_start_dates 接在 etf_book_cadence_comparable 之后（先 check 48s，STALE 才付 73s 重跑）、heartbeat_alias_audit 一条零网络零计算腿；另仍挂账 Tools/money_rounding_gap_fix.py --apply（r2126）、k_axis 接线（r2127）、cadence_comparable 接线（r2128）。 新增挂账一件：Tools/gpu_face.py 的 GB_KEYS 缺 gpu_free_vram_gib（共享面，竞争窗禁改），修法＝把该键加入 GB_KEYS 或停止产出 _gib 别名；修完两台心跳的 unit_mislabel 应归零。",
  "carrier_debt_r2140": "竞争窗 rc=3（对端 interactive pid=107624 自 11:49 存活）：S6 链与全量冒烟连续第 9 轮未跑，如实记",
+ "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390",
  "chain": "peer chain 2155 in flight (pythonw pid 118992); this round --only bench_cash_yardstick,bench_census_arm_contradiction 2/2 rc0 3.6s",
  "chain_note": "r2145: competitor host still live (contention rc=3) -> new-file faces only; S6 chain not run for the 14th consecutive round (honest debt)",
  "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在，重叠 2 张共享面不可归因），按 r1907 同树多宿主律只落新增文件面。r2147 面 etf_book_flip_reach 只有 selftest 5/5 + check ok，未入链（连续第 16 轮欠账）。",
@@ -1688,7 +1689,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2162,
+ "round_no": 2164,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2702,6 +2703,7 @@
   "sha": "91fa8a55f8"
  },
  "送达自证_r2151": "commit 6572249aa2 pushed origin/main; after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r origin/main 见四件在位(scripts/bench_excess_paired_test.py, results/bench_excess_paired_test.json, research/BENCH_EXCESS_PAIRED_TEST.md, qa/bench-excess-paired-test-r2151.md) -> 本地未达 origin commit 数=0；簿记面 addendum commit 6236f7c1c7 亦已推 origin/main，末次 fetch 后 rev-list --left-right --count origin/main...HEAD = 0/0（两批全达）",
+ "送达自证_r2162": "commit 4463b3d875 pushed origin/main (365d5c3a68..4463b3d875); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; the four key paths verified with git ls-tree on origin; path-limited commit of 15 files, ~2,380 peer data faces untouched; attrition guard CLEAN (4 ledgers, 2 historical shrink rows healed); loop task + watchdog present; heartbeat written once (round_no=2162, epoch int, clock_read T).",
  "通过_r2044": "orders 116 文件 / 归一回执 257 / 未回执 0；decisions.md 字节 sha 79e3083b… 未变=零动作；idle_trigger green_idle=true 且池空/板空 -> 本轮自驱产品件即工作，--worked 清零",
  "通过_r2052": "orders 116 文件 / 归一回执 329 / 未回执 0；decisions.md 未变零动作；smoke 本轮被 r2049 链在飞阻断（20 红全属面代差族）",
  "通过_r2053": "orders 117 文件 / 归一回执 329 / 未回执 0；decisions.md 字节 sha 79e3083b 未变=零动作；orders.md 变（99e8e77d -> 6bd40fec）新增 1 行 = OB-20261122-223110-552 本地优先令，本仓照做（本轮全部本地算力、零云端调用），回执随轮报告",
@@ -2723,9 +2725,8 @@
  "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
  "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）",
  "通过_r2155": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本仓唯一宿主）-> 本轮可动共享面 · 孤儿面 py_faces=3 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执差集全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit / pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均存在（未重注册）",
- "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390",
  "通过_r2159": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本宿主独活）· 全量冒烟 778/787（9 红）→ 按 r1934 契约词分类：5 条已修（ticket_band/cash_roll_today/k_grid/year_gate_vote/premium_swap+premium_choice 容差），4 条记欠账（rebal_adoption 控制臂 10.89 vs 发布 11.49、CEO 页 declared-start、ah_panel 采样尾、bets/derisk 两节无链腿）· 新面 scripts/chain_contract_word_audit.py（390 腿/134 带写者/22 条不会说 STALE）",
  "通过_r2160": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=94128）· 孤儿面 py_faces=5 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执 0（余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪 · register_loop_task phase ok（pin=0 no-op）· 主产出：rebal_adoption 控制臂「未复现」真因=链序（本面 2075 行读在 etf_nobond_vt 2658 行之前，两本差一根 bar），修法=compare_faces/book_moved 外部锚 + 链腿移到写者之后；selftest 25/25 + check OK + 三腿链 3/3 rc0（65.5s）+ 四步自愈实证（FACE_LAG rc1 拒白跑 → 上游 54.0s → REFRESH_RAN 74.6s → 绿）· 未跑全量冒烟（如实）",
  "通过_r2162": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / ack 332 → 未回执差集 0（余为他机 lane 广播 r2066 判例）· 主产出：etf_book_width_fit 的 check 学会说 STALE（drift 双外部锚=票面 decision_bar + 闸面 data.last；bar_moved 时不再重复报同一事件；三态 CHECK_FAIL/CHECK_STALE/CHECK_OK）· selftest 26/26 · 真 check 四态行为腿 4/4 · 审计面 n_candidates 22→21 · 链 3/3 rc0 · 全量冒烟未跑完（后台 05:18 起），观测 4 红中 2 条已清、2 条为 r2159 旧欠账",
- "送达自证_r2162": "commit 4463b3d875 pushed origin/main (365d5c3a68..4463b3d875); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; the four key paths verified with git ls-tree on origin; path-limited commit of 15 files, ~2,380 peer data faces untouched; attrition guard CLEAN (4 ledgers, 2 historical shrink rows healed); loop task + watchdog present; heartbeat written once (round_no=2162, epoch int, clock_read T)."
+ "通过_r2164": "本轮产品：swap_trigger/swap_toll 学会说过期（19→17 候选）；详见 qa/swap-watch-clock-r2164.md"
 }

@@ -1,12 +1,22 @@
 {
   "artifact": "etf_book_swap_toll",
-  "bar": "2026-11-25",
+  "bar": "2026-11-26",
   "caveats": [
     "the exit toll is contingent: a standing gap (WINDOW_ALWAYS_OPEN) means the desk may never trade back, so the second exchange is a price on a decision, not a charge already incurred",
     "both halves are priced on the same close and the same notional: intraday execution moves the proceeds and the lots, and a re-widened gap moves the notional, not the bp",
     "fees and tracking difference between the two tickers are not modelled; cost_bp_per_side is the trigger's own constant, imported here rather than restated"
   ],
   "cost_bp_per_side": 8.0,
+  "inputs": {
+    "stack": {
+      "path": "results/etf_book_swap_stack.json",
+      "sha256": "e42ebf314404f3d50dba759ae09cc9613d5371f299148b20c37574a3930784f1"
+    },
+    "trigger": {
+      "path": "results/etf_book_swap_trigger.json",
+      "sha256": "0e0bb1daea2da264baf536ca317c2380c87004f59b653a395a52dc49f9db1fbc"
+    }
+  },
   "refused": null,
   "rows": [],
   "sentence": "这一单没有换票动作，所以没有「换回来」的过路费可报（不是 0 元：没有动作就没有第二个交易）。",
@@ -14,7 +24,7 @@
     "swap_stack": "results/etf_book_swap_stack.json",
     "swap_trigger": "results/etf_book_swap_trigger.json"
   },
-  "started_from": "2026-11-25",
+  "started_from": "2026-11-26",
   "totals": {},
   "verdict": "NO_SWAP_ON_THIS_BAR"
 }
