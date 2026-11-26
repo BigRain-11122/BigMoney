@@ -17824,3 +17824,25 @@ How：①任何「名字里带单位」的键，解析器必须让这个名字�
 ③改单位/口径这类规则时，同时问「面上已经写下的数怎么处理」，并把残留做成会红的腿。
 正身 `Tools/gpu_face.py`（selftest 53/53）、`Tools/gpu_alias_writer_census.py`（selftest 17/17）、
 `research/GPU_GIB_UNIT_CONTRACT.md`、`qa/gib-unit-contract-r2149.md`。
+
+## 2026-11-27 r2162 — 一对 (check,run) 里 check 从不说过期 = 冷藏面（E-20261127-r2162）
+
+r2159 的审计面点名 22 条「结构风险腿」：链里写着 `(check, run)`，写者已声明、价格也付得起，
+可 check 的漂移句子一个 STALE 都不含 —— `run_leg` 只在探针自己说 stale/face missing 时付钱
+（r1850），于是票面滚到新 bar 后腿**红着、且永远红**，共享面冻在旧的一天，读者打开的还是旧书。
+
+本窗实的 `etf_book_width_fit`：48.4s 的重算一直挂在腿上，从未被触发过。
+
+三条可复用：
+①**同一个事件只报一次，且只报成它能被修的那种**。票面滚 bar 既让「逐项比对」失败、又是一次陈旧 ——
+若两处都报，一次市场前进会长成两条红，其中一条还带 STALE；正法是先判 `bar_moved`，跳过逐项比对，
+让 drift() 独占那句话。
+②**第二根锚常常没有 cutoff 字段**。闸面 `evidence_cutoff` 实测为 None，用它做锚＝死锚；闸真正公布的
+是 `data.last`（每次重推导都变）。加 `gate_bar` 后这根锚才活。
+③**证明它会在旧输入上变红**：`results/_r2162bmc_width_fit_stale_probe.py` 拿发布面写临时副本、改一格、
+调真 `main_check()`，四态全钉（原样 rc0 / 票面退一格 rc3+STALE / 闸面退一格 rc3+STALE / 真算错 rc1 且无 STALE）。
+行为腿抓的是分类，不是算术。
+
+How：任何 (check,run) 对先问「check 有没有 STALE 这个词」，没有就等于没有修；任何新 drift 锚先在盘上确认它真有值
+（None 的锚是装饰）。正身 `scripts/etf_book_width_fit.py`（selftest 26/26）、`qa/width-fit-stale-contract-r2162.md`；
+余额 21 条在 `results/chain_contract_word_audit.json` 的 rows 里逐条点名。

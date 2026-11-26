@@ -73,6 +73,10 @@ def gate_reads(doc):
         "line_pct": reads.get("impact_max_pct_of_adv"),
         "live_picks": list(((doc or {}).get("data") or {}).get("live_picks") or []),
         "evidence_cutoff": (doc or {}).get("evidence_cutoff"),
+        # r2162: the gate publishes the bar its capacity reading belongs to; without it this
+        # face cannot tell a same-generation quote from one taken off a gate that has since
+        # re-derived (the gate carries no top-level evidence_cutoff -- that field is empty)
+        "gate_bar": ((doc or {}).get("data") or {}).get("last"),
     }
 
 
@@ -421,14 +425,52 @@ def same_rule(g, live_row):
     return out
 
 
-def check(payload):
+def drift(payload, t="disk", g="disk"):
+    """Is this table OLDER than the two faces it quotes? A newer input is a rebuild, not a
+    confession (r1935: a check that only re-derives itself can never say it is out of date).
+
+    Both anchors are external on purpose: the ticket writes the decision bar, the gate writes
+    the capacity reading, and this face quotes both. When either rolls forward, every number
+    below is about a book nobody holds -- which is the state the chain leg has to be able to
+    repair, and it can only do that if the probe uses the contract word (r1850).
+    """
+    out = []
+    if t == "disk":
+        t = ticket_reads()
+    if g == "disk":
+        g = load_gate()
+    if t is not None and str(payload.get("decision_bar")) != str(t["decision_bar"]):
+        out.append("STALE: the ticket now decides on bar %s, this table priced %s"
+                   % (t["decision_bar"], payload.get("decision_bar")))
+    now = gate_reads(g)
+    was = payload.get("gate_reads") or {}
+    # the gate re-derives on every bar and its capacity reading moves with its live five, so
+    # a quote taken off yesterday's gate is a real staleness, not a cosmetic label
+    if (now.get("gate_bar") and was.get("gate_bar")
+            and str(now["gate_bar"]) != str(was["gate_bar"])):
+        out.append("STALE: the gate re-derived on bar %s, this table quotes %s"
+                   % (now["gate_bar"], was["gate_bar"]))
+    elif (now.get("evidence_cutoff") and was.get("evidence_cutoff")
+            and str(now["evidence_cutoff"]) != str(was["evidence_cutoff"])):
+        out.append("STALE: the gate re-derived on %s, this table quotes %s"
+                   % (now["evidence_cutoff"], was["evidence_cutoff"]))
+    return out
+
+
+def check(payload, t="disk"):
     """Re-derive the readings this face publishes, and prove it is the ticket's own book."""
     problems = []
     g = payload.get("gate_reads") or {}
     rows = payload.get("rows") or []
     base = next((r for r in rows if r["n"] == 5), None)
-    t = ticket_reads()
+    if t == "disk":
+        t = ticket_reads()
     agree = payload.get("ticket_agreement") or {}
+    # a ticket on a NEWER bar is a rebuild (drift() owns that sentence); comparing this
+    # table's picks against the new book here would print one event twice, once as a
+    # contradiction -- and "the market moved" is not a contradiction
+    bar_moved = (t is not None
+                 and str(payload.get("decision_bar")) != str(t["decision_bar"]))
 
     # 1. the bar this table ranks must be the bar the ticket decided on -- or, when no
     #    ticket exists, the fallback must say so instead of silently reading the panel tail
@@ -439,10 +481,9 @@ def check(payload):
         if (agree.get("status") or "NO_TICKET_FACE") != "NO_TICKET_FACE":
             problems.append("no ticket face, but agreement claims %s"
                             % agree.get("status"))
+    elif bar_moved:
+        pass
     else:
-        if payload.get("decision_bar") != t["decision_bar"]:
-            problems.append("decision_bar %s != ticket %s"
-                            % (payload.get("decision_bar"), t["decision_bar"]))
         if payload.get("amount_window_end") != payload.get("decision_bar"):
             problems.append("amount window ends %s, ranking ends %s"
                             % (payload.get("amount_window_end"),
@@ -453,7 +494,7 @@ def check(payload):
                                "、".join(agree.get("mismatched") or []) or "-"))
 
     # 2. width 5 IS the ticket's live row: same slots, same price, re-derived from the face
-    if t is not None and base is not None:
+    if t is not None and base is not None and not bar_moved:
         lw = t.get("live_width") or {}
         if sorted(base.get("picks") or []) != sorted(lw.get("picks") or []):
             problems.append("width 5 picks %s != ticket %s"
@@ -556,12 +597,19 @@ def run():
 def main_check():
     with io.open(OUT, encoding="utf-8") as fh:
         payload = json.load(fh)
-    problems = check(payload)
+    t = ticket_reads()
+    problems = check(payload, t=t)
     if problems:
         print("CHECK_FAIL")
         for p in problems:
             print("  -", p)
         return 1
+    stale = drift(payload, t=t)
+    if stale:
+        print("CHECK_STALE")
+        for s in stale:
+            print("  -", s)
+        return 3
     print("CHECK_OK width 5 IS the ticket's live row on bar %s (%.4f%%) and every row "
           "re-derives" % (payload.get("decision_bar"),
                           (payload.get("ticket_agreement") or {}).get("checks", [{}])[0].get("mine")
@@ -670,6 +718,31 @@ def selftest():
     sr = same_rule({"verdict": "DENY", "line_pct": 1.0, "impact_pct_of_adv": 0.84}, row_fit)
     leg("a gate whose word fights its own arithmetic is caught before comparison",
         sr["status"] == "GATE_FACE_INCONSISTENT")
+
+    # --- r2162: the two anchors that can go out from under this table ---------------------
+    _payload = {"decision_bar": "2026-01-05",
+                "gate_reads": {"gate_bar": "2026-01-05"},
+                "rows": fake_rows,
+                "summary": {"capital_cny": 1_000_000.0},
+                "ticket_agreement": {"status": "AGREES_WITH_TICKET"}}
+    _same = {"decision_bar": "2026-01-05"}
+    leg("a table on the ticket's own bar is not called stale",
+        drift(_payload, t=_same, g={}) == [])
+    _d = drift(_payload, t={"decision_bar": "2026-01-06"}, g={})
+    leg("the ticket rolling one bar forward is STALE (a rebuild, not a contradiction)",
+        len(_d) == 1 and "STALE" in _d[0] and "2026-01-06" in _d[0])
+    _g = {"data": {"last": "2026-01-06"},
+          "decision": {"verdict": "ADMIT", "reads": {"capacity_veto_lens": "1M"}}}
+    _d = drift(_payload, t=_same, g=_g)
+    leg("the gate re-deriving on a new bar is STALE too",
+        len(_d) == 1 and "STALE" in _d[0] and "2026-01-06" in _d[0])
+    _bad = dict(_payload,
+                gate_reads={"verdict": "ADMIT"},
+                rows=[dict(fake_rows[0], per_name_cny=999_999.0,
+                           capital_at_line_cny=1_000_000.0)])
+    _p = check(_bad, t=_same)
+    leg("a row that fights its own capital still fails WITHOUT the repair word",
+        bool(_p) and not any("stale" in x.lower() for x in _p))
 
     ok = sum(1 for _n, o in legs if o)
     for name, o in legs:

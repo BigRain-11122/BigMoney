@@ -1,8 +1,8 @@
 {
  "face": "etf_book_supply_gate_decision",
  "question": "two receipts read separately -- does the caliber dispute (r1445) and the blind ruler (r1444) combine into one answer for the 2026-11-11 rebalance?",
- "generated": "2026-11-26T07:20:43+0800",
- "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-27T05:29:48+0800",
+ "evidence_cutoff": "2026-11-26",
  "forward": {
   "composite": "RULER_BLIND",
   "reads": {
@@ -77,14 +77,16 @@
   {
    "face": "wrapper_gate",
    "name": "ticket_construction_plain_plus_overlay",
-   "class": "INVARIANT",
+   "class": "MOVES_ON_BLIND_CHECK",
    "words": {
-    "A": "CONDITIONAL",
+    "A": "ADMIT",
     "B": "CONDITIONAL",
     "P": "CONDITIONAL"
    },
-   "moving_checks": [],
-   "reason": "the calendar word is identical under all three calibers"
+   "moving_checks": [
+    "Y4_top2_share"
+   ],
+   "reason": "word moves on Y4_top2_share; every moving check reads RULER_BLIND"
   },
   {
    "face": "admission",
@@ -350,49 +352,60 @@
    "failing_checks": [
     "Y4_top2_share"
    ],
-   "top2_share_frac_A": 0.7337,
+   "top2_share_frac_A": 0.7378,
    "top2_share_frac_full_only": 0.7278,
-   "top2_share_pct_A": 73.37,
+   "top2_share_pct_A": 73.78,
    "top2_share_pct_full_only": 72.78,
    "nav_cny": 1000000.0,
    "book_weight": 0.435003,
-   "book_amount_cny": 434738.2,
+   "book_amount_cny": 434684.0,
    "names_in_ticket": 5
   },
-  "money_constructions_that_are_gifts": [],
+  "money_constructions_that_are_gifts": [
+   {
+    "name": "ticket_construction_plain_plus_overlay",
+    "wrapper_word": "ADMIT",
+    "class": "MOVES_ON_BLIND_CHECK",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    }
+   }
+  ],
   "ticket_permission": {
    "construction": "ticket_construction_plain_plus_overlay",
-   "permission_word": "CONDITIONAL",
-   "reading": "TICKET_PRICED_ON_A_MOVED_PERMISSION",
-   "sentence": "the construction reads CONDITIONAL while etf_book_ticket_floor.json=TRADABLE_AT_1000000, etf_book_ticket_band.json=BOTH_LINES_HOLD_AT_SIGNED, capital_union_decision.json=TRADABLE_AT_1000000 still print a size: those sizes are liquidity statements, not permissions",
+   "permission_word": "ADMIT",
+   "reading": "TICKET_PERMISSION_MATCH",
+   "sentence": "every size face prints a size and the construction's word is ADMIT",
    "readers": [
     {
      "path": "results/etf_book_ticket_floor.json",
      "field": "verdict",
      "word": "TRADABLE_AT_1000000",
-     "evidence_cutoff": "2026-11-25",
-     "asof_bar": "2026-11-25",
-     "sha16": "8e46e7e120762f4a"
+     "evidence_cutoff": "2026-11-26",
+     "asof_bar": "2026-11-26",
+     "sha16": "816ff57d7e335faf"
     },
     {
      "path": "results/etf_book_ticket_band.json",
      "field": "verdict",
      "word": "BOTH_LINES_HOLD_AT_SIGNED",
-     "evidence_cutoff": "2026-11-25",
+     "evidence_cutoff": "2026-11-26",
      "asof_bar": null,
-     "sha16": "32fbebebf351fc78"
+     "sha16": "3c720e547f70b03e"
     },
     {
      "path": "results/capital_union_decision.json",
      "field": "etf_book.ticket_verdict",
      "word": "TRADABLE_AT_1000000",
-     "evidence_cutoff": "2026-11-25",
+     "evidence_cutoff": "2026-11-26",
      "asof_bar": null,
-     "sha16": "197954786edecd68"
+     "sha16": "4512a122bb7b4d30"
     }
    ]
   },
-  "second_reading": "the judge and the money are two different objects: the judged book's word survives the caliber choice, while no construction reads ADMIT only while a partial year counts as a year (on this cutoff the strict reading is the reading)",
+  "second_reading": "the judge and the money are two different objects: the judged book's word survives the caliber choice, while ticket_construction_plain_plus_overlay -- the construction the ticket prices -- reads ADMIT only while a partial year counts as a year (r1440 priced the same k_now)",
   "cross_receipt_agreement": [
    {
     "name": "plain_book_n5_r20_vt08",
@@ -408,12 +421,24 @@
    },
    {
     "name": "ticket_construction_plain_plus_overlay",
-    "wrapper_word": "CONDITIONAL",
-    "caliber_A_word": "CONDITIONAL",
+    "wrapper_word": "ADMIT",
+    "caliber_A_word": "ADMIT",
     "agree": true
    }
   ],
   "gift_arms": [
+   {
+    "face": "wrapper_gate",
+    "name": "ticket_construction_plain_plus_overlay",
+    "words": {
+     "A": "ADMIT",
+     "B": "CONDITIONAL",
+     "P": "CONDITIONAL"
+    },
+    "moving_checks": [
+     "Y4_top2_share"
+    ]
+   },
    {
     "face": "admission",
     "name": "ALL",
@@ -441,9 +466,9 @@
   ],
   "floored_arms": [],
   "class_counts": {
-   "INVARIANT": 23,
+   "INVARIANT": 22,
    "MOVES_ON_CONTROL_ONLY": 1,
-   "MOVES_ON_BLIND_CHECK": 2,
+   "MOVES_ON_BLIND_CHECK": 3,
    "MOVES_ON_SEEN_CHECK": 0,
    "UNREADABLE": 0
   },
@@ -466,7 +491,7 @@
  "sources": {
   "caliber": {
    "path": "results/etf_book_partial_year_caliber/CALIBER.json",
-   "sha16": "47bbfedc78534039"
+   "sha16": "dddee6119d70c457"
   },
   "forward": {
    "path": "results/etf_book_ruler_forward/RULER-FORWARD.json",
@@ -474,11 +499,11 @@
   },
   "gap": {
    "path": "results/etf_book_execution_admission_gap.json",
-   "sha16": "2e9d10f472d0774c"
+   "sha16": "077e78247604a9b4"
   },
   "wrapper": {
    "path": "results/etf_book_year_gate/WRAPPER-GATE.json",
-   "sha16": "d8c415964853bd2c"
+   "sha16": "9331a2efb2ecf0b2"
   }
  }
 }
