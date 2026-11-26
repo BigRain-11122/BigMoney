@@ -52,3 +52,21 @@
 2. 用「扫源码里的 `"scripts/xxx.py"` 字面量」当接线证据时，**docstring 与负控里的假名字会被当真**：
    首版把 `scripts/x.py`、`scripts/__r2122_not_in_git__.py` 都报成缺陷。正法：腿参数是权威（照报），
    纯字面量只在文件确实存在时才可信。
+
+## 补记（08:5x）· k-gap 段终于有写手
+
+本轮末又关掉两条 carried 红（同一条产业链的两半）：
+
+| 检查 | 结果 |
+| --- | --- |
+| `python scripts/etf_book_k_gap.py` | 面 bar = **2026-11-25**（= 票面 bar） |
+| 页面逐名表格 vs 面 | **5/5 行逐位相同**（合计 175 手 / ¥23,384.00） |
+| `python scripts/live_book_section_bars.py check` | **CHECK_OK**（PAGE_MIXES_BARS·headline 2026-11-25·off 13） |
+| 落后段 `no_writer` 计数 | **0**（全部 chain_leg 或页面自算） |
+| 全量冒烟（修前那趟） | **767/779 PASS · 12 FAIL**，本轮关掉 3 条 → 剩 9 条 carried |
+
+修法两层：①`Tools/s6_chain_bmc.py` 补写手腿 `etf_book_k_gap`（check 与 run 同一命令·~1s），
+**且排在 `etf_book_ceo_page` 之前**（写手在读者之后=每趟差一代，r1781）；
+②`scripts/live_book_section_bars.py` 补 `LEG_ALIASES["k_gap"]`——section key 只有 5 字符、
+低于 `MIN_NAME_FOR_MATCH=8`，名字探针永远看不见它，所以「有腿也照读 no_writer」。
+修后再跑一份全量冒烟已在飞（`logs/smoke_2122_after.log`·PID 96660），**不宣称修后总数**。
