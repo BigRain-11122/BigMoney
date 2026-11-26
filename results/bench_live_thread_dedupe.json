@@ -1,0 +1,393 @@
+{
+  "arms_examined": 85,
+  "cards_examined": [
+    "ah_premium",
+    "astock_lowvol",
+    "audit_fut_trend",
+    "basis_capacity",
+    "basis_timing_perm",
+    "basis_timing_perm_masks",
+    "basis_timing_replicate",
+    "basis_timing_size",
+    "basis_timing_size_audit",
+    "basis_timing_size_masks",
+    "bond_curve",
+    "bond_defensive",
+    "cash_window_sensitivity",
+    "cb_floor",
+    "census_bond_futures",
+    "census_commodity",
+    "census_index_futures",
+    "cmdty_xsec",
+    "cost_stamp_census",
+    "etf_census",
+    "fut_pair_trend",
+    "fut_trend",
+    "night_rollup",
+    "pair_all10_60d",
+    "pair_bond_curve_60d",
+    "pair_commodity_60d",
+    "pair_index_60d",
+    "repo_ladder",
+    "revalidate",
+    "reversal_commodity_5d",
+    "reversal_index_5d",
+    "robust_donchian_index",
+    "robust_ma_index",
+    "robust_tsmom_commodity",
+    "trend_single_AU_long",
+    "trend_single_IC_long",
+    "trend_single_RB_long",
+    "trend_single_SC_long",
+    "trend_single_T_long"
+  ],
+  "duplicate_measurements": [
+    {
+      "ann_pct": 1.53,
+      "arms": [
+        "60d",
+        "tsmom|{'lookback': 60, 'skip': 21}|ls"
+      ],
+      "bars": 4597,
+      "cards": [
+        "census_commodity",
+        "robust_tsmom_commodity"
+      ],
+      "cutoff": "2026-11-24",
+      "mdd_pct": -20.51,
+      "products": [
+        "AU",
+        "RB",
+        "SC"
+      ],
+      "rows": 2,
+      "sharpe": 0.221
+    },
+    {
+      "ann_pct": 5.01,
+      "arms": [
+        "120d",
+        "tsmom|{'lookback': 120, 'skip': 21}|ls"
+      ],
+      "bars": 4597,
+      "cards": [
+        "census_commodity",
+        "robust_tsmom_commodity"
+      ],
+      "cutoff": "2026-11-24",
+      "mdd_pct": -21.74,
+      "products": [
+        "AU",
+        "RB",
+        "SC"
+      ],
+      "rows": 2,
+      "sharpe": 0.626
+    },
+    {
+      "ann_pct": 5.24,
+      "arms": [
+        "250d",
+        "tsmom|{'lookback': 250, 'skip': 21}|ls"
+      ],
+      "bars": 4597,
+      "cards": [
+        "census_commodity",
+        "robust_tsmom_commodity"
+      ],
+      "cutoff": "2026-11-24",
+      "mdd_pct": -18.88,
+      "products": [
+        "AU",
+        "RB",
+        "SC"
+      ],
+      "rows": 2,
+      "sharpe": 0.671
+    },
+    {
+      "ann_pct": -4.14,
+      "arms": [
+        "20_10",
+        "donchian|{'entry': 20, 'exit': 10}|long",
+        "donchian|{'entry': 20, 'exit': 10}|ls"
+      ],
+      "bars": 2389,
+      "cards": [
+        "census_index_futures",
+        "robust_donchian_index"
+      ],
+      "cutoff": "2026-11-23",
+      "mdd_pct": -46.89,
+      "products": [
+        "IC",
+        "IF",
+        "IH",
+        "IM"
+      ],
+      "rows": 3,
+      "sharpe": -0.227
+    },
+    {
+      "ann_pct": -4.22,
+      "arms": [
+        "40_15",
+        "donchian|{'entry': 40, 'exit': 15}|long",
+        "donchian|{'entry': 40, 'exit': 15}|ls"
+      ],
+      "bars": 2389,
+      "cards": [
+        "census_index_futures",
+        "robust_donchian_index"
+      ],
+      "cutoff": "2026-11-23",
+      "mdd_pct": -47.33,
+      "products": [
+        "IC",
+        "IF",
+        "IH",
+        "IM"
+      ],
+      "rows": 3,
+      "sharpe": -0.235
+    },
+    {
+      "ann_pct": -3.92,
+      "arms": [
+        "55_20",
+        "donchian|{'entry': 55, 'exit': 20}|long",
+        "donchian|{'entry': 55, 'exit': 20}|ls"
+      ],
+      "bars": 2389,
+      "cards": [
+        "census_index_futures",
+        "robust_donchian_index"
+      ],
+      "cutoff": "2026-11-23",
+      "mdd_pct": -47.06,
+      "products": [
+        "IC",
+        "IF",
+        "IH",
+        "IM"
+      ],
+      "rows": 3,
+      "sharpe": -0.215
+    },
+    {
+      "ann_pct": 5.31,
+      "arms": [
+        "50_100",
+        "ma_cross|{'fast': 50, 'slow': 100}|ls"
+      ],
+      "bars": 2389,
+      "cards": [
+        "census_index_futures",
+        "robust_ma_index"
+      ],
+      "cutoff": "2026-11-23",
+      "mdd_pct": -25.51,
+      "products": [
+        "IC",
+        "IF",
+        "IH",
+        "IM"
+      ],
+      "rows": 2,
+      "sharpe": 0.479
+    },
+    {
+      "ann_pct": 6.58,
+      "arms": [
+        "50_200",
+        "ma_cross|{'fast': 50, 'slow': 200}|ls"
+      ],
+      "bars": 2389,
+      "cards": [
+        "census_index_futures",
+        "robust_ma_index"
+      ],
+      "cutoff": "2026-11-23",
+      "mdd_pct": -17.6,
+      "products": [
+        "IC",
+        "IF",
+        "IH",
+        "IM"
+      ],
+      "rows": 2,
+      "sharpe": 0.586
+    }
+  ],
+  "evidence_cutoff": "2026-11-25",
+  "generated": "2026-11-26T16:59:58+08:00",
+  "live_card_level": [
+    {
+      "card": "basis_timing_perm",
+      "cutoff": "2026-11-25",
+      "per_product": [
+        {
+          "ann_pct": 10.07,
+          "bars": 2390,
+          "mdd_pct": null,
+          "product": "IC"
+        },
+        {
+          "ann_pct": 9.35,
+          "bars": 1052,
+          "mdd_pct": null,
+          "product": "IM"
+        }
+      ],
+      "source": "results/bench_basis_timing_perm.json",
+      "verdict": "SIGNIFICANT"
+    },
+    {
+      "card": "basis_timing_size",
+      "cutoff": "2026-11-25",
+      "per_product": [
+        {
+          "ann_pct": 10.07,
+          "bars": 2391,
+          "mdd_pct": -1.89,
+          "product": "IC"
+        },
+        {
+          "ann_pct": 9.35,
+          "bars": 1053,
+          "mdd_pct": -3.05,
+          "product": "IM"
+        }
+      ],
+      "source": "results/bench_basis_timing_size.json",
+      "verdict": "GO"
+    }
+  ],
+  "live_measurements": [
+    {
+      "ann_pct": 5.01,
+      "arms": [
+        "120d",
+        "tsmom|{'lookback': 120, 'skip': 21}|ls"
+      ],
+      "bars": 4597,
+      "cards": [
+        "census_commodity",
+        "robust_tsmom_commodity"
+      ],
+      "cutoff": "2026-11-24",
+      "mdd_pct": -21.74,
+      "oos_ann_pct": 9.44,
+      "products": [
+        "AU",
+        "RB",
+        "SC"
+      ],
+      "sharpe": 0.626,
+      "turnover": 6.51,
+      "verdicts": [
+        "GO"
+      ],
+      "vol_pct": 8.37
+    },
+    {
+      "ann_pct": 5.24,
+      "arms": [
+        "250d",
+        "tsmom|{'lookback': 250, 'skip': 21}|ls"
+      ],
+      "bars": 4597,
+      "cards": [
+        "census_commodity",
+        "robust_tsmom_commodity"
+      ],
+      "cutoff": "2026-11-24",
+      "mdd_pct": -18.88,
+      "oos_ann_pct": 7.9,
+      "products": [
+        "AU",
+        "RB",
+        "SC"
+      ],
+      "sharpe": 0.671,
+      "turnover": 4.83,
+      "verdicts": [
+        "GO"
+      ],
+      "vol_pct": 8.11
+    }
+  ],
+  "live_rows": 4,
+  "missed_arms": [
+    {
+      "ann_pct": 4.56,
+      "arm": "tsmom|{'lookback': 250, 'skip': 21}|long",
+      "beats_ann_pct": 5.24,
+      "beats_arm": "tsmom|{'lookback': 250, 'skip': 21}|ls",
+      "beats_mdd_pct": -18.88,
+      "beats_sharpe": 0.671,
+      "beats_turnover": 4.83,
+      "card": "census_commodity",
+      "delta_ann_pp": -0.68,
+      "delta_mdd_pp": 5.18,
+      "delta_sharpe": 0.083,
+      "mdd_pct": -13.7,
+      "oos_ann_pct": 8.51,
+      "rejecting_bar": 5.0,
+      "sharpe": 0.754,
+      "source": "results/bench_census_commodity.json",
+      "turnover": 2.49,
+      "verdict": "NO_EDGE"
+    },
+    {
+      "ann_pct": 4.42,
+      "arm": "tsmom|{'lookback': 120, 'skip': 21}|long",
+      "beats_ann_pct": 5.24,
+      "beats_arm": "tsmom|{'lookback': 250, 'skip': 21}|ls",
+      "beats_mdd_pct": -18.88,
+      "beats_sharpe": 0.671,
+      "beats_turnover": 4.83,
+      "card": "census_commodity",
+      "delta_ann_pp": -0.82,
+      "delta_mdd_pp": 2.75,
+      "delta_sharpe": 0.043,
+      "mdd_pct": -16.13,
+      "oos_ann_pct": 9.3,
+      "rejecting_bar": 5.0,
+      "sharpe": 0.714,
+      "source": "results/bench_census_commodity.json",
+      "turnover": 3.31,
+      "verdict": "NO_EDGE"
+    }
+  ],
+  "other_verdict_tokens": [
+    "BASELINE_REFERENCE",
+    "FLIPS_WITH_LOOKBACK",
+    "NO_EDGE_REPACKAGES_BETA",
+    "UNINFORMATIVE_AT_TARGET"
+  ],
+  "schema": "bench_live_thread_dedupe.v1",
+  "sources": [
+    "results/bench_bond_curve.json",
+    "results/bench_cash_window_sensitivity.json",
+    "results/bench_census_bond_futures.json",
+    "results/bench_census_commodity.json",
+    "results/bench_census_index_futures.json",
+    "results/bench_fut_trend.json",
+    "results/bench_pair_all10_60d.json",
+    "results/bench_pair_bond_curve_60d.json",
+    "results/bench_pair_commodity_60d.json",
+    "results/bench_pair_index_60d.json",
+    "results/bench_repo_ladder.json",
+    "results/bench_reversal_commodity_5d.json",
+    "results/bench_reversal_index_5d.json",
+    "results/bench_robust_donchian_index.json",
+    "results/bench_robust_ma_index.json",
+    "results/bench_robust_tsmom_commodity.json",
+    "results/bench_trend_single_AU_long.json",
+    "results/bench_trend_single_IC_long.json",
+    "results/bench_trend_single_RB_long.json",
+    "results/bench_trend_single_SC_long.json",
+    "results/bench_trend_single_T_long.json"
+  ]
+}
