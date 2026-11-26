@@ -1,19 +1,19 @@
 # The card's headline trades one bar of the future
 
-`2026-11-20T17:02:12+0800` · evidence cutoff **2026-11-20** · 1528 symbols · 5285 bars
+`2026-11-26T04:58:29+0800` · evidence cutoff **2026-11-25** · 1532 symbols · 5288 bars
 
 ## Verdict
 
-**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.97 pp/yr, and the whole ladder is monotone in delay (-2:+15.34, -1:+12.25, +0:+9.16, +1:+8.19, +5:+7.67, +20:+4.86)
+**LOOKAHEAD_PRESENT** — the published engine ranks on `score.loc[d]` -- built from bar d's own close and amount -- and then earns open[d]->open[d+1]: the book buys at a price that was set before the information it ranks on. Delaying that information one bar costs 0.97 pp/yr, and the whole ladder is monotone in delay (-2:+15.18, -1:+12.09, +0:+8.98, +1:+8.01, +5:+7.51, +20:+4.72)
 
 ## The three arms
 
 | arm | cagr | sharpe | maxdd | vol | bars |
 |---|---|---|---|---|---|
-| published (card) | 9.16% | 0.946 | -11.77% | 10.19% | 1667 |
-| causal (score shifted +1 bar) | 8.19% | 0.849 | -16.56% | 10.28% | 1667 |
-| ledger engine, no carry | 8.00% | 0.846 | -13.57% | 10.07% | 1668 |
-| ledger engine, ladder3 carry | 8.59% | 0.902 | -13.26% | 10.07% | 1668 |
+| published (card) | 8.98% | 0.928 | -11.77% | 10.21% | 1670 |
+| causal (score shifted +1 bar) | 8.01% | 0.832 | -16.56% | 10.28% | 1670 |
+| ledger engine, no carry | 7.82% | 0.828 | -13.57% | 10.08% | 1671 |
+| ledger engine, ladder3 carry | 8.40% | 0.884 | -13.26% | 10.08% | 1671 |
 
 ## The lag ladder — the same rule, moved in time
 
@@ -21,30 +21,33 @@ Negative lag = the score is given bars of the *future*; positive = the book is a
 
 | lag (bars) | cagr | sharpe | maxdd |
 |---|---|---|---|
-| -2 | 15.34% | 1.475 | -13.35% |
-| -1 | 12.25% | 1.254 | -11.02% |
-| +0 | 9.16% | 0.946 | -11.77% |
-| +1 | 8.19% | 0.849 | -16.56% |
-| +5 | 7.67% | 0.792 | -16.66% |
-| +20 | 4.86% | 0.524 | -17.64% |
+| -2 | 15.18% | 1.459 | -13.35% |
+| -1 | 12.09% | 1.238 | -11.02% |
+| +0 | 8.98% | 0.928 | -11.77% |
+| +1 | 8.01% | 0.832 | -16.56% |
+| +5 | 7.51% | 0.778 | -16.66% |
+| +20 | 4.72% | 0.509 | -17.64% |
 
 ## Decomposition
 
 - price of the one bar: **0.97 pp/yr**
 - mark basis (open-to-open vs close-to-close): 0.19 pp/yr
-- repo carry credited by the ledger, absent from the card: 0.59 pp/yr
+- repo carry credited by the ledger, absent from the card: 0.58 pp/yr
 
 the three components are priced on separate arms: the first is information ordering, the second is open-to-open vs close-to-close marking around an open fill, the third is the repo ladder the ledger credits and the card does not
 
-Bar level — published vs causal: 1666 overlapping bars, max daily difference 0.0167 at 2025-08-25.
+Bar level — published vs causal: 1669 overlapping bars, max daily difference 0.0167 at 2025-08-25.
 
 ## What is affected
 
-Scripts that price through this ordering (mechanical scan, 99 files):
+Scripts that price through this ordering (mechanical scan, 115 files):
 
+- `scripts/_tmp_blend_probe.py`
+- `scripts/bench_cash_window_sensitivity.py`
 - `scripts/candidate_year_gate_phases.py`
 - `scripts/etf_book_2025_repro.py`
 - `scripts/etf_book_admission_eta.py`
+- `scripts/etf_book_admit_cost_ladder.py`
 - `scripts/etf_book_bakeoff.py`
 - `scripts/etf_book_band_ruler.py`
 - `scripts/etf_book_bridge.py`
@@ -53,13 +56,16 @@ Scripts that price through this ordering (mechanical scan, 99 files):
 - `scripts/etf_book_calendar_book.py`
 - `scripts/etf_book_capacity_shortfall.py`
 - `scripts/etf_book_cash_lock_gap.py`
+- `scripts/etf_book_cash_rate_flip.py`
 - `scripts/etf_book_causal_rebuild.py`
 - `scripts/etf_book_churn_hold.py`
 - `scripts/etf_book_concentration.py`
 - `scripts/etf_book_concentration_levers.py`
 - `scripts/etf_book_corr_select.py`
 - `scripts/etf_book_cost_tape.py`
+- `scripts/etf_book_day_concentration.py`
 - `scripts/etf_book_derisk_rule.py`
+- `scripts/etf_book_dividend_credit.py`
 - `scripts/etf_book_do_or_wait.py`
 - `scripts/etf_book_entry_gate.py`
 - `scripts/etf_book_entry_lag.py`
@@ -91,12 +97,15 @@ Scripts that price through this ordering (mechanical scan, 99 files):
 - `scripts/etf_book_phase_atlas.py`
 - `scripts/etf_book_pre2020_voltarget.py`
 - `scripts/etf_book_pre2020_wf.py`
+- `scripts/etf_book_prehistory.py`
 - `scripts/etf_book_production.py`
 - `scripts/etf_book_punctuality.py`
 - `scripts/etf_book_raise_arm_noise.py`
 - `scripts/etf_book_rebal_adoption.py`
+- `scripts/etf_book_rent_horse_race.py`
 - `scripts/etf_book_ruler_forward.py`
 - `scripts/etf_book_scale_floor.py`
+- `scripts/etf_book_search_rent.py`
 - `scripts/etf_book_seat_hold.py`
 - `scripts/etf_book_seat_mde.py`
 - `scripts/etf_book_sleeve_cap.py`
@@ -112,6 +121,7 @@ Scripts that price through this ordering (mechanical scan, 99 files):
 - `scripts/etf_book_tilt_neutral.py`
 - `scripts/etf_book_tsmom.py`
 - `scripts/etf_book_underwater.py`
+- `scripts/etf_book_underwater_ticket_book.py`
 - `scripts/etf_book_universe_lock.py`
 - `scripts/etf_book_vol_target_gate.py`
 - `scripts/etf_book_vol_window_edge.py`
@@ -122,18 +132,22 @@ Scripts that price through this ordering (mechanical scan, 99 files):
 - `scripts/etf_book_vt_phases.py`
 - `scripts/etf_book_weight_scheme.py`
 - `scripts/etf_book_width_cross.py`
+- `scripts/etf_book_width_curve.py`
+- `scripts/etf_book_width_curve_bare.py`
 - `scripts/etf_book_width_neighbors.py`
 - `scripts/etf_book_width_null_production.py`
 - `scripts/etf_book_width_positive_control.py`
 - `scripts/etf_book_width_return.py`
 - `scripts/etf_book_window_decomp.py`
 - `scripts/etf_book_window_split.py`
+- `scripts/etf_book_winner_frame_audit.py`
 - `scripts/etf_book_wrapper_year_gate.py`
 - `scripts/etf_book_year_attribution.py`
 - `scripts/etf_book_year_caliber.py`
 - `scripts/etf_book_year_gate.py`
 - `scripts/etf_book_year_gate_idlecarry.py`
 - `scripts/etf_equity_alpha.py`
+- `scripts/etf_nobond_cash_leg.py`
 - `scripts/etf_nobond_vt.py`
 - `scripts/etf_robust_pf.py`
 - `scripts/etf_vol_calibration.py`
@@ -141,6 +155,8 @@ Scripts that price through this ordering (mechanical scan, 99 files):
 - `scripts/etf_vol_target_sweep.py`
 - `scripts/futures_tsmom_probe.py`
 - `scripts/idx_fut_carry_risk.py`
+- `scripts/two_book_blend.py`
+- `scripts/verified_lines_money_year.py`
 
 ## Honest limits
 

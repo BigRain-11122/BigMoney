@@ -1,20 +1,20 @@
 # Cited faces: what a clone can open, and what points nowhere
 
-generated 2026-11-25T19:22:10+08:00 | evidence_cutoff 2026-11-25 | machine bm-c
+generated 2026-11-26T04:27:43+08:00 | evidence_cutoff 2026-11-26 | machine bm-c
 
 **Verdict: `EVERY_CITED_FACE_IS_IN_GIT_OR_MACHINE_LOCAL_BY_DESIGN`**
 
-1476 face paths are literally named by a committed reader. 1319 are on disk and in git, 30 are machine-local by `.gitignore` policy, and **0 are on disk but unreadable from a fresh clone** -- the r1783/r1987 defect.
+1495 face paths are literally named by a committed reader. 1337 are on disk and in git, 30 are machine-local by `.gitignore` policy, and **0 are on disk but unreadable from a fresh clone** -- the r1783/r1987 defect.
 
 Citations live inside a `selftest` / `test_*` / `*_fixture` function are excluded (24 paths): those readers are exercising their own missing-input branch with a path that *must* not exist, and publishing it would be the wrong fix. Without that exclusion this census reported 167 "dead pointers", and the first draft counted `a.json` and `deadbeef.json` as evidence.
 
 | state | count | reading |
 |---|---|---|
-| TRACKED | 1319 | clone opens it |
+| TRACKED | 1337 | clone opens it |
 | IGNORED | 30 | machine-local by policy, never published |
 | NEGATIVE_FIXTURE | 24 | named only by a test — must be missing |
 | DOCUMENTED_EXAMPLE | 10 | named only inside a usage line / docstring |
-| FIXTURE_LITERAL | 75 | a string inside a data literal, never an `open()` argument |
+| FIXTURE_LITERAL | 76 | a string inside a data literal, never an `open()` argument |
 | TEMPLATE_PLACEHOLDER | 14 | the *shape* of a name (`REPORT-YYYYMMDD.md`) |
 | ROUND_ARTIFACT | 0 | `_r####bm?` round bookkeeping |
 | MACHINE_SCOPED | 0 | another machine's local state |

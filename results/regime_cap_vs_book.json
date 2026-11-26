@@ -4,17 +4,17 @@
   "cell": "RED_COOL",
   "asof": "2026-11-20",
   "regime_state": "RED",
-  "regime_asof": "2026-11-24",
-  "days_in_state": 15
+  "regime_asof": "2026-11-25",
+  "days_in_state": 16
  },
  "ladder_cap": 0.2,
  "ladder_rule": "REGIME_GUARD v3 政体阶梯（RED 20%/ORANGE 50%/YELLOW 65%/GREEN 80%/GREEN×HOT 95%）",
  "engine": {
   "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
-  "as_of": "2026-11-24",
-  "close": 4.033,
-  "ma250": 4.6522,
-  "dd_from_250d_high": -0.2078,
+  "as_of": "2026-11-25",
+  "close": 3.97,
+  "ma250": 4.6489,
+  "dd_from_250d_high": -0.2202,
   "below_ma250": true,
   "is_major_bear": true,
   "position_cap": 0.2
@@ -52,61 +52,61 @@
   {
    "name": "COMPOSITE-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.9597,
-   "deployed_cny": 943531.7,
-   "equity_cny": 983136.21,
+   "deployed_weight": 0.9594,
+   "deployed_cny": 935071.04,
+   "equity_cny": 974675.54,
    "status": "above_cap",
-   "gap_pp": 75.97,
-   "headroom_pp": -75.97,
+   "gap_pp": 75.94,
+   "headroom_pp": -75.94,
    "multiple_of_cap": 4.8,
-   "excess_cny": 746904.46
+   "excess_cny": 740135.93
   },
   {
    "name": "COMPOSITE-CE-02",
    "kind": "ladder",
-   "deployed_weight": 0.8495,
-   "deployed_cny": 828124.68,
-   "equity_cny": 974837.9,
+   "deployed_weight": 0.8485,
+   "deployed_cny": 821567.32,
+   "equity_cny": 968280.54,
    "status": "above_cap",
-   "gap_pp": 64.95,
-   "headroom_pp": -64.95,
-   "multiple_of_cap": 4.25,
-   "excess_cny": 633157.1
+   "gap_pp": 64.85,
+   "headroom_pp": -64.85,
+   "multiple_of_cap": 4.24,
+   "excess_cny": 627911.21
   },
   {
    "name": "ETF-BOOK (beta x vol target, own rule)",
    "kind": "own_rule",
    "deployed_weight": 0.435,
-   "deployed_cny": 434723.8,
+   "deployed_cny": 434738.2,
    "equity_cny": 1000000.0,
    "status": "own_rule",
    "gap_pp": 23.5,
    "headroom_pp": -23.5,
    "multiple_of_cap": 2.17,
-   "excess_cny": 234723.8
+   "excess_cny": 234738.2
   },
   {
    "name": "VOLATILITY-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.4044,
-   "deployed_cny": 400033.0,
-   "equity_cny": 989194.59,
+   "deployed_weight": 0.4033,
+   "deployed_cny": 398132.6,
+   "equity_cny": 987294.19,
    "status": "above_cap",
-   "gap_pp": 20.44,
-   "headroom_pp": -20.44,
+   "gap_pp": 20.33,
+   "headroom_pp": -20.33,
    "multiple_of_cap": 2.02,
-   "excess_cny": 202194.08
+   "excess_cny": 200673.76
   },
   {
    "name": "ENGULF-CE-01",
    "kind": "ladder",
-   "deployed_weight": 0.1002,
-   "deployed_cny": 98718.85,
-   "equity_cny": 985442.6,
+   "deployed_weight": 0.0968,
+   "deployed_cny": 95020.51,
+   "equity_cny": 981744.25,
    "status": "inside_cap",
-   "gap_pp": -9.98,
-   "headroom_pp": 9.98,
-   "multiple_of_cap": 0.5,
+   "gap_pp": -10.32,
+   "headroom_pp": 10.32,
+   "multiple_of_cap": 0.48,
    "excess_cny": 0.0
   },
   {
@@ -138,50 +138,44 @@
   "cap": 0.2,
   "n_compared": 6,
   "n_above": 3,
-  "total_excess_cny": 1582255.64,
+  "total_excess_cny": 1568720.9,
   "n_excess_measured": 3,
   "worst_above": {
    "name": "COMPOSITE-CE-01",
-   "deployed_weight": 0.9597,
-   "gap_pp": 75.97,
-   "excess_cny": 746904.46
+   "deployed_weight": 0.9594,
+   "gap_pp": 75.94,
+   "excess_cny": 740135.93
   },
   "rule": "风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）",
   "verdict": "ABOVE_CAP"
  },
  "last_day_moves": {
-  "date": "2026-11-24",
-  "prev_date": "2026-11-20",
+  "date": "2026-11-25",
+  "prev_date": "2026-11-24",
   "accounts": {
    "COMPOSITE-CE-01": {
-    "prev_weight": 0.9594,
+    "prev_weight": 0.9597,
     "entries": []
    },
    "COMPOSITE-CE-02": {
-    "prev_weight": 0.8519,
-    "entries": [
-     "513500"
-    ]
+    "prev_weight": 0.8495,
+    "entries": []
    },
    "DROUGHT-CE-01": {
     "prev_weight": 0.0,
     "entries": []
    },
    "ENGULF-CE-01": {
-    "prev_weight": 0.0496,
-    "entries": [
-     "512980"
-    ]
+    "prev_weight": 0.1002,
+    "entries": []
    },
    "NEEDLE-DE-01": {
     "prev_weight": 0.0,
     "entries": []
    },
    "VOLATILITY-CE-01": {
-    "prev_weight": 0.3537,
-    "entries": [
-     "510050"
-    ]
+    "prev_weight": 0.4044,
+    "entries": []
    }
   }
  },
@@ -191,7 +185,7 @@
   "n_compared": 6,
   "n_above": 3
  },
- "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 96.0%（超 76.0pp，是帽子的 4.80 倍）。该户上一交易日 95.9%。按帽子折算，已能折算的 3 户合计高出 1582256 元（其中 COMPOSITE-CE-01 一户 746904 元）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 96.0%，超 76.0pp）。这两顶帽子折算的是同一批账户、同一笔钱（就是上面那 1582256 元），不是第二处亏空。",
+ "sentence": "市场状态 RED 把新增风险的股票敞口压在上限 20%。（账户文件里另写着 20%（paper_engine），那是另一条规则——风配3 R-配3（跌破 MA250 且自 250 日高点回撤≥20% 才压到 20%）——不是同一顶帽子的矛盾读数。） 3/6 个阶梯管辖账户站在帽子上方；最高的是 COMPOSITE-CE-01，仓位 95.9%（超 75.9pp，是帽子的 4.80 倍）。该户上一交易日 96.0%。按帽子折算，已能折算的 3 户合计高出 1568721 元（其中 COMPOSITE-CE-01 一户 740136 元）。帽子只挡新开仓，并不强制卖出。按铁律 2 的 20% 单户总仓位帽重判：还有 3/6 户在上方（最高 COMPOSITE-CE-01 仓位 95.9%，超 75.9pp）。这两顶帽子折算的是同一批账户、同一笔钱（就是上面那 1568721 元），不是第二处亏空。",
  "engine_caps_seen": {
   "COMPOSITE-CE-01_paper.json": 0.2,
   "COMPOSITE-CE-02_paper.json": 0.2,

@@ -1,7 +1,7 @@
 {
  "face": "etf_book_floor_toll",
- "asof": "2026-11-23T15:42:31+0800",
- "evidence_cutoff": "2026-11-20",
+ "asof": "2026-11-26T07:07:59+0800",
+ "evidence_cutoff": "2026-11-25",
  "criteria": {
   "path_tol": 1e-09,
   "toll_tol_pp": 0.05,
@@ -13,54 +13,54 @@
   "k_now": 0.435003,
   "cut_k": 0.0,
   "decision_date": "2026-12-09",
-  "generated": "2026-11-23T15:39:44+0800",
+  "generated": "2026-11-26T07:05:21+0800",
   "verdict": "KEEP_SUPPORTED_BY_INDEPENDENT_PATH"
  },
  "window": {
   "first": "2020-07-16",
-  "last": "2026-11-20",
-  "bars": 1540,
+  "last": "2026-11-25",
+  "bars": 1543,
   "decisions": 78
  },
  "control": {
   "arm": "ticket_k_no_cut",
-  "k_last": 0.464029,
-  "published_k_last": 0.464029,
+  "k_last": 0.462194,
+  "published_k_last": 0.462194,
   "source": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cut_gate_pass\\CUT-GATE-PASS.json",
   "gap": 0.0,
   "ok": true
  },
  "arms": {
   "ticket_k_no_cut": {
-   "cagr_pct": 6.95,
-   "sharpe": 1.256,
+   "cagr_pct": 6.83,
+   "sharpe": 1.235,
    "mdd_pct": -5.87,
    "vol_pct": 5.69,
-   "k_last": 0.464029,
-   "k_mean": 0.36148,
+   "k_last": 0.462194,
+   "k_mean": 0.361676,
    "k_max": 0.48131,
    "overage": {
-    "n_bars": 1540,
-    "n_over": 500,
+    "n_bars": 1543,
+    "n_over": 503,
     "max_overage": 0.046307,
-    "mean_overage": 0.01018
+    "mean_overage": 0.010213
    },
    "turnover": {
-    "n_moves": 76,
-    "sum_abs_dk": 0.342737
+    "n_moves": 77,
+    "sum_abs_dk": 0.344573
    },
    "note": "the size the ticket orders today"
   },
   "cap_at_decisions": {
-   "cagr_pct": 6.65,
-   "sharpe": 1.258,
+   "cagr_pct": 6.54,
+   "sharpe": 1.237,
    "mdd_pct": -5.87,
    "vol_pct": 5.44,
    "k_last": 0.435003,
-   "k_mean": 0.351301,
+   "k_mean": 0.351463,
    "k_max": 0.435003,
    "overage": {
-    "n_bars": 1540,
+    "n_bars": 1543,
     "n_over": 0,
     "max_overage": 0.0,
     "mean_overage": 0.0
@@ -72,15 +72,15 @@
    "note": "the sheet's trim, re-applied at each decision"
   },
   "cap_every_bar": {
-   "cagr_pct": 6.65,
-   "sharpe": 1.258,
+   "cagr_pct": 6.54,
+   "sharpe": 1.237,
    "mdd_pct": -5.87,
    "vol_pct": 5.44,
    "k_last": 0.435003,
-   "k_mean": 0.351301,
+   "k_mean": 0.351463,
    "k_max": 0.435003,
    "overage": {
-    "n_bars": 1540,
+    "n_bars": 1543,
     "n_over": 0,
     "max_overage": 0.0,
     "mean_overage": 0.0
@@ -100,18 +100,18 @@
  },
  "obedience": {
   "cagr_pct": {
-   "ticket_k_no_cut": 6.95,
-   "cap_at_decisions": 6.65,
-   "cap_every_bar": 6.65
+   "ticket_k_no_cut": 6.83,
+   "cap_at_decisions": 6.54,
+   "cap_every_bar": 6.54
   },
-  "price_of_obedience_pp_per_yr": 0.3,
-  "turnover_delta_units": -0.096467,
+  "price_of_obedience_pp_per_yr": 0.29,
+  "turnover_delta_units": -0.098303,
   "turnover_fee_proxy_pp_per_yr": -0.0013,
   "uncut_overage": {
-   "n_bars": 1540,
-   "n_over": 500,
+   "n_bars": 1543,
+   "n_over": 503,
    "max_overage": 0.046307,
-   "mean_overage": 0.01018
+   "mean_overage": 0.010213
   }
  },
  "toll": {
@@ -123,5 +123,5 @@
  },
  "verdict": "CONTINUOUS_EQUALS_DECISIONS",
  "sentence": "clipping every bar and clipping at each decision produce the same path (max |dk| 0.0e+00) -- continuous enforcement adds no safety and costs nothing, so it is not a work item",
- "elapsed_sec": 45.21
+ "elapsed_sec": 51.15
 }

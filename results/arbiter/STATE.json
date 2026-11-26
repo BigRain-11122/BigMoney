@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-26T03:41:40+08:00",
- "ram_free_gb": 25.6,
- "cpu_load_pct": 7.8,
+ "ts": "2026-11-26T08:51:41+08:00",
+ "ram_free_gb": 26.81,
+ "cpu_load_pct": 21.7,
  "gpu": {
   "available": true,
   "util_pct": 0,
-  "vram_used_mb": 1817,
+  "vram_used_mb": 1839,
   "vram_total_mb": 16384
  },
  "comfy_8188": {
@@ -19,22 +19,37 @@
  "media_jobs": [
   {
    "pid": 82824,
-   "mb": 3834,
+   "mb": 3484,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory"
   }
  ],
  "quant_jobs": [
   {
-   "pid": 86736,
-   "mb": 24,
+   "pid": 96660,
+   "mb": 162,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test"
+  },
+  {
+   "pid": 98952,
+   "mb": 200,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command $env:PYTHONIOENCODING='utf-8'; python -m smoke_test 2>&1 | Select-Object -Last 40\n$__codelyShellOk = "
+  },
+  {
+   "pid": 101180,
+   "mb": 75,
    "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
   },
   {
-   "pid": 99184,
-   "mb": 92,
+   "pid": 101876,
+   "mb": 303,
    "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
+  },
+  {
+   "pid": 103124,
+   "mb": 162,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m smoke_test"
   }
  ],
  "media_cpu_jobs": 1,
- "media_ram_gb": 3.74
+ "media_ram_gb": 3.4
 }

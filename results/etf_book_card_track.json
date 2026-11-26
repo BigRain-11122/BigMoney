@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-card-track/v1",
- "ts": "2026-11-24T17:43:00",
- "evidence_cutoff": "2026-11-24",
+ "ts": "2026-11-26T06:27:45",
+ "evidence_cutoff": "2026-11-25",
  "card_path": "etf_book_production\\latest.json",
  "ledger_path": "etf_book_forward\\LEDGER.json",
  "agreement": {
@@ -42,10 +42,10 @@
  },
  "card_ticket": {
   "present": true,
-  "ticket_path": "etf_book_order\\TICKET-2026-11-24-card.json",
+  "ticket_path": "etf_book_order\\TICKET-2026-11-25-card.json",
   "card_decided_bar": "2026-11-11",
   "ticket_decided_bar": "2026-11-11",
-  "ticket_priced_bar": "2026-11-24",
+  "ticket_priced_bar": "2026-11-25",
   "same_decision_bar": true,
   "card_names": 12,
   "ticket_names": 12,
@@ -65,7 +65,7 @@
   "seed_bar": "2026-10-23",
   "anchor_bar": "2026-11-12",
   "anchor_note": "the replay is indexed at this bar and the recorded nav is divided by this bar's nav: the shares are bought at the fill, so a mark before the fill would price them from a bar they did not exist on (r1585)",
-  "last_bar": "2026-11-24",
+  "last_bar": "2026-11-25",
   "names": 12,
   "target_weight_each": 0.075782,
   "cash_target": 0.090616,
@@ -84,43 +84,45 @@
    "513500": 0.075778
   },
   "weights_at_last": {
-   "510760": 0.075508,
-   "512040": 0.077133,
-   "159655": 0.074356,
-   "513690": 0.07517,
-   "159519": 0.074684,
-   "513650": 0.074338,
-   "510210": 0.075714,
-   "562060": 0.077234,
-   "513630": 0.075392,
-   "159207": 0.077853,
-   "511180": 0.073715,
-   "513500": 0.074501
+   "510760": 0.0751,
+   "512040": 0.077316,
+   "159655": 0.073492,
+   "513690": 0.075714,
+   "159519": 0.074532,
+   "513650": 0.073505,
+   "510210": 0.075279,
+   "562060": 0.077632,
+   "513630": 0.075939,
+   "159207": 0.078575,
+   "511180": 0.073567,
+   "513500": 0.073832
   },
-  "top_drift_pp": 0.2071,
+  "top_drift_pp": 0.2793,
   "top_drift_name": "159207",
-  "max_abs_weight_drift_pp": 0.2071,
-  "drift_turnover_one_way": 0.008661,
-  "drift_cost_bp": 0.09,
-  "next_decision_bars": 11,
-  "panel_last": "2026-11-24",
-  "ledger_last": "2026-11-24",
-  "replay_last": "2026-11-24",
+  "max_abs_weight_drift_pp": 0.2793,
+  "drift_turnover_one_way": 0.011237,
+  "drift_cost_bp": 0.11,
+  "next_decision_bars": 10,
+  "panel_last": "2026-11-25",
+  "ledger_last": "2026-11-25",
+  "replay_last": "2026-11-25",
   "bars_not_on_panel": [],
   "lag_on_panel_bars": 0,
   "nav_identity_max_dev": 6.5e-09,
   "nav_identity_ok": false,
-  "nav_buyhold_gap": 0.0002133261,
-  "nav_buyhold_gap_bp": 2.133,
-  "cum_carry_bars": 0.0002412925,
+  "nav_buyhold_gap": 0.0001050898,
+  "nav_buyhold_gap_bp": 1.051,
+  "cum_carry_bars": 0.0002447061,
   "bars_matched": 7,
   "identity_not_policed": [
    "2026-11-23",
-   "2026-11-24"
+   "2026-11-24",
+   "2026-11-25"
   ],
   "identity_provisional_bars": [
    "2026-11-23",
-   "2026-11-24"
+   "2026-11-24",
+   "2026-11-25"
   ],
   "identity_provisional_note": "the ledger published these bars while the panel for their date was still gaining symbols; its own gate restates or promotes them, so this face prints their live deviation instead of failing on work that belongs to the producer",
   "identity_cause": {
@@ -146,7 +148,8 @@
    "2026-11-19": "FP_BASELINE_ONLY",
    "2026-11-20": "PANEL_SAME",
    "2026-11-23": "PANEL_SAME",
-   "2026-11-24": "PANEL_SAME"
+   "2026-11-24": "PANEL_SAME",
+   "2026-11-25": "PANEL_SAME"
   },
   "identity_panel_moved_bars": [],
   "identity_panel_moved": {},
@@ -155,13 +158,15 @@
    "carry_last": "2026-11-20",
    "bars_beyond_carry": [
     "2026-11-23",
-    "2026-11-24"
+    "2026-11-24",
+    "2026-11-25"
    ],
    "note": "bars beyond the repo ladder's last priced day are provisional: their cash leg is a forward-filled rate, so a NAV that disagrees with the re-derivation there measures the rate panel, not the book"
   },
   "identity_not_policed_dev": {
    "2026-11-23": 6.2689e-06,
-   "2026-11-24": 6.3e-09
+   "2026-11-24": 6.3e-09,
+   "2026-11-25": 8.6e-09
   },
   "bars_withheld": [],
   "convention": "ledger books constant target weights every bar (costless implicit rebalance) + carry on the target cash fraction; a card follower holds drifting weights, so nav_buyhold_gap is the convention's own footprint"

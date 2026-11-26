@@ -1,12 +1,12 @@
-# What issued the floor of k=0.000000
+# What issued the floor of k=0.435003
 
-> the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1670 bars). Of the -20.74pp between the widest floor (k=0.460253) and the narrowest (k=0.667665), -23.27pp (112%) comes from shrinking the window from the full panel to 1670 bars and only 2.53pp from grading the universe on that same short stretch (2.53pp if the universe is graded on the full panel); the two knobs interact by -5.42pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -232,663 of the gap.
+> the floor is not a version of the rule: k*beta == 0.2000 on all 5 cells, so the floor is the target divided by the largest beta measured -- issued by `universe` (1671 bars). Of the -20.92pp between the widest floor (k=0.458463) and the narrowest (k=0.667665), -23.27pp (111%) comes from shrinking the window from the full panel to 1671 bars and only 2.35pp from grading the universe on that same short stretch (2.35pp if the universe is graded on the full panel); the two knobs interact by -5.60pp. Read as money on CNY 1,000,000 NAV: the window alone accounts for CNY -232,663 of the gap.
 
 ## The identity
 
 | cell | beta | k | k x beta | err vs target |
 |---|---|---|---|---|
-| baseline_published | 0.434543 | 0.460253 | 0.200000000 | 0.00e+00 |
+| baseline_published | 0.436240 | 0.458463 | 0.200000000 | 0.00e+00 |
 | window | 0.267707 | 0.747086 | 0.200000000 | 0.00e+00 |
 | universe | 0.459767 | 0.435003 | 0.200000000 | 0.00e+00 |
 | window_x_universe | 0.299551 | 0.667665 | 0.200000000 | 0.00e+00 |
@@ -20,24 +20,24 @@ If the right column is all zeros this is not a fit: **k = beta_target / beta**.
 |---|---|---|---|
 | common|all | window | 0.747086 | 771 |
 | common|graded | window_x_universe | 0.667665 | 771 |
-| full|all | baseline_published | 0.460253 | 1670 |
-| full|graded | universe | 0.435003 | 1670 |
+| full|all | baseline_published | 0.458463 | 1671 |
+| full|graded | universe | 0.435003 | 1671 |
 
 | effect | k | pp | CNY on 1,000,000 |
 |---|---|---|---|
 | window (full -> common) | -0.232663 | -23.27 | -232,663 |
-| universe (all -> graded, at the 306-bar window) | 0.025251 | 2.53 | 25,251 |
-| universe (all -> graded, at the full panel) | - | 2.53 | - |
-| interaction | - | -5.42 | - |
-| total gap | -0.207412 | -20.74 | -207,412 |
+| universe (all -> graded, at the 306-bar window) | 0.023461 | 2.35 | 23,461 |
+| universe (all -> graded, at the full panel) | - | 2.35 | - |
+| interaction | - | -5.6 | - |
+| total gap | -0.209202 | -20.92 | -209,202 |
 
-- share of the gap explained by the window alone: **112%**
-- share explained by grading the universe: **-12%**
+- share of the gap explained by the window alone: **111%**
+- share explained by grading the universe: **-11%**
 
 ## What this does to the sheet
 
 - The floor is a **measuring tape**, not a rule: it is the beta target divided by whichever beta the table measured as largest.
-- The issuing cell is `universe` (1670 bars) -- the shortest evidence in the table.
+- The issuing cell is `universe` (1671 bars) -- the shortest evidence in the table.
 - So "the floor" is a statement about the last ~306 bars of volatility, re-issued as that window slides; it is not a bound the rule was designed against.
 
 ## Not measured
@@ -46,4 +46,4 @@ If the right column is all zeros this is not a fit: **k = beta_target / beta**.
 - whether a longer window is the RIGHT window: this face only prices the knob, it does not elect one (r1446's caliber prereg)
 - the floor's own drift as the window slides: today's 306 bars end 2026-10-14, so the floor will be re-issued on a different stretch next month
 
-_evidence cutoff 2026-11-24_
+_evidence cutoff 2026-11-25_

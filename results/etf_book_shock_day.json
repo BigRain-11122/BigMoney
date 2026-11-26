@@ -1,7 +1,7 @@
 {
  "script": "scripts/etf_book_shock_day.py",
  "face": "results/etf_book_shock_day.json",
- "evidence_cutoff": "2026-11-24",
+ "evidence_cutoff": "2026-11-25",
  "market": "510300",
  "production_rule": {
   "beta_target": 0.2,
@@ -25,41 +25,41 @@
   "frozen": "constants above were written before the first run; the loader refuses a face that echoes others"
  },
  "ticket": {
-  "file": "results/etf_book_order/TICKET-2026-11-24.json",
-  "as_of": "2026-11-24",
+  "file": "results/etf_book_order/TICKET-2026-11-25.json",
+  "as_of": "2026-11-25",
   "nav": 1000000.0,
-  "book_amount": 434723.8,
-  "cash_amount": 565276.2,
+  "book_amount": 434738.2,
+  "cash_amount": 565261.8,
   "deployed_share": 0.435003,
   "beta_target": 0.2
  },
  "beta": {
-  "full": 0.12139,
-  "recent": 0.217113,
+  "full": 0.121754,
+  "recent": 0.216826,
   "recent_bars": 250,
-  "bars": 1542
+  "bars": 1543
  },
  "book_distribution": {
-  "bars": 1541,
+  "bars": 1542,
   "worst": -0.04701,
   "worst_date": "2025-07-07",
   "second_worst": -0.029914,
   "p01": -0.012229,
-  "p05": -0.005376,
-  "p50": 0.000292,
-  "mean": 0.00025701,
-  "sd": 0.00405513
+  "p05": -0.005418,
+  "p50": 0.000291,
+  "mean": 0.00025271,
+  "sd": 0.00405733
  },
  "market_distribution": {
-  "bars": 1542,
+  "bars": 1543,
   "worst": -0.088395,
   "worst_date": "2024-10-09",
   "second_worst": -0.066684,
-  "p01": -0.030206,
-  "p05": -0.017095,
-  "p50": -0.000232,
-  "mean": -4.427e-05,
-  "sd": 0.01153184
+  "p01": -0.030196,
+  "p05": -0.017092,
+  "p50": -0.000238,
+  "mean": -5.437e-05,
+  "sd": 0.01153492
  },
  "conditional_stress": {
   "n_days": 20,
@@ -175,20 +175,20 @@
  "scenarios": [
   {
    "market_shock": -0.03,
-   "book_return": -0.0036417,
-   "cny": -3641.7,
+   "book_return": -0.00365262,
+   "cny": -3652.62,
    "naive_deployed_cny": -13050.09
   },
   {
    "market_shock": -0.05,
-   "book_return": -0.0060695,
-   "cny": -6069.5,
+   "book_return": -0.0060877,
+   "cny": -6087.7,
    "naive_deployed_cny": -21750.15
   },
   {
    "market_shock": -0.08,
-   "book_return": -0.0097112,
-   "cny": -9711.2,
+   "book_return": -0.00974032,
+   "cny": -9740.32,
    "naive_deployed_cny": -34800.24
   }
  ],

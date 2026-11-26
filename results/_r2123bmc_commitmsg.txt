@@ -1,0 +1,18 @@
+round 2123 (bm-c): publish the generation the last four rounds ran but never shipped
+
+Four rounds in a row (r2115/r2119/r2121/r2122) declined to commit because the
+tree opened dirty with 470 faces left by dead predecessor sessions, so every
+chain run since then advanced faces that only exist on this disk: paper
+accounts (PROS/AGGR/GRID), the daily data appends, and the regenerated
+research pages.  Remote readers therefore saw an older generation than the one
+this machine's own checks were grading (r1783: "the chain ran" is not "the
+chain's products were published").
+
+Evidence this generation is finished, not in flight: repo_write_contention
+rc=0 CLEAN (single codely host), HEAD == origin/main, every dirty path mtime
+buckets to 16 under 1h / 454 within 1-6h (newest 291 minutes old), no writer
+process alive, treasure_guard prescan zero hits, 470 files / 17.7 MB staged
+with no binary and no whole-file deletion.
+
+Contents: 421 tracked faces advanced (paper marks, data lanes, derived pages),
+49 new (lane ownership declaration 2026-11-26, live-book pages, audit shards).

@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24T17:45:18+0800",
+ "generated": "2026-11-26T06:29:34+0800",
  "script": "scripts/etf_book_volgate.py",
  "question": "does zoo #96's volume state machine improve the production book?",
- "evidence_cutoff": "2026-11-24",
+ "evidence_cutoff": "2026-11-25",
  "criteria": {
   "call": "does the volume state machine improve the production book it is gated on?",
   "passes": {
@@ -34,16 +34,16 @@
  },
  "book": {
   "cell": "n5_rebal20_vt0.08",
-  "panel_digest": "706c06e09a2cc87d",
+  "panel_digest": "608916d78932cf89",
   "flips_repaired": 169,
   "series_first": "2020-01-03",
-  "series_last": "2026-11-24",
+  "series_last": "2026-11-25",
   "published_cell": {
    "full": {
-    "cagr": 0.1111,
-    "sharpe": 1.096,
+    "cagr": 0.1096,
+    "sharpe": 1.083,
     "maxdd": -0.1056,
-    "vol": 0.1051,
+    "vol": 0.1052,
     "years": 6.89
    },
    "is": {
@@ -54,18 +54,18 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1888,
-    "sharpe": 1.727,
+    "cagr": 0.185,
+    "sharpe": 1.694,
     "maxdd": -0.1056,
-    "vol": 0.1079,
-    "years": 2.89
+    "vol": 0.108,
+    "years": 2.9
    },
    "turnover_per_decision": 1.082
   },
   "base_cell": {
    "full": {
-    "cagr": 0.1512,
-    "sharpe": 0.978,
+    "cagr": 0.1493,
+    "sharpe": 0.968,
     "maxdd": -0.1604,
     "vol": 0.1637,
     "years": 6.89
@@ -78,34 +78,34 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.2227,
-    "sharpe": 1.414,
+    "cagr": 0.2181,
+    "sharpe": 1.388,
     "maxdd": -0.1604,
-    "vol": 0.1571,
-    "years": 2.89
+    "vol": 0.1572,
+    "years": 2.9
    },
    "turnover_per_decision": 1.531
   }
  },
  "state": {
   "rule": "HMA(amount_sum,5)/HMA(amount_sum,100) vs 1.150 / 0.810874",
-  "bars": 1670,
+  "bars": 1671,
   "coverage": {
-   "min": 602,
-   "median": 4856
+   "min": 3527,
+   "median": 4857
   },
-  "risk_on_share": 0.3841,
-  "last_bar": "2026-11-24",
-  "last_state": 1,
-  "last_volume_index": 0.1285
+  "risk_on_share": 0.3832,
+  "last_bar": "2026-11-25",
+  "last_state": 0,
+  "last_volume_index": 1.0682
  },
  "arms": {
   "control": {
    "full": {
-    "cagr": 0.1111,
-    "sharpe": 1.096,
+    "cagr": 0.1096,
+    "sharpe": 1.083,
     "maxdd": -0.1056,
-    "vol": 0.1051,
+    "vol": 0.1052,
     "years": 6.89
    },
    "is": {
@@ -116,21 +116,21 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1888,
-    "sharpe": 1.727,
+    "cagr": 0.185,
+    "sharpe": 1.694,
     "maxdd": -0.1056,
-    "vol": 0.1079,
-    "years": 2.89
+    "vol": 0.108,
+    "years": 2.9
    },
    "exposure_share": 1.0,
    "switches": 0,
    "switches_per_year": 0.0,
-   "identity_max_abs_diff": 8.881784197001252e-16
+   "identity_max_abs_diff": 4.440892098500626e-16
   },
   "gate_long": {
    "full": {
-    "cagr": 0.0158,
-    "sharpe": 0.273,
+    "cagr": 0.013,
+    "sharpe": 0.231,
     "maxdd": -0.189,
     "vol": 0.0681,
     "years": 6.89
@@ -143,22 +143,22 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.0544,
-    "sharpe": 0.744,
+    "cagr": 0.0475,
+    "sharpe": 0.656,
     "maxdd": -0.0971,
     "vol": 0.0785,
-    "years": 2.89
+    "years": 2.9
    },
-   "exposure_share": 0.3841,
-   "switches": 292,
-   "switches_per_year": 42.38
+   "exposure_share": 0.3832,
+   "switches": 293,
+   "switches_per_year": 42.53
   },
   "gate_mid": {
    "full": {
-    "cagr": 0.0058,
-    "sharpe": 0.121,
+    "cagr": 0.0073,
+    "sharpe": 0.142,
     "maxdd": -0.1499,
-    "vol": 0.0704,
+    "vol": 0.0705,
     "years": 6.89
    },
    "is": {
@@ -169,20 +169,20 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.0313,
-    "sharpe": 0.466,
-    "maxdd": -0.1203,
-    "vol": 0.0748,
-    "years": 2.89
+    "cagr": 0.0349,
+    "sharpe": 0.514,
+    "maxdd": -0.1194,
+    "vol": 0.075,
+    "years": 2.9
    },
-   "exposure_share": 0.3841,
-   "switches": 292,
-   "switches_per_year": 42.38
+   "exposure_share": 0.3832,
+   "switches": 293,
+   "switches_per_year": 42.53
   },
   "gate_half": {
    "full": {
-    "cagr": 0.0635,
-    "sharpe": 0.877,
+    "cagr": 0.0613,
+    "sharpe": 0.849,
     "maxdd": -0.0751,
     "vol": 0.0764,
     "years": 6.89
@@ -195,20 +195,20 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.1204,
-    "sharpe": 1.413,
+    "cagr": 0.1149,
+    "sharpe": 1.354,
     "maxdd": -0.0751,
     "vol": 0.0866,
-    "years": 2.89
+    "years": 2.9
    },
-   "exposure_share": 0.3841,
-   "switches": 292,
-   "switches_per_year": 42.38
+   "exposure_share": 0.3832,
+   "switches": 293,
+   "switches_per_year": 42.53
   },
   "gate_long_x": {
    "full": {
-    "cagr": 0.0027,
-    "sharpe": 0.075,
+    "cagr": -0.0001,
+    "sharpe": 0.033,
     "maxdd": -0.2354,
     "vol": 0.0683,
     "years": 6.89
@@ -221,20 +221,20 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.0402,
-    "sharpe": 0.563,
+    "cagr": 0.0334,
+    "sharpe": 0.475,
     "maxdd": -0.1057,
     "vol": 0.0786,
-    "years": 2.89
+    "years": 2.9
    },
-   "exposure_share": 0.3841,
-   "switches": 292,
-   "switches_per_year": 42.38
+   "exposure_share": 0.3832,
+   "switches": 293,
+   "switches_per_year": 42.53
   },
   "gate_long_base": {
    "full": {
-    "cagr": 0.0479,
-    "sharpe": 0.501,
+    "cagr": 0.0444,
+    "sharpe": 0.469,
     "maxdd": -0.2388,
     "vol": 0.1091,
     "years": 6.89
@@ -247,35 +247,35 @@
     "years": 3.99
    },
    "oos": {
-    "cagr": 0.0761,
-    "sharpe": 0.72,
+    "cagr": 0.0677,
+    "sharpe": 0.649,
     "maxdd": -0.1371,
     "vol": 0.1156,
-    "years": 2.89
+    "years": 2.9
    },
-   "exposure_share": 0.3841,
-   "switches": 292,
-   "switches_per_year": 42.38
+   "exposure_share": 0.3832,
+   "switches": 293,
+   "switches_per_year": 42.53
   }
  },
  "excess_pp": {
-  "gate_long": -9.53,
-  "gate_mid": -10.53,
-  "gate_half": -4.76,
-  "gate_long_x": -10.84,
-  "gate_long_base": -6.32
+  "gate_long": -9.66,
+  "gate_mid": -10.23,
+  "gate_half": -4.83,
+  "gate_long_x": -10.97,
+  "gate_long_base": -6.52
  },
  "null": {
   "draws": 200,
-  "mean_pp": -11.306,
-  "p95_pp": -8.329,
-  "p_value": 0.19
+  "mean_pp": -11.237,
+  "p95_pp": -8.529,
+  "p_value": 0.2
  },
  "null_mirror": {
   "draws": 200,
-  "mean_pp": -8.695,
-  "p95_pp": -5.79,
-  "p_value": 0.81
+  "mean_pp": -8.656,
+  "p95_pp": -5.426,
+  "p_value": 0.79
  },
  "deviations": [
   "the gated arm keeps paying the book's internal turnover while flat (the engine's curve already carries it), so every gated reading here is a floor",
@@ -284,10 +284,10 @@
  ],
  "verdict": "REFUSE_AS_OVERLAY",
  "verdict_reasons": [
-  "gated CAGR -9.53pp/yr is not above the book",
-  "phase null p=0.19 does not beat 5%",
+  "gated CAGR -9.66pp/yr is not above the book",
+  "phase null p=0.2 does not beat 5%",
   "gated max drawdown -18.90% is worse than the book's -10.56%",
-  "at 13.041bp per side the gate gives the excess back (-10.84pp/yr)"
+  "at 13.041bp per side the gate gives the excess back (-10.97pp/yr)"
  ],
- "elapsed_sec": 136.6
+ "elapsed_sec": 107.0
 }

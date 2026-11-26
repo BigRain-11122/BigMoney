@@ -5,16 +5,15 @@
   "results",
   "docs"
  ],
- "files_scanned": 14995,
- "n_hits": 815,
+ "files_scanned": 15202,
+ "n_hits": 967,
  "counts": {
   "closed-round-evidence": 303,
-  "code-string": 45,
-  "frozen-evidence": 309,
-  "live-face": 5,
-  "machine-status": 1,
+  "code-string": 88,
+  "frozen-evidence": 386,
+  "live-face": 14,
   "pool-record": 100,
-  "self-census": 52
+  "self-census": 76
  },
  "gated_buckets": [
   "live-face",
@@ -66,13 +65,95 @@
    "token": "%%",
    "bucket": "live-face",
    "text": "money_premium_carry_audit.find_breaches at its own 1.00%% band, booked at zero by repaired_rets before measuring"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/suppressed_rules/DETECTOR_LITERAL",
+   "key": "DETECTOR_LITERAL",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "whole-value '%%', or a Compare operand, or appended to bad/err/issues/problems/fail/warn/note/diag/alerts/violations"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/suppressed_rules/RELAXED_PRECISION",
+   "key": "RELAXED_PRECISION",
+   "kind": "printf-token",
+   "token": "%.f",
+   "bucket": "live-face",
+   "text": "the offending '%' is a precision with no digits (%.f / %0.f), legal printf"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/suppressed_rules/TEMPLATE_APPLIED_LATER",
+   "key": "TEMPLATE_APPLIED_LATER",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "the literal is bound to a name (or to a container of names) that is later used as '<name> %% ...' or unpacked into a %-applied member"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[5]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "尺子 | β | 折算敞口 | 相对 20%% "
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[6]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "reading | 1%% ADV | 2%% "
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[7]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "生产候选（整本 + 8%% 波动目标）"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[10]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "Same book, same 8%% vol-"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[12]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "品种 | 已发布掩码 净 %%/yr | 完整掩"
+  },
+  {
+   "file": "results/page_fmt_guard_v2.scan.json",
+   "json_path": "/hazards[13]/phrase",
+   "key": "phrase",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "手数 | 占 ADV%%/日 | 规则冲击 bp"
   }
  ],
  "offender_files": [
   "results/astock_veto_hedgeable_beta.json",
   "results/etf_paper_marks.json",
   "results/idx_fut_carry_portfolio.json",
-  "results/money_band_blind_spot.json"
+  "results/money_band_blind_spot.json",
+  "results/page_fmt_guard_v2.scan.json"
  ],
  "advisory": {
   "closed-round-evidence": {
@@ -153,10 +234,12 @@
    ]
   },
   "code-string": {
-   "n": 45,
+   "n": 88,
    "files": [
     "results/e44_midmonth/FACESCREEN-20261021.json",
-    "results/futures_panel_gaps.json"
+    "results/futures_panel_gaps.json",
+    "results/page_fmt_guard.scan.json",
+    "results/page_fmt_guard_v2.scan.json"
    ],
    "sample": [
     {
@@ -207,7 +290,7 @@
    ]
   },
   "frozen-evidence": {
-   "n": 309,
+   "n": 386,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
@@ -283,23 +366,6 @@
     }
    ]
   },
-  "machine-status": {
-   "n": 1,
-   "files": [
-    "results/etf_wide_update_status.json"
-   ],
-   "sample": [
-    {
-     "file": "results/etf_wide_update_status.json",
-     "json_path": "/quote_face",
-     "key": "quote_face",
-     "kind": "brace-token",
-     "token": "{syms}",
-     "bucket": "machine-status",
-     "text": "https://hq.sinajs.cn/list={syms}"
-    }
-   ]
-  },
   "pool-record": {
    "n": 100,
    "files": [
@@ -357,7 +423,7 @@
    ]
   },
   "self-census": {
-   "n": 52,
+   "n": 76,
    "files": [
     "results/reader_text_audit.json"
    ],
@@ -378,11 +444,11 @@
      "kind": "doubled-percent",
      "token": "%%",
      "bucket": "self-census",
-     "text": "weights are treated as constant inside a period; the live book re-scales daily on the 8%% vol target, so a long gap between ledger rows is approximated"
+     "text": "two sides x 8.00 bp per roll on the shorted notional; short-finance carry printed as a 0/2/5 %%/yr axis, not assumed; IM arm carries its roll inside the traded price and prints the realised basis"
     },
     {
      "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[0]/token",
+     "json_path": "/offenders[1]/token",
      "key": "token",
      "kind": "doubled-percent",
      "token": "%%",
@@ -391,21 +457,21 @@
     },
     {
      "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[0]/text",
+     "json_path": "/offenders[1]/text",
      "key": "text",
      "kind": "doubled-percent",
      "token": "%%",
      "bucket": "self-census",
-     "text": "every name the E104 face flagged as reading past +/-100%% inside an unchanged holding, deduplicated by (name, window) -- the witness list, not a screen"
+     "text": "three states, strict comparison of Sharpe (excess over 0%%) at k=1: OUT_OF_SAMPLE = k=1 beats k=0 on the not-fitted part AND earns >0 there; IN_SAMPLE_ONLY = full window better but out-of-sample not; "
     },
     {
      "file": "results/reader_text_audit.json",
-     "json_path": "/advisory/closed-round-evidence/sample[1]/token",
+     "json_path": "/offenders[2]/token",
      "key": "token",
-     "kind": "brace-token",
-     "token": "{line_num}",
+     "kind": "doubled-percent",
+     "token": "%%",
      "bucket": "self-census",
-     "text": "{line_num}"
+     "text": "%%"
     }
    ]
   }

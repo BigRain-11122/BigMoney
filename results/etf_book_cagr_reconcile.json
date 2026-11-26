@@ -1,20 +1,20 @@
 {
  "schema": "etf_book_cagr_reconcile/v1",
- "ts": "2026-11-24 17:47:15",
+ "ts": "2026-11-26 05:20:18",
  "script": "scripts/etf_book_cagr_reconcile.py",
  "panel": {
   "stack": "production (repair_flips + class filter)",
-  "universe": 1531,
+  "universe": 1532,
   "flips_repaired": 169,
-  "last_bar": "2026-11-24"
+  "last_bar": "2026-11-25"
  },
  "stacks": {
   "production": {
    "note": "same panel/engine/window for every cell; the only differences between cells are the three knobs",
    "cells": {
     "(12, 'flat', 10.0)": {
-     "cagr": 0.1368,
-     "sharpe": 0.949,
+     "cagr": 0.135,
+     "sharpe": 0.938,
      "maxdd": -0.1588,
      "vol": 0.1532,
      "years": 6.89,
@@ -23,8 +23,8 @@
      "cost_bp": 10.0
     },
     "(12, 'vol08', 10.0)": {
-     "cagr": 0.0914,
-     "sharpe": 0.943,
+     "cagr": 0.0898,
+     "sharpe": 0.928,
      "maxdd": -0.1177,
      "vol": 0.1021,
      "years": 6.89,
@@ -33,18 +33,18 @@
      "cost_bp": 10.0
     },
     "(12, 'beta020', 10.0)": {
-     "cagr": 0.1173,
-     "sharpe": 0.937,
+     "cagr": 0.1154,
+     "sharpe": 0.923,
      "maxdd": -0.1401,
-     "vol": 0.1325,
+     "vol": 0.1326,
      "years": 6.36,
      "n_hold": 12,
      "rule": "beta020",
      "cost_bp": 10.0
     },
     "(12, 'flat', 8.0)": {
-     "cagr": 0.1404,
-     "sharpe": 0.97,
+     "cagr": 0.1385,
+     "sharpe": 0.959,
      "maxdd": -0.1585,
      "vol": 0.1532,
      "years": 6.89,
@@ -53,8 +53,8 @@
      "cost_bp": 8.0
     },
     "(12, 'vol08', 8.0)": {
-     "cagr": 0.0939,
-     "sharpe": 0.967,
+     "cagr": 0.0923,
+     "sharpe": 0.951,
      "maxdd": -0.1158,
      "vol": 0.1021,
      "years": 6.89,
@@ -63,18 +63,18 @@
      "cost_bp": 8.0
     },
     "(12, 'beta020', 8.0)": {
-     "cagr": 0.1207,
-     "sharpe": 0.961,
+     "cagr": 0.1188,
+     "sharpe": 0.947,
      "maxdd": -0.1379,
-     "vol": 0.1325,
+     "vol": 0.1326,
      "years": 6.36,
      "n_hold": 12,
      "rule": "beta020",
      "cost_bp": 8.0
     },
     "(5, 'flat', 10.0)": {
-     "cagr": 0.1512,
-     "sharpe": 0.978,
+     "cagr": 0.1493,
+     "sharpe": 0.968,
      "maxdd": -0.1604,
      "vol": 0.1637,
      "years": 6.89,
@@ -83,18 +83,18 @@
      "cost_bp": 10.0
     },
     "(5, 'vol08', 10.0)": {
-     "cagr": 0.1111,
-     "sharpe": 1.096,
+     "cagr": 0.1096,
+     "sharpe": 1.083,
      "maxdd": -0.1056,
-     "vol": 0.1051,
+     "vol": 0.1052,
      "years": 6.89,
      "n_hold": 5,
      "rule": "vol08",
      "cost_bp": 10.0
     },
     "(5, 'beta020', 10.0)": {
-     "cagr": 0.1226,
-     "sharpe": 0.959,
+     "cagr": 0.1207,
+     "sharpe": 0.945,
      "maxdd": -0.1604,
      "vol": 0.1349,
      "years": 6.36,
@@ -103,8 +103,8 @@
      "cost_bp": 10.0
     },
     "(5, 'flat', 8.0)": {
-     "cagr": 0.1554,
-     "sharpe": 1.001,
+     "cagr": 0.1536,
+     "sharpe": 0.991,
      "maxdd": -0.1598,
      "vol": 0.1637,
      "years": 6.89,
@@ -113,18 +113,18 @@
      "cost_bp": 8.0
     },
     "(5, 'vol08', 8.0)": {
-     "cagr": 0.114,
-     "sharpe": 1.122,
+     "cagr": 0.1125,
+     "sharpe": 1.109,
      "maxdd": -0.1052,
-     "vol": 0.1051,
+     "vol": 0.1052,
      "years": 6.89,
      "n_hold": 5,
      "rule": "vol08",
      "cost_bp": 8.0
     },
     "(5, 'beta020', 8.0)": {
-     "cagr": 0.1266,
-     "sharpe": 0.986,
+     "cagr": 0.1247,
+     "sharpe": 0.973,
      "maxdd": -0.1598,
      "vol": 0.1349,
      "years": 6.36,
@@ -138,61 +138,61 @@
    "note": "the stack the 7.80% / 7.28% numbers were printed on (raw un-repaired panel, no class filter, next-open engine); 12-name cells here exist only because this script parametrises n_hold",
    "cells": {
     "(12, 'flat', 10.0)": {
-     "cagr": 0.0596,
-     "sharpe": 0.63,
+     "cagr": 0.0595,
+     "sharpe": 0.629,
      "maxdd": -0.1284,
      "vol": 0.1043,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 12,
      "rule": "flat",
      "cost_bp": 10.0
     },
     "(12, 'beta020', 10.0)": {
-     "cagr": 0.0613,
-     "sharpe": 0.833,
+     "cagr": 0.0612,
+     "sharpe": 0.832,
      "maxdd": -0.1284,
      "vol": 0.0781,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 12,
      "rule": "beta020",
      "cost_bp": 10.0
     },
     "(12, 'flat', 8.0)": {
-     "cagr": 0.0626,
-     "sharpe": 0.659,
+     "cagr": 0.0625,
+     "sharpe": 0.658,
      "maxdd": -0.1284,
      "vol": 0.1043,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 12,
      "rule": "flat",
      "cost_bp": 8.0
     },
     "(12, 'beta020', 8.0)": {
      "cagr": 0.0633,
-     "sharpe": 0.858,
+     "sharpe": 0.857,
      "maxdd": -0.1284,
-     "vol": 0.0781,
-     "years": 6.89,
+     "vol": 0.078,
+     "years": 6.9,
      "n_hold": 12,
      "rule": "beta020",
      "cost_bp": 8.0
     },
     "(5, 'flat', 10.0)": {
      "cagr": 0.0713,
-     "sharpe": 0.75,
+     "sharpe": 0.749,
      "maxdd": -0.1314,
-     "vol": 0.1028,
-     "years": 6.89,
+     "vol": 0.1027,
+     "years": 6.9,
      "n_hold": 5,
      "rule": "flat",
      "cost_bp": 10.0
     },
     "(5, 'beta020', 10.0)": {
-     "cagr": 0.0739,
-     "sharpe": 0.907,
+     "cagr": 0.0738,
+     "sharpe": 0.906,
      "maxdd": -0.1314,
      "vol": 0.0859,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 5,
      "rule": "beta020",
      "cost_bp": 10.0
@@ -202,17 +202,17 @@
      "sharpe": 0.781,
      "maxdd": -0.1309,
      "vol": 0.1027,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 5,
      "rule": "flat",
      "cost_bp": 8.0
     },
     "(5, 'beta020', 8.0)": {
      "cagr": 0.0764,
-     "sharpe": 0.936,
+     "sharpe": 0.935,
      "maxdd": -0.1309,
      "vol": 0.0859,
-     "years": 6.89,
+     "years": 6.9,
      "n_hold": 5,
      "rule": "beta020",
      "cost_bp": 8.0
@@ -223,16 +223,16 @@
     "5": 1.26
    },
    "repo_missing_days": {
-    "12": 1,
-    "5": 1
+    "12": 2,
+    "5": 2
    }
   }
  },
  "published": {
-  "spanning_card_pp": 9.14,
+  "spanning_card_pp": 8.98,
   "capacity_nosize_pp": 7.64,
   "capacity_ceiling_pp": 7.12,
-  "capacity_at_1M_pp": 7.22,
+  "capacity_at_1M_pp": 7.21,
   "spanning_config": {
    "n_hold": 12,
    "rebal": 20,
@@ -263,8 +263,8 @@
  },
  "controls": {
   "card_cell_reproduces_spanning": {
-   "mine_pp": 9.14,
-   "published_pp": 9.14,
+   "mine_pp": 8.98,
+   "published_pp": 8.98,
    "delta_pp": 0.0,
    "within_0p5pp": true,
    "label": "prod n12/vol08/10bp vs results/etf_book_spanning.json"
@@ -282,14 +282,14 @@
   "from": {
    "label": "card headline (what the card prints)",
    "cfg": "n12/vol08/10bp",
-   "cagr_pp": 9.14
+   "cagr_pp": 8.98
   },
   "to": {
    "label": "executable ticket (what ORDER-<asof>.md trades)",
    "cfg": "n5/beta020/8bp",
-   "cagr_pp": 12.66
+   "cagr_pp": 12.47
   },
-  "total_pp": 3.52,
+  "total_pp": 3.49,
   "forward_path": {
    "order": [
     "width",
@@ -301,13 +301,13 @@
      "knob": "width",
      "from": "n12/vol08/10bp",
      "to": "n5/vol08/10bp",
-     "delta_pp": 1.97
+     "delta_pp": 1.98
     },
     {
      "knob": "rule",
      "from": "n5/vol08/10bp",
      "to": "n5/beta020/10bp",
-     "delta_pp": 1.15
+     "delta_pp": 1.11
     },
     {
      "knob": "cost",
@@ -316,8 +316,8 @@
      "delta_pp": 0.4
     }
    ],
-   "total_pp": 3.52,
-   "sum_pp": 3.52
+   "total_pp": 3.49,
+   "sum_pp": 3.49
   },
   "reverse_path": {
    "order": [
@@ -336,7 +336,7 @@
      "knob": "rule",
      "from": "n12/vol08/8bp",
      "to": "n12/beta020/8bp",
-     "delta_pp": 2.68
+     "delta_pp": 2.65
     },
     {
      "knob": "width",
@@ -345,84 +345,84 @@
      "delta_pp": 0.59
     }
    ],
-   "total_pp": 3.52,
-   "sum_pp": 3.52
+   "total_pp": 3.49,
+   "sum_pp": 3.49
   },
   "marginals_from_card": {
-   "width": 1.97,
-   "rule": 2.59,
+   "width": 1.98,
+   "rule": 2.56,
    "cost": 0.25
   },
   "marginals_from_ticket": {
    "width": -0.59,
-   "rule": -1.26,
+   "rule": -1.22,
    "cost": -0.4
   },
   "interaction": {
    "knob_marginals_from_start_pp": {
-    "width": 1.97,
-    "rule": 2.59,
+    "width": 1.98,
+    "rule": 2.56,
     "cost": 0.25
    },
    "knob_marginals_from_end_pp": {
     "width": -0.59,
-    "rule": -1.26,
+    "rule": -1.22,
     "cost": -0.4
    },
-   "sum_knob_marginals_from_start_pp": 4.81,
-   "sum_knob_marginals_from_end_pp": -2.25,
-   "interaction_from_start_pp": -1.29,
-   "interaction_from_end_pp": -1.27,
-   "interaction_pp": -1.28
+   "sum_knob_marginals_from_start_pp": 4.79,
+   "sum_knob_marginals_from_end_pp": -2.21,
+   "interaction_from_start_pp": -1.3,
+   "interaction_from_end_pp": -1.28,
+   "interaction_pp": -1.29
   },
   "note": "every term is a CAGR difference between two cells of the SAME grid, so no term can hide a panel, engine or window change. The panel/engine difference between the two published faces is measured separately in stacks.capacity_face vs stacks.production, not charged to a knob."
  },
  "stack_effect": {
   "cells": {
    "n12|flat|10bp": {
-    "production_pp": 13.68,
-    "capacity_face_pp": 5.96,
-    "delta_pp": 7.72
+    "production_pp": 13.5,
+    "capacity_face_pp": 5.95,
+    "delta_pp": 7.55
    },
    "n12|flat|8bp": {
-    "production_pp": 14.04,
-    "capacity_face_pp": 6.26,
-    "delta_pp": 7.78
+    "production_pp": 13.85,
+    "capacity_face_pp": 6.25,
+    "delta_pp": 7.6
    },
    "n12|beta020|10bp": {
-    "production_pp": 11.73,
-    "capacity_face_pp": 6.13,
-    "delta_pp": 5.6
+    "production_pp": 11.54,
+    "capacity_face_pp": 6.12,
+    "delta_pp": 5.42
    },
    "n12|beta020|8bp": {
-    "production_pp": 12.07,
+    "production_pp": 11.88,
     "capacity_face_pp": 6.33,
-    "delta_pp": 5.74
+    "delta_pp": 5.55
    },
    "n5|flat|10bp": {
-    "production_pp": 15.12,
+    "production_pp": 14.93,
     "capacity_face_pp": 7.13,
-    "delta_pp": 7.99
+    "delta_pp": 7.8
    },
    "n5|flat|8bp": {
-    "production_pp": 15.54,
+    "production_pp": 15.36,
     "capacity_face_pp": 7.46,
-    "delta_pp": 8.08
+    "delta_pp": 7.9
    },
    "n5|beta020|10bp": {
-    "production_pp": 12.26,
-    "capacity_face_pp": 7.39,
-    "delta_pp": 4.87
+    "production_pp": 12.07,
+    "capacity_face_pp": 7.38,
+    "delta_pp": 4.69
    },
    "n5|beta020|8bp": {
-    "production_pp": 12.66,
+    "production_pp": 12.47,
     "capacity_face_pp": 7.64,
-    "delta_pp": 5.02
+    "delta_pp": 4.83
    }
   },
   "spread_pp": 3.21,
   "note": "production stack minus capacity-face stack, knob held fixed. A non-zero, variable delta here is panel/engine, NOT a rule effect."
  },
- "verdict": "card n12/vol08/10bp at 9.14% vs executable ticket n5/beta020/8bp at 12.66% on one stack: 3.52pp apart, interaction -1.28pp",
- "evidence_cutoff": "2026-11-24"
+ "verdict": "card n12/vol08/10bp at 8.98% vs executable ticket n5/beta020/8bp at 12.47% on one stack: 3.49pp apart, interaction -1.29pp",
+ "evidence_cutoff": "2026-11-25"
 }

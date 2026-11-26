@@ -1,7 +1,7 @@
 {
  "face": "etf_book_wrapper_year_gate",
- "asof": "2026-11-24T19:00:28+0800",
- "evidence_cutoff": "2026-11-24",
+ "asof": "2026-11-26T04:05:02+0800",
+ "evidence_cutoff": "2026-11-25",
  "question": "does the object the desk executes (book + beta overlay + repo cash) face the same calendar verdict as the book the gate judges?",
  "wrapper": {
   "source": "scripts/etf_phase_beta_target.py + scripts/etf_phase_beta_window.py (both imported; the ticket in scripts/etf_book_order.py uses the same two)",
@@ -9,31 +9,31 @@
   "k_rule": "k = min(1, max(0, beta_target / expanding_beta)), decision on close applies next bar",
   "cost_bp_per_k_change": 8.0,
   "cash_leg": "GC001 observed close, accrued over the calendar gap",
-  "cash_dates_missing": 1,
+  "cash_dates_missing": 2,
   "k_mean_window": 0.9959,
   "k_min_window": 0.8171,
   "n_decisions": 78
  },
  "window": {
   "first": "2020-07-17",
-  "last": "2026-11-24",
-  "bars": 1541,
+  "last": "2026-11-25",
+  "bars": 1542,
   "why": "the overlay only lives from the first beta estimate; both arms are judged on that same later window (no warm-up for the plain arm)"
  },
  "books": [
   {
    "verdict": "CONDITIONAL",
    "capacity_checked": false,
-   "cagr_pct": 11.25,
+   "cagr_pct": 11.09,
    "capacity_cny_1day_5pct": null,
    "year_metrics": {
     "years": 7,
-    "positive_years": 7,
+    "positive_years": 6,
     "median": 5.473,
-    "worst": 0.2455,
+    "worst": -0.6352,
     "best": 43.0627,
-    "annual_sum": 74.4152,
-    "top2_share": 0.7742,
+    "annual_sum": 73.5345,
+    "top2_share": 0.7835,
     "worst_full_only": 2.8393,
     "top2_share_full_only": 0.7833
    },
@@ -47,43 +47,43 @@
    "years": [
     {
      "year": "2020",
-     "net_pct": 0.6170607196689604,
+     "net_pct": 0.6170607196689826,
      "cohorts": 1,
      "partial": true
     },
     {
      "year": "2021",
-     "net_pct": 7.628116174581723,
+     "net_pct": 7.628116174581767,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2022",
-     "net_pct": 2.8392743924002817,
+     "net_pct": 2.8392743924003705,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2023",
-     "net_pct": 5.473011567332708,
+     "net_pct": 5.473011567332753,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2024",
-     "net_pct": 14.549563099483386,
+     "net_pct": 14.549563099483231,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 43.06268157181652,
+     "net_pct": 43.06268157181654,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 0.24554164704291281,
+     "net_pct": -0.635205428180452,
      "cohorts": 3,
      "partial": true
     }
@@ -91,13 +91,13 @@
    "partial_years": [
     {
      "year": "2020",
-     "net_pct": 0.6170607196689604,
+     "net_pct": 0.6170607196689826,
      "cohorts": 1,
      "approx_months_of_evidence": 2.9
     },
     {
      "year": "2026",
-     "net_pct": 0.24554164704291281,
+     "net_pct": -0.635205428180452,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -112,7 +112,7 @@
     "2023": 5.473,
     "2024": 14.5496,
     "2025": 43.0627,
-    "2026": 0.2455
+    "2026": -0.6352
    },
    "yearly_bars": {
     "2020": 114,
@@ -121,22 +121,22 @@
     "2023": 242,
     "2024": 242,
     "2025": 243,
-    "2026": 215
+    "2026": 216
    }
   },
   {
    "verdict": "CONDITIONAL",
    "capacity_checked": false,
-   "cagr_pct": 11.23,
+   "cagr_pct": 11.07,
    "capacity_cny_1day_5pct": null,
    "year_metrics": {
     "years": 7,
-    "positive_years": 7,
+    "positive_years": 6,
     "median": 5.473,
-    "worst": 0.2455,
+    "worst": -0.6352,
     "best": 43.0627,
-    "annual_sum": 74.2767,
-    "top2_share": 0.7756,
+    "annual_sum": 73.396,
+    "top2_share": 0.785,
     "worst_full_only": 2.8393,
     "top2_share_full_only": 0.7833
    },
@@ -150,43 +150,43 @@
    "years": [
     {
      "year": "2020",
-     "net_pct": 0.4785104207677193,
+     "net_pct": 0.47851042076776373,
      "cohorts": 1,
      "partial": true
     },
     {
      "year": "2021",
-     "net_pct": 7.628116174581612,
+     "net_pct": 7.6281161745817005,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2022",
-     "net_pct": 2.8392743924000152,
+     "net_pct": 2.8392743924001485,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2023",
-     "net_pct": 5.473011567332842,
+     "net_pct": 5.473011567332864,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2024",
-     "net_pct": 14.549563099483343,
+     "net_pct": 14.549563099483255,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 43.06268157181654,
+     "net_pct": 43.062681571816476,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 0.24554164704297943,
+     "net_pct": -0.635205428180452,
      "cohorts": 3,
      "partial": true
     }
@@ -194,13 +194,13 @@
    "partial_years": [
     {
      "year": "2020",
-     "net_pct": 0.4785104207677193,
+     "net_pct": 0.47851042076776373,
      "cohorts": 1,
      "approx_months_of_evidence": 2.9
     },
     {
      "year": "2026",
-     "net_pct": 0.24554164704297943,
+     "net_pct": -0.635205428180452,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -215,7 +215,7 @@
     "2023": 5.473,
     "2024": 14.5496,
     "2025": 43.0627,
-    "2026": 0.2455
+    "2026": -0.6352
    },
    "yearly_bars": {
     "2020": 114,
@@ -224,7 +224,7 @@
     "2023": 242,
     "2024": 242,
     "2025": 243,
-    "2026": 215
+    "2026": 216
    },
    "sizing_scale_by_year": {
     "2020": 0.9441,
@@ -246,18 +246,18 @@
    }
   },
   {
-   "verdict": "ADMIT",
+   "verdict": "CONDITIONAL",
    "capacity_checked": true,
-   "cagr_pct": 6.94,
-   "capacity_cny_1day_5pct": 21938403.0,
+   "cagr_pct": 6.83,
+   "capacity_cny_1day_5pct": 21379465.0,
    "year_metrics": {
     "years": 7,
     "positive_years": 7,
     "median": 2.7609,
-    "worst": 2.1025,
+    "worst": 2.0599,
     "best": 23.2517,
-    "annual_sum": 43.3812,
-    "top2_share": 0.6898,
+    "annual_sum": 42.7376,
+    "top2_share": 0.7001,
     "worst_full_only": 2.4042,
     "top2_share_full_only": 0.7757
    },
@@ -265,13 +265,13 @@
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true,
+    "Y4_top2_share": false,
     "C1_capacity": true
    },
    "years": [
     {
      "year": "2020",
-     "net_pct": 2.102493863860966,
+     "net_pct": 2.1024938638610102,
      "cohorts": 1,
      "partial": true
     },
@@ -283,31 +283,31 @@
     },
     {
      "year": "2022",
-     "net_pct": 2.7609287882798927,
+     "net_pct": 2.7609287882799594,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2023",
-     "net_pct": 2.4041726614168146,
+     "net_pct": 2.4041726614168812,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2024",
-     "net_pct": 6.670682251589777,
+     "net_pct": 6.670682251589888,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2025",
-     "net_pct": 23.251700194608805,
+     "net_pct": 23.25170019460876,
      "cohorts": 4,
      "partial": false
     },
     {
      "year": "2026",
-     "net_pct": 2.7034498251681027,
+     "net_pct": 2.0598530010572658,
      "cohorts": 3,
      "partial": true
     }
@@ -315,13 +315,13 @@
    "partial_years": [
     {
      "year": "2020",
-     "net_pct": 2.102493863860966,
+     "net_pct": 2.1024938638610102,
      "cohorts": 1,
      "approx_months_of_evidence": 2.9
     },
     {
      "year": "2026",
-     "net_pct": 2.7034498251681027,
+     "net_pct": 2.0598530010572658,
      "cohorts": 3,
      "approx_months_of_evidence": 8.6
     }
@@ -336,7 +336,7 @@
     "2023": 2.4042,
     "2024": 6.6707,
     "2025": 23.2517,
-    "2026": 2.7034
+    "2026": 2.0599
    },
    "yearly_bars": {
     "2020": 115,
@@ -345,7 +345,7 @@
     "2023": 242,
     "2024": 242,
     "2025": 243,
-    "2026": 215
+    "2026": 216
    },
    "sizing_scale_by_year": {
     "2020": 0.232,
@@ -354,7 +354,7 @@
     "2023": 0.3532,
     "2024": 0.3941,
     "2025": 0.473,
-    "2026": 0.4593
+    "2026": 0.4594
    },
    "cash_carry_pp_per_year": {
     "2020": 2.0885,
@@ -363,7 +363,7 @@
     "2023": 1.5972,
     "2024": 1.2395,
     "2025": 0.8985,
-    "2026": 0.7262
+    "2026": 0.7229
    },
    "k_last": 0.462194,
    "ticket_k_now": 0.435003,
@@ -374,15 +374,15 @@
  "compression_note": "the wrapper owns 1-k of its own book; a pass that comes from owning less is a pass about exposure, not about the book",
  "data": {
   "flips_repaired": 169,
-  "bond_free_universe": 1531,
+  "bond_free_universe": 1532,
   "live_picks": [
-   "159549",
    "159207",
+   "159549",
    "515300",
    "562060",
-   "159307"
+   "513800"
   ],
-  "live_picks_asof": "2026-11-24",
+  "live_picks_asof": "2026-11-25",
   "market_column": "510300",
   "turnover_per_side": 1.0825
  },
@@ -391,5 +391,5 @@
   "the wrapper is a de-risking overlay: beta 0.20 with an expanding beta estimate means k < 1 in most bars, and the cash leg is the published repo panel",
   "no ticket, ledger or order file is read or written here -- this prices the wrapper's shape with the same components, not this morning's fills"
  ],
- "elapsed_sec": 43.7
+ "elapsed_sec": 50.3
 }

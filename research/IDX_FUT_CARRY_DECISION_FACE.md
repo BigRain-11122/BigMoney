@@ -3,7 +3,7 @@
 四张面各自回答了一个子问题，没有一张回答「今天这本书做什么」。本面把决定写在唯一一处，
 其余各面只读它（r1266：没有字面消费面的裁决不算裁决）。
 
-> 本文件由 `python scripts/idx_fut_carry_decision_face.py run` 生成，**不要手改**。生成时刻 2026-11-25T20:30:18+0800，证据截止 2026-11-24。
+> 本文件由 `python scripts/idx_fut_carry_decision_face.py run` 生成，**不要手改**。生成时刻 2026-11-26T05:32:41+0800，证据截止 2026-11-24。
 
 ## 判词
 
@@ -70,6 +70,6 @@ a ruler may be quoted only if the roll-step face says its roll-day accounting is
 ## 输入面
 
 - price: `results/idx_fut_carry_always_on_price.json` (digest 17fef4b85b8e0cf0)
-- capacity: `results/idx_fut_carry_capacity_lots.json` (digest 7304058e2d1423d9)
+- capacity: `results/idx_fut_carry_capacity_lots.json` (digest d7890d59d74bb14b)
 - roll: `results/idx_fut_carry_roll_step_reversal.json` (digest 321b524e12dddef7)
-- open_capital: `results/idx_fut_carry_open_capital.json` (digest 5dba64d30954dad2)
+- open_capital: `results/idx_fut_carry_open_capital.json` (digest e0c491ebc217f235)

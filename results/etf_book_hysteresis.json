@@ -1,6 +1,6 @@
 {
   "script": "scripts/etf_book_hysteresis.py",
-  "evidence_cutoff": "2026-11-24",
+  "evidence_cutoff": "2026-11-25",
   "units": {
     "k": "buffer in units of the bar's cross-sectional score sd",
     "cagr": "fraction per year (0.0962 = 9.62%/yr)",
@@ -12,7 +12,7 @@
     "rebal": 20,
     "cost_bp": 10.0,
     "vol_target": 0.08,
-    "universe": 1531,
+    "universe": 1532,
     "flips_repaired": 169,
     "grid": [
       0.0,
@@ -24,8 +24,8 @@
     ]
   },
   "control": {
-    "published": 0.0914,
-    "measured": 0.0914,
+    "published": 0.0898,
+    "measured": 0.0898,
     "delta_pp": 0.0,
     "within_tol": true,
     "published_turnover": 0.938,
@@ -36,12 +36,12 @@
     "skipped": 0,
     "cut_sd_q": {
       "0.1": 0.0012,
-      "0.25": 0.0054,
+      "0.25": 0.0056,
       "0.5": 0.0185,
       "0.75": 0.0517,
       "0.9": 0.1122
     },
-    "cut_score_median": 0.00475,
+    "cut_score_median": 0.00486,
     "share_within": {
       "0.05": 0.7381,
       "0.1": 0.869,
@@ -538,20 +538,20 @@
       },
       {
         "date": "2026-09-08",
-        "cut_score": 0.0015587701191004388,
-        "cut_sd": 0.004786765722395443,
+        "cut_score": 0.0017317260134998014,
+        "cut_sd": 0.005317718865482864,
         "n_eligible": 561
       },
       {
         "date": "2026-10-14",
-        "cut_score": 0.004965870658843241,
-        "cut_sd": 0.012776579880297326,
+        "cut_score": 0.005181913889366174,
+        "cut_sd": 0.013332954110844588,
         "n_eligible": 537
       },
       {
         "date": "2026-11-11",
-        "cut_score": 0.008128877378807187,
-        "cut_sd": 0.030155045611813182,
+        "cut_score": 0.00814049226072211,
+        "cut_sd": 0.03020178909571841,
         "n_eligible": 580
       }
     ]
@@ -569,12 +569,12 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0914,
-          "sharpe": 0.943,
+          "cagr": 0.0898,
+          "sharpe": 0.928,
           "maxdd": -0.1177,
           "vol": 0.1021,
           "worst_year": -0.0199,
-          "neg_years": 1
+          "neg_years": 2
         },
         "is": {
           "cagr": 0.0384,
@@ -585,12 +585,12 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1697,
-          "sharpe": 1.607,
+          "cagr": 0.1656,
+          "sharpe": 1.57,
           "maxdd": -0.107,
-          "vol": 0.1052,
-          "worst_year": 0.0061,
-          "neg_years": 0
+          "vol": 0.1053,
+          "worst_year": -0.0037,
+          "neg_years": 1
         }
       }
     },
@@ -600,8 +600,8 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0921,
-          "sharpe": 0.957,
+          "cagr": 0.0905,
+          "sharpe": 0.942,
           "maxdd": -0.1159,
           "vol": 0.1012,
           "worst_year": -0.0193,
@@ -616,11 +616,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1686,
-          "sharpe": 1.621,
+          "cagr": 0.1645,
+          "sharpe": 1.584,
           "maxdd": -0.0982,
-          "vol": 0.1036,
-          "worst_year": -0.0004,
+          "vol": 0.1037,
+          "worst_year": -0.0101,
           "neg_years": 1
         }
       }
@@ -631,10 +631,10 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.092,
-          "sharpe": 0.953,
+          "cagr": 0.0904,
+          "sharpe": 0.938,
           "maxdd": -0.1258,
-          "vol": 0.1015,
+          "vol": 0.1016,
           "worst_year": -0.0354,
           "neg_years": 2
         },
@@ -647,11 +647,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1726,
-          "sharpe": 1.635,
+          "cagr": 0.1685,
+          "sharpe": 1.598,
           "maxdd": -0.0982,
-          "vol": 0.105,
-          "worst_year": -0.0015,
+          "vol": 0.1051,
+          "worst_year": -0.0111,
           "neg_years": 1
         }
       }
@@ -662,10 +662,10 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0929,
-          "sharpe": 0.967,
+          "cagr": 0.0913,
+          "sharpe": 0.951,
           "maxdd": -0.1247,
-          "vol": 0.1009,
+          "vol": 0.101,
           "worst_year": -0.0356,
           "neg_years": 2
         },
@@ -678,11 +678,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.169,
-          "sharpe": 1.609,
+          "cagr": 0.165,
+          "sharpe": 1.571,
           "maxdd": -0.0978,
-          "vol": 0.1047,
-          "worst_year": -0.0022,
+          "vol": 0.1048,
+          "worst_year": -0.0119,
           "neg_years": 1
         }
       }
@@ -693,8 +693,8 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0912,
-          "sharpe": 0.944,
+          "cagr": 0.0895,
+          "sharpe": 0.927,
           "maxdd": -0.1257,
           "vol": 0.1018,
           "worst_year": -0.0454,
@@ -709,11 +709,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.1658,
-          "sharpe": 1.537,
+          "cagr": 0.1614,
+          "sharpe": 1.498,
           "maxdd": -0.1014,
-          "vol": 0.1079,
-          "worst_year": -0.0124,
+          "vol": 0.108,
+          "worst_year": -0.0227,
           "neg_years": 1
         }
       }
@@ -724,8 +724,8 @@
       "trades": 84,
       "stats": {
         "full": {
-          "cagr": 0.0927,
-          "sharpe": 0.96,
+          "cagr": 0.0913,
+          "sharpe": 0.946,
           "maxdd": -0.1348,
           "vol": 0.1016,
           "worst_year": -0.0702,
@@ -740,11 +740,11 @@
           "neg_years": 1
         },
         "oos": {
-          "cagr": 0.169,
-          "sharpe": 1.548,
+          "cagr": 0.1652,
+          "sharpe": 1.516,
           "maxdd": -0.1014,
-          "vol": 0.1091,
-          "worst_year": -0.004,
+          "vol": 0.1092,
+          "worst_year": -0.0128,
           "neg_years": 1
         }
       }

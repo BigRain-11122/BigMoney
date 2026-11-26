@@ -1,6 +1,6 @@
 # One size, three rulers
 
-ticket `TICKET-2026-11-24.json` | evidence cutoff 2026-11-24 | decision date 2026-12-09 | beta target 0.2
+ticket `TICKET-2026-11-25.json` | evidence cutoff 2026-11-25 | decision date 2026-12-09 | beta target 0.2
 
 **SIZE_IS_A_RULER_CHOICE** — the same rule priced on the same panel lands between k=0.343508 and k=0.747086 (40.36pp of range, widest mover=window +31.21pp); the money sits inside that range at k=0.435003 -- 1 readings below it, 3 above it, floor CNY 343,508 against CNY 435,003 deployed
 

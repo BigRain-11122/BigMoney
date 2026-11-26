@@ -2,30 +2,30 @@
 
 > 由 `scripts/capital_union_decision.py` 生成，禁手改。各面自印 cutoff：
 
-- `carry_open_capital` = 2026-11-23
-- `etf_book_capacity_edge` = 2026-11-24
-- `etf_book_ticket_floor` = 2026-11-24
+- `carry_open_capital` = 2026-11-25
+- `etf_book_capacity_edge` = 2026-11-25
+- `etf_book_ticket_floor` = 2026-11-25
 
-**判词** `ETF_BOOK_IS_THE_ONLY_ONE_THIS_ACCOUNT_CAN_OPEN_TODAY` / 最弱面 cutoff = 2026-11-23
+**判词** `ETF_BOOK_IS_THE_ONLY_ONE_THIS_ACCOUNT_CAN_OPEN_TODAY` / 最弱面 cutoff = 2026-11-25
 
 ## 一行话
 
-> At 1,000,000 CNY the ETF book is open (one lot 14,666.23 CNY, 68.2x the floor) while the carry book prints 0 executable lot(s) and needs 1,129,566 CNY to open its cheapest leg (short 129,566 = 12.96%). Today's ETF capacity line sits at 1,043,801 CNY (reading 0.9580% of ADV against a 1.00% line), so this capital fits with 43,801 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,173,367 CNY on the best capacity day (1,626,042 on the median day).
+> At 1,000,000 CNY the ETF book is open (one lot 14,465.70 CNY, 69.1x the floor) while the carry book prints 0 executable lot(s) and needs 1,132,145 CNY to open its cheapest leg (short 132,145 = 13.21%). Today's ETF capacity line sits at 1,059,112 CNY (reading 0.9442% of ADV against a 1.00% line), so this capital fits with 59,112 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,191,257 CNY on the best capacity day (1,628,621 on the median day).
 
 ## 两本账并排
 
 | | ETF 复合书 | 股指期货贴水 carry |
 |---|---:|---:|
 | 100 万下能开 | 是 | 否 |
-| 一手/首档门槛 | 14,666.23 CNY | 1,129,566 CNY |
-| 差多少 | — | 129,566 CNY（12.96%） |
-| 今天这一档容量读数 | 0.9580% ADV（闸 1.00%） | — |
-| 100 万在容量线上的余量 | 43,801 CNY | — |
+| 一手/首档门槛 | 14,465.70 CNY | 1,132,145 CNY |
+| 差多少 | — | 132,145 CNY（13.21%） |
+| 今天这一档容量读数 | 0.9442% ADV（闸 1.00%） | — |
+| 100 万在容量线上的余量 | 59,112 CNY | — |
 
 ## 两本一起开要多少
 
-- 最好的一天容量档：2,173,367 CNY（carry 首档 + ETF 容量线资本）
-- 中位的一天：1,626,042 CNY
+- 最好的一天容量档：2,191,257 CNY（carry 首档 + ETF 容量线资本）
+- 中位的一天：1,628,621 CNY
 
 ## 口径与限制
 

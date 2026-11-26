@@ -1,6 +1,6 @@
 {
   "face": "etf_book_derisk_rule",
-  "asof": "2026-11-26T03:32:40+0800",
+  "asof": "2026-11-26T07:19:19+0800",
   "evidence_cutoff": "2026-11-25",
   "cell": "N5_R20_10bp",
   "question": "r1486 showed no vol-target rung both clears Y4 and buys drawdown; does a de-risking RULE that only acts in bad states (own drawdown, own trend, vol target conditioned on a loss regime) clear both",
@@ -44,8 +44,8 @@
   "control_gate": {
     "none": {
       "published": {
-        "cagr_pct": 0.1512,
-        "top2_share": 0.7006,
+        "cagr_pct": 0.1493,
+        "top2_share": 0.7076,
         "maxdd_pct": -0.1604
       },
       "measured": {
@@ -54,16 +54,16 @@
         "maxdd_pct": -0.1604
       },
       "gaps": {
-        "cagr_pp": 0.19,
-        "top2": 0.007,
+        "cagr_pp": 0.0,
+        "top2": 0.0,
         "mdd_pp": 0.0
       },
-      "reproduces": false
+      "reproduces": true
     },
     "vt08": {
       "published": {
-        "cagr_pct": 0.1111,
-        "top2_share": 0.7255,
+        "cagr_pct": 0.1096,
+        "top2_share": 0.7337,
         "maxdd_pct": -0.1056
       },
       "measured": {
@@ -72,14 +72,14 @@
         "maxdd_pct": -0.1056
       },
       "gaps": {
-        "cagr_pp": 0.15,
-        "top2": 0.0082,
+        "cagr_pp": 0.0,
+        "top2": 0.0,
         "mdd_pp": 0.0
       },
-      "reproduces": false
+      "reproduces": true
     },
-    "ok": false,
-    "detail": "CONTROL GATE FAILED -- the comparison base does not re-derive"
+    "ok": true,
+    "detail": "both published rungs reproduce to 1e-6 on CAGR/drawdown and 1e-9 on top-2 share"
   },
   "rules": [
     {
@@ -543,10 +543,311 @@
       "mean_scale": 0.8631
     }
   ],
-  "phase_test": {},
+  "phase_test": {
+    "vt08": {
+      "phases": [
+        {
+          "phase_offset_days": 0,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7337,
+          "control_top2_share": 0.7076,
+          "maxdd_pct": -0.1056,
+          "control_maxdd_pct": -0.1604,
+          "drawdown_gain_pp": 5.48,
+          "cagr_gain_pp": -3.97
+        },
+        {
+          "phase_offset_days": 5,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.748,
+          "control_top2_share": 0.7069,
+          "maxdd_pct": -0.1179,
+          "control_maxdd_pct": -0.1873,
+          "drawdown_gain_pp": 6.94,
+          "cagr_gain_pp": -6.04
+        },
+        {
+          "phase_offset_days": 10,
+          "verdict": "ADMIT",
+          "passes": true,
+          "top2_share": 0.6936,
+          "control_top2_share": 0.7335,
+          "maxdd_pct": -0.1493,
+          "control_maxdd_pct": -0.2238,
+          "drawdown_gain_pp": 7.45,
+          "cagr_gain_pp": -7.3
+        },
+        {
+          "phase_offset_days": 15,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7853,
+          "control_top2_share": 0.8057,
+          "maxdd_pct": -0.17,
+          "control_maxdd_pct": -0.2297,
+          "drawdown_gain_pp": 5.97,
+          "cagr_gain_pp": -6.28
+        },
+        {
+          "phase_offset_days": 20,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7771,
+          "control_top2_share": 0.9468,
+          "maxdd_pct": -0.1265,
+          "control_maxdd_pct": -0.2402,
+          "drawdown_gain_pp": 11.37,
+          "cagr_gain_pp": -3.43
+        }
+      ],
+      "passes_all_phases": false,
+      "passes_n_of": "1/5",
+      "drawdown_gain_pp_min": 5.48,
+      "drawdown_gain_pp_median": 6.94,
+      "verdict_stable": false
+    },
+    "dd_brake": {
+      "phases": [
+        {
+          "phase_offset_days": 0,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7686,
+          "control_top2_share": 0.7076,
+          "maxdd_pct": -0.1418,
+          "control_maxdd_pct": -0.1604,
+          "drawdown_gain_pp": 1.86,
+          "cagr_gain_pp": -3.08
+        },
+        {
+          "phase_offset_days": 5,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7581,
+          "control_top2_share": 0.7069,
+          "maxdd_pct": -0.153,
+          "control_maxdd_pct": -0.1873,
+          "drawdown_gain_pp": 3.43,
+          "cagr_gain_pp": -2.92
+        },
+        {
+          "phase_offset_days": 10,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.8131,
+          "control_top2_share": 0.7335,
+          "maxdd_pct": -0.2009,
+          "control_maxdd_pct": -0.2238,
+          "drawdown_gain_pp": 2.29,
+          "cagr_gain_pp": -3.65
+        },
+        {
+          "phase_offset_days": 15,
+          "verdict": "REFUSE",
+          "passes": false,
+          "top2_share": 0.9076,
+          "control_top2_share": 0.8057,
+          "maxdd_pct": -0.1621,
+          "control_maxdd_pct": -0.2297,
+          "drawdown_gain_pp": 6.76,
+          "cagr_gain_pp": -3.91
+        },
+        {
+          "phase_offset_days": 20,
+          "verdict": "REFUSE",
+          "passes": false,
+          "top2_share": 0.9161,
+          "control_top2_share": 0.9468,
+          "maxdd_pct": -0.1608,
+          "control_maxdd_pct": -0.2402,
+          "drawdown_gain_pp": 7.94,
+          "cagr_gain_pp": -1.9
+        }
+      ],
+      "passes_all_phases": false,
+      "passes_n_of": "0/5",
+      "drawdown_gain_pp_min": 1.86,
+      "drawdown_gain_pp_median": 3.43,
+      "verdict_stable": true
+    },
+    "loss_cond_vt": {
+      "phases": [
+        {
+          "phase_offset_days": 0,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7601,
+          "control_top2_share": 0.7076,
+          "maxdd_pct": -0.143,
+          "control_maxdd_pct": -0.1604,
+          "drawdown_gain_pp": 1.74,
+          "cagr_gain_pp": -1.25
+        },
+        {
+          "phase_offset_days": 5,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7017,
+          "control_top2_share": 0.7069,
+          "maxdd_pct": -0.153,
+          "control_maxdd_pct": -0.1873,
+          "drawdown_gain_pp": 3.43,
+          "cagr_gain_pp": -0.93
+        },
+        {
+          "phase_offset_days": 10,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7276,
+          "control_top2_share": 0.7335,
+          "maxdd_pct": -0.2009,
+          "control_maxdd_pct": -0.2238,
+          "drawdown_gain_pp": 2.29,
+          "cagr_gain_pp": 0.44
+        },
+        {
+          "phase_offset_days": 15,
+          "verdict": "REFUSE",
+          "passes": false,
+          "top2_share": 0.7734,
+          "control_top2_share": 0.8057,
+          "maxdd_pct": -0.1849,
+          "control_maxdd_pct": -0.2297,
+          "drawdown_gain_pp": 4.48,
+          "cagr_gain_pp": 0.67
+        },
+        {
+          "phase_offset_days": 20,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.9179,
+          "control_top2_share": 0.9468,
+          "maxdd_pct": -0.1835,
+          "control_maxdd_pct": -0.2402,
+          "drawdown_gain_pp": 5.67,
+          "cagr_gain_pp": -0.15
+        }
+      ],
+      "passes_all_phases": false,
+      "passes_n_of": "0/5",
+      "drawdown_gain_pp_min": 1.74,
+      "drawdown_gain_pp_median": 3.43,
+      "verdict_stable": true
+    },
+    "trend_brake": {
+      "phases": [
+        {
+          "phase_offset_days": 0,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.8337,
+          "control_top2_share": 0.7076,
+          "maxdd_pct": -0.1604,
+          "control_maxdd_pct": -0.1604,
+          "drawdown_gain_pp": 0.0,
+          "cagr_gain_pp": -3.44
+        },
+        {
+          "phase_offset_days": 5,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7004,
+          "control_top2_share": 0.7069,
+          "maxdd_pct": -0.155,
+          "control_maxdd_pct": -0.1873,
+          "drawdown_gain_pp": 3.23,
+          "cagr_gain_pp": 0.23
+        },
+        {
+          "phase_offset_days": 10,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.7324,
+          "control_top2_share": 0.7335,
+          "maxdd_pct": -0.2009,
+          "control_maxdd_pct": -0.2238,
+          "drawdown_gain_pp": 2.29,
+          "cagr_gain_pp": 0.26
+        },
+        {
+          "phase_offset_days": 15,
+          "verdict": "REFUSE",
+          "passes": false,
+          "top2_share": 0.7659,
+          "control_top2_share": 0.8057,
+          "maxdd_pct": -0.1865,
+          "control_maxdd_pct": -0.2297,
+          "drawdown_gain_pp": 4.32,
+          "cagr_gain_pp": 0.88
+        },
+        {
+          "phase_offset_days": 20,
+          "verdict": "CONDITIONAL",
+          "passes": false,
+          "top2_share": 0.8977,
+          "control_top2_share": 0.9468,
+          "maxdd_pct": -0.1924,
+          "control_maxdd_pct": -0.2402,
+          "drawdown_gain_pp": 4.78,
+          "cagr_gain_pp": 0.31
+        }
+      ],
+      "passes_all_phases": false,
+      "passes_n_of": "0/5",
+      "drawdown_gain_pp_min": 0.0,
+      "drawdown_gain_pp_median": 3.23,
+      "verdict_stable": true
+    }
+  },
   "instrument": {
-    "available": false,
-    "detail": "no phase table -- resolvability unknown"
+    "available": true,
+    "control": {
+      "top2_min": 0.7069,
+      "top2_max": 0.9468,
+      "spread_pp": 23.99,
+      "straddles_line": false
+    },
+    "rules": {
+      "vt08": {
+        "top2_min": 0.6936,
+        "top2_max": 0.7853,
+        "spread_pp": 9.17,
+        "straddles_line": true,
+        "distance_to_line_pp": 0.64
+      },
+      "dd_brake": {
+        "top2_min": 0.7581,
+        "top2_max": 0.9161,
+        "spread_pp": 15.8,
+        "straddles_line": false,
+        "distance_to_line_pp": 5.81
+      },
+      "loss_cond_vt": {
+        "top2_min": 0.7017,
+        "top2_max": 0.9179,
+        "spread_pp": 21.62,
+        "straddles_line": false,
+        "distance_to_line_pp": 0.17
+      },
+      "trend_brake": {
+        "top2_min": 0.7004,
+        "top2_max": 0.8977,
+        "spread_pp": 19.73,
+        "straddles_line": false,
+        "distance_to_line_pp": 0.04
+      }
+    },
+    "unresolvable": [
+      "vt08"
+    ],
+    "resolvably_above_line": [
+      "dd_brake",
+      "loss_cond_vt",
+      "trend_brake"
+    ],
+    "detail": "the unde-risked control itself reads 0.7069..0.9468 across five decision phases (spread 23.99pp, line 0.70) -- the control stays on one side of the line"
   },
   "answer": {
     "mechanism": [
@@ -587,12 +888,16 @@
         "delta_maxdd_pp": 0.0
       }
     ],
+    "phase_dependent_rules": [
+      "vt08"
+    ],
+    "phase_stable_pass_rules": [],
     "answer": "NO_RULE_CLEARS_BOTH",
     "closest_rule": "vt08",
     "closest_fails": [
       "Y4_top2_share"
     ],
-    "detail": "rules passing the gate: none | of those buying >=0.5pp drawdown vs control (-0.1604): none | closest vt08: top2 0.7337 vs 0.70, mdd -0.1056 vs control -0.1604, fails Y4_top2_share"
+    "detail": "rules passing the gate: none | of those buying >=0.5pp drawdown vs control (-0.1604): none | PHASE-DEPENDENT (passes in some phases only, not a rule): vt08 | closest vt08: top2 0.7337 vs 0.70, mdd -0.1056 vs control -0.1604, fails Y4_top2_share"
   },
-  "elapsed_sec": 53.7
+  "elapsed_sec": 89.0
 }
