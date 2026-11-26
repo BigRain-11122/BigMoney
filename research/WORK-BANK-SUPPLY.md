@@ -1,5 +1,5 @@
-generated 2026-11-25T06:01:07+08:00
-evidence_cutoff 2026-11-24
+generated 2026-11-26T16:38:14+08:00
+evidence_cutoff 2026-11-25
 
 银行 20 张卡 · 队列 31 格 · 已答 18 / 在飞 0 / 未取 0 / 数据阻塞 2 / 悬空 0
 
@@ -38,7 +38,7 @@ evidence_cutoff 2026-11-24
 | bond_curve | done | {"T-TF:zrev": "NO_EDGE", "T-TF:trend": "NO_EDGE", "T-TS:zrev": "NO_EDGE", "T-TS:trend": "NO_EDGE", "TF-TS:zrev": "NO_EDGE", "TF-TS:trend": "NO_EDGE"} | 2026-11-22T23:10:26 |
 | astock_lowvol | done | {"verdict": "NO_EDGE", "H5_excess_ge_2pp": false, "ann_pct": 6.12, "excess_pp": 0.93, "excess_t": 0.45} | - |
 | bond_defensive | done | NO_EDGE | 2026-11-22T23:10:28 |
-| revalidate | done | ALL_HOLD | 2026-11-24T10:22:14 |
+| revalidate | done | ALL_HOLD | 2026-11-25T22:22:55 |
 | idx_fut_basis_reuse | done | {"kind": "reuse", "IC_net_carry_pp": 4.15, "IM_net_carry_pp": 5.89, "IF_net_carry_pp": 0.74, "IH_net_carry_pp": 1.74, "booked": "IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)"} | - |
 | cb_dual_low_reuse | done | {"verdict": "NO_EDGE", "ann_pct": 7.64, "vs_equal_weight_pp": 0.83} | - |
 | astock_resid_industry_reuse | done | {"verdict": "ONE_YEAR_STORY", "ann_pct": 3.76, "ex_best_year_pct": 0.14} | - |

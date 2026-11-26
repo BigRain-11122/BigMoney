@@ -1,0 +1,2418 @@
+{
+ "cards": 96,
+ "dispositions": {
+  "CANDIDATE": 6,
+  "DATA_GAP": 2,
+  "EXHAUSTED": 75,
+  "OTHER": 12,
+  "REVALIDATED": 1
+ },
+ "duplicate_questions": [],
+ "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-26T16:43:37+08:00",
+ "missing_evidence": [],
+ "rows": [
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "a519bbc7512d",
+   "family": "pair",
+   "family_label": "横截面配对（多最强空最弱）",
+   "fingerprint_size": 41,
+   "finished": "2026-11-24T21:24:50+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 2.92,
+    "mdd_pct": -37.8,
+    "sharpe": 0.269,
+    "t_stat": 0.84,
+    "vol_pct": 14.69
+   },
+   "id": "pair_index_60d",
+   "off_bank": false,
+   "question": "四个股指期货之间做横截面强弱对冲（多最强、空最弱，60日排序），扣费后有没有净收成？",
+   "result": "results/bench_pair_index_60d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "2db2428d5089",
+   "family": "pair",
+   "family_label": "横截面配对（多最强空最弱）",
+   "fingerprint_size": 32,
+   "finished": "2026-11-24T21:25:19+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 1.32,
+    "mdd_pct": -58.88,
+    "sharpe": 0.163,
+    "t_stat": 0.71,
+    "vol_pct": 13.93
+   },
+   "id": "pair_all10_60d",
+   "off_bank": false,
+   "question": "十个品种一起做横截面强弱（多前2、空后2，60日），净后是否为正？",
+   "result": "results/bench_pair_all10_60d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "44352bb0c6e2",
+   "family": "pair",
+   "family_label": "横截面配对（多最强空最弱）",
+   "fingerprint_size": 29,
+   "finished": "2026-11-24T21:25:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 1.23,
+    "mdd_pct": -58.88,
+    "sharpe": 0.163,
+    "t_stat": 0.71,
+    "vol_pct": 11.57
+   },
+   "id": "pair_commodity_60d",
+   "off_bank": false,
+   "question": "商品三品种（金/螺纹/原油）横截面强弱对冲，净后有没有收成？",
+   "result": "results/bench_pair_commodity_60d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "c42bfa8c5151",
+   "family": "trend",
+   "family_label": "单品种趋势",
+   "fingerprint_size": 38,
+   "finished": "2026-11-24T21:25:34+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 2.99,
+    "mdd_pct": -18.98,
+    "sharpe": 0.408,
+    "t_stat": 1.28,
+    "vol_pct": 8.01
+   },
+   "id": "trend_single_IC_long",
+   "off_bank": false,
+   "question": "单做中证500期货的均线趋势（只做多、50/200），净后与买入持有比有没有超额？",
+   "result": "results/bench_trend_single_IC_long.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "cefb151a363c",
+   "family": "trend",
+   "family_label": "单品种趋势",
+   "fingerprint_size": 27,
+   "finished": "2026-11-24T21:25:43+08:00",
+   "gates": {
+    "failed": [
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 7.95,
+    "mdd_pct": -29.21,
+    "sharpe": 0.941,
+    "t_stat": 4.08,
+    "vol_pct": 8.52
+   },
+   "id": "trend_single_AU_long",
+   "off_bank": false,
+   "question": "黄金期货单品种均线趋势（只做多），净后是否跑赢买入持有？",
+   "result": "results/bench_trend_single_AU_long.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "d1781f159e83",
+   "family": "trend",
+   "family_label": "单品种趋势",
+   "fingerprint_size": 25,
+   "finished": "2026-11-24T21:25:51+08:00",
+   "gates": {
+    "failed": [
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 3.09,
+    "mdd_pct": -5.65,
+    "sharpe": 0.706,
+    "t_stat": 2.21,
+    "vol_pct": 4.45
+   },
+   "id": "trend_single_T_long",
+   "off_bank": false,
+   "question": "十年国债期货单品种趋势（只做多），净后是否跑赢持有？",
+   "result": "results/bench_trend_single_T_long.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "43bde7a5d78a",
+   "family": "reversal",
+   "family_label": "reversal",
+   "fingerprint_size": 27,
+   "finished": "2026-11-24T21:25:59+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 2.43,
+    "mdd_pct": -19.72,
+    "sharpe": 0.307,
+    "t_stat": 0.96,
+    "vol_pct": 9.22
+   },
+   "id": "reversal_index_5d",
+   "off_bank": false,
+   "question": "股指期货五日反转（多跌得多的、空涨得多的），净后有没有收成？",
+   "result": "results/bench_reversal_index_5d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=20_50",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "8c0043bbdf11",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 30,
+   "finished": "2026-11-24T21:27:02+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.15,
+    "mdd_pct": -32.65,
+    "sharpe": -0.032,
+    "t_stat": -0.1,
+    "vol_pct": 12.38
+   },
+   "id": "robust_ma_index",
+   "off_bank": false,
+   "question": "股指期货趋势的符号在 20/50、50/100、50/200 三组均线下是否稳定？",
+   "result": "results/bench_robust_ma_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=50_100",
+   "disposition": "OTHER",
+   "evidence_digest": "8c0043bbdf11",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 30,
+   "finished": "2026-11-24T21:27:02+08:00",
+   "gates": {
+    "failed": [],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 5.31,
+    "mdd_pct": -25.51,
+    "sharpe": 0.479,
+    "t_stat": 1.5,
+    "vol_pct": 12.4
+   },
+   "id": "robust_ma_index",
+   "off_bank": false,
+   "question": "股指期货趋势的符号在 20/50、50/100、50/200 三组均线下是否稳定？",
+   "result": "results/bench_robust_ma_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "UNINFORMATIVE_AT_TARGET"
+  },
+  {
+   "arm": "variant=50_200",
+   "disposition": "OTHER",
+   "evidence_digest": "8c0043bbdf11",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 30,
+   "finished": "2026-11-24T21:27:02+08:00",
+   "gates": {
+    "failed": [],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 6.58,
+    "mdd_pct": -17.6,
+    "sharpe": 0.586,
+    "t_stat": 1.83,
+    "vol_pct": 12.15
+   },
+   "id": "robust_ma_index",
+   "off_bank": false,
+   "question": "股指期货趋势的符号在 20/50、50/100、50/200 三组均线下是否稳定？",
+   "result": "results/bench_robust_ma_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "UNINFORMATIVE_AT_TARGET"
+  },
+  {
+   "arm": "variant=60d",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "6c4868a251b3",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 25,
+   "finished": "2026-11-24T21:27:12+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 1.53,
+    "mdd_pct": -20.51,
+    "sharpe": 0.221,
+    "t_stat": 0.96,
+    "vol_pct": 8.54
+   },
+   "id": "robust_tsmom_commodity",
+   "off_bank": false,
+   "question": "商品趋势的符号在 60/120/250 日回看下是否稳定？",
+   "result": "results/bench_robust_tsmom_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=120d",
+   "disposition": "CANDIDATE",
+   "evidence_digest": "6c4868a251b3",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 25,
+   "finished": "2026-11-24T21:27:12+08:00",
+   "gates": {
+    "failed": [],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 5.01,
+    "mdd_pct": -21.74,
+    "sharpe": 0.626,
+    "t_stat": 2.72,
+    "vol_pct": 8.37
+   },
+   "id": "robust_tsmom_commodity",
+   "off_bank": false,
+   "question": "商品趋势的符号在 60/120/250 日回看下是否稳定？",
+   "result": "results/bench_robust_tsmom_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "GO"
+  },
+  {
+   "arm": "variant=250d",
+   "disposition": "CANDIDATE",
+   "evidence_digest": "6c4868a251b3",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 25,
+   "finished": "2026-11-24T21:27:12+08:00",
+   "gates": {
+    "failed": [],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 5.24,
+    "mdd_pct": -18.88,
+    "sharpe": 0.671,
+    "t_stat": 2.91,
+    "vol_pct": 8.11
+   },
+   "id": "robust_tsmom_commodity",
+   "off_bank": false,
+   "question": "商品趋势的符号在 60/120/250 日回看下是否稳定？",
+   "result": "results/bench_robust_tsmom_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "GO"
+  },
+  {
+   "arm": "variant=20_10",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "a2c38825c96c",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 33,
+   "finished": "2026-11-24T21:27:22+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -4.14,
+    "mdd_pct": -46.89,
+    "sharpe": -0.227,
+    "t_stat": -0.71,
+    "vol_pct": 14.17
+   },
+   "id": "robust_donchian_index",
+   "off_bank": false,
+   "question": "股指期货唐奇安通道的负结论在三组通道参数下是否稳定（负得稳才叫判死）？",
+   "result": "results/bench_robust_donchian_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=40_15",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "a2c38825c96c",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 33,
+   "finished": "2026-11-24T21:27:22+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -4.22,
+    "mdd_pct": -47.33,
+    "sharpe": -0.235,
+    "t_stat": -0.74,
+    "vol_pct": 14.1
+   },
+   "id": "robust_donchian_index",
+   "off_bank": false,
+   "question": "股指期货唐奇安通道的负结论在三组通道参数下是否稳定（负得稳才叫判死）？",
+   "result": "results/bench_robust_donchian_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=55_20",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "a2c38825c96c",
+   "family": "robust",
+   "family_label": "robust",
+   "fingerprint_size": 33,
+   "finished": "2026-11-24T21:27:22+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -3.92,
+    "mdd_pct": -47.06,
+    "sharpe": -0.215,
+    "t_stat": -0.67,
+    "vol_pct": 14.05
+   },
+   "id": "robust_donchian_index",
+   "off_bank": false,
+   "question": "股指期货唐奇安通道的负结论在三组通道参数下是否稳定（负得稳才叫判死）？",
+   "result": "results/bench_robust_donchian_index.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 20, 'slow': 60}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 1.42,
+    "mdd_pct": -28.73,
+    "sharpe": 0.195
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 20, 'slow': 60}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -0.27,
+    "mdd_pct": -28.23,
+    "sharpe": 0.041
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 100}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.12,
+    "mdd_pct": -29.96,
+    "sharpe": 0.461
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 100}|ls",
+   "disposition": "OTHER",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 5.31,
+    "mdd_pct": -25.51,
+    "sharpe": 0.479
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "UNINFORMATIVE_AT_TARGET"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 200}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.98,
+    "mdd_pct": -22.69,
+    "sharpe": 0.454
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 200}|ls",
+   "disposition": "OTHER",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 6.58,
+    "mdd_pct": -17.6,
+    "sharpe": 0.586
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "UNINFORMATIVE_AT_TARGET"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 100, 'slow': 200}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.48,
+    "mdd_pct": -22.84,
+    "sharpe": 0.3
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 100, 'slow': 200}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.58,
+    "mdd_pct": -23.36,
+    "sharpe": 0.353
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 60, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.26,
+    "mdd_pct": -30.47,
+    "sharpe": 0.388
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 60, 'skip': 21}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.45,
+    "mdd_pct": -27.95,
+    "sharpe": 0.341
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 120, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.76,
+    "mdd_pct": -30.45,
+    "sharpe": 0.333
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 120, 'skip': 21}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.37,
+    "mdd_pct": -26.02,
+    "sharpe": 0.333
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 250, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.39,
+    "mdd_pct": -15.83,
+    "sharpe": 0.301
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 250, 'skip': 21}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.35,
+    "mdd_pct": -24.17,
+    "sharpe": 0.337
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 20, 'exit': 10}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.14,
+    "mdd_pct": -46.89,
+    "sharpe": -0.227
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 20, 'exit': 10}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.14,
+    "mdd_pct": -46.89,
+    "sharpe": -0.227
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 40, 'exit': 15}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.22,
+    "mdd_pct": -47.33,
+    "sharpe": -0.235
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 40, 'exit': 15}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.22,
+    "mdd_pct": -47.33,
+    "sharpe": -0.235
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 55, 'exit': 20}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -3.92,
+    "mdd_pct": -47.06,
+    "sharpe": -0.215
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 55, 'exit': 20}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ad34c8b02832",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 46,
+   "finished": "2026-11-24T21:29:06+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -3.92,
+    "mdd_pct": -47.06,
+    "sharpe": -0.215
+   },
+   "id": "census_index_futures",
+   "off_bank": false,
+   "question": "四个股指期货上，趋势规则×窗口×多空共 20 种组合的整片地形：有几条是功效够的正边，还是整片噪声？",
+   "result": "results/bench_census_index_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 60, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.76,
+    "mdd_pct": -20.15,
+    "sharpe": 0.45
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 60, 'skip': 21}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 1.53,
+    "mdd_pct": -20.51,
+    "sharpe": 0.221
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 120, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.42,
+    "mdd_pct": -16.13,
+    "sharpe": 0.714
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 120, 'skip': 21}|ls",
+   "disposition": "CANDIDATE",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 5.01,
+    "mdd_pct": -21.74,
+    "sharpe": 0.626
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "GO"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 250, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.56,
+    "mdd_pct": -13.7,
+    "sharpe": 0.754
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 250, 'skip': 21}|ls",
+   "disposition": "CANDIDATE",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 5.24,
+    "mdd_pct": -18.88,
+    "sharpe": 0.671
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "GO"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 20, 'slow': 60}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.03,
+    "mdd_pct": -19.95,
+    "sharpe": 0.476
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 20, 'slow': 60}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.48,
+    "mdd_pct": -26.49,
+    "sharpe": 0.324
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 200}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.35,
+    "mdd_pct": -22.28,
+    "sharpe": 0.69
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 200}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.09,
+    "mdd_pct": -21.5,
+    "sharpe": 0.503
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 20, 'exit': 10}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.54,
+    "mdd_pct": -69.29,
+    "sharpe": -0.471
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 20, 'exit': 10}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.54,
+    "mdd_pct": -69.29,
+    "sharpe": -0.471
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 55, 'exit': 20}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.27,
+    "mdd_pct": -69.41,
+    "sharpe": -0.433
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=donchian|{'entry': 55, 'exit': 20}|ls",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "ceb1dc433d20",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 37,
+   "finished": "2026-11-24T21:29:18+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": -4.27,
+    "mdd_pct": -69.41,
+    "sharpe": -0.433
+   },
+   "id": "census_commodity",
+   "off_bank": false,
+   "question": "金/螺纹/原油上，趋势规则×窗口×多空 14 种组合的整片地形：有没有稳定正边？",
+   "result": "results/bench_census_commodity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 60, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "bf94bdff478e",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:33:19+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.2,
+    "mdd_pct": -11.64,
+    "sharpe": 0.523
+   },
+   "id": "census_bond_futures",
+   "off_bank": false,
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "result": "results/bench_census_bond_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 120, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "bf94bdff478e",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:33:19+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.2,
+    "mdd_pct": -13.59,
+    "sharpe": 0.511
+   },
+   "id": "census_bond_futures",
+   "off_bank": false,
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "result": "results/bench_census_bond_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=tsmom|{'lookback': 250, 'skip': 21}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "bf94bdff478e",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:33:19+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 2.83,
+    "mdd_pct": -14.48,
+    "sharpe": 0.453
+   },
+   "id": "census_bond_futures",
+   "off_bank": false,
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "result": "results/bench_census_bond_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 20, 'slow': 60}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "bf94bdff478e",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:33:19+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 1.92,
+    "mdd_pct": -17.89,
+    "sharpe": 0.34
+   },
+   "id": "census_bond_futures",
+   "off_bank": false,
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "result": "results/bench_census_bond_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "variant=ma_cross|{'fast': 50, 'slow': 200}|long",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "bf94bdff478e",
+   "family": "census",
+   "family_label": "census",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:33:19+08:00",
+   "gates": null,
+   "headline": {
+    "ann_pct": 4.01,
+    "mdd_pct": -11.22,
+    "sharpe": 0.627
+   },
+   "id": "census_bond_futures",
+   "off_bank": false,
+   "question": "国债期货（T/TF/TS）只做多的趋势地形：5 种组合里有没有功效够的正边？",
+   "result": "results/bench_census_bond_futures.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "0e7e9e89423e",
+   "family": "pair",
+   "family_label": "横截面配对（多最强空最弱）",
+   "fingerprint_size": 35,
+   "finished": "2026-11-24T21:38:47+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.9,
+    "mdd_pct": -20.52,
+    "sharpe": -0.297,
+    "t_stat": -0.93,
+    "vol_pct": 5.87
+   },
+   "id": "pair_bond_curve_60d",
+   "off_bank": false,
+   "question": "国债期货 T/TF/TS 横截面强弱（60日，多最强空最弱），净后有没有收成？",
+   "result": "results/bench_pair_bond_curve_60d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "43963dd9b87a",
+   "family": "trend",
+   "family_label": "单品种趋势",
+   "fingerprint_size": 28,
+   "finished": "2026-11-24T21:38:47+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 0.5,
+    "mdd_pct": -32.33,
+    "sharpe": 0.106,
+    "t_stat": 0.44,
+    "vol_pct": 7.06
+   },
+   "id": "trend_single_RB_long",
+   "off_bank": false,
+   "question": "螺纹钢单品种均线趋势（只做多），净后与买入持有比有无超额？",
+   "result": "results/bench_trend_single_RB_long.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "469c4c284069",
+   "family": "trend",
+   "family_label": "单品种趋势",
+   "fingerprint_size": 24,
+   "finished": "2026-11-24T21:38:47+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.05,
+    "mdd_pct": -26.96,
+    "sharpe": -0.111,
+    "t_stat": -0.32,
+    "vol_pct": 7.22
+   },
+   "id": "trend_single_SC_long",
+   "off_bank": false,
+   "question": "原油期货单品种均线趋势（只做多），净后是否有超额？",
+   "result": "results/bench_trend_single_SC_long.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "9e5129815157",
+   "family": "reversal",
+   "family_label": "reversal",
+   "fingerprint_size": 22,
+   "finished": "2026-11-24T21:38:47+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge",
+     "H2_oos_ge",
+     "H3_both_halves",
+     "H4_drop_best",
+     "H5_control"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -4.22,
+    "mdd_pct": -59.71,
+    "sharpe": -0.454,
+    "t_stat": -1.97,
+    "vol_pct": 8.66
+   },
+   "id": "reversal_commodity_5d",
+   "off_bank": false,
+   "question": "商品三品种五日反转（多跌空涨），净后有无收成？",
+   "result": "results/bench_reversal_commodity_5d.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": null,
+   "disposition": "OTHER",
+   "evidence_digest": "ae09358d9b36",
+   "family": "paper",
+   "family_label": "paper",
+   "fingerprint_size": 40,
+   "finished": "2026-11-24T21:43:53+08:00",
+   "gates": null,
+   "headline": {},
+   "id": "paper_basis_timing",
+   "off_bank": false,
+   "question": "唯一过判的基差定仓位线，每天按冻结规则记一次仓与盈亏：累计 carry 是否持续为正？",
+   "result": "results/paper_basis_timing/STATE.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "TRACKING"
+  },
+  {
+   "arm": null,
+   "disposition": "DATA_GAP",
+   "evidence_digest": null,
+   "family": "options",
+   "family_label": "options",
+   "fingerprint_size": 17,
+   "finished": null,
+   "gates": null,
+   "headline": {},
+   "id": "options_vol_premium",
+   "off_bank": false,
+   "question": "期权隐含波动率溢价（卖波动）能不能收？",
+   "result": null,
+   "result_present": false,
+   "state": "BLOCKED",
+   "verdict": null
+  },
+  {
+   "arm": null,
+   "disposition": "DATA_GAP",
+   "evidence_digest": null,
+   "family": "minute",
+   "family_label": "minute",
+   "fingerprint_size": 20,
+   "finished": null,
+   "gates": null,
+   "headline": {},
+   "id": "minute_intraday_reversal",
+   "off_bank": false,
+   "question": "分钟级日内反转（A股/ETF）是否有收成？",
+   "result": null,
+   "result_present": false,
+   "state": "BLOCKED",
+   "verdict": null
+  },
+  {
+   "arm": "tsmom",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "e0d45f23b1db",
+   "family": "fut",
+   "family_label": "期货趋势族",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:08+08:00",
+   "gates": {
+    "failed": [
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 6.21,
+    "mdd_pct": -23.05,
+    "sharpe": 0.51,
+    "t_stat": 1.59,
+    "vol_pct": 13.65
+   },
+   "id": "fut_trend",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_fut_trend.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "ma_cross",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "e0d45f23b1db",
+   "family": "fut",
+   "family_label": "期货趋势族",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:08+08:00",
+   "gates": {
+    "failed": [],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 13.43,
+    "mdd_pct": -20.86,
+    "sharpe": 0.993,
+    "t_stat": 3.09,
+    "vol_pct": 13.63
+   },
+   "id": "fut_trend",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_fut_trend.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE_REPACKAGES_BETA"
+  },
+  {
+   "arm": "donchian",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "e0d45f23b1db",
+   "family": "fut",
+   "family_label": "期货趋势族",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:08+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_6pct",
+     "H2_oos_ge_4pct_and_sr_ge_0.5",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_2pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -13.35,
+    "mdd_pct": -81.03,
+    "sharpe": -0.914,
+    "t_stat": -2.85,
+    "vol_pct": 14.51
+   },
+   "id": "fut_trend",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_fut_trend.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "reversal",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "e0d45f23b1db",
+   "family": "fut",
+   "family_label": "期货趋势族",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:08+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_6pct",
+     "H2_oos_ge_4pct_and_sr_ge_0.5",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_2pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -0.58,
+    "mdd_pct": -36.05,
+    "sharpe": 0.026,
+    "t_stat": 0.08,
+    "vol_pct": 13.68
+   },
+   "id": "fut_trend",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_fut_trend.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "xs_mom",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "e0d45f23b1db",
+   "family": "fut",
+   "family_label": "期货趋势族",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:08+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_6pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 3.79,
+    "mdd_pct": -30.9,
+    "sharpe": 0.319,
+    "t_stat": 0.99,
+    "vol_pct": 15.33
+   },
+   "id": "fut_trend",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_fut_trend.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "T-TF:zrev",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 1.77,
+    "mdd_pct": -12.6,
+    "sharpe": 0.443,
+    "t_stat": 1.39,
+    "vol_pct": 4.15
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "T-TF:trend",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.84,
+    "mdd_pct": -19.27,
+    "sharpe": -0.406,
+    "t_stat": -1.27,
+    "vol_pct": 4.35
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "T-TS:zrev",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.06,
+    "mdd_pct": -21.37,
+    "sharpe": -0.167,
+    "t_stat": -0.48,
+    "vol_pct": 5.48
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "T-TS:trend",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -1.97,
+    "mdd_pct": -27.96,
+    "sharpe": -0.332,
+    "t_stat": -0.95,
+    "vol_pct": 5.52
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "TF-TS:zrev",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -0.74,
+    "mdd_pct": -12.42,
+    "sharpe": -0.171,
+    "t_stat": -0.49,
+    "vol_pct": 3.88
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "TF-TS:trend",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "24f82971ef40",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:26+08:00",
+   "gates": {
+    "failed": [
+     "H1_full_ge_4pct",
+     "H2_oos_ge_3pct_and_sr_ge_0.4",
+     "H3_both_halves_positive",
+     "H4_drop_best_year_ge_1.5pct",
+     "H5_control_p_lt_0.05"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": -3.62,
+    "mdd_pct": -28.83,
+    "sharpe": -0.913,
+    "t_stat": -2.62,
+    "vol_pct": 3.96
+   },
+   "id": "bond_curve",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_curve.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": null,
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "a8854f45ed69",
+   "family": "astock",
+   "family_label": "A 股选股",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": {
+    "failed": [
+     "H5_excess_ge_2pct_t_ge_1.5"
+    ],
+    "n": 5
+   },
+   "headline": {
+    "ann_pct": 6.12,
+    "excess_pp": 0.93
+   },
+   "id": "astock_lowvol",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_astock_lowvol.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": null,
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "866c6dc4e4c5",
+   "family": "bond",
+   "family_label": "国债/债券",
+   "fingerprint_size": 0,
+   "finished": "2026-11-22T23:10:28+08:00",
+   "gates": {
+    "failed": [
+     "H3_positive_in_both_bear_years"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "bond_defensive",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_bond_defensive.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": null,
+   "disposition": "REVALIDATED",
+   "evidence_digest": "bbb160e43afd",
+   "family": "revalidate",
+   "family_label": "复验通行证（不是策略）",
+   "fingerprint_size": 0,
+   "finished": "2026-11-25T22:22:55+08:00",
+   "gates": null,
+   "headline": {},
+   "id": "revalidate",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_revalidate.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "ALL_HOLD"
+  },
+  {
+   "arm": null,
+   "disposition": "OTHER",
+   "evidence_digest": "c6e3433adbfa",
+   "family": "idx",
+   "family_label": "idx",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {},
+   "id": "idx_fut_basis_reuse",
+   "off_bank": true,
+   "question": null,
+   "result": "results/idx_fut_basis.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "{\"IC_net_carry_pp\": 4.15, \"IF_net_carry_pp\": 0.74, \"IH_net_carry_pp\": 1.74, \"IM_net_carry_pp\": 5.89, \"booked\": \"IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)\", \"kind\": \"reuse\"}"
+  },
+  {
+   "arm": null,
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "0a6ae4c7d691",
+   "family": "cb",
+   "family_label": "cb",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {
+    "ann_pct": 7.64
+   },
+   "id": "cb_dual_low_reuse",
+   "off_bank": true,
+   "question": null,
+   "result": "results/cb_dual_low.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "OTHER",
+   "evidence_digest": "6507fdcbb65b",
+   "family": "astock",
+   "family_label": "A 股选股",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.76
+   },
+   "id": "astock_resid_industry_reuse",
+   "off_bank": true,
+   "question": null,
+   "result": "results/astock_rankind_stability.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "ONE_YEAR_STORY"
+  },
+  {
+   "arm": "arm2",
+   "disposition": "OTHER",
+   "evidence_digest": "6507fdcbb65b",
+   "family": "astock",
+   "family_label": "A 股选股",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.76
+   },
+   "id": "astock_resid_industry_reuse",
+   "off_bank": true,
+   "question": null,
+   "result": "results/astock_rankind_stability.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "ONE_YEAR_STORY"
+  },
+  {
+   "arm": "arm3",
+   "disposition": "OTHER",
+   "evidence_digest": "6507fdcbb65b",
+   "family": "astock",
+   "family_label": "A 股选股",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {
+    "ann_pct": 3.76
+   },
+   "id": "astock_resid_industry_reuse",
+   "off_bank": true,
+   "question": null,
+   "result": "results/astock_rankind_stability.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "ONE_YEAR_STORY"
+  },
+  {
+   "arm": null,
+   "disposition": "OTHER",
+   "evidence_digest": "167a0b375b0e",
+   "family": "basis",
+   "family_label": "basis",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": {
+    "failed": [],
+    "n": 3
+   },
+   "headline": {},
+   "id": "basis_capacity",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_basis_capacity.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "CAPACITY_OK_AND_SIZED"
+  },
+  {
+   "arm": null,
+   "disposition": "CANDIDATE",
+   "evidence_digest": "47d863b7d056",
+   "family": "basis",
+   "family_label": "basis",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {},
+   "id": "basis_timing_size",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_basis_timing_size.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "GO"
+  },
+  {
+   "arm": "arm1",
+   "disposition": "OTHER",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "BASELINE_REFERENCE"
+  },
+  {
+   "arm": "arm2",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm3",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm4",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm5",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm6",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm7",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H3_worst_year",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm8",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H3_worst_year",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm9",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H3_worst_year",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm10",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H3_worst_year",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": "arm11",
+   "disposition": "EXHAUSTED",
+   "evidence_digest": "250aa773132d",
+   "family": "repo",
+   "family_label": "repo",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:39:11+08:00",
+   "gates": {
+    "failed": [
+     "H1_pickup",
+     "H2_both_halves",
+     "H3_worst_year",
+     "H5_double_fee"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "repo_ladder",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_repo_ladder.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "NO_EDGE"
+  },
+  {
+   "arm": null,
+   "disposition": "OTHER",
+   "evidence_digest": "951d0cf1b532",
+   "family": "cb",
+   "family_label": "cb",
+   "fingerprint_size": 0,
+   "finished": "2026-11-23T09:59:42+08:00",
+   "gates": {
+    "failed": [
+     "H1_excess_ge_2pp",
+     "H2_both_halves_positive",
+     "H3_mde_le_5pp",
+     "H4_beats_random_control",
+     "H5_survives_double_cost"
+    ],
+    "n": 5
+   },
+   "headline": {},
+   "id": "cb_floor",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_cb_floor.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "CLOSED_AT_POWER"
+  },
+  {
+   "arm": null,
+   "disposition": "CANDIDATE",
+   "evidence_digest": "2a737315a04b",
+   "family": "basis",
+   "family_label": "basis",
+   "fingerprint_size": 0,
+   "finished": null,
+   "gates": null,
+   "headline": {},
+   "id": "basis_timing_perm",
+   "off_bank": true,
+   "question": null,
+   "result": "results/bench_basis_timing_perm.json",
+   "result_present": true,
+   "state": "ANSWERED",
+   "verdict": "SIGNIFICANT"
+  }
+ ],
+ "schema": "bench-verdict-book/v1",
+ "source_digest": "5a2c9598a209",
+ "sources": 33
+}
