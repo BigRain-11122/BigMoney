@@ -1,7 +1,7 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-26T13:41:29",
+ "probed_at": "2026-11-26T14:11:18",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
  "why": "2 hosts alive; 20 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
@@ -11,60 +11,60 @@
    "kind": "interactive",
    "started_epoch": 1795664958.984948,
    "started": "2026-11-26T11:49:18",
-   "age_min": 112.2,
+   "age_min": 142.0,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 106292,
+   "pid": 103104,
    "kind": "other",
-   "started_epoch": 1795671604.9428077,
-   "started": "2026-11-26T13:40:04",
-   "age_min": 1.4,
+   "started_epoch": 1795673403.9816124,
+   "started": "2026-11-26T14:10:03",
+   "age_min": 1.2,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 106292,
- "my_host_started": "2026-11-26T13:40:04",
+ "my_host_pid": 103104,
+ "my_host_started": "2026-11-26T14:10:03",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
     107624,
-    106292
+    103104
    ],
    "kinds": [
     "interactive",
     "other"
    ],
-   "from": "2026-11-26T13:40:04",
-   "to": "2026-11-26T13:41:29",
-   "minutes": 1.4,
-   "lo": 1795671604.9428077
+   "from": "2026-11-26T14:10:03",
+   "to": "2026-11-26T14:11:18",
+   "minutes": 1.2,
+   "lo": 1795673403.9816124
   }
  ],
  "peer_only_writes": [
   "Tools/gpu_alias_writer_census.py",
   "fleet/machines/bm-c.json",
   "research/ARBITER-BOARD.md",
-  "research/ETF_BOOK_CADENCE_H2_SPREAD.md",
+  "research/ETF_BOOK_CADENCE_REGIME_PREDICT.md",
   "research/GPU_ALIAS_WRITER_CENSUS.md",
-  "research/QUANT-BLOCK-BOARD.md",
+  "research/PAPER_BASIS_TIMING_COST_SPLIT.md",
   "results/_attrition_guard_scan.json",
-  "results/_r2131bmc_append.py",
-  "results/_r2131bmc_hb_face.py",
-  "results/_r2131bmc_hb_note.py",
-  "results/_r2131bmc_proof.py",
   "results/_r2132bmc_closeout.py",
   "results/_r2132bmc_proof.py",
+  "results/_r2133bmc_append.py",
+  "results/_r2133bmc_deliver.py",
+  "results/_r2134bmc_closeout.py",
   "results/arbiter/STATE.json",
   "results/cpu_fill/STATE.json",
-  "results/etf_book_cadence_h2_spread.json",
+  "results/etf_book_cadence_regime_predict.json",
   "results/etf_book_cash_roll_today.json",
   "results/gpu_alias_writer_census.json",
-  "results/quant_block_board.json",
-  "scripts/etf_book_cadence_h2_spread.py"
+  "results/paper_basis_timing_cost_split.json",
+  "scripts/etf_book_cadence_regime_predict.py",
+  "scripts/paper_basis_timing_cost_split.py"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -80,25 +80,91 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 35252,
+ "writes_scanned_files": 35261,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-26T13:40:03",
-   "mtime_epoch": 1795671603.5466158,
-   "bytes": 262940
+   "mtime": "2026-11-26T14:08:35",
+   "mtime_epoch": 1795673315.686054,
+   "bytes": 263351
+  },
+  {
+   "path": "results/cpu_fill/STATE.json",
+   "mtime": "2026-11-26T14:07:43",
+   "mtime_epoch": 1795673263.7443998,
+   "bytes": 665
+  },
+  {
+   "path": "results/_r2134bmc_closeout.py",
+   "mtime": "2026-11-26T14:05:31",
+   "mtime_epoch": 1795673131.7976356,
+   "bytes": 9396
+  },
+  {
+   "path": "research/PAPER_BASIS_TIMING_COST_SPLIT.md",
+   "mtime": "2026-11-26T14:03:05",
+   "mtime_epoch": 1795672985.853992,
+   "bytes": 3160
+  },
+  {
+   "path": "results/paper_basis_timing_cost_split.json",
+   "mtime": "2026-11-26T14:03:05",
+   "mtime_epoch": 1795672985.8529885,
+   "bytes": 5291
+  },
+  {
+   "path": "scripts/paper_basis_timing_cost_split.py",
+   "mtime": "2026-11-26T14:02:55",
+   "mtime_epoch": 1795672975.1783104,
+   "bytes": 26878
+  },
+  {
+   "path": "research/ARBITER-BOARD.md",
+   "mtime": "2026-11-26T14:01:44",
+   "mtime_epoch": 1795672904.1513937,
+   "bytes": 1685
+  },
+  {
+   "path": "results/arbiter/STATE.json",
+   "mtime": "2026-11-26T14:01:44",
+   "mtime_epoch": 1795672904.1493926,
+   "bytes": 1425
+  },
+  {
+   "path": "results/_r2133bmc_deliver.py",
+   "mtime": "2026-11-26T13:51:05",
+   "mtime_epoch": 1795672265.3431773,
+   "bytes": 1512
+  },
+  {
+   "path": "results/_r2133bmc_append.py",
+   "mtime": "2026-11-26T13:49:51",
+   "mtime_epoch": 1795672191.8565576,
+   "bytes": 3061
+  },
+  {
+   "path": "research/ETF_BOOK_CADENCE_REGIME_PREDICT.md",
+   "mtime": "2026-11-26T13:49:20",
+   "mtime_epoch": 1795672160.6901722,
+   "bytes": 5483
+  },
+  {
+   "path": "results/etf_book_cadence_regime_predict.json",
+   "mtime": "2026-11-26T13:49:02",
+   "mtime_epoch": 1795672142.6618836,
+   "bytes": 15706
+  },
+  {
+   "path": "scripts/etf_book_cadence_regime_predict.py",
+   "mtime": "2026-11-26T13:48:06",
+   "mtime_epoch": 1795672086.3714066,
+   "bytes": 32812
   },
   {
    "path": "results/_r2132bmc_proof.py",
    "mtime": "2026-11-26T13:38:22",
    "mtime_epoch": 1795671502.2778308,
    "bytes": 1883
-  },
-  {
-   "path": "results/cpu_fill/STATE.json",
-   "mtime": "2026-11-26T13:37:43",
-   "mtime_epoch": 1795671463.6960888,
-   "bytes": 665
   },
   {
    "path": "results/gpu_alias_writer_census.json",
@@ -131,76 +197,10 @@
    "bytes": 22582
   },
   {
-   "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-26T13:31:44",
-   "mtime_epoch": 1795671104.439746,
-   "bytes": 1687
-  },
-  {
-   "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-26T13:31:44",
-   "mtime_epoch": 1795671104.438746,
-   "bytes": 1432
-  },
-  {
    "path": "results/etf_book_cash_roll_today.json",
    "mtime": "2026-11-26T13:28:40",
    "mtime_epoch": 1795670920.0045016,
    "bytes": 5552
-  },
-  {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-26T13:21:08",
-   "mtime_epoch": 1795670468.2497315,
-   "bytes": 6108
-  },
-  {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-26T13:21:08",
-   "mtime_epoch": 1795670468.2487323,
-   "bytes": 11245
-  },
-  {
-   "path": "results/_r2131bmc_hb_note.py",
-   "mtime": "2026-11-26T13:18:47",
-   "mtime_epoch": 1795670327.8052022,
-   "bytes": 2230
-  },
-  {
-   "path": "results/_r2131bmc_hb_face.py",
-   "mtime": "2026-11-26T13:17:44",
-   "mtime_epoch": 1795670264.011985,
-   "bytes": 4656
-  },
-  {
-   "path": "results/_r2131bmc_proof.py",
-   "mtime": "2026-11-26T13:15:47",
-   "mtime_epoch": 1795670147.1597269,
-   "bytes": 1382
-  },
-  {
-   "path": "results/_r2131bmc_append.py",
-   "mtime": "2026-11-26T13:14:22",
-   "mtime_epoch": 1795670062.805129,
-   "bytes": 5591
-  },
-  {
-   "path": "research/ETF_BOOK_CADENCE_H2_SPREAD.md",
-   "mtime": "2026-11-26T13:11:17",
-   "mtime_epoch": 1795669877.5579126,
-   "bytes": 8620
-  },
-  {
-   "path": "results/etf_book_cadence_h2_spread.json",
-   "mtime": "2026-11-26T13:10:52",
-   "mtime_epoch": 1795669852.3153212,
-   "bytes": 46987
-  },
-  {
-   "path": "scripts/etf_book_cadence_h2_spread.py",
-   "mtime": "2026-11-26T13:06:28",
-   "mtime_epoch": 1795669588.6778376,
-   "bytes": 39407
   }
  ],
  "recent_write_count": 20,
