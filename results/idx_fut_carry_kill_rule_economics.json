@@ -1,0 +1,2175 @@
+{
+ "generated": "2026-11-26T15:29:49+08:00",
+ "evidence_cutoff": "2026-11-25",
+ "cost_bp_side": 1.5,
+ "sigma_mult": [
+  0.4,
+  0.6,
+  0.8,
+  1.0
+ ],
+ "textbook_lines": [
+  0.04,
+  0.06,
+  0.08,
+  0.1
+ ],
+ "reentry_rules": [
+  "cooldown20",
+  "shadow_half",
+  "shadow_new_high"
+ ],
+ "cooldown_days": 20,
+ "vol_window": 252,
+ "split_date": "2024-01-01",
+ "notional_cny": 1000000.0,
+ "products": {
+  "IC": {
+   "series": {
+    "first": "2017-01-18",
+    "last": "2026-11-25",
+    "bars": 2390,
+    "train_first": "2017-01-18",
+    "train_last": "2023-12-29",
+    "test_first": "2024-01-02",
+    "test_bars": 701,
+    "train_bars": 1689,
+    "vol_first_date": "2017-04-20"
+   },
+   "baseline": {
+    "days": 2390,
+    "years": 9.795,
+    "cagr_pct": 10.069,
+    "ann_mean_pct": 9.6482,
+    "ann_vol_pct": 3.2463,
+    "sharpe": 2.972,
+    "mdd_pct": -1.8896
+   },
+   "pairs": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.1825,
+      "ann_mean_pct": 8.8342,
+      "ann_vol_pct": 3.0891,
+      "sharpe": 2.8598,
+      "mdd_pct": -1.5691
+     },
+     "price_pp": 0.8865,
+     "dd_saved_pp": 0.3205,
+     "n_kills": 6,
+     "flat_share_pct": 5.02,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 8865.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.3955,
+      "ann_mean_pct": 9.0318,
+      "ann_vol_pct": 3.1698,
+      "sharpe": 2.8493,
+      "mdd_pct": -2.5794
+     },
+     "price_pp": 0.6735,
+     "dd_saved_pp": -0.6898,
+     "n_kills": 8,
+     "flat_share_pct": 1.55,
+     "avg_flat_days": 4.6,
+     "money_price_cny_per_year": 6735.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.1456,
+      "ann_mean_pct": 8.8018,
+      "ann_vol_pct": 3.1308,
+      "sharpe": 2.8114,
+      "mdd_pct": -2.7283
+     },
+     "price_pp": 0.9234,
+     "dd_saved_pp": -0.8387,
+     "n_kills": 8,
+     "flat_share_pct": 2.72,
+     "avg_flat_days": 8.1,
+     "money_price_cny_per_year": 9234.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.9023,
+      "ann_mean_pct": 9.4962,
+      "ann_vol_pct": 3.2336,
+      "sharpe": 2.9367,
+      "mdd_pct": -1.6569
+     },
+     "price_pp": 0.1667,
+     "dd_saved_pp": 0.2327,
+     "n_kills": 2,
+     "flat_share_pct": 1.67,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 1667.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.9377,
+      "ann_mean_pct": 9.5284,
+      "ann_vol_pct": 3.2355,
+      "sharpe": 2.945,
+      "mdd_pct": -1.6569
+     },
+     "price_pp": 0.1313,
+     "dd_saved_pp": 0.2327,
+     "n_kills": 3,
+     "flat_share_pct": 0.54,
+     "avg_flat_days": 4.3,
+     "money_price_cny_per_year": 1313.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.808,
+      "ann_mean_pct": 9.41,
+      "ann_vol_pct": 3.2243,
+      "sharpe": 2.9185,
+      "mdd_pct": -1.6616
+     },
+     "price_pp": 0.261,
+     "dd_saved_pp": 0.228,
+     "n_kills": 3,
+     "flat_share_pct": 1.13,
+     "avg_flat_days": 9.0,
+     "money_price_cny_per_year": 2610.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.7613,
+      "ann_mean_pct": 9.3675,
+      "ann_vol_pct": 3.2257,
+      "sharpe": 2.904,
+      "mdd_pct": -2.0644
+     },
+     "price_pp": 0.3077,
+     "dd_saved_pp": -0.1748,
+     "n_kills": 2,
+     "flat_share_pct": 1.67,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 3077.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.9229,
+      "ann_mean_pct": 9.5151,
+      "ann_vol_pct": 3.2389,
+      "sharpe": 2.9378,
+      "mdd_pct": -1.9463
+     },
+     "price_pp": 0.1461,
+     "dd_saved_pp": -0.0567,
+     "n_kills": 2,
+     "flat_share_pct": 0.33,
+     "avg_flat_days": 4.0,
+     "money_price_cny_per_year": 1461.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 9.7933,
+      "ann_mean_pct": 9.3967,
+      "ann_vol_pct": 3.2277,
+      "sharpe": 2.9112,
+      "mdd_pct": -2.0644
+     },
+     "price_pp": 0.2757,
+     "dd_saved_pp": -0.1748,
+     "n_kills": 2,
+     "flat_share_pct": 0.92,
+     "avg_flat_days": 11.0,
+     "money_price_cny_per_year": 2757.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.0275,
+      "ann_mean_pct": 9.6104,
+      "ann_vol_pct": 3.2443,
+      "sharpe": 2.9622,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0415,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.84,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 415.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.0684,
+      "ann_mean_pct": 9.6476,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.9719,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0006,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.04,
+     "avg_flat_days": 1.0,
+     "money_price_cny_per_year": 6.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.0595,
+      "ann_mean_pct": 9.6396,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.9694,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0095,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.08,
+     "avg_flat_days": 2.0,
+     "money_price_cny_per_year": 95.0
+    }
+   },
+   "train": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 9.8117,
+      "ann_mean_pct": 9.4088,
+      "ann_vol_pct": 3.0827,
+      "sharpe": 3.0521,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.6261,
+     "dd_saved_pp": 0.0,
+     "n_kills": 6,
+     "flat_share_pct": 3.55,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 6261.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.1007,
+      "ann_mean_pct": 9.6728,
+      "ann_vol_pct": 3.1119,
+      "sharpe": 3.1083,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.3371,
+     "dd_saved_pp": 0.0,
+     "n_kills": 8,
+     "flat_share_pct": 0.47,
+     "avg_flat_days": 4.6,
+     "money_price_cny_per_year": 3371.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.086,
+      "ann_mean_pct": 9.6591,
+      "ann_vol_pct": 3.1046,
+      "sharpe": 3.1112,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.3518,
+     "dd_saved_pp": 0.0,
+     "n_kills": 8,
+     "flat_share_pct": 1.07,
+     "avg_flat_days": 8.1,
+     "money_price_cny_per_year": 3518.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.3789,
+      "ann_mean_pct": 9.9261,
+      "ann_vol_pct": 3.1417,
+      "sharpe": 3.1595,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0589,
+     "dd_saved_pp": 0.0,
+     "n_kills": 2,
+     "flat_share_pct": 1.18,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 589.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.3799,
+      "ann_mean_pct": 9.9271,
+      "ann_vol_pct": 3.1434,
+      "sharpe": 3.1581,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0579,
+     "dd_saved_pp": 0.0,
+     "n_kills": 3,
+     "flat_share_pct": 0.18,
+     "avg_flat_days": 4.3,
+     "money_price_cny_per_year": 579.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.3799,
+      "ann_mean_pct": 9.9271,
+      "ann_vol_pct": 3.1434,
+      "sharpe": 3.1581,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0579,
+     "dd_saved_pp": 0.0,
+     "n_kills": 3,
+     "flat_share_pct": 0.18,
+     "avg_flat_days": 9.0,
+     "money_price_cny_per_year": 579.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.3789,
+      "ann_mean_pct": 9.9261,
+      "ann_vol_pct": 3.1417,
+      "sharpe": 3.1595,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0589,
+     "dd_saved_pp": 0.0,
+     "n_kills": 2,
+     "flat_share_pct": 1.18,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 589.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4244,
+      "ann_mean_pct": 9.9674,
+      "ann_vol_pct": 3.1446,
+      "sharpe": 3.1697,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0134,
+     "dd_saved_pp": 0.0,
+     "n_kills": 2,
+     "flat_share_pct": 0.12,
+     "avg_flat_days": 4.0,
+     "money_price_cny_per_year": 134.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4244,
+      "ann_mean_pct": 9.9674,
+      "ann_vol_pct": 3.1446,
+      "sharpe": 3.1697,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0134,
+     "dd_saved_pp": 0.0,
+     "n_kills": 2,
+     "flat_share_pct": 0.12,
+     "avg_flat_days": 11.0,
+     "money_price_cny_per_year": 134.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.3789,
+      "ann_mean_pct": 9.9261,
+      "ann_vol_pct": 3.1417,
+      "sharpe": 3.1595,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0589,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 1.18,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 589.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4369,
+      "ann_mean_pct": 9.9788,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1734,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0009,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.06,
+     "avg_flat_days": 1.0,
+     "money_price_cny_per_year": 9.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4378,
+      "ann_mean_pct": 9.9796,
+      "ann_vol_pct": 3.1445,
+      "sharpe": 3.1736,
+      "mdd_pct": -1.2618
+     },
+     "filtered": {
+      "days": 1689,
+      "years": 6.922,
+      "cagr_pct": 10.4244,
+      "ann_mean_pct": 9.9674,
+      "ann_vol_pct": 3.1446,
+      "sharpe": 3.1697,
+      "mdd_pct": -1.2618
+     },
+     "price_pp": 0.0134,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.12,
+     "avg_flat_days": 2.0,
+     "money_price_cny_per_year": 134.0
+    }
+   },
+   "test": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 7.6812,
+      "ann_mean_pct": 7.4497,
+      "ann_vol_pct": 3.1047,
+      "sharpe": 2.3995,
+      "mdd_pct": -1.5691
+     },
+     "price_pp": 1.5042,
+     "dd_saved_pp": 0.3205,
+     "n_kills": 6,
+     "flat_share_pct": 8.56,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 15042.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 7.7149,
+      "ann_mean_pct": 7.4874,
+      "ann_vol_pct": 3.3055,
+      "sharpe": 2.2651,
+      "mdd_pct": -2.5794
+     },
+     "price_pp": 1.4705,
+     "dd_saved_pp": -0.6898,
+     "n_kills": 8,
+     "flat_share_pct": 4.14,
+     "avg_flat_days": 4.6,
+     "money_price_cny_per_year": 14705.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 6.9128,
+      "ann_mean_pct": 6.736,
+      "ann_vol_pct": 3.1913,
+      "sharpe": 2.1107,
+      "mdd_pct": -2.7283
+     },
+     "price_pp": 2.2726,
+     "dd_saved_pp": -0.8387,
+     "n_kills": 8,
+     "flat_share_pct": 6.7,
+     "avg_flat_days": 8.1,
+     "money_price_cny_per_year": 22726.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.7626,
+      "ann_mean_pct": 8.4604,
+      "ann_vol_pct": 3.4466,
+      "sharpe": 2.4547,
+      "mdd_pct": -1.6569
+     },
+     "price_pp": 0.4228,
+     "dd_saved_pp": 0.2327,
+     "n_kills": 2,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 4228.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.8795,
+      "ann_mean_pct": 8.5679,
+      "ann_vol_pct": 3.4488,
+      "sharpe": 2.4843,
+      "mdd_pct": -1.6569
+     },
+     "price_pp": 0.3059,
+     "dd_saved_pp": 0.2327,
+     "n_kills": 3,
+     "flat_share_pct": 1.43,
+     "avg_flat_days": 4.3,
+     "money_price_cny_per_year": 3059.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.4422,
+      "ann_mean_pct": 8.1641,
+      "ann_vol_pct": 3.4124,
+      "sharpe": 2.3925,
+      "mdd_pct": -1.6616
+     },
+     "price_pp": 0.7432,
+     "dd_saved_pp": 0.228,
+     "n_kills": 3,
+     "flat_share_pct": 3.42,
+     "avg_flat_days": 9.0,
+     "money_price_cny_per_year": 7432.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.2874,
+      "ann_mean_pct": 8.0215,
+      "ann_vol_pct": 3.4206,
+      "sharpe": 2.345,
+      "mdd_pct": -2.0644
+     },
+     "price_pp": 0.898,
+     "dd_saved_pp": -0.1748,
+     "n_kills": 2,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 8980.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.724,
+      "ann_mean_pct": 8.4253,
+      "ann_vol_pct": 3.457,
+      "sharpe": 2.4372,
+      "mdd_pct": -1.9463
+     },
+     "price_pp": 0.4614,
+     "dd_saved_pp": -0.0567,
+     "n_kills": 2,
+     "flat_share_pct": 0.86,
+     "avg_flat_days": 4.0,
+     "money_price_cny_per_year": 4614.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 8.2874,
+      "ann_mean_pct": 8.0215,
+      "ann_vol_pct": 3.4206,
+      "sharpe": 2.345,
+      "mdd_pct": -2.0644
+     },
+     "price_pp": 0.898,
+     "dd_saved_pp": -0.1748,
+     "n_kills": 2,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 11.0,
+     "money_price_cny_per_year": 8980.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 1.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 9.1854,
+      "ann_mean_pct": 8.8497,
+      "ann_vol_pct": 3.4812,
+      "sharpe": 2.5422,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 2.0,
+     "money_price_cny_per_year": 0.0
+    }
+   },
+   "textbook_lines": {
+    "L04_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L06_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L08_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L10_cooldown20": {
+     "baseline": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "filtered": {
+      "days": 2390,
+      "years": 9.795,
+      "cagr_pct": 10.069,
+      "ann_mean_pct": 9.6482,
+      "ann_vol_pct": 3.2463,
+      "sharpe": 2.972,
+      "mdd_pct": -1.8896
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    }
+   }
+  },
+  "IM": {
+   "series": {
+    "first": "2022-07-25",
+    "last": "2026-11-25",
+    "bars": 1052,
+    "train_first": "2022-07-25",
+    "train_last": "2023-12-29",
+    "test_first": "2024-01-02",
+    "test_bars": 701,
+    "train_bars": 351,
+    "vol_first_date": "2022-10-24"
+   },
+   "baseline": {
+    "days": 1052,
+    "years": 4.311,
+    "cagr_pct": 9.3471,
+    "ann_mean_pct": 8.9943,
+    "ann_vol_pct": 3.3786,
+    "sharpe": 2.6622,
+    "mdd_pct": -3.0482
+   },
+   "pairs": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.0683,
+      "ann_mean_pct": 8.7307,
+      "ann_vol_pct": 3.1264,
+      "sharpe": 2.7925,
+      "mdd_pct": -1.4148
+     },
+     "price_pp": 0.2788,
+     "dd_saved_pp": 1.6334,
+     "n_kills": 3,
+     "flat_share_pct": 5.7,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 2788.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.3205,
+      "ann_mean_pct": 8.0452,
+      "ann_vol_pct": 3.2111,
+      "sharpe": 2.5054,
+      "mdd_pct": -4.0812
+     },
+     "price_pp": 1.0266,
+     "dd_saved_pp": -1.033,
+     "n_kills": 3,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 10.0,
+     "money_price_cny_per_year": 10266.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.2538,
+      "ann_mean_pct": 7.9828,
+      "ann_vol_pct": 3.1857,
+      "sharpe": 2.5058,
+      "mdd_pct": -3.7132
+     },
+     "price_pp": 1.0933,
+     "dd_saved_pp": -0.665,
+     "n_kills": 3,
+     "flat_share_pct": 5.13,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 10933.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.9944,
+      "ann_mean_pct": 8.6674,
+      "ann_vol_pct": 3.265,
+      "sharpe": 2.6546,
+      "mdd_pct": -2.1042
+     },
+     "price_pp": 0.3527,
+     "dd_saved_pp": 0.944,
+     "n_kills": 1,
+     "flat_share_pct": 1.9,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 3527.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.07,
+      "ann_mean_pct": 8.7368,
+      "ann_vol_pct": 3.2678,
+      "sharpe": 2.6736,
+      "mdd_pct": -2.1042
+     },
+     "price_pp": 0.2771,
+     "dd_saved_pp": 0.944,
+     "n_kills": 1,
+     "flat_share_pct": 1.71,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 2771.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.7873,
+      "ann_mean_pct": 8.4759,
+      "ann_vol_pct": 3.2265,
+      "sharpe": 2.627,
+      "mdd_pct": -2.3419
+     },
+     "price_pp": 0.5598,
+     "dd_saved_pp": 0.7063,
+     "n_kills": 1,
+     "flat_share_pct": 4.09,
+     "avg_flat_days": 43.0,
+     "money_price_cny_per_year": 5598.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.5731,
+      "ann_mean_pct": 8.2805,
+      "ann_vol_pct": 3.2819,
+      "sharpe": 2.5231,
+      "mdd_pct": -3.6677
+     },
+     "price_pp": 0.774,
+     "dd_saved_pp": -0.6195,
+     "n_kills": 1,
+     "flat_share_pct": 1.9,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 7740.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.842,
+      "ann_mean_pct": 8.5291,
+      "ann_vol_pct": 3.3175,
+      "sharpe": 2.571,
+      "mdd_pct": -3.7338
+     },
+     "price_pp": 0.5051,
+     "dd_saved_pp": -0.6856,
+     "n_kills": 1,
+     "flat_share_pct": 0.76,
+     "avg_flat_days": 8.0,
+     "money_price_cny_per_year": 5051.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 8.5393,
+      "ann_mean_pct": 8.2486,
+      "ann_vol_pct": 3.2574,
+      "sharpe": 2.5323,
+      "mdd_pct": -3.2982
+     },
+     "price_pp": 0.8078,
+     "dd_saved_pp": -0.25,
+     "n_kills": 1,
+     "flat_share_pct": 3.71,
+     "avg_flat_days": 39.0,
+     "money_price_cny_per_year": 8078.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    }
+   },
+   "train": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.2675,
+      "ann_mean_pct": 4.1928,
+      "ann_vol_pct": 1.6427,
+      "sharpe": 2.5523,
+      "mdd_pct": -0.663
+     },
+     "price_pp": 0.5862,
+     "dd_saved_pp": -0.0749,
+     "n_kills": 3,
+     "flat_share_pct": 5.7,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 5862.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.4976,
+      "ann_mean_pct": 4.4142,
+      "ann_vol_pct": 1.7031,
+      "sharpe": 2.5918,
+      "mdd_pct": -0.7877
+     },
+     "price_pp": 0.3561,
+     "dd_saved_pp": -0.1996,
+     "n_kills": 3,
+     "flat_share_pct": 0.57,
+     "avg_flat_days": 10.0,
+     "money_price_cny_per_year": 3561.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.4023,
+      "ann_mean_pct": 4.3229,
+      "ann_vol_pct": 1.7002,
+      "sharpe": 2.5426,
+      "mdd_pct": -0.9178
+     },
+     "price_pp": 0.4514,
+     "dd_saved_pp": -0.3297,
+     "n_kills": 3,
+     "flat_share_pct": 1.99,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 4514.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 43.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 8.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 1,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 39.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "filtered": {
+      "days": 351,
+      "years": 1.439,
+      "cagr_pct": 4.8537,
+      "ann_mean_pct": 4.7549,
+      "ann_vol_pct": 1.728,
+      "sharpe": 2.7517,
+      "mdd_pct": -0.5881
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    }
+   },
+   "test": {
+    "0.4sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.5545,
+      "ann_mean_pct": 11.0029,
+      "ann_vol_pct": 3.6418,
+      "sharpe": 3.0212,
+      "mdd_pct": -1.4148
+     },
+     "price_pp": 0.1143,
+     "dd_saved_pp": 1.6334,
+     "n_kills": 3,
+     "flat_share_pct": 5.71,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 1143.0
+    },
+    "0.4sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.2869,
+      "ann_mean_pct": 9.8633,
+      "ann_vol_pct": 3.7404,
+      "sharpe": 2.6369,
+      "mdd_pct": -4.0812
+     },
+     "price_pp": 1.3819,
+     "dd_saved_pp": -1.033,
+     "n_kills": 3,
+     "flat_share_pct": 3.99,
+     "avg_flat_days": 10.0,
+     "money_price_cny_per_year": 13819.0
+    },
+    "0.4sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.2354,
+      "ann_mean_pct": 9.8153,
+      "ann_vol_pct": 3.7082,
+      "sharpe": 2.6469,
+      "mdd_pct": -3.7132
+     },
+     "price_pp": 1.4334,
+     "dd_saved_pp": -0.665,
+     "n_kills": 3,
+     "flat_share_pct": 6.7,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 14334.0
+    },
+    "0.6sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.1287,
+      "ann_mean_pct": 10.6263,
+      "ann_vol_pct": 3.8033,
+      "sharpe": 2.794,
+      "mdd_pct": -2.1042
+     },
+     "price_pp": 0.5401,
+     "dd_saved_pp": 0.944,
+     "n_kills": 1,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 5401.0
+    },
+    "0.6sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.2444,
+      "ann_mean_pct": 10.7306,
+      "ann_vol_pct": 3.8067,
+      "sharpe": 2.8188,
+      "mdd_pct": -2.1042
+     },
+     "price_pp": 0.4244,
+     "dd_saved_pp": 0.944,
+     "n_kills": 1,
+     "flat_share_pct": 2.57,
+     "avg_flat_days": 18.0,
+     "money_price_cny_per_year": 4244.0
+    },
+    "0.6sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.812,
+      "ann_mean_pct": 10.339,
+      "ann_vol_pct": 3.7542,
+      "sharpe": 2.754,
+      "mdd_pct": -2.3419
+     },
+     "price_pp": 0.8568,
+     "dd_saved_pp": 0.7063,
+     "n_kills": 1,
+     "flat_share_pct": 6.13,
+     "avg_flat_days": 43.0,
+     "money_price_cny_per_year": 8568.0
+    },
+    "0.8sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.4848,
+      "ann_mean_pct": 10.0458,
+      "ann_vol_pct": 3.8263,
+      "sharpe": 2.6255,
+      "mdd_pct": -3.6677
+     },
+     "price_pp": 1.184,
+     "dd_saved_pp": -0.6195,
+     "n_kills": 1,
+     "flat_share_pct": 2.85,
+     "avg_flat_days": 20.0,
+     "money_price_cny_per_year": 11840.0
+    },
+    "0.8sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.8956,
+      "ann_mean_pct": 10.4189,
+      "ann_vol_pct": 3.8713,
+      "sharpe": 2.6913,
+      "mdd_pct": -3.7338
+     },
+     "price_pp": 0.7732,
+     "dd_saved_pp": -0.6856,
+     "n_kills": 1,
+     "flat_share_pct": 1.14,
+     "avg_flat_days": 8.0,
+     "money_price_cny_per_year": 7732.0
+    },
+    "0.8sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 10.4331,
+      "ann_mean_pct": 9.9979,
+      "ann_vol_pct": 3.7948,
+      "sharpe": 2.6346,
+      "mdd_pct": -3.2982
+     },
+     "price_pp": 1.2357,
+     "dd_saved_pp": -0.25,
+     "n_kills": 1,
+     "flat_share_pct": 5.56,
+     "avg_flat_days": 39.0,
+     "money_price_cny_per_year": 12357.0
+    },
+    "1.0sig_cooldown20": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_half": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "1.0sig_shadow_new_high": {
+     "baseline": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 701,
+      "years": 2.873,
+      "cagr_pct": 11.6688,
+      "ann_mean_pct": 11.117,
+      "ann_vol_pct": 3.9484,
+      "sharpe": 2.8156,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    }
+   },
+   "textbook_lines": {
+    "L04_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L06_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L08_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    },
+    "L10_cooldown20": {
+     "baseline": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "filtered": {
+      "days": 1052,
+      "years": 4.311,
+      "cagr_pct": 9.3471,
+      "ann_mean_pct": 8.9943,
+      "ann_vol_pct": 3.3786,
+      "sharpe": 2.6622,
+      "mdd_pct": -3.0482
+     },
+     "price_pp": 0.0,
+     "dd_saved_pp": 0.0,
+     "n_kills": 0,
+     "flat_share_pct": 0.0,
+     "avg_flat_days": 0.0,
+     "money_price_cny_per_year": 0.0
+    }
+   }
+  }
+ },
+ "verdict": "KILL_RULE_PAYS_LESS_THAN_IT_SAVES",
+ "ordering": "ORDERING_IS_IN_SAMPLE_ONLY",
+ "best_pair_in_sample": null,
+ "best_pair_full": "IM:0.4sig_cooldown20",
+ "ok": true,
+ "inputs_digest": "2da38ca5c0401cf772ab6de8f6d864b6daf2dcd40b9193f9390864e88ef21f34",
+ "note": "price of a stop is an UPPER bound: flat days earn 0 excess while real margin cash earns repo"
+}
