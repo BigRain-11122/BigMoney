@@ -2622,5 +2622,17 @@
   "note": "path-limited commit; ~200 peer-modified faces left untouched"
  },
  "active_lane": "paper: basis timing cost split + ledger duplicate returns",
- "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）"
+ "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
+ "送达自证_r2134": {
+  "sha": "91fa8a55f8",
+  "prev": "e1335a536a",
+  "ahead_behind": "0\t0",
+  "paths_on_origin": [
+   "qa/paper-basis-timing-ledger-dup-r2134.md",
+   "research/PAPER_BASIS_TIMING_COST_SPLIT.md",
+   "results/paper_basis_timing_cost_split.json",
+   "scripts/paper_basis_timing_cost_split.py"
+  ],
+  "note": "path-limited commit; the peer host's ~200 modified faces were neither staged nor committed; the batch was 7 files (4 new + 3 bookkeeping)"
+ }
 }
