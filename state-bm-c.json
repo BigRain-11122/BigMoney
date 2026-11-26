@@ -59,7 +59,7 @@
  "carrier_debt_r2140": "竞争窗 rc=3（对端 interactive pid=107624 自 11:49 存活）：S6 链与全量冒烟连续第 9 轮未跑，如实记",
  "chain": "r1925 targeted: 6/6 rc0 (cash_roll_today, ceo_live_usage, daily_report, live_usage_day_words, daily_report_day_words, live_book_day_words) + 19/19 rc0 (dualrun ZERO-DRIFT streak 51, compute_audit FLAG pool_starvation+supply_floor (calendar, Sunday), py_watermark ok, update_daily ok, market_regime ok, data_lane_freshness verdict=attention (11 in sync / 3 behind 1d), face_input_staleness FRESH, build_status, token_meter, machine_health_write, etf_book_ceo_page, page_repeat_guard 0 repeated, reader_text_audit, update_repo no-op (lane back to bm-a), regime_thermo no-op, regime_dualarm no-op, minute_feed non-workday, t35_export, scorecard_daily)",
  "chain_note": "r2145: competitor host still live (contention rc=3) -> new-file faces only; S6 chain not run for the 14th consecutive round (honest debt)",
- "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在，重叠窗 19 张共享面不可归因），按 r1907 同树多宿主律只落新增文件面。全量冒烟在分离进程内跑完整（34 分钟）：**771/783 PASS · 11 FAIL · 1 UNVERIFIED**，11 红分三族——面代差 3 条（etf_book_year_gate / swap freshness ×2）、超时 1 条（etf_book_production selftest >300s；同轮 4 腿 >180s，套件在负载机上关不进一轮）、CEO 一页纸内容缺 6 条（页面在盘上仍是旧渲染）+ 确定性腿 1 条（lag 小数）",
+ "chain_verdict": "本轮未跑 S6 链：repo_write_contention rc=3（对端 interactive 宿主 pid 107624 仍在，重叠 2 张共享面不可归因），按 r1907 同树多宿主律只落新增文件面。r2147 面 etf_book_flip_reach 只有 selftest 5/5 + check ok，未入链（连续第 16 轮欠账）。",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -1286,6 +1286,39 @@
   "tool": "scripts/etf_book_cadence_regime_split.py",
   "words_8bp": "REGIME_DOMINATES | BOTH_CHANNELS_READ"
  },
+ "r2147": {
+  "exposures_as_traded": [
+   {
+    "from": "2022-03-28",
+    "ret_pct": -52.4001,
+    "symbol": "sh513500",
+    "to": "2022-04-27"
+   },
+   {
+    "from": "2025-06-18",
+    "ret_pct": -46.9706,
+    "symbol": "sh512800",
+    "to": "2025-07-16"
+   }
+  ],
+  "face": "etf_book_flip_reach",
+  "money": {
+   "cagr_as_traded": 0.0981,
+   "cagr_repaired": 0.1096,
+   "dcagr_pp": -1.15,
+   "dsharpe": -0.124,
+   "maxdd": -0.1056,
+   "sharpe_as_traded": 0.959,
+   "sharpe_repaired": 1.083,
+   "y2025_as_traded_pct": 33.1092,
+   "y2025_repaired_pct": 43.0627
+  },
+  "panel_columns_with_a_flip": 159,
+  "panel_flip_bars": 169,
+  "publication": "new-file only (repo_write_contention rc=3); no S6 leg, no shared-face edit",
+  "r2146_named_symbols_in_universe": 0,
+  "verdict": "FLIP_REACHES_MONEY"
+ },
  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
  "r902_wm_heal_note": "r902 heal: r901 dead-session lost state write; TRUE consumed dec=67403afa (@690a0c31e 00:11:42, rows D-20261012-01 verification-batch core incl bigmoney tail-actuals zero-action + D-20261012-02 gap-case-withdrawal + fetch-pre-legislation CANDIDATE already standing practice) / ord=33aee170; r901 commit-msg dec 358ba69b = PHANTOM value not in blob history (corrupt-face 4th instance, r863/r894/r897 lineage) -- healed programmatically from live origin blobs, assert-verified before write",
@@ -1639,7 +1672,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2146,
+ "round_no": 2147,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
