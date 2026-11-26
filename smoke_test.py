@@ -16042,6 +16042,98 @@ def _legs_supply_and_book():
         check("product: the dial face's numbers, bar and leg hold together",
               False, repr(e)[:180])
 
+    # r2122: r1783 in one sentence -- `scripts/carry_risk_dial_vs_book.py` was named by a chain
+    # leg *and* by two smoke legs while sitting untracked on the author's disk.  Every leg that
+    # names it ran green here and would have failed on a fresh clone, which is the one machine
+    # nobody runs by hand.  The predicate asks one cheap question: does every script a leg
+    # names travel with the repo (origin/main) or at least sit staged for the commit that
+    # follows this run?
+    try:
+        _bad100 = unwired_script_problems()
+        check("fleet: every script a leg names travels with the repo",
+              not _bad100, "; ".join(_bad100)[:240]
+              or "every script named by a chain/smoke leg is in origin/main or staged")
+        _neg100 = unwired_script_problems(
+            legs=[("probe", ["python", "scripts/__r2122_not_in_git__.py"])],
+            root=os.path.dirname(os.path.abspath(__file__)),
+            tracked_set=set(), staged_set=set(), scan_own=False)
+        check("fleet: the wiring predicate speaks on a wired-but-untracked script",
+              len(_neg100) == 1 and "__r2122_not_in_git__" in _neg100[0],
+              "negative control: %r" % (_neg100,))
+    except Exception as e:
+        check("fleet: every script a leg names travels with the repo", False, repr(e)[:180])
+
+
+def unwired_script_problems(legs=None, root=None, tracked_set=None, staged_set=None,
+                            scan_own=True):
+    """Problems with a script a leg names but git does not carry (r2122 / r1783 family).
+
+    The chain lands before the object it points at: a round adds `("x", ["python",
+    "scripts/x.py", "check"], [...])` to `Tools/s6_chain_bmc.py`, adds the matching smoke
+    leg, runs both green on the author's disk -- and never commits `scripts/x.py`.  Nothing
+    goes red, because every writer holds the file locally; the first machine to clone runs
+    three legs against a path that does not exist.
+
+    Reads the legs themselves rather than a list somebody maintains, and accepts a path when
+    origin/main carries it **or** the index has it staged: staging counts because the commit
+    that follows the smoke run is the delivery, so a wiring round reads honest-red before it
+    stages and green after (the alternative -- checking only the working tree -- cannot tell
+    "written here" from "travels with the repo", which is the whole question).
+    """
+    root = root or os.path.dirname(os.path.abspath(__file__))
+
+    def _git(*args):
+        # encoding pinned: this repo's path list is UTF-8 and the console default (GBK on
+        # this host) raises on the first non-ASCII name, leaving stdout=None.
+        return subprocess.run(["git", "-C", root] + list(args),
+                              capture_output=True, encoding="utf-8", errors="replace")
+
+    if tracked_set is None:
+        r = _git("ls-tree", "-r", "--name-only", "origin/main")
+        if r.returncode != 0:
+            return []  # no reference tree here: claim nothing rather than invent a verdict
+        tracked_set = set(x.strip().replace("\\", "/")
+                          for x in r.stdout.splitlines() if x.strip())
+    if staged_set is None:
+        r = _git("diff", "--cached", "--name-only")
+        staged_set = set(x.strip().replace("\\", "/")
+                         for x in r.stdout.splitlines() if x.strip())
+
+    refs = set()
+    if legs is None:
+        legs = [tuple(t) for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+    for leg in legs:
+        for cmd in list(leg[1:3]):
+            for part in cmd or []:
+                if isinstance(part, str) and part.startswith("scripts/") and part.endswith(".py"):
+                    refs.add(part)
+    prose = set()
+    if scan_own:
+        try:
+            own = open(os.path.join(root, "smoke_test.py"), encoding="utf-8").read()
+        except OSError:
+            own = ""
+        for name in re.findall(
+                r"os\.path\.join\([\"']scripts[\"'],\s*[\"']([A-Za-z0-9_.-]+\.py)[\"']\)", own):
+            refs.add("scripts/" + name)
+        prose.update(re.findall(r"[\"'](scripts/[A-Za-z0-9_./-]+\.py)[\"']", own))
+
+    bad = []
+    for rel in sorted(refs | prose):
+        if rel in tracked_set or rel in staged_set:
+            continue
+        on_disk = os.path.exists(os.path.join(root, rel.replace("/", os.sep)))
+        # A literal that appears only in this file's prose (a docstring example, a negative
+        # control's fake name) names nothing that will ever be executed; it is trusted only
+        # when the file is actually there.  A leg's own argument is authoritative either way.
+        if rel not in refs and not on_disk:
+            continue
+        bad.append("%s (%s)" % (
+            rel,
+            "on this disk but not in git -- a clone runs it and fails" if on_disk
+            else "named by a leg and absent everywhere"))
+    return bad
+
 
 def carry_dial_problems(face=None, results_dir=None, legs=None, doc_path=None):
     """Problems with the risk-dial paper (r2119).

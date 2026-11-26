@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-26",
- "generated": "2026-11-26T07:48:35",
+ "generated": "2026-11-26T08:24:45",
  "market": {
   "state": "RED",
   "asof": "2026-11-25",
@@ -580,7 +580,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71906.8
+    "last_append_age_min": 71943.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -588,7 +588,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72751.3
+    "last_append_age_min": 72787.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -596,7 +596,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 69544.6
+    "last_append_age_min": 69580.7
    }
   ]
  },
@@ -1941,6 +1941,45 @@
   "evidence_cutoff": "2026-11-25",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
+ },
+ "carry_dial": {
+  "present": true,
+  "path": "results/carry_risk_dial_vs_book.json",
+  "generated": "2026-11-26T05:53:07+08:00",
+  "cutoff": "2026-11-25",
+  "rung": "1/1",
+  "verdict": "DIAL_FITS_THE_BEST_SESSION_ONLY",
+  "verdict_same_size": "SAME_SIZE_BREACHES_THE_WORST_SESSION",
+  "vol_pct": 14.0528,
+  "ann_pct": 27.1913,
+  "bars": 1052,
+  "span": [
+   "2022-07-25",
+   "2026-11-25"
+  ],
+  "equity_weight": 0.4347,
+  "dial_pct": 8.0,
+  "vol_cny": 140528.0,
+  "capital_cny": 1756600.0,
+  "multiple": 1.7566,
+  "excess_pp": 6.0528,
+  "ann_at_capital_pct": 15.4795,
+  "cost_pp": 11.7118,
+  "lower_cny": 1756600.0,
+  "upper_today_cny": 2436420.15,
+  "upper_median_cny": 1142111.64,
+  "upper_worst_cny": 784075.82,
+  "sleeve_weight_median": 0.282635,
+  "today_bar": "2026-11-25",
+  "sleeve_cny": 434700.0,
+  "same_size_today_pct": 41.0438,
+  "same_size_median_pct": 87.5571,
+  "same_size_worst_pct": 127.5387,
+  "upstream_cutoffs": {
+   "capacity_edge": "2026-11-25",
+   "rebudget_floor": null,
+   "rent_by_component": "2026-11-25"
+  }
  },
  "carry_timing": {
   "present": true,

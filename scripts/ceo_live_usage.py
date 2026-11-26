@@ -264,6 +264,15 @@ CARRY_RISK_REL = "results/idx_fut_carry_risk.json"
 # reader to trust a number whose evidence may be gone.
 CARRY_MARKS_JSON = os.path.join(ROOT, "results", "futures_book_marks.json")
 CARRY_MARKS_REL = "results/futures_book_marks.json"
+# r2122: the carry section prices the entry capital line and the margin arm, but it
+# never says what the *8 % volatility figure printed beside this book* actually cost:
+# the book's own ledger measures 14.05 % annual vol over 1052 bars, so "8 %" is a
+# target the current capital cannot reach.  The dial face answers one question -- how
+# much money makes the measured risk 8 % -- and the reader who saw the margin arm
+# called "not the gate" has been told the vol ruler bites first without being told
+# the price of obeying it (r1779: an unpriced ruler is not a decision).
+CARRY_DIAL_JSON = os.path.join(ROOT, "results", "carry_risk_dial_vs_book.json")
+CARRY_DIAL_REL = "results/carry_risk_dial_vs_book.json"
 # r1867: every IC/IM quote above comes out of data/futures_contracts, and until now
 # the page never said what that panel is.  418 CSVs sit there; 335 ever printed a
 # bar, 327 stopped on an expiry, 83 never printed at all -- so "the panel is big"
@@ -1074,6 +1083,64 @@ def _carry_book_face():
         "evidence_cutoff": d.get("evidence_cutoff"),
         "source_face": d.get("source_face"),
         "ladder_face": d.get("ladder_source_face"),
+    }
+
+
+def _carry_dial_face():
+    """r2122: what the "8 %" beside this book costs, and where the window is open.
+
+    The carry block above prints the entry capital line and calls the margin arm "not
+    the gate" -- the 8 % volatility ruler is what bites first.  Until now the page never
+    printed the two halves of that sentence: the book's measured vol (14.05 % on 1052
+    bars) and the capital at which that same vol *is* 8 % of the money (1,756,600 元,
+    1.76x today's lens).  A reader who saw "8 %" and an entry line could believe the
+    risk was already 8 %.
+
+    Read-only, zero new judgment: the vol and the compound return are the rent face's
+    readings, the 8 % is the adopted dial, and the window bounds are the capacity face's
+    own sessions.  Both readings of the sleeve (weights vs same size) travel with their
+    own verdict -- the face refuses to merge them, and so does this block.
+    """
+    d = _read_json(CARRY_DIAL_JSON)
+    if not d:
+        return {"present": False, "path": CARRY_DIAL_REL,
+                "note": "旋钮面未产出（缺面不读 0：读不到不等于风险正好是 8%）"}
+    book = d.get("book") or {}
+    dial = d.get("dial") or {}
+    win = d.get("dial_window") or {}
+    cap = d.get("capacity") or {}
+    same = cap.get("same_size_reading") or {}
+    return {
+        "present": True,
+        "path": CARRY_DIAL_REL,
+        "generated": d.get("generated"),
+        "cutoff": d.get("evidence_cutoff"),
+        "rung": d.get("rung"),
+        "verdict": d.get("verdict"),
+        "verdict_same_size": d.get("verdict_same_size"),
+        "vol_pct": book.get("vol_pct"),
+        "ann_pct": book.get("ann_compound_pct"),
+        "bars": book.get("days"),
+        "span": book.get("span") or [],
+        "equity_weight": book.get("equity_weight"),
+        "dial_pct": dial.get("pct"),
+        "vol_cny": dial.get("vol_money_cny_per_year"),
+        "capital_cny": dial.get("capital_where_risk_is_dial_cny"),
+        "multiple": dial.get("multiple_of_lens_nav"),
+        "excess_pp": dial.get("excess_over_dial_pp"),
+        "ann_at_capital_pct": dial.get("return_at_that_capital_pct"),
+        "cost_pp": dial.get("cost_of_the_dial_pp"),
+        "lower_cny": win.get("lower_cny"),
+        "upper_today_cny": win.get("upper_today_cny"),
+        "upper_median_cny": win.get("upper_median_cny"),
+        "upper_worst_cny": win.get("upper_worst_cny"),
+        "sleeve_weight_median": win.get("sleeve_weight_that_would_fit_at_dial_capital_median"),
+        "today_bar": cap.get("today_bar"),
+        "sleeve_cny": cap.get("sleeve_money_cny"),
+        "same_size_today_pct": (same.get("today") or {}).get("share_of_line_pct"),
+        "same_size_median_pct": (same.get("median") or {}).get("share_of_line_pct"),
+        "same_size_worst_pct": (same.get("worst") or {}).get("share_of_line_pct"),
+        "upstream_cutoffs": d.get("upstream_cutoffs") or {},
     }
 
 
@@ -2727,6 +2794,7 @@ def build_payload(day: str) -> dict:
         "idle_cash": _idle_cash_face(),
         "book_identity": _book_identity_face(),
         "carry_book": _carry_book_face(),
+        "carry_dial": _carry_dial_face(),
         "carry_timing": _carry_timing_face(),
         "carry_membership": _carry_membership_face(),
         "carry_margin": _carry_margin_face(),
@@ -4232,6 +4300,45 @@ def render_md(p: dict) -> str:
                  f"{cb.get('source_generated')}｜cutoff "
                  f"{cb.get('evidence_cutoff')}｜尺子 "
                  f"`{cb.get('source_face')}`／`{cb.get('ladder_face')}`")
+    # ---- r2122: "8 %" 在这本书上是多少钱（保证金不是门槛 → 波动尺先咬住 → 咬住的价格）
+    cd = p.get("carry_dial") or {}
+    if not cd.get("present"):
+        L.append(f"- 「8% 波动」在这本书上是多少钱：{cd.get('note') or '旋钮面未产出'}"
+                 f"（指针 `{cd.get('path')}`）")
+    else:
+        _span = cd.get("span") or []
+        L.append(
+            f"- **「8% 波动」在这本书上是 {cd.get('vol_pct'):.2f}% 的实际值、"
+            f"一年 {cd.get('vol_cny'):,.0f} 元**：账本 "
+            f"{cd.get('bars')} 根 bar 实测年波动 "
+            f"{cd.get('vol_pct'):.2f}%、比 {cd.get('dial_pct'):.0f}% 高 "
+            f"{cd.get('excess_pp'):.2f}pp——**所以先咬住的是波动尺，"
+            "而这句话本身有价钱**")
+        L.append(
+            f"  - 要让它真的等于 {cd.get('dial_pct'):.0f}%，资本得是 "
+            f"**{cd.get('capital_cny'):,.0f} 元**（是这本书净值的 {cd.get('multiple'):.2f} 倍）；"
+            f"代价是账面年化从 {cd.get('ann_pct'):.2f}% 摊薄到 "
+            f"**{cd.get('ann_at_capital_pct'):.2f}%**（少 {cd.get('cost_pp'):.2f}pp），"
+            "夏普两边一样——**8% 是尺码，不是质量**")
+        L.append(
+            f"  - 这笔资本摆不摆得下，要看权益袖自己的 1% ADV 线：最松的那个 session 容得下"
+            f"（窗口 [{cd.get('lower_cny'):,.0f} , {cd.get('upper_today_cny'):,.0f}]），"
+            f"中位 session 只到 {cd.get('upper_median_cny'):,.0f}、最紧的一个 "
+            f"{cd.get('upper_worst_cny'):,.0f}——**窗口在最松的那天才开着**"
+            f"（{cd.get('verdict')}）")
+        L.append(
+            f"  - 换个读法（这本书就是这个钱数、只做稀释）答案不一样：袖子的 "
+            f"{cd.get('sleeve_cny'):,.0f} 元占那条线的 "
+            f"{cd.get('same_size_today_pct'):.2f}%、中位 session "
+            f"{cd.get('same_size_median_pct'):.2f}%、最紧的一个 "
+            f"**{cd.get('same_size_worst_pct'):.2f}%**——"
+            f"**两种读法不合并**（{cd.get('verdict_same_size')}）；"
+            f"想在中位 session 上也开着，袖子权重得从 "
+            f"{cd.get('equity_weight'):.4f} 压到 {cd.get('sleeve_weight_median'):.4f}")
+        _cuts = cd.get("upstream_cutoffs") or {}
+        L.append(f"  - 出处：`{cd.get('path')}`（generated {cd.get('generated')}"
+                 f"·cutoff {cd.get('cutoff')}·档 {cd.get('rung')}"
+                 f"·上游租金/容量两面具见下一节·地板 {_cuts.get('rebudget_floor') or '面未声明'}）")
     fp = p.get("futures_panel") or {}
     if not fp.get("present"):
         L.append(f"- 合约盘家底：{fp.get('note') or '来源面未产出'}"

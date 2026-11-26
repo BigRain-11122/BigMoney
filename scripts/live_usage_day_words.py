@@ -121,6 +121,28 @@ CLAIM_RULES = [
     (re.compile(r"idx_fut_carry_open_capital\.json`?｜generated " + _D +
                 r"T[\d:+]*(?:[+\-]\d{2}:\d{2})?｜cutoff " + _D),
      ["carry_book.source_generated", "carry_book.evidence_cutoff"]),
+    # r2122: the 8 % dial block prints its own write stamp and its bar in one provenance
+    # line (r1781: a cross-script section must stamp itself). Both dates come from fields
+    # the page already holds, so this is a mapping rule, not a content change.
+    (re.compile(r"carry_risk_dial_vs_book\.json`?（generated " + _D + r"T[\d:+]+·cutoff " + _D),
+     ["carry_dial.generated", "carry_dial.cutoff"]),
+    # r2122: section ⓪ is the first thing a reader is told to look at ("先读这个"), and 20 of
+    # its dates were unclaimed -- the lane rows' own tails, the sessions they owe, and the
+    # conclusion sentence that names the reference day twice.  The tail is a field on the lane
+    # row (mapped by lane name); the owed days are the official calendar's sessions between
+    # that tail and the reference day, so they are classified by _unmapped_classifier rather
+    # than passed (a date that quietly joins the green bucket is the r1671 defect).
+    (re.compile(r"`(?P<lane>[A-Za-z0-9_]+)`（属主 [^·]+·尾 " + _D),
+     ["data_lanes.rows[lane={lane}].tail"]),
+    (re.compile(r"结论：本页\*\*不是\*\* " + _D + r" 收盘后的读数.{0,220}?读成 " + _D),
+     ["freshness.expected_bar", "freshness.expected_bar"]),
+    # r2122: the permission block (r2121) printed the lot bar, the elected receipt's cutoff
+    # and its provenance without rules -- a reader could not check any of the three dates.
+    (re.compile(r"整手面在 " + _D + r" 读 \*\*"), ["etf_permission.lot_bar"]),
+    (re.compile(r"哪张回执说话：\*\*[^*]+\*\*（cutoff " + _D + r"）"),
+     ["etf_permission.permission_cutoff"]),
+    (re.compile(r"etf_book_permission_vs_size\.json`?（generated " + _D + r"T[\d:+]+·cutoff " + _D),
+     ["etf_permission.generated", "etf_permission.cutoff"]),
     (re.compile(r"（" + _D + r" → " + _D + r"，账面零成交）"),
      ["etf_order.delta.current_bar", "etf_order.delta.declaration_bar"]),
     (re.compile(r"账上那本按 " + _D + r" 的价、票面按 " + _D + r" 的价"),
@@ -324,6 +346,21 @@ def _unmapped_classifier(rec):
     for m in _FILE_DATE.finditer(line):
         if date in m.group(0):
             return "identifier"
+    # r2122: the lane rows list the sessions they owe ("欠 N 个会话：<day>、<day>…").  Those
+    # days are the official calendar's sessions between that lane's own tail and the page's
+    # reference day -- not a field any lane publishes -- so they are counted and printed
+    # beside the checked dates instead of being passed as checked.
+    if "属主" in line and re.search(r"欠 \d+ 个会话：", line):
+        return "owed_sessions"
+    # r2122: three more families print dates this page does not originate, so they are
+    # counted under the reason that keeps them unchecked -- quoting a producer's own
+    # sentence is not the same as this page being able to verify the day (r1471).
+    if "未定稿 bar：" in line:
+        return "provisional_bars"
+    if "哪张回执说话" in line:
+        return "receipt_ledger"
+    if "读数陈旧" in line or "帽子的价目表" in line:
+        return "quoted_producer_sentence"
     return None
 
 # Dates that are rule constants, not data claims: 月界（2026-10-01）is when a gate opens, and
