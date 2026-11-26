@@ -1514,6 +1514,17 @@ LEGS = [
     ("etf_book_closed_axes",
      ["python", "scripts/etf_book_closed_axes.py", "--check"],
      ["python", "scripts/etf_book_closed_axes.py", "run"]),
+    # r2122: the k-gap section (how many whole lots the sheet could not buy, and which name
+    # is cheapest to top up) had no writer on this chain at all -- `etf_book_k_gap.py`
+    # existed and published a bar, and nothing re-ran it, so the section sat five sessions
+    # behind the order sheet while the page printed its numbers beside today's (r1282/r1322
+    # class: a face a human last ran).  It sits BEFORE the page leg because the page prints
+    # this section: a writer after its reader is one pass behind every round (r1781).
+    # The script re-derives from the ticket in ~1s and has no separate check mode, so check
+    # and run are the same command.
+    ("etf_book_k_gap",
+     ["python", "scripts/etf_book_k_gap.py"],
+     ["python", "scripts/etf_book_k_gap.py"]),
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # r1834: the overnight-diff face priced the two most recent day pages, and the page above
     # is one of them -- but it had no producer here, so every chain run that regenerated the

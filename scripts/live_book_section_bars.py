@@ -409,7 +409,12 @@ LEG_ALIASES = {"leg_split": ["etf_book_leg_attribution"],
                # page leg rebuilds on every pass. Their bar stays on the futures panel's own
                # last bar, which is a data-lane lag (11-19 today), not a missing writer.
                "futures_hedge": ["etf_book_ceo_page"],
-               "futures_hedge_tail": ["etf_book_ceo_page"]}
+               "futures_hedge_tail": ["etf_book_ceo_page"],
+               # r2122: the k-gap section's face is named `etf_book_k_gap` while the section
+               # key is `k_gap` -- five characters, below MIN_NAME_FOR_MATCH, so the name
+               # probe could never see it and the section read "no chain leg re-runs it"
+               # about a face the chain now re-runs every pass.
+               "k_gap": ["etf_book_k_gap"]}
 
 
 def probes_for(key, section):
