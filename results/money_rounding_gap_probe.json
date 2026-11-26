@@ -1,0 +1,64 @@
+{
+ "schema": "r2126-buffer-gap-probe/1",
+ "probe": "Tools/money_rounding_gap.py",
+ "question": "the width-ladder leg has been red every round on the buffer read-back -- is the face wrong, or is the assertion wider than the ruler it is applied to?",
+ "evidence_cutoff": "2026-10-29",
+ "verdict": "LEG_UNREACHABLE_BY_ROUNDING_STEP",
+ "leg": {
+  "status": "OK",
+  "face": "results/etf_book_buffer_floor_readback.json",
+  "verdict_on_face": "REFUTED",
+  "observed_pp": 0.748,
+  "predicted_pp": 0.298,
+  "gap_pp": 0.449,
+  "tolerance_pp": 0.057,
+  "gap_rebuilt_from_published_ends": 0.45,
+  "deviation": 0.0010000000000000009,
+  "rounding_step_3dp": 0.001,
+  "half_step_3dp": 0.0005,
+  "leg_tolerance": 1e-09,
+  "passes_at_leg_tolerance": false,
+  "passes_at_rounding_step": true,
+  "diagnosis": "the face rounds both ends and the difference separately; two 3-dp ends reproduce that difference to at most one step, so a 1e-9 assertion is unreachable on this shape",
+  "counterfactual_tolerance_that_passes": 0.001
+ },
+ "family_scan": {
+  "pairs_checked": 2,
+  "hits": [
+   {
+    "face": "results\\etf_book_buffer_floor_readback.json",
+    "difference_key": "gap_pp",
+    "ends": [
+     "observed_pp",
+     "predicted_pp"
+    ],
+    "ends_values": [
+     0.748,
+     0.298
+    ],
+    "published_difference": 0.449,
+    "rebuilt_from_published_ends": 0.45,
+    "deviation": 0.0010000000000000009,
+    "explained_by_rounding_step": true
+   }
+  ]
+ },
+ "unexplained_hits": [],
+ "repair_options": [
+  {
+   "option": "widen the leg to the rounding step",
+   "where": "smoke_test.py :: width ladder leg",
+   "change": "1e-9 -> 2 * 5e-4 (the step two 3-dp ends can differ by)",
+   "pro": "one constant; keeps the arithmetic contract testable",
+   "con": "a face that stops rounding would lose exactness (nothing detects it)"
+  },
+  {
+   "option": "publish the unrounded ends",
+   "where": "scripts/etf_book_phase_atlas_arms.py :: readback_of",
+   "change": "add observed_pp_raw / predicted_pp_raw / gap_pp_raw",
+   "pro": "the difference becomes exactly rebuildable; the leg can stay at 1e-9",
+   "con": "a second set of numbers on the face that must not be read as the headline"
+  }
+ ],
+ "recommended": "both, in this order: publish the raw ends so the arithmetic is exactly checkable, then have the leg prefer raw when present and fall back to the rounding step when it is not"
+}

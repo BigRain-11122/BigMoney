@@ -1,0 +1,19 @@
+{
+ "schema": "r2126-buffer-gap-fix/1",
+ "ts": "2026-11-26T11:19:11",
+ "mode": "--check",
+ "target": "smoke_test.py",
+ "face_check": {
+  "passes_at_1e-3": true,
+  "why": "deviation 0.001000 (step 1e-3)"
+ },
+ "target_sha_before": "d5f94c117be6e81355db3d04f94a7d4ed8a06a6f4fa218b5b57ae93a898e280c",
+ "anchor_counts": {
+  "old": 1,
+  "new": 0
+ },
+ "line_before": "- float(_rb.get(\"gap_pp\"))) > 1e-9):",
+ "line_after": "- float(_rb.get(\"gap_pp\"))) > 1e-3):",
+ "rc": 0,
+ "outcome": "WOULD_PATCH"
+}
