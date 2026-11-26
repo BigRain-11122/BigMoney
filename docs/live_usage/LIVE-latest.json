@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-26",
- "generated": "2026-11-26T08:32:17",
+ "generated": "2026-11-26T09:48:28",
  "market": {
   "state": "RED",
   "asof": "2026-11-25",
@@ -55,91 +55,87 @@
    "zt": {
     "label": "涨停池",
     "status": "ok",
-    "count": 143,
-    "cutoff": "2026-11-23",
-    "prev_count": 28,
-    "prev_cutoff": "2026-11-20",
-    "asked_through": "2026-11-23",
+    "count": 51,
+    "cutoff": "2026-11-25",
+    "prev_count": 55,
+    "prev_cutoff": "2026-11-24",
+    "asked_through": "2026-11-25",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 115
+    "delta": -4
    },
    "zbgc": {
     "label": "炸板池",
     "status": "ok",
-    "count": 24,
-    "cutoff": "2026-11-23",
-    "prev_count": 7,
-    "prev_cutoff": "2026-11-20",
-    "asked_through": "2026-11-23",
+    "count": 30,
+    "cutoff": "2026-11-25",
+    "prev_count": 68,
+    "prev_cutoff": "2026-11-24",
+    "asked_through": "2026-11-25",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 17
+    "delta": -38
    },
    "dtgc": {
     "label": "跌停池",
     "status": "ok",
-    "count": 3,
-    "cutoff": "2026-11-23",
-    "prev_count": 58,
-    "prev_cutoff": "2026-11-20",
-    "asked_through": "2026-11-23",
+    "count": 43,
+    "cutoff": "2026-11-25",
+    "prev_count": 2,
+    "prev_cutoff": "2026-11-24",
+    "asked_through": "2026-11-25",
     "empty_days": [
      "2026-11-05",
      "2026-11-10",
      "2026-11-11"
     ],
     "empty_days_count": 3,
-    "delta": -55
+    "delta": 41
    },
    "strong": {
     "label": "强势池",
     "status": "ok",
-    "count": 56,
-    "cutoff": "2026-11-23",
-    "prev_count": 62,
-    "prev_cutoff": "2026-11-20",
-    "asked_through": "2026-11-23",
+    "count": 80,
+    "cutoff": "2026-11-25",
+    "prev_count": 85,
+    "prev_cutoff": "2026-11-24",
+    "asked_through": "2026-11-25",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": -6
+    "delta": -5
    }
   },
   "status": "ok",
-  "cutoff": "2026-11-23",
+  "cutoff": "2026-11-25",
   "cutoffs": [
-   "2026-11-23"
+   "2026-11-25"
   ],
   "aligned": true,
-  "seal_rate": 0.8563,
+  "seal_rate": 0.6296,
   "ladder": {
-   "1": 126,
-   "2": 14,
-   "3": 1,
-   "5": 2
+   "1": 37,
+   "2": 5,
+   "3": 6,
+   "4": 2,
+   "5": 1
   },
   "top_streak": {
    "streak": 5,
-   "n": 2,
+   "n": 1,
    "names": [
-    "真视通",
-    "盛剑科技"
+    "中京电子"
    ]
   },
-  "down_over_up": 0.021,
+  "down_over_up": 0.843,
   "kill_day": false,
   "kill_day_unavailable": null,
   "freshness": {
-   "status": "stale",
+   "status": "current",
    "expected_last_bar_day": "2026-11-25",
-   "behind_days": 2,
-   "behind": [
-    "2026-11-24",
-    "2026-11-25"
-   ],
+   "behind_days": 0,
+   "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-c",
-   "note": "读到的是 2026-11-23 的副本：最后采集日 2026-11-23，比应有最新 bar 日 2026-11-25 落后 2 个交易日（车道宿主 bm-c）"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -580,7 +576,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71950.5
+    "last_append_age_min": 72026.7
    },
    {
     "family": "FUND-VALUE-P1",
@@ -588,7 +584,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72795.0
+    "last_append_age_min": 72871.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -596,7 +592,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 69588.3
+    "last_append_age_min": 69664.5
    }
   ]
  },
@@ -2403,9 +2399,9 @@
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
-    "cutoff": "2026-11-23",
-    "owed_sessions": 2,
-    "state": "behind"
+    "cutoff": "2026-11-25",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "market",
@@ -2427,8 +2423,8 @@
     "state": "behind"
    }
   ],
-  "worst_face": "③ 风险带（zt 四面板）",
-  "worst_owed_sessions": 2,
+  "worst_face": null,
+  "worst_owed_sessions": 0,
   "unreadable": [],
   "book_panel_last_bar": "2026-11-25"
  },

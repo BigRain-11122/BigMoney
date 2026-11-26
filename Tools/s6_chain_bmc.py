@@ -2342,6 +2342,18 @@ LEGS = [
      ["python", "scripts/etf_book_permission_vs_size.py", "run"]),
     ("permission_vs_size",
      ["python", "scripts/etf_book_permission_vs_size.py", "check"]),
+    # r2124: r2121 closed the money half (no capital from 250k to 4M buys the year test
+    # down) and left the lever half open -- the frozen grid is 4 widths x 3 rebals and the
+    # year line had only ever been computed for the adopted cell. This leg prices it: the
+    # line is reachable in SHAPE (n=3 rotated every 10 bars, top-2 67.97% against 70.00%)
+    # but that book's one-day capacity at 5% participation is 0.14e8 under a 0.20e8 floor,
+    # and holding 5 names cannot reach it (70.54%, 0.54pp short). The lever is TIME: at
+    # every width R10 < R20 < R40. `check` is pure JSON reads and says STALE when the
+    # source face re-derives, so the 62s engine run is only paid on drift (r1850/r1935).
+    ("year_line_reach_write",
+     ["python", "scripts/etf_book_year_line_reach.py", "run"]),
+    ("year_line_reach",
+     ["python", "scripts/etf_book_year_line_reach.py", "check"]),
     # r1447: r1446 left one question open -- is the weight in force (0.460253) even the
     # weight of a rule that was graded? This leg re-derives the published size-provenance
     # receipt from the ticket and its own inputs (same decision grid as the ticket, beta

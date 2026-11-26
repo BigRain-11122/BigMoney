@@ -2643,6 +2643,17 @@ def main() -> int:
              "scripts/etf_book_permission_vs_size.py", ["selftest"]),
             ("product: etf_book_permission_vs_size (permission and lot words re-derived)",
              "scripts/etf_book_permission_vs_size.py", ["check"]),
+            # r2124: the year line is reachable in shape (n=3 rotated every 10 bars reads
+            # 67.97% against a 70.00% line) but that book cannot hold the money, and the
+            # 5-name book misses by 0.54pp -- so "adopt a different cell" needed a price,
+            # not an opinion. The legs pin the share definition on the published calendar,
+            # that both currencies (give-back on the best year, lift on the unfinished
+            # year) invert the line exactly, and that the verdict word is recomputed from
+            # the cells rather than hand-set.
+            ("product: etf_book_year_line_reach (which cell, if any, reaches the year line)",
+             "scripts/etf_book_year_line_reach.py", ["selftest"]),
+            ("product: etf_book_year_line_reach (verdict word re-derived from its own cells)",
+             "scripts/etf_book_year_line_reach.py", ["check"]),
             # r1447: r1446 said the caliber dispute cannot move the money but never asked
             # whether the weight in force is the weight of a graded rule. The legs pin that
             # the ticket's own decision grid is the fixed 2020-01-01 20-bar grid (not the
