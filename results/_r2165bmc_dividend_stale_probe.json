@@ -1,0 +1,27 @@
+{
+ "artifact": "dividend credit face says when the panel left it behind",
+ "bar": "r2165",
+ "legs": [
+  {
+   "leg": "the face records the bar it priced",
+   "ok": true,
+   "note": "inputs='2026-11-26' cutoff='2026-11-26'"
+  },
+  {
+   "leg": "the published face is fresh on the bar it names",
+   "ok": true,
+   "note": "rc=0 out=check ok: lag1 credit +0.33 pp/yr, coverage 26.6%, verdict DIVIDENDS_ARE_NOISE"
+  },
+  {
+   "leg": "a later panel bar reads as STALE, not as a lie",
+   "ok": true,
+   "note": "rc=3 out=check STALE: this face priced a book the panel has since left behind\n  - the panel is on bar 2027-01-01, this face priced 2026-11-26"
+  },
+  {
+   "leg": "the probe left the published face byte-identical",
+   "ok": true,
+   "note": "b9b5bfcc82f95a76 -> b9b5bfcc82f95a76"
+  }
+ ],
+ "ok": true
+}

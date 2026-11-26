@@ -1,6 +1,9 @@
 {
- "evidence_cutoff": "2026-11-24",
- "generated": "2026-11-25T07:40:09+0800",
+ "evidence_cutoff": "2026-11-26",
+ "generated": "2026-11-27T07:00:03+0800",
+ "inputs": {
+  "panel_last_bar": "2026-11-26"
+ },
  "caliber": {
   "engine": "etf_robust_pf.open_to_open_equity (rebal=20, n_hold=5, cost=10bp/side, vol_target=8%)",
   "panel_a": "as-traded prices (sina klc_kl, adjusted factor 1.0 on ETFs) -- every published number",
@@ -11,87 +14,87 @@
  "arms": {
   "price_lag0": {
    "label": "price_lag0",
-   "years": 6.89,
+   "years": 6.9,
    "start_level": 1.008,
-   "cagr": 0.1111,
+   "cagr": 0.1089,
    "vol": 0.1051,
-   "sharpe": 1.096,
+   "sharpe": 1.076,
    "maxdd": -0.1056,
-   "worst_year": 0.0025,
-   "neg_years": 0,
+   "worst_year": -0.0108,
+   "neg_years": 1,
    "worst_month": -0.043,
    "pos_months_pct": 0.598,
    "cagr_is": 0.0581,
    "sharpe_is": 0.621,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.1888,
-   "sharpe_oos": 1.727,
+   "cagr_oos": 0.183,
+   "sharpe_oos": 1.678,
    "maxdd_oos": -0.1056,
    "turnover": 1.082
   },
   "price_lag1": {
    "label": "price_lag1",
-   "years": 6.89,
+   "years": 6.9,
    "start_level": 0.9993,
-   "cagr": 0.1008,
+   "cagr": 0.0986,
    "vol": 0.1064,
-   "sharpe": 0.993,
+   "sharpe": 0.973,
    "maxdd": -0.1011,
-   "worst_year": 0.0221,
+   "worst_year": 0.0086,
    "neg_years": 0,
    "worst_month": -0.0338,
    "pos_months_pct": 0.61,
    "cagr_is": 0.0421,
    "sharpe_is": 0.463,
    "maxdd_is": -0.0986,
-   "cagr_oos": 0.1874,
-   "sharpe_oos": 1.7,
+   "cagr_oos": 0.1816,
+   "sharpe_oos": 1.651,
    "maxdd_oos": -0.1011,
    "turnover": 1.082
   },
   "with_dividends_lag0": {
    "label": "with_dividends_lag0",
-   "years": 6.89,
+   "years": 6.9,
    "start_level": 1.008,
-   "cagr": 0.1147,
+   "cagr": 0.1124,
    "vol": 0.105,
-   "sharpe": 1.129,
+   "sharpe": 1.109,
    "maxdd": -0.1031,
-   "worst_year": 0.0049,
-   "neg_years": 0,
+   "worst_year": -0.0083,
+   "neg_years": 1,
    "worst_month": -0.043,
    "pos_months_pct": 0.598,
    "cagr_is": 0.0582,
    "sharpe_is": 0.622,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.1977,
-   "sharpe_oos": 1.805,
+   "cagr_oos": 0.1918,
+   "sharpe_oos": 1.755,
    "maxdd_oos": -0.1031,
    "turnover": 1.083
   },
   "with_dividends_lag1": {
    "label": "with_dividends_lag1",
-   "years": 6.89,
+   "years": 6.9,
    "start_level": 0.9993,
-   "cagr": 0.1041,
+   "cagr": 0.1019,
    "vol": 0.1062,
-   "sharpe": 1.024,
+   "sharpe": 1.004,
    "maxdd": -0.0986,
-   "worst_year": 0.0234,
+   "worst_year": 0.0099,
    "neg_years": 0,
    "worst_month": -0.0338,
    "pos_months_pct": 0.61,
    "cagr_is": 0.0423,
    "sharpe_is": 0.464,
    "maxdd_is": -0.0986,
-   "cagr_oos": 0.1958,
-   "sharpe_oos": 1.773,
+   "cagr_oos": 0.1899,
+   "sharpe_oos": 1.723,
    "maxdd_oos": -0.0986,
    "turnover": 1.083
   }
  },
  "dividend_credit": {
-  "lag0_cagr_pp": 0.36,
+  "lag0_cagr_pp": 0.35,
   "lag0_sharpe_delta": 0.033,
   "lag0_maxdd_pp": 0.25,
   "lag1_cagr_pp": 0.33,
@@ -102,10 +105,10 @@
  },
  "verdict": "DIVIDENDS_ARE_NOISE",
  "coverage": {
-  "names_held_or_live": 125,
-  "names_with_sina_records": 56,
-  "names_paying_inside_window": 34,
-  "coverage_pct": 27.2,
+  "names_held_or_live": 124,
+  "names_with_sina_records": 55,
+  "names_paying_inside_window": 33,
+  "coverage_pct": 26.6,
   "events_dropped_as_non_cash": {
    "510230": 1,
    "512040": 1,
@@ -132,7 +135,6 @@
   "561580": 13.623,
   "513530": 12.947,
   "562060": 12.164,
-  "159307": 11.47,
   "159545": 11.14,
   "510100": 10.763,
   "517180": 9.698,
@@ -258,11 +260,6 @@
    "events": 6,
    "last_ex_date": "2026-05-08",
    "cum_per_share": 0.018
-  },
-  "159307": {
-   "events": 9,
-   "last_ex_date": "2026-09-14",
-   "cum_per_share": 0.1122
   },
   "159333": {
    "events": 16,
@@ -871,13 +868,13 @@
   }
  },
  "live_picks": {
-  "as_of": "2026-11-24",
+  "as_of": "2026-11-26",
   "picks": [
-   "159549",
    "159207",
+   "159549",
    "515300",
    "562060",
-   "159307"
+   "513690"
   ]
  }
 }

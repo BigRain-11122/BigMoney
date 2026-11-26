@@ -3103,6 +3103,14 @@ def main() -> int:
              "scripts/etf_book_swap_toll.py", ["selftest"]),
             ("product: etf_book_swap_toll (published face re-derives from the swapped book)",
              "scripts/etf_book_swap_toll.py", ["check"]),
+            # r2165: the dividend-credit face priced books on a panel two bars behind and its
+            # check kept printing "check ok" -- it only ever re-derived its own arms (the r1935
+            # class). The legs pin that the panel bar is recorded and that the check can say
+            # "the panel moved" (rc3 + STALE) as well as "my own numbers disagree" (rc1, no
+            # STALE). Only the selftest is declared here: a (check, run) chain leg owns the
+            # published face, so a rolled bar is a rebuild, never a red smoke leg.
+            ("product: etf_book_dividend_credit (says when the panel left its books behind)",
+             "scripts/etf_book_dividend_credit.py", ["selftest"]),
             # r1529: the ticket carried two tolls (0.16 in r1466, 0.32 in r1522) under one word.
             # These legs pin that the scopes re-derive from the side counts, that only the exit
             # scope may be a threshold, and that the published face still reconciles.

@@ -17898,5 +17898,31 @@ STALE / 钉旧输入 rc3 有 STALE / 同输入改一格 rc1 有 CHECK_FAIL 且�
 
 How：解冻 2 步=①run 把你以谁为准写成字段 ②check 开头只比身份，是才做逐项比对。正身=
 scripts/etf_book_swap_trigger.py（selftest 33/33）、scripts/etf_book_swap_toll.py（27/27）、
+results/_r2163bmc_swap_stale_probe.py（4/4）、qa/swap-watch-clock-r2164.md；审计面 19→17。
 
-esults/_r2163bmc_swap_stale_probe.py（4/4）、qa/swap-watch-clock-r2164.md；审计面 19→17。
+
+## E-20261127-r2165 — 贵锚不能每轮问，就问它的尾巴
+
+分红面（etf_book_dividend_credit）的 check 只在自己发布的 arms 上重算减法，于是面停在 2026-11-24
+而面板已经到 11-26，check 仍印 `check ok: lag1 credit +0.33 pp/yr` —— 绿着冻住的收益归因面会被
+当成今天的读数（r1935 族在「研究结论面」上的第二实例，接 r2164 的成本面）。
+
+①**外部锚要选得起的那种**。同口径的 `E.build_panel()` 要 **42.5 s**，每轮 check 付不起；面板身份
+其实写在各成员自己身上——冻结 core48 的 48 个 CSV 尾行取最大日期 = **0.004 s**（import load_core 1 s），
+与 42.5 s 的重建读出同一根 bar（2026-11-26）。判据：找锚先问「这个量在更便宜的面上有没有副本」，
+别默认外部锚 = 重跑上游。
+
+②**「不知道在跟谁比」必须能说出声**。旧面没记 inputs.panel_last_bar 时 drift 若返回空，就会把
+「没有锚」读成「没问题」。正法=没有锚也判 STALE（重生一次补上），三种情形（缺锚 / 锚读不出 /
+锚变了）各有自己的句子。
+
+③**重建确定性是这类修复的隐含验收**。毒化锚触发重建（67.0 s）后，arms / dividend_credit /
+coverage / verdict / per_name / records / live_picks / inputs / evidence_cutoff **逐块与备份恒等**，
+只有 generated 变——这才说明「解冻」拿到的是同一个数，而不是换了一套算法。
+
+判据：任何 (check, run) 对解冻前先量「外部锚多贵」，能读尾巴就不重跑上游；selftest 要能区分
+rc3+STALE（上游动了）与 rc1 无 STALE（我错了）；再补真面探针证明「不是永远喊 STALE」。
+
+How：正身=scripts/etf_book_dividend_credit.py（selftest 9/9、panel_bar 0.004 s）、
+results/_r2165bmc_dividend_stale_probe.py（4/4）、qa/dividend-credit-staleness-r2165.md；
+审计面 17→16。

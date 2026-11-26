@@ -2,7 +2,7 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-27T06:23:12+0800",
+ "generated": "2026-11-27T06:58:32+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
@@ -11,31 +11,13 @@
  "chain_sha256": "47e7d2c5ef3b627c094dda66bb9d4589fc046f9e230d0c05dbf2d3b6de8bcfeb",
  "n_legs": 392,
  "n_writer_legs": 136,
- "n_candidates": 17,
- "n_probed": 17,
+ "n_candidates": 16,
+ "n_probed": 16,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 28.2,
+ "elapsed_sec": 27.1,
  "rows": [
-  {
-   "leg": "etf_book_dividend_credit",
-   "script": "scripts/etf_book_dividend_credit.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_dividend_credit.py",
-    "--check"
-   ],
-   "script_sha256": "e667edfeef02de57caf4100e12fcc794c596ae1863831206902a4cd4ad44fe68",
-   "drift_words": [
-    "moved",
-    "drift",
-    "changed"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "check ok: lag1 credit +0.33 pp/yr, coverage 27.2%, verdict DIVIDENDS_ARE_NOISE"
-  },
   {
    "leg": "liquidity_select_write",
    "script": "scripts/etf_book_liquidity_select.py",
@@ -193,7 +175,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **39 手 + 40 手 + 25 手 + 42 手 + 28 手**，按各自的价折成 **23,447.80 元**。 想先补回**一手**，最便宜的是 **159519**：159519 的额度上调 **0.0172pp** 就够买它那一手，其余每名各要 0.0237~0.0540pp。"
+   "first_line": "����Ҫ **0.458463**�����ֻ�� **0.435003**���� 2.35pp�������ŵ�������� **39 �� + 40 �� + 25 �� + 42 �� + 28 ��**�������Եļ��۳� **23,447.80 Ԫ**�� ���Ȳ���**һ��**������˵��� **159519**��159519 �Ķ���ϵ� **0.0172pp** �͹�������һ�֣�����ÿ����Ҫ 0.0237~0.0540pp��"
   },
   {
    "leg": "sibling_entry",

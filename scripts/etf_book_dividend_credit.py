@@ -25,6 +25,8 @@ as paying nothing, which understates the credit the same way. `--check` re-deriv
 published deltas from the published arms and refuses a face whose subtraction does not
 hold; `--selftest` pins the total-return arithmetic on a hand-built ex-date.
 """
+import contextlib
+import io
 import json
 import os
 import sys
@@ -53,6 +55,41 @@ def _prefixed(sym):
     if s[:2] in ("sh", "sz"):
         return s
     return ("sh" if s[0] in "56" else "sz") + s
+
+
+def panel_bar():
+    """The bar the panel is on right now, read off the frozen core48 files (r1935).
+
+    E.build_panel() costs ~42s here, so a check that called it would be too slow to run
+    every round -- and a check that only re-derives its own arms can never notice that
+    the panel moved under it. This face sat at 2026-11-24 while the panel was on 11-26
+    and its check kept printing "check ok": the book it priced is one nobody holds.
+    """
+    try:
+        import live.paper as P
+        core = sorted(P.load_core())
+    except Exception:                                          # noqa: BLE001
+        return None
+    daily = os.path.join(E.PATHS.data_dir, "daily")
+    last = None
+    for sym in core:
+        path = os.path.join(daily, "%s.csv" % sym)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "rb") as f:
+                f.seek(0, 2)
+                f.seek(max(0, f.tell() - 400))
+                tail = f.read().decode("utf-8", "replace")
+        except Exception:                                      # noqa: BLE001
+            continue
+        body = [x for x in tail.splitlines() if x.strip()]
+        if not body:
+            continue
+        day = body[-1].split(",")[0].strip()[:10]
+        if last is None or day > last:
+            last = day
+    return last
 
 
 def tr_factor(prices, divs, raw_prices=None, cap=0.10):
@@ -221,6 +258,9 @@ def main():
     face = {
         "evidence_cutoff": str(close.index[-1].date()),
         "generated": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        # r1935: the panel bar is the one fact this face cannot re-derive from itself --
+        # record it so a later check can tell "the panel moved" from "I am broken".
+        "inputs": {"panel_last_bar": str(close.index[-1].date())},
         "caliber": {
             "engine": "etf_robust_pf.open_to_open_equity (rebal=20, n_hold=5, cost=10bp/side, vol_target=8%)",
             "panel_a": "as-traded prices (sina klc_kl, adjusted factor 1.0 on ETFs) -- every published number",
@@ -357,14 +397,41 @@ def write_doc(face):
         f.write("\n".join(lines) + "\n")
 
 
-def check():
+def drift(payload, live="disk"):
+    """Has the panel moved under this face? Only an outside anchor can answer that (r1935).
+
+    A newer panel is a rebuild, not a contradiction: the chain pays for the writer when the
+    probe says STALE (r1850), and it must never pay because a face disagreed with itself.
+    """
+    if live == "disk":
+        live = panel_bar()
+    was = ((payload or {}).get("inputs") or {}).get("panel_last_bar")
+    if not was:
+        return ["the face records no panel bar, so there is nothing to age it against"]
+    if live is None:
+        return ["the panel bar cannot be read (core48 tails unreadable), so this face cannot be aged"]
+    if str(was) != str(live):
+        return ["the panel is on bar %s, this face priced %s" % (live, was)]
+    return []
+
+
+def check(payload=None, live="disk"):
     """Re-derive the published credit from the published arms; never recompute a book."""
     p = os.path.join(E.PATHS.results_dir, OUT)
-    if not os.path.exists(p):
-        print("check FAIL: no face at", p)
-        return 1
-    with open(p, encoding="utf-8") as f:
-        face = json.load(f)
+    if payload is None:
+        if not os.path.exists(p):
+            print("check FAIL: no face at", p)
+            return 1
+        with open(p, encoding="utf-8") as f:
+            face = json.load(f)
+    else:
+        face = payload
+    stale = drift(face, live)
+    if stale:
+        print("check STALE: this face priced a book the panel has since left behind")
+        for x in stale:
+            print("  -", x)
+        return 3
     probs = []
     arms = face.get("arms") or {}
     cr = face.get("dividend_credit") or {}
@@ -435,7 +502,45 @@ def selftest():
     if d2 != 1 or not (f2 == 1.0).all():
         print("selftest FAIL: conversion-sized step was credited (dropped=%d)" % d2)
         ok = False
-    print("selftest", "PASS" if ok else "FAIL", "5 legs")
+    # r1935: the check must be able to say "the panel moved", not only "my numbers agree"
+    base = {"inputs": {"panel_last_bar": "2026-11-26"},
+            "arms": {"price_lag0": {"cagr": 0.10}, "with_dividends_lag0": {"cagr": 0.12},
+                     "price_lag1": {"cagr": 0.10}, "with_dividends_lag1": {"cagr": 0.12}},
+            "dividend_credit": {"lag0_cagr_pp": 2.0, "lag1_cagr_pp": 2.0},
+            "coverage": {"names_held_or_live": 10, "names_paying_inside_window": 3,
+                         "coverage_pct": 30.0},
+            "verdict": "DIVIDENDS_ARE_NOISE"}
+    if drift(base, live="2026-11-26"):
+        print("selftest FAIL: a face on the panel's own bar was called stale")
+        ok = False
+    if not drift(base, live="2026-11-27"):
+        print("selftest FAIL: the panel rolling a bar did not read as STALE")
+        ok = False
+    if not drift({"arms": {}}, live="2026-11-26"):
+        print("selftest FAIL: an unrecorded anchor was treated as fresh")
+        ok = False
+    # the same payload through the real check(): the anchor is the only difference
+    broken = dict(base, dividend_credit={"lag0_cagr_pp": 9.9, "lag1_cagr_pp": 2.0})
+    outs = {}
+    for tag, (payload, live) in (("fresh", (base, "2026-11-26")),
+                                 ("rolled", (base, "2026-12-01")),
+                                 ("wrong", (broken, "2026-11-26"))):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = check(payload, live=live)
+        outs[tag] = (rc, buf.getvalue())
+    if outs["fresh"][0] != 0:
+        print("selftest FAIL: a self-consistent face on the panel bar returned %d"
+              % outs["fresh"][0])
+        ok = False
+    if outs["rolled"][0] != 3 or "STALE" not in outs["rolled"][1]:
+        print("selftest FAIL: the same face on a rolled panel returned %d" % outs["rolled"][0])
+        ok = False
+    if outs["wrong"][0] != 1 or "STALE" in outs["wrong"][1]:
+        print("selftest FAIL: a wrong number was not a plain check failure (%d)"
+              % outs["wrong"][0])
+        ok = False
+    print("selftest", "PASS" if ok else "FAIL", "9 legs")
     return 0 if ok else 1
 
 
