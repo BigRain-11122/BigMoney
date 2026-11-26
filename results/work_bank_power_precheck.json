@@ -1,0 +1,1096 @@
+{
+ "generated_by": "scripts/work_bank_power_precheck.py",
+ "evidence_cutoff": "2026-11-26",
+ "formula": "1.96 * vol_pct / sqrt(years); Sharpe half-width 1.96/sqrt(years)",
+ "formula_source": "scripts/bench_power.py:mde (imported, not copied)",
+ "bank_items_with_criteria": 17,
+ "bank_rows": [
+  {
+   "id": "pair_index_60d",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 19.84,
+   "half_width": {
+    "full_pp": 5.66,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 5.66,
+     "ratio": 0.53,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 6.93,
+     "ratio": 0.29,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 5.66,
+     "ratio": 0.18,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "pair_all10_60d",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM",
+    "T",
+    "TF",
+    "TS",
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 9.84,
+   "half_width": {
+    "full_pp": 7.54,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 7.54,
+     "ratio": 0.4,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 7.54,
+     "ratio": 0.13,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "pair_commodity_60d",
+   "bank_status": "queued",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 5.34,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 5.34,
+     "ratio": 0.56,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 5.34,
+     "ratio": 0.19,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "trend_single_IC_long",
+   "bank_status": "queued",
+   "products": [
+    "IC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2392,
+    "is": 1690,
+    "oos": 702
+   },
+   "years": {
+    "all": 9.8,
+    "is": 6.93,
+    "oos": 2.88
+   },
+   "target_vol_pct": 10.0,
+   "realised_basket_vol_pct": 23.26,
+   "half_width": {
+    "full_pp": 6.26,
+    "oos_pp": 11.56,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 4.0,
+     "half_width": 6.26,
+     "ratio": 0.64,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 3.0,
+     "half_width": 11.56,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.5,
+     "half_width": 6.26,
+     "ratio": 0.24,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.4,
+     "half_width": 1.16,
+     "ratio": 0.35,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "trend_single_AU_long",
+   "bank_status": "queued",
+   "products": [
+    "AU"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 4599,
+    "is": 3897,
+    "oos": 702
+   },
+   "years": {
+    "all": 18.85,
+    "is": 15.97,
+    "oos": 2.88
+   },
+   "target_vol_pct": 10.0,
+   "realised_basket_vol_pct": 17.53,
+   "half_width": {
+    "full_pp": 4.51,
+    "oos_pp": 11.56,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 4.0,
+     "half_width": 4.51,
+     "ratio": 0.89,
+     "verdict": "MARGINAL"
+    },
+    "H2_oos_pct": {
+     "criterion": 3.0,
+     "half_width": 11.56,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.5,
+     "half_width": 4.51,
+     "ratio": 0.33,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.4,
+     "half_width": 1.16,
+     "ratio": 0.35,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "trend_single_T_long",
+   "bank_status": "queued",
+   "products": [
+    "T"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2392,
+    "is": 1690,
+    "oos": 702
+   },
+   "years": {
+    "all": 9.8,
+    "is": 6.93,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 3.18,
+   "half_width": {
+    "full_pp": 3.76,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 3.76,
+     "ratio": 0.8,
+     "verdict": "MARGINAL"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 6.93,
+     "ratio": 0.29,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 3.76,
+     "ratio": 0.27,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "reversal_index_5d",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 19.84,
+   "half_width": {
+    "full_pp": 5.66,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 5.66,
+     "ratio": 0.53,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 6.93,
+     "ratio": 0.29,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 5.66,
+     "ratio": 0.18,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "robust_ma_index",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 19.84,
+   "half_width": {
+    "full_pp": 7.54,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 7.54,
+     "ratio": 0.4,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 7.54,
+     "ratio": 0.13,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "robust_tsmom_commodity",
+   "bank_status": "queued",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 5.34,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 5.34,
+     "ratio": 0.56,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 5.34,
+     "ratio": 0.19,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "robust_donchian_index",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 19.84,
+   "half_width": {
+    "full_pp": 7.54,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 7.54,
+     "ratio": 0.4,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 7.54,
+     "ratio": 0.13,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "census_index_futures",
+   "bank_status": "queued",
+   "products": [
+    "IC",
+    "IF",
+    "IH",
+    "IM"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 1054,
+    "is": 352,
+    "oos": 702
+   },
+   "years": {
+    "all": 4.32,
+    "is": 1.44,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 19.84,
+   "half_width": {
+    "full_pp": 7.54,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {},
+   "verdict": "NO_CRITERIA"
+  },
+  {
+   "id": "census_commodity",
+   "bank_status": "queued",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 5.34,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {},
+   "verdict": "NO_CRITERIA"
+  },
+  {
+   "id": "census_bond_futures",
+   "bank_status": "queued",
+   "products": [
+    "T",
+    "TF",
+    "TS"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2006,
+    "is": 1304,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.22,
+    "is": 5.34,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 1.86,
+   "half_width": {
+    "full_pp": 4.1,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {},
+   "verdict": "NO_CRITERIA"
+  },
+  {
+   "id": "pair_bond_curve_60d",
+   "bank_status": "queued",
+   "products": [
+    "T",
+    "TF",
+    "TS"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2006,
+    "is": 1304,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.22,
+    "is": 5.34,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 1.86,
+   "half_width": {
+    "full_pp": 4.1,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 4.1,
+     "ratio": 0.73,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 6.93,
+     "ratio": 0.29,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 4.1,
+     "ratio": 0.24,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "trend_single_RB_long",
+   "bank_status": "queued",
+   "products": [
+    "RB"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 4290,
+    "is": 3588,
+    "oos": 702
+   },
+   "years": {
+    "all": 17.58,
+    "is": 14.7,
+    "oos": 2.88
+   },
+   "target_vol_pct": 10.0,
+   "realised_basket_vol_pct": 23.21,
+   "half_width": {
+    "full_pp": 4.67,
+    "oos_pp": 11.56,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 4.0,
+     "half_width": 4.67,
+     "ratio": 0.86,
+     "verdict": "MARGINAL"
+    },
+    "H2_oos_pct": {
+     "criterion": 3.0,
+     "half_width": 11.56,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.5,
+     "half_width": 4.67,
+     "ratio": 0.32,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.4,
+     "half_width": 1.16,
+     "ratio": 0.35,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "trend_single_SC_long",
+   "bank_status": "queued",
+   "products": [
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 10.0,
+   "realised_basket_vol_pct": 39.45,
+   "half_width": {
+    "full_pp": 6.67,
+    "oos_pp": 11.56,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 4.0,
+     "half_width": 6.67,
+     "ratio": 0.6,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 3.0,
+     "half_width": 11.56,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.5,
+     "half_width": 6.67,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.4,
+     "half_width": 1.16,
+     "ratio": 0.35,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  },
+  {
+   "id": "reversal_commodity_5d",
+   "bank_status": "queued",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 8.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 5.34,
+    "oos_pp": 9.24,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 3.0,
+     "half_width": 5.34,
+     "ratio": 0.56,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_pct": {
+     "criterion": 2.0,
+     "half_width": 9.24,
+     "ratio": 0.22,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H4_drop_best_pct": {
+     "criterion": 1.0,
+     "half_width": 5.34,
+     "ratio": 0.19,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    },
+    "H2_oos_sharpe": {
+     "criterion": 0.3,
+     "half_width": 1.16,
+     "ratio": 0.26,
+     "verdict": "UNPOWERED_BY_CONSTRUCTION"
+    }
+   },
+   "verdict": "UNPOWERED_BY_CONSTRUCTION"
+  }
+ ],
+ "proposed_cards": [
+  {
+   "id": "comm_trend_oi_confirm",
+   "bank_status": "open",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 4.0,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 6.0,
+     "half_width": 4.0,
+     "ratio": 1.5,
+     "verdict": "POWERED"
+    },
+    "H2_oos_pct": {
+     "criterion": 8.0,
+     "half_width": 6.93,
+     "ratio": 1.15,
+     "verdict": "POWERED"
+    }
+   },
+   "verdict": "POWERED"
+  },
+  {
+   "id": "comm_session_split",
+   "bank_status": "open",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 16.77,
+   "half_width": {
+    "full_pp": 4.0,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 6.0,
+     "half_width": 4.0,
+     "ratio": 1.5,
+     "verdict": "POWERED"
+    },
+    "H2_oos_pct": {
+     "criterion": 8.0,
+     "half_width": 6.93,
+     "ratio": 1.15,
+     "verdict": "POWERED"
+    }
+   },
+   "verdict": "POWERED"
+  },
+  {
+   "id": "fut_oi_divergence_reversal",
+   "bank_status": "open",
+   "products": [
+    "AU",
+    "RB",
+    "SC",
+    "IF",
+    "IC"
+   ],
+   "split": "2024-01-01",
+   "bars": {
+    "all": 2104,
+    "is": 1402,
+    "oos": 702
+   },
+   "years": {
+    "all": 8.62,
+    "is": 5.75,
+    "oos": 2.88
+   },
+   "target_vol_pct": 6.0,
+   "realised_basket_vol_pct": 14.49,
+   "half_width": {
+    "full_pp": 4.0,
+    "oos_pp": 6.93,
+    "oos_sharpe": 1.16
+   },
+   "criteria": {
+    "H1_full_pct": {
+     "criterion": 6.0,
+     "half_width": 4.0,
+     "ratio": 1.5,
+     "verdict": "POWERED"
+    },
+    "H2_oos_pct": {
+     "criterion": 8.0,
+     "half_width": 6.93,
+     "ratio": 1.15,
+     "verdict": "POWERED"
+    }
+   },
+   "verdict": "POWERED"
+  }
+ ],
+ "proposed_specs": [
+  {
+   "id": "comm_trend_oi_confirm",
+   "question": "商品趋势只在持仓量上升时持有：净后是否比无条件同规则多出可测的一块？",
+   "type": "filter_ab",
+   "rule": "tsmom",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "lookback": 120,
+    "skip": 21,
+    "oi_confirm": "oi_20d_mean_rising"
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 商品趋势要不要挂 OI 确认这一层过滤；(b) 挂了以后是否值得多付一次数据读取",
+   "status": "open",
+   "why_new": "银行里 7 张商品卡全是价格轴（单品种趋势/横截面强弱/五日反转/唐奇安/普查），没有一张用持仓量；OI 面板已在 data/futures_daily/oi 列里，零新数据源"
+  },
+  {
+   "id": "comm_session_split",
+   "question": "商品的趋势收益集中在隔夜还是日内：只做隔夜能不能保住大部分收成？",
+   "type": "session_split",
+   "rule": "tsmom",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "lookback": 120,
+    "skip": 21,
+    "decompose": "close_to_open / open_to_close"
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 隔夜段 vs 日内段谁承担了收成——决定一天进出两次还是只留隔夜（成本直接减半）",
+   "status": "open",
+   "why_new": "隔夜/日内分解在股指期货上已做过（idx_fut_overnight_only），商品三品种没有；open 列在面板里，零新数据源"
+  },
+  {
+   "id": "fut_oi_divergence_reversal",
+   "question": "价格创新高但持仓量在退（分歧）之后的五天，反转能不能收？",
+   "type": "event_reversal",
+   "rule": "oi_divergence",
+   "products": [
+    "AU",
+    "RB",
+    "SC",
+    "IF",
+    "IC"
+   ],
+   "params": {
+    "lookback_high": 60,
+    "oi_fall": "-5% over 5d",
+    "hold_days": 5
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 分歧事件要不要作为反转过滤器进池；(b) 若为负，把 OI 从候选轴里彻底划掉",
+   "status": "open",
+   "why_new": "银行的 5 日反转卡（reversal_index_5d/reversal_commodity_5d）只用价格；加 OI 分歧是同一份面板上的新轴，不新增数据"
+  }
+ ],
+ "summary": {
+  "UNPOWERED_BY_CONSTRUCTION": 14,
+  "NO_CRITERIA": 3,
+  "POWERED": 3
+ },
+ "unpowered_bank_items": [
+  "pair_index_60d",
+  "pair_all10_60d",
+  "pair_commodity_60d",
+  "trend_single_IC_long",
+  "trend_single_AU_long",
+  "trend_single_T_long",
+  "reversal_index_5d",
+  "robust_ma_index",
+  "robust_tsmom_commodity",
+  "robust_donchian_index",
+  "pair_bond_curve_60d",
+  "trend_single_RB_long",
+  "trend_single_SC_long",
+  "reversal_commodity_5d"
+ ]
+}

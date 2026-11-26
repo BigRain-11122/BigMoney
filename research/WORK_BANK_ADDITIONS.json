@@ -1,0 +1,135 @@
+{
+ "version": "1.0",
+ "note": "合入方式：把 items[] 逐条 append 到 research/WORK-BANK.json 的 items[]，按 id 去重即可。判据已按 results/work_bank_power_precheck.json 的半宽反推，合入前请先跑一次 python scripts/work_bank_power_precheck.py run 核对该卡的 verdict。",
+ "evidence_cutoff": "2026-11-26",
+ "items": [
+  {
+   "id": "comm_trend_oi_confirm",
+   "question": "商品趋势只在持仓量上升时持有：净后是否比无条件同规则多出可测的一块？",
+   "type": "filter_ab",
+   "rule": "tsmom",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "lookback": 120,
+    "skip": 21,
+    "oi_confirm": "oi_20d_mean_rising"
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 商品趋势要不要挂 OI 确认这一层过滤；(b) 挂了以后是否值得多付一次数据读取",
+   "status": "open",
+   "power_precheck": {
+    "verdict": "POWERED",
+    "half_width": {
+     "full_pp": 4.0,
+     "oos_pp": 6.93,
+     "oos_sharpe": 1.16
+    },
+    "years": {
+     "all": 8.62,
+     "is": 5.75,
+     "oos": 2.88
+    },
+    "source": "results/work_bank_power_precheck.json"
+   }
+  },
+  {
+   "id": "comm_session_split",
+   "question": "商品的趋势收益集中在隔夜还是日内：只做隔夜能不能保住大部分收成？",
+   "type": "session_split",
+   "rule": "tsmom",
+   "products": [
+    "AU",
+    "RB",
+    "SC"
+   ],
+   "params": {
+    "lookback": 120,
+    "skip": 21,
+    "decompose": "close_to_open / open_to_close"
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 隔夜段 vs 日内段谁承担了收成——决定一天进出两次还是只留隔夜（成本直接减半）",
+   "status": "open",
+   "power_precheck": {
+    "verdict": "POWERED",
+    "half_width": {
+     "full_pp": 4.0,
+     "oos_pp": 6.93,
+     "oos_sharpe": 1.16
+    },
+    "years": {
+     "all": 8.62,
+     "is": 5.75,
+     "oos": 2.88
+    },
+    "source": "results/work_bank_power_precheck.json"
+   }
+  },
+  {
+   "id": "fut_oi_divergence_reversal",
+   "question": "价格创新高但持仓量在退（分歧）之后的五天，反转能不能收？",
+   "type": "event_reversal",
+   "rule": "oi_divergence",
+   "products": [
+    "AU",
+    "RB",
+    "SC",
+    "IF",
+    "IC"
+   ],
+   "params": {
+    "lookback_high": 60,
+    "oi_fall": "-5% over 5d",
+    "hold_days": 5
+   },
+   "cost_bp_side": 3.0,
+   "target_vol": 0.06,
+   "split": "2024-01-01",
+   "crit": {
+    "H1_full_pct": 6.0,
+    "H2_oos_pct": 8.0,
+    "H5_p": 0.05
+   },
+   "crit_note": "判据按样本反推：全窗半宽 4.0-5.7pp（随产品历史长短），故 H1 写 6.0；OOS 仅 2.88 年、目标波动 6% 时半宽 6.93pp，故 H2 写 8.0。2-3pp 的 OOS 门在这段样本上不可判。",
+   "target_edge_pp": 4.0,
+   "decides": "(a) 分歧事件要不要作为反转过滤器进池；(b) 若为负，把 OI 从候选轴里彻底划掉",
+   "status": "open",
+   "power_precheck": {
+    "verdict": "POWERED",
+    "half_width": {
+     "full_pp": 4.0,
+     "oos_pp": 6.93,
+     "oos_sharpe": 1.16
+    },
+    "years": {
+     "all": 8.62,
+     "is": 5.75,
+     "oos": 2.88
+    },
+    "source": "results/work_bank_power_precheck.json"
+   }
+  }
+ ]
+}
