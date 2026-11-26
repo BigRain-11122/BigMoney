@@ -1,70 +1,26 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-26T18:46:30",
+ "probed_at": "2026-11-27T01:50:30",
  "lookback_min": 45.0,
- "verdict": "CONTENTION",
- "why": "2 hosts alive; 19 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "verdict": "CLEAN",
+ "why": "fewer than two codely hosts alive",
  "hosts": [
   {
-   "pid": 107624,
-   "kind": "interactive",
-   "started_epoch": 1795664958.984948,
-   "started": "2026-11-26T11:49:18",
-   "age_min": 417.2,
-   "exempt_from_cloud_cap": true,
-   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
-  },
-  {
-   "pid": 91056,
+   "pid": 113428,
    "kind": "other",
-   "started_epoch": 1795689903.7112904,
-   "started": "2026-11-26T18:45:03",
-   "age_min": 1.4,
+   "started_epoch": 1795715404.2802474,
+   "started": "2026-11-27T01:50:04",
+   "age_min": 0.4,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 91056,
- "my_host_started": "2026-11-26T18:45:03",
+ "my_host_pid": 113428,
+ "my_host_started": "2026-11-27T01:50:04",
  "host_probe_error": null,
- "overlap_windows": [
-  {
-   "pair": [
-    107624,
-    91056
-   ],
-   "kinds": [
-    "interactive",
-    "other"
-   ],
-   "from": "2026-11-26T18:45:03",
-   "to": "2026-11-26T18:46:30",
-   "minutes": 1.4,
-   "lo": 1795689903.7112904
-  }
- ],
- "peer_only_writes": [
-  "docs/live_usage/LIVE-2026-11-26.json",
-  "docs/live_usage/LIVE-2026-11-26.md",
-  "docs/live_usage/LIVE-latest.json",
-  "docs/live_usage/LIVE-latest.md",
-  "fleet/machine-health.json",
-  "fleet/machines/bm-c.json",
-  "fleet/round_reports-bm-c.md",
-  "research/ARBITER-BOARD.md",
-  "research/BENCH-DONCHIAN-REPAIR-RERUN.md",
-  "research/QUANT-BLOCK-BOARD.md",
-  "results/_attrition_guard_scan.json",
-  "results/allocation/alloc_backtest.log",
-  "results/arbiter/STATE.json",
-  "results/bench_donchian_repair_rerun.json",
-  "results/cpu_fill/STATE.json",
-  "results/paper_equity_recheck.json",
-  "results/quant_block_board.json",
-  "results/zh_page_prose_census.json",
-  "scripts/bench_donchian_repair_rerun.py"
- ],
+ "overlap_windows": [],
+ "peer_only_writes": [],
  "ambiguous_writes": [],
  "ignored_patterns": [
   "results/saturation_engine/",
@@ -75,127 +31,253 @@
   "results/_repo_write_contention",
   "results/_host_contention"
  ],
- "ignored_write_count": 8,
+ "ignored_write_count": 9,
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 35331,
+ "writes_scanned_files": 35419,
  "recent_writes": [
   {
+   "path": "fleet/machines/bm-c.json",
+   "mtime": "2026-11-27T01:50:02",
+   "mtime_epoch": 1795715402.9672117,
+   "bytes": 265148
+  },
+  {
    "path": "results/cpu_fill/STATE.json",
-   "mtime": "2026-11-26T18:42:44",
-   "mtime_epoch": 1795689764.1341603,
+   "mtime": "2026-11-27T01:47:43",
+   "mtime_epoch": 1795715263.7787857,
    "bytes": 665
   },
   {
+   "path": "research/BENCH-DEFENSIVE-SLEEVE-VEHICLE.md",
+   "mtime": "2026-11-27T01:42:24",
+   "mtime_epoch": 1795714944.9323173,
+   "bytes": 4310
+  },
+  {
+   "path": "results/bench_defensive_sleeve_vehicle.json",
+   "mtime": "2026-11-27T01:42:24",
+   "mtime_epoch": 1795714944.931317,
+   "bytes": 5914
+  },
+  {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-26T18:41:46",
-   "mtime_epoch": 1795689706.2373035,
-   "bytes": 1414
+   "mtime": "2026-11-27T01:41:46",
+   "mtime_epoch": 1795714906.050282,
+   "bytes": 1835
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-26T18:41:46",
-   "mtime_epoch": 1795689706.229295,
-   "bytes": 969
+   "mtime": "2026-11-27T01:41:46",
+   "mtime_epoch": 1795714906.0492816,
+   "bytes": 1614
   },
   {
-   "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-26T18:41:27",
-   "mtime_epoch": 1795689687.9015956,
-   "bytes": 264160
+   "path": "research/IDX_FUT_BASIS_SEGMENTS.md",
+   "mtime": "2026-11-27T01:39:12",
+   "mtime_epoch": 1795714752.2279623,
+   "bytes": 3487
   },
   {
-   "path": "fleet/round_reports-bm-c.md",
-   "mtime": "2026-11-26T18:40:27",
-   "mtime_epoch": 1795689627.4235904,
-   "bytes": 542683
+   "path": "results/idx_fut_basis_segments.json",
+   "mtime": "2026-11-27T01:39:12",
+   "mtime_epoch": 1795714752.2269607,
+   "bytes": 7156
   },
   {
-   "path": "results/paper_equity_recheck.json",
-   "mtime": "2026-11-26T18:34:14",
-   "mtime_epoch": 1795689254.3533547,
-   "bytes": 3679
+   "path": "research/REGIME-CAP-BINDING-DAYS.md",
+   "mtime": "2026-11-27T01:39:11",
+   "mtime_epoch": 1795714751.3851595,
+   "bytes": 4752
   },
   {
-   "path": "results/allocation/alloc_backtest.log",
-   "mtime": "2026-11-26T18:33:54",
-   "mtime_epoch": 1795689234.2181456,
-   "bytes": 503770
+   "path": "results/regime_cap_binding_days.json",
+   "mtime": "2026-11-27T01:39:11",
+   "mtime_epoch": 1795714751.3841603,
+   "bytes": 12719
   },
   {
-   "path": "fleet/machine-health.json",
-   "mtime": "2026-11-26T18:32:23",
-   "mtime_epoch": 1795689143.4687967,
-   "bytes": 653
+   "path": "results/check_drift_precedence_audit.json",
+   "mtime": "2026-11-27T01:38:57",
+   "mtime_epoch": 1795714737.1752145,
+   "bytes": 49208
   },
   {
-   "path": "results/zh_page_prose_census.json",
-   "mtime": "2026-11-26T18:32:19",
-   "mtime_epoch": 1795689139.7952578,
-   "bytes": 3313
+   "path": "scripts/regime_cap_binding_days.py",
+   "mtime": "2026-11-27T01:38:09",
+   "mtime_epoch": 1795714689.0347433,
+   "bytes": 31179
   },
   {
-   "path": "docs/live_usage/LIVE-latest.json",
-   "mtime": "2026-11-26T18:32:12",
-   "mtime_epoch": 1795689132.6451988,
-   "bytes": 75695
+   "path": "scripts/idx_fut_basis_segments.py",
+   "mtime": "2026-11-27T01:37:08",
+   "mtime_epoch": 1795714628.4883177,
+   "bytes": 29609
   },
   {
-   "path": "docs/live_usage/LIVE-latest.md",
-   "mtime": "2026-11-26T18:32:12",
-   "mtime_epoch": 1795689132.6451988,
-   "bytes": 46947
+   "path": "scripts/check_drift_precedence_audit.py",
+   "mtime": "2026-11-27T01:35:49",
+   "mtime_epoch": 1795714549.0170212,
+   "bytes": 16947
   },
   {
-   "path": "docs/live_usage/LIVE-2026-11-26.md",
-   "mtime": "2026-11-26T18:32:12",
-   "mtime_epoch": 1795689132.6441994,
-   "bytes": 46947
+   "path": "research/BLOCK_RED_TRIAGE.md",
+   "mtime": "2026-11-27T01:32:12",
+   "mtime_epoch": 1795714332.897309,
+   "bytes": 2611
   },
   {
-   "path": "docs/live_usage/LIVE-2026-11-26.json",
-   "mtime": "2026-11-26T18:32:12",
-   "mtime_epoch": 1795689132.6431987,
-   "bytes": 75695
+   "path": "results/block_red_triage.json",
+   "mtime": "2026-11-27T01:32:12",
+   "mtime_epoch": 1795714332.8963063,
+   "bytes": 3844
   },
   {
-   "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-26T18:29:20",
-   "mtime_epoch": 1795688960.445883,
-   "bytes": 2154
+   "path": "scripts/trial_labor_null_calibration.py",
+   "mtime": "2026-11-27T01:31:52",
+   "mtime_epoch": 1795714312.921505,
+   "bytes": 48367
   },
   {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-26T18:26:17",
-   "mtime_epoch": 1795688777.4153616,
-   "bytes": 11256
+   "path": "scripts/block_red_triage.py",
+   "mtime": "2026-11-27T01:31:49",
+   "mtime_epoch": 1795714309.1188219,
+   "bytes": 38092
   },
   {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-26T18:26:17",
-   "mtime_epoch": 1795688777.4153616,
-   "bytes": 5911
+   "path": "scripts/bench_defensive_sleeve_vehicle.py",
+   "mtime": "2026-11-27T01:31:49",
+   "mtime_epoch": 1795714309.1108222,
+   "bytes": 38129
   },
   {
-   "path": "research/BENCH-DONCHIAN-REPAIR-RERUN.md",
-   "mtime": "2026-11-26T18:22:37",
-   "mtime_epoch": 1795688557.5954392,
-   "bytes": 9465
+   "path": "results/_s6chain_progress.bm-c.jsonl",
+   "mtime": "2026-11-27T01:30:56",
+   "mtime_epoch": 1795714256.8438804,
+   "bytes": 1033774
   },
   {
-   "path": "results/bench_donchian_repair_rerun.json",
-   "mtime": "2026-11-26T18:22:37",
-   "mtime_epoch": 1795688557.5944386,
-   "bytes": 43001
+   "path": "results/_s6_r2155.log",
+   "mtime": "2026-11-27T01:30:56",
+   "mtime_epoch": 1795714256.8438804,
+   "bytes": 10578
   },
   {
-   "path": "scripts/bench_donchian_repair_rerun.py",
-   "mtime": "2026-11-26T18:21:02",
-   "mtime_epoch": 1795688462.7031994,
-   "bytes": 43228
+   "path": "results/etf_book_spanning.json",
+   "mtime": "2026-11-27T01:30:56",
+   "mtime_epoch": 1795714256.684342,
+   "bytes": 7975
+  },
+  {
+   "path": "results/etf_book_forward_settle_audit.json",
+   "mtime": "2026-11-27T01:29:39",
+   "mtime_epoch": 1795714179.5458937,
+   "bytes": 14021
+  },
+  {
+   "path": "results/face_orphan_census.json",
+   "mtime": "2026-11-27T01:29:09",
+   "mtime_epoch": 1795714149.1541705,
+   "bytes": 918
+  },
+  {
+   "path": "research/FACE-ORPHAN-CENSUS.md",
+   "mtime": "2026-11-27T01:29:09",
+   "mtime_epoch": 1795714149.1541705,
+   "bytes": 3181
+  },
+  {
+   "path": "results/chain_writer_audit.json",
+   "mtime": "2026-11-27T01:28:20",
+   "mtime_epoch": 1795714100.3982682,
+   "bytes": 2389
+  },
+  {
+   "path": "results/etf_book_forward/LEDGER.json",
+   "mtime": "2026-11-27T01:27:56",
+   "mtime_epoch": 1795714076.248353,
+   "bytes": 44815
+  },
+  {
+   "path": "results/etf_book_cap_beta_power.json",
+   "mtime": "2026-11-27T01:26:53",
+   "mtime_epoch": 1795714013.9000638,
+   "bytes": 2333
+  },
+  {
+   "path": "research/ETF_BOOK_CAP_BETA_POWER.md",
+   "mtime": "2026-11-27T01:26:53",
+   "mtime_epoch": 1795714013.9000638,
+   "bytes": 5311
+  },
+  {
+   "path": "research/ETF_BOOK_CAP_TRIM_TOLL.md",
+   "mtime": "2026-11-27T01:26:53",
+   "mtime_epoch": 1795714013.5471325,
+   "bytes": 4436
+  },
+  {
+   "path": "results/etf_book_cap_trim_toll.json",
+   "mtime": "2026-11-27T01:26:53",
+   "mtime_epoch": 1795714013.5461328,
+   "bytes": 3094
+  },
+  {
+   "path": "research/ETF_BOOK_YEAR_CONCENTRATION_MONEY.md",
+   "mtime": "2026-11-27T01:26:25",
+   "mtime_epoch": 1795713985.3481245,
+   "bytes": 4688
+  },
+  {
+   "path": "results/etf_book_year_concentration_money.json",
+   "mtime": "2026-11-27T01:26:25",
+   "mtime_epoch": 1795713985.3471243,
+   "bytes": 13869
+  },
+  {
+   "path": "scripts/etf_book_year_concentration_money.py",
+   "mtime": "2026-11-27T01:25:51",
+   "mtime_epoch": 1795713951.7201998,
+   "bytes": 38542
+  },
+  {
+   "path": "results/etf_wide_update_status.json",
+   "mtime": "2026-11-27T01:25:13",
+   "mtime_epoch": 1795713913.8523133,
+   "bytes": 1512
+  },
+  {
+   "path": "results/moneyflow_update_status.json",
+   "mtime": "2026-11-27T01:24:46",
+   "mtime_epoch": 1795713886.991263,
+   "bytes": 1746
+  },
+  {
+   "path": "results/etf_daily_pull_status.json",
+   "mtime": "2026-11-27T01:24:30",
+   "mtime_epoch": 1795713870.0656438,
+   "bytes": 2617
+  },
+  {
+   "path": "results/astock_daily_update_status.json",
+   "mtime": "2026-11-27T01:24:29",
+   "mtime_epoch": 1795713869.3770764,
+   "bytes": 2895
+  },
+  {
+   "path": "results/sina_mf_update_status.json",
+   "mtime": "2026-11-27T01:24:26",
+   "mtime_epoch": 1795713866.3916216,
+   "bytes": 1068
+  },
+  {
+   "path": "research/FUTURES_OVERLAY_FLIPRATE_PATHS.md",
+   "mtime": "2026-11-27T01:24:25",
+   "mtime_epoch": 1795713865.3558197,
+   "bytes": 4839
   }
  ],
- "recent_write_count": 19,
+ "recent_write_count": 154,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }

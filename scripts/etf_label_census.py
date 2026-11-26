@@ -61,6 +61,21 @@ LINE_PP = gap.LABEL_GAP_MEDIAN_PP    # the r1803 ruler, not a second line
 MIN_DAYS = gap.MIN_DAYS
 NOTIONAL_CNY = 100_000.0             # what one swap is sized on, so the money line is readable
 MATERIAL_PP = sib.MATERIAL_PP        # a premium spread under half a point is not worth a trade
+MERGE_TOL_PP = 5e-5                  # retained for callers that still import the old name
+STORE_DP = 4                         # both faces publish medians at this many decimals
+
+
+def same_reading(a, b):
+    """Do two readings print the same number? Compared at the precision the faces STORE.
+
+    r1935: the tolerance has to be the storage precision, never 1e-9 -- one more panel bar
+    shifts these medians by ~1e-4 pp, which is the same size as the rounding of a stored
+    4dp value. Comparing raw floats would call a correct face stale; comparing at 4dp says
+    exactly what a reader can see.
+    """
+    if a is None or b is None:
+        return False
+    return round(a, STORE_DP) == round(b, STORE_DP)
 
 CRITERIA = {
     "gap_median_pp": LINE_PP,
@@ -453,32 +468,65 @@ def check():
     if abs(round(over, 1) - (face["money"]["total_cost_cny"])) > 0.11:
         problems.append("total cost %.1f does not re-derive from the group rows (%.1f)"
                         % (face["money"]["total_cost_cny"], over))
+    # the readings themselves, re-derived from the panels on disk -- not from the face
+    # (r1935: a check that only re-reads its own published numbers can never say "I am old").
+    # One ruler, one panel: when the two faces disagree, exactly one of them has not been
+    # reburned since the panel moved. That is STALE -- the word that pays a writer -- and it
+    # must not be published as a defect. Two different rulers would be a defect, and the
+    # arithmetic below keeps the two cases apart instead of reporting whichever comes first.
+    published_med = {}
+    for fam in face["families"]:
+        for p in fam["pairs"]:
+            if p["median_pp"] is not None:
+                published_med[frozenset((p["a"], p["b"]))] = p["median_pp"]
+    cache_all, now_med = {}, {}
+    for key in published_med:
+        a, b = sorted(key)
+        now_med[key] = pair_reading(a, b, cache_all)["median_pp"]
+    stale_here, sibling_stale, shared, bad = [], [], 0, []
+    for key, pub in published_med.items():
+        now = now_med.get(key)
+        if now is None or same_reading(now, pub):
+            continue
+        a, b = sorted(key)
+        stale_here.append("%s/%s published %.4f, panel now %.4f" % (a, b, pub, now))
     # the ruler must agree with the face that taught it, on the pairs both priced
     if os.path.exists(SIB_GAP_JSON):
         with open(SIB_GAP_JSON, encoding="utf-8") as fh:
             sib_face = json.load(fh)
-        mine = {}
-        for fam in face["families"]:
-            for p in fam["pairs"]:
-                if p["median_pp"] is not None:
-                    mine[frozenset((p["a"], p["b"]))] = p["median_pp"]
-        shared, bad = 0, []
         for n in sib_face.get("label_family") or []:
             med = n.get("gap_median_pp")
             key = frozenset((str(n.get("leg_symbol")), str(n.get("sibling_symbol"))))
-            if med is None or key not in mine:
+            if med is None or key not in published_med:
                 continue
             shared += 1
-            if abs(mine[key] - med) > 1e-6:
-                bad.append("%s/%s: census %.4f vs sibling face %.4f"
-                           % (tuple(key) + (mine[key], med)))
-        if bad:
-            problems.append("the two faces price the same pair differently: %s" % "; ".join(bad))
+            mine_pub, now = published_med[key], now_med.get(key)
+            a, b = sorted(key)
+            if now is not None and not same_reading(now, mine_pub):
+                continue  # my own face is the stale side; already named in the STALE line
+            if now is not None and not same_reading(now, med):
+                sibling_stale.append("%s/%s sibling face %.4f, panel now %.4f"
+                                     % (a, b, med, now))
+            elif now is None and not same_reading(mine_pub, med):
+                bad.append("%s/%s: census %.4f vs sibling face %.4f (panel now %s)"
+                           % (a, b, mine_pub, med,
+                              "unreadable" if now is None else "%.4f" % now))
     else:
         shared = 0
+    if stale_here:
+        problems.append("STALE the panel moved under %d priced pair(s) and this face was not "
+                        "reburned since: %s" % (len(stale_here), "; ".join(stale_here[:4])))
+    if sibling_stale:
+        problems.append("STALE the sibling face %s is behind the same panel on %d shared "
+                        "pair(s): %s" % (os.path.basename(SIB_GAP_JSON), len(sibling_stale),
+                                         "; ".join(sibling_stale[:4])))
+    if bad:
+        problems.append("the two faces price the same pair differently: %s" % "; ".join(bad))
     print(json.dumps({"ok": not problems, "problems": problems,
                       "labels_multi": face["board"]["n_labels_multi"],
-                      "groups": len(published), "shared_pairs_crosschecked": shared},
+                      "groups": len(published), "shared_pairs_crosschecked": shared,
+                      "pairs_rederived": len(now_med), "stale_pairs": len(stale_here),
+                      "sibling_stale_pairs": len(sibling_stale)},
                      ensure_ascii=False))
     return 0 if not problems else 1
 
@@ -540,6 +588,87 @@ def selftest():
     face["sentence"] = sentence((1, 1, 0), {"ONE_BASKET": 1}, 0, 0.0)
     if "1 of 1 labels" not in face["sentence"]:
         fails.append("L5 the sentence must quote the counts it was given")
+
+    # L18-L20 (r1911/r1934 lineage): the two faces must publish one number, and the two ways
+    # they can differ have to be told apart -- a face the panel outran is STALE (the word that
+    # pays a writer), two rulers that disagree is a defect no rebuild may erase.
+    import contextlib
+    import copy
+    import io as _io
+    import tempfile
+
+    def _check_with(mine_doc, sib_doc):
+        d = tempfile.mkdtemp(prefix="census_st")
+        mp = os.path.join(d, "mine.json")
+        sp = os.path.join(d, "sib.json")
+        with open(mp, "w", encoding="utf-8") as fh:
+            json.dump(mine_doc, fh)
+        with open(sp, "w", encoding="utf-8") as fh:
+            json.dump(sib_doc, fh)
+        g = globals()
+        old = (g["OUT_JSON"], g["SIB_GAP_JSON"])
+        g["OUT_JSON"], g["SIB_GAP_JSON"] = mp, sp
+        buf = _io.StringIO()
+        try:
+            with contextlib.redirect_stdout(buf):
+                rc = check()
+        finally:
+            g["OUT_JSON"], g["SIB_GAP_JSON"] = old
+        return rc, buf.getvalue()
+
+    if not (os.path.exists(OUT_JSON) and os.path.exists(SIB_GAP_JSON)):
+        fails.append("L18 both published faces must exist for the divergence legs")
+        ran.extend(["L18", "L19", "L20"])
+    else:
+        with open(OUT_JSON, encoding="utf-8") as fh:
+            mine_doc = json.load(fh)
+        with open(SIB_GAP_JSON, encoding="utf-8") as fh:
+            sib_doc = json.load(fh)
+
+        rc0, out0 = _check_with(mine_doc, sib_doc)
+        ran.append("L18 the untouched copies still read green (the guard does not redden the "
+                   "ordinary case)")
+        if rc0 != 0 or "STALE" in out0:
+            fails.append("L18 control rc=%s out=%s" % (rc0, out0[:300]))
+
+        mine_bad = copy.deepcopy(mine_doc)
+        poisoned = None
+        for fam in mine_bad["families"]:
+            for p in fam["pairs"]:
+                if p["median_pp"] is not None:
+                    p["median_pp"] = round(p["median_pp"] + 1.0, 4)
+                    poisoned = "%s/%s" % (p["a"], p["b"])
+                    break
+            if poisoned:
+                break
+        rc1, out1 = _check_with(mine_bad, sib_doc)
+        ran.append("L19 a pair the panel no longer reproduces is reported STALE, never as a "
+                   "defect between the faces")
+        if poisoned is None:
+            fails.append("L19 no priced pair to poison")
+        elif rc1 == 0 or "STALE" not in out1 or "price the same pair differently" in out1:
+            fails.append("L19 rc=%s out=%s" % (rc1, out1[:400]))
+
+        published = {}
+        for fam in mine_doc["families"]:
+            for p in fam["pairs"]:
+                if p["median_pp"] is not None:
+                    published[frozenset((p["a"], p["b"]))] = p["median_pp"]
+        sib_bad = copy.deepcopy(sib_doc)
+        hit = None
+        for n in sib_bad.get("label_family") or []:
+            k = frozenset((str(n.get("leg_symbol")), str(n.get("sibling_symbol"))))
+            if n.get("gap_median_pp") is not None and k in published:
+                n["gap_median_pp"] = round(float(n["gap_median_pp"]) + 1.0, 4)
+                hit = "%s/%s" % tuple(sorted(k))
+                break
+        rc2, out2 = _check_with(mine_doc, sib_bad)
+        ran.append("L20 a sibling face behind the same panel is named STALE by name, not charged "
+                   "to this face")
+        if hit is None:
+            fails.append("L20 the two faces share no priced pair, so this leg cannot run")
+        elif rc2 == 0 or "STALE" not in out2 or "sibling face" not in out2:
+            fails.append("L20 rc=%s out=%s" % (rc2, out2[:400]))
 
     for f in fails:
         print("FAIL " + f)
