@@ -1,0 +1,203 @@
+{
+ "face": "idx_fut_carry_kill_rule_power",
+ "why": "how long until the forward record can conclude, and how often a drawdown kill rule fires on a noisy-but-live book",
+ "script": "scripts/idx_fut_carry_kill_rule_power.py",
+ "kind": "power_and_false_alarm",
+ "generated": "2026-11-26T14:20:44.986009+08:00",
+ "evidence_cutoff": "2026-11-25",
+ "cost_bp_side": 1.5,
+ "trading_days_per_year": 244,
+ "test": {
+  "alpha": 0.05,
+  "sides": 2,
+  "power": 0.8
+ },
+ "bootstrap": {
+  "paths": 4000,
+  "block": 20,
+  "seed": 20261126,
+  "null": "daily net carry demeaned to zero mean; block resampled"
+ },
+ "products": {
+  "IC": {
+   "first_bar": "2017-01-18",
+   "last_bar": "2026-11-25",
+   "stats": {
+    "n_bars": 2390,
+    "mean_day_pct": 0.039542,
+    "sd_day_pct": 0.207825,
+    "ann_mean_pct": 9.6482,
+    "ann_vol_pct": 3.2463,
+    "sharpe": 2.972
+   },
+   "days_to_detect": {
+    "+5.00pct": 807.3,
+    "+9.35pct": 230.9,
+    "+15.00pct": 89.7,
+    "+20.00pct": 50.5
+   },
+   "years_to_detect": {
+    "+5.00pct": 3.31,
+    "+9.35pct": 0.95,
+    "+15.00pct": 0.37,
+    "+20.00pct": 0.21
+   },
+   "mde_ann_pct_by_horizon": {
+    "63": 17.899,
+    "126": 12.656,
+    "252": 8.949,
+    "504": 6.328
+   },
+   "false_alarm": {
+    "63": {
+     "dd_4_pct": 0.0,
+     "cum_4_pct": 0.0,
+     "dd_6_pct": 0.0,
+     "cum_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "cum_8_pct": 0.0,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -1.153,
+     "p95_mdd_pct": -2.204
+    },
+    "126": {
+     "dd_4_pct": 0.0063,
+     "cum_4_pct": 0.0022,
+     "dd_6_pct": 0.0,
+     "cum_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "cum_8_pct": 0.0,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -1.662,
+     "p95_mdd_pct": -3.175
+    },
+    "252": {
+     "dd_4_pct": 0.0932,
+     "cum_4_pct": 0.0262,
+     "dd_6_pct": 0.007,
+     "cum_6_pct": 0.0022,
+     "dd_8_pct": 0.0005,
+     "cum_8_pct": 0.0003,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -2.379,
+     "p95_mdd_pct": -4.494
+    }
+   },
+   "false_alarm_if_measured_mu_holds": {
+    "63": {
+     "dd_4_pct": 0.0,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    },
+    "126": {
+     "dd_4_pct": 0.0003,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    },
+    "252": {
+     "dd_4_pct": 0.0,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    }
+   }
+  },
+  "IM": {
+   "first_bar": "2022-07-25",
+   "last_bar": "2026-11-25",
+   "stats": {
+    "n_bars": 1052,
+    "mean_day_pct": 0.036862,
+    "sd_day_pct": 0.216292,
+    "ann_mean_pct": 8.9943,
+    "ann_vol_pct": 3.3786,
+    "sharpe": 2.6622
+   },
+   "days_to_detect": {
+    "+5.00pct": 874.4,
+    "+9.35pct": 250.1,
+    "+15.00pct": 97.2,
+    "+20.00pct": 54.7
+   },
+   "years_to_detect": {
+    "+5.00pct": 3.58,
+    "+9.35pct": 1.02,
+    "+15.00pct": 0.4,
+    "+20.00pct": 0.22
+   },
+   "mde_ann_pct_by_horizon": {
+    "63": 18.628,
+    "126": 13.172,
+    "252": 9.314,
+    "504": 6.586
+   },
+   "false_alarm": {
+    "63": {
+     "dd_4_pct": 0.0065,
+     "cum_4_pct": 0.0018,
+     "dd_6_pct": 0.0008,
+     "cum_6_pct": 0.0005,
+     "dd_8_pct": 0.0,
+     "cum_8_pct": 0.0,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -1.15,
+     "p95_mdd_pct": -2.729
+    },
+    "126": {
+     "dd_4_pct": 0.0387,
+     "cum_4_pct": 0.0103,
+     "dd_6_pct": 0.002,
+     "cum_6_pct": 0.0005,
+     "dd_8_pct": 0.0003,
+     "cum_8_pct": 0.0,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -1.679,
+     "p95_mdd_pct": -3.838
+    },
+    "252": {
+     "dd_4_pct": 0.1522,
+     "cum_4_pct": 0.0372,
+     "dd_6_pct": 0.0215,
+     "cum_6_pct": 0.0063,
+     "dd_8_pct": 0.0018,
+     "cum_8_pct": 0.0003,
+     "dd_10_pct": 0.0,
+     "cum_10_pct": 0.0,
+     "median_mdd_pct": -2.449,
+     "p95_mdd_pct": -5.14
+    }
+   },
+   "false_alarm_if_measured_mu_holds": {
+    "63": {
+     "dd_4_pct": 0.0005,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    },
+    "126": {
+     "dd_4_pct": 0.0015,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    },
+    "252": {
+     "dd_4_pct": 0.0032,
+     "dd_6_pct": 0.0,
+     "dd_8_pct": 0.0,
+     "dd_10_pct": 0.0
+    }
+   }
+  }
+ },
+ "verdict": "CONFIRM_FAST_DECAY_SLOW",
+ "kill_line_read": "SIX_PCT_LINE_IS_DECORATION_FOUR_PCT_IS_A_REAL_RULE",
+ "ok": true,
+ "inputs_digest": "b812a727d7c244deffb5abb7bde3d314803a2886a198e104493da92e90720dd7"
+}
