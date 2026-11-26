@@ -26,6 +26,8 @@ It does not change the production cell. It publishes a verdict on the change:
   REJECT             the change gives back return or risk-adjusted return
   NOT_ASSESSED       the grid is too thin to say anything (never read as a pass)
   CONTROL_FAILED     the control arm did not reproduce the published book
+                     (FACE_LAG -- the two books priced on different bars -- is printed
+                     as such and is not an arithmetic defect; r2160)
 
 self  python scripts/etf_book_rebal_adoption.py selftest    # synthetic, fast
 run   python scripts/etf_book_rebal_adoption.py run         # real panel, ~2 min
@@ -34,10 +36,13 @@ check python scripts/etf_book_rebal_adoption.py check       # re-derive from rec
 from __future__ import annotations
 
 import argparse
+import contextlib
 import io
 import json
 import os
+import shutil
 import sys
+import tempfile
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -153,11 +158,11 @@ def _iqr(values):
     return float(np.subtract(*np.percentile(v, [75, 25])))
 
 
-def summarize(cells, control_reproduces=True):
+def summarize(cells, control_reproduces=True, control_note=None):
     """Per-cost pass shares, per-phase deltas, and the phase spread of the candidate."""
     out = {"by_cost": {}, "n_cells": len(cells)}
     if not control_reproduces:
-        out["degraded"] = "control did not reproduce the published book"
+        out["degraded"] = control_note or "control did not reproduce the published book"
         return out
     for cost in COSTS:
         ctrl = {c["phase"]: c for c in _by(cells, "control", cost)}
@@ -241,7 +246,9 @@ def summarize(cells, control_reproduces=True):
 def verdict_of(summary, control_reproduces=True):
     """The frozen decision rule. Returns (label, reasons)."""
     if not control_reproduces:
-        return "CONTROL_FAILED", ["the control arm did not reproduce the published book; nothing is claimed"]
+        return "CONTROL_FAILED", [summary.get("degraded")
+                                  or "the control arm did not reproduce the published book; "
+                                     "nothing is claimed"]
     if not summary.get("n_cells"):
         return "NOT_ASSESSED", ["no cells -- an empty grid cannot support a verdict"]
     free = summary["by_cost"].get(_key(COSTS[0]))     # 10bp: the assumption the pass was found under
@@ -414,13 +421,22 @@ def run() -> int:
     control_cells = _by(cells, "control", CONTROL["cost"])
     ctrl = dict(control_cells[0]) if control_cells else None
     published_cagr = None
+    published_cutoff = None
     if os.path.exists(CONTROL_RECEIPT):
         with io.open(CONTROL_RECEIPT, encoding="utf-8") as f:
             rec = json.load(f)
+        published_cutoff = rec.get("evidence_cutoff")
         for r in rec.get("runs", []):
             if r.get("label") == "nobond_vt08":
                 published_cagr = round(float(r["cagr"]) * 100.0, 4)
                 break
+    # r2160: the control arm can only reproduce a book priced on its own bar. This leg
+    # sits BEFORE the leg that rewrites results/etf_nobond_vt.json in the same chain, so
+    # on the first round after the panel advances the two faces are one bar apart and the
+    # difference is a face lag, not an arithmetic error. Saying CONTROL_FAILED there was
+    # a permanent red that no writer could ever clear (r1850/r1934).
+    panel_cutoff = str(close.index[-1].date())
+    face_state = compare_faces(published_cutoff, panel_cutoff)
     pub_years = CL.published_yearly_rows() if os.path.exists(YEAR_GATE_RECEIPT) else None
     gaps = {}
     if ctrl is not None:
@@ -432,16 +448,40 @@ def run() -> int:
                 gaps[y] = round(got - want_pct, 4)
         ctrl.update({"published_cagr_pct": published_cagr,
                      "published_yearly_pct": pub_years,
-                     "published_year_gaps_pp": gaps})
+                     "published_year_gaps_pp": gaps,
+                     "published_cutoff": published_cutoff,
+                     "panel_cutoff": panel_cutoff,
+                     "face_state": face_state})
         ctrl["reproduces_published"] = bool(
-            published_cagr is not None
+            face_state == "SAME_FACE"
+            and published_cagr is not None
             and abs(ctrl["cagr_pct"] - published_cagr) <= COST_TOL * 100
             and pub_years and not gaps)
     reproduces = bool(ctrl and ctrl.get("reproduces_published"))
-    print("control cagr %.4f vs published %r reproduces=%s"
-          % ((ctrl or {}).get("cagr_pct", float("nan")), published_cagr, reproduces), flush=True)
+    print("control cagr %.4f vs published %r reproduces=%s face_state=%s "
+          "published_cutoff=%r panel_cutoff=%r"
+          % ((ctrl or {}).get("cagr_pct", float("nan")), published_cagr, reproduces,
+             face_state, published_cutoff, panel_cutoff), flush=True)
+    if face_state == "FACE_LAG":
+        print("FACE_LAG the published book (results/etf_nobond_vt.json) is priced on %r while "
+              "this run is on %r -- not an arithmetic error: the chain leg that reprices that "
+              "book (etf_nobond_vt) runs BEFORE this face, so seeing this means it failed or "
+              "was skipped this round (r2160)" % (published_cutoff, panel_cutoff),
+              flush=True)
+    elif face_state == "UNKNOWN":
+        print("FACE MISSING cannot read evidence_cutoff from results/etf_nobond_vt.json (or "
+              "the panel has no last bar), so the control cannot be compared at all (r2160)",
+              flush=True)
 
-    s = summarize(cells, control_reproduces=reproduces)
+    note = None
+    if face_state == "FACE_LAG":
+        note = ("FACE_LAG not an arithmetic error: the published book is priced on %s and this "
+                "run on %s, so the two faces are one bar apart; the chain leg that reprices it "
+                "(etf_nobond_vt) runs before this face (r2160)" % (published_cutoff, panel_cutoff))
+    elif face_state == "UNKNOWN":
+        note = ("FACE MISSING no evidence_cutoff on results/etf_nobond_vt.json (or no panel "
+                "bar), so nothing can be compared (r2160)")
+    s = summarize(cells, control_reproduces=reproduces, control_note=note)
     label, reasons = verdict_of(s, control_reproduces=reproduces)
 
     free = s.get("by_cost", {}).get(_key(COSTS[0])) or {}
@@ -488,6 +528,9 @@ def run() -> int:
         f.write(render_md(payload))
     print("[run] %s | %s" % (label, reasons), flush=True)
     print("saved", OUT, flush=True)
+    # r2160: a face lag is red but NOT repairable by re-running this file -- the fix is the
+    # upstream leg that reprices the book. Saying STALE here would pay for a rebuild that
+    # cannot change the answer and, worse, would leave a red face that `refresh` then skips.
     return 0 if reproduces else 1
 
 
@@ -514,13 +557,69 @@ def check() -> int:
                 errs.append("%s/%sbp/%s: %s %r != re-derived %r"
                             % (c["rule"], int(round(c["cost"] * 10000)), c["phase"], k,
                                c["checks"][k], v))
-    reproduces = bool((rec.get("control") or {}).get("reproduces_published"))
-    s2 = summarize(rec["cells"], control_reproduces=reproduces)
+    # r2160: two questions, never merged. (1) Are the two books even priced on the same
+    # bar? (2) On the same bar, do the numbers agree? Only (2) is an arithmetic defect;
+    # (1) is a face lag that a rewrite can clear, so it has to say STALE and return 3.
+    ctrl = rec.get("control") or {}
+    # r2160: freshness needs an outside anchor, not the receipt's own echo (r1850). The
+    # book is repriced every round; a receipt that only compares its stored copy re-derives
+    # perfectly and prints green while quoting a bar the book has already left.
+    moved = book_moved(published_face_cutoff(), ctrl.get("published_cutoff"))
+    if moved == "STALE":
+        print("[check] STALE results/etf_nobond_vt.json is now priced on %s but this receipt "
+              "compared against %s -- repricing this file on the book's bar is the fix (r2160)"
+              % (published_face_cutoff(), ctrl.get("published_cutoff")))
+        return 3
+    if moved == "LAG":
+        print("[check] FACE_LAG results/etf_nobond_vt.json went back to %s while this receipt "
+              "compared against %s -- repricing this file cannot change that; the upstream leg "
+              "etf_nobond_vt is the fix (r2160)"
+              % (published_face_cutoff(), ctrl.get("published_cutoff")))
+        return 1
+    if not ctrl.get("published_cutoff") or not rec.get("evidence_cutoff"):
+        print("[check] STALE face missing: this receipt predates the face-lag probe "
+              "(control.published_cutoff / evidence_cutoff absent); repricing adds them")
+        return 3
+    face_state = compare_faces(ctrl.get("published_cutoff"), rec.get("evidence_cutoff"))
+    if ctrl.get("face_state") != face_state:
+        errs.append("control face_state %r != re-derived %r (published_cutoff=%r, "
+                    "evidence_cutoff=%r)" % (ctrl.get("face_state"), face_state,
+                                             ctrl.get("published_cutoff"),
+                                             rec.get("evidence_cutoff")))
+    pub_cagr = ctrl.get("published_cagr_pct")
+    got_cagr = ctrl.get("cagr_pct")
+    recol = False
+    if pub_cagr is not None and got_cagr is not None:
+        recol = bool(face_state == "SAME_FACE"
+                     and abs(float(got_cagr) - float(pub_cagr)) <= COST_TOL * 100
+                     and not ctrl.get("published_year_gaps_pp"))
+        if bool(ctrl.get("reproduces_published")) != recol:
+            errs.append("control reproduces_published=%r != re-derived %r (%.4fpp apart)"
+                        % (ctrl.get("reproduces_published"), recol,
+                           abs(float(got_cagr) - float(pub_cagr))))
+    reproduces = bool(recol)
+    s2 = summarize(rec["cells"], control_reproduces=reproduces,
+                   control_note=(rec.get("summary") or {}).get("degraded"))
     label2, _r = verdict_of(s2, control_reproduces=reproduces)
     if label2 != rec["verdict"]["label"]:
         errs.append("verdict %s != re-derived %s" % (rec["verdict"]["label"], label2))
-    if not reproduces:
-        errs.append("control did not reproduce the published book")
+    if face_state != "SAME_FACE":
+        pub_cut = str(ctrl.get("published_cutoff") or "")
+        my_cut = str(rec.get("evidence_cutoff") or "")
+        for e in errs:
+            print("[check] (not an arithmetic error while the two faces are apart)", e)
+        if pub_cut > my_cut:
+            # the book moved forward and this receipt did not: repricing this file on the
+            # book's own bar is a real fix, so the chain may pay for it
+            print("[check] STALE the published book moved to %s while this face is still on "
+                  "%s -- repricing this file on the book's bar is the fix (r2160)"
+                  % (pub_cut, my_cut))
+            return 3
+        print("[check] FACE_LAG results/etf_nobond_vt.json is priced on %r while this face is "
+              "on %r -- repricing THIS file cannot change that; the upstream leg "
+              "etf_nobond_vt (which runs before this one) is the fix (r2160)"
+              % (ctrl.get("published_cutoff"), rec.get("evidence_cutoff")))
+        return 1
     if errs:
         for e in errs:
             print("[check] DRIFT", e)
@@ -694,6 +793,104 @@ def selftest() -> int:
         refresh_decision(None, "2026-01-05") == "UNKNOWN"
         and refresh_decision("2026-01-05", None) == "UNKNOWN")
 
+    # P-R (r2160) the face-lag probe: two books on different bars are not a comparison
+    leg("P a published book on an older bar is FACE_LAG",
+        compare_faces("2026-01-02", "2026-01-05") == "FACE_LAG")
+    leg("Q the same bar is SAME_FACE", compare_faces("2026-01-05", "2026-01-05") == "SAME_FACE")
+    leg("R an unreadable clock is UNKNOWN", compare_faces(None, "2026-01-05") == "UNKNOWN")
+    leg("V the published book's own bar is readable", bool(published_face_cutoff()),
+        published_face_cutoff())
+    leg("W the book moving forward is STALE, going back is LAG",
+        book_moved("2026-01-05", "2026-01-02") == "STALE"
+        and book_moved("2026-01-02", "2026-01-05") == "LAG"
+        and book_moved("2026-01-05", "2026-01-05") == "SAME"
+        and book_moved(None, "2026-01-05") == "UNKNOWN")
+
+    # S-T behavioural (r1935): call the REAL check() on a doctored copy of the receipt, so
+    # the words and the return code are proven rather than asserted from the source. A
+    # lagging book must say STALE and return 3; the same bar with a 0.5pp gap must return 1
+    # and must NOT say STALE (otherwise the writer is paid to hide a real defect).
+    real = os.path.join(ROOT, "results", "etf_book_rebal_adoption.json")
+    if os.path.exists(real):
+        saved = OUT
+        saved_book = CONTROL_RECEIPT
+        tmpdir = tempfile.mkdtemp(prefix="rebal_")
+        try:
+            with io.open(real, encoding="utf-8") as f:
+                rec0 = json.load(f)
+            base = rec0.get("control") or {}
+            if base.get("published_cutoff") and rec0.get("evidence_cutoff") and \
+                    base.get("cagr_pct") is not None and base.get("published_cagr_pct") is not None:
+                saved_book = CONTROL_RECEIPT
+
+                def _pin_book(cut, name, _dir=tmpdir):
+                    p = os.path.join(_dir, name)
+                    with io.open(p, "w", encoding="utf-8", newline="\n") as f:
+                        json.dump({"evidence_cutoff": cut, "runs": []}, f)
+                    return p
+
+                lag = json.loads(json.dumps(rec0))
+                lag["control"]["published_cutoff"] = "1999-01-01"
+                lag["control"]["face_state"] = "FACE_LAG"
+                lag["control"]["reproduces_published"] = False
+                p_lag = os.path.join(tmpdir, "lag.json")
+                with io.open(p_lag, "w", encoding="utf-8", newline="\n") as f:
+                    json.dump(lag, f, ensure_ascii=False)
+                buf = io.StringIO()
+                globals()["OUT"] = p_lag
+                globals()["CONTROL_RECEIPT"] = _pin_book("1999-01-01", "book_lag.json")
+                with contextlib.redirect_stdout(buf):
+                    rc1 = check()
+                globals()["OUT"] = saved
+                leg("S a lagging published book says FACE_LAG and returns 1 (not repairable here)",
+                    rc1 == 1 and "FACE_LAG" in buf.getvalue()
+                    and "STALE" not in buf.getvalue(), [rc1, buf.getvalue()[-160:]])
+
+                ahead = json.loads(json.dumps(rec0))
+                ahead["control"]["published_cutoff"] = "2099-01-01"
+                ahead["control"]["face_state"] = "FACE_LAG"
+                ahead["control"]["reproduces_published"] = False
+                p_ahead = os.path.join(tmpdir, "ahead.json")
+                with io.open(p_ahead, "w", encoding="utf-8", newline="\n") as f:
+                    json.dump(ahead, f, ensure_ascii=False)
+                buf3 = io.StringIO()
+                globals()["OUT"] = p_ahead
+                globals()["CONTROL_RECEIPT"] = _pin_book("2099-01-01", "book_ahead.json")
+                with contextlib.redirect_stdout(buf3):
+                    rc3 = check()
+                globals()["OUT"] = saved
+                leg("U a book that moved ahead of this face says STALE and returns 3 (repricable)",
+                    rc3 == 3 and "STALE" in buf3.getvalue(), [rc3, buf3.getvalue()[-160:]])
+
+                gap = json.loads(json.dumps(rec0))
+                gap["control"]["published_cutoff"] = rec0["evidence_cutoff"]
+                gap["control"]["face_state"] = "SAME_FACE"
+                gap["control"]["reproduces_published"] = False
+                gap["control"]["published_cagr_pct"] = round(
+                    float(rec0["control"]["cagr_pct"]) + 0.5, 4)
+                p_gap = os.path.join(tmpdir, "gap.json")
+                with io.open(p_gap, "w", encoding="utf-8", newline="\n") as f:
+                    json.dump(gap, f, ensure_ascii=False)
+                buf2 = io.StringIO()
+                globals()["OUT"] = p_gap
+                globals()["CONTROL_RECEIPT"] = _pin_book(rec0["evidence_cutoff"], "book_same.json")
+                with contextlib.redirect_stdout(buf2):
+                    rc2 = check()
+                globals()["OUT"] = saved
+                globals()["CONTROL_RECEIPT"] = saved_book
+                leg("T a same-bar 0.5pp gap is red with no STALE word",
+                    rc2 == 1 and "STALE" not in buf2.getvalue(),
+                    [rc2, buf2.getvalue()[-140:]])
+            else:
+                leg("S/T face-lag behaviour legs", False,
+                    "receipt lacks the face-lag fields; run `run` once and re-test")
+        finally:
+            globals()["OUT"] = saved
+            globals()["CONTROL_RECEIPT"] = saved_book
+            shutil.rmtree(tmpdir, ignore_errors=True)
+    else:
+        leg("S/T face-lag behaviour legs", False, "no receipt at %s" % real)
+
     ok = sum(1 for _n, o, _e in legs if o)
     for name, o, extra in legs:
         if not o:
@@ -720,11 +917,48 @@ def panel_last_bar():
         return None
 
 
+def compare_faces(published_cutoff, panel_cutoff):
+    """Can the control arm be compared at all? (r2160)
+
+    SAME_FACE = both books are priced on the same bar, so a difference in CAGR is
+    arithmetic. FACE_LAG = the two faces are on different bars (in practice the published
+    book one bar older than this run), so the difference is the panel moving -- a checker
+    that calls that "the control did not reproduce" prints a red no writer can clear.
+    UNKNOWN = one of the two clocks cannot be read; never treated as fresh.
+    """
+    if not published_cutoff or not panel_cutoff:
+        return "UNKNOWN"
+    return "SAME_FACE" if str(published_cutoff) == str(panel_cutoff) else "FACE_LAG"
+
+
 def refresh_decision(face_cutoff, panel_cutoff):
     """SAME = nothing to pay for, STALE = the repricing owns the job, UNKNOWN = no clock."""
     if not face_cutoff or not panel_cutoff:
         return "UNKNOWN"
     return "STALE" if str(face_cutoff) < str(panel_cutoff) else "SAME"
+
+
+def book_moved(live_pub, wrote_pub):
+    """Did the published book move under this receipt? (r2160)
+
+    SAME = the book is still on the bar this receipt compared against. STALE = it moved
+    forward (repricing this file is a real fix). LAG = it went back, which repricing here
+    cannot fix (the upstream leg is the fix). UNKNOWN = one clock unreadable, never fresh.
+    """
+    if not live_pub or not wrote_pub:
+        return "UNKNOWN"
+    if str(live_pub) == str(wrote_pub):
+        return "SAME"
+    return "STALE" if str(live_pub) > str(wrote_pub) else "LAG"
+
+
+def published_face_cutoff():
+    """The bar results/etf_nobond_vt.json is priced on, or None if it cannot be read."""
+    try:
+        with io.open(CONTROL_RECEIPT, encoding="utf-8") as f:
+            return json.load(f).get("evidence_cutoff")
+    except Exception:
+        return None
 
 
 def refresh() -> int:
@@ -735,10 +969,13 @@ def refresh() -> int:
     ~9s in a round where the panel has not moved, ~68s when it has.
     """
     had = None
+    face_state = None
     if os.path.exists(OUT):
         try:
             with io.open(OUT, encoding="utf-8") as f:
-                had = json.load(f).get("evidence_cutoff")
+                rec = json.load(f)
+            had = rec.get("evidence_cutoff")
+            face_state = (rec.get("control") or {}).get("face_state")
         except Exception:
             had = None
     live = panel_last_bar()
@@ -747,6 +984,19 @@ def refresh() -> int:
         print("REFRESH_UNKNOWN panel or receipt unreadable (receipt=%s, panel=%s); "
               "leaving the face as it stands" % (had, live))
         return 2
+    if state == "SAME" and face_state != "SAME_FACE":
+        # r2160: the receipt is on the newest bar but says it could not compare its control.
+        # If the published book is the older face, repricing this file would just write the
+        # same red again -- name the upstream leg and stop.
+        pub = published_face_cutoff()
+        if pub and had and str(pub) < str(had):
+            print("FACE_LAG the published book is on %s, behind this face's %s -- repricing "
+                  "this file cannot change that; the upstream leg etf_nobond_vt is the fix "
+                  "(r2160)" % (pub, had))
+            return 1
+        state = "STALE"
+        print("REFRESH_STALE the receipt says its control could not be compared (face_state=%r) "
+              "while the book reads %r vs this face %r" % (face_state, pub, had))
     if state == "SAME":
         print("REFRESH_NOOP evidence_cutoff=%s (the panel has not moved)" % live)
         return 0

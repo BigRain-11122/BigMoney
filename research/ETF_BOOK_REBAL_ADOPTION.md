@@ -1,27 +1,27 @@
 # 把调仓改成 10 日？——先给这条规则做采纳轮
 
-> 面：`results/etf_book_rebal_adoption.json` ｜ 脚本：`scripts/etf_book_rebal_adoption.py` ｜ 面板截止：2026-11-25 ｜ 判据在首跑前冻结
+> 面：`results/etf_book_rebal_adoption.json` ｜ 脚本：`scripts/etf_book_rebal_adoption.py` ｜ 面板截止：2026-11-26 ｜ 判据在首跑前冻结
 
 ## 一句话
 
-PHASE_DEPENDENT —— the gate passes on only 20% of 5 phase cells (floor 60%); the control book passes 20% of the same calendars, so the verdict word itself moves with the phase；the return effect itself is +0.68pp median and positive in 80% of cells, so the lever is not what fails -- the gate pass is；at 20bp/side the same change is -0.40pp median, so the return edge is a cost assumption as well；the faster grid trades +9.86 more units per year, which at the 10bp step costs 0.99pp -- against an edge of +0.68pp (the fee is the same size as the edge)
+PHASE_DEPENDENT —— the gate passes on only 20% of 5 phase cells (floor 60%); the control book passes 20% of the same calendars, so the verdict word itself moves with the phase；the return effect itself is +0.72pp median and positive in 80% of cells, so the lever is not what fails -- the gate pass is；at 20bp/side the same change is -0.38pp median, so the return edge is a cost assumption as well；the faster grid trades +9.96 more units per year, which at the 10bp step costs 1.00pp -- against an edge of +0.72pp (the fee is the same size as the edge)
 
 ## 控制臂复现
 
 | 项 | 值 |
 | --- | --- |
-| 本轮控制臂 CAGR | 10.9600% |
-| 已发布 nobond_vt08 | 10.9600% |
+| 本轮控制臂 CAGR | 10.8900% |
+| 已发布 nobond_vt08 | 10.8900% |
 | 逐年行逐位相等 | 是 |
 
 ## 相位 × 成本网格
 
 | 成本 | 相位数 | 候选过 Y4 占比 | 控制过 Y4 占比 | 中位 ΔCAGR | 最差 ΔCAGR | 收益不降占比 | 中位 ΔSharpe | 中位 Δ年换手 | 中位 Δ每决策换手 | 候选 top-2 相位 IQR | 中位到线距离 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10bp | 5 | 20% | 20% | +0.68pp | -0.01pp | 100% | +0.092 | +9.860 | -0.1365 | 0.0795 | +6.17pp |
-| 20bp | 5 | 0% | 0% | -0.40pp | -1.10pp | 40% | -0.022 | +9.860 | -0.1365 | 0.0851 | +16.93pp |
+| 10bp | 5 | 20% | 20% | +0.72pp | +0.00pp | 100% | +0.091 | +9.963 | -0.1322 | 0.0794 | +6.14pp |
+| 20bp | 5 | 0% | 0% | -0.38pp | -1.09pp | 40% | -0.022 | +9.963 | -0.1322 | 0.0830 | +16.89pp |
 
-**成本算术**：更快的网格每年多交易 +9.86 个单位，按 10bp 的假设差就是 0.99pp——而这条规则在 10bp 下的中位收益优势是 +0.68pp（手续费与优势同量级）；实测两档成本间的中位 CAGR 位移是 +1.08pp。
+**成本算术**：更快的网格每年多交易 +9.96 个单位，按 10bp 的假设差就是 1.00pp——而这条规则在 10bp 下的中位收益优势是 +0.72pp（手续费与优势同量级）；实测两档成本间的中位 CAGR 位移是 +1.10pp。
 
 逐相位行见 JSON 的 `summary.by_cost.<bp>.rows`。
 

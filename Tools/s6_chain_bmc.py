@@ -2072,10 +2072,10 @@ LEGS = [
     # printed. `check` re-derives every cell verdict and the cost arithmetic from the
     # receipt's own rows (0.2s, no repricing).
     # r1921: same writer gap, same gate -- 11.4s no-op, 68s five-phase repricing.
-    ("rebal_adoption_write",
-     ["python", "scripts/etf_book_rebal_adoption.py", "refresh"]),
-    ("rebal_adoption",
-     ["python", "scripts/etf_book_rebal_adoption.py", "check"]),
+    # r2160: MOVED below the `etf_nobond_vt` writer. The control arm reproduces a book
+    # priced on its own bar, and this face was read before the leg that rewrites that
+    # book: on the first round after a panel advance the two faces were one bar apart, so
+    # the control read as broken and no writer could ever clear it (a permanent red).
     # r1463: the whole permission arc (r1451..r1459) prices how BIG the order may be and
     # never what it PAYS above the basket it buys. This leg re-derives the entry premium
     # from the ticket's own bar and that session's IOPV (0.3s, no repricing).
@@ -2656,6 +2656,14 @@ LEGS = [
     # the penalty stays attached to the published number instead of living in a research
     # note; the printed keys are untouched, so no downstream reading moves.
     ("etf_nobond_vt", ["python", "scripts/etf_nobond_vt.py"]),
+    # r2160: moved here from its r1462 position (see the note left there). This face's
+    # control arm reproduces the published book, so it must be read AFTER the leg that
+    # prices that book on this round's bar -- otherwise one panel advance turns the
+    # control into a false red. `refresh` is a 11.4s no-op when the panel has not moved.
+    ("rebal_adoption_write",
+     ["python", "scripts/etf_book_rebal_adoption.py", "refresh"]),
+    ("rebal_adoption",
+     ["python", "scripts/etf_book_rebal_adoption.py", "check"]),
     # r1797: the equity/bond sleeve split face quotes the 9% headline every downstream
     # reader (CEO page, order card) starts from, and it is the second copy of the same
     # leg chain -- so it carried the same one-day bulge unread. This leg re-prices all
