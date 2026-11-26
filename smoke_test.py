@@ -2633,6 +2633,16 @@ def main() -> int:
              "scripts/etf_book_supply_gate_decision.py", ["selftest"]),
             ("product: etf_book_supply_gate_decision (verdict re-derived from receipts)",
              "scripts/etf_book_supply_gate_decision.py", ["--check"]),
+            # r2121: the book prints TRADABLE_AT_1000000 (whole lots fit) and CONDITIONAL
+            # (Y4_top2_share) about the same ticket on the same close, and no face joined
+            # them -- so the first word could be read as a permission. The legs pin that
+            # the newest close is the authoritative receipt (and the older, friendlier one
+            # is kept but rejected), that a moving share is caught as a broken face, and
+            # that the published reading re-derives from its receipts.
+            ("product: etf_book_permission_vs_size (which receipt speaks, and can size buy it back)",
+             "scripts/etf_book_permission_vs_size.py", ["selftest"]),
+            ("product: etf_book_permission_vs_size (permission and lot words re-derived)",
+             "scripts/etf_book_permission_vs_size.py", ["check"]),
             # r1447: r1446 said the caliber dispute cannot move the money but never asked
             # whether the weight in force is the weight of a graded rule. The legs pin that
             # the ticket's own decision grid is the fixed 2020-01-01 20-bar grid (not the
@@ -16011,6 +16021,118 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: the cap's price tag reaches the page that prints the cap",
               False, repr(e)[:180])
+
+    # r2119: the 8 % dial had never been priced against the book that is actually being
+    # paper-tracked (14.05 % on 1052 bars).  Two legs: the face's own behaviour legs, and
+    # the published face read back through a predicate that lives at module level so an
+    # evidence harness can drive it on mutated inputs (r1861/r1934).
+    try:
+        _cd99 = capture_pinned([sys.executable,
+                                os.path.join("scripts", "carry_risk_dial_vs_book.py"),
+                                "--selftest"], 180)
+        check("product: the risk dial and the book are priced on one page",
+              _cd99.returncode == 0 and "20 of 20 PASS" in _cd99.stdout,
+              (_cd99.stdout.strip().splitlines() or [""])[-1][:200] if _cd99.returncode == 0
+              else (_cd99.stderr or _cd99.stdout)[:200])
+        _bad99 = carry_dial_problems()
+        check("product: the dial face's numbers, bar and leg hold together",
+              not _bad99, "; ".join(_bad99)[:240]
+              or "dial capital = vol money / 8 %, two readings kept apart, check-first leg")
+    except Exception as e:
+        check("product: the dial face's numbers, bar and leg hold together",
+              False, repr(e)[:180])
+
+
+def carry_dial_problems(face=None, results_dir=None, legs=None, doc_path=None):
+    """Problems with the risk-dial paper (r2119).
+
+    The face answers one question -- at what capital is this book's measured risk 8 % of the
+    money, and does the equity sleeve still fit its own 1 % ADV line there -- and it can lie
+    in four ways this predicate catches: the division is not the division, the two readings
+    (weights vs same size) have been merged into one number, the bar is missing, or the face
+    sits on no chain leg at all while its page stays green (r1282/r1850).
+
+    Kept at module level so an evidence harness can drive the SAME predicate on mutated
+    inputs: a leg whose only input is today's green state cannot show it would have spoken.
+    """
+    import importlib as _importlib
+    results_dir = results_dir or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "results")
+    if legs is None:
+        legs = [tuple(t) for t in _importlib.import_module("Tools.s6_chain_bmc").LEGS]
+    by_name = {t[0]: t for t in legs}
+    bad = []
+    if face is None:
+        path = os.path.join(results_dir, "carry_risk_dial_vs_book.json")
+        if not os.path.exists(path):
+            return ["carry_risk_dial_vs_book: face missing"]
+        try:
+            with open(path, encoding="utf-8") as fh:
+                face = json.load(fh)
+        except Exception as e:
+            return ["carry_risk_dial_vs_book: unreadable (%s)" % repr(e)[:60]]
+
+    verdict = str(face.get("verdict") or "").strip()
+    same = str(face.get("verdict_same_size") or "").strip()
+    if not verdict:
+        bad.append("no verdict (weights reading)")
+    if not same:
+        bad.append("no verdict (same-size reading)")
+    if verdict and same and verdict == same:
+        bad.append("the two readings share one token: they price different books and must "
+                   "not be merged")
+
+    cut = str(face.get("evidence_cutoff") or "")
+    if len(cut) != 10 or cut[4] != "-" or cut[7] != "-":
+        bad.append("evidence_cutoff is %r (C2 wants YYYY-MM-DD)" % face.get("evidence_cutoff"))
+    if not str(face.get("generated") or "").strip():
+        bad.append("no generated stamp")
+
+    book = face.get("book") or {}
+    dial = face.get("dial") or {}
+    vol = book.get("vol_pct")
+    cap = dial.get("capital_where_risk_is_dial_cny")
+    money = dial.get("vol_money_cny_per_year")
+    pct = dial.get("pct")
+    if not all(isinstance(x, (int, float)) for x in (vol, cap, money, pct)):
+        bad.append("dial arithmetic incomplete")
+    else:
+        if abs(vol / 100.0 * 1000000.0 - money) > 0.05:
+            bad.append("vol money is not vol x 1,000,000")
+        if abs(money / (pct / 100.0) - cap) > 0.05:
+            bad.append("dial capital is not vol money / dial pct")
+        if abs(dial.get("excess_over_dial_pp") - (vol - pct)) > 1e-6:
+            bad.append("excess is not vol minus the dial")
+
+    capblock = face.get("capacity") or {}
+    a = (capblock.get("weights_reading") or {}).get("median") or {}
+    b = (capblock.get("same_size_reading") or {}).get("median") or {}
+    if not a or not b:
+        bad.append("one of the two readings is missing on the median session")
+    elif a.get("capacity_nav_cny") == b.get("sleeve_money_cny"):
+        bad.append("the two readings printed the same number: one of them was not computed")
+
+    leg = by_name.get("carry_risk_dial_vs_book")
+    if leg is None:
+        bad.append("carry_risk_dial_vs_book is not on the chain")
+    elif len(leg) < 3:
+        bad.append("the chain leg is writer-only (no check first)")
+    elif not any("check" in str(x) for x in (leg[1] or [])):
+        bad.append("the chain leg's first element is not a check command")
+
+    page = doc_path or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "research", "CARRY_RISK_DIAL_VS_BOOK.md")
+    if os.path.exists(page):
+        with open(page, encoding="utf-8") as fh:
+            text = fh.read()
+        for token in (verdict, same):
+            if token and token not in text:
+                bad.append("the page does not print %s" % token)
+        if "%%" in text:
+            bad.append("the page prints a literal double percent")
+    else:
+        bad.append("the page is missing")
+    return bad
 
 
 def trial_labor_direction_face_problems(face=None, legs=None, results_dir=None):

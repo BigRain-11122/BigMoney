@@ -168,6 +168,14 @@ ETF_BOOK_FWD = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 # It was never on this page, so the reader could only ever read the flattering
 # cell.  Read-only quote, the producer's own generated/cutoff carried.
 ETF_BOOK_PRE2020 = os.path.join(ROOT, "results", "etf_book_pre2020.json")
+# r2121: the page prices the ticket in CNY (¥1,000,000, 5 names, capacity) and never
+# prints the word that decides whether that ticket may be HELD at all.  Two faces
+# answer two different questions about the same close: the lot face says
+# TRADABLE_AT_1000000 (100-share lots fit) and the supply gate says CONDITIONAL
+# (Y4_top2_share).  The face below joins them and prices the only question that
+# decides whether re-sizing is a fix: a share is a ratio, so it cannot be bought down.
+ETF_PERMISSION_VS_SIZE = os.path.join(ROOT, "results",
+                                      "etf_book_permission_vs_size.json")
 # r1580: ⑥ reports the forward ledger, but the sheet the desk holds is a
 # DIFFERENT book (5 names on the beta target, k~0.43, vs 12 names on the 8%
 # vol target, k~0.91).  Both are real and both run on the same 1,000,000 CNY.
@@ -887,6 +895,63 @@ def _etf_book_period_face():
             "generated": d.get("generated"),
             "cutoff": d.get("evidence_cutoff"),
             "pre": a, "same_universe_post": b, "full_post": c}
+
+
+def _etf_permission_face():
+    """r2121: the ticket's permission word, and whether size can buy it back.
+
+    `results/etf_book_permission_vs_size.json` joins the two words this book prints
+    about the same ¥1,000,000 ticket on the same close -- TRADABLE_AT_1000000 (whole
+    lots fit) and CONDITIONAL (the year gate's Y4_top2_share) -- elects which receipt
+    is authoritative, and tabulates the top-2 share at five capitals.
+
+    Read-only, zero new judgment: the word is the gate's, the lot verdict is the
+    floor face's, and the two receipts travel with their own generated/cutoff.  A
+    missing face prints its own reason instead of 0 (a reader must not read "no
+    permission problem" out of "this page could not read the gate").
+    """
+    d = _read_json(ETF_PERMISSION_VS_SIZE)
+    rel = "results/etf_book_permission_vs_size.json"
+    if not d:
+        return {"present": False, "path": rel, "note": "许可面未产出（缺面不读 0）"}
+    perm = d.get("permission") or {}
+    lot = d.get("lot_word") or {}
+    inv = d.get("invariance") or {}
+    rows = d.get("size_table") or []
+    at1m = next((r for r in rows if r.get("capital_cny") == 1_000_000.0), None)
+    authority = d.get("authority") or {}
+    return {
+        "present": True,
+        "path": rel,
+        "generated": d.get("generated"),
+        "cutoff": d.get("evidence_cutoff"),
+        "verdict": d.get("verdict"),
+        "permission": perm.get("word"),
+        "permission_book": perm.get("book"),
+        "failing": perm.get("failing_checks") or [],
+        "permission_generated": perm.get("source_generated"),
+        "permission_cutoff": perm.get("source_cutoff"),
+        "lot": lot.get("word"),
+        "lot_bar": lot.get("asof_bar"),
+        "lot_residual_pct": lot.get("residual_pct_nav"),
+        "share_pct": (round(float(at1m["top2_share"]) * 100.0, 2)
+                      if at1m and at1m.get("top2_share") is not None else None),
+        "line_pct": (d.get("line") or {}).get("top2_share_max_pct"),
+        "delta_pp": at1m.get("delta_pp") if at1m else None,
+        "delta_cny": at1m.get("delta_cny") if at1m else None,
+        "best_year": at1m.get("best_year") if at1m else None,
+        "lo_cny": (rows[0].get("capital_cny") if rows else None),
+        "hi_cny": (rows[-1].get("capital_cny") if rows else None),
+        "delta_cny_lo": (rows[0].get("delta_cny") if rows else None),
+        "delta_cny_hi": (rows[-1].get("delta_cny") if rows else None),
+        "share_identical": inv.get("share_identical"),
+        "money_linear": inv.get("money_linear"),
+        "authority_name": (authority.get("chosen") or {}).get("name"),
+        "authority_cutoff": (authority.get("chosen") or {}).get("evidence_cutoff"),
+        "rejected": [{"name": r.get("name"), "cutoff": r.get("evidence_cutoff"),
+                      "word": r.get("word")} for r in (authority.get("rejected") or [])],
+        "sentences": d.get("sentences") or [],
+    }
 
 
 def _idle_cash_face():
@@ -2648,6 +2713,7 @@ def build_payload(day: str) -> dict:
         "judgment_burns": _judgment_burn_face(),
         "etf_book": book,
         "etf_book_periods": _etf_book_period_face(),
+        "etf_permission": _etf_permission_face(),
         "etf_order": _etf_order_with_cash_roll(),
         "etf_entry_price": _etf_entry_price_face(),
         # r1893: the "should we wait for a sharper ruler" reading, on the CEO's page.
@@ -3201,6 +3267,41 @@ def render_md(p: dict) -> str:
                 "外推成「一直都有效」")
         L.append(f"  - 出处：`{_bp['path']}`（generated {_bp.get('generated')}"
                  f"·cutoff {_bp.get('cutoff')}·零判决零记账）")
+    # ---- r2121: the permission word, and whether size can buy it back
+    _ep = p.get("etf_permission") or {}
+    if not _ep.get("present"):
+        L.append(f"- 这张单的许可：{_ep.get('note') or '缺件（缺面不读 0）'}")
+    else:
+        _fail = "、".join(_ep.get("failing") or []) or "（闸没写哪条）"
+        L.append(
+            f"- **「下得进」和「许不准持有」是同一档上的两个词**：整手面在 "
+            f"{_ep.get('lot_bar')} 读 **{_ep.get('lot')}**（100 份一手、残差 "
+            f"{_ep.get('lot_residual_pct')}% NAV），同一天供给闸读 "
+            f"**{_ep.get('permission')}**（唯一没过的是 {_fail}）。"
+            "前者数的是手，后者才是这本书准不准持有——别把前者当后者。")
+        if _ep.get("share_pct") is not None:
+            _dd = _ep.get("delta_pp")
+            L.append(
+                f"  - 缩小或放大都买不回这一行：本金 {_ep.get('lo_cny'):,.0f} → "
+                f"{_ep.get('hi_cny'):,.0f}，两年份额恒为 **{_ep['share_pct']:.2f}%**"
+                f"（线 {_ep.get('line_pct'):.2f}%）、到线的距离恒为 "
+                f"**{_dd:+.2f}pp**，只有这段距离值多少钱随本金变"
+                f"（{_ep.get('delta_cny_lo'):,.0f} → {_ep.get('delta_cny_hi'):,.0f}）。"
+                "份额是比值，不是仓位——所以这张单的问题是年形状，不是尺寸。")
+            L.append(
+                f"  - 要翻面要动的是 {_ep.get('best_year')} 那一年：少 "
+                f"{abs(_dd):.2f}pp——换成当时 100 万本金上就是 {_ep.get('delta_cny'):,.0f} 元，"
+                "top-2 才回到线下。")
+        _rej = "、".join(
+            f"{r.get('name')}@{r.get('cutoff')} 读 {r.get('word')}"
+            for r in (_ep.get("rejected") or [])) or "无更旧回执"
+        L.append(
+            f"  - 哪张回执说话：**{_ep.get('authority_name')}**"
+            f"（cutoff {_ep.get('authority_cutoff')}），因为它读的是这张单所在的那一档；"
+            f"{_rej}——那张回答的是另一个问题（换口径会不会换词），三种口径下这本书都读同一个词，"
+            "所以它没有资格把词改回 ADMIT。")
+        L.append(f"  - 出处：`{_ep['path']}`（generated {_ep.get('generated')}"
+                 f"·cutoff {_ep.get('cutoff')}·判词 {_ep.get('verdict')}）")
     eo = p.get("etf_order") or {}
     if not eo.get("present"):
         L.append(f"- 照做版执行单：{eo.get('note') or '缺件（缺面不读 0）'}")

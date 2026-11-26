@@ -1,8 +1,8 @@
 {
- "evidence_cutoff": "2026-11-24",
+ "evidence_cutoff": "2026-11-25",
  "evidence_cutoff_note": "the newest cutoff among the faces read; the books inside keep their own cutoff, printed in their producing face",
  "face": "etf_book_year_gate_vote",
- "generated": "2026-11-25T12:30:01+0800",
+ "generated": "2026-11-26T07:57:07+0800",
  "honest": [
   "no engine call and no repricing: every word below is a word an earlier face already printed, so a difference is a difference in the rule",
   "R2 can only ever promote a book whose every non-Y4 check is True; a book with an unmeasured (null) check stays where it was, because unknown is not a pass",
@@ -10,10 +10,10 @@
   "the same book is published by several faces (n_readings > n_distinct_names); both denominators are printed rather than picking one",
   "no adoption: which rule should hold is a specification question (the weights and who holds the veto); this page prices the three and ranks none"
  ],
- "n_distinct_names": 42,
- "n_readings": 153,
- "n_y4_false": 110,
- "n_y4_is_the_only_false_check": 14,
+ "n_distinct_names": 41,
+ "n_readings": 152,
+ "n_y4_false": 118,
+ "n_y4_is_the_only_false_check": 16,
  "n_y4_only_and_published_admit": 0,
  "n_y4_unknown": 0,
  "names": [
@@ -46,7 +46,6 @@
   "permission_cap_from_decision_date",
   "plain_book_n5_r20_vt08",
   "rebal=10",
-  "rebal=10@20bp",
   "rebal=40",
   "smallcap_book",
   "ticket_construction_plain_plus_overlay",
@@ -87,7 +86,7 @@
   {
    "at": "/books/1",
    "book": "nobond_base",
-   "cagr_pct": 15.12,
+   "cagr_pct": 14.93,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -97,7 +96,7 @@
    },
    "face": "results/etf_book_year_gate/YEAR-GATE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7006,
+   "top2_share": 0.7076,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -109,7 +108,7 @@
   {
    "at": "/books/0",
    "book": "nobond_vt08_adopted",
-   "cagr_pct": 11.11,
+   "cagr_pct": 10.96,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -119,7 +118,7 @@
    },
    "face": "results/etf_book_year_gate/YEAR-GATE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7255,
+   "top2_share": 0.7337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -131,29 +130,29 @@
   {
    "at": "/books/2",
    "book": "ticket_construction_plain_plus_overlay",
-   "cagr_pct": 6.94,
+   "cagr_pct": 6.83,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
-   "published": "ADMIT",
-   "top2_share": 0.6898,
+   "published": "CONDITIONAL",
+   "top2_share": 0.7001,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
     "R2_advisory": "ADMIT"
    },
-   "y4_is_the_only_false_check": false,
+   "y4_is_the_only_false_check": true,
    "y4_unknown": false
   },
   {
    "at": "/books/1",
    "book": "book_plus_execution_wrapper",
-   "cagr_pct": 11.23,
+   "cagr_pct": 11.07,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -163,7 +162,7 @@
    },
    "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7756,
+   "top2_share": 0.785,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -175,7 +174,7 @@
   {
    "at": "/books/0",
    "book": "plain_book_n5_r20_vt08",
-   "cagr_pct": 11.25,
+   "cagr_pct": 11.09,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -185,7 +184,7 @@
    },
    "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7742,
+   "top2_share": 0.7835,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -197,21 +196,21 @@
   {
    "at": "/rungs/6",
    "book": "vt25",
-   "cagr_pct": 0.15,
+   "cagr_pct": 0.1482,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
-   "published": "ADMIT",
-   "top2_share": 0.6982,
+   "published": "CONDITIONAL",
+   "top2_share": 0.7053,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
    },
    "y4_is_the_only_false_check": false,
    "y4_unknown": false
@@ -219,7 +218,7 @@
   {
    "at": "/rungs/5",
    "book": "vt20",
-   "cagr_pct": 0.1444,
+   "cagr_pct": 0.1426,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -229,7 +228,7 @@
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
    "published": "ADMIT",
-   "top2_share": 0.6867,
+   "top2_share": 0.6938,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -241,29 +240,7 @@
   {
    "at": "/rungs/4",
    "book": "vt15",
-   "cagr_pct": 0.1375,
-   "checks": {
-    "C1_capacity": null,
-    "Y1_positive_years_share": true,
-    "Y2_median_positive": true,
-    "Y3_worst_year": true,
-    "Y4_top2_share": true
-   },
-   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
-   "published": "ADMIT",
-   "top2_share": 0.6933,
-   "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
-   },
-   "y4_is_the_only_false_check": false,
-   "y4_unknown": false
-  },
-  {
-   "at": "/rungs/3",
-   "book": "vt12",
-   "cagr_pct": 0.129,
+   "cagr_pct": 0.1357,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -273,7 +250,29 @@
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7352,
+   "top2_share": 0.7008,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/rungs/3",
+   "book": "vt12",
+   "cagr_pct": 0.1273,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7434,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -285,7 +284,7 @@
   {
    "at": "/rungs/2",
    "book": "vt10",
-   "cagr_pct": 0.1237,
+   "cagr_pct": 0.122,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -295,7 +294,7 @@
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.741,
+   "top2_share": 0.7497,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -307,7 +306,7 @@
   {
    "at": "/rungs/1",
    "book": "vt08",
-   "cagr_pct": 0.1111,
+   "cagr_pct": 0.1096,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -317,7 +316,7 @@
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7255,
+   "top2_share": 0.7337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -329,7 +328,7 @@
   {
    "at": "/rungs/0",
    "book": "none",
-   "cagr_pct": 0.1512,
+   "cagr_pct": 0.1493,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -339,7 +338,7 @@
    },
    "face": "results/etf_book_vt_ladder/VT-LADDER.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7006,
+   "top2_share": 0.7076,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -351,7 +350,7 @@
   {
    "at": "/books/6/cells/3",
    "book": null,
-   "cagr_pct": 0.1406,
+   "cagr_pct": 0.1408,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -373,7 +372,7 @@
   {
    "at": "/books/6/cells/2",
    "book": null,
-   "cagr_pct": 0.1325,
+   "cagr_pct": 0.1301,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -395,7 +394,7 @@
   {
    "at": "/books/6/cells/1",
    "book": null,
-   "cagr_pct": 0.1507,
+   "cagr_pct": 0.15,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -417,21 +416,21 @@
   {
    "at": "/books/6/cells/0",
    "book": null,
-   "cagr_pct": 0.15,
+   "cagr_pct": 0.1482,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_vt_phases/VT-PHASES.json",
-   "published": "ADMIT",
+   "published": "CONDITIONAL",
    "top2_share": null,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
    },
    "y4_is_the_only_false_check": false,
    "y4_unknown": false
@@ -439,7 +438,7 @@
   {
    "at": "/books/5/cells/3",
    "book": null,
-   "cagr_pct": 0.1369,
+   "cagr_pct": 0.1371,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -461,7 +460,7 @@
   {
    "at": "/books/5/cells/2",
    "book": null,
-   "cagr_pct": 0.1266,
+   "cagr_pct": 0.1242,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -483,7 +482,7 @@
   {
    "at": "/books/5/cells/1",
    "book": null,
-   "cagr_pct": 0.1474,
+   "cagr_pct": 0.1467,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -505,7 +504,7 @@
   {
    "at": "/books/5/cells/0",
    "book": null,
-   "cagr_pct": 0.1444,
+   "cagr_pct": 0.1426,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -527,7 +526,7 @@
   {
    "at": "/books/4/cells/3",
    "book": null,
-   "cagr_pct": 0.1194,
+   "cagr_pct": 0.1196,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -549,7 +548,7 @@
   {
    "at": "/books/4/cells/2",
    "book": null,
-   "cagr_pct": 0.1094,
+   "cagr_pct": 0.1071,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -571,7 +570,7 @@
   {
    "at": "/books/4/cells/1",
    "book": null,
-   "cagr_pct": 0.1389,
+   "cagr_pct": 0.1383,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -593,21 +592,21 @@
   {
    "at": "/books/4/cells/0",
    "book": null,
-   "cagr_pct": 0.1375,
+   "cagr_pct": 0.1357,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_vt_phases/VT-PHASES.json",
-   "published": "ADMIT",
+   "published": "CONDITIONAL",
    "top2_share": null,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
    },
    "y4_is_the_only_false_check": false,
    "y4_unknown": false
@@ -615,7 +614,7 @@
   {
    "at": "/books/3/cells/3",
    "book": null,
-   "cagr_pct": 0.1008,
+   "cagr_pct": 0.101,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -637,7 +636,7 @@
   {
    "at": "/books/3/cells/2",
    "book": null,
-   "cagr_pct": 0.0966,
+   "cagr_pct": 0.0943,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -659,7 +658,7 @@
   {
    "at": "/books/3/cells/1",
    "book": null,
-   "cagr_pct": 0.1239,
+   "cagr_pct": 0.1232,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -681,7 +680,7 @@
   {
    "at": "/books/3/cells/0",
    "book": null,
-   "cagr_pct": 0.129,
+   "cagr_pct": 0.1273,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -703,7 +702,7 @@
   {
    "at": "/books/2/cells/3",
    "book": null,
-   "cagr_pct": 0.0923,
+   "cagr_pct": 0.0925,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -725,7 +724,7 @@
   {
    "at": "/books/2/cells/2",
    "book": null,
-   "cagr_pct": 0.0824,
+   "cagr_pct": 0.0802,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -747,7 +746,7 @@
   {
    "at": "/books/2/cells/1",
    "book": null,
-   "cagr_pct": 0.107,
+   "cagr_pct": 0.1064,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -769,7 +768,7 @@
   {
    "at": "/books/2/cells/0",
    "book": null,
-   "cagr_pct": 0.1237,
+   "cagr_pct": 0.122,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -791,7 +790,7 @@
   {
    "at": "/books/1/cells/3",
    "book": null,
-   "cagr_pct": 0.0803,
+   "cagr_pct": 0.0805,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -813,7 +812,7 @@
   {
    "at": "/books/1/cells/2",
    "book": null,
-   "cagr_pct": 0.0692,
+   "cagr_pct": 0.0673,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -835,7 +834,7 @@
   {
    "at": "/books/1/cells/1",
    "book": null,
-   "cagr_pct": 0.0906,
+   "cagr_pct": 0.0901,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -857,7 +856,7 @@
   {
    "at": "/books/1/cells/0",
    "book": null,
-   "cagr_pct": 0.1111,
+   "cagr_pct": 0.1096,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -879,7 +878,7 @@
   {
    "at": "/books/0/cells/3",
    "book": null,
-   "cagr_pct": 0.1424,
+   "cagr_pct": 0.1427,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -901,7 +900,7 @@
   {
    "at": "/books/0/cells/2",
    "book": null,
-   "cagr_pct": 0.1325,
+   "cagr_pct": 0.1301,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": false,
@@ -923,7 +922,7 @@
   {
    "at": "/books/0/cells/1",
    "book": null,
-   "cagr_pct": 0.1508,
+   "cagr_pct": 0.1502,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -945,7 +944,7 @@
   {
    "at": "/books/0/cells/0",
    "book": null,
-   "cagr_pct": 0.1512,
+   "cagr_pct": 0.1493,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -967,7 +966,7 @@
   {
    "at": "/rules/4",
    "book": null,
-   "cagr_pct": 0.1166,
+   "cagr_pct": 0.1149,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -977,7 +976,7 @@
    },
    "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.8231,
+   "top2_share": 0.8337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -989,7 +988,7 @@
   {
    "at": "/rules/3",
    "book": null,
-   "cagr_pct": 0.1383,
+   "cagr_pct": 0.1368,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -999,7 +998,7 @@
    },
    "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7534,
+   "top2_share": 0.7601,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1011,7 +1010,7 @@
   {
    "at": "/rules/2",
    "book": null,
-   "cagr_pct": 0.1194,
+   "cagr_pct": 0.1185,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1021,7 +1020,7 @@
    },
    "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7641,
+   "top2_share": 0.7686,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1033,7 +1032,7 @@
   {
    "at": "/rules/1",
    "book": null,
-   "cagr_pct": 0.1111,
+   "cagr_pct": 0.1096,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1043,7 +1042,7 @@
    },
    "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7255,
+   "top2_share": 0.7337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1055,7 +1054,7 @@
   {
    "at": "/rules/0",
    "book": null,
-   "cagr_pct": 0.1512,
+   "cagr_pct": 0.1493,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1065,29 +1064,7 @@
    },
    "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7006,
-   "words": {
-    "R0_status_quo": "CONDITIONAL",
-    "R1_veto": "REFUSE",
-    "R2_advisory": "CONDITIONAL"
-   },
-   "y4_is_the_only_false_check": false,
-   "y4_unknown": false
-  },
-  {
-   "at": "/cost_stress",
-   "book": "rebal=10@20bp",
-   "cagr_pct": 9.27,
-   "checks": {
-    "C1_capacity": null,
-    "Y1_positive_years_share": true,
-    "Y2_median_positive": true,
-    "Y3_worst_year": true,
-    "Y4_top2_share": false
-   },
-   "face": "results/etf_book_concentration_levers.json",
-   "published": "CONDITIONAL",
-   "top2_share": 0.7856,
+   "top2_share": 0.7076,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1099,7 +1076,7 @@
   {
    "at": "/arms/6",
    "book": "vol_target=0.1",
-   "cagr_pct": 12.37,
+   "cagr_pct": 12.2,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1109,7 +1086,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.741,
+   "top2_share": 0.7497,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1121,7 +1098,7 @@
   {
    "at": "/arms/5",
    "book": "vol_target=None",
-   "cagr_pct": 15.12,
+   "cagr_pct": 14.93,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1131,7 +1108,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7006,
+   "top2_share": 0.7076,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1143,7 +1120,7 @@
   {
    "at": "/arms/4",
    "book": "rebal=40",
-   "cagr_pct": 6.58,
+   "cagr_pct": 6.39,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1153,7 +1130,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7689,
+   "top2_share": 0.7882,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1165,29 +1142,7 @@
   {
    "at": "/arms/3",
    "book": "rebal=10",
-   "cagr_pct": 11.79,
-   "checks": {
-    "C1_capacity": null,
-    "Y1_positive_years_share": true,
-    "Y2_median_positive": true,
-    "Y3_worst_year": true,
-    "Y4_top2_share": true
-   },
-   "face": "results/etf_book_concentration_levers.json",
-   "published": "ADMIT",
-   "top2_share": 0.6983,
-   "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
-   },
-   "y4_is_the_only_false_check": false,
-   "y4_unknown": false
-  },
-  {
-   "at": "/arms/2",
-   "book": "n_hold=10",
-   "cagr_pct": 9.78,
+   "cagr_pct": 11.64,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1197,7 +1152,29 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7428,
+   "top2_share": 0.7054,
+   "words": {
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
+   },
+   "y4_is_the_only_false_check": false,
+   "y4_unknown": false
+  },
+  {
+   "at": "/arms/2",
+   "book": "n_hold=10",
+   "cagr_pct": 9.61,
+   "checks": {
+    "C1_capacity": null,
+    "Y1_positive_years_share": true,
+    "Y2_median_positive": true,
+    "Y3_worst_year": true,
+    "Y4_top2_share": false
+   },
+   "face": "results/etf_book_concentration_levers.json",
+   "published": "CONDITIONAL",
+   "top2_share": 0.7534,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1209,7 +1186,7 @@
   {
    "at": "/arms/1",
    "book": "n_hold=8",
-   "cagr_pct": 10.31,
+   "cagr_pct": 10.13,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1219,7 +1196,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7734,
+   "top2_share": 0.7844,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1231,7 +1208,7 @@
   {
    "at": "/arms/0",
    "book": "n_hold=3",
-   "cagr_pct": 10.44,
+   "cagr_pct": 10.29,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1241,7 +1218,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7382,
+   "top2_share": 0.747,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1253,7 +1230,7 @@
   {
    "at": "/control",
    "book": "control",
-   "cagr_pct": 11.11,
+   "cagr_pct": 10.96,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -1263,7 +1240,7 @@
    },
    "face": "results/etf_book_concentration_levers.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7255,
+   "top2_share": 0.7337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1407,7 +1384,7 @@
   {
    "at": "/arms/6",
    "book": "nobond_vt08_floor_1.00",
-   "cagr_pct": 15.12,
+   "cagr_pct": 14.93,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1417,7 +1394,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7006,
+   "top2_share": 0.7076,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1429,7 +1406,7 @@
   {
    "at": "/arms/5",
    "book": "nobond_vt08_floor_0.80",
-   "cagr_pct": 13.37,
+   "cagr_pct": 13.22,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1439,7 +1416,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "ADMIT",
-   "top2_share": 0.657,
+   "top2_share": 0.6634,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -1451,7 +1428,7 @@
   {
    "at": "/arms/4",
    "book": "nobond_vt08_floor_0.70",
-   "cagr_pct": 12.84,
+   "cagr_pct": 12.69,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1461,7 +1438,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "ADMIT",
-   "top2_share": 0.6411,
+   "top2_share": 0.6475,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -1473,7 +1450,7 @@
   {
    "at": "/arms/3",
    "book": "nobond_vt08_floor_0.60",
-   "cagr_pct": 12.32,
+   "cagr_pct": 12.17,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1483,7 +1460,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "ADMIT",
-   "top2_share": 0.6489,
+   "top2_share": 0.6556,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -1495,7 +1472,7 @@
   {
    "at": "/arms/2",
    "book": "nobond_vt08_floor_0.50",
-   "cagr_pct": 11.72,
+   "cagr_pct": 11.57,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1505,7 +1482,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "ADMIT",
-   "top2_share": 0.6818,
+   "top2_share": 0.6891,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -1517,7 +1494,7 @@
   {
    "at": "/arms/1",
    "book": "nobond_vt08_floor_0.40",
-   "cagr_pct": 11.38,
+   "cagr_pct": 11.23,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1527,7 +1504,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7095,
+   "top2_share": 0.7173,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -1539,7 +1516,7 @@
   {
    "at": "/arms/0",
    "book": "nobond_vt08_floor_0.00",
-   "cagr_pct": 11.11,
+   "cagr_pct": 10.96,
    "checks": {
     "C1_capacity": true,
     "Y1_positive_years_share": true,
@@ -1549,7 +1526,7 @@
    },
    "face": "results/etf_book_scale_floor.json",
    "published": "CONDITIONAL",
-   "top2_share": 0.7255,
+   "top2_share": 0.7337,
    "words": {
     "R0_status_quo": "CONDITIONAL",
     "R1_veto": "REFUSE",
@@ -2975,17 +2952,17 @@
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_partial_year_caliber/CALIBER.json",
-   "published": "ADMIT",
+   "published": "CONDITIONAL",
    "top2_share": null,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
     "R2_advisory": "ADMIT"
    },
-   "y4_is_the_only_false_check": false,
+   "y4_is_the_only_false_check": true,
    "y4_unknown": false
   },
   {
@@ -3321,21 +3298,21 @@
   {
    "at": "/books/2",
    "book": "permission_cap_from_decision_date",
-   "cagr_pct": 6.95,
+   "cagr_pct": 6.83,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
-   "published": "ADMIT",
-   "top2_share": 0.6895,
+   "published": "CONDITIONAL",
+   "top2_share": 0.7001,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
    },
    "y4_is_the_only_false_check": false,
    "y4_unknown": false
@@ -3343,7 +3320,7 @@
   {
    "at": "/books/1",
    "book": "permission_cap_applied_history",
-   "cagr_pct": 6.65,
+   "cagr_pct": 6.54,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
@@ -3353,7 +3330,7 @@
    },
    "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
    "published": "ADMIT",
-   "top2_share": 0.6748,
+   "top2_share": 0.6851,
    "words": {
     "R0_status_quo": "ADMIT",
     "R1_veto": "ADMIT",
@@ -3365,21 +3342,21 @@
   {
    "at": "/books/0",
    "book": "ticket_k_no_cut",
-   "cagr_pct": 6.95,
+   "cagr_pct": 6.83,
    "checks": {
     "C1_capacity": null,
     "Y1_positive_years_share": true,
     "Y2_median_positive": true,
     "Y3_worst_year": true,
-    "Y4_top2_share": true
+    "Y4_top2_share": false
    },
    "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
-   "published": "ADMIT",
-   "top2_share": 0.6895,
+   "published": "CONDITIONAL",
+   "top2_share": 0.7001,
    "words": {
-    "R0_status_quo": "ADMIT",
-    "R1_veto": "ADMIT",
-    "R2_advisory": "ADMIT"
+    "R0_status_quo": "CONDITIONAL",
+    "R1_veto": "REFUSE",
+    "R2_advisory": "CONDITIONAL"
    },
    "y4_is_the_only_false_check": false,
    "y4_unknown": false
@@ -3432,19 +3409,12 @@
  "rules": {
   "R0_status_quo": {
    "admitted_cagr_by_face": {
-    "results/etf_book_concentration_levers.json": {
-     "max": 11.79,
-     "median": 11.79,
-     "min": 11.79,
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 6.54,
+     "median": 6.54,
+     "min": 6.54,
      "n_missing": 0,
      "n_quoted": 1
-    },
-    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
-     "max": 6.95,
-     "median": 6.95,
-     "min": 6.65,
-     "n_missing": 0,
-     "n_quoted": 3
     },
     "results/etf_book_gate_knobs.json": {
      "max": 12.18,
@@ -3457,36 +3427,29 @@
      "max": null,
      "median": null,
      "min": null,
-     "n_missing": 20,
+     "n_missing": 19,
      "n_quoted": 0
     },
     "results/etf_book_scale_floor.json": {
-     "max": 13.37,
-     "median": 12.84,
-     "min": 11.72,
+     "max": 13.22,
+     "median": 12.69,
+     "min": 11.57,
      "n_missing": 0,
      "n_quoted": 4
     },
     "results/etf_book_vt_ladder/VT-LADDER.json": {
-     "max": 0.15,
-     "median": 0.1444,
-     "min": 0.1375,
-     "n_missing": 0,
-     "n_quoted": 3
-    },
-    "results/etf_book_vt_phases/VT-PHASES.json": {
-     "max": 0.1508,
-     "median": 0.15,
-     "min": 0.1375,
-     "n_missing": 0,
-     "n_quoted": 5
-    },
-    "results/etf_book_year_gate/WRAPPER-GATE.json": {
-     "max": 6.94,
-     "median": 6.94,
-     "min": 6.94,
+     "max": 0.1426,
+     "median": 0.1426,
+     "min": 0.1426,
      "n_missing": 0,
      "n_quoted": 1
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.1502,
+     "median": 0.15,
+     "min": 0.1426,
+     "n_missing": 0,
+     "n_quoted": 3
     },
     "results/etf_book_year_gate_idlecarry.json": {
      "max": 12.13,
@@ -3497,25 +3460,18 @@
     }
    },
    "changed": [],
-   "n_admit": 40,
+   "n_admit": 31,
    "n_changed_vs_published": 0,
-   "n_not_admit": 113
+   "n_not_admit": 121
   },
   "R1_veto": {
    "admitted_cagr_by_face": {
-    "results/etf_book_concentration_levers.json": {
-     "max": 11.79,
-     "median": 11.79,
-     "min": 11.79,
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 6.54,
+     "median": 6.54,
+     "min": 6.54,
      "n_missing": 0,
      "n_quoted": 1
-    },
-    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
-     "max": 6.95,
-     "median": 6.95,
-     "min": 6.65,
-     "n_missing": 0,
-     "n_quoted": 3
     },
     "results/etf_book_gate_knobs.json": {
      "max": 12.18,
@@ -3528,36 +3484,29 @@
      "max": null,
      "median": null,
      "min": null,
-     "n_missing": 20,
+     "n_missing": 19,
      "n_quoted": 0
     },
     "results/etf_book_scale_floor.json": {
-     "max": 13.37,
-     "median": 12.84,
-     "min": 11.72,
+     "max": 13.22,
+     "median": 12.69,
+     "min": 11.57,
      "n_missing": 0,
      "n_quoted": 4
     },
     "results/etf_book_vt_ladder/VT-LADDER.json": {
-     "max": 0.15,
-     "median": 0.1444,
-     "min": 0.1375,
-     "n_missing": 0,
-     "n_quoted": 3
-    },
-    "results/etf_book_vt_phases/VT-PHASES.json": {
-     "max": 0.1508,
-     "median": 0.15,
-     "min": 0.1375,
-     "n_missing": 0,
-     "n_quoted": 5
-    },
-    "results/etf_book_year_gate/WRAPPER-GATE.json": {
-     "max": 6.94,
-     "median": 6.94,
-     "min": 6.94,
+     "max": 0.1426,
+     "median": 0.1426,
+     "min": 0.1426,
      "n_missing": 0,
      "n_quoted": 1
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.1502,
+     "median": 0.15,
+     "min": 0.1426,
+     "n_missing": 0,
+     "n_quoted": 3
     },
     "results/etf_book_year_gate_idlecarry.json": {
      "max": 12.13,
@@ -3580,79 +3529,115 @@
     {
      "at": "/books/1",
      "book": "nobond_base",
-     "cagr_pct": 15.12,
+     "cagr_pct": 14.93,
      "face": "results/etf_book_year_gate/YEAR-GATE.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7006
+     "top2_share": 0.7076
     },
     {
      "at": "/books/0",
      "book": "nobond_vt08_adopted",
-     "cagr_pct": 11.11,
+     "cagr_pct": 10.96,
      "face": "results/etf_book_year_gate/YEAR-GATE.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
+    },
+    {
+     "at": "/books/2",
+     "book": "ticket_construction_plain_plus_overlay",
+     "cagr_pct": 6.83,
+     "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7001
     },
     {
      "at": "/books/1",
      "book": "book_plus_execution_wrapper",
-     "cagr_pct": 11.23,
+     "cagr_pct": 11.07,
      "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7756
+     "top2_share": 0.785
     },
     {
      "at": "/books/0",
      "book": "plain_book_n5_r20_vt08",
-     "cagr_pct": 11.25,
+     "cagr_pct": 11.09,
      "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7742
+     "top2_share": 0.7835
+    },
+    {
+     "at": "/rungs/6",
+     "book": "vt25",
+     "cagr_pct": 0.1482,
+     "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7053
+    },
+    {
+     "at": "/rungs/4",
+     "book": "vt15",
+     "cagr_pct": 0.1357,
+     "face": "results/etf_book_vt_ladder/VT-LADDER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7008
     },
     {
      "at": "/rungs/3",
      "book": "vt12",
-     "cagr_pct": 0.129,
+     "cagr_pct": 0.1273,
      "face": "results/etf_book_vt_ladder/VT-LADDER.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7352
+     "top2_share": 0.7434
     },
     {
      "at": "/rungs/2",
      "book": "vt10",
-     "cagr_pct": 0.1237,
+     "cagr_pct": 0.122,
      "face": "results/etf_book_vt_ladder/VT-LADDER.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.741
+     "top2_share": 0.7497
     },
     {
      "at": "/rungs/1",
      "book": "vt08",
-     "cagr_pct": 0.1111,
+     "cagr_pct": 0.1096,
      "face": "results/etf_book_vt_ladder/VT-LADDER.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
     },
     {
      "at": "/rungs/0",
      "book": "none",
-     "cagr_pct": 0.1512,
+     "cagr_pct": 0.1493,
      "face": "results/etf_book_vt_ladder/VT-LADDER.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7006
+     "top2_share": 0.7076
     },
     {
      "at": "/books/6/cells/3",
      "book": null,
-     "cagr_pct": 0.1406,
+     "cagr_pct": 0.1408,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/6/cells/0",
+     "book": null,
+     "cagr_pct": 0.1482,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3661,7 +3646,7 @@
     {
      "at": "/books/5/cells/3",
      "book": null,
-     "cagr_pct": 0.1369,
+     "cagr_pct": 0.1371,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3670,7 +3655,7 @@
     {
      "at": "/books/5/cells/1",
      "book": null,
-     "cagr_pct": 0.1474,
+     "cagr_pct": 0.1467,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3679,7 +3664,16 @@
     {
      "at": "/books/4/cells/1",
      "book": null,
-     "cagr_pct": 0.1389,
+     "cagr_pct": 0.1383,
+     "face": "results/etf_book_vt_phases/VT-PHASES.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
+     "at": "/books/4/cells/0",
+     "book": null,
+     "cagr_pct": 0.1357,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3688,7 +3682,7 @@
     {
      "at": "/books/3/cells/1",
      "book": null,
-     "cagr_pct": 0.1239,
+     "cagr_pct": 0.1232,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3697,7 +3691,7 @@
     {
      "at": "/books/3/cells/0",
      "book": null,
-     "cagr_pct": 0.129,
+     "cagr_pct": 0.1273,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3706,7 +3700,7 @@
     {
      "at": "/books/2/cells/2",
      "book": null,
-     "cagr_pct": 0.0824,
+     "cagr_pct": 0.0802,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3715,7 +3709,7 @@
     {
      "at": "/books/2/cells/1",
      "book": null,
-     "cagr_pct": 0.107,
+     "cagr_pct": 0.1064,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3724,7 +3718,7 @@
     {
      "at": "/books/2/cells/0",
      "book": null,
-     "cagr_pct": 0.1237,
+     "cagr_pct": 0.122,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3733,7 +3727,7 @@
     {
      "at": "/books/1/cells/2",
      "book": null,
-     "cagr_pct": 0.0692,
+     "cagr_pct": 0.0673,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3742,7 +3736,7 @@
     {
      "at": "/books/1/cells/1",
      "book": null,
-     "cagr_pct": 0.0906,
+     "cagr_pct": 0.0901,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3751,7 +3745,7 @@
     {
      "at": "/books/1/cells/0",
      "book": null,
-     "cagr_pct": 0.1111,
+     "cagr_pct": 0.1096,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3760,7 +3754,7 @@
     {
      "at": "/books/0/cells/3",
      "book": null,
-     "cagr_pct": 0.1424,
+     "cagr_pct": 0.1427,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3769,7 +3763,7 @@
     {
      "at": "/books/0/cells/0",
      "book": null,
-     "cagr_pct": 0.1512,
+     "cagr_pct": 0.1493,
      "face": "results/etf_book_vt_phases/VT-PHASES.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
@@ -3778,119 +3772,119 @@
     {
      "at": "/rules/4",
      "book": null,
-     "cagr_pct": 0.1166,
+     "cagr_pct": 0.1149,
      "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.8231
+     "top2_share": 0.8337
     },
     {
      "at": "/rules/3",
      "book": null,
-     "cagr_pct": 0.1383,
+     "cagr_pct": 0.1368,
      "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7601
+    },
+    {
+     "at": "/rules/2",
+     "book": null,
+     "cagr_pct": 0.1185,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7686
+    },
+    {
+     "at": "/rules/1",
+     "book": null,
+     "cagr_pct": 0.1096,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7337
+    },
+    {
+     "at": "/rules/0",
+     "book": null,
+     "cagr_pct": 0.1493,
+     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7076
+    },
+    {
+     "at": "/arms/6",
+     "book": "vol_target=0.1",
+     "cagr_pct": 12.2,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7497
+    },
+    {
+     "at": "/arms/5",
+     "book": "vol_target=None",
+     "cagr_pct": 14.93,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7076
+    },
+    {
+     "at": "/arms/4",
+     "book": "rebal=40",
+     "cagr_pct": 6.39,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7882
+    },
+    {
+     "at": "/arms/3",
+     "book": "rebal=10",
+     "cagr_pct": 11.64,
+     "face": "results/etf_book_concentration_levers.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7054
+    },
+    {
+     "at": "/arms/2",
+     "book": "n_hold=10",
+     "cagr_pct": 9.61,
+     "face": "results/etf_book_concentration_levers.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
      "top2_share": 0.7534
     },
     {
-     "at": "/rules/2",
-     "book": null,
-     "cagr_pct": 0.1194,
-     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7641
-    },
-    {
-     "at": "/rules/1",
-     "book": null,
-     "cagr_pct": 0.1111,
-     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7255
-    },
-    {
-     "at": "/rules/0",
-     "book": null,
-     "cagr_pct": 0.1512,
-     "face": "results/etf_book_derisk_rule/DERISK-RULE.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7006
-    },
-    {
-     "at": "/cost_stress",
-     "book": "rebal=10@20bp",
-     "cagr_pct": 9.27,
-     "face": "results/etf_book_concentration_levers.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7856
-    },
-    {
-     "at": "/arms/6",
-     "book": "vol_target=0.1",
-     "cagr_pct": 12.37,
-     "face": "results/etf_book_concentration_levers.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.741
-    },
-    {
-     "at": "/arms/5",
-     "book": "vol_target=None",
-     "cagr_pct": 15.12,
-     "face": "results/etf_book_concentration_levers.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7006
-    },
-    {
-     "at": "/arms/4",
-     "book": "rebal=40",
-     "cagr_pct": 6.58,
-     "face": "results/etf_book_concentration_levers.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7689
-    },
-    {
-     "at": "/arms/2",
-     "book": "n_hold=10",
-     "cagr_pct": 9.78,
-     "face": "results/etf_book_concentration_levers.json",
-     "from": "CONDITIONAL",
-     "to": "REFUSE",
-     "top2_share": 0.7428
-    },
-    {
      "at": "/arms/1",
      "book": "n_hold=8",
-     "cagr_pct": 10.31,
+     "cagr_pct": 10.13,
      "face": "results/etf_book_concentration_levers.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7734
+     "top2_share": 0.7844
     },
     {
      "at": "/arms/0",
      "book": "n_hold=3",
-     "cagr_pct": 10.44,
+     "cagr_pct": 10.29,
      "face": "results/etf_book_concentration_levers.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7382
+     "top2_share": 0.747
     },
     {
      "at": "/control",
      "book": "control",
-     "cagr_pct": 11.11,
+     "cagr_pct": 10.96,
      "face": "results/etf_book_concentration_levers.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
     },
     {
      "at": "/arms/5",
@@ -3931,29 +3925,29 @@
     {
      "at": "/arms/6",
      "book": "nobond_vt08_floor_1.00",
-     "cagr_pct": 15.12,
+     "cagr_pct": 14.93,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7006
+     "top2_share": 0.7076
     },
     {
      "at": "/arms/1",
      "book": "nobond_vt08_floor_0.40",
-     "cagr_pct": 11.38,
+     "cagr_pct": 11.23,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7095
+     "top2_share": 0.7173
     },
     {
      "at": "/arms/0",
      "book": "nobond_vt08_floor_0.00",
-     "cagr_pct": 11.11,
+     "cagr_pct": 10.96,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "REFUSE",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
     },
     {
      "at": "/arms/0",
@@ -4226,6 +4220,15 @@
      "top2_share": null
     },
     {
+     "at": "/rows/5/calibers/A",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": null
+    },
+    {
      "at": "/rows/4/calibers/P",
      "book": null,
      "cagr_pct": null,
@@ -4361,6 +4364,24 @@
      "top2_share": null
     },
     {
+     "at": "/books/2",
+     "book": "permission_cap_from_decision_date",
+     "cagr_pct": 6.83,
+     "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7001
+    },
+    {
+     "at": "/books/0",
+     "book": "ticket_k_no_cut",
+     "cagr_pct": 6.83,
+     "face": "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json",
+     "from": "CONDITIONAL",
+     "to": "REFUSE",
+     "top2_share": 0.7001
+    },
+    {
      "at": "/candidates/1",
      "book": "breadth_book",
      "cagr_pct": 10.1104,
@@ -4370,25 +4391,18 @@
      "top2_share": 0.7934
     }
    ],
-   "n_admit": 40,
-   "n_changed_vs_published": 89,
-   "n_not_admit": 113
+   "n_admit": 31,
+   "n_changed_vs_published": 97,
+   "n_not_admit": 121
   },
   "R2_advisory": {
    "admitted_cagr_by_face": {
-    "results/etf_book_concentration_levers.json": {
-     "max": 11.79,
-     "median": 11.79,
-     "min": 11.79,
+    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
+     "max": 6.54,
+     "median": 6.54,
+     "min": 6.54,
      "n_missing": 0,
      "n_quoted": 1
-    },
-    "results/etf_book_cut_gate_pass/CUT-GATE-PASS.json": {
-     "max": 6.95,
-     "median": 6.95,
-     "min": 6.65,
-     "n_missing": 0,
-     "n_quoted": 3
     },
     "results/etf_book_gate_knobs.json": {
      "max": 12.18,
@@ -4405,37 +4419,37 @@
      "n_quoted": 0
     },
     "results/etf_book_scale_floor.json": {
-     "max": 15.12,
-     "median": 12.32,
-     "min": 11.11,
+     "max": 14.93,
+     "median": 12.17,
+     "min": 10.96,
      "n_missing": 0,
      "n_quoted": 7
     },
     "results/etf_book_vt_ladder/VT-LADDER.json": {
-     "max": 0.15,
-     "median": 0.1444,
-     "min": 0.1375,
+     "max": 0.1426,
+     "median": 0.1426,
+     "min": 0.1426,
+     "n_missing": 0,
+     "n_quoted": 1
+    },
+    "results/etf_book_vt_phases/VT-PHASES.json": {
+     "max": 0.1502,
+     "median": 0.15,
+     "min": 0.1426,
      "n_missing": 0,
      "n_quoted": 3
     },
-    "results/etf_book_vt_phases/VT-PHASES.json": {
-     "max": 0.1508,
-     "median": 0.15,
-     "min": 0.1375,
-     "n_missing": 0,
-     "n_quoted": 5
-    },
     "results/etf_book_year_gate/WRAPPER-GATE.json": {
-     "max": 6.94,
-     "median": 6.94,
-     "min": 6.94,
+     "max": 6.83,
+     "median": 6.83,
+     "min": 6.83,
      "n_missing": 0,
      "n_quoted": 1
     },
     "results/etf_book_year_gate/YEAR-GATE.json": {
-     "max": 11.11,
-     "median": 11.11,
-     "min": 11.11,
+     "max": 10.96,
+     "median": 10.96,
+     "min": 10.96,
      "n_missing": 0,
      "n_quoted": 1
     },
@@ -4451,11 +4465,20 @@
     {
      "at": "/books/0",
      "book": "nobond_vt08_adopted",
-     "cagr_pct": 11.11,
+     "cagr_pct": 10.96,
      "face": "results/etf_book_year_gate/YEAR-GATE.json",
      "from": "CONDITIONAL",
      "to": "ADMIT",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
+    },
+    {
+     "at": "/books/2",
+     "book": "ticket_construction_plain_plus_overlay",
+     "cagr_pct": 6.83,
+     "face": "results/etf_book_year_gate/WRAPPER-GATE.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": 0.7001
     },
     {
      "at": "/arms/5",
@@ -4496,29 +4519,29 @@
     {
      "at": "/arms/6",
      "book": "nobond_vt08_floor_1.00",
-     "cagr_pct": 15.12,
+     "cagr_pct": 14.93,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "ADMIT",
-     "top2_share": 0.7006
+     "top2_share": 0.7076
     },
     {
      "at": "/arms/1",
      "book": "nobond_vt08_floor_0.40",
-     "cagr_pct": 11.38,
+     "cagr_pct": 11.23,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "ADMIT",
-     "top2_share": 0.7095
+     "top2_share": 0.7173
     },
     {
      "at": "/arms/0",
      "book": "nobond_vt08_floor_0.00",
-     "cagr_pct": 11.11,
+     "cagr_pct": 10.96,
      "face": "results/etf_book_scale_floor.json",
      "from": "CONDITIONAL",
      "to": "ADMIT",
-     "top2_share": 0.7255
+     "top2_share": 0.7337
     },
     {
      "at": "/arms/0",
@@ -4540,6 +4563,15 @@
     },
     {
      "at": "/rows/5/calibers/B",
+     "book": null,
+     "cagr_pct": null,
+     "face": "results/etf_book_partial_year_caliber/CALIBER.json",
+     "from": "CONDITIONAL",
+     "to": "ADMIT",
+     "top2_share": null
+    },
+    {
+     "at": "/rows/5/calibers/A",
      "book": null,
      "cagr_pct": null,
      "face": "results/etf_book_partial_year_caliber/CALIBER.json",
@@ -4575,9 +4607,9 @@
      "top2_share": null
     }
    ],
-   "n_admit": 54,
-   "n_changed_vs_published": 14,
-   "n_not_admit": 99
+   "n_admit": 47,
+   "n_changed_vs_published": 16,
+   "n_not_admit": 105
   }
  },
  "rules_note": {

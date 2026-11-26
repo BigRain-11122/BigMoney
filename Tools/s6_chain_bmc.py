@@ -2320,6 +2320,17 @@ LEGS = [
     # (r1290 class).
     ("supply_gate_decision",
      ["python", "scripts/etf_book_supply_gate_decision.py", "run"]),
+    # r2121: the book prints two words about the same ¥1,000,000 ticket on the same close
+    # -- TRADABLE_AT_1000000 (whole lots fit) and CONDITIONAL (Y4_top2_share) -- and no
+    # face joined them, so a reader could take the lot word as a permission. This leg
+    # elects the authoritative receipt (the one read on the close the ticket is priced
+    # on) and prices the only question that decides whether re-sizing is a fix: the top-2
+    # share at five capitals, recomputed (0.1s), because a ratio cannot be bought down.
+    # Writer runs first so the reader on ceo_live_usage's page judges the same world.
+    ("permission_vs_size_write",
+     ["python", "scripts/etf_book_permission_vs_size.py", "run"]),
+    ("permission_vs_size",
+     ["python", "scripts/etf_book_permission_vs_size.py", "check"]),
     # r1447: r1446 left one question open -- is the weight in force (0.460253) even the
     # weight of a rule that was graded? This leg re-derives the published size-provenance
     # receipt from the ticket and its own inputs (same decision grid as the ticket, beta
@@ -2662,6 +2673,21 @@ LEGS = [
     ("etf_book_defense_spells",
      ["python", "scripts/etf_book_defense_spells.py", "check"],
      ["python", "scripts/etf_book_defense_spells.py", "write"]),
+    # r2119: r2113/r2114 each published a face and each left it off this chain, so the two
+    # faces behind today's capital window could sit one generation old while every page
+    # quoting them stayed green -- and they did: when this leg first ran, the floor face's
+    # own check said "STALE: input face(s) moved: capacity_edge, margin, open_capital",
+    # i.e. it was quoting the 11-24 ADV line while the panel had already moved to 11-25.
+    # Writers first (rent -> floor -> the face that divides the dial by the book).
+    ("idx_fut_carry_rent_by_component",
+     ["python", "scripts/idx_fut_carry_rent_by_component.py", "check"],
+     ["python", "scripts/idx_fut_carry_rent_by_component.py", "run"]),
+    ("idx_fut_carry_rebudget_floor",
+     ["python", "scripts/idx_fut_carry_rebudget_floor.py", "check"],
+     ["python", "scripts/idx_fut_carry_rebudget_floor.py", "run"]),
+    ("carry_risk_dial_vs_book",
+     ["python", "scripts/carry_risk_dial_vs_book.py", "check"],
+     ["python", "scripts/carry_risk_dial_vs_book.py", "run"]),
 ]
 
 
