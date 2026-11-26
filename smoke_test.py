@@ -28862,5 +28862,58 @@ except Exception as _e654x:
     _d654 = "study could not be read"
 check(_name654, not _bad654, "; ".join(_bad654)[:240] or _d654)
 
+# E661 asks who actually carries the counted row key: E652 counted a file as carrying one when a
+# literal equals a key or a Subscript names one, E658 published that volume under three arms, and
+# E654 then found that every scoped site it priced was a round script reading its own diagnostic
+# JSON.  This study prices the same question at corpus scale -- each carrying file is split by
+# where it sits (round-script stem / results scratch / test or smoke leg / live module root /
+# other, in one published priority order) and the split is reconciled against E658's own arm
+# totals instead of restated from them.  This leg re-derives each published row's class from its
+# module name with the study's own rule, refuses a face whose classes do not re-add to its own
+# volume, and re-checks the verdict against the counts it publishes.
+_name661 = ("E661 how much of the counted-row-key volume is archaeology rather than live code "
+            "(r1679 bm-b)")
+_bad661 = []
+_d661 = "no reading"
+try:
+    _f661 = json.load(open(os.path.join("results", "state_tilt", "volumevintage_latest.json"),
+                           encoding="utf-8"))
+    _m661 = importlib.import_module("e661_volume_vintage")
+    _bad661.extend(_m661.face_problems(_f661))
+    _c661 = _f661.get("counts") or {}
+    for _cls661, _members661 in (_f661.get("published_rows_by_class") or {}).items():
+        for _mod661 in _members661:
+            _want661 = _m661.resolve_class(_mod661)
+            if _want661 != _cls661:
+                _bad661.append("%s is published as %s but its name resolves to %s"
+                               % (_mod661, _cls661, _want661))
+                break
+    _vol661 = _c661.get("volume_this_walk") or 0
+    _byclass661 = _c661.get("by_class") or {}
+    if sum(_byclass661.values()) != _vol661:
+        _bad661.append("the classes do not re-add to the walk's own volume (%s vs %s)"
+                       % (sum(_byclass661.values()), _vol661))
+    if set(_byclass661) != set(_m661.PRIORITY):
+        _bad661.append("by_class does not name every published class")
+    for _arm661 in ("by_path_class", "by_stem_class"):
+        if sum((_c661.get(_arm661) or {}).values()) != _vol661:
+            _bad661.append("%s does not re-add to the walk's own volume" % _arm661)
+    _hist661 = _c661.get("counted_keys_named_per_file") or {}
+    if sum(_hist661.values()) + (_c661.get("files_naming_no_counted_key") or 0) != _vol661:
+        _bad661.append("the counted-key histogram does not partition the volume")
+    if _hist661 and max(int(_k661) for _k661 in _hist661) > (_c661.get("counted_row_keys") or 0):
+        _bad661.append("a file names more keys than the corpus counts")
+    _rec661 = _f661.get("reconciliation") or {}
+    if (_rec661.get("this_walk_volume_all_three") or 0) != _vol661:
+        _bad661.append("the reconciliation does not restate this walk's own volume")
+    if (_rec661.get("this_walk_volume_all_three") or 0) < (_rec661.get("e658_volume_all_three") or 0):
+        _bad661.append("this walk lost volume against E658's published arm")
+    if _m661.decide(_c661) != _f661.get("verdict"):
+        _bad661.append("the published verdict is not the one its own counts force")
+except Exception as _e661x:
+    _bad661.append(repr(_e661x)[:160])
+    _d661 = "study could not be read"
+check(_name661, not _bad661, "; ".join(_bad661)[:240] or _d661)
+
 if __name__ == "__main__":
     sys.exit(main())

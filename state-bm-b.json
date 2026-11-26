@@ -687,7 +687,7 @@
  "orphan": "py_faces=7 orphans=0 residents=0",
  "orphan_face": "orphans=0 (python Tools/orphan_face_probe.py, round-zero)",
  "orphan_face_note": "Tools/orphan_face_probe.py: 10 py faces, 0 orphans, 0 resident servers",
- "orphan_faces": 10,
+ "orphan_faces": 0,
  "orphan_probe": {
   "orphans": 0,
   "py_faces": 7,
@@ -6308,9 +6308,9 @@
  "ram_note": "psutil probe at close (ram_load_pct is memory percent, cpu_pct is CPU -- two probes)",
  "ram_total_gb": 23.9,
  "reading": "17 parent sites / 15 distinct locations / 2 opened / 0 container / 6 builtin renders / 7 identity tokens / 0 unsettled",
- "recent_artifact": "results/state_tilt/STRINGROUTEKEY.json",
+ "recent_artifact": "results/state_tilt/VOLUMEVINTAGE.json",
  "recent_artifact_note": "re-issued; ORDER-2026-11-06.md carries the pricing-bar and correction sections",
- "recent_artifact_ts": "2026-11-10T21:33:46+08:00",
+ "recent_artifact_ts": "2026-11-26T22:51:00+08:00",
  "red_fix": "no red was produced this window because the full suite did not run",
  "reds_fixed": "the E569 chain_numerator leg was red every round since r1596: its `check` compared the whole receipt directory (which the chain appends to on every run) against a face pinned at 326 files. Repaired by pinning the population by file name; rebirths are now a note and only a disappearance is a failure. red -> green measured this window.",
  "reds_open": "supply floor 2/3 (E568/E572 ready); state face was 3 rounds stale at open and healed here",
@@ -6335,14 +6335,14 @@
   "ts": "2026-11-09T11:00:00+08:00",
   "verify": "problems=[] verify=identical"
  },
- "round_label": "r1673",
- "round_no": 1678,
- "round_no_label": "r1673",
+ "round_label": "r1679",
+ "round_no": 1679,
+ "round_no_label": "r1679",
  "round_no_note": "r1583 label used once; state counter moves 1582 -> 1583 on a clean closeout (r1582 postscript headed 19:05, this window opened 19:07)",
- "round_no_ts": "2026-11-10T20:20:00+08:00",
+ "round_no_ts": "2026-11-26T22:58:16+08:00",
  "round_no_ts_note": "r1455 closeout (label r1455: the 11:09 read-only YIELD row had already consumed the label r1454; the state counter moves 1453 -> 1454 once). state.json (legacy face) is 7 rounds behind this file and was NOT rewritten mid-round",
  "round_note_1476": "suite 343/351 PASS, 8 FAIL (r1475: 341/351, 10 FAIL) -- the two flipped legs are the two repaired (E422, E425); evidence results/_smoke_r1476.out",
- "round_number_heal": "state and report both carry 1630 this window",
+ "round_number_heal": null,
  "round_open_dirty": "tree opened dirty (1322 entries, other writers' data/, content/drama) -> targeted add only",
  "round_pit": "E562 family: e597.walk_blocks returns (at, node) pairs, so handing the list to witness_class feeds a dict to a regex; and the first draft published all 22,460 series (11 MB face) before the per-face cap was declared in limits.",
  "round_report_line_ts": "2026-11-10T15:52:00+08:00",
@@ -6350,7 +6350,7 @@
  "round_summary": "r1630: E601 asked whether a duplicated row is detectable from what a face already publishes. Of the 501 faces that state a bar count, 295 (58.9%) also publish the rows that count is about -- a duplicate would show in the rows though never in the count -- and 206 publish a number no published data can contradict. No counted face publishes a duplicate row today (0 faces / 0 rows), and 198 of 894 measured series sit under a count that equals neither the row count nor the distinct-row count, so where the two numbers coexist they already disagree. Only 3 counted faces print a dedupe field or a distinct count, and first/last bar identity is not a witness for an interior duplicate because the ends do not move -- which is why the class rule asks only whether the rows are published.",
  "round_t1346_closeout_note": "r1346: PRODUCT round, clean continuation (state round_no=1345 at open, zero absorb owed; HEAD=e9739b945 'round 1345 postscript'). PRODUCT = E326 answers the pool card seeded by r1345. E325 closed the face layer, but 30 of its 51 faces are reached only through a format template or a composed path, and a template has a free parameter: the same template at another cutoff answers a different question. Measurement = consumer census over 30 faces / 2280 in-repo sources, static only, four classes (literal pin / own constant / read back / unpinned). READINGS: 20 faces parameterised, 10 composed paths with no parameter at all; 18 of the 20 republish the parameter beside their numbers (evidence_cutoff, sheet.as_of_bar) and the 2 that do not are named only by their own writers; of 34 references, 20 are writers and all 14 outside them pin the name (5) or fill the template from their own constant (9) -- 0 unpinned, 0 numbers quoted without their parameter. Verdict recomputed by the gate: every_consumer_of_a_parameterised_face_supplies_the_parameter_in_its_own_source. THREE RULES MEASURED NOT ASSUMED: (a) naming a dated face IS pinning its parameter, so the risky shape is the glob/pointer that resolves whatever is on disk -- a first draft treated the bare prefix REPRO- as a reference and 'found' 13 unpinned consumers inside gate labels such as G-REPRO-v1; (b) a consumer is judged by its WEAKEST naming line, which moved one consumer from literal pin to own constant and created no finding; (c) a composed path has no parameter and is published as kind:none rather than folded in as zero risk. BOUND PUBLISHED, NOT CLAIMED: the scan follows direct family references only, while 11 of the 20 faces are reachable through 143 *_latest pointers whose readers never see a date in a file name -- that is E327's population. WIRING: S6 leg template_parameter_consumers (verify re-derives every consumer class, ~2s) + smoke leg that refuses a stored verdict/class table that does not re-derive and refuses a carried parameter reported as a silent number. HONEST WALL NOTE: the full 330-leg smoke suite and the full chain were NOT re-run this window; the two new legs were exercised standalone (e326 verify problems=[]) and both files compile.",
  "s0": "no rebase (promisor clone; machine branch is the delivery channel, r1243); ~1,354 dirty paths from other writers at open -> targeted add only",
- "s0_5": "fleet/orders 114 files / 115 acks / 0 unacked; inbox 0; D-19 MATCH (2ffcc70c3dc6d105 unchanged)",
+ "s0_5": "114 orders / 115 acks / 0 unacked (loop scan at 22:45); inbox 0; D-19 zero action this window",
  "s0_d19": "group tree C:/Fluxgroup/FluxGroup fetched; origin/main:docs/decisions.md sha256 e2891af5 == the d19 watermark and orders c2935f54 == watermark -> verify structural_ok=true, probe equality true on both keys -> NOOP",
  "s0_sync": {
   "ahead_of_origin_main": 801,
@@ -6359,14 +6359,14 @@
   "peer": "origin",
   "ts": "2026-11-09T23:15:00+08:00"
  },
- "s1": "full smoke suite not launched (r1499 has no leg filter, ~30 min); the E648 leg was proven standalone 1/1 PASS and 1/1 red under --doctor with the face restored byte-identically",
+ "s1": "full suite not launched (r1499 cost); E661 leg extracted standalone 1/1 PASS with --doctor red_legs=1 and byte-identical face restore (sha 1256191e392b)",
  "s1_note": "no suite total is claimed this window",
  "s2": "no new board job; burned the ready pool head E627; E628 seeded (1 ready at close)",
  "s4": "card E627 appended to knowledge/METHODOLOGY_ASSETS.md (43/0 numstat) + TREASURE_REGISTRY row (1/0); digest DIGEST-20261109-r1645-e627-alias-binding.md",
- "s6": "S6 leg loop_write_key rc=0 140.5s (only leg run this round); full chain not run",
+ "s6": "volume_vintage verify rc=0 problems=[] (13,123 files, volume 3,879)",
  "s6_flag_guard": "python Tools/s6_chain_bmb.py --leg undated_vintage -> rc2 'unknown option(s): --leg'; 1509 --only undated_vintage -> rc0 0.05s",
  "s6_leg": "sibling_read_object",
- "s6_leg_added": "alias_binding (scripts/e627_alias_binding.py verify)",
+ "s6_leg_added": "volume_vintage (wired by the 22:45 round, verified green this round)",
  "s6_legs_run": [
   "alias_binding",
   "handover_write"
@@ -6376,14 +6376,14 @@
  "s6_run_in_window": [
   "pointer_bar_demand rc=0 36.32s"
  ],
- "s7": "register_loop_task no-op (pin=2 current=2); Bigmoney-LoopWatchdog present; pre-commit and pre-push content-identical to Tools/git-hooks",
- "s7_checked_at": "2026-11-10T21:33:46+08:00",
+ "s7": "state round_no bumped to 1679; heartbeat rewritten",
+ "s7_checked_at": "2026-11-26T22:58:16+08:00",
  "s7_correction": "the closeout fields said 'not checked'; the legs then ran -- see the round-report row at 10:08 (r1448 family lesson: write after you do)",
  "s7_note": "loop pin/watchdog/claws unchanged this round (not re-registered; no drift observed)",
  "s7_pit": "schtasks output is localised GBK, so a Select-String filter on 'TaskName/Status' matched nothing; existence was proved from /xml rc=0 plus the LogonType field instead (R49 family)",
  "s7_pit_1591": "the round-report row claimed 'watchdog present' before the check ran (r1448 family); the Invoke-SilentExe query printed nothing and an empty wrapper output is not evidence of absence (R49)",
  "s7_r1439": "loop pin=2 no-op | LoopWatchdog RE-REGISTERED (absent on this box; S4U, SWA=false) | pre-commit + pre-push claws reinstalled | attrition CLEAN 4 ledgers (3 healed) | sat engine status rc=0 idle",
- "s8": "green_idle at probe was true but claimable_pool_lines=5, so the pool card was burned instead of the local registry; no local-registry work ignited",
+ "s8": "green_idle=true at open (ram 74.6%, pool 3 ready) -> closed the E661 face the 22:45 round built but did not commit, and seeded E662 to hold the floor at 3",
  "sat_engine": "not re-queried this window -- stated, not claimed",
  "selftest": "e653_loop_write_key 22/22",
  "seq": 1647,
@@ -6411,8 +6411,8 @@
  "smoke_total": null,
  "state": "ok",
  "state_face_note": "authoritative face for bm-b",
- "status": "working",
- "study": "E652_string_arm_census",
+ "status": "ok",
+ "study": "E661_volume_vintage",
  "supply_floor": {
   "ready": 4,
   "floor": 3,
@@ -6429,23 +6429,23 @@
   "behind_origin_main": 47
  },
  "sync_note": "local main is 47 ahead / 47 behind origin/main on a promisor clone; no unattended rebase (r1243), so the machine branch is the delivery channel",
- "task": "E655 whether the one loader string route E652 found reads or writes the counted key",
- "task_short": "loader route priced at the site",
+ "task": "E661 counted-row-key volume vintage",
+ "task_short": "who carries the counted row key",
  "task_short_note": "scripts/e599_pointer_redirect_bar.py; card E602; digest DIGEST-20261109-r1629-e599-pointer-redirect-bar.md",
  "this_round": "r1673",
  "three_line": {
-  "current": "E647 measured the string arm E646 published as a limit: 480 strings and 28 loader calls in the 6 hit modules, 0 naming either counted read module, all 6 hit x read pairs no_literal_names_the_target",
-  "recent": "results/state_tilt/STRINGREACH.json @ 2026-11-10T15:52:00+08:00",
-  "next": "E651 fold the 14 unresolved strings by tracing module-level operands (by 2026-11-12)"
+  "current": "round 1679: E661 split the 3,879 counted-row-key carriers into round_script 2,408 / results_scratch 368 / test_or_smoke_leg 94 / live_module 958 / other 51 -- 71.6% archaeology, reconciled arm-by-arm against E658",
+  "recent": "results/state_tilt/VOLUMEVINTAGE.json @ 2026-11-26T22:51:00+08:00",
+  "next": "E662: whether the 958 live_module carriers are imported by any other file at all"
  },
  "three_line_artifact": "results/state_tilt/LOOPWRITEKEY.json",
  "three_line_artifact_ts": "2026-11-10T23:31:34+08:00",
- "three_line_current": "E653 closed: 845 loop-guarded residual write sites -- 696 accumulators (address from the loop target) vs 149 last-write-wins",
+ "three_line_current": "round 1679: E661 split the 3,879 counted-row-key carriers into round_script 2,408 / results_scratch 368 / test_or_smoke_leg 94 / live_module 958 / other 51 -- 71.6% archaeology, reconciled arm-by-arm against E658",
  "three_line_delivery": "machine/bm-b-r1665 @ a80ff731732d",
- "three_line_next": "E659: what the 149 fixed-address writes collapse to (loop bound countable?)",
- "three_line_recent": "results/state_tilt/LOOPWRITEKEY.json",
+ "three_line_next": "E662: whether the 958 live_module carriers are imported by any other file at all",
+ "three_line_recent": "results/state_tilt/VOLUMEVINTAGE.json @ 2026-11-26T22:51:00+08:00",
  "timestamp": "2026-11-10T21:35:12+08:00",
- "ts": "2026-11-10T23:31:34+08:00",
+ "ts": "2026-11-26T22:58:16+08:00",
  "ts_utc_ms": 1794234696000,
  "ts_utc_offset": "+08:00",
  "updated": "2026-11-10T21:35:12+08:00",
@@ -6978,8 +6978,8 @@
  "underwatermark_verdict": "insufficient_history",
  "three_line_recent_artifact": "results/state_tilt/SCOPEDREACH.json",
  "three_line_recent_artifact_ts": "2026-11-11T00:12:39+08:00",
- "three_line_next_milestone": "E660 by 2026-11-12",
- "three_line_current_task": "E654 scoped counted-key reach",
+ "three_line_next_milestone": "E662 by 2026-11-28",
+ "three_line_current_task": "E661 counted-row-key volume vintage",
  "r1673": {
   "card": "E655",
   "dept": "research+engineering",
@@ -7158,5 +7158,27 @@
   "main_push_note": "local main is 60 ahead / 72 behind origin/main on a promisor clone (r1243); no unattended rebase, so the machine branch is the delivery channel",
   "targeted_add": "12 faces staged by pathspec out of a tree dirty with ~3,200 entries",
   "local_commits_not_on_origin_main": 60
+ },
+ "r1679": {
+  "card": "E661",
+  "dept": "research+engineering",
+  "face": "results/state_tilt/VOLUMEVINTAGE.json",
+  "selftest": "18/18",
+  "ts": "2026-11-26T22:58:16+08:00",
+  "finding": "3879 of 13122 files carry a counted row key: round_script 2408 (62.1%) / results_scratch 368 (9.5%) / test_or_smoke_leg 94 (2.4%) / live_module 958 (24.7%) / other 51 (1.3%) -- archaeology 2776 = 71.6%; arms reconciled 3850->3856, 3864->3879, 3873->3879; holes 304 unparsable + 4 over the size cap",
+  "product": [
+   "scripts/e661_volume_vintage.py (built by the 22:45 round; selftest 18/18, check/verify problems=[])",
+   "results/state_tilt/VOLUMEVINTAGE.json + volumevintage_latest.json (3879-carrying-file split)",
+   "scripts/run_e661_smoke_leg.py (1/1 PASS, --doctor red_legs=1, face restored sha 1256191e392b)",
+   "smoke_test.py leg E661",
+   "knowledge/METHODOLOGY_ASSETS.md card E661",
+   "research/digests/DIGEST-20261126-r1679-e661-volume-vintage.md"
+  ],
+  "pit": [
+   "a class split on a file NAME is a name claim: a probe shipped under a plain name reads as a live module, so the priority order and every rule ship with the counts",
+   "volume is not asset: 71.6% of the population will never run again, so any 'carries X' number has to be priced against who re-runs it",
+   "reconcile arm by arm, never total to total: growth is disclosed, shrink is a hard red"
+  ],
+  "next": "E662 (ready, cpu-only): whether the 958 live_module carriers are imported by anyone"
  }
 }

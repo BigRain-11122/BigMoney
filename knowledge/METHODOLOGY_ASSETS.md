@@ -15526,3 +15526,35 @@ comprehension 4 / 未识别 1 / while 2。
 正身=scripts/e654_scoped_reach.py（selftest **19/19**，build 1.0s，check/verify problems=[]）·
 esults/state_tilt/SCOPEDREACH.json(+latest)·smoke_test.py leg E654·S6 leg scoped_counted_key_reach（rc=0 0.47s）·
 esearch/digests/DIGEST-20261111-r1678-e654-scoped-reach.md
+
+
+## E661 背着「计数键」的那些文件是什么：3879 个里 71.6% 是一次性轮脚本（承 E652/E658·r1679 bm-b·2026-11-26）
+
+**观察**：E652 把「字符串字面量等于某个计数行键」或「下标名等于键」的文件记成载体，E658 把三条臂合起来
+发布出 3873（literal 3850 / literal+subscript 3864）。E654 随后发现它定价的 16 个站点**全部**是在读自己
+诊断 JSON 的轮脚本。本轮把同一个问题放到语料规模上：每个载体文件按「它在哪」劈类（轮脚本 stem / results
+草稿 / 测试或 smoke 腿 / 活模块根 / 其他，一个发布出来的优先级顺序），每类的键直方图与文件名单都发布。
+
+**读数**（13,122 个 py 文件走查，3,879 个载体）：round_script **2,408**（62.1%）/ results_scratch **368**
+（9.5%）/ test_or_smoke_leg **94**（2.4%）/ live_module **958**（24.7%）/ other **51**（1.3%）——
+**考古件（轮脚本+results 草稿）= 2,776 = 71.6%**，活模块不到四分之一。按 stem 形态交叉：plain 1,018 /
+round_script 2,408 / test_or_smoke 94 / 下划线临时件 359。每文件命名键数：1 个 2,951 / 2 个 869 / 3 个 54 /
+4 个 5，命名 0 个键的 0 个（定义上不可能）。解析洞照发：**304 个文件不解析**、4 个超尺寸帽——分母不是「全部文件」。
+
+**判据（要命处）**：
+1. **按名字分类是名字承诺，不是身份判定**——一个用普通名发布的探针会被读成 live module。所以 class_rules
+   的优先级与每条规则原文必须与计数同时发布，读者才知道 958 是上界。
+2. **体积不是资产**——3873/3879 这个数一旦被当成「代码生态规模」读就错了：其中七成不会被任何人再跑一次。
+   凡「有多少文件带了 X」的读数，先问「这些文件还会不会被执行」，否则量的是考古层厚度。
+3. **对账按臂不按数**——三条臂（literal / literal+subscript / all-three）各自与本轮重走比对：3850→3856、
+   3864→3879、3873→3879，E652 的 3860→3879（+19）。方向只允许增长并披露，缩水=硬红。
+4. **洞要进分母**——304 个不解析文件不是「干净」：它们在四类之外，写进 holes 才让 3,879 这个数可复核。
+
+**How**：以后再遇「这个规模数字说明了什么」，先劈「还会跑的 / 不会跑的」再谈规模；名单类分类一律把规则
+原文与优先级随面发布；对账按上游自己的每一条臂名逐条比，别拿一个总数去比另一个总数。
+正身=scripts/e661_volume_vintage.py（selftest **18/18**，verify problems=[]，本轮树 13,123 文件 volume 3,879）·
+
+esults/state_tilt/VOLUMEVINTAGE.json(+latest)·scripts/run_e661_smoke_leg.py（1/1 PASS·--doctor red_legs=1
+且面字节还回 sha 1256191e392b）·smoke_test.py leg E661·S6 leg olume_vintage（verify 绿）·
+
+esearch/digests/DIGEST-20261126-r1679-e661-volume-vintage.md

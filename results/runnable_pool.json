@@ -1,5 +1,5 @@
 {
- "_stamp_note": "r1674 bm-b: E657 resolved each E647 unresolved handle back to the node that produced it and walked its own subtree -- 707 files hold 1,504 counted key sites inside handles, 946 of them subscript slices the second arm already walks and 558 in roles neither arm can see; the 5 files E652 published do not flip, so the blind spot costs the corpus volume outside the published population and leaves the headline intact; E658 seeded to re-run that volume | r1675 bm-b: E658 folded the handle arm into E652's volume -- 3850 literal / 3864 literal+subscript / 3873 all three; 9 of 707 handle files flip (+0.23%), 698 already carried, 558 invisible sites, 2 of the 9 are production modules | r1678 bm-b: E654 scored the 16 scoped counted-key sites E650 published -- all 16 off_population, 0 same module / 0 same receiver / 0 same container, while a key-name-only test would have called 16 a collision; E661 seeded to price how much of E652's volume is round scripts",
+ "_stamp_note": "r1679 bm-b: E661 closed. 3879 carrying files split into round_script 2408 / results_scratch 368 / test_or_smoke_leg 94 / live_module 958 / other 51 (71.6% archaeology), reconciled arm-by-arm against E658. E662 seeded to price whether the live_module bucket is a path claim or a real call population.",
  "entries": [
   {
    "deliverable": "results/e44_burnin/BURNIN-<cutoff>.json",
@@ -31641,11 +31641,35 @@
    "source": "O-20260924-2100 s2 (runnable pool)",
    "target": "results/state_tilt/VOLUMEVINTAGE.json",
    "priority": "P3",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-11-11T00:20:00+08:00",
    "seeded_by": "bm-b",
    "workers_plan": "single cpu lane, one build (the 13k-file corpus is already walked by E391/E652)",
-   "note": "E661 rounds the E652 volume series from count to composition"
+   "note": "E661 rounds the E652 volume series from count to composition",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-11-26T22:55:00+08:00",
+   "done_at": "2026-11-26T22:57:52+08:00",
+   "result_ref": "results/state_tilt/VOLUMEVINTAGE.json",
+   "result_note": "3879 carriers of 13122 files: round_script 2408 / results_scratch 368 / test_or_smoke_leg 94 / live_module 958 / other 51 -- 71.6% archaeology; verify problems=[] on a 13123-file tree",
+   "delivered_by": "r1679 bm-b"
+  },
+  {
+   "card": "E662",
+   "title": "whether the 958 live_module carryings E661 publishes are imported by any other file at all -- the class is a PATH claim (the module sits under scripts/, Tools/, firm/ or live/), not a call claim, so price how many of them any other module actually names in an import or a call",
+   "lane": "cpu-only",
+   "lane_note": "E661 splits 3879 carrying files into round scripts (2408), results scratch (368), test or smoke legs (94) and live modules (958). The live bucket is decided by the path prefix, which is the same kind of name claim E661 warns about; if most of the 958 are never imported either, the archaeology share rises again and the remaining population is the only one worth calling code.",
+   "deliverable": "results/state_tilt/LIVEMODULEREACH.json: for each of the 958 live_module files, the import/call evidence found in the rest of the corpus (import statement, from-import, importlib module name, __main__ entry, S6 chain action, tool launcher) and the split between reachable-by-someone and reachable-by-nobody, reconciled against E661's own class counts",
+   "source": "E661 (r1679 bm-b) -- 958 live_module carrying files",
+   "target": "results/state_tilt/LIVEMODULEREACH.json",
+   "priority": "normal",
+   "status": "ready",
+   "seeded_at": "2026-11-26T22:57:52+08:00",
+   "seeded_by": "r1679 bm-b",
+   "workers_plan": {
+    "workers": 2,
+    "priority": "BelowNormal"
+   },
+   "note": "E662 asks whether the smallest bucket is earned or another name claim"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -31660,6 +31684,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-11-11T00:20:00+08:00",
+ "updated_at": "2026-11-26T22:57:52+08:00",
  "version": 1
 }

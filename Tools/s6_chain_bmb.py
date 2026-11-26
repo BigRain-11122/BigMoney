@@ -1655,6 +1655,16 @@ LEGS = [
     # reconciles the population against E653's face row by row.
     ("fixed_address_bound", ["python", "scripts/e659_fixed_addr_bound.py", "verify"]),
 
+    # E661 prices the population E652/E658 publish.  The volume ("files carrying a counted row key")
+    # treats a module nobody calls again exactly like a live module, and E654 found all 16 of its
+    # scoped sites sitting in round scripts reading their own diagnostic JSON.  This face splits
+    # every carrying file by where it sits -- round script stem, results/ scratch, test or smoke
+    # leg, live module root -- publishes the counted-key histogram per class and reconciles the
+    # volume against E658's published arm totals instead of restating them.  Verify re-walks the
+    # corpus and compares the class splits, the key histogram and the verdict; the tree-vintage
+    # fields are published beside the comparison and never gated (E420 family).
+    ("volume_vintage", ["python", "scripts/e661_volume_vintage.py", "verify"]),
+
     # E654 asks whether the 16 comprehension/lambda sites that address a counted row key (E650's
     # scoped bucket, rows 11 / x1 4 / bar 1) subscript the object a counted read line actually
     # reads.  A key spelling is not an object: every site publishes the container evidence behind
