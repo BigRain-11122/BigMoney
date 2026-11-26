@@ -1,7 +1,7 @@
 {
  "face": "etf_book_cash_roll_today",
  "question": "which repo tenor does the book's uninvested sleeve roll into today, and is the answer constrained by the next decision bar?",
- "generated": "2026-11-26T13:28:40+0800",
+ "generated": "2026-11-27T03:57:59+0800",
  "panel_last_bars": {
   "GC001": "2026-11-25",
   "GC003": "2026-11-25",
@@ -17,23 +17,30 @@
  },
  "inputs": {
   "permission_face": "results\\etf_book_cut_order_gap.json",
+  "permission_sha256": "8671a4a404d5507d4fe5f6c2afdcfcd1212dcba7dfbd17049a3d6577e0689a5a",
+  "repo_panel_sha256": "166751a5a32b7230995aabcc268054128f2e6094d8a0ada9d04586b197633ea4",
   "nav_cny": 1000000.0,
-  "ordered_book_cny": 434738.0,
-  "cash_cny": 565262.0,
-  "book_as_of": "2026-11-25",
+  "ordered_book_cny": 434684.0,
+  "cash_cny": 565316.0,
+  "book_as_of": "2026-11-26",
   "decision_date": "2026-12-09",
   "repo_panel_as_of": "2026-11-25"
+ },
+ "panel_lag": {
+  "book_as_of": "2026-11-26",
+  "repo_panel_as_of": "2026-11-25",
+  "note": "the repo panel is behind the book bar; the quotes are read off their own last bar and never ffilled"
  },
  "as_of": "2026-11-25",
  "decision_date": "2026-12-09",
  "window_days": 14,
- "cash_cny": 565262.0,
+ "cash_cny": 565316.0,
  "placeable": {
   "sh_cny": 500000.0,
   "sz_cny": 65000.0,
-  "leftover_cny": 262.0,
+  "leftover_cny": 316.0,
   "placed_cny": 565000.0,
-  "cash_cny": 565262.0
+  "cash_cny": 565316.0
  },
  "eligible": [
   {

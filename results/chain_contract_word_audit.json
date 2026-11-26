@@ -1,0 +1,384 @@
+{
+ "artifact": "chain_contract_word_audit",
+ "face": "results/chain_contract_word_audit.json",
+ "script": "scripts/chain_contract_word_audit.py",
+ "generated": "2026-11-27T04:17:57+0800",
+ "contract": {
+  "word": "stale / face missing",
+  "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
+ },
+ "chain": "Tools\\s6_chain_bmc.py",
+ "chain_sha256": "a9ddc91b6873fa2ebad21b7a793ffa32dfbd758f23484ee91370613df2782393",
+ "n_legs": 390,
+ "n_writer_legs": 134,
+ "n_candidates": 22,
+ "n_probed": 22,
+ "deep": false,
+ "n_permanent_red": 0,
+ "verdict": "STRUCTURAL_RISK_ONLY",
+ "elapsed_sec": 30.9,
+ "rows": [
+  {
+   "leg": "etf_book_dividend_credit",
+   "script": "scripts/etf_book_dividend_credit.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_dividend_credit.py",
+    "--check"
+   ],
+   "script_sha256": "e667edfeef02de57caf4100e12fcc794c596ae1863831206902a4cd4ad44fe68",
+   "drift_words": [
+    "moved",
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "check ok: lag1 credit +0.33 pp/yr, coverage 27.2%, verdict DIVIDENDS_ARE_NOISE"
+  },
+  {
+   "leg": "liquidity_select_write",
+   "script": "scripts/etf_book_liquidity_select.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_liquidity_select.py",
+    "check"
+   ],
+   "script_sha256": "0de95b92735a3cde47e501c18285dee767b7a017883ebe87685e4d94c843d615",
+   "drift_words": [],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "{\"ok\": true, \"problems\": [], \"verdict\": \"SUBSTITUTION_NOT_SEPARABLE\"}"
+  },
+  {
+   "leg": "liquidity_era_write",
+   "script": "scripts/etf_book_liquidity_era.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_liquidity_era.py",
+    "check"
+   ],
+   "script_sha256": "a26976d95533e9e045c9fd06e7f029edfa7917285539c17d2895f543e8dfe8da",
+   "drift_words": [],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "{\"ok\": true, \"problems\": [], \"notes\": [], \"verdict\": \"NOT_SEPARABLE_IN_THIS_ERA\"}"
+  },
+  {
+   "leg": "etf_book_fill_venue",
+   "script": "scripts/etf_book_fill_venue.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_fill_venue.py",
+    "--check"
+   ],
+   "script_sha256": "301f99302a09624144ba8a827c38cc499bd490636ba382ccab8e3516fb449dc0",
+   "drift_words": [
+    "moved",
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK OK: INFORMATION_DOMINATES (gap +1.14pp, recovered -0.03pp, share -0.0263, budget NONE)"
+  },
+  {
+   "leg": "etf_book_tail_dependence",
+   "script": "scripts/etf_book_tail_dependence.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_tail_dependence.py",
+    "--check"
+   ],
+   "script_sha256": "bcb32775fa4d9c9d94909716b40be15f1e9c0ef6b1b61008bbac96ec928cae0b",
+   "drift_words": [
+    "moved",
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "check: verdict ROBUST_TO_TAILS (stored ROBUST_TO_TAILS) OK | top share reproduced OK"
+  },
+  {
+   "leg": "etf_book_voltarget_phase",
+   "script": "scripts/etf_book_voltarget_phase.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_voltarget_phase.py",
+    "--check"
+   ],
+   "script_sha256": "8b6ac2e4dc8e8823ba1ede6d0efca18560e21087d74ee8fdda45a5654be279bd",
+   "drift_words": [
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "voltarget_phase --check OK {'cells': 16, 'share_up': 1.0, 'median_pp': 1.5, 'noise_pp': 1.81} -> within noise: the arm wins on 4/4 phases with a median +1.50pp, but the control's own CAGR spans 1.81pp across those same phases -- the direction holds and the size cannot be told apart from calendar luc"
+  },
+  {
+   "leg": "alias_census",
+   "script": "scripts/etf_alias_census.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_alias_census.py",
+    "check"
+   ],
+   "script_sha256": "a8c61a562e04d17a413dd572be35cc5db5536eb00e8f31b4bba7238b02786bee",
+   "drift_words": [
+    "moved",
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "{\"ok\": true, \"problems\": [], \"families\": 41, \"chains\": 40}"
+  },
+  {
+   "leg": "harvest_census",
+   "script": "scripts/etf_swap_harvest_census.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_swap_harvest_census.py",
+    "check"
+   ],
+   "script_sha256": "160b75510f71c89dd1185af8ac7c2235ebfa4adb18952fef5d39ef72f90fc7cf",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK OK problems=[] rows=1076 measured=834"
+  },
+  {
+   "leg": "alias_stability",
+   "script": "scripts/etf_alias_stability.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_alias_stability.py",
+    "check"
+   ],
+   "script_sha256": "269f00ba43e700ccfd49fb78a30c4bbcb5ca355e84ab9d45b30fcf676d775710",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "{\"artifact\": \"etf_alias_stability\", \"ok\": true, \"problems\": [], \"n_pairs\": 741, \"verdict\": \"WINDOW_LUCK\"}"
+  },
+  {
+   "leg": "etf_book_width_fit",
+   "script": "scripts/etf_book_width_fit.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_width_fit.py",
+    "check"
+   ],
+   "script_sha256": "c0e6af69324c912cb57e34d382c7b78358ef849f427bff13a5ade2a4e8f1a9ed",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK width 5 IS the ticket's live row on bar 2026-11-11 (1.0649%) and every row re-derives"
+  },
+  {
+   "leg": "etf_book_width_neighbors",
+   "script": "scripts/etf_book_width_neighbors.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_width_neighbors.py",
+    "check"
+   ],
+   "script_sha256": "6b17acb51b66506d12c3ba0faffea62f721d8c1ef228ecc1ed4e077596958b88",
+   "drift_words": [
+    "behind"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK SIX_NAMES_SURVIVES_EVERY_CLOCK across clocks 10/20/40"
+  },
+  {
+   "leg": "etf_book_k_gap",
+   "script": "scripts/etf_book_k_gap.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_k_gap.py"
+   ],
+   "script_sha256": "a7e9d3eb63d220eedb48ab6e9d5ff119db8c63e02ad21f451774445bd4a91ac8",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **39 手 + 40 手 + 25 手 + 42 手 + 28 手**，按各自的价折成 **23,447.80 元**。 想先补回**一手**，最便宜的是 **159519**：159519 的额度上调 **0.0172pp** 就够买它那一手，其余每名各要 0.0237~0.0540pp。"
+  },
+  {
+   "leg": "premium_phases",
+   "script": "scripts/etf_book_premium_phases.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_premium_phases.py",
+    "--check"
+   ],
+   "script_sha256": "f0277beca3a59b5913bd9c91a7cf9fb818cff85fecf8ab0ec2b43834f4ddc6ec",
+   "drift_words": [
+    "moved",
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "premium_phases --check OK {'phases': 4, 'positive_phases': 4, 'median_pp': 6.59} -> level: the premium is positive on 4/4 phases (median +6.59pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence"
+  },
+  {
+   "leg": "year_caliber",
+   "script": "scripts/etf_book_year_caliber.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_year_caliber.py",
+    "check"
+   ],
+   "script_sha256": "be09c4cd0dc43b63120ab7e80027c88a7a6f9cc9ced563c77b03a3238e48c648",
+   "drift_words": [
+    "moved",
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "check PASS: primary=effective_years composite=FAIL"
+  },
+  {
+   "leg": "sibling_entry",
+   "script": "scripts/etf_book_sibling_entry.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_sibling_entry.py",
+    "check"
+   ],
+   "script_sha256": "92e0c0430ed69d5c52bd63eccbc72c3ea999cd8ed9c83511ad2755bf1abef8f9",
+   "drift_words": [
+    "moved"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "[sibling_entry] CHECK_OK the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,684"
+  },
+  {
+   "leg": "swap_trigger",
+   "script": "scripts/etf_book_swap_trigger.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_swap_trigger.py",
+    "check"
+   ],
+   "script_sha256": "3b4ac713bbc7681a491b09cae26c834654ee5d3ca3966795c32ffc7c4b394139",
+   "drift_words": [
+    "moved"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK: 1 pair(s), threshold 0.16 pp = one exchange (2 sides); manoeuvre 0.32 pp (4 sides) is published, not the threshold"
+  },
+  {
+   "leg": "swap_toll",
+   "script": "scripts/etf_book_swap_toll.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_swap_toll.py",
+    "check"
+   ],
+   "script_sha256": "99f20069f6528cea3ea4eff724797658fa0359638874cdbebed2f2b402b0b66f",
+   "drift_words": [
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK rows=0"
+  },
+  {
+   "leg": "toll_scope",
+   "script": "scripts/etf_book_toll_scope.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_toll_scope.py",
+    "check"
+   ],
+   "script_sha256": "c1700f39a1700b8caba8bad94a7c13b92db258450f8013c6145287399fe3ab20",
+   "drift_words": [
+    "moved",
+    "drift",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK"
+  },
+  {
+   "leg": "swap_convergence",
+   "script": "scripts/etf_book_swap_convergence.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_swap_convergence.py",
+    "check"
+   ],
+   "script_sha256": "7318eb145b3569b7a0853c30af285eba871ef8105971ae8531b3e08722a4a1e6",
+   "drift_words": [
+    "behind",
+    "moved",
+    "changed"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK measured=0"
+  },
+  {
+   "leg": "swap_effect",
+   "script": "scripts/etf_book_swap_effect.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_swap_effect.py",
+    "check"
+   ],
+   "script_sha256": "c6004e128b8c347fc5d65ea8af3cb13d7c96c7bc6674f70038d290f7cb6cfec6",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK rows=0 level=None path=None combined=None"
+  },
+  {
+   "leg": "swap_units",
+   "script": "scripts/etf_book_swap_units.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_swap_units.py",
+    "check"
+   ],
+   "script_sha256": "2eacd0fa01622369890129cdd54c837a127f0028e09569b485b601f0236a2c9e",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK_OK rows=0 shares=None lots=None realised=None"
+  },
+  {
+   "leg": "trial_labor_direction_audit",
+   "script": "scripts/trial_labor_direction_audit.py",
+   "check_cmd": [
+    "python",
+    "scripts/trial_labor_direction_audit.py",
+    "check"
+   ],
+   "script_sha256": "dca4ca7b9f0514befbc4d05b2389a84bc85850882d00e585c42d4e6a79d71594",
+   "drift_words": [
+    "drift"
+   ],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "CHECK OK: DIRECTION_BLIND_MEMBERS_NAMED | faces 5 | admitted 2 | negative 2"
+  }
+ ]
+}

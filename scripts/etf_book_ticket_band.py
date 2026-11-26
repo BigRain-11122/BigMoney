@@ -38,6 +38,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -61,6 +62,67 @@ def load_capacity(path=CAP_FACE):
         return None
     with open(path, "r", encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def _digest(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _pin(path):
+    if not path:
+        return None
+    try:
+        return os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:            # a temp dir on another drive (selftest) has no relative form
+        return os.path.abspath(path).replace("\\", "/")
+
+
+def recorded_inputs(ticket_path, cap_path=CAP_FACE):
+    """The two files this face is priced on, by identity (r1311: bytes, never a date).
+
+    A same-day revision of either file changes every number below while the evidence
+    cutoff stays put, so a date comparison cannot answer "am I behind".
+    """
+    out = {}
+    for key, path in (("ticket", ticket_path), ("capacity", cap_path)):
+        if path and os.path.exists(path):
+            out[key] = {"path": _pin(path), "sha256": _digest(path)}
+        else:
+            out[key] = None
+    return out
+
+
+def drift(pub, ticket_path, cap_path=CAP_FACE):
+    """Which recorded input moved since this face was written.  [] = nothing moved.
+
+    r1934: the chain pays for a rebuild only on the literal word STALE, so a check that
+    says "re-derives to X" about an upstream that simply moved is a *permanent* red --
+    the face freezes and no writer is ever bought.  This function is what lets check()
+    tell "I am behind" apart from "I am wrong".
+    """
+    moved = []
+    rec = (pub or {}).get("inputs") or {}
+    tr = rec.get("ticket") or {}
+    if not tr:
+        moved.append("this face records no ticket fingerprint, so it cannot prove it is current")
+    elif ticket_path:
+        if tr.get("path") != _pin(ticket_path):
+            moved.append("the newest ticket is %s and this face was priced on %s"
+                         % (_pin(ticket_path), tr.get("path")))
+        elif os.path.exists(ticket_path) and tr.get("sha256") != _digest(ticket_path):
+            moved.append("the ticket %s was rewritten since this face was priced"
+                         % _pin(ticket_path))
+    cr = rec.get("capacity") or {}
+    if not cr:
+        moved.append("this face records no capacity-face fingerprint")
+    elif os.path.exists(cap_path) and cr.get("sha256") != _digest(cap_path):
+        moved.append("the capacity gate face %s was re-derived since this face was written"
+                     % _pin(cap_path))
+    return moved
 
 
 def signed_capital(ticket, face):
@@ -252,6 +314,7 @@ def run():
         "frozen": {"lot_shares": TF.LOT, "residual_max_pct": TF.RESIDUAL_MAX_PCT,
                    "grid_cny": GRID_CNY, "rung_order": [t for t, _ in RUNGS]},
     })
+    out["inputs"] = recorded_inputs(path, CAP_FACE)
     out["sentence"] = sentence(out)
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
@@ -367,8 +430,18 @@ def check():
             problems.append("page does not print the verdict")
         if "%%" in md:
             problems.append("page carries a literal double percent -- the escape is leaking")
+    moved = drift(pub, path)
+    if problems:
+        if moved:
+            # the upstream moved: these numbers were right for the file they were priced
+            # on.  Name the file, not a defect -- the chain pays exactly one rebuild.
+            problems = ["STALE " + m for m in moved] + [
+                "the printed numbers moved with the upstream: " + " | ".join(problems)]
+        else:
+            problems = ["CHECK FAILED " + p for p in problems]
     print(json.dumps({"ok": not problems, "problems": problems,
-                      "verdict": pub.get("verdict")}, ensure_ascii=False))
+                      "verdict": pub.get("verdict"),
+                      "moved_inputs": moved}, ensure_ascii=False))
     return 0 if not problems else 1
 
 
@@ -520,6 +593,77 @@ def selftest():
             assert b["span_points"] >= b["n_points"], (tag, b)
             assert b["contiguous"] == (b["span_points"] == b["n_points"]), (tag, b)
 
+    def _check_on(mutator):
+        """Run the real check() against a poisoned copy of the published face."""
+        import contextlib
+        import copy
+        import io as _io
+        import tempfile
+        global OUT_JSON
+        with open(OUT_JSON, "r", encoding="utf-8") as fh:
+            poisoned = copy.deepcopy(json.load(fh))
+        mutator(poisoned)
+        old = OUT_JSON
+        with tempfile.TemporaryDirectory() as d:
+            tmp = os.path.join(d, "face.json")
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(poisoned, fh)
+            OUT_JSON = tmp
+            buf = _io.StringIO()
+            try:
+                with contextlib.redirect_stdout(buf):
+                    rc = check()
+            finally:
+                OUT_JSON = old
+        return rc, buf.getvalue()
+
+    # r2159: a face whose upstream moved must say STALE -- the one word that buys a writer.
+    def l15():
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            tp = os.path.join(d, "T.json")
+            with open(tp, "w", encoding="utf-8") as fh:
+                fh.write("{}")
+            pub = {"inputs": {"ticket": {"path": _pin(tp), "sha256": _digest(tp)},
+                              "capacity": {"path": _pin(CAP_FACE),
+                                           "sha256": _digest(CAP_FACE)}}}
+            assert drift(pub, tp) == [], drift(pub, tp)
+            with open(tp, "w", encoding="utf-8") as fh:
+                fh.write('{"a": 1}')
+            moved = drift(pub, tp)
+            assert any("rewritten" in m for m in moved), moved
+
+    # A newer card at a different path: both files are named, so the reader sees which moved.
+    def l15b():
+        pub = {"inputs": {"ticket": {"path": "results/etf_book_order/TICKET-2026-11-25-card.json",
+                                     "sha256": "x"},
+                          "capacity": {"path": _pin(CAP_FACE),
+                                       "sha256": _digest(CAP_FACE)}}}
+        moved = drift(pub, os.path.join(ROOT, "results", "etf_book_order",
+                                        "TICKET-2026-11-26-card.json"))
+        assert any("newest ticket is" in m and "2026-11-25" in m for m in moved), moved
+
+    # Same two inputs, one number off -> a real defect, and it must not be excused as stale.
+    def l16():
+        def poison(p):
+            p["impact_pct_at_signed"] = float(p["impact_pct_at_signed"]) + 0.01
+        rc, text = _check_on(poison)
+        assert rc == 1, (rc, text)
+        assert "CHECK FAILED" in text, text
+        assert "STALE" not in text, text
+
+    # A face priced on an older card: its numbers are the old card's, the ticket has moved.
+    def l17():
+        def poison(p):
+            p["inputs"] = {"ticket": {"path": "results/etf_book_order/TICKET-2020-01-01-card.json",
+                                      "sha256": "deadbeef"},
+                           "capacity": (p.get("inputs") or {}).get("capacity")}
+            p["impact_pct_at_signed"] = float(p["impact_pct_at_signed"]) + 0.02
+        rc, text = _check_on(poison)
+        assert rc == 1, (rc, text)
+        assert "STALE" in text, text
+        assert "CHECK FAILED" not in text, text
+
     for name, fn in (("both lines hold", l1),
                      ("impact breach with lots fine", l2),
                      ("residue breach with impact fine", l3),
@@ -533,7 +677,11 @@ def selftest():
                      ("missing face prints no capitals", l11),
                      ("verdict ignores the gate's word", l12),
                      ("a rung under the floor has no band", l13),
-                     ("pockets are counted not smoothed", l14)):
+                     ("pockets are counted not smoothed", l14),
+                     ("a rewritten ticket is drift, not a defect", l15),
+                     ("a newer card names both files", l15b),
+                     ("a wrong number with still inputs stays a defect", l16),
+                     ("a face pinned to an older card says STALE", l17)):
         leg(name, fn)
     npass = sum(1 for x in legs if x["pass"])
     for x in legs:

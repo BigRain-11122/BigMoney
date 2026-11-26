@@ -37,6 +37,7 @@ Usage:
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -163,6 +164,28 @@ def choose(cash_cny, as_of, decision_date, quotes, last_bars, fees=None):
 # ---------------------------------------------------------------------------------------
 # disk readers
 # ---------------------------------------------------------------------------------------
+def _digest(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 16), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _panel_digest(panel_dir=None):
+    """One digest over the tenor files this instruction prices off (name + bytes)."""
+    panel_dir = panel_dir or L.PANEL_DIR
+    if not os.path.isdir(panel_dir):
+        return None
+    h = hashlib.sha256()
+    for name in sorted(os.listdir(panel_dir)):
+        if not name.endswith(".csv"):
+            continue
+        h.update(name.encode("utf-8"))
+        h.update(_digest(os.path.join(panel_dir, name)).encode("ascii"))
+    return h.hexdigest()
+
+
 def read_inputs(perm_path=PERM_PATH, panel_dir=L.PANEL_DIR):
     """Return (perm, quotes, last_bars, problems). Never invents a missing number."""
     problems = []
@@ -191,7 +214,10 @@ def build(perm, quotes, last_bars, problems):
                         "and is the answer constrained by the next decision bar?"),
            "generated": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
            "panel_last_bars": last_bars,
-           "inputs": {"permission_face": os.path.relpath(PERM_PATH, BASE)}}
+           "inputs": {"permission_face": os.path.relpath(PERM_PATH, BASE),
+                      "permission_sha256": (_digest(PERM_PATH)
+                                            if os.path.exists(PERM_PATH) else None),
+                      "repo_panel_sha256": _panel_digest()}}
     if problems:
         out["verdict"] = "NO_INSTRUCTION"
         out["reason"] = "; ".join(problems)
@@ -253,8 +279,25 @@ def check(out=None, perm_path=PERM_PATH, panel_dir=L.PANEL_DIR):
             if abs(float(out["placeable"].get(k, -1)) - fresh["placeable"][k]) > CASH_EPS:
                 problems.append("placeable.%s: published %r vs re-derived %r"
                                 % (k, out["placeable"].get(k), fresh["placeable"][k]))
-    return {"ok": not problems, "problems": problems, "checked_at":
-            time.strftime("%Y-%m-%dT%H:%M:%S%z")}
+    # r2159: the instruction is priced on the book's permission face and on the repo panel's
+    # bytes.  When either moved, the old sentence was right for the file it was written on --
+    # that is drift, and it must say STALE, the one word the chain pays a rebuild for.
+    rec = out.get("inputs") or {}
+    now = fresh.get("inputs") or {}
+    moved = []
+    if rec.get("permission_sha256") != now.get("permission_sha256"):
+        moved.append("the book's permission face was rewritten since this instruction "
+                     "was written")
+    if rec.get("repo_panel_sha256") != now.get("repo_panel_sha256"):
+        moved.append("the repo panel bytes changed since this instruction was written")
+    if problems:
+        if moved:
+            problems = ["STALE " + m for m in moved] + [
+                "the printed instruction moved with it: " + " | ".join(problems)]
+        else:
+            problems = ["CHECK FAILED " + p for p in problems]
+    return {"ok": not problems, "problems": problems, "moved_inputs": moved,
+            "checked_at": time.strftime("%Y-%m-%dT%H:%M:%S%z")}
 
 
 # ---------------------------------------------------------------------------------------
@@ -341,6 +384,23 @@ def selftest():
         < CASH_EPS, str(live.get("cash_cny")))
     leg("missing inputs produce NO_INSTRUCTION instead of a sentence with a number in it",
         build({}, {}, {}, ["missing x"])["verdict"] == "NO_INSTRUCTION")
+
+    # r2159: a wrong number with still inputs is a defect; a moved input is drift, and only
+    # the literal word STALE buys the 1.1s rebuild that makes this face current again.
+    import copy as _copy
+    poisoned = _copy.deepcopy(live)
+    poisoned["cash_cny"] = float(live["cash_cny"]) + 54.0
+    res = check(out=poisoned)
+    leg("a wrong number with unchanged inputs is called a defect, not drift",
+        (not res["ok"])
+        and any("CHECK FAILED" in x for x in res["problems"])
+        and not any("STALE" in x for x in res["problems"]), str(res["problems"]))
+    stale = _copy.deepcopy(poisoned)
+    stale["inputs"] = dict(live["inputs"], permission_sha256="deadbeef")
+    res2 = check(out=stale)
+    leg("a rewritten permission face says STALE and names the file it was priced on",
+        (not res2["ok"]) and any(x.startswith("STALE") for x in res2["problems"]),
+        str(res2["problems"]))
 
     for name, ok, detail in legs:
         print("[%s] %s%s" % ("PASS" if ok else "FAIL", name,

@@ -1688,7 +1688,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2158,
+ "round_no": 2159,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2723,5 +2723,6 @@
  "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
  "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）",
  "通过_r2155": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本仓唯一宿主）-> 本轮可动共享面 · 孤儿面 py_faces=3 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执差集全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit / pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均存在（未重注册）",
- "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390"
+ "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390",
+ "通过_r2159": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本宿主独活）· 全量冒烟 778/787（9 红）→ 按 r1934 契约词分类：5 条已修（ticket_band/cash_roll_today/k_grid/year_gate_vote/premium_swap+premium_choice 容差），4 条记欠账（rebal_adoption 控制臂 10.89 vs 发布 11.49、CEO 页 declared-start、ah_panel 采样尾、bets/derisk 两节无链腿）· 新面 scripts/chain_contract_word_audit.py（390 腿/134 带写者/22 条不会说 STALE）"
 }

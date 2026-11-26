@@ -582,8 +582,12 @@ def check():
             problems.append("criteria %s = %r but the code froze %r" % (k, crit.get(k), want))
     ticket, _ = P.latest_ticket()
     asof = ticket.get("as_of") or ticket.get("evidence_cutoff")
+    # r2159: the ticket moving is drift, not a wrong number -- say STALE or the chain never
+    # buys the rebuild and this face freezes on the previous session (r1934 class).
+    moved = []
     if pub.get("as_of") != asof:
-        problems.append("face as_of %r != ticket as_of %r" % (pub.get("as_of"), asof))
+        moved.append("the ticket moved to %s (this face was priced on %s)"
+                     % (asof, pub.get("as_of")))
     prem, _names, snap = P.load_premium_snapshot(asof)
     if not prem:
         problems.append("snapshot missing for %s (%s)" % (asof, snap))
@@ -617,8 +621,18 @@ def check():
                 if abs((road.get("breakeven_convergence_p") or -1) - p_star) > 1e-4:
                     # both sides are printed at 2 dp CNY, so p* carries ~1e-5 of printing noise
                     problems.append("%s/%s p* %.6f vs re-derived %.6f" % (sym, road["road"], road.get("breakeven_convergence_p") or -1, p_star))
-                if abs((road.get("breakeven_tenure_windows") or -1) - hold) > 1e-3:
-                    problems.append("%s/%s break-even windows drifted" % (sym, road["road"]))
+                # r2159: both sides are printed at 2 dp CNY and the give-up is itself a
+                # product of printed inputs, so hold = sav/give carries
+                # hold*(0.01/sav + 0.01/give) of printing noise -- not a fixed 1e-3.  The
+                # old constant turned that noise into a red leg (159655/B: 30.672 vs
+                # 30.6707, a 1.3e-3 gap on a 199 CNY divisor).
+                hold_tol = max(1e-3, hold * (0.01 / max(sav, 1e-9)
+                                             + 0.01 / max(give, 1e-9)))
+                if abs((road.get("breakeven_tenure_windows") or -1) - hold) > hold_tol:
+                    problems.append("%s/%s break-even windows drifted (%.3f vs %.3f, tol %.4f)"
+                                    % (sym, road["road"],
+                                       road.get("breakeven_tenure_windows") or -1, hold,
+                                       hold_tol))
                 want_pays = bool(p_star < P_CONVERGE_FLOOR)
                 if bool(road.get("pays_over_book_tenure")) != want_pays:
                     problems.append("%s/%s window ruler word disagrees with p* vs the floor" % (sym, road["road"]))
@@ -654,7 +668,11 @@ def check():
         want = "UNPRICED"
     if pub.get("verdict") != want:
         problems.append("face verdict %r does not follow from the legs %r" % (pub.get("verdict"), words))
+    if moved and problems:
+        problems = ["STALE " + m for m in moved] + [
+            "these followed the ticket: " + p for p in problems]
     out = {"ok": not problems, "problems": problems, "verdict": pub.get("verdict"),
+           "moved_inputs": moved,
            "tenure_windows": tenure,
            "re_derived_from_inputs": ["premium_pct", "premium_cny", "stretched", "saving CNY",
                                       "per-window give-up", "break-even windows/years", "p*",

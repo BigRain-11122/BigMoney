@@ -3027,6 +3027,14 @@ def main() -> int:
              "scripts/etf_book_ticket_band.py", ["selftest"]),
             ("product: etf_book_ticket_band (face re-derives from the two source faces)",
              "scripts/etf_book_ticket_band.py", ["check"]),
+            # r2159: the chain pays a leg's writer only on the literal word STALE.  A leg
+            # whose check describes a moved upstream as "behind"/"moved" can never heal --
+            # it freezes on an old bar until a human runs the writer by hand.  These legs
+            # pin the auditor's classifier and that its live column matches its digests.
+            ("product: chain contract-word audit (static scan and classifier)",
+             "scripts/chain_contract_word_audit.py", ["--selftest"]),
+            ("product: chain contract-word audit (live column still matches its scripts)",
+             "scripts/chain_contract_word_audit.py", ["--check"]),
             # r1824: the cash ladder's ticket is stamped with its own cutoff, so "which tenor
             # do I roll this morning" had no answer on any reader face. The legs pin that a
             # tenor maturing after the decision bar is excluded (and named) rather than

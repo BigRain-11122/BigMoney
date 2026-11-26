@@ -298,10 +298,24 @@ def check():
         if pub.get(k) != now.get(k):
             drift.append("%s: published=%r re-derived=%r" % (k, pub.get(k), now.get(k)))
     if drift:
+        # r2159: the census is only as new as the book faces it reads.  When they moved,
+        # these numbers were right for the cut they were taken at -- say STALE, the one word
+        # the chain pays a rebuild for, or this face freezes until a human runs it.
+        moved = []
+        pc, nc = pub.get("evidence_cutoff"), now.get("evidence_cutoff")
+        if pc and nc and str(pc) < str(nc):
+            moved.append("the faces this census reads moved to %s (this publication was "
+                         "cut at %s)" % (nc, pc))
+        for m in moved:
+            print("STALE " + m)
         for d in drift:
             print("DRIFT " + d)
-        print("CHECK_FAIL %d field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote.py`"
-              % len(drift))
+        if moved:
+            print("STALE %d field(s) moved with the upstream -- rerun "
+                  "`python scripts/etf_book_year_gate_vote.py`" % len(drift))
+        else:
+            print("CHECK_FAIL %d field(s) drifted -- rerun "
+                  "`python scripts/etf_book_year_gate_vote.py`" % len(drift))
         return 1
     r = now["rules"]
     print("CHECK_OK readings=%d books=%d y4_false=%d y4_only=%d | admit R0=%d R1=%d R2=%d"

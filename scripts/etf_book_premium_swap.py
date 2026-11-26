@@ -554,8 +554,12 @@ def check():
             problems.append("criteria %s = %r but the code froze %r" % (k, crit.get(k), want))
     ticket, _ = latest_ticket()
     asof = ticket.get("as_of") or ticket.get("evidence_cutoff")
+    # r2159: the ticket moving is drift, not a wrong number.  Without this word the chain
+    # never buys the rebuild and this face freezes on the previous session (r1934 class).
+    moved = []
     if pub.get("as_of") != asof:
-        problems.append("face as_of %r != ticket as_of %r" % (pub.get("as_of"), asof))
+        moved.append("the ticket moved to %s (this face was priced on %s)"
+                     % (asof, pub.get("as_of")))
     prem, names, snap_path = load_premium_snapshot(asof)
     if not prem:
         problems.append("snapshot missing for %s (%s)" % (asof, snap_path))
@@ -608,7 +612,11 @@ def check():
     words = [r["verdict"] for r in pub.get("legs") or []]
     if pub.get("verdict") != face_verdict(pub.get("legs") or []):
         problems.append("face verdict %r does not follow from the legs %r" % (pub.get("verdict"), words))
+    if moved and problems:
+        problems = ["STALE " + m for m in moved] + [
+            "these followed the ticket: " + p for p in problems]
     out = {"ok": not problems, "problems": problems, "verdict": pub.get("verdict"),
+           "moved_inputs": moved,
            "re_derived_from_inputs": ["premium_pct", "premium_cny", "stretched", "verdict words", "face verdict"],
            "not_re_derived": ["ranking scores (panel build ~60s)", "score slope"]}
     print(json.dumps(out, ensure_ascii=False))

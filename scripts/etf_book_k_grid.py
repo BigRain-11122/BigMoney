@@ -456,19 +456,27 @@ def check(path=OUT_JSON):
             break
     led_now = ledger_k_trace(phase=int((doc.get("grids") or {}).get("decision_phase") or 0))
     led_face = doc.get("ledger") or {}
+    # r2159: the ledger moving is drift, not a defect.  It has to say STALE in its own
+    # words -- the chain buys the rebuild only on that literal word, so a face that fell
+    # behind the ledger used to stay red until somebody ran it by hand.
+    drift = []
     if led_now.get("n_moves") != led_face.get("n_moves"):
-        asks.append("ledger k moves moved: face %r, now %r"
-                    % (led_face.get("n_moves"), led_now.get("n_moves")))
+        drift.append("the ledger's k moves changed: face %r, now %r"
+                     % (led_face.get("n_moves"), led_now.get("n_moves")))
     if led_now.get("last") != led_face.get("last"):
-        asks.append("ledger last bar moved: face %r, now %r"
-                    % (led_face.get("last"), led_now.get("last")))
+        drift.append("the ledger's last bar moved: face %r, now %r"
+                     % (led_face.get("last"), led_now.get("last")))
     if doc.get("evidence_cutoff") and led_now.get("last") \
             and str(doc["evidence_cutoff"]) < str(led_now["last"]):
-        asks.append("face cutoff %s is behind the ledger's last bar %s"
-                    % (doc.get("evidence_cutoff"), led_now.get("last")))
+        drift.append("face cutoff %s is behind the ledger's last bar %s"
+                     % (doc.get("evidence_cutoff"), led_now.get("last")))
+    for d in drift:
+        print("[check] STALE " + d)
     if asks:
         for a in asks:
             print("[check] " + a)
+        return 1
+    if drift:
         return 1
     print("[check] OK verdict=%s delta=%spp spread=%spp | decision phase %s, overlay phase %s"
           " | ledger %s/%s off-grid"
@@ -559,7 +567,55 @@ def selftest():
         abs(TOL_PP - 0.25) < 1e-12 and CRITERIA["tol_pp_per_year"] == 0.25
         and REBAL == 20, "rebal=%s" % REBAL)
 
-    n = 17
+    # r2159: a face the ledger has moved past must say STALE (the word that buys the
+    # rebuild); a face whose own numbers disagree must not be excused with it.
+    def _check_on(mutator):
+        import contextlib
+        import copy
+        import io as _io
+        import tempfile
+        with open(OUT_JSON, encoding="utf-8") as fh:
+            doc = copy.deepcopy(json.load(fh))
+        mutator(doc)
+        with tempfile.TemporaryDirectory() as d:
+            p = os.path.join(d, "face.json")
+            with open(p, "w", encoding="utf-8") as fh:
+                json.dump(doc, fh)
+            buf = _io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = check(p)
+        return rc, buf.getvalue()
+
+    def l18():
+        def old(p):
+            p["evidence_cutoff"] = "2020-01-01"
+        rc, txt = _check_on(old)
+        assert rc == 1, txt
+        assert "STALE" in txt, txt
+
+    def l19():
+        with open(OUT_JSON, encoding="utf-8") as fh:
+            cur = json.load(fh)
+        led = ledger_k_trace(phase=int((cur.get("grids") or {}).get("decision_phase") or 0))
+
+        def worse(p):
+            # pin the ledger to what it is right now, so the only thing wrong is the verdict
+            p["ledger"] = {"n_moves": led.get("n_moves"), "last": led.get("last")}
+            p["evidence_cutoff"] = led.get("last")
+            p["verdict"] = dict(p.get("verdict") or {}, state="GRID_NEUTRAL", delta_pp=9.9)
+        rc, txt = _check_on(worse)
+        assert rc == 1, txt
+        assert "STALE" not in txt, txt
+
+    for nm, fn in (("L18 a face behind the ledger says STALE", l18),
+                   ("L19 a wrong verdict is not excused as stale", l19)):
+        try:
+            fn()
+            leg(nm, True)
+        except AssertionError as exc:
+            leg(nm, False, str(exc))
+
+    n = 19
     print("\nselftest: %d/%d passed" % (n - len(fails), n))
     if fails:
         for f in fails:
