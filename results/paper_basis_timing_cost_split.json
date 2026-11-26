@@ -1,0 +1,182 @@
+{
+ "generated": "2026-11-26T14:03:05+08:00",
+ "ok": true,
+ "verdict": "SPLIT",
+ "last_bar": "2026-11-25",
+ "cell": "paper_basis_timing",
+ "cost": {
+  "basis": "per_side_bp",
+  "side_bp": 1.5,
+  "applied_in": "scripts/paper_basis_timing.py (carry is net of this rate)",
+  "note": "this face re-runs the frozen rule at several rates to size the drag; the published paper book keeps 1.5bp/edge"
+ },
+ "rule_mirror": {
+  "window": 250,
+  "min_obs": 60,
+  "weight": "clamp((80-percentile)/60,0,1)",
+  "roll_mask": "|dbasis| > 8*median(|dbasis|) and > 0.005"
+ },
+ "equivalence": {
+  "IC": {
+   "published_marks": 2390,
+   "replayed_marks": 2390,
+   "matched_dates": 2390,
+   "unmatched_replayed": 0,
+   "weight_mismatches": 0,
+   "max_abs_carry_diff_pct": 0.0,
+   "tolerance_pct": 2e-06,
+   "ok": true
+  },
+  "IM": {
+   "published_marks": 1052,
+   "replayed_marks": 1052,
+   "matched_dates": 1052,
+   "unmatched_replayed": 0,
+   "weight_mismatches": 0,
+   "max_abs_carry_diff_pct": 0.0,
+   "tolerance_pct": 2e-06,
+   "ok": true
+  }
+ },
+ "products": {
+  "IC": {
+   "days": 2390,
+   "first": "2017-01-18",
+   "last": "2026-11-25",
+   "years": 9.795,
+   "gross_cumulative_pct": 174.077,
+   "net_cumulative_pct": 155.924,
+   "gross_annualised_pct": 10.842,
+   "net_annualised_pct": 10.069,
+   "cost_drag_cumulative_pp": 18.152,
+   "cost_drag_annualised_pp": 0.773,
+   "cost_share_of_gross_pct": 7.13,
+   "one_way_turnover_units": 457.288,
+   "turnover_per_year": 46.685,
+   "days_holding": 1860,
+   "avg_weight_when_on": 0.6389
+  },
+  "IM": {
+   "days": 1052,
+   "first": "2022-07-25",
+   "last": "2026-11-25",
+   "years": 4.311,
+   "gross_cumulative_pct": 50.431,
+   "net_cumulative_pct": 47.0,
+   "gross_annualised_pct": 9.934,
+   "net_annualised_pct": 9.347,
+   "cost_drag_cumulative_pp": 3.431,
+   "cost_drag_annualised_pp": 0.587,
+   "cost_share_of_gross_pct": 5.91,
+   "one_way_turnover_units": 153.951,
+   "turnover_per_year": 35.707,
+   "days_holding": 823,
+   "avg_weight_when_on": 0.6786
+  }
+ },
+ "sensitivity": {
+  "IC": [
+   {
+    "cost_bp_side": 0.0,
+    "net_annualised_pct": 10.842,
+    "net_cumulative_pct": 174.077
+   },
+   {
+    "cost_bp_side": 1.5,
+    "net_annualised_pct": 10.069,
+    "net_cumulative_pct": 155.924
+   },
+   {
+    "cost_bp_side": 3.0,
+    "net_annualised_pct": 9.302,
+    "net_cumulative_pct": 138.973
+   },
+   {
+    "cost_bp_side": 4.5,
+    "net_annualised_pct": 8.539,
+    "net_cumulative_pct": 123.143
+   },
+   {
+    "cost_bp_side": 7.5,
+    "net_annualised_pct": 7.031,
+    "net_cumulative_pct": 94.557
+   }
+  ],
+  "IM": [
+   {
+    "cost_bp_side": 0.0,
+    "net_annualised_pct": 9.934,
+    "net_cumulative_pct": 50.431
+   },
+   {
+    "cost_bp_side": 1.5,
+    "net_annualised_pct": 9.347,
+    "net_cumulative_pct": 47.0
+   },
+   {
+    "cost_bp_side": 3.0,
+    "net_annualised_pct": 8.763,
+    "net_cumulative_pct": 43.647
+   },
+   {
+    "cost_bp_side": 4.5,
+    "net_annualised_pct": 8.183,
+    "net_cumulative_pct": 40.37
+   },
+   {
+    "cost_bp_side": 7.5,
+    "net_annualised_pct": 7.031,
+    "net_cumulative_pct": 34.038
+   }
+  ]
+ },
+ "ledger_health": {
+  "verdict": "DUPLICATE_DATES",
+  "products": {
+   "IC": {
+    "rows_in_ledger": 3728,
+    "distinct_dates": 2390,
+    "duplicate_rows": 1338,
+    "duplicate_dates": 1338,
+    "first_duplicate_date": "2017-01-18",
+    "last_duplicate_date": "2022-07-22",
+    "rows_per_date": 1.56,
+    "deduped_days": 2390,
+    "deduped_cumulative_pct": 155.924,
+    "deduped_annualised_pct": 10.069
+   },
+   "IM": {
+    "rows_in_ledger": 2103,
+    "distinct_dates": 1052,
+    "duplicate_rows": 1051,
+    "duplicate_dates": 1051,
+    "first_duplicate_date": "2022-07-25",
+    "last_duplicate_date": "2026-11-24",
+    "rows_per_date": 1.999,
+    "deduped_days": 1052,
+    "deduped_cumulative_pct": 47.0,
+    "deduped_annualised_pct": 9.347
+   }
+  },
+  "root_cause": "scripts/paper_basis_timing.py loads the ledger into a map keyed by m['date'] (line `marks = {m['date']: m for m in ...}`) but writes it keyed by 'product:date'; every loaded row is therefore invisible to the `if key in marks` check, so each run re-inserts a second copy beside it",
+  "why_it_matters": "the reader page compounds (1+carry) over every row, so each duplicated day is counted twice in the headline cumulative carry; the annualised figure moves much less because the day count is inflated by the same factor, which is exactly why the page looked plausible",
+  "fix_prepared_not_applied": "key the load map by 'product:date' too (`{f\"{m['product']}:{m['date']}\": m ...}`) and dedupe the existing ledger once under the treasure-guard prescan; not applied this round -- another host holds the shared faces"
+ },
+ "published_state_reference": {
+  "generated": "2026-11-25T22:22:55+08:00",
+  "last_bar": "2026-11-25",
+  "products": {
+   "IC": {
+    "days": 3728,
+    "annualised_pct": 10.66,
+    "cumulative_carry_pct": 370.06
+   },
+   "IM": {
+    "days": 2103,
+    "annualised_pct": 9.4,
+    "cumulative_carry_pct": 116.862
+   }
+  },
+  "why": "the paper book's own numbers, printed unchanged so the split can be read against the number a reader already has"
+ }
+}
