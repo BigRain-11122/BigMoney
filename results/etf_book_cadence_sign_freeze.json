@@ -1,0 +1,839 @@
+{
+ "schema": "etf-book-cadence-sign-freeze/v1",
+ "face": "results/etf_book_cadence_sign_freeze.json",
+ "question": "can the drawdown-depth sign found in 2022-2023 be frozen and then score the quarters it never saw, including 2026?",
+ "rule": {
+  "R1_observable": "trail_dd60 of the equal-weight book universe, measured strictly on bars dated before the quarter's lo bound",
+  "R2_freeze": "direction and split point are learned on quarters that CLOSED on or before 2024-01-01 and are copied into frozen_rule verbatim",
+  "R3_target": "per-quarter realised gap = median over the same-grid start pairs of (fast 10 / slow 20, n_hold=5, 8bp); a quarter needs >=2 paired starts (the split face's own floor) and its start count is printed",
+  "R4_money": "the pick earns +gap when it picked fast and -gap when it picked slow; always-fast is the baseline",
+  "R5_scope": "2026Q1..2026Q3 are built by this face because the split face's quarter list stops at 2025Q4; 2026Q4 is a partial slice",
+  "frozen": "R1-R5 written before the first read of the 2026 cells in this round"
+ },
+ "upstream": {
+  "split_face": "results/etf_book_cadence_regime_split.json",
+  "split_cutoff": "2026-11-25",
+  "predict_face": "results/etf_book_cadence_regime_predict.json",
+  "starts": [
+   "2021-09-01",
+   "2022-03-01",
+   "2022-09-01",
+   "2023-03-01",
+   "2023-09-01",
+   "2024-03-01"
+  ],
+  "cost": "8bp"
+ },
+ "evidence_cutoff": "2026-11-25",
+ "frozen_rule": {
+  "observable": "trail_dd60",
+  "train_n": 7,
+  "train_rho": -0.10714285714285712,
+  "direction": -1,
+  "split_point": 8.983031020840782,
+  "train_quarters": [
+   "2022Q2",
+   "2022Q3",
+   "2022Q4",
+   "2023Q1",
+   "2023Q2",
+   "2023Q3",
+   "2023Q4"
+  ],
+  "train_gap_median_pp": -1.3109238800936618
+ },
+ "quarters": [
+  {
+   "quarter": "2022Q1",
+   "bounds": [
+    "2022-01-01",
+    "2022-04-01"
+   ],
+   "gap_pp": null,
+   "n_starts": null,
+   "gap_min_pp": null,
+   "gap_max_pp": null,
+   "asof": "2021-12-31",
+   "trail_dd60": 3.883109425545509,
+   "trail_ret60": 1.0337333432776097,
+   "trail_vol60": 10.933346052639287,
+   "xs_disp60": 2.7738045572838987
+  },
+  {
+   "quarter": "2022Q2",
+   "bounds": [
+    "2022-04-01",
+    "2022-07-01"
+   ],
+   "gap_pp": 6.710425012212351,
+   "n_starts": 2,
+   "gap_min_pp": 5.835236899729191,
+   "gap_max_pp": 7.585613124695511,
+   "asof": "2022-03-31",
+   "trail_dd60": 19.679134405477157,
+   "trail_ret60": -13.355872659843449,
+   "trail_vol60": 22.450367547594748,
+   "xs_disp60": 4.4144756560474825
+  },
+  {
+   "quarter": "2022Q3",
+   "bounds": [
+    "2022-07-01",
+    "2022-10-01"
+   ],
+   "gap_pp": -2.8108337888076154,
+   "n_starts": 2,
+   "gap_min_pp": -4.6019373421335885,
+   "gap_max_pp": -1.0197302354816418,
+   "asof": "2022-06-30",
+   "trail_dd60": 14.731049804591304,
+   "trail_ret60": 4.314967043612028,
+   "trail_vol60": 23.542070486947758,
+   "xs_disp60": 3.714341395306059
+  },
+  {
+   "quarter": "2022Q4",
+   "bounds": [
+    "2022-10-01",
+    "2023-01-01"
+   ],
+   "gap_pp": -2.8989105803758575,
+   "n_starts": 3,
+   "gap_min_pp": -3.026732139915711,
+   "gap_max_pp": -0.32187902514881905,
+   "asof": "2022-09-30",
+   "trail_dd60": 13.937517197939536,
+   "trail_ret60": -13.937517197939531,
+   "trail_vol60": 14.66852770188953,
+   "xs_disp60": 3.978829578103749
+  },
+  {
+   "quarter": "2023Q1",
+   "bounds": [
+    "2023-01-01",
+    "2023-04-01"
+   ],
+   "gap_pp": 3.1612630095584793,
+   "n_starts": 3,
+   "gap_min_pp": -6.644790692839675,
+   "gap_max_pp": 4.241660784573242,
+   "asof": "2022-12-30",
+   "trail_dd60": 5.600775941124672,
+   "trail_ret60": 4.9073556892002435,
+   "trail_vol60": 18.774914691558998,
+   "xs_disp60": 3.3175513729217787
+  },
+  {
+   "quarter": "2023Q2",
+   "bounds": [
+    "2023-04-01",
+    "2023-07-01"
+   ],
+   "gap_pp": 1.3841193108474092,
+   "n_starts": 4,
+   "gap_min_pp": 0.5561520498181372,
+   "gap_max_pp": 3.1209321103241705,
+   "asof": "2023-03-31",
+   "trail_dd60": 6.140301294888824,
+   "trail_ret60": 6.476465022579103,
+   "trail_vol60": 12.545244879455888,
+   "xs_disp60": 3.7803534632861897
+  },
+  {
+   "quarter": "2023Q3",
+   "bounds": [
+    "2023-07-01",
+    "2023-10-01"
+   ],
+   "gap_pp": -1.3109238800936618,
+   "n_starts": 4,
+   "gap_min_pp": -4.03251248042894,
+   "gap_max_pp": 2.7866332274963934,
+   "asof": "2023-06-30",
+   "trail_dd60": 7.410620326143549,
+   "trail_ret60": -2.6686067627967436,
+   "trail_vol60": 12.563955474820554,
+   "xs_disp60": 3.362406358207221
+  },
+  {
+   "quarter": "2023Q4",
+   "bounds": [
+    "2023-10-01",
+    "2024-01-01"
+   ],
+   "gap_pp": -8.48390030952373,
+   "n_starts": 5,
+   "gap_min_pp": -10.17437854617379,
+   "gap_max_pp": 4.778853980818242,
+   "asof": "2023-09-28",
+   "trail_dd60": 8.983031020840782,
+   "trail_ret60": -5.026709345257608,
+   "trail_vol60": 13.841956425862593,
+   "xs_disp60": 4.105010659307185
+  },
+  {
+   "quarter": "2024Q1",
+   "bounds": [
+    "2024-01-01",
+    "2024-04-01"
+   ],
+   "gap_pp": -0.4120423504056614,
+   "n_starts": 5,
+   "gap_min_pp": -2.6518096446498163,
+   "gap_max_pp": 2.3311725250826587,
+   "asof": "2023-12-29",
+   "trail_dd60": 8.402733744570707,
+   "trail_ret60": -4.509046113532589,
+   "trail_vol60": 13.316151179646244,
+   "xs_disp60": 2.1751878843156494,
+   "pick": "FAST_R10",
+   "rule_pp": -0.4120423504056614,
+   "baseline_pp": -0.4120423504056614,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q2",
+   "bounds": [
+    "2024-04-01",
+    "2024-07-01"
+   ],
+   "gap_pp": 0.2510533885815902,
+   "n_starts": 6,
+   "gap_min_pp": -1.9488265369932423,
+   "gap_max_pp": 8.634751469480184,
+   "asof": "2024-03-29",
+   "trail_dd60": 14.227405495813757,
+   "trail_ret60": 1.4091493405385513,
+   "trail_vol60": 21.882258226601657,
+   "xs_disp60": 4.886862546437021,
+   "pick": "SLOW_R20",
+   "rule_pp": -0.2510533885815902,
+   "baseline_pp": 0.2510533885815902,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q3",
+   "bounds": [
+    "2024-07-01",
+    "2024-10-01"
+   ],
+   "gap_pp": 5.264079480856598,
+   "n_starts": 6,
+   "gap_min_pp": -3.263677028194212,
+   "gap_max_pp": 8.54256428635195,
+   "asof": "2024-06-28",
+   "trail_dd60": 7.060332040604446,
+   "trail_ret60": -2.269854762918244,
+   "trail_vol60": 14.669864510318964,
+   "xs_disp60": 5.018863538975316,
+   "pick": "FAST_R10",
+   "rule_pp": 5.264079480856598,
+   "baseline_pp": 5.264079480856598,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q4",
+   "bounds": [
+    "2024-10-01",
+    "2025-01-01"
+   ],
+   "gap_pp": -4.3659449599646685,
+   "n_starts": 6,
+   "gap_min_pp": -12.33463681322421,
+   "gap_max_pp": 4.730064691376978,
+   "asof": "2024-09-30",
+   "trail_dd60": 8.011952292560883,
+   "trail_ret60": 20.184731351322306,
+   "trail_vol60": 28.20797817586215,
+   "xs_disp60": 5.603650860531964,
+   "pick": "FAST_R10",
+   "rule_pp": -4.3659449599646685,
+   "baseline_pp": -4.3659449599646685,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q1",
+   "bounds": [
+    "2025-01-01",
+    "2025-04-01"
+   ],
+   "gap_pp": -2.5204482984681364,
+   "n_starts": 6,
+   "gap_min_pp": -5.220030418545041,
+   "gap_max_pp": 3.9742250949213576,
+   "asof": "2024-12-31",
+   "trail_dd60": 10.81231573838426,
+   "trail_ret60": -5.958415870639177,
+   "trail_vol60": 25.165558486688344,
+   "xs_disp60": 4.436627677677318,
+   "pick": "SLOW_R20",
+   "rule_pp": 2.5204482984681364,
+   "baseline_pp": -2.5204482984681364,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q2",
+   "bounds": [
+    "2025-04-01",
+    "2025-07-01"
+   ],
+   "gap_pp": 0.9307185472998469,
+   "n_starts": 6,
+   "gap_min_pp": 0.6210712738337953,
+   "gap_max_pp": 3.8197727170411033,
+   "asof": "2025-03-31",
+   "trail_dd60": 7.1045574271737,
+   "trail_ret60": 1.3611707734584755,
+   "trail_vol60": 17.03660754820416,
+   "xs_disp60": 3.187573069762767,
+   "pick": "FAST_R10",
+   "rule_pp": 0.9307185472998469,
+   "baseline_pp": 0.9307185472998469,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q3",
+   "bounds": [
+    "2025-07-01",
+    "2025-10-01"
+   ],
+   "gap_pp": 0.1549084055378791,
+   "n_starts": 6,
+   "gap_min_pp": -0.737556571348863,
+   "gap_max_pp": 11.713105742003327,
+   "asof": "2025-06-30",
+   "trail_dd60": 9.650117031101603,
+   "trail_ret60": 3.009884534561169,
+   "trail_vol60": 21.524660217457146,
+   "xs_disp60": 2.362535936801513,
+   "pick": "SLOW_R20",
+   "rule_pp": -0.1549084055378791,
+   "baseline_pp": 0.1549084055378791,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q4",
+   "bounds": [
+    "2025-10-01",
+    "2026-01-01"
+   ],
+   "gap_pp": 3.0201386864026736,
+   "n_starts": 6,
+   "gap_min_pp": -7.999997580319285,
+   "gap_max_pp": 6.15676202715748,
+   "asof": "2025-09-30",
+   "trail_dd60": 4.56138098176428,
+   "trail_ret60": 22.407249949017547,
+   "trail_vol60": 15.551367759014914,
+   "xs_disp60": 10.861589443162309,
+   "pick": "FAST_R10",
+   "rule_pp": 3.0201386864026736,
+   "baseline_pp": 3.0201386864026736,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q1",
+   "bounds": [
+    "2026-01-01",
+    "2026-04-01"
+   ],
+   "gap_pp": -0.5033252227211571,
+   "n_starts": 6,
+   "gap_min_pp": -8.353004494011262,
+   "gap_max_pp": -0.01084185702311391,
+   "asof": "2025-12-31",
+   "trail_dd60": 7.993137089427091,
+   "trail_ret60": -2.3777601970106033,
+   "trail_vol60": 16.575586862852994,
+   "xs_disp60": 3.6323319782482377,
+   "pick": "FAST_R10",
+   "rule_pp": -0.5033252227211571,
+   "baseline_pp": -0.5033252227211571,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q2",
+   "bounds": [
+    "2026-04-01",
+    "2026-07-01"
+   ],
+   "gap_pp": -5.295185007237929,
+   "n_starts": 6,
+   "gap_min_pp": -14.548436771498007,
+   "gap_max_pp": 13.222471691535521,
+   "asof": "2026-03-31",
+   "trail_dd60": 10.30581117558193,
+   "trail_ret60": -2.52130865090332,
+   "trail_vol60": 18.746562981944507,
+   "xs_disp60": 3.7506131315254825,
+   "pick": "SLOW_R20",
+   "rule_pp": 5.295185007237929,
+   "baseline_pp": -5.295185007237929,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q3",
+   "bounds": [
+    "2026-07-01",
+    "2026-10-01"
+   ],
+   "gap_pp": 5.541658719140696,
+   "n_starts": 6,
+   "gap_min_pp": -17.070839904299905,
+   "gap_max_pp": 12.188248037447224,
+   "asof": "2026-06-30",
+   "trail_dd60": 8.457133105926108,
+   "trail_ret60": 9.439202653994538,
+   "trail_vol60": 20.309115286712977,
+   "xs_disp60": 15.249871327896109,
+   "pick": "FAST_R10",
+   "rule_pp": 5.541658719140696,
+   "baseline_pp": 5.541658719140696,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q4",
+   "bounds": [
+    "2026-10-01",
+    "2027-01-01"
+   ],
+   "gap_pp": null,
+   "n_starts": null,
+   "gap_min_pp": null,
+   "gap_max_pp": null,
+   "asof": "2026-09-30",
+   "trail_dd60": 9.416829705243217,
+   "trail_ret60": -7.8743870365674535,
+   "trail_vol60": 21.502255012024992,
+   "xs_disp60": 9.403700820065596,
+   "pick": "SLOW_R20",
+   "rule_pp": null,
+   "baseline_pp": null,
+   "status": "PENDING_CELLS"
+  }
+ ],
+ "tracked": [
+  {
+   "quarter": "2024Q1",
+   "bounds": [
+    "2024-01-01",
+    "2024-04-01"
+   ],
+   "gap_pp": -0.4120423504056614,
+   "n_starts": 5,
+   "gap_min_pp": -2.6518096446498163,
+   "gap_max_pp": 2.3311725250826587,
+   "asof": "2023-12-29",
+   "trail_dd60": 8.402733744570707,
+   "trail_ret60": -4.509046113532589,
+   "trail_vol60": 13.316151179646244,
+   "xs_disp60": 2.1751878843156494,
+   "pick": "FAST_R10",
+   "rule_pp": -0.4120423504056614,
+   "baseline_pp": -0.4120423504056614,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q2",
+   "bounds": [
+    "2024-04-01",
+    "2024-07-01"
+   ],
+   "gap_pp": 0.2510533885815902,
+   "n_starts": 6,
+   "gap_min_pp": -1.9488265369932423,
+   "gap_max_pp": 8.634751469480184,
+   "asof": "2024-03-29",
+   "trail_dd60": 14.227405495813757,
+   "trail_ret60": 1.4091493405385513,
+   "trail_vol60": 21.882258226601657,
+   "xs_disp60": 4.886862546437021,
+   "pick": "SLOW_R20",
+   "rule_pp": -0.2510533885815902,
+   "baseline_pp": 0.2510533885815902,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q3",
+   "bounds": [
+    "2024-07-01",
+    "2024-10-01"
+   ],
+   "gap_pp": 5.264079480856598,
+   "n_starts": 6,
+   "gap_min_pp": -3.263677028194212,
+   "gap_max_pp": 8.54256428635195,
+   "asof": "2024-06-28",
+   "trail_dd60": 7.060332040604446,
+   "trail_ret60": -2.269854762918244,
+   "trail_vol60": 14.669864510318964,
+   "xs_disp60": 5.018863538975316,
+   "pick": "FAST_R10",
+   "rule_pp": 5.264079480856598,
+   "baseline_pp": 5.264079480856598,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2024Q4",
+   "bounds": [
+    "2024-10-01",
+    "2025-01-01"
+   ],
+   "gap_pp": -4.3659449599646685,
+   "n_starts": 6,
+   "gap_min_pp": -12.33463681322421,
+   "gap_max_pp": 4.730064691376978,
+   "asof": "2024-09-30",
+   "trail_dd60": 8.011952292560883,
+   "trail_ret60": 20.184731351322306,
+   "trail_vol60": 28.20797817586215,
+   "xs_disp60": 5.603650860531964,
+   "pick": "FAST_R10",
+   "rule_pp": -4.3659449599646685,
+   "baseline_pp": -4.3659449599646685,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q1",
+   "bounds": [
+    "2025-01-01",
+    "2025-04-01"
+   ],
+   "gap_pp": -2.5204482984681364,
+   "n_starts": 6,
+   "gap_min_pp": -5.220030418545041,
+   "gap_max_pp": 3.9742250949213576,
+   "asof": "2024-12-31",
+   "trail_dd60": 10.81231573838426,
+   "trail_ret60": -5.958415870639177,
+   "trail_vol60": 25.165558486688344,
+   "xs_disp60": 4.436627677677318,
+   "pick": "SLOW_R20",
+   "rule_pp": 2.5204482984681364,
+   "baseline_pp": -2.5204482984681364,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q2",
+   "bounds": [
+    "2025-04-01",
+    "2025-07-01"
+   ],
+   "gap_pp": 0.9307185472998469,
+   "n_starts": 6,
+   "gap_min_pp": 0.6210712738337953,
+   "gap_max_pp": 3.8197727170411033,
+   "asof": "2025-03-31",
+   "trail_dd60": 7.1045574271737,
+   "trail_ret60": 1.3611707734584755,
+   "trail_vol60": 17.03660754820416,
+   "xs_disp60": 3.187573069762767,
+   "pick": "FAST_R10",
+   "rule_pp": 0.9307185472998469,
+   "baseline_pp": 0.9307185472998469,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q3",
+   "bounds": [
+    "2025-07-01",
+    "2025-10-01"
+   ],
+   "gap_pp": 0.1549084055378791,
+   "n_starts": 6,
+   "gap_min_pp": -0.737556571348863,
+   "gap_max_pp": 11.713105742003327,
+   "asof": "2025-06-30",
+   "trail_dd60": 9.650117031101603,
+   "trail_ret60": 3.009884534561169,
+   "trail_vol60": 21.524660217457146,
+   "xs_disp60": 2.362535936801513,
+   "pick": "SLOW_R20",
+   "rule_pp": -0.1549084055378791,
+   "baseline_pp": 0.1549084055378791,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2025Q4",
+   "bounds": [
+    "2025-10-01",
+    "2026-01-01"
+   ],
+   "gap_pp": 3.0201386864026736,
+   "n_starts": 6,
+   "gap_min_pp": -7.999997580319285,
+   "gap_max_pp": 6.15676202715748,
+   "asof": "2025-09-30",
+   "trail_dd60": 4.56138098176428,
+   "trail_ret60": 22.407249949017547,
+   "trail_vol60": 15.551367759014914,
+   "xs_disp60": 10.861589443162309,
+   "pick": "FAST_R10",
+   "rule_pp": 3.0201386864026736,
+   "baseline_pp": 3.0201386864026736,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q1",
+   "bounds": [
+    "2026-01-01",
+    "2026-04-01"
+   ],
+   "gap_pp": -0.5033252227211571,
+   "n_starts": 6,
+   "gap_min_pp": -8.353004494011262,
+   "gap_max_pp": -0.01084185702311391,
+   "asof": "2025-12-31",
+   "trail_dd60": 7.993137089427091,
+   "trail_ret60": -2.3777601970106033,
+   "trail_vol60": 16.575586862852994,
+   "xs_disp60": 3.6323319782482377,
+   "pick": "FAST_R10",
+   "rule_pp": -0.5033252227211571,
+   "baseline_pp": -0.5033252227211571,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q2",
+   "bounds": [
+    "2026-04-01",
+    "2026-07-01"
+   ],
+   "gap_pp": -5.295185007237929,
+   "n_starts": 6,
+   "gap_min_pp": -14.548436771498007,
+   "gap_max_pp": 13.222471691535521,
+   "asof": "2026-03-31",
+   "trail_dd60": 10.30581117558193,
+   "trail_ret60": -2.52130865090332,
+   "trail_vol60": 18.746562981944507,
+   "xs_disp60": 3.7506131315254825,
+   "pick": "SLOW_R20",
+   "rule_pp": 5.295185007237929,
+   "baseline_pp": -5.295185007237929,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q3",
+   "bounds": [
+    "2026-07-01",
+    "2026-10-01"
+   ],
+   "gap_pp": 5.541658719140696,
+   "n_starts": 6,
+   "gap_min_pp": -17.070839904299905,
+   "gap_max_pp": 12.188248037447224,
+   "asof": "2026-06-30",
+   "trail_dd60": 8.457133105926108,
+   "trail_ret60": 9.439202653994538,
+   "trail_vol60": 20.309115286712977,
+   "xs_disp60": 15.249871327896109,
+   "pick": "FAST_R10",
+   "rule_pp": 5.541658719140696,
+   "baseline_pp": 5.541658719140696,
+   "status": "SCORED"
+  },
+  {
+   "quarter": "2026Q4",
+   "bounds": [
+    "2026-10-01",
+    "2027-01-01"
+   ],
+   "gap_pp": null,
+   "n_starts": null,
+   "gap_min_pp": null,
+   "gap_max_pp": null,
+   "asof": "2026-09-30",
+   "trail_dd60": 9.416829705243217,
+   "trail_ret60": -7.8743870365674535,
+   "trail_vol60": 21.502255012024992,
+   "xs_disp60": 9.403700820065596,
+   "pick": "SLOW_R20",
+   "rule_pp": null,
+   "baseline_pp": null,
+   "status": "PENDING_CELLS"
+  }
+ ],
+ "holes": [
+  {
+   "quarter": "2022Q1",
+   "why": "only 1 start(s) on the same grid, need 2",
+   "starts": [
+    "2021-09-01"
+   ]
+  },
+  {
+   "quarter": "2026Q4",
+   "why": "only 0 start(s) on the same grid, need 2",
+   "starts": []
+  },
+  {
+   "start": "2021-09-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  },
+  {
+   "start": "2022-03-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  },
+  {
+   "start": "2022-09-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  },
+  {
+   "start": "2023-03-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  },
+  {
+   "start": "2023-09-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  },
+  {
+   "start": "2024-03-01",
+   "segment": "2026Q4",
+   "why": "slice too thin (36/36 bars < 40)"
+  }
+ ],
+ "ledger": {
+  "n": 11,
+  "rule_pp_per_q": 1.5349958556540841,
+  "always_fast_pp_per_q": 0.18778285354743007,
+  "improvement_pp_per_q": 1.347213002106654,
+  "hit_share": 0.5454545454545454,
+  "slow_picks": 4,
+  "words": "DD_DEPTH_SIGN_FROZEN_AND_PAPER_TRACKED"
+ },
+ "ledger_concentration": {
+  "n": 11,
+  "total_pp": 16.884954412194926,
+  "best_quarter": "2026Q3",
+  "best_pp": 5.541658719140696,
+  "best_share_of_total": 0.328200987924392,
+  "improvement_pp_per_q_without_best": 1.134329569305423,
+  "drops_below_zero_without_best": false
+ },
+ "target_cross_check": {
+  "target_a": "two-way median polish column effect on the window's own subgrid",
+  "target_b": "per-quarter median of the paired same-grid start deltas",
+  "r2133_published_rho": -0.6703296703296703,
+  "cells": {
+   "freeze_2022_2023": {
+    "quarters": [
+     "2022Q1",
+     "2022Q2",
+     "2022Q3",
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4"
+    ],
+    "target_a_n": 8,
+    "target_a_rho": -0.19047619047619047,
+    "target_b_n": 7,
+    "target_b_rho": -0.10714285714285712
+   },
+   "r2133_train": {
+    "quarters": [
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1"
+    ],
+    "target_a_n": 6,
+    "target_a_rho": -0.8857142857142857,
+    "target_b_n": 6,
+    "target_b_rho": -0.8857142857142857
+   }
+  },
+  "window_slide": [
+   {
+    "variant": "freeze_window",
+    "quarters": [
+     "2022Q1",
+     "2022Q2",
+     "2022Q3",
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4"
+    ],
+    "n": 8,
+    "target_b_rho": -0.10714285714285712
+   },
+   {
+    "variant": "drop_first_quarter",
+    "quarters": [
+     "2022Q2",
+     "2022Q3",
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4"
+    ],
+    "n": 7,
+    "target_b_rho": -0.10714285714285712
+   },
+   {
+    "variant": "drop_first_two",
+    "quarters": [
+     "2022Q3",
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4"
+    ],
+    "n": 6,
+    "target_b_rho": -0.7714285714285715
+   },
+   {
+    "variant": "add_first_post_2023",
+    "quarters": [
+     "2022Q1",
+     "2022Q2",
+     "2022Q3",
+     "2022Q4",
+     "2023Q1",
+     "2023Q2",
+     "2023Q3",
+     "2023Q4",
+     "2024Q1"
+    ],
+    "n": 9,
+    "target_b_rho": -0.21428571428571427
+   }
+  ]
+ },
+ "now": {
+  "quarter": "2026Q4",
+  "asof": "2026-09-30",
+  "dd60": 9.416829705243217,
+  "pick": "SLOW_R20"
+ },
+ "headline": {
+  "words": "DD_DEPTH_SIGN_FROZEN_AND_PAPER_TRACKED",
+  "rule_pp_per_q": 1.5349958556540841,
+  "always_fast_pp_per_q": 0.18778285354743007,
+  "improvement_pp_per_q": 1.347213002106654,
+  "hit_share": 0.5454545454545454,
+  "n_tracked": 11,
+  "train_rho": -0.10714285714285712,
+  "now_pick": "SLOW_R20"
+ },
+ "desk_sentence": "把 2022-2023 定下的「跌得越深→慢节奏」符号冻住（真实成交口径 ρ=-0.11，训练 7 个季度，分界点深度 8.98%）后，它在 11 个季度上的账：规则 +1.53 pp/季 vs 一直快 +0.19 pp/季，改善 +1.35 pp/季，命中 55%。**这个排序怕窗口**：同一批深跌读数、同一个真实成交口径，窗口只挪一两个季度，ρ 从 -0.77（6 季）滑到 -0.11（8 季）——上游 -0.67 与更弱的 -0.11 都是同一个排序的不同截面，所以能用的是下面打在没参与拟合的季度上的账，不是相关系数。账里最大的一季是 2026Q3（+5.54 pp，占总额 33%）；剔掉它剩 +1.13 pp/季。；此刻开着的是 2026Q4（截至 2026-09-30 深度 9.4%，规则选慢）；2024Q1（5 起跑）深度 8.4%→快，实际 -0.41 pp；2024Q2（6 起跑）深度 14.2%→慢，实际 +0.25 pp；2024Q3（6 起跑）深度 7.1%→快，实际 +5.26 pp；2024Q4（6 起跑）深度 8.0%→快，实际 -4.37 pp；2025Q1（6 起跑）深度 10.8%→慢，实际 -2.52 pp；2025Q2（6 起跑）深度 7.1%→快，实际 +0.93 pp；2025Q3（6 起跑）深度 9.7%→慢，实际 +0.15 pp；2025Q4（6 起跑）深度 4.6%→快，实际 +3.02 pp；2026Q1（6 起跑）深度 8.0%→快，实际 -0.50 pp；2026Q2（6 起跑）深度 10.3%→慢，实际 -5.30 pp；2026Q3（6 起跑）深度 8.5%→快，实际 +5.54 pp；2026Q4（开季中）深度 9.4%→慢，实际 待算",
+ "honest": [
+  "the tracked window is short: 11 scored quarters is a ledger, not a verdict",
+  "2026Q4 is an open quarter, so its gap is a partial slice and its row is marked by the bounds it carries, not by a promise",
+  "the gap is a total-return difference between two cadences on one book, not an annual return; no leverage, no capacity model",
+  "the observable is measured on the equal-weight book universe, so a different universe would move the depth number on the same dates"
+ ]
+}
