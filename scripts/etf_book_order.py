@@ -4729,7 +4729,12 @@ def pending_fill_md(pf, last_bar=None, last_cash=None, fills=None,
     _dec = (pf or {}).get("decided_bar") or (last_bar if not pf else None)
     _same_day = bool(today and _dec and str(today)[:10] == str(_dec)[:10])
     if _same_day or not today or not _dec:
-        lines = ["## 今天开盘要成交的是什么（决策 bar 与成交时点不是同一天）"]
+        # r2148: a heading that says 今天 and prints no date at all is the same defect as
+        # printing a bare date: the reader cannot tell which bar it read, and the day-word
+        # audit counts it as undated. Say the day in the heading; keep 今天 only when that
+        # day IS the page's own day.
+        lines = ["## %s开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
+                 % (("今天（%s）" % _dec) if _same_day and _dec else "")]
     else:
         lines = ["## %s 那根 bar 之后开盘要成交的是什么（决策 bar 与成交时点不是同一天）"
                  % _dec]

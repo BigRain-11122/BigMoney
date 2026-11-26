@@ -89,7 +89,11 @@ CLAIM_RULES = [
     (re.compile(r"账只记到 " + _D), ["positions.ledger_bar"]),
     (re.compile(r"（" + _D + r" 报价）"), ["cash_yield.rate_date"]),
     (re.compile(r"重放回 " + _D + "~" + _D), ["stress.first", "stress.last"]),
-    (re.compile(r"已经吃到 \*\*" + _D + r"\*\* 的收盘"), ["priced_bar"]),
+    # r2148: "日线面板自己已经吃到 X 的收盘" names the DAILY PANEL's cutoff (live_quote.panel_bar),
+    # not the page's priced_bar. Mapped to priced_bar it only passed on days the panel and the
+    # order face closed on the same bar; on 2026-11-26 the panel was a bar ahead (11-26 vs 11-25)
+    # and the leg called the sentence a lie when the sentence was right about its own face.
+    (re.compile(r"已经吃到 \*\*" + _D + r"\*\* 的收盘"), ["live_quote.panel_bar"]),
     (re.compile(r"（bar " + _D + r"）"), ["priced_bar"]),
     (re.compile(r"本页是 \*\*" + _D + r"\*\* 的页面"), ["generated_for_date"]),
     (re.compile(r"价格和数据都停在 \*\*" + _D + r"\*\*"), ["priced_bar"]),
@@ -123,6 +127,15 @@ CLAIM_RULES = [
      ["premium_forward.face_asof", "priced_bar"]),
     (re.compile(r"额度来源面锚在 \*\*" + _D + r"\*\*，本页的价是 \*\*" + _D + r"\*\*"),
      ["floor_provenance.evidence_cutoff", "priced_bar"]),
+    # r2148 bm-c: the live-quote heading and its anchor sentence name the day the DAILY PANEL
+    # carries ("面板自己已经吃到 X 的收盘"), which is live_quote.panel_bar -- not the page's
+    # priced_bar. The two coincide most days and split on the evening the panel lane runs a bar
+    # ahead of the order face (2026-11-26: panel 11-26, ticket 11-25), which is exactly when
+    # this leg went red. Since r2148 the same block also prints the sentence that names the
+    # ticket's own bar, and that one is claimed against priced_bar -- so each of the two days
+    # is checked against the face that issued it (r1788) instead of both against one.
+    (re.compile(r"## " + _D + r" 的收盘，面板自己有了"), ["live_quote.panel_bar"]),
+    (re.compile(r"票面是按 \*\*" + _D + r"\*\* 那根 bar 算的"), ["priced_bar"]),
 ]
 
 
@@ -424,7 +437,14 @@ def census(doc, artifact=None, printed=_UNMEASURED):
     # WRONG and outranks anchoring; leftover date debts (undated / unmapped / unverifiable)
     # do not borrow the clean names either, but they are not that same red.
     _mismatch = bool(dc.get("n_mismatch"))
-    _owed = bool(dc.get("n_unmapped") or dc.get("n_unverifiable") or pr.get("n_undated"))
+    # r2148 bm-c: `n_unmapped` used to make the page owe, while r1813 had already ruled that
+    # an unmapped PROSE date (a sentence explaining a gap, quoting no field) is information,
+    # not a defect -- the same file held two opposite judgements, and only the self-test leg
+    # had been taught the later one. On the 2026-11-26 page the last real mismatch was fixed
+    # (r2148 panel/ticket split) and what kept this leg red was five explanatory dates, i.e.
+    # a rule the page's own guard had already retired. Owed = a field the page READ and could
+    # not confirm; unmapped dates are still counted and printed, they just stop being debts.
+    _owed = bool(dc.get("n_unverifiable") or pr.get("n_undated"))
     if ret["offenders"]:
         ret["verdict"] = "DAY_WORD_ON_ANOTHER_DAY"
     elif pr["state"] == "unreadable":
@@ -811,6 +831,8 @@ def selftest():
         ("上一次族面重定价的回执付的是世界 `?`（2026-11-20T18:02:26+0800）", 1),
         ("这张读数按 **2026-11-24** 的票面算，本页价的日期是 **2026-11-25**——两个日子对不上", 2),
         ("额度来源面锚在 **2026-11-24**，本页的价是 **2026-11-25**——两个日子对不上", 2),
+        ("## 2026-11-26 的收盘，面板自己有了", 1),
+        ("上面那张票面是按 **2026-11-25** 那根 bar 算的（订单面比日线面板晚一根，", 1),
     ]
     leg("every date rule has a sample of its own language, and every sample fires one rule",
         len(_samples) == len(CLAIM_RULES)

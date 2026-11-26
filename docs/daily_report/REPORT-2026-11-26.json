@@ -1,6 +1,6 @@
 {
  "report_date": "2026-11-26",
- "generated_at": "2026-11-26 09:49:04",
+ "generated_at": "2026-11-26 21:47:38",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -273,7 +273,7 @@
    }
   ],
   "market_clock": {
-   "asof": "2026-11-20",
+   "asof": "2026-11-25",
    "clock_cell": "RED_COOL",
    "position_cap_ladder": 0.2,
    "active_sleeves": [
@@ -294,13 +294,13 @@
   "md_link": "../live_usage/LIVE-2026-11-26.md"
  },
  "rd": {
-  "commits_24h": 87,
-  "result_jsons_landed_24h": 332,
+  "commits_24h": 99,
+  "result_jsons_landed_24h": 349,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 145,
+  "prereg_md_touched_24h": 161,
   "compute_audit_latest": {
-   "ts": "2026-11-26 06:18:00",
-   "py_cpu_pct": 16.1,
+   "ts": "2026-11-26 21:45:05",
+   "py_cpu_pct": 6.8,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -650,11 +650,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2429566,
+  "total_report_tokens_est": 2430314,
   "delta_vs_prev": {
-   "prev_generated": "2026-11-26 06:50:47",
+   "prev_generated": "2026-11-26 07:10:10",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 748,
    "mandate_growth": 0
   },
   "method": {
@@ -829,33 +829,13 @@
     "supply_why": null
    },
    "bm-c": {
-    "latest_ts": "2026-11-26 06:18:00",
-    "py_pct": 16.1,
-    "cpu_pct": 38.0,
+    "latest_ts": "2026-11-26 21:45:05",
+    "py_pct": 6.8,
+    "cpu_pct": 25.0,
     "ready": 0,
-    "streak_min": 7035.4,
+    "streak_min": 7962.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "14:05",
-      0.3
-     ],
-     [
-      "14:56",
-      1.4
-     ],
-     [
-      "16:07",
-      0.7
-     ],
-     [
-      "09:03",
-      0.0
-     ],
-     [
-      "09:08",
-      0.0
-     ],
      [
       "10:43",
       0.1
@@ -883,9 +863,29 @@
      [
       "06:18",
       16.1
+     ],
+     [
+      "10:23",
+      0.4
+     ],
+     [
+      "20:29",
+      0.0
+     ],
+     [
+      "20:30",
+      0.2
+     ],
+     [
+      "21:07",
+      9.2
+     ],
+     [
+      "21:45",
+      6.8
      ]
     ],
-    "today_samples": 4,
+    "today_samples": 9,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0,
@@ -946,7 +946,7 @@
        "superseded_words": []
       }
      ],
-     "what_would_move_it": "not the phase set: this face already deepened the same generator to 40 weekly starts and the spread grew (10.34pp at depth 5 -> 116.58pp at depth 40, margin 10.63pp) -- see results/etf_book_phase_depth.json; and not a sizing lever either: every arm that clears the top-2 line at 10bp/side flips at 20bp (rebal=10 0.6983 -> 0.7856), on margins of 0.17 pp -- the pass belongs to the 10bp cost assumption, not to the knob",
+     "what_would_move_it": "not the phase set: this face already deepened the same generator to 40 weekly starts and the spread grew (10.34pp at depth 5 -> 116.58pp at depth 40, margin 10.63pp) -- see results/etf_book_phase_depth.json",
      "depth_measured": {
       "receipt": "results/etf_book_phase_depth.json",
       "trend": "SAMPLING_IS_NOT_THE_LIMIT",
@@ -962,12 +962,12 @@
      "cost_ladder_measured": {
       "verdict": "PASS_IS_A_COST_ASSUMPTION",
       "book_family": "nobond_vt08",
-      "evidence_cutoff": "2026-11-24",
-      "n_arms": 3,
+      "evidence_cutoff": "2026-11-25",
+      "n_arms": 2,
       "survivors_20bp": [],
-      "n_flips": 1,
-      "flips": "rebal=10 0.6983 -> 0.7856",
-      "margins": "0.17"
+      "n_flips": 0,
+      "flips": "",
+      "margins": ""
      },
      "superseded_words": {
       "nobond_vt08_adopted": [
@@ -1039,7 +1039,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-11-26 06:18:00"
+     "audit_ts": "2026-11-26 21:45:05"
     }
    }
   },
@@ -1648,13 +1648,12 @@
     "key": "zt",
     "label": "涨停池",
     "status": "ok",
-    "cutoff": "2026-11-25",
-    "count": 51,
-    "prev_cutoff": "2026-11-24",
-    "prev_count": 55,
-    "days_tracked": 35,
+    "cutoff": "2026-11-26",
+    "count": 65,
+    "prev_cutoff": "2026-11-25",
+    "prev_count": 51,
+    "days_tracked": 36,
     "series": {
-     "2026-11-12": 37,
      "2026-11-13": 37,
      "2026-11-16": 32,
      "2026-11-17": 37,
@@ -1663,23 +1662,24 @@
      "2026-11-20": 28,
      "2026-11-23": 146,
      "2026-11-24": 55,
-     "2026-11-25": 51
+     "2026-11-25": 51,
+     "2026-11-26": 65
     },
-    "asked_through": "2026-11-25",
+    "asked_through": "2026-11-26",
     "empty_days": [],
     "empty_days_count": 0,
     "ladder": {
-     "1": 37,
-     "2": 5,
-     "3": 6,
-     "4": 2,
+     "1": 51,
+     "2": 8,
+     "3": 4,
+     "4": 1,
      "5": 1
     },
     "top_streak": {
      "streak": 5,
      "n": 1,
      "names": [
-      "中京电子"
+      "克来机电"
      ]
     }
    },
@@ -1687,13 +1687,12 @@
     "key": "zbgc",
     "label": "炸板池",
     "status": "ok",
-    "cutoff": "2026-11-25",
-    "count": 30,
-    "prev_cutoff": "2026-11-24",
-    "prev_count": 68,
-    "days_tracked": 35,
+    "cutoff": "2026-11-26",
+    "count": 29,
+    "prev_cutoff": "2026-11-25",
+    "prev_count": 30,
+    "days_tracked": 36,
     "series": {
-     "2026-11-12": 35,
      "2026-11-13": 21,
      "2026-11-16": 16,
      "2026-11-17": 20,
@@ -1702,9 +1701,10 @@
      "2026-11-20": 7,
      "2026-11-23": 24,
      "2026-11-24": 68,
-     "2026-11-25": 30
+     "2026-11-25": 30,
+     "2026-11-26": 29
     },
-    "asked_through": "2026-11-25",
+    "asked_through": "2026-11-26",
     "empty_days": [],
     "empty_days_count": 0
    },
@@ -1712,13 +1712,12 @@
     "key": "dtgc",
     "label": "跌停池",
     "status": "ok",
-    "cutoff": "2026-11-25",
-    "count": 43,
-    "prev_cutoff": "2026-11-24",
-    "prev_count": 2,
-    "days_tracked": 32,
+    "cutoff": "2026-11-26",
+    "count": 5,
+    "prev_cutoff": "2026-11-25",
+    "prev_count": 43,
+    "days_tracked": 33,
     "series": {
-     "2026-11-12": 5,
      "2026-11-13": 33,
      "2026-11-16": 60,
      "2026-11-17": 67,
@@ -1727,9 +1726,10 @@
      "2026-11-20": 58,
      "2026-11-23": 3,
      "2026-11-24": 2,
-     "2026-11-25": 43
+     "2026-11-25": 43,
+     "2026-11-26": 5
     },
-    "asked_through": "2026-11-25",
+    "asked_through": "2026-11-26",
     "empty_days": [
      "2026-11-05",
      "2026-11-10",
@@ -1741,13 +1741,12 @@
     "key": "strong",
     "label": "强势池",
     "status": "ok",
-    "cutoff": "2026-11-25",
-    "count": 80,
-    "prev_cutoff": "2026-11-24",
-    "prev_count": 85,
-    "days_tracked": 35,
+    "cutoff": "2026-11-26",
+    "count": 78,
+    "prev_cutoff": "2026-11-25",
+    "prev_count": 80,
+    "days_tracked": 36,
     "series": {
-     "2026-11-12": 124,
      "2026-11-13": 106,
      "2026-11-16": 132,
      "2026-11-17": 146,
@@ -1756,51 +1755,45 @@
      "2026-11-20": 62,
      "2026-11-23": 56,
      "2026-11-24": 85,
-     "2026-11-25": 80
+     "2026-11-25": 80,
+     "2026-11-26": 78
     },
-    "asked_through": "2026-11-25",
+    "asked_through": "2026-11-26",
     "empty_days": [],
     "empty_days_count": 0
    }
   },
-  "cutoff": "2026-11-25",
+  "cutoff": "2026-11-26",
   "cutoffs": [
-   "2026-11-25"
+   "2026-11-26"
   ],
   "aligned": true,
   "freshness": {
    "status": "current",
-   "expected_last_bar_day": "2026-11-25",
+   "expected_last_bar_day": "2026-11-26",
    "behind_days": 0,
    "behind": [],
    "lane_owner": "bm-c",
    "read_on": "bm-c"
   },
-  "seal_rate": 0.6296,
-  "down_over_up": 0.843,
+  "seal_rate": 0.6915,
+  "down_over_up": 0.077,
   "kill_day": false,
   "ladder": {
-   "1": 37,
-   "2": 5,
-   "3": 6,
-   "4": 2,
+   "1": 51,
+   "2": 8,
+   "3": 4,
+   "4": 1,
    "5": 1
   },
   "top_streak": {
    "streak": 5,
    "n": 1,
    "names": [
-    "中京电子"
+    "克来机电"
    ]
   },
   "series": [
-   {
-    "date": "2026-11-12",
-    "zt": 37,
-    "zbgc": 35,
-    "dtgc": 5,
-    "seal_rate": 0.5139
-   },
    {
     "date": "2026-11-13",
     "zt": 37,
@@ -1863,12 +1856,19 @@
     "zbgc": 30,
     "dtgc": 43,
     "seal_rate": 0.6296
+   },
+   {
+    "date": "2026-11-26",
+    "zt": 65,
+    "zbgc": 29,
+    "dtgc": 5,
+    "seal_rate": 0.6915
    }
   ]
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-11-26T07:09:22",
+  "as_of": "2026-11-26T21:44:42",
   "verdict": "attention",
   "observer": "bm-c",
   "sentence": "以本机 bm-c 的盘为基准：15 条在役车道的数字全都落在本机盘上，其中 15 条有署名可核实。",
@@ -1888,49 +1888,49 @@
   "labels": {
    "heat": "申报接管",
    "cb_panel": "宿主本机副本",
-   "lhb": "申报接管",
    "lhb_inst": "宿主自己写的封套",
-   "marks": "申报接管",
    "moneyflow": "宿主自己写的封套",
-   "repo": "申报接管",
-   "zt_pool": "宿主本机副本",
-   "minute_feed": "宿主本机副本",
    "sina_mf": "宿主自己写的封套",
    "ah_panel": "宿主本机副本",
+   "lhb": "申报接管",
+   "repo": "申报接管",
+   "ths_panel": "宿主自己写的封套",
    "astock_daily": "申报接管",
    "etf_panel": "宿主自己写的封套",
    "futures": "申报接管",
-   "ths_panel": "宿主自己写的封套"
+   "marks": "申报接管",
+   "minute_feed": "宿主本机副本",
+   "zt_pool": "宿主本机副本"
   }
  },
  "lane_window": {
   "present": true,
-  "as_of": "2026-11-26T07:09:22",
+  "as_of": "2026-11-26T21:44:42",
   "n": 2,
   "windows": [
    {
     "lane": "moneyflow",
     "host": "bm-c",
     "tail": "2026-11-20",
-    "days_behind": 3,
+    "days_behind": 4,
     "window_trading_days": 20,
-    "sessions_left": 18,
+    "sessions_left": 17,
     "verdict": "in_sync",
     "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
     "basis_repeat": false,
-    "sentence": "`moneyflow`：尾部 2026-11-20，落后官方日历 **3** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **18** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
+    "sentence": "`moneyflow`：尾部 2026-11-20，落后官方日历 **4** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **17** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据：采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新"
    },
    {
     "lane": "sina_mf",
     "host": "bm-c",
     "tail": "2026-11-24",
-    "days_behind": 1,
+    "days_behind": 2,
     "window_trading_days": 20,
-    "sessions_left": 20,
+    "sessions_left": 19,
     "verdict": "in_sync",
     "basis": "采集器自己的 no-op 规则：只有面板尾部落后超过 20 个交易日才刷新",
     "basis_repeat": true,
-    "sentence": "`sina_mf`：尾部 2026-11-24，落后官方日历 **1** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **20** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据同上（本节首行）"
+    "sentence": "`sina_mf`：尾部 2026-11-24，落后官方日历 **2** 个交易日，滚动窗 **20** 个交易日 → 还可再走 **19** 个交易日才欠一次刷新（差距超过 20 即读 `stalled`）。依据同上（本节首行）"
    }
   ]
  },
@@ -1940,55 +1940,28 @@
   "verdict": "OPEN_SILENCE",
   "threshold_min": 90,
   "window_days": 3,
-  "median_gap_min": 7.0,
-  "rounds_in_window": 109,
-  "rounds_in_ledger": 1495,
-  "gaps_over_threshold_count": 6,
+  "median_gap_min": 9.0,
+  "rounds_in_window": 113,
+  "rounds_in_ledger": 1511,
+  "gaps_over_threshold_count": 4,
   "longest_silence": {
-   "from": "2026-11-23T19:00",
-   "gap_high_min": 1161.0,
-   "gap_low_min": 1152.0,
+   "from": "2026-11-26T02:34",
+   "gap_high_min": 275.0,
+   "gap_low_min": 266.0,
    "quiet_window_min": 0.0,
-   "to": "2026-11-24T14:21",
-   "unexplained_high_min": 1161.0,
-   "unexplained_low_min": 1152.0
+   "to": "2026-11-26T07:00",
+   "unexplained_high_min": 275.0,
+   "unexplained_low_min": 266.0
   },
   "open_gap": {
-   "gap_high_min": 225.2,
-   "gap_low_min": 225.2,
+   "gap_high_min": 382.5,
+   "gap_low_min": 382.5,
    "quiet_window_min": 0.0,
-   "since": "2026-11-26T02:34",
-   "unexplained_high_min": 225.2,
-   "unexplained_low_min": 225.2
+   "since": "2026-11-26T14:45",
+   "unexplained_high_min": 382.5,
+   "unexplained_low_min": 382.5
   },
   "gaps_over_threshold": [
-   {
-    "from": "2026-11-23T09:00",
-    "gap_high_min": 108.0,
-    "gap_low_min": 99.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-23T10:48",
-    "unexplained_high_min": 108.0,
-    "unexplained_low_min": 99.0
-   },
-   {
-    "from": "2026-11-23T11:00",
-    "gap_high_min": 489.0,
-    "gap_low_min": 471.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-23T19:00",
-    "unexplained_high_min": 489.0,
-    "unexplained_low_min": 471.0
-   },
-   {
-    "from": "2026-11-23T19:00",
-    "gap_high_min": 1161.0,
-    "gap_low_min": 1152.0,
-    "quiet_window_min": 0.0,
-    "to": "2026-11-24T14:21",
-    "unexplained_high_min": 1161.0,
-    "unexplained_low_min": 1152.0
-   },
    {
     "from": "2026-11-24T14:21",
     "gap_high_min": 168.0,
@@ -2015,10 +1988,19 @@
     "to": "2026-11-25T15:00",
     "unexplained_high_min": 90.8,
     "unexplained_low_min": 81.8
+   },
+   {
+    "from": "2026-11-26T02:34",
+    "gap_high_min": 275.0,
+    "gap_low_min": 266.0,
+    "quiet_window_min": 0.0,
+    "to": "2026-11-26T07:00",
+    "unexplained_high_min": 275.0,
+    "unexplained_low_min": 266.0
    }
   ],
   "evidence_cutoff": "2026-11-26",
-  "generated": "2026-11-26T06:19:14",
+  "generated": "2026-11-26T21:07:29",
   "silence_verdict": "OPEN_SILENCE",
   "lane_tasks": {
    "absent": [],
@@ -2039,7 +2021,7 @@
    "verdict": "LANE_ENABLED",
    "why": "every probeable lane task is switched on; the silence (if any) is not a switch"
   },
-  "sentence": "bm-c：窗内 109 轮 / 3 天，相邻间隔中位数 7.0 分钟，超过 90 分钟且无解释的空档 6 处；最长静默 2026-11-23T19:00 → 2026-11-24T14:21（1152.0–1161.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-26T02:34 起（未解释 225.2–225.2 分钟）。"
+  "sentence": "bm-c：窗内 113 轮 / 3 天，相邻间隔中位数 9.0 分钟，超过 90 分钟且无解释的空档 4 处；最长静默 2026-11-26T02:34 → 2026-11-26T07:00（266.0–275.0 分钟，其中 0.0 分钟由其申报的静默窗解释）；仍未恢复，自 2026-11-26T14:45 起（未解释 382.5–382.5 分钟）。"
  },
  "cap_vs_book": {
   "status": "ok",
@@ -2063,7 +2045,7 @@
    "source": "results/etf_book_cap_trim_toll.json",
    "sentence": "帽子的价目表：沿 β 面 69 个窗里 24 个超帽、累计多拿 2,582,213 元，严格跟着帽子卖光再买回付 4,132 元，净值的 0.41%；今天这笔要卖 19,543 元（144 手整手·往返 31 元），还不到帽子自己的噪声带 58,920 元（±5.9pp），按日读数属尺子分辨率以内（trim 账截止 2026-11-24）",
    "evidence_cutoff": "2026-11-24",
-   "generated": "2026-11-25T19:20:05",
+   "generated": "2026-11-26T10:33:52",
    "verdict_day": "TRIM_IS_INSIDE_THE_RULER",
    "verdict_path": "CAP_BINDS_SOME_WINDOWS",
    "trim_cny": 19543.03,
@@ -2096,21 +2078,21 @@
    "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4350, on capital"
   },
   "forward": {
-   "bars": 24,
+   "bars": 25,
    "inception": "2026-10-23",
-   "nav": 0.9694970572,
-   "since_inception_pct": -3.0503,
-   "as_of": "2026-11-25",
+   "nav": 0.9737473496,
+   "since_inception_pct": -2.6253,
+   "as_of": "2026-11-26",
    "book_bar": "2026-11-11",
    "book_n_hold": 12,
    "ticket_n_hold": 5,
    "names_overlap": 5
   },
   "vs_basket": {
-   "bar": "2026-11-25",
-   "book_nav": 0.9694970572,
-   "basket_nav": 0.9350032309,
-   "excess_pp": 3.6892,
+   "bar": "2026-11-26",
+   "book_nav": 0.9737473496,
+   "basket_nav": 0.9403370845,
+   "excess_pp": 3.553,
    "basket": {
     "518880": "gold ETF",
     "513100": "Nasdaq-100 QDII ETF",
@@ -2120,14 +2102,14 @@
    "basis": "等权 1/4、同一换仓日、次日开盘成交",
    "horizon": {
     "min_detectable_edge_pp": {
-     "6m": 33.497,
-     "1y": 23.686,
-     "2y": 16.748,
-     "3y": 13.675
+     "6m": 33.487,
+     "1y": 23.679,
+     "2y": 16.744,
+     "3y": 13.671
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.1,
-     "in-window measured alpha (single arm)": 16.9
+     "in-window measured alpha (single arm)": 17.3
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -2138,7 +2120,7 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.76
+      "edge_pp_per_year": 5.7
      }
     }
    }

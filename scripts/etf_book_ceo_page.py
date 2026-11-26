@@ -5410,7 +5410,7 @@ def live_quote_face(dir_path=LIVE_QUOTE_DIR, truth=None):
         return {"status": "unreadable", "artifact": _rel(latest, ROOT), "detail": repr(exc)}
 
 
-def live_quote_block(lq, page_day=None):
+def live_quote_block(lq, page_day=None, ticket_bar=None):
     L = []
     st = lq.get("status")
     _bar = lq.get("panel_bar")
@@ -5444,8 +5444,20 @@ def live_quote_block(lq, page_day=None):
         L.append(("**这一节今天已经没有要回答的问题。** " if _same_day else
                   "**这一节已经没有要回答的问题。** ")
                  + "日线面板自己已经吃到 **%s** 的收盘%s：%s。"
-                   "上面那张票面就是按这根 bar 算的，本页的价、仓位、溢价都同一天。"
                  % (bar, "" if _same_day else "（那是那一根 bar 的日子，不是今天）", src))
+        # r2148: this sentence used to say "上面那张票面就是按这根 bar 算的" no matter
+        # what the ticket was priced on -- and on 2026-11-26 the panel carried 11-26's
+        # close while the order face was still priced on 11-25, so the page told the
+        # reader the prices were a day fresher than they were. The panel bar and the
+        # ticket bar are two different faces; each names its own day (r1788 family).
+        _tbar = ticket_bar or lq.get("ticket_priced_bar")
+        if _tbar and bar and str(_tbar) != str(bar):
+            L.append("上面那张票面是按 **%s** 那根 bar 算的（订单面比日线面板晚一根，"
+                     "要等它的下一根 bar 才跟上来）——本节说的「面板已经吃到 %s 的收盘」"
+                     "只指日线面板，不是那张票的定价日。"
+                     % (_tbar, bar))
+        else:
+            L.append("上面那张票面就是按这根 bar 算的，本页的价、仓位、溢价都同一天。")
         L.append("")
         snap = lq.get("snapshot_as_of")
         L.append("下面那块快照面最新的只到 **%s**，比面板还旧，所以这里不再印它的读数——"
@@ -11699,7 +11711,8 @@ def render_md(p, sb=None, page_stamp=None):
     # r1251: the panel is a bar behind for a few hours every evening. Say what the book is
     # worth today, and say it only when the quote's own rows still reproduce it.
     for _lq_line in live_quote_block(p.get("live_quote") or {},
-                                     page_day=p.get("generated_for_date")):
+                                     page_day=p.get("generated_for_date"),
+                                     ticket_bar=p.get("priced_bar")):
         add(_lq_line)
     # r1238: the gate is on the way in only -- can the desk get out of what it holds?
     for _sf_line in sellability_block(p.get("sellability") or {}):
@@ -14181,6 +14194,19 @@ def selftest():
         "status=%s cur=%s unk=%s" % (_ql_cur.get("status"),
                                      "48 只核心票" in _cur_txt,
                                      "查不到这一根是谁写的" in _cur_unk_txt))
+    # r2148: the panel bar and the ticket bar are two faces. On 2026-11-26 the panel carried
+    # 11-26's close while the order face was priced on 11-25, and this block said "上面那张
+    # 票面就是按这根 bar 算的" -- telling the reader the prices were a day fresher than they
+    # were. When the two differ, both days are named.
+    _cur_ticket_txt = "\n".join(live_quote_block(_ql_cur, ticket_bar="2026-11-03"))
+    chk("L144b live quote: when the ticket is priced on an older bar the block names both days",
+        ("票面是按 **2026-11-03** 那根 bar 算的" in _cur_ticket_txt
+         and "本页的价、仓位、溢价都同一天" not in _cur_ticket_txt
+         and "2026-11-04" in _cur_ticket_txt),
+        _cur_ticket_txt[:200])
+    _cur_agree_txt = "\n".join(live_quote_block(_ql_cur, ticket_bar="2026-11-04"))
+    chk("L144c live quote: when the ticket sits on the panel's own bar it still says so",
+        "本页的价、仓位、溢价都同一天" in _cur_agree_txt, _cur_agree_txt[:200])
     # a missing record must never read as "current": no status file falls back to the
     # snapshot branch, and a panel behind the calendar stays behind.
     with tempfile.TemporaryDirectory() as _td_ps:
@@ -15562,8 +15588,9 @@ def selftest():
     chk("L212b fill: on another day the heading names the bar, it does not call it today",
         ("2026-11-11 那根 bar 之后开盘要成交的是什么" in _fl_sat)
         and ("今天开盘要成交" not in _fl_sat.split("\n")[0]), _fl_sat[:140])
-    chk("L212c fill: on the decision bar's own day the heading keeps saying today",
-        "今天开盘要成交" in _fl_same and "那根 bar" not in _fl_same.split("\n")[0],
+    chk("L212c fill: on the decision bar's own day the heading still says today, and names it",
+        ("今天（%s）开盘要成交" % _flf.get("decided_bar")) in _fl_same
+        and "那根 bar" not in _fl_same.split("\n")[0],
         _fl_same[:140])
     # r1665b: "nothing is pending" is still a dated reading -- the heading names the bar it
     # looked at, or a Saturday page asks what fills at an open that never happens.

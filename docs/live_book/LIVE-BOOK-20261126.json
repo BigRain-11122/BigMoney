@@ -1,24 +1,24 @@
 {
  "schema": "etf-book-ceo-page/v1",
  "generated_for_date": "2026-11-26",
- "evidence_cutoff": "2026-11-25",
- "priced_bar": "2026-11-25",
+ "evidence_cutoff": "2026-11-26",
+ "priced_bar": "2026-11-26",
  "feed_status": "current",
  "feed_lag_days": 0,
- "expected_bar": "2026-11-25",
+ "expected_bar": "2026-11-26",
  "capital_cny": 1000000.0,
- "book_amount_cny": 434738.2,
- "cash_amount_cny": 565261.8,
+ "book_amount_cny": 434684.0,
+ "cash_amount_cny": 565316.0,
  "cash_weight": 0.565,
  "cash_leg": "GC001 (1-day repo, observed close)",
  "cash_yield": {
   "leg": "GC001",
   "quoted_as": "收盘年化利率 %",
-  "rate_date": "2026-11-20",
-  "rate_pct": 1.395,
-  "rate_20d_pct": 1.255,
-  "annual_cny": 7885.0,
-  "daily_cny": 32.0,
+  "rate_date": "2026-11-25",
+  "rate_pct": 1.45,
+  "rate_20d_pct": 1.2805,
+  "annual_cny": 8197.0,
+  "daily_cny": 33.0,
   "window": 20,
   "basis": "cash x panel close rate / 100; per session = annual / 250 sessions",
   "panel": "data/repo_daily/GC001.csv"
@@ -28,52 +28,52 @@
   "source": "票据 cash_leg.money（逐字消费）",
   "tail": 250,
   "block": {
-   "cash_amount_cny": 565261.8,
+   "cash_amount_cny": 565316.0,
    "spot": {
-    "pct": 1.395,
-    "date": "2026-11-20",
-    "annual_cny": 7885.0,
+    "pct": 1.45,
+    "date": "2026-11-25",
+    "annual_cny": 8197.0,
     "quotes": 250,
-    "net_pct": 1.152,
-    "net_annual_cny": 6512.0
+    "net_pct": 1.207,
+    "net_annual_cny": 6823.0
    },
    "mean_tail": {
-    "pct": 1.3496,
+    "pct": 1.3495,
     "annual_cny": 7629.0,
-    "net_pct": 1.1066,
+    "net_pct": 1.1065,
     "net_annual_cny": 6255.0
    },
    "window": {
-    "pct": 2.0769,
-    "annual_cny": 11740.0,
-    "net_pct": 1.8339,
-    "net_annual_cny": 10366.0
+    "pct": 2.0774,
+    "annual_cny": 11744.0,
+    "net_pct": 1.8344,
+    "net_annual_cny": 10370.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥565,261 按 2026-11-20 报价 1.40% 一年赚 ¥7,885；按自己近 250 个报价的均值 1.35% 是 ¥7,629；按账本自己走过的全窗均值 2.08% 是 ¥11,740。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,366——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-20 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": 256.0,
-   "spread_vs_window_cny": -3855.0,
+   "sentence": "现金 ¥565,316 按 2026-11-25 报价 1.45% 一年赚 ¥8,197；按自己近 250 个报价的均值 1.35% 是 ¥7,629；按账本自己走过的全窗均值 2.08% 是 ¥11,744。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,823**（年化 1.21%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,370——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-25 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": 568.0,
+   "spread_vs_window_cny": -3547.0,
    "book_rate": {
-    "pct": 1.7708,
-    "annual_cny": 10010.0,
+    "pct": 1.7696,
+    "annual_cny": 10004.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-26T05:31:27",
-    "book_cagr_without_pct": 10.96,
-    "book_cagr_with_pct": 11.54,
+    "asof": "2026-11-26T21:16:37",
+    "book_cagr_without_pct": 10.89,
+    "book_cagr_with_pct": 11.46,
     "basis": "as_coded",
     "declared": {
-     "cagr_without_pct": 8.74,
-     "cagr_with_pct": 9.31,
-     "sharpe_with": 0.893,
+     "cagr_without_pct": 8.65,
+     "cagr_with_pct": 9.22,
+     "sharpe_with": 0.886,
      "maxdd_with_pct": -11.98,
      "lag": 1,
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
-    "declared_gap_pp": -2.23,
-    "gap_vs_spot_bp": -37.58,
-    "gap_vs_spot_cny": -2124.0,
+    "declared_gap_pp": -2.24,
+    "gap_vs_spot_bp": -31.96,
+    "gap_vs_spot_cny": -1807.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -81,50 +81,50 @@
      "2023": 2.182,
      "2024": 1.733,
      "2025": 1.42,
-     "2026": 1.062
+     "2026": 1.063
     },
     "per_year_src": "etf_book_cash_vehicle.json",
-    "evidence_cutoff": "2026-11-25"
+    "evidence_cutoff": "2026-11-26"
    },
    "rolls_per_year": 243,
    "fee_bp_per_roll": 0.1,
    "fee_cny_per_year": 1374.0,
    "fee_basis": "exchange_calendar",
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,366——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,823**（年化 1.21%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,370——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "note": null,
-  "spot_date": "2026-11-20",
-  "panel_tail": "2026-11-20",
+  "spot_date": "2026-11-25",
+  "panel_tail": "2026-11-25",
   "spot_lag": 0,
   "next_bar": "2026-12-09",
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-23（2026-11-20 之后的第一个交易日）到 2026-12-09（下一张单）共 **16 个日历天**：同一笔 ¥565,261 若利率停在 2026-11-20 的报价 1.40%，这段窗口**毛收** ¥346；这笔钱在这段窗口要逐交易日滚 **12 次**，每次佣金 0.1bp（≈ ¥6），共 **¥68**，所以按这个报价**入账 ¥278**（这段窗口年化 1.12%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥439，与**入账**数差 **64.96bp / ¥161**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 37.58bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
-   "start_session": "2026-11-23",
+   "sentence": "从 2026-11-26（2026-11-25 之后的第一个交易日）到 2026-12-09（下一张单）共 **13 个日历天**：同一笔 ¥565,316 若利率停在 2026-11-25 的报价 1.45%，这段窗口**毛收** ¥292；这笔钱在这段窗口要逐交易日滚 **9 次**，每次佣金 0.1bp（≈ ¥6），共 **¥51**，所以按这个报价**入账 ¥241**（这段窗口年化 1.20%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥356，与**入账**数差 **57.23bp / ¥115**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 31.96bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "start_session": "2026-11-26",
    "end_session": "2026-12-09",
-   "calendar_days": 16,
+   "calendar_days": 13,
    "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
-   "cash_amount_cny": 565261.8,
+   "cash_amount_cny": 565316.0,
    "spot": {
-    "pct": 1.395,
-    "cny": 346.0
+    "pct": 1.45,
+    "cny": 292.0
    },
    "spot_net": {
-    "pct": 1.1212,
-    "cny": 278.0
+    "pct": 1.1973,
+    "cny": 241.0
    },
-   "rolls": 12,
+   "rolls": 9,
    "fee_bp_per_roll": 0.1,
-   "fee_cny": 68.0,
+   "fee_cny": 51.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "gap_cny": 161.0,
-   "gap_bp": 64.96,
-   "gap_bp_gross": 37.58,
+   "gap_cny": 115.0,
+   "gap_bp": 57.23,
+   "gap_bp_gross": 31.96,
    "book": {
-    "pct": 1.7708,
-    "cny": 439.0,
+    "pct": 1.7696,
+    "cny": 356.0,
     "source": "etf_book_idle_cash.json"
    }
   }
@@ -135,29 +135,29 @@
    {
     "symbol": "GC001",
     "tenor_days": 1,
-    "spot_pct": 1.395,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.3496,
+    "spot_pct": 1.45,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.3495,
     "realized": {
      "1": {
-      "realized_pct": 1.3044,
+      "realized_pct": 1.3041,
       "rolls": 242,
       "idle_days": 0,
       "days": 365,
       "idle_share": 0.0
      },
      "3": {
-      "realized_pct": 1.669,
-      "rolls": 726,
+      "realized_pct": 1.6635,
+      "rolls": 725,
       "idle_days": 0,
-      "days": 1095,
+      "days": 1094,
       "idle_share": 0.0
      },
      "5": {
-      "realized_pct": 1.8865,
-      "rolls": 1211,
+      "realized_pct": 1.8838,
+      "rolls": 1210,
       "idle_days": 0,
-      "days": 1824,
+      "days": 1825,
       "idle_share": 0.0
      }
     },
@@ -165,8 +165,8 @@
     "rolls_1y": 242,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7885.0,
-    "annual_cny_realized_1y": 7373.0,
+    "annual_cny_spot": 8197.0,
+    "annual_cny_realized_1y": 7372.0,
     "positive_years": null,
     "years_checked": null,
     "verdict": "BASELINE",
@@ -175,26 +175,26 @@
    {
     "symbol": "GC003",
     "tenor_days": 3,
-    "spot_pct": 1.355,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.3602,
+    "spot_pct": 1.415,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.3604,
     "realized": {
      "1": {
-      "realized_pct": 1.1246,
+      "realized_pct": 1.1287,
       "rolls": 98,
-      "idle_days": 70,
-      "days": 364,
-      "idle_share": 0.1923
+      "idle_days": 69,
+      "days": 363,
+      "idle_share": 0.1901
      },
      "3": {
-      "realized_pct": 1.3646,
-      "rolls": 296,
-      "idle_days": 206,
-      "days": 1094,
-      "idle_share": 0.1883
+      "realized_pct": 1.3573,
+      "rolls": 295,
+      "idle_days": 207,
+      "days": 1092,
+      "idle_share": 0.1896
      },
      "5": {
-      "realized_pct": 1.5027,
+      "realized_pct": 1.501,
       "rolls": 492,
       "idle_days": 347,
       "days": 1823,
@@ -202,216 +202,216 @@
      }
     },
     "edge_bp": {
-     "1": -18.0,
-     "3": -30.4,
-     "5": -38.4
+     "1": -17.5,
+     "3": -30.6,
+     "5": -38.3
     },
     "rolls_1y": 98,
-    "idle_days_1y": 70,
-    "idle_share_1y": 0.1923,
-    "annual_cny_spot": 7659.0,
-    "annual_cny_realized_1y": 6357.0,
+    "idle_days_1y": 69,
+    "idle_share_1y": 0.1901,
+    "annual_cny_spot": 7999.0,
+    "annual_cny_realized_1y": 6381.0,
     "positive_years": 0,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "少 18.0 bp（1年）/ 少 30.4 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年"
+    "reason": "少 17.5 bp（1年）/ 少 30.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 69 天（19.0% > 1%）；5 个完整年只赢了 0 年"
    },
    {
     "symbol": "GC007",
     "tenor_days": 7,
-    "spot_pct": 1.385,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.4612,
+    "spot_pct": 1.425,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.4601,
     "realized": {
      "1": {
-      "realized_pct": 1.4089,
+      "realized_pct": 1.4378,
       "rolls": 50,
-      "idle_days": 14,
-      "days": 364,
-      "idle_share": 0.0385
+      "idle_days": 9,
+      "days": 359,
+      "idle_share": 0.0251
      },
      "3": {
-      "realized_pct": 1.7184,
-      "rolls": 150,
-      "idle_days": 44,
-      "days": 1094,
-      "idle_share": 0.0402
+      "realized_pct": 1.7181,
+      "rolls": 149,
+      "idle_days": 45,
+      "days": 1088,
+      "idle_share": 0.0414
      },
      "5": {
-      "realized_pct": 1.896,
+      "realized_pct": 1.8979,
       "rolls": 249,
-      "idle_days": 80,
-      "days": 1823,
-      "idle_share": 0.0439
+      "idle_days": 76,
+      "days": 1819,
+      "idle_share": 0.0418
      }
     },
     "edge_bp": {
-     "1": 10.5,
-     "3": 4.9,
-     "5": 0.9
+     "1": 13.4,
+     "3": 5.5,
+     "5": 1.4
     },
     "rolls_1y": 50,
-    "idle_days_1y": 14,
-    "idle_share_1y": 0.0385,
-    "annual_cny_spot": 7829.0,
-    "annual_cny_realized_1y": 7964.0,
+    "idle_days_1y": 9,
+    "idle_share_1y": 0.0251,
+    "annual_cny_spot": 8056.0,
+    "annual_cny_realized_1y": 8128.0,
     "positive_years": 3,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 10.5 bp（1年）/ 多 4.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）"
+    "reason": "多 13.4 bp（1年）/ 多 5.5 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.5% > 1%）"
    },
    {
     "symbol": "GC014",
     "tenor_days": 14,
-    "spot_pct": 1.385,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.4661,
+    "spot_pct": 1.39,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.4648,
     "realized": {
      "1": {
-      "realized_pct": 1.414,
+      "realized_pct": 1.4384,
       "rolls": 25,
-      "idle_days": 14,
-      "days": 364,
-      "idle_share": 0.0385
+      "idle_days": 9,
+      "days": 359,
+      "idle_share": 0.0251
      },
      "3": {
-      "realized_pct": 1.7157,
+      "realized_pct": 1.7318,
       "rolls": 75,
-      "idle_days": 44,
-      "days": 1094,
-      "idle_share": 0.0402
+      "idle_days": 38,
+      "days": 1088,
+      "idle_share": 0.0349
      },
      "5": {
-      "realized_pct": 1.9165,
+      "realized_pct": 1.9197,
       "rolls": 126,
-      "idle_days": 59,
-      "days": 1823,
-      "idle_share": 0.0324
+      "idle_days": 55,
+      "days": 1819,
+      "idle_share": 0.0302
      }
     },
     "edge_bp": {
-     "1": 11.0,
-     "3": 4.7,
-     "5": 3.0
+     "1": 13.4,
+     "3": 6.8,
+     "5": 3.6
     },
     "rolls_1y": 25,
-    "idle_days_1y": 14,
-    "idle_share_1y": 0.0385,
-    "annual_cny_spot": 7829.0,
-    "annual_cny_realized_1y": 7993.0,
+    "idle_days_1y": 9,
+    "idle_share_1y": 0.0251,
+    "annual_cny_spot": 7858.0,
+    "annual_cny_realized_1y": 8132.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 11.0 bp（1年）/ 多 4.7 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）"
+    "reason": "多 13.4 bp（1年）/ 多 6.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.5% > 1%）"
    },
    {
     "symbol": "GC028",
     "tenor_days": 28,
-    "spot_pct": 1.365,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.4615,
+    "spot_pct": 1.385,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.4601,
     "realized": {
      "1": {
-      "realized_pct": 1.4535,
-      "rolls": 13,
+      "realized_pct": 1.4394,
+      "rolls": 12,
+      "idle_days": 9,
+      "days": 345,
+      "idle_share": 0.0261
+     },
+     "3": {
+      "realized_pct": 1.7599,
+      "rolls": 38,
+      "idle_days": 16,
+      "days": 1080,
+      "idle_share": 0.0148
+     },
+     "5": {
+      "realized_pct": 1.9334,
+      "rolls": 64,
+      "idle_days": 19,
+      "days": 1811,
+      "idle_share": 0.0105
+     }
+    },
+    "edge_bp": {
+     "1": 13.5,
+     "3": 9.6,
+     "5": 5.0
+    },
+    "rolls_1y": 12,
+    "idle_days_1y": 9,
+    "idle_share_1y": 0.0261,
+    "annual_cny_spot": 7830.0,
+    "annual_cny_realized_1y": 8137.0,
+    "positive_years": 4,
+    "years_checked": 5,
+    "verdict": "REJECT",
+    "reason": "多 13.5 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.6% > 1%）"
+   },
+   {
+    "symbol": "GC091",
+    "tenor_days": 91,
+    "spot_pct": 1.35,
+    "spot_date": "2026-11-25",
+    "mean250_pct": 1.4302,
+    "realized": {
+     "1": {
+      "realized_pct": 1.4375,
+      "rolls": 4,
       "idle_days": 0,
       "days": 364,
       "idle_share": 0.0
      },
      "3": {
-      "realized_pct": 1.7464,
-      "rolls": 38,
-      "idle_days": 22,
-      "days": 1086,
-      "idle_share": 0.0203
+      "realized_pct": 1.768,
+      "rolls": 12,
+      "idle_days": 1,
+      "days": 1093,
+      "idle_share": 0.0009
      },
      "5": {
-      "realized_pct": 1.9601,
-      "rolls": 64,
-      "idle_days": 23,
-      "days": 1815,
-      "idle_share": 0.0127
+      "realized_pct": 1.9138,
+      "rolls": 20,
+      "idle_days": 4,
+      "days": 1824,
+      "idle_share": 0.0022
      }
     },
     "edge_bp": {
-     "1": 14.9,
-     "3": 7.7,
-     "5": 7.4
+     "1": 13.3,
+     "3": 10.5,
+     "5": 3.0
     },
-    "rolls_1y": 13,
+    "rolls_1y": 4,
     "idle_days_1y": 0,
     "idle_share_1y": 0.0,
-    "annual_cny_spot": 7716.0,
-    "annual_cny_realized_1y": 8216.0,
+    "annual_cny_spot": 7632.0,
+    "annual_cny_realized_1y": 8126.0,
     "positive_years": 4,
     "years_checked": 5,
     "verdict": "REJECT",
-    "reason": "多 14.9 bp（1年）/ 多 7.7 bp（3年），门槛 20 bp"
-   },
-   {
-    "symbol": "GC091",
-    "tenor_days": 91,
-    "spot_pct": 1.34,
-    "spot_date": "2026-11-20",
-    "mean250_pct": 1.4317,
-    "realized": {
-     "1": {
-      "realized_pct": 1.4256,
-      "rolls": 3,
-      "idle_days": 5,
-      "days": 278,
-      "idle_share": 0.018
-     },
-     "3": {
-      "realized_pct": 1.7979,
-      "rolls": 11,
-      "idle_days": 7,
-      "days": 1008,
-      "idle_share": 0.0069
-     },
-     "5": {
-      "realized_pct": 1.9418,
-      "rolls": 19,
-      "idle_days": 8,
-      "days": 1737,
-      "idle_share": 0.0046
-     }
-    },
-    "edge_bp": {
-     "1": 12.1,
-     "3": 12.9,
-     "5": 5.5
-    },
-    "rolls_1y": 3,
-    "idle_days_1y": 5,
-    "idle_share_1y": 0.018,
-    "annual_cny_spot": 7575.0,
-    "annual_cny_realized_1y": 8058.0,
-    "positive_years": 4,
-    "years_checked": 5,
-    "verdict": "REJECT",
-    "reason": "多 12.1 bp（1年）/ 多 12.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 5 天（1.8% > 1%）"
+    "reason": "多 13.3 bp（1年）/ 多 10.5 bp（3年），门槛 20 bp"
    }
   ],
   "pick": "GC001",
   "verdict": "KEEP-1D",
-  "reason": "GC003 少 18.0 bp（1年）/ 少 30.4 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 70 天（19.2% > 1%）；5 个完整年只赢了 0 年；GC007 多 10.5 bp（1年）/ 多 4.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC014 多 11.0 bp（1年）/ 多 4.7 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 14 天（3.9% > 1%）；GC028 多 14.9 bp（1年）/ 多 7.7 bp（3年），门槛 20 bp；GC091 多 12.1 bp（1年）/ 多 12.9 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 5 天（1.8% > 1%）",
-  "cash_amount_cny": 565261.8,
+  "reason": "GC003 少 17.5 bp（1年）/ 少 30.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 69 天（19.0% > 1%）；5 个完整年只赢了 0 年；GC007 多 13.4 bp（1年）/ 多 5.5 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.5% > 1%）；GC014 多 13.4 bp（1年）/ 多 6.8 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.5% > 1%）；GC028 多 13.5 bp（1年）/ 多 9.6 bp（3年），门槛 20 bp；到期撞上休市日，一年空转 9 天（2.6% > 1%）；GC091 多 13.3 bp（1年）/ 多 10.5 bp（3年），门槛 20 bp",
+  "cash_amount_cny": 565316.0,
   "forgotten_day_cny": 22.0,
   "rolls": {
    "GC001": 242,
    "GC003": 98,
    "GC007": 50,
    "GC014": 25,
-   "GC028": 13,
-   "GC091": 3
+   "GC028": 12,
+   "GC091": 4
   },
   "windows_years": [
    1,
    3,
    5
   ],
-  "as_of": "2026-11-20",
+  "as_of": "2026-11-25",
   "rule": {
    "min_edge_bp": 20.0,
    "max_idle_share": 0.01,
@@ -423,8 +423,8 @@
  "page_computed": {
   "cash_yield": {
    "panel": "data/repo_daily/GC001.csv",
-   "panel_last_bar": "2026-11-20",
-   "panel_last_write": "2026-11-22T10:06:20",
+   "panel_last_bar": "2026-11-25",
+   "panel_last_write": "2026-11-26T10:06:03",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
@@ -432,8 +432,8 @@
   },
   "cash_money": {
    "panel": "data/repo_daily/GC001.csv",
-   "panel_last_bar": "2026-11-20",
-   "panel_last_write": "2026-11-22T10:06:20",
+   "panel_last_bar": "2026-11-25",
+   "panel_last_write": "2026-11-26T10:06:03",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
@@ -441,8 +441,8 @@
   },
   "cash_ladder": {
    "panel": "data/repo_daily",
-   "panel_last_bar": "2026-11-20",
-   "panel_last_write": "2026-11-22T10:09:40",
+   "panel_last_bar": "2026-11-25",
+   "panel_last_write": "2026-11-26T10:09:45",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
@@ -450,8 +450,8 @@
   },
   "cash_handshake": {
    "panel": "data/repo_daily/GC001.csv",
-   "panel_last_bar": "2026-11-20",
-   "panel_last_write": "2026-11-22T10:06:20",
+   "panel_last_bar": "2026-11-25",
+   "panel_last_write": "2026-11-26T10:06:03",
    "owner_lane": "update_repo.py / bm-a · T-88 车道，本机只读",
    "owner_machine": "bm-a",
    "owner_runner": "update_repo.py",
@@ -462,7 +462,7 @@
  "n_hold": 5,
  "cost_bp_per_side": 8.0,
  "book_decided_at": "2026-11-11",
- "next_decision_bars": 10,
+ "next_decision_bars": 9,
  "next_rebalance_date": "2026-12-09",
  "order": [
   {
@@ -470,68 +470,68 @@
    "class": "equity",
    "class_zh": "A股",
    "weight": 0.087001,
-   "price": 1.212,
-   "lots": 717,
-   "shares": 71700,
-   "amount_cny": 86900.4
+   "price": 1.209,
+   "lots": 719,
+   "shares": 71900,
+   "amount_cny": 86927.1
   },
   {
    "symbol": "512040",
    "class": "equity",
    "class_zh": "A股",
    "weight": 0.087001,
-   "price": 1.166,
-   "lots": 746,
-   "shares": 74600,
-   "amount_cny": 86983.6
+   "price": 1.163,
+   "lots": 748,
+   "shares": 74800,
+   "amount_cny": 86992.4
   },
   {
    "symbol": "159655",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.087001,
-   "price": 1.854,
-   "lots": 469,
-   "shares": 46900,
-   "amount_cny": 86952.6
+   "price": 1.873,
+   "lots": 464,
+   "shares": 46400,
+   "amount_cny": 86907.2
   },
   {
    "symbol": "513690",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.087001,
-   "price": 1.098,
-   "lots": 792,
-   "shares": 79200,
-   "amount_cny": 86961.6
+   "price": 1.111,
+   "lots": 783,
+   "shares": 78300,
+   "amount_cny": 86991.3
   },
   {
    "symbol": "159519",
    "class": "crossborder",
    "class_zh": "跨境",
    "weight": 0.087001,
-   "price": 1.656,
-   "lots": 525,
-   "shares": 52500,
-   "amount_cny": 86940.0
+   "price": 1.69,
+   "lots": 514,
+   "shares": 51400,
+   "amount_cny": 86866.0
   }
  ],
  "forward": {
-  "bars": 24,
+  "bars": 25,
   "inception": "2026-10-23",
-  "nav": 0.9694970572,
-  "since_inception_pct": -3.0503,
-  "as_of": "2026-11-25",
+  "nav": 0.9737473496,
+  "since_inception_pct": -2.6253,
+  "as_of": "2026-11-26",
   "book_bar": "2026-11-11",
   "book_n_hold": 12,
   "ticket_n_hold": 5,
   "names_overlap": 5
  },
  "vs_basket": {
-  "bar": "2026-11-25",
-  "book_nav": 0.9694970572,
-  "basket_nav": 0.9350032309,
-  "excess_pp": 3.6892,
+  "bar": "2026-11-26",
+  "book_nav": 0.9737473496,
+  "basket_nav": 0.9403370845,
+  "excess_pp": 3.553,
   "basket": {
    "518880": "gold ETF",
    "513100": "Nasdaq-100 QDII ETF",
@@ -541,14 +541,14 @@
   "basis": "等权 1/4、同一换仓日、次日开盘成交",
   "horizon": {
    "min_detectable_edge_pp": {
-    "6m": 33.497,
-    "1y": 23.686,
-    "2y": 16.748,
-    "3y": 13.675
+    "6m": 33.487,
+    "1y": 23.679,
+    "2y": 16.744,
+    "3y": 13.671
    },
    "years_for_80pct_power": {
     "pre-2020 measured alpha (single arm)": 136.1,
-    "in-window measured alpha (single arm)": 16.9
+    "in-window measured alpha (single arm)": 17.3
    },
    "candidate_sources": {
     "pre-2020 measured alpha (single arm)": {
@@ -559,7 +559,7 @@
     "in-window measured alpha (single arm)": {
      "file": "results/etf_book_spanning.json",
      "field": "arms.book.full.alpha_annual",
-     "edge_pp_per_year": 5.76
+     "edge_pp_per_year": 5.7
     }
    }
   }
@@ -585,8 +585,8 @@
   },
   "5 名·beta 覆盖": {
    "full": {
-    "cagr_pct": 14.93,
-    "sharpe": 0.97,
+    "cagr_pct": 14.84,
+    "sharpe": 0.96,
     "maxdd_pct": -16.04
    },
    "is": {
@@ -595,16 +595,16 @@
     "maxdd_pct": -14.18
    },
    "oos": {
-    "cagr_pct": 21.81,
-    "sharpe": 1.39,
+    "cagr_pct": 21.56,
+    "sharpe": 1.37,
     "maxdd_pct": -16.04
    },
-   "priced_bar": "2026-11-25"
+   "priced_bar": "2026-11-26"
   },
   "12 名·8% 波动目标（生产卡片口径）": {
    "full": {
-    "cagr_pct": 8.98,
-    "sharpe": 0.93,
+    "cagr_pct": 8.92,
+    "sharpe": 0.92,
     "maxdd_pct": -11.77
    },
    "is": {
@@ -613,48 +613,48 @@
     "maxdd_pct": -11.77
    },
    "oos": {
-    "cagr_pct": 16.56,
-    "sharpe": 1.57,
+    "cagr_pct": 16.39,
+    "sharpe": 1.55,
     "maxdd_pct": -10.7
    },
-   "priced_bar": "2026-11-25"
+   "priced_bar": "2026-11-26"
   }
  },
- "excess_pp": 9.07,
+ "excess_pp": 9.21,
  "money_cny": {
   "capital_cny": 1000000.0,
-  "expected_annual_cny": 116400.0,
-  "benchmark_annual_cny": 25700.0,
-  "excess_annual_cny": 90700.0,
+  "expected_annual_cny": 117600.0,
+  "benchmark_annual_cny": 25500.0,
+  "excess_annual_cny": 92100.0,
   "worst_drawdown_cny": -57800.0,
   "basis": "backtest cagr/maxdd x this ticket's capital, no new assumption",
-  "evidence_cutoff": "2026-11-25"
+  "evidence_cutoff": "2026-11-26"
  },
  "ticket_book": {
-  "cagr": 0.1164,
-  "sharpe": 1.577,
+  "cagr": 0.1176,
+  "sharpe": 1.594,
   "maxdd": -0.0578,
   "vol": 0.0738,
-  "bars": 701,
-  "evidence_cutoff": "2026-11-25"
+  "bars": 702,
+  "evidence_cutoff": "2026-11-26"
  },
  "same_beta_benchmark": {
-  "cagr": 0.0257,
-  "sharpe": 0.681,
-  "maxdd": -0.0434,
+  "cagr": 0.0255,
+  "sharpe": 0.677,
+  "maxdd": -0.0438,
   "vol": 0.0377,
-  "bars": 701,
-  "evidence_cutoff": "2026-11-25"
+  "bars": 702,
+  "evidence_cutoff": "2026-11-26"
  },
  "agreement": {
   "same_decision_bar": true,
   "same_priced_bar": true,
-  "card_priced_bar": "2026-11-25",
-  "ticket_priced_bar": "2026-11-25",
+  "card_priced_bar": "2026-11-26",
+  "ticket_priced_bar": "2026-11-26",
   "card_names": 12
  },
  "sources": {
-  "ticket": "results\\etf_book_order\\TICKET-2026-11-25.json",
+  "ticket": "results\\etf_book_order\\TICKET-2026-11-26.json",
   "card": "results/etf_book_production/latest.json",
   "ledger": "results/etf_book_forward/LEDGER.json",
   "calendar": "data/exchange_calendar.csv",
@@ -662,85 +662,85 @@
  },
  "caveats": [
   "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
-  "前向账本只有 24 个交易日，自起始净值 0.9695 不构成业绩记录。",
+  "前向账本只有 25 个交易日，自起始净值 0.9737 不构成业绩记录。",
   "现金腿若不下单，账本按 GC001 (1-day repo, observed close) 计息；不买逆回购则实际是 0 息。",
   "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。"
  ],
  "ticket_days": {
   "verdict": "AGREE",
-  "detail": "both papers write priced 2026-11-25 and data cut 2026-11-25",
+  "detail": "both papers write priced 2026-11-26 and data cut 2026-11-26",
   "rows": [
    {
     "field": "priced_bar",
-    "page": "2026-11-25",
-    "ticket": "2026-11-25",
+    "page": "2026-11-26",
+    "ticket": "2026-11-26",
     "same": true
    },
    {
     "field": "evidence_cutoff",
-    "page": "2026-11-25",
-    "ticket": "2026-11-25",
+    "page": "2026-11-26",
+    "ticket": "2026-11-26",
     "same": true
    }
   ],
   "unreadable": [],
   "agree": true,
-  "file": "results/etf_book_order/TICKET-2026-11-25.json",
-  "priced_bar": "2026-11-25",
-  "evidence_cutoff": "2026-11-25",
+  "file": "results/etf_book_order/TICKET-2026-11-26.json",
+  "priced_bar": "2026-11-26",
+  "evidence_cutoff": "2026-11-26",
   "priced_source": "reprice.priced_bar",
   "days": {
-   "priced_bar": "2026-11-25",
+   "priced_bar": "2026-11-26",
    "priced_source": "reprice.priced_bar",
-   "evidence_cutoff": "2026-11-25",
+   "evidence_cutoff": "2026-11-26",
    "evidence_cutoff_source": "evidence_cutoff",
-   "as_of": "2026-11-25",
+   "as_of": "2026-11-26",
    "decision_bar": "2026-11-11",
    "missing": [],
    "verdict": "SELF_CONSISTENT",
-   "detail": "priced 2026-11-25, data cut 2026-11-25, session 2026-11-25"
+   "detail": "priced 2026-11-26, data cut 2026-11-26, session 2026-11-26"
   }
  },
  "card_days": {
   "verdict": "AGREE",
-  "detail": "both papers write priced 2026-11-25 and data cut 2026-11-25",
+  "detail": "both papers write priced 2026-11-26 and data cut 2026-11-26",
   "rows": [
    {
     "field": "priced_bar",
-    "page": "2026-11-25",
-    "card": "2026-11-25",
+    "page": "2026-11-26",
+    "card": "2026-11-26",
     "same": true
    },
    {
     "field": "evidence_cutoff",
-    "page": "2026-11-25",
-    "card": "2026-11-25",
+    "page": "2026-11-26",
+    "card": "2026-11-26",
     "same": true
    }
   ],
   "unreadable": [],
   "agree": true,
   "file": "results/etf_book_production/latest.json",
-  "priced_bar": "2026-11-25",
-  "evidence_cutoff": "2026-11-25",
+  "priced_bar": "2026-11-26",
+  "evidence_cutoff": "2026-11-26",
   "priced_source": "sheet.as_of_bar",
   "days": {
-   "priced_bar": "2026-11-25",
+   "priced_bar": "2026-11-26",
    "priced_source": "sheet.as_of_bar",
-   "evidence_cutoff": "2026-11-25",
+   "evidence_cutoff": "2026-11-26",
    "evidence_cutoff_source": "evidence_cutoff",
    "decision_bar": "2026-11-11",
    "is_grid_decision_bar": false,
    "missing": [],
    "verdict": "SELF_CONSISTENT",
-   "detail": "priced 2026-11-25, data cut 2026-11-25, decided 2026-11-11"
+   "detail": "priced 2026-11-26, data cut 2026-11-26, decided 2026-11-11"
   }
  },
  "today_action": {
   "mode": "hold",
   "holding": true,
   "book_decided_at": "2026-11-11",
-  "priced_bar": "2026-11-25",
+  "priced_bar": "2026-11-26",
   "next_trade_date": "2026-12-09",
   "trade_day_is_today": false,
   "cost_if_retraded_pct_per_year": 17.4,
@@ -749,22 +749,22 @@
  "admission": {
   "readable": true,
   "path": "results/etf_book_year_gate/YEAR-GATE.json",
-  "asof": "2026-11-26T03:29:09+0800",
-  "data_last": "2026-11-25",
-  "prior_asof": "2026-11-25T16:13:43+0800",
-  "prior_data_last": "2026-11-24",
+  "asof": "2026-11-26T20:27:57+0800",
+  "data_last": "2026-11-26",
+  "prior_asof": "2026-11-26T20:09:23+0800",
+  "prior_data_last": "2026-11-25",
   "line": 0.7,
   "book": "nobond_vt08_adopted",
   "found": true,
   "caliber": "decision_block",
   "phase": {
-   "asof": "2026-11-26T05:02:03+08:00",
+   "asof": "2026-11-26T21:44:28+08:00",
    "state": "CONDITIONAL",
-   "median_top2_share": 0.8182,
-   "spread_pp": 10.34,
-   "margin_pp": 11.82,
+   "median_top2_share": 0.8282,
+   "spread_pp": 10.21,
+   "margin_pp": 12.82,
    "single_phase_verdict": "CONDITIONAL",
-   "data_last": "2026-11-25",
+   "data_last": "2026-11-26",
    "path": "results/etf_book_phase_gate.json"
   },
   "phase_admission": {
@@ -775,29 +775,29 @@
    "deny_phases": 1,
    "insufficient_phases": 0,
    "weakest_phase": "2020-01-22",
-   "oos_sharpe_min": 0.6451,
-   "oos_sharpe_max": 1.6942,
-   "oos_sharpe_spread": 1.0491,
-   "cagr_min_pct": 6.78,
-   "cagr_max_pct": 10.96,
-   "cagr_spread_pp": 4.18,
+   "oos_sharpe_min": 0.6241,
+   "oos_sharpe_max": 1.6776,
+   "oos_sharpe_spread": 1.0535,
+   "cagr_min_pct": 6.68,
+   "cagr_max_pct": 10.89,
+   "cagr_spread_pp": 4.21,
    "spread_S1_state": "UNADJUDICABLE_PHASE",
-   "spread_S1": 1.0491,
-   "spread_S1_margin": 0.4886,
+   "spread_S1": 1.0535,
+   "spread_S1_margin": 0.4821,
    "spread_A1_state": "UNADJUDICABLE_PHASE",
-   "spread_A1": 4.18,
-   "spread_A1_margin": 2.02,
+   "spread_A1": 4.21,
+   "spread_A1_margin": 1.92,
    "sharpe_line": 0.7,
    "cagr_line": 6.0,
-   "evidence_cutoff": "2026-11-25",
-   "asof": "2026-11-26T03:58:02+08:00",
+   "evidence_cutoff": "2026-11-26",
+   "asof": "2026-11-26T21:51:26+08:00",
    "path": "results/etf_book_phase_admission.json"
   },
-  "last_bar": "2026-11-25",
+  "last_bar": "2026-11-26",
   "prior_identity": {
-   "asof": "2026-11-25T16:13:43+0800",
-   "data_last": "2026-11-24",
-   "digest": "74980654fed2b4ae"
+   "asof": "2026-11-26T20:09:23+0800",
+   "data_last": "2026-11-25",
+   "digest": "a54ea3e001a839f9"
   },
   "decision_verdict": "ADMIT",
   "decision_book": "nobond_vt08_adopted",
@@ -819,22 +819,22 @@
   },
   "failed_checks": [],
   "reads": {
-   "oos_sharpe": 1.6942,
+   "oos_sharpe": 1.6776,
    "oos_sharpe_min": 0.7,
    "oos_start": "2024-01-01",
-   "cagr_after_cost_pct": 10.96,
+   "cagr_after_cost_pct": 10.89,
    "cagr_min_pct": 6.0,
    "capacity_by_capital": {
     "1M": {
      "capital_cny": 1000000.0,
      "per_name_cny": 200000.0,
-     "impact_pct_of_adv": 0.9442,
+     "impact_pct_of_adv": 0.924,
      "within_1pct": true
     },
     "10M": {
      "capital_cny": 10000000.0,
      "per_name_cny": 2000000.0,
-     "impact_pct_of_adv": 9.4419,
+     "impact_pct_of_adv": 9.2397,
      "within_1pct": false
     }
    },
@@ -844,14 +844,14 @@
   "concentration_caliber": {
    "verdict": "CALIBER_KEEPS_Y4",
    "line_pct": 70.0,
-   "lag0_pct": 73.37,
-   "lag1_pct": 76.9,
-   "lag0_cagr_pct": 10.96,
-   "lag1_cagr_pct": 9.93,
+   "lag0_pct": 73.78,
+   "lag1_pct": 77.38,
+   "lag0_cagr_pct": 10.89,
+   "lag1_cagr_pct": 9.86,
    "lag0_passes": false,
    "lag1_passes": false,
-   "gap_pp": 3.53,
-   "sentence": "the book's own concentration line reads 73.37% on the decision bar and 76.9% once the picks can only be owned from the next open (line 70.00%); the verdict does not move with the caliber"
+   "gap_pp": 3.6,
+   "sentence": "the book's own concentration line reads 73.78% on the decision bar and 77.38% once the picks can only be owned from the next open (line 70.00%); the verdict does not move with the caliber"
   },
   "verdict": "CONDITIONAL",
   "failed": [
@@ -864,22 +864,22 @@
    "Y4_top2_share": false,
    "C1_capacity": true
   },
-  "top2_share": 0.7337,
+  "top2_share": 0.7378,
   "top2_share_full_only": 0.7278,
-  "margin_to_line": -0.0337,
+  "margin_to_line": -0.0378,
   "prior": {
    "verdict": "CONDITIONAL",
-   "top2_share": 0.7255
+   "top2_share": 0.7337
   },
   "verdict_changed": false,
   "positive_years": 6,
   "years": 7,
   "median": 5.6072,
-  "worst": -0.6352,
-  "capacity_cny": 21379465.0,
+  "worst": -1.0752,
+  "capacity_cny": 22335387.0,
   "trails_ledger": false,
   "status": "ok",
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "panel_gap": false,
   "clash": false
  },
@@ -1063,7 +1063,7 @@
   "readable": true,
   "n_phases": 5,
   "evidence_cutoff": "2026-11-25",
-  "asof": "2026-11-26T07:19:19+0800",
+  "asof": "2026-11-26T12:09:43+0800",
   "line": 0.7,
   "frozen": {
    "dd_soft_pct": 8.0,
@@ -1173,19 +1173,19 @@
    "need_days": null,
    "panel_span": null
   },
-  "evidence_cutoff": "2026-11-25",
-  "priced_bar": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
+  "priced_bar": "2026-11-26",
   "leg_bars": {
-   "IC": "2026-11-25",
-   "IF": "2026-11-25",
-   "IH": "2026-11-25",
-   "IM": "2026-11-25"
+   "IC": "2026-11-26",
+   "IF": "2026-11-26",
+   "IH": "2026-11-26",
+   "IM": "2026-11-26"
   },
   "legs_behind": [],
   "capital_cny": 1000000.0,
   "book": {
-   "ann_compound_pct": 11.054,
-   "sharpe": 1.065
+   "ann_compound_pct": 10.975,
+   "sharpe": 1.059
   },
   "candidates": [
    "IC",
@@ -1195,19 +1195,19 @@
    {
     "product": "IC",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1153800.0,
+    "notional_per_lot_cny": 1158000.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 8.642,
-    "gap_net_pp": 6.67,
+    "carry_ann_compound_pct": 8.748,
+    "gap_net_pp": 6.521,
     "index_worst_drawdown_pct": 72.42,
     "verdict": "SLEEVE_CANDIDATE",
-    "blend_gain_sharpe": 0.32,
+    "blend_gain_sharpe": 0.324,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 2.808,
-     "calendar_ann_pct": 9.756,
+     "published_ann_pct": 2.892,
+     "calendar_ann_pct": 9.84,
      "spread_pp": 6.948,
      "missed_roll_days": 106,
      "deleted_real_days": 10,
@@ -1218,19 +1218,19 @@
    {
     "product": "IF",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1147200.0,
+    "notional_per_lot_cny": 1154940.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 3.499,
-    "gap_net_pp": 0.626,
+    "carry_ann_compound_pct": 3.576,
+    "gap_net_pp": 0.569,
     "index_worst_drawdown_pct": 72.3,
     "verdict": "REFUSE",
-    "blend_gain_sharpe": 0.129,
+    "blend_gain_sharpe": 0.132,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 1.715,
-     "calendar_ann_pct": 5.809,
+     "published_ann_pct": 1.778,
+     "calendar_ann_pct": 5.872,
      "spread_pp": 4.094,
      "missed_roll_days": 110,
      "deleted_real_days": 19,
@@ -1241,10 +1241,10 @@
    {
     "product": "IH",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 812580.0,
+    "notional_per_lot_cny": 814800.0,
     "cash_lots_at_stated_capital": 1.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 2.371,
+    "carry_ann_compound_pct": 2.396,
     "gap_net_pp": null,
     "index_worst_drawdown_pct": 72.41,
     "verdict": "REFUSE",
@@ -1252,8 +1252,8 @@
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 1.405,
-     "calendar_ann_pct": 5.386,
+     "published_ann_pct": 1.425,
+     "calendar_ann_pct": 5.406,
      "spread_pp": 3.981,
      "missed_roll_days": 106,
      "deleted_real_days": 23,
@@ -1264,19 +1264,19 @@
    {
     "product": "IM",
     "capital_cny": 1000000.0,
-    "notional_per_lot_cny": 1086880.0,
+    "notional_per_lot_cny": 1093800.0,
     "cash_lots_at_stated_capital": 0.0,
     "lots_that_survive_index_worst": 1.0,
-    "carry_ann_compound_pct": 9.965,
-    "gap_net_pp": 7.527,
+    "carry_ann_compound_pct": 10.161,
+    "gap_net_pp": 7.413,
     "index_worst_drawdown_pct": 72.35,
     "verdict": "SLEEVE_CANDIDATE",
-    "blend_gain_sharpe": 0.379,
+    "blend_gain_sharpe": 0.387,
     "blend_lambda": 0.3,
     "carry_caliber": {
      "status": "ok",
-     "published_ann_pct": 5.68,
-     "calendar_ann_pct": 11.909,
+     "published_ann_pct": 5.866,
+     "calendar_ann_pct": 12.095,
      "spread_pp": 6.229,
      "missed_roll_days": 42,
      "deleted_real_days": 9,
@@ -1292,61 +1292,61 @@
  "futures_ladder": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "dilution": {
    "verdict": "GAP_IS_ARITHMETIC",
    "identity_all_hold": true,
    "pairs": {
     "IC": {
-     "calendar_ann_pct": 9.756,
+     "calendar_ann_pct": 9.84,
      "deleted_real_days": 10,
      "gap_identity_holds": true,
      "gap_pp": 6.948,
-     "kept_by_both_ann_pct": 9.799,
+     "kept_by_both_ann_pct": 9.884,
      "missed_roll_days": 106,
      "missed_roll_days_ann_pct": -146.376,
-     "published_ann_pct": 2.808,
+     "published_ann_pct": 2.892,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 9.799
+     "strictest_ann_pct": 9.884
     },
     "IF": {
-     "calendar_ann_pct": 5.809,
+     "calendar_ann_pct": 5.872,
      "deleted_real_days": 19,
      "gap_identity_holds": true,
      "gap_pp": 4.094,
-     "kept_by_both_ann_pct": 6.395,
+     "kept_by_both_ann_pct": 6.459,
      "missed_roll_days": 110,
      "missed_roll_days_ann_pct": -94.137,
-     "published_ann_pct": 1.715,
+     "published_ann_pct": 1.778,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 6.395
+     "strictest_ann_pct": 6.459
     },
     "IH": {
-     "calendar_ann_pct": 5.386,
+     "calendar_ann_pct": 5.406,
      "deleted_real_days": 23,
      "gap_identity_holds": true,
      "gap_pp": 3.981,
-     "kept_by_both_ann_pct": 5.059,
+     "kept_by_both_ann_pct": 5.08,
      "missed_roll_days": 106,
      "missed_roll_days_ann_pct": -76.14,
-     "published_ann_pct": 1.405,
+     "published_ann_pct": 1.425,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 5.059
+     "strictest_ann_pct": 5.08
     },
     "IM": {
-     "calendar_ann_pct": 11.909,
+     "calendar_ann_pct": 12.095,
      "deleted_real_days": 9,
      "gap_identity_holds": true,
      "gap_pp": 6.229,
-     "kept_by_both_ann_pct": 11.52,
+     "kept_by_both_ann_pct": 11.708,
      "missed_roll_days": 42,
      "missed_roll_days_ann_pct": -132.251,
-     "published_ann_pct": 5.68,
+     "published_ann_pct": 5.866,
      "reading": "MISSED_ROLLS_ARE_A_FAKE_LOSS",
-     "strictest_ann_pct": 11.52
+     "strictest_ann_pct": 11.708
     }
    },
-   "evidence_cutoff": "2026-11-25",
+   "evidence_cutoff": "2026-11-26",
    "path": "results\\idx_fut_roll_gap.json"
   },
   "capital_ladder_tiers": [
@@ -1365,14 +1365,14 @@
   "rows": [
    {
     "product": "IC",
-    "one_lot_notional_cny": 1153800.0,
+    "one_lot_notional_cny": 1158000.0,
     "first_affordable_tier_cny": 5000000.0,
     "read_on_tier_cny": 5000000.0,
-    "net_pct_of_capital": 2.14,
+    "net_pct_of_capital": 2.15,
     "net_pct_of_capital_by_mask": {
-     "published": 2.14,
-     "calendar": 2.95,
-     "strictest": 2.95
+     "published": 2.15,
+     "calendar": 2.96,
+     "strictest": 2.96
     },
     "admit": false,
     "admit_calendar": false,
@@ -1380,20 +1380,20 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.23,
-    "stress_loss_pct_of_capital": 9.6,
+    "stress_loss_pct_of_capital": 9.7,
     "vol_contrib_pct": 5.2,
     "margin_pct_of_capital": 3.5
    },
    {
     "product": "IF",
-    "one_lot_notional_cny": 1147200.0,
+    "one_lot_notional_cny": 1154940.0,
     "first_affordable_tier_cny": 3000000.0,
     "read_on_tier_cny": 3000000.0,
-    "net_pct_of_capital": 1.36,
+    "net_pct_of_capital": 1.37,
     "net_pct_of_capital_by_mask": {
-     "published": 1.36,
-     "calendar": 2.47,
-     "strictest": 2.49
+     "published": 1.37,
+     "calendar": 2.51,
+     "strictest": 2.53
     },
     "admit": false,
     "admit_calendar": false,
@@ -1401,20 +1401,20 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.38,
-    "stress_loss_pct_of_capital": 17.4,
+    "stress_loss_pct_of_capital": 17.6,
     "vol_contrib_pct": 6.7,
-    "margin_pct_of_capital": 5.7
+    "margin_pct_of_capital": 5.8
    },
    {
     "product": "IH",
-    "one_lot_notional_cny": 812580.0,
+    "one_lot_notional_cny": 814800.0,
     "first_affordable_tier_cny": 3000000.0,
     "read_on_tier_cny": 3000000.0,
-    "net_pct_of_capital": 1.62,
+    "net_pct_of_capital": 1.63,
     "net_pct_of_capital_by_mask": {
-     "published": 1.62,
-     "calendar": 2.22,
-     "strictest": 2.21
+     "published": 1.63,
+     "calendar": 2.23,
+     "strictest": 2.22
     },
     "admit": false,
     "admit_calendar": false,
@@ -1428,14 +1428,14 @@
    },
    {
     "product": "IM",
-    "one_lot_notional_cny": 1086880.0,
+    "one_lot_notional_cny": 1093800.0,
     "first_affordable_tier_cny": 5000000.0,
     "read_on_tier_cny": 5000000.0,
-    "net_pct_of_capital": 2.47,
+    "net_pct_of_capital": 2.5,
     "net_pct_of_capital_by_mask": {
-     "published": 2.47,
-     "calendar": 3.22,
-     "strictest": 3.21
+     "published": 2.5,
+     "calendar": 3.24,
+     "strictest": 3.24
     },
     "admit": false,
     "admit_calendar": true,
@@ -1443,7 +1443,7 @@
     "ruler_stable": true,
     "lots_on_tier": 1.0,
     "notional_x_capital_on_tier": 0.22,
-    "stress_loss_pct_of_capital": 9.0,
+    "stress_loss_pct_of_capital": 9.1,
     "vol_contrib_pct": 5.5,
     "margin_pct_of_capital": 3.3
    }
@@ -1453,37 +1453,37 @@
  "futures_hedge": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-24",
-  "beta": 0.07476409712302516,
-  "corr": 0.14133464548666994,
-  "variance_removable_pct": 1.9975482014842671,
-  "min_unit_notional": 812580.0,
+  "evidence_cutoff": "2026-11-25",
+  "beta": 0.07526616811128758,
+  "corr": 0.14222926803037897,
+  "variance_removable_pct": 2.022916468445738,
+  "min_unit_notional": 814800.0,
   "splice_days_dropped": 85,
   "verdict": "UNEXECUTABLE_AT_THIS_SIZE",
-  "sentence": "One IH lot is 10.87x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
+  "sentence": "One IH lot is 10.83x the short beta asks for at 1,000,000 CNY, so the only tradeable version of this hedge is an oversized short, not a hedge.",
   "at_capital": 1000000.0,
-  "unit_over_target": 10.868585741935604,
-  "capital_for_one_lot": 10868585.741935605,
-  "vol_delta_pp": -0.10115952438603387,
-  "sharpe_delta": -0.021380875337480454,
-  "maxdd_delta_pp": -0.05773411886190738,
+  "unit_over_target": 10.82558100732918,
+  "capital_for_one_lot": 10825581.007329179,
+  "vol_delta_pp": -0.10249575078081913,
+  "sharpe_delta": -0.020095383378010645,
+  "maxdd_delta_pp": -0.0657214454834798,
   "path": "results\\etf_book_ih_hedge.json"
  },
  "futures_hedge_tail": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-24",
+  "evidence_cutoff": "2026-11-25",
   "slice": "ih_le_-2",
   "cuts_pct": -0.02,
   "tail_n": 52,
   "tail_beta": 0.6126419583867959,
-  "tail_ci_lo": 0.13233436610102464,
-  "tail_ci_hi": 0.8348270947483399,
-  "share_above_uncond": 0.9685,
-  "uncond_beta": 0.07476409712302516,
-  "dsharpe": -0.021380875337480454,
-  "dsharpe_lo": -0.10006821974361874,
-  "dsharpe_hi": 0.06745689473847212,
+  "tail_ci_lo": 0.13068560117072775,
+  "tail_ci_hi": 0.8292180771637981,
+  "share_above_uncond": 0.966,
+  "uncond_beta": 0.07526616811128758,
+  "dsharpe": -0.020095383378010645,
+  "dsharpe_lo": -0.09593532355618095,
+  "dsharpe_hi": 0.06868336260607047,
   "tail_verdict": "TAIL_BETA_IS_REAL",
   "hedge_verdict": "HEDGE_NOT_MEASURABLE",
   "resamples": 2000,
@@ -1493,24 +1493,24 @@
  "lot_floor": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-25",
-  "priced_bar": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
+  "priced_bar": "2026-11-26",
   "leg_bars": {
-   "AU": "2026-11-25",
-   "IC": "2026-11-25",
-   "IF": "2026-11-25",
-   "IH": "2026-11-25",
-   "IM": "2026-11-25",
-   "RB": "2026-11-25",
-   "SC": "2026-11-25",
-   "T": "2026-11-25",
-   "TF": "2026-11-25",
-   "TS": "2026-11-25",
-   "510300": "2026-11-25",
-   "510050": "2026-11-25",
-   "510500": "2026-11-25",
-   "512100": "2026-11-25",
-   "588000": "2026-11-25"
+   "AU": "2026-11-26",
+   "IC": "2026-11-26",
+   "IF": "2026-11-26",
+   "IH": "2026-11-26",
+   "IM": "2026-11-26",
+   "RB": "2026-11-26",
+   "SC": "2026-11-26",
+   "T": "2026-11-26",
+   "TF": "2026-11-26",
+   "TS": "2026-11-26",
+   "510300": "2026-11-26",
+   "510050": "2026-11-26",
+   "510500": "2026-11-26",
+   "512100": "2026-11-26",
+   "588000": "2026-11-26"
   },
   "legs_behind": [],
   "leg_max_share": 0.3,
@@ -1540,40 +1540,40 @@
    "no_declared_writer_bars": []
   },
   "shares_at_1m": {
-   "AU": 0.7574,
-   "IC": 1.1538,
-   "IF": 1.1472,
-   "IH": 0.81258,
-   "IM": 1.08688,
-   "SC": 0.5738,
+   "AU": 0.76762,
+   "IC": 1.158,
+   "IF": 1.15494,
+   "IH": 0.8148,
+   "IM": 1.0938,
+   "SC": 0.5933,
    "T": 1.0996,
    "TF": 1.0679,
-   "TS": 2.05368
+   "TS": 2.0538
   },
   "etf_shares_at_1m": {
-   "510300": 0.000397,
+   "510300": 0.000396,
    "510050": 0.000286,
-   "510500": 0.000592,
+   "510500": 0.000589,
    "512100": 0.000225,
-   "588000": 0.000125
+   "588000": 0.000123
   },
   "capital_needed": {
-   "AU": 2524666.666666667,
-   "IC": 3846000.0,
-   "IF": 3824000.0,
-   "IH": 2708600.0,
-   "IM": 3622933.3333333335,
-   "SC": 1912666.6666666667,
+   "AU": 2558733.3333333335,
+   "IC": 3860000.0,
+   "IF": 3849800.0,
+   "IH": 2716000.0,
+   "IM": 3646000.0,
+   "SC": 1977666.6666666667,
    "T": 3665333.3333333335,
    "TF": 3559666.666666667,
-   "TS": 6845600.0
+   "TS": 6846000.0
   },
-  "face_cutoff": "2026-11-25"
+  "face_cutoff": "2026-11-26"
  },
  "roster_audit": {
   "status": "ok",
   "readable": true,
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "lanes": 9,
   "matched": 4,
   "not_applicable": 1,
@@ -1595,11 +1595,11 @@
     "keying": null,
     "observed": "DECLARED_BUT_ABSENT",
     "declared_n": 211,
-    "local_disk_n": 187,
+    "local_disk_n": 188,
     "laneside": {
      "value": 184,
      "source": "results/ah_panel_status.json:fresh_pairs",
-     "local_disk_n": 187,
+     "local_disk_n": 188,
      "note": null,
      "agree": false
     },
@@ -1607,6 +1607,13 @@
      "source": "results/ah_panel_status.json:quarantined",
      "threshold": null,
      "quarantined": [
+      "00568",
+      "01330",
+      "02245"
+     ],
+     "pending": [],
+     "unexplained": [
+      "00038",
       "00187",
       "00553",
       "00719",
@@ -1617,7 +1624,7 @@
       "01456",
       "02218",
       "02384",
-      "03223",
+      "02636",
       "03228",
       "03678",
       "03757",
@@ -1626,14 +1633,6 @@
       "06727",
       "09607",
       "09976"
-     ],
-     "pending": [],
-     "unexplained": [
-      "00038",
-      "00568",
-      "01330",
-      "02245",
-      "02636"
      ]
     }
    },
@@ -1665,9 +1664,99 @@
     "verdict": "DECLARED_BUT_ABSENT",
     "on_disk_not_declared": [],
     "declared_not_on_disk": [
+     "000004",
+     "000005",
+     "000016",
+     "000023",
+     "000040",
+     "000413",
+     "000416",
+     "000584",
+     "000622",
+     "000627",
+     "000638",
+     "000836",
+     "000851",
+     "000961",
+     "000971",
+     "000976",
+     "000996",
      "001235",
      "001381",
+     "002002",
+     "002087",
+     "002089",
+     "002231",
+     "002280",
+     "002288",
+     "002308",
+     "002325",
+     "002336",
+     "002341",
+     "002433",
+     "002435",
+     "002502",
+     "002610",
+     "002621",
+     "002665",
+     "002699",
+     "002731",
+     "002740",
+     "002750",
+     "002808",
+     "002898",
+     "300029",
+     "300108",
+     "300116",
+     "300117",
+     "300208",
+     "300262",
+     "300280",
+     "300282",
+     "300344",
+     "300379",
+     "300391",
+     "300495",
+     "300630",
+     "300742",
+     "300799",
+     "301139",
      "301661",
+     "600070",
+     "600083",
+     "600112",
+     "600190",
+     "600193",
+     "600200",
+     "600213",
+     "600220",
+     "600225",
+     "600277",
+     "600306",
+     "600355",
+     "600387",
+     "600421",
+     "600462",
+     "600565",
+     "600599",
+     "600608",
+     "600636",
+     "600647",
+     "600696",
+     "600766",
+     "600804",
+     "600811",
+     "600823",
+     "600836",
+     "600898",
+     "603003",
+     "603133",
+     "603388",
+     "603555",
+     "603603",
+     "603963",
+     "605081",
+     "688287",
      "688827",
      "688845",
      "689009"
@@ -1675,18 +1764,109 @@
     "missing_disposition": {
      "threshold": 3,
      "quarantined": [
+      "000004",
+      "000005",
+      "000016",
+      "000023",
+      "000040",
+      "000413",
+      "000416",
+      "000584",
+      "000622",
+      "000627",
+      "000638",
       "001235",
       "001381",
+      "301139",
       "301661",
       "688827",
       "688845",
       "689009"
      ],
-     "pending": [],
+     "pending": [
+      "000836",
+      "000851",
+      "000961",
+      "000971",
+      "000976",
+      "000996",
+      "002002",
+      "002087",
+      "002089",
+      "002231",
+      "002280",
+      "002288",
+      "002308",
+      "002325",
+      "002336",
+      "002341",
+      "002433",
+      "002435",
+      "002502",
+      "002610",
+      "002621",
+      "002665",
+      "002699",
+      "002731",
+      "002740",
+      "002750",
+      "002808",
+      "002898",
+      "300029",
+      "300108",
+      "300116",
+      "300117",
+      "300208",
+      "300262",
+      "300280",
+      "300282",
+      "300344",
+      "300379",
+      "300391",
+      "300495",
+      "300630",
+      "300742",
+      "300799",
+      "600070",
+      "600083",
+      "600112",
+      "600190",
+      "600193",
+      "600200",
+      "600213",
+      "600220",
+      "600225",
+      "600277",
+      "600306",
+      "600355",
+      "600387",
+      "600421",
+      "600462",
+      "600565",
+      "600599",
+      "600608",
+      "600636",
+      "600647",
+      "600696",
+      "600766",
+      "600804",
+      "600811",
+      "600823",
+      "600836",
+      "600898",
+      "603003",
+      "603133",
+      "603388",
+      "603555",
+      "603603",
+      "603963",
+      "605081",
+      "688287"
+     ],
      "unexplained": []
     },
     "missing_disposition_note": null,
-    "declared_n": 5227,
+    "declared_n": 5317,
     "disk_n": 5221
    }
   ]
@@ -1694,8 +1874,8 @@
  "fill": {
   "status": "ok",
   "source": "results\\etf_book_forward\\LEDGER.json",
-  "evidence_cutoff": "2026-11-25",
-  "last_bar": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
+  "last_bar": "2026-11-26",
   "last_cash": 0.090616,
   "pending": null,
   "decided_bar": null,
@@ -1762,7 +1942,7 @@
    "code": "no_pending",
    "problems": [],
    "checked": {
-    "head_bar": "2026-11-25",
+    "head_bar": "2026-11-26",
     "has_pending": false
    }
   },
@@ -1804,7 +1984,10 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
-     "buffer_k40"
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0"
     ],
     "last": "2026-11-25",
     "bars": 5288,
@@ -1815,9 +1998,6 @@
     "digest": "706c06e09a2cc87d",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "cost0",
      "cost05",
      "cost20",
      "cost40"
@@ -1832,13 +2012,13 @@
   "comparable": [
    "buffer_k02",
    "buffer_k05",
-   "buffer_k40"
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40",
+   "cost0"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "buffer_k10",
-   "buffer_k20",
-   "cost0",
    "cost05",
    "cost20",
    "cost40"
@@ -1847,9 +2027,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "cost0",
     "cost05",
     "cost20",
     "cost40"
@@ -1875,14 +2052,14 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
@@ -1893,8 +2070,8 @@
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
@@ -1941,14 +2118,14 @@
     "cost40"
    ],
    "overturned": [
-    "buffer_k20",
+    "buffer_k10",
     "buffer_k40",
     "cost0",
     "cost05"
    ],
    "overstated": [],
    "understated": [
-    "buffer_k20",
+    "buffer_k10",
     "buffer_k40",
     "cost0",
     "cost05"
@@ -1978,16 +2155,16 @@
     {
      "arm": "buffer_k10",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "BETTER",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 11
     },
     {
      "arm": "buffer_k20",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "SPLIT",
+     "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
-     "cells_positive": 9
+     "cells_positive": 7
     },
     {
      "arm": "buffer_k40",
@@ -2036,13 +2213,17 @@
    "group_arms": 11,
    "group_verdict": "SPLIT_WORLDS",
    "world": null,
-   "world_now": "608916d78932cf89",
-   "bar": "2026-11-25",
+   "world_now": null,
+   "bar": "2026-11-26",
    "covers_family": true,
    "family": {
     "stale_arms": [
+     "base",
+     "buffer_k02",
+     "buffer_k05",
      "buffer_k10",
      "buffer_k20",
+     "buffer_k40",
      "cost0",
      "cost05",
      "cost20",
@@ -2053,34 +2234,35 @@
    },
    "detail": "the run itself left 2 panels across its own faces (608916d7, 706c06e0)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-26T06:55:21+0800",
-   "elapsed_sec": 1029.8,
+   "generated": "2026-11-26T11:42:07+0800",
+   "elapsed_sec": 1032.4,
    "rebuilt": [
-    "buffer_k05",
-    "buffer_k40"
+    "buffer_k10",
+    "buffer_k20",
+    "cost0"
    ]
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016); the harvested arm's own 12 cells say +0.748pp (median); gap +0.449pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
-   "verdict": "REFUTED",
+   "detail": "the fit says +0.520pp at k=0.30 (slope +1.409, intercept +0.097); the harvested arm's own 12 cells say +0.748pp (median); gap +0.228pp against tolerance 0.951pp = 3.0x the fit's largest in-sample residual (0.317pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.298,
+   "predicted_pp": 0.52,
    "observed_pp": 0.748,
-   "gap_pp": 0.449,
-   "tolerance_pp": 0.057,
+   "gap_pp": 0.228,
+   "tolerance_pp": 0.951,
    "evidence_cutoff": "2026-10-29"
   }
  },
  "priced_faces": {
   "faces": {
-   "card": "2026-11-25",
-   "ticket": "2026-11-25",
-   "page": "2026-11-25"
+   "card": "2026-11-26",
+   "ticket": "2026-11-26",
+   "page": "2026-11-26"
   },
   "verdict": "SAME_DAY",
-  "detail": "all three papers priced the 2026-11-25 bar",
+  "detail": "all three papers priced the 2026-11-26 bar",
   "missing": [],
   "same_day": true
  },
@@ -2094,100 +2276,100 @@
   "placed_cny": null,
   "idle_cny": null,
   "idle_share": null,
-  "repo_rate_pct": 1.395,
-  "repo_rate_date": "2026-11-20",
+  "repo_rate_pct": 1.45,
+  "repo_rate_date": "2026-11-25",
   "demand_rate_pct": 0.05,
   "gap_annual_cny": null,
   "gap_daily_cny": null,
-  "worst_case_annual_cny": 7603.0,
+  "worst_case_annual_cny": 7914.0,
   "stale": null,
   "reason": "账户实况未登记（登记件在位但没人填）",
   "placement_file": "state/account/cash_placement.json",
   "basis": "idle = book cash - recorded repo placements; gap = idle x (repo panel close - declared demand rate) / 100",
-  "cash_amount_cny": 565261.8
+  "cash_amount_cny": 565316.0
  },
  "carry_regime": {
   "available": true,
   "rows": [
    {
     "beta": 0.1,
-    "observed_pct": 6.59,
-    "flat_today_pct": 6.39,
-    "zero_pct": 5.24,
+    "observed_pct": 6.65,
+    "flat_today_pct": 6.5,
+    "zero_pct": 5.3,
     "carry_pp": 1.35,
     "cash_share": 0.7818,
-    "pp_per_100bp": 0.345,
+    "pp_per_100bp": 0.287,
     "maxdd_pct": -2.77,
     "vol_pct": 3.7
    },
    {
     "beta": 0.2,
-    "observed_pct": 11.64,
-    "flat_today_pct": 11.48,
-    "zero_pct": 10.61,
+    "observed_pct": 11.76,
+    "flat_today_pct": 11.64,
+    "zero_pct": 10.73,
     "carry_pp": 1.03,
     "cash_share": 0.5635,
-    "pp_per_100bp": 0.276,
+    "pp_per_100bp": 0.229,
     "maxdd_pct": -5.78,
     "vol_pct": 7.38
    },
    {
     "beta": 0.3,
-    "observed_pct": 16.76,
-    "flat_today_pct": 16.66,
-    "zero_pct": 16.1,
-    "carry_pp": 0.66,
+    "observed_pct": 16.96,
+    "flat_today_pct": 16.87,
+    "zero_pct": 16.29,
+    "carry_pp": 0.67,
     "cash_share": 0.3453,
-    "pp_per_100bp": 0.173,
+    "pp_per_100bp": 0.172,
     "maxdd_pct": -8.72,
     "vol_pct": 11.06
    },
    {
     "beta": 0.5,
-    "observed_pct": 24.02,
-    "flat_today_pct": 24.01,
-    "zero_pct": 23.98,
-    "carry_pp": 0.04,
+    "observed_pct": 24.32,
+    "flat_today_pct": 24.31,
+    "zero_pct": 24.27,
+    "carry_pp": 0.05,
     "cash_share": 0.0186,
-    "pp_per_100bp": 0.017,
+    "pp_per_100bp": 0.019,
     "maxdd_pct": -14.39,
-    "vol_pct": 16.33
+    "vol_pct": 16.32
    }
   ],
   "base": {
    "beta": 0.2,
-   "observed_pct": 11.64,
-   "flat_today_pct": 11.48,
-   "zero_pct": 10.61,
+   "observed_pct": 11.76,
+   "flat_today_pct": 11.64,
+   "zero_pct": 10.73,
    "carry_pp": 1.03,
    "cash_share": 0.5635,
-   "pp_per_100bp": 0.276,
+   "pp_per_100bp": 0.229,
    "maxdd_pct": -5.78,
    "vol_pct": 7.38
   },
   "cash_rates": {
-   "observed_mean_pct": 1.9743,
-   "today_pct": 1.395,
-   "today_date": "2026-11-20",
-   "today_bar_lag": 3,
-   "missing_bar_steps": 2,
+   "observed_mean_pct": 1.9732,
+   "today_pct": 1.45,
+   "today_date": "2026-11-25",
+   "today_bar_lag": 1,
+   "missing_bar_steps": 0,
    "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
   },
   "identity": {
-   "published_file": "results\\etf_book_order\\TICKET-2026-11-25.json",
-   "published_cagr": 0.1164,
-   "published_bars": 701,
-   "rebuilt_cagr": 0.1164,
-   "rebuilt_bars": 701,
-   "published_bar": "2026-11-25",
-   "panel_bar": "2026-11-25",
+   "published_file": "results\\etf_book_order\\TICKET-2026-11-26.json",
+   "published_cagr": 0.1176,
+   "published_bars": 702,
+   "rebuilt_cagr": 0.1176,
+   "rebuilt_bars": 702,
+   "published_bar": "2026-11-26",
+   "panel_bar": "2026-11-26",
    "matched": true,
    "status": "MATCHED",
    "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
   },
   "window": {
    "first": "2024-01-02",
-   "last": "2026-11-25"
+   "last": "2026-11-26"
   },
   "flags": {
    "observed_ge_flat_ge_zero": true,
@@ -2195,31 +2377,31 @@
    "selection_survives_zero_cash": true
   },
   "source": "results/etf_book_return_regime.json",
-  "quote_date": "2026-11-20",
-  "quote_lag": 3,
-  "evidence_cutoff": "2026-11-25"
+  "quote_date": "2026-11-25",
+  "quote_lag": 1,
+  "evidence_cutoff": "2026-11-26"
  },
  "idle_cash": {
   "status": "ok",
   "readable": true,
   "source": "results/etf_book_idle_cash.json",
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "verdict": "ADMIT",
-  "cagr_without_pct": 10.96,
-  "cagr_with_pct": 11.54,
-  "gain_pp": 0.58,
-  "sharpe_without": 1.083,
-  "sharpe_with": 1.134,
+  "cagr_without_pct": 10.89,
+  "cagr_with_pct": 11.46,
+  "gain_pp": 0.57,
+  "sharpe_without": 1.076,
+  "sharpe_with": 1.127,
   "maxdd_without_pct": -10.56,
   "maxdd_with_pct": -10.47,
-  "idle_share_mean": 0.3025,
-  "cny_per_year_on_1m": 5800.0,
-  "vehicle_net_pct": 1.7708,
+  "idle_share_mean": 0.3024,
+  "cny_per_year_on_1m": 5700.0,
+  "vehicle_net_pct": 1.7696,
   "vehicle_published_pct": 1.7733,
   "vehicle_gap_bp": 0.0049,
-  "control_max_rel_err": 1.7763568394002505e-15,
-  "bars_with_cash": 1410,
-  "bars": 1670,
+  "control_max_rel_err": 1.9984014443252818e-15,
+  "bars_with_cash": 1411,
+  "bars": 1671,
   "gates": {
    "C2_cagr_gain_pp": true,
    "C3_sharpe_must_not_fall": true,
@@ -2240,22 +2422,22 @@
   "arms": {
    "as_coded": {
     "lag": 0,
-    "cagr_without_pct": 10.96,
-    "cagr_with_pct": 11.54,
-    "sharpe_with": 1.134,
+    "cagr_without_pct": 10.89,
+    "cagr_with_pct": 11.46,
+    "sharpe_with": 1.127,
     "maxdd_with_pct": -10.47
    },
    "declared": {
     "lag": 1,
-    "cagr_without_pct": 8.74,
-    "cagr_with_pct": 9.31,
-    "sharpe_with": 0.893,
+    "cagr_without_pct": 8.65,
+    "cagr_with_pct": 9.22,
+    "sharpe_with": 0.886,
     "maxdd_with_pct": -11.98
    }
   },
   "arm_gap": {
-   "cagr_with_pct": -2.23,
-   "cagr_without_pct": -2.22,
+   "cagr_with_pct": -2.24,
+   "cagr_without_pct": -2.24,
    "sharpe_with": -0.241,
    "maxdd_with_pct": -1.51,
    "note": "declared minus as-coded on the same rule, the same cash path and the same window; a negative cagr gap means the published headline was bought by filling the signal's own bar"
@@ -2265,29 +2447,29 @@
   "status": "ok",
   "readable": true,
   "source": "results/etf_book_cash_caliber_band.json",
-  "evidence_cutoff": "2026-11-20",
+  "evidence_cutoff": "2026-11-25",
   "verdict": "CALIBER_BAND_IS_DECORATIVE",
   "fee_verdict": "PRINTED_GAP_IS_PARTLY_A_FEE",
   "band_bp": 1.0,
-  "share_in_band_pct": 1.26,
-  "bars": 1667,
-  "median_abs_bp": 33.733,
-  "band_50_bp": 33.733,
-  "band_90_bp": 89.953,
-  "window_net_pct": 1.7708,
-  "window_gross_pct": 2.0173,
-  "quote_pct": 1.395,
-  "quote_date": "2026-11-20",
-  "commission_bp": 24.654,
-  "rate_diff_bp": -62.233,
-  "total_bp": -37.579,
-  "commission_share_pct": 65.61,
+  "share_in_band_pct": 1.257,
+  "bars": 1670,
+  "median_abs_bp": 33.606,
+  "band_50_bp": 33.606,
+  "band_90_bp": 89.915,
+  "window_net_pct": 1.7696,
+  "window_gross_pct": 2.0161,
+  "quote_pct": 1.45,
+  "quote_date": "2026-11-25",
+  "commission_bp": 24.649,
+  "rate_diff_bp": -56.606,
+  "total_bp": -31.957,
+  "commission_share_pct": 77.13,
   "split_readable": true,
-  "control_error_bp": 0.0012,
+  "control_error_bp": 0.0035,
   "window": {
    "start": "2020-01-03",
-   "end": "2026-11-20",
-   "bars": 1667
+   "end": "2026-11-25",
+   "bars": 1670
   }
  },
  "leg_split": {
@@ -2358,38 +2540,38 @@
  },
  "concentration": {
   "status": "ok",
-  "sentence": "前三名只占毛收益 23.0%（第一 黄金ETF易方达 7.8%）；删掉这三只年化 -1.95pp；删掉整条 commodity 袖（41 只）年化 -3.65pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
-  "evidence_cutoff": "2026-11-25",
+  "sentence": "前三名只占毛收益 23.1%（第一 黄金ETF易方达 7.9%）；删掉这三只年化 -1.96pp；删掉整条 commodity 袖（41 只）年化 -3.65pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-11-26",
   "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_concentration.json",
-  "top3_share": 0.2298,
+  "top3_share": 0.2311,
   "hhi": 0.0247,
   "names_negative": 71,
-  "names_above_1pct": 40,
+  "names_above_1pct": 41,
   "distinct_names": 189,
   "top": [
    {
     "symbol": "159934",
     "name": "黄金ETF易方达",
-    "share": 0.0784
+    "share": 0.0789
    },
    {
     "symbol": "518800",
     "name": "黄金ETF国泰",
-    "share": 0.0777
+    "share": 0.0781
    },
    {
     "symbol": "159937",
     "name": "黄金ETF博时",
-    "share": 0.0737
+    "share": 0.0741
    }
   ],
   "baseline": {
-   "cagr": 0.0898,
-   "sharpe": 0.928,
+   "cagr": 0.0892,
+   "sharpe": 0.922,
    "maxdd": -0.1177,
    "vol": 0.1021,
-   "years": 6.89
+   "years": 6.9
   },
   "top_k_out": {
    "k": 3,
@@ -2398,14 +2580,14 @@
     "518800",
     "159937"
    ],
-   "delta_cagr_pp": -1.95,
+   "delta_cagr_pp": -1.96,
    "stats": {
     "full": {
-     "cagr": 0.0703,
-     "sharpe": 0.75,
+     "cagr": 0.0696,
+     "sharpe": 0.744,
      "maxdd": -0.1868,
      "vol": 0.1011,
-     "years": 6.89
+     "years": 6.9
     },
     "is": {
      "cagr": 0.0237,
@@ -2415,8 +2597,8 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1382,
-     "sharpe": 1.361,
+     "cagr": 0.1366,
+     "sharpe": 1.346,
      "maxdd": -0.1083,
      "vol": 0.1031,
      "years": 2.9
@@ -2429,11 +2611,11 @@
    "delta_cagr_pp": -3.65,
    "stats": {
     "full": {
-     "cagr": 0.0533,
-     "sharpe": 0.586,
+     "cagr": 0.0527,
+     "sharpe": 0.58,
      "maxdd": -0.2226,
-     "vol": 0.101,
-     "years": 6.89
+     "vol": 0.1009,
+     "years": 6.9
     },
     "is": {
      "cagr": 0.0097,
@@ -2443,10 +2625,10 @@
      "years": 3.99
     },
     "oos": {
-     "cagr": 0.1163,
-     "sharpe": 1.175,
+     "cagr": 0.1147,
+     "sharpe": 1.161,
      "maxdd": -0.1086,
-     "vol": 0.1021,
+     "vol": 0.102,
      "years": 2.9
     }
    }
@@ -2872,12 +3054,76 @@
   "sentence": "production 8.40% vs a constant book at the same average exposure 9.49% -> timing -1.09pp/yr inside a 20-path placebo band of [-1.90, +1.33]pp"
  },
  "cost_tape": {
-  "status": "no_control",
+  "status": "ok",
   "artifact": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_cost_tape.json",
+  "evidence_cutoff": "2026-11-25",
   "verdict": "CONSERVATIVE | SURVIVES",
-  "sentence": null,
-  "evidence_cutoff": null,
-  "detail": "re-price at 10 bp gave 0.0898 vs published 0.096 (tolerance 0.5 pp)"
+  "assumption_verdict": "CONSERVATIVE",
+  "survives_verdict": "SURVIVES",
+  "sentence": "the names this book actually traded quote a measured one-way cost of 5.9 bp half-spread; the card charges 10 bp, which is more than the tape says (the card over-charges) -- on the tape's cost the same engine earns 9.5% CAGR / 0.98 Sharpe (each name at its own 75th percentile: 9.1% / 0.94), so the book survives the measured cost",
+  "assumed_bp": 10.0,
+  "measured_bp": 5.87,
+  "upper_p75_bp": 9.04,
+  "ratio_vs_assumed": 0.587,
+  "turnover_total": 78.8081,
+  "arms": {
+   "assumed_10bp": {
+    "cagr": 0.0898,
+    "sharpe": 0.928,
+    "maxdd": -0.1177,
+    "vol": 0.1021,
+    "worst_month": -0.0362,
+    "worst_year": -0.0199
+   },
+   "measured": {
+    "cagr": 0.095,
+    "sharpe": 0.976,
+    "maxdd": -0.1137,
+    "vol": 0.1021,
+    "worst_month": -0.0359,
+    "worst_year": -0.0163
+   },
+   "upper_p75": {
+    "cagr": 0.091,
+    "sharpe": 0.939,
+    "maxdd": -0.1168,
+    "vol": 0.1021,
+    "worst_month": -0.0361,
+    "worst_year": -0.0191
+   }
+  },
+  "tape": {
+   "n_traded_names": 189,
+   "median_name_p50_bp": 13.3,
+   "median_name_p75_bp": 27.3,
+   "widest_traded": [
+    {
+     "p50_bp": 31.8,
+     "p90_bp": 91.2,
+     "symbol": "159967"
+    },
+    {
+     "p50_bp": 30.3,
+     "p90_bp": 74.1,
+     "symbol": "512690"
+    },
+    {
+     "p50_bp": 27.0,
+     "p90_bp": 64.4,
+     "symbol": "512010"
+    }
+   ]
+  },
+  "control": {
+   "passes": true,
+   "engine_cagr": 0.0898,
+   "published_cagr": 0.0898,
+   "tolerance_pp": 0.5
+  },
+  "decisions": {
+   "priced": 84,
+   "dropped_low_coverage": 0
+  }
  },
  "vol_window": {
   "status": "ok",
@@ -4665,16 +4911,16 @@
    {
     "arm": "as_coded",
     "gap_pp": 0.0,
-    "got_cagr": 0.0898,
+    "got_cagr": 0.0892,
     "ok": true,
-    "published_cagr": 0.0898
+    "published_cagr": 0.0892
    },
    {
     "arm": "declared",
     "gap_pp": 0.0,
-    "got_cagr": 0.0801,
+    "got_cagr": 0.0792,
     "ok": true,
-    "published_cagr": 0.0801
+    "published_cagr": 0.0792
    }
   ],
   "criteria": {
@@ -4701,389 +4947,389 @@
    "arm": "smooth_k2",
    "cost_pp": 0.01,
    "rule": "signal_pp = the same two rules priced with zero commission; cost_pp = the rest. A recovery that is entirely cost must be printed as cost, not edge.",
-   "signal_pp": 0.25,
-   "total_pp": 0.26,
+   "signal_pp": 0.27,
+   "total_pp": 0.28,
    "turnover_arm": 0.9457,
    "turnover_declared": 0.959
   },
-  "elapsed_sec": 115.9,
-  "evidence_cutoff": "2026-11-25",
+  "elapsed_sec": 111.5,
+  "evidence_cutoff": "2026-11-26",
   "gross_rows": [
    {
     "arm": "declared__gross",
-    "bars": 1670,
-    "cagr": 0.0927,
+    "bars": 1671,
+    "cagr": 0.0918,
     "cost_per_side": 0.0,
     "maxdd": -0.1547,
-    "oos_cagr": 0.1764,
-    "oos_sharpe": 1.674,
+    "oos_cagr": 0.1741,
+    "oos_sharpe": 1.653,
     "phase": 0,
-    "sharpe": 0.949,
+    "sharpe": 0.941,
     "turnover": 0.959,
     "vol": 0.1028,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "smooth_k2__gross",
-    "bars": 1670,
-    "cagr": 0.0952,
+    "bars": 1671,
+    "cagr": 0.0945,
     "cost_per_side": 0.0,
     "maxdd": -0.1529,
-    "oos_cagr": 0.1794,
-    "oos_sharpe": 1.664,
+    "oos_cagr": 0.1775,
+    "oos_sharpe": 1.648,
     "phase": 0,
-    "sharpe": 0.962,
+    "sharpe": 0.955,
     "turnover": 0.9457,
-    "vol": 0.1041,
-    "years": 6.89
+    "vol": 0.104,
+    "years": 6.9
    }
   ],
   "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
   "published": {
-   "as_coded_cagr": 0.0898,
-   "declared_cagr": 0.0801,
+   "as_coded_cagr": 0.0892,
+   "declared_cagr": 0.0792,
    "source": "results/etf_book_production/latest.json::execution_basis"
   },
   "rows": [
    {
     "arm": "as_coded",
-    "bars": 1670,
-    "cagr": 0.0898,
+    "bars": 1671,
+    "cagr": 0.0892,
     "cost_per_side": 0.001,
     "maxdd": -0.1177,
-    "oos_cagr": 0.1656,
-    "oos_sharpe": 1.57,
+    "oos_cagr": 0.1639,
+    "oos_sharpe": 1.555,
     "phase": 0,
-    "sharpe": 0.928,
+    "sharpe": 0.922,
     "turnover": 0.9382,
     "vol": 0.1021,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "declared",
-    "bars": 1670,
-    "cagr": 0.0801,
+    "bars": 1671,
+    "cagr": 0.0792,
     "cost_per_side": 0.001,
     "maxdd": -0.1656,
-    "oos_cagr": 0.1605,
-    "oos_sharpe": 1.539,
+    "oos_cagr": 0.1582,
+    "oos_sharpe": 1.519,
     "phase": 0,
-    "sharpe": 0.832,
+    "sharpe": 0.824,
     "turnover": 0.959,
-    "vol": 0.1028,
-    "years": 6.89
+    "vol": 0.1027,
+    "years": 6.9
    },
    {
     "arm": "smooth_k2",
-    "bars": 1670,
-    "cagr": 0.0827,
+    "bars": 1671,
+    "cagr": 0.082,
     "cost_per_side": 0.001,
     "maxdd": -0.1631,
-    "oos_cagr": 0.1635,
-    "oos_sharpe": 1.533,
+    "oos_cagr": 0.1616,
+    "oos_sharpe": 1.517,
     "phase": 0,
-    "sharpe": 0.848,
+    "sharpe": 0.841,
     "turnover": 0.9457,
     "vol": 0.104,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "smooth_k3",
-    "bars": 1670,
-    "cagr": 0.078,
+    "bars": 1671,
+    "cagr": 0.0772,
     "cost_per_side": 0.001,
     "maxdd": -0.1647,
-    "oos_cagr": 0.1602,
-    "oos_sharpe": 1.51,
+    "oos_cagr": 0.1581,
+    "oos_sharpe": 1.492,
     "phase": 0,
-    "sharpe": 0.804,
+    "sharpe": 0.796,
     "turnover": 0.9487,
     "vol": 0.104,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "smooth_k4",
-    "bars": 1670,
-    "cagr": 0.0742,
+    "bars": 1671,
+    "cagr": 0.0728,
     "cost_per_side": 0.001,
     "maxdd": -0.1556,
-    "oos_cagr": 0.1576,
-    "oos_sharpe": 1.494,
+    "oos_cagr": 0.1541,
+    "oos_sharpe": 1.464,
     "phase": 0,
-    "sharpe": 0.777,
-    "turnover": 0.9502,
+    "sharpe": 0.764,
+    "turnover": 0.9521,
     "vol": 0.1027,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "smooth_k6",
-    "bars": 1670,
-    "cagr": 0.079,
+    "bars": 1671,
+    "cagr": 0.0781,
     "cost_per_side": 0.001,
     "maxdd": -0.1495,
-    "oos_cagr": 0.1449,
-    "oos_sharpe": 1.35,
+    "oos_cagr": 0.1428,
+    "oos_sharpe": 1.331,
     "phase": 0,
-    "sharpe": 0.81,
+    "sharpe": 0.802,
     "turnover": 0.9473,
     "vol": 0.1044,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "as_coded",
-    "bars": 1665,
+    "bars": 1666,
     "cagr": 0.0912,
     "cost_per_side": 0.001,
     "maxdd": -0.154,
-    "oos_cagr": 0.1562,
-    "oos_sharpe": 1.344,
+    "oos_cagr": 0.1561,
+    "oos_sharpe": 1.343,
     "phase": 1,
     "sharpe": 0.9,
     "turnover": 0.9694,
     "vol": 0.1074,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "declared",
-    "bars": 1665,
-    "cagr": 0.0758,
+    "bars": 1666,
+    "cagr": 0.0756,
     "cost_per_side": 0.001,
-    "maxdd": -0.169,
-    "oos_cagr": 0.1479,
-    "oos_sharpe": 1.316,
+    "maxdd": -0.1702,
+    "oos_cagr": 0.1472,
+    "oos_sharpe": 1.31,
     "phase": 1,
-    "sharpe": 0.777,
+    "sharpe": 0.774,
     "turnover": 0.9583,
     "vol": 0.1051,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "smooth_k2",
-    "bars": 1665,
-    "cagr": 0.0797,
+    "bars": 1666,
+    "cagr": 0.0795,
     "cost_per_side": 0.001,
-    "maxdd": -0.1579,
-    "oos_cagr": 0.1579,
-    "oos_sharpe": 1.356,
+    "maxdd": -0.1588,
+    "oos_cagr": 0.1573,
+    "oos_sharpe": 1.352,
     "phase": 1,
-    "sharpe": 0.792,
+    "sharpe": 0.79,
     "turnover": 0.9633,
     "vol": 0.1083,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "smooth_k3",
-    "bars": 1665,
-    "cagr": 0.0823,
+    "bars": 1666,
+    "cagr": 0.0817,
     "cost_per_side": 0.001,
     "maxdd": -0.1679,
-    "oos_cagr": 0.1592,
-    "oos_sharpe": 1.355,
+    "oos_cagr": 0.1578,
+    "oos_sharpe": 1.345,
     "phase": 1,
-    "sharpe": 0.811,
+    "sharpe": 0.807,
     "turnover": 0.9323,
     "vol": 0.1088,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "smooth_k4",
-    "bars": 1665,
-    "cagr": 0.0828,
+    "bars": 1666,
+    "cagr": 0.0822,
     "cost_per_side": 0.001,
     "maxdd": -0.1806,
-    "oos_cagr": 0.1598,
-    "oos_sharpe": 1.359,
+    "oos_cagr": 0.1583,
+    "oos_sharpe": 1.348,
     "phase": 1,
-    "sharpe": 0.816,
+    "sharpe": 0.811,
     "turnover": 0.9235,
     "vol": 0.1088,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "smooth_k6",
-    "bars": 1665,
-    "cagr": 0.0807,
+    "bars": 1666,
+    "cagr": 0.0801,
     "cost_per_side": 0.001,
     "maxdd": -0.1697,
-    "oos_cagr": 0.1548,
-    "oos_sharpe": 1.404,
+    "oos_cagr": 0.1533,
+    "oos_sharpe": 1.392,
     "phase": 1,
-    "sharpe": 0.814,
+    "sharpe": 0.809,
     "turnover": 0.9272,
     "vol": 0.1062,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "as_coded",
-    "bars": 1660,
-    "cagr": 0.0834,
+    "bars": 1661,
+    "cagr": 0.0829,
     "cost_per_side": 0.001,
     "maxdd": -0.1619,
-    "oos_cagr": 0.1556,
-    "oos_sharpe": 1.372,
+    "oos_cagr": 0.1542,
+    "oos_sharpe": 1.361,
     "phase": 2,
-    "sharpe": 0.84,
-    "turnover": 0.9956,
+    "sharpe": 0.835,
+    "turnover": 1.0039,
     "vol": 0.1061,
     "years": 6.86
    },
    {
     "arm": "declared",
-    "bars": 1660,
-    "cagr": 0.0762,
+    "bars": 1661,
+    "cagr": 0.0757,
     "cost_per_side": 0.001,
     "maxdd": -0.2026,
-    "oos_cagr": 0.1621,
-    "oos_sharpe": 1.351,
+    "oos_cagr": 0.1607,
+    "oos_sharpe": 1.341,
     "phase": 2,
-    "sharpe": 0.752,
-    "turnover": 0.9647,
+    "sharpe": 0.748,
+    "turnover": 0.9705,
     "vol": 0.1097,
     "years": 6.86
    },
    {
     "arm": "smooth_k2",
-    "bars": 1660,
-    "cagr": 0.0806,
+    "bars": 1661,
+    "cagr": 0.0799,
     "cost_per_side": 0.001,
     "maxdd": -0.1801,
-    "oos_cagr": 0.1519,
-    "oos_sharpe": 1.299,
+    "oos_cagr": 0.1502,
+    "oos_sharpe": 1.286,
     "phase": 2,
-    "sharpe": 0.798,
-    "turnover": 0.9434,
+    "sharpe": 0.792,
+    "turnover": 0.9497,
     "vol": 0.1085,
     "years": 6.86
    },
    {
     "arm": "smooth_k3",
-    "bars": 1660,
-    "cagr": 0.0838,
+    "bars": 1661,
+    "cagr": 0.0832,
     "cost_per_side": 0.001,
     "maxdd": -0.1786,
-    "oos_cagr": 0.1611,
-    "oos_sharpe": 1.362,
+    "oos_cagr": 0.1595,
+    "oos_sharpe": 1.35,
     "phase": 2,
-    "sharpe": 0.823,
-    "turnover": 0.9332,
+    "sharpe": 0.818,
+    "turnover": 0.9388,
     "vol": 0.1091,
     "years": 6.86
    },
    {
     "arm": "smooth_k4",
-    "bars": 1660,
-    "cagr": 0.0811,
+    "bars": 1661,
+    "cagr": 0.0807,
     "cost_per_side": 0.001,
     "maxdd": -0.1869,
-    "oos_cagr": 0.1672,
-    "oos_sharpe": 1.44,
+    "oos_cagr": 0.1659,
+    "oos_sharpe": 1.43,
     "phase": 2,
-    "sharpe": 0.808,
-    "turnover": 0.9271,
+    "sharpe": 0.803,
+    "turnover": 0.9324,
     "vol": 0.1078,
     "years": 6.86
    },
    {
     "arm": "smooth_k6",
-    "bars": 1660,
-    "cagr": 0.0739,
+    "bars": 1661,
+    "cagr": 0.0734,
     "cost_per_side": 0.001,
     "maxdd": -0.1635,
-    "oos_cagr": 0.1385,
-    "oos_sharpe": 1.214,
+    "oos_cagr": 0.1373,
+    "oos_sharpe": 1.205,
     "phase": 2,
-    "sharpe": 0.744,
-    "turnover": 0.9077,
+    "sharpe": 0.74,
+    "turnover": 0.9118,
     "vol": 0.1076,
     "years": 6.86
    },
    {
     "arm": "as_coded",
-    "bars": 1655,
-    "cagr": 0.1088,
+    "bars": 1656,
+    "cagr": 0.1083,
     "cost_per_side": 0.001,
     "maxdd": -0.1448,
-    "oos_cagr": 0.1396,
-    "oos_sharpe": 1.333,
+    "oos_cagr": 0.1383,
+    "oos_sharpe": 1.321,
     "phase": 3,
-    "sharpe": 1.134,
+    "sharpe": 1.129,
     "turnover": 0.9679,
     "vol": 0.0988,
     "years": 6.81
    },
    {
     "arm": "declared",
-    "bars": 1655,
-    "cagr": 0.0585,
+    "bars": 1656,
+    "cagr": 0.0577,
     "cost_per_side": 0.001,
     "maxdd": -0.1417,
-    "oos_cagr": 0.0279,
-    "oos_sharpe": 0.328,
+    "oos_cagr": 0.0262,
+    "oos_sharpe": 0.312,
     "phase": 3,
-    "sharpe": 0.638,
+    "sharpe": 0.631,
     "turnover": 1.0027,
     "vol": 0.1002,
     "years": 6.81
    },
    {
     "arm": "smooth_k2",
-    "bars": 1655,
-    "cagr": 0.055,
+    "bars": 1656,
+    "cagr": 0.0542,
     "cost_per_side": 0.001,
     "maxdd": -0.142,
-    "oos_cagr": 0.0144,
-    "oos_sharpe": 0.197,
+    "oos_cagr": 0.0127,
+    "oos_sharpe": 0.181,
     "phase": 3,
-    "sharpe": 0.607,
+    "sharpe": 0.6,
     "turnover": 0.9945,
     "vol": 0.0997,
     "years": 6.81
    },
    {
     "arm": "smooth_k3",
-    "bars": 1655,
-    "cagr": 0.0466,
+    "bars": 1656,
+    "cagr": 0.0458,
     "cost_per_side": 0.001,
-    "maxdd": -0.1557,
-    "oos_cagr": 0.0128,
-    "oos_sharpe": 0.181,
+    "maxdd": -0.1596,
+    "oos_cagr": 0.0111,
+    "oos_sharpe": 0.164,
     "phase": 3,
-    "sharpe": 0.527,
+    "sharpe": 0.519,
     "turnover": 0.9764,
-    "vol": 0.099,
+    "vol": 0.0989,
     "years": 6.81
    },
    {
     "arm": "smooth_k4",
-    "bars": 1655,
-    "cagr": 0.041,
+    "bars": 1656,
+    "cagr": 0.0403,
     "cost_per_side": 0.001,
-    "maxdd": -0.1693,
-    "oos_cagr": 0.0078,
-    "oos_sharpe": 0.131,
+    "maxdd": -0.1728,
+    "oos_cagr": 0.0063,
+    "oos_sharpe": 0.115,
     "phase": 3,
-    "sharpe": 0.47,
+    "sharpe": 0.463,
     "turnover": 0.9706,
     "vol": 0.0992,
     "years": 6.81
    },
    {
     "arm": "smooth_k6",
-    "bars": 1655,
-    "cagr": 0.0482,
+    "bars": 1656,
+    "cagr": 0.0476,
     "cost_per_side": 0.001,
-    "maxdd": -0.1828,
-    "oos_cagr": 0.0349,
-    "oos_sharpe": 0.396,
+    "maxdd": -0.1859,
+    "oos_cagr": 0.0335,
+    "oos_sharpe": 0.383,
     "phase": 3,
-    "sharpe": 0.543,
+    "sharpe": 0.537,
     "turnover": 0.9564,
     "vol": 0.0989,
     "years": 6.81
    }
   ],
   "script": "scripts\\etf_book_causal_rebuild.py",
-  "ts": "2026-11-26T05:57:25+0800",
+  "ts": "2026-11-26T21:26:28+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -5094,7 +5340,7 @@
      "phase_share": 0.75,
      "phase_share_pass": true,
      "phase_wins": 3,
-     "recovered_pp": 0.26
+     "recovered_pp": 0.28
     },
     {
      "admissible": false,
@@ -5103,7 +5349,7 @@
      "phase_share": 0.5,
      "phase_share_pass": false,
      "phase_wins": 2,
-     "recovered_pp": -0.21
+     "recovered_pp": -0.2
     },
     {
      "admissible": false,
@@ -5112,7 +5358,7 @@
      "phase_share": 0.5,
      "phase_share_pass": false,
      "phase_wins": 2,
-     "recovered_pp": -0.59
+     "recovered_pp": -0.64
     },
     {
      "admissible": false,
@@ -5125,12 +5371,12 @@
     }
    ],
    "best_arm": "smooth_k2",
-   "best_recovered_pp": 0.26,
+   "best_recovered_pp": 0.28,
    "chosen_arm": null,
    "dd_floor": -0.1856,
-   "declared_cagr": 0.0801,
+   "declared_cagr": 0.0792,
    "declared_maxdd": -0.1656,
-   "declared_sharpe": 0.832,
+   "declared_sharpe": 0.824,
    "phases": 4,
    "recommended_card_arm": "declared",
    "state": "IRRECOVERABLE",
@@ -5149,9 +5395,9 @@
     "prereg": "research/CASE_PREREG_E25_CAUSAL_REBUILD.md",
     "state": "IRRECOVERABLE",
     "best_arm": "smooth_k2",
-    "best_pp": 0.26,
+    "best_pp": 0.28,
     "admissible": [],
-    "evidence_cutoff": "2026-11-25",
+    "evidence_cutoff": "2026-11-26",
     "readable": true
    },
    {
@@ -5163,7 +5409,7 @@
     "best_arm": "excl_upgap_q80",
     "best_pp": 0.75,
     "admissible": [],
-    "evidence_cutoff": "2026-11-25",
+    "evidence_cutoff": "2026-11-26",
     "readable": true
    },
    {
@@ -5173,9 +5419,9 @@
     "prereg": "research/CASE_PREREG_E27_OPEN_SLICING.md",
     "state": "NO_SLICING_EDGE",
     "best_arm": "k5",
-    "best_pp": 0.05,
+    "best_pp": 0.06,
     "admissible": [],
-    "evidence_cutoff": "2026-11-25",
+    "evidence_cutoff": "2026-11-26",
     "readable": true
    }
   ],
@@ -5187,16 +5433,16 @@
   "missing": [],
   "levers": [],
   "cutoffs": [
-   "2026-11-25"
+   "2026-11-26"
   ],
   "faces_read": 3,
   "faces_total": 3,
   "verdict": "CLOSED",
-  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.26pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.75pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.05pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
+  "sentence": "**Research arc: all three asks were priced and none paid.** E25 IRRECOVERABLE (+0.28pp best arm `smooth_k2`), E26 MIXED_ACROSS_PHASES (+0.75pp best arm `excl_upgap_q80`), E27 NO_SLICING_EDGE (+0.06pp best arm `k5`). So the gap between the printed number and the tradable one is not recoverable by smoothing the score, not visible in the overnight gap, and not saved by slicing the fill over k opens. This is not a claim that no lever exists -- it is the narrower, earned claim that these three do not pay, and that a fourth question has to come from somewhere other than this rule's own mechanics."
  },
  "underwater": {
   "artifact": "results/etf_book_underwater.json",
-  "bars": 1670,
+  "bars": 1671,
   "cell": "n12_vt08",
   "config": {
    "cost_bp_per_side": 10.0,
@@ -5209,34 +5455,34 @@
    "delta_maxdd": 0.0,
    "ok": true,
    "published": {
-    "cagr": 0.0898,
-    "evidence_cutoff": "2026-11-25",
+    "cagr": 0.0892,
+    "evidence_cutoff": "2026-11-26",
     "maxdd": -0.1177,
     "published_bar_note": {
-     "columns": 1641,
+     "columns": 1645,
      "flip_prints": 169,
      "flip_thr": 0.35,
      "neutralised": true,
      "panel": "repaired (flip prints neutralised before any measurement)",
      "panel_digest": {
-      "amount_columns": 1641,
+      "amount_columns": 1645,
       "blocks": [
        "close",
        "open",
        "amount"
       ],
-      "columns": 1641,
-      "dates": 5288,
-      "digest": "608916d78932cf89",
+      "columns": 1645,
+      "dates": 5289,
+      "digest": "fdb64c20030d2fb9",
       "first": "2005-02-23",
-      "last": "2026-11-25"
+      "last": "2026-11-26"
      },
-     "sentence": "本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1641 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+     "sentence": "本面的数字算在**已修复**的面板上：**169 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 159 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1645 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
      "symbols_with_a_flip": 159
     }
    },
    "recomputed": {
-    "cagr": 0.0898,
+    "cagr": 0.0892,
     "maxdd": -0.1177
    },
    "tol": 5e-05,
@@ -5247,15 +5493,15 @@
    "censored": "entry/trough not regained on the last bar -- reported, never scored as 0",
    "forward": "annualised, calendar-year horizon via DateOffset, incomplete horizons skipped and counted"
   },
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "first_bar": "2020-01-03",
   "forward": {
    "1y": {
-    "entries": 1428,
+    "entries": 1429,
     "min": -0.075141,
-    "p5": -0.01511,
-    "p50": 0.080178,
-    "share_negative": 0.0798,
+    "p5": -0.015078,
+    "p50": 0.080177,
+    "share_negative": 0.0805,
     "skipped_no_full_horizon": 242,
     "worst_entry": {
      "annualised": -0.075141,
@@ -5264,10 +5510,10 @@
     }
    },
    "2y": {
-    "entries": 1185,
+    "entries": 1186,
     "min": -0.000201,
-    "p5": 0.016672,
-    "p50": 0.068062,
+    "p5": 0.016682,
+    "p50": 0.068161,
     "share_negative": 0.0008,
     "skipped_no_full_horizon": 485,
     "worst_entry": {
@@ -5282,7 +5528,7 @@
     "p5": 0.028985,
     "p50": 0.069464,
     "share_negative": 0.0,
-    "skipped_no_full_horizon": 726,
+    "skipped_no_full_horizon": 727,
     "worst_entry": {
      "annualised": 0.00779,
      "entry_bar": "2021-09-14 00:00:00",
@@ -5290,11 +5536,11 @@
     }
    }
   },
-  "last_bar": "2026-11-25",
+  "last_bar": "2026-11-26",
   "recovery": {
-   "censored": 17,
-   "censored_share": 0.0102,
-   "entries": 1670,
+   "censored": 18,
+   "censored_share": 0.0108,
+   "entries": 1671,
    "max_bars": 351.0,
    "median_bars": 1.0,
    "p90_bars": 14.0,
@@ -5432,58 +5678,58 @@
  "universe_lock": {
   "status": "ok",
   "artifact": "results\\etf_book_universe_lock.json",
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "verdict": "MIXED_ACROSS_PHASES",
-  "delta_mean_pp": -0.06,
-  "delta_min_pp": -1.92,
-  "delta_max_pp": 0.78,
+  "delta_mean_pp": -0.0825,
+  "delta_min_pp": -1.96,
+  "delta_max_pp": 0.79,
   "phases_lock_costs": 1,
   "phases": [
    {
     "phase": 0,
     "start": "2020-01-02",
-    "unlocked": 0.0801,
-    "locked": 0.0767,
-    "delta_pp": 0.34
+    "unlocked": 0.0792,
+    "locked": 0.0764,
+    "delta_pp": 0.28
    },
    {
     "phase": 1,
     "start": "2020-01-09",
-    "unlocked": 0.0758,
-    "locked": 0.068,
-    "delta_pp": 0.78
+    "unlocked": 0.0756,
+    "locked": 0.0677,
+    "delta_pp": 0.79
    },
    {
     "phase": 2,
     "start": "2020-01-16",
-    "unlocked": 0.0762,
-    "locked": 0.0706,
+    "unlocked": 0.0757,
+    "locked": 0.0701,
     "delta_pp": 0.56
    },
    {
     "phase": 3,
     "start": "2020-01-23",
-    "unlocked": 0.0585,
-    "locked": 0.0777,
-    "delta_pp": -1.92
+    "unlocked": 0.0577,
+    "locked": 0.0773,
+    "delta_pp": -1.96
    }
   ],
   "lock_date": "2019-12-31",
-  "full_n": 1532,
+  "full_n": 1536,
   "locked_n": 193,
   "ladder": [
    {
     "universe": "unlocked",
-    "n_funds": 1532,
-    "cagr": 0.0801,
-    "sharpe": 0.832,
+    "n_funds": 1536,
+    "cagr": 0.0792,
+    "sharpe": 0.824,
     "maxdd": -0.1656,
-    "vol": 0.1028
+    "vol": 0.1027
    },
    {
     "universe": "2014-12-31",
     "n_funds": 61,
-    "cagr": 0.0465,
+    "cagr": 0.0466,
     "sharpe": 0.509,
     "maxdd": -0.1952,
     "vol": 0.1037
@@ -5491,16 +5737,16 @@
    {
     "universe": "2019-12-31",
     "n_funds": 193,
-    "cagr": 0.0767,
-    "sharpe": 0.81,
+    "cagr": 0.0764,
+    "sharpe": 0.807,
     "maxdd": -0.1605,
     "vol": 0.1013
    },
    {
     "universe": "2022-12-31",
     "n_funds": 663,
-    "cagr": 0.0862,
-    "sharpe": 0.875,
+    "cagr": 0.0853,
+    "sharpe": 0.866,
     "maxdd": -0.1656,
     "vol": 0.1047
    }
@@ -5512,8 +5758,8 @@
    "book_in_force_date": "2026-11-11",
    "book_in_force": [
     "159519",
-    "510760",
     "512040",
+    "510760",
     "513690",
     "159549",
     "159207",
@@ -5521,14 +5767,14 @@
     "513630",
     "515300",
     "511180",
-    "510980",
-    "513140"
+    "513140",
+    "510980"
    ],
    "book_in_force_listed_after_lock": 10,
    "book_in_force_listing_dates": {
     "159519": "2023-08-31",
-    "510760": "2020-09-09",
     "512040": "2018-11-29",
+    "510760": "2020-09-09",
     "513690": "2021-05-20",
     "159549": "2023-12-11",
     "159207": "2025-04-09",
@@ -5536,22 +5782,22 @@
     "513630": "2023-12-08",
     "515300": "2019-09-19",
     "511180": "2020-08-26",
-    "510980": "2023-12-01",
-    "513140": "2023-01-12"
+    "513140": "2023-01-12",
+    "510980": "2023-12-01"
    }
   },
   "control": {
    "tol_pp": 0.5,
    "arms": {
     "as_coded": {
-     "published": 0.0914,
-     "recomputed": 0.0898,
-     "diff_pp": 0.16,
+     "published": 0.0898,
+     "recomputed": 0.0892,
+     "diff_pp": 0.06,
      "ok": true
     },
     "declared": {
-     "published": 0.081,
-     "recomputed": 0.0801,
+     "published": 0.0801,
+     "recomputed": 0.0792,
      "diff_pp": 0.09,
      "ok": true
     }
@@ -5563,44 +5809,44 @@
  "entry_gate": {
   "status": "ok",
   "artifact": "results\\etf_book_entry_gate.json",
-  "evidence_cutoff": "2026-11-25",
-  "panel_last_bar": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
+  "panel_last_bar": "2026-11-26",
   "verdict": "GATE_SITS_ON_PLATEAU",
-  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.43pp and no gate beats it by more than 0.21pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
+  "sentence": "halving or doubling the shipped cut moves the declared arm by at most 0.43pp and no gate beats it by more than 0.22pp, so 20M is a plateau -- the number is not load-bearing and any future line may inherit it safely",
   "shipped_cny": 20000000.0,
   "tol_pp": 1.0,
   "near_max_pp": 0.43,
-  "best_delta_pp": 0.21,
+  "best_delta_pp": 0.22,
   "gates": [
    {
     "gate_m": 5.0,
     "gate_cny": 5000000.0,
-    "cagr": 0.0822,
-    "sharpe": 0.849,
+    "cagr": 0.0814,
+    "sharpe": 0.841,
     "maxdd": -0.1651,
     "median_names": 463,
     "min_names": 71,
     "max_names": 1025,
     "turnover": 0.964,
-    "delta_pp": 0.21
+    "delta_pp": 0.22
    },
    {
     "gate_m": 10.0,
     "gate_cny": 10000000.0,
-    "cagr": 0.0822,
-    "sharpe": 0.849,
+    "cagr": 0.0814,
+    "sharpe": 0.841,
     "maxdd": -0.1651,
     "median_names": 367,
     "min_names": 61,
     "max_names": 873,
     "turnover": 0.964,
-    "delta_pp": 0.21
+    "delta_pp": 0.22
    },
    {
     "gate_m": 20.0,
     "gate_cny": 20000000.0,
-    "cagr": 0.0801,
-    "sharpe": 0.832,
+    "cagr": 0.0792,
+    "sharpe": 0.824,
     "maxdd": -0.1656,
     "median_names": 262,
     "min_names": 51,
@@ -5611,8 +5857,8 @@
    {
     "gate_m": 50.0,
     "gate_cny": 50000000.0,
-    "cagr": 0.0758,
-    "sharpe": 0.8,
+    "cagr": 0.0749,
+    "sharpe": 0.791,
     "maxdd": -0.202,
     "median_names": 154,
     "min_names": 32,
@@ -5623,8 +5869,8 @@
    {
     "gate_m": 100.0,
     "gate_cny": 100000000.0,
-    "cagr": 0.0821,
-    "sharpe": 0.849,
+    "cagr": 0.0812,
+    "sharpe": 0.841,
     "maxdd": -0.2066,
     "median_names": 94,
     "min_names": 21,
@@ -5635,14 +5881,14 @@
    {
     "gate_m": 200.0,
     "gate_cny": 200000000.0,
-    "cagr": 0.0497,
-    "sharpe": 0.533,
+    "cagr": 0.0489,
+    "sharpe": 0.525,
     "maxdd": -0.2269,
     "median_names": 56,
     "min_names": 16,
     "max_names": 231,
     "turnover": 0.687,
-    "delta_pp": -3.04
+    "delta_pp": -3.03
    }
   ],
   "widest_names": 463,
@@ -5651,19 +5897,19 @@
   "shipped_median_names": 262,
   "shipped_min_names": 51,
   "thinnest_day_names": 16,
-  "universe_measured": 1532,
-  "universe_published": 1532,
+  "universe_measured": 1536,
+  "universe_published": 1536,
   "control": {
-   "published_declared_cagr": 0.0801,
-   "arm_declared_cagr": 0.0801,
+   "published_declared_cagr": 0.0792,
+   "arm_declared_cagr": 0.0792,
    "delta_pp": 0.0,
    "tol_pp": 0.25
   }
  },
  "live_quote": {
   "status": "panel_current",
-  "panel_bar": "2026-11-25",
-  "expected": "2026-11-25",
+  "panel_bar": "2026-11-26",
+  "expected": "2026-11-26",
   "writer": "quote_face",
   "quote_symbols": 48,
   "snapshot_as_of": "2026-11-18",
@@ -5674,23 +5920,23 @@
   "status": "ok",
   "artifact": "results\\etf_book_forced_hold.json",
   "sibling_artifact": "results\\etf_book_exit_liquidity.json",
-  "evidence_cutoff": "2026-11-25",
-  "sibling_cutoff": "2026-11-25",
-  "positions": 3960,
+  "evidence_cutoff": "2026-11-26",
+  "sibling_cutoff": "2026-11-26",
+  "positions": 3972,
   "below_gate": 166,
-  "share_below_gate": 0.0419,
+  "share_below_gate": 0.0418,
   "wait_pp": 0.2161,
   "exit_verdict": "MIXED_ACROSS_PHASES",
   "tail_total": 109,
-  "tail_share": 0.0275,
-  "tail_pp": 0.05,
+  "tail_share": 0.0274,
+  "tail_pp": 0.0498,
   "tail_pp_min": 0.0132,
   "tail_pp_max": 0.094,
-  "combined_pp": 0.2661,
+  "combined_pp": 0.2659,
   "priced_total": 109,
   "open_at_end_total": 0,
   "ceiling_min": 18.4622,
-  "ceiling_max": 26.0153,
+  "ceiling_max": 25.7245,
   "material_pp": 0.57,
   "verdict": "CENSORED_TAIL_IS_IMMATERIAL",
   "phases": [
@@ -5715,10 +5961,10 @@
    {
     "phase": 2,
     "start": "2020-01-16",
-    "positions": 984,
+    "positions": 996,
     "tail": 33,
-    "share": 0.0335,
-    "pp": 0.0671,
+    "share": 0.0331,
+    "pp": 0.0664,
     "wait_bars": 1.0
    },
    {
@@ -5735,7 +5981,7 @@
  "capital": {
   "status": "ok",
   "artifact": "results\\etf_book_min_capital.json",
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "dw_median": 0.03122458,
   "model_nav": 200162.82,
   "real_nav": 640521.03,
@@ -5758,8 +6004,8 @@
   "delivered_rate_note": "the shelf reference is 8bp per side; the delivered card configures 10bp and the ticket engine says 10bp (agree). A neutral NAV is 1e4*min_fee/(rate*dw), so price it on the rate the book actually pays: at a higher rate the floor stops binding at a SMALLER account.",
   "lot": {
    "median": 188624.09,
-   "cellwise_median": 147169.46,
-   "p90": 291668.27,
+   "cellwise_median": 147170.2,
+   "p90": 291667.11,
    "units": 100,
    "price_median": 100.001,
    "weight_median": 0.05301603,
@@ -5769,27 +6015,27 @@
    "holdable_at": [
     {
      "capital": 10000.0,
-     "share": 0.293801
+     "share": 0.293639
     },
     {
      "capital": 20000.0,
-     "share": 0.382699
+     "share": 0.382539
     },
     {
      "capital": 50000.0,
-     "share": 0.419637
+     "share": 0.419456
     },
     {
      "capital": 100000.0,
-     "share": 0.419637
+     "share": 0.419456
     },
     {
      "capital": 200000.0,
-     "share": 0.709793
+     "share": 0.709953
     },
     {
      "capital": 400000.0,
-     "share": 0.992413
+     "share": 0.992417
     },
     {
      "capital": 1000000.0,
@@ -5815,96 +6061,96 @@
    "reference_capital": 188624.09,
    "reference": {
     "capital": 188624.09,
-    "bars": 1670,
+    "bars": 1671,
     "names_target": 12.0,
     "weight_sum": 0.63619235,
-    "under_pct": 0.354585,
-    "names_effective": 7.745,
-    "residue_cny": 42550.68,
+    "under_pct": 0.354559,
+    "names_effective": 7.7453,
+    "residue_cny": 42547.5,
     "names_short": 4.0,
-    "names_effective_cellwise": 7.745,
-    "residue_cny_cellwise": 38287.02
+    "names_effective_cellwise": 7.7453,
+    "residue_cny_cellwise": 38307.59
    },
    "rows": [
     {
      "capital": 10000.0,
      "names_target": 12.0,
-     "names_effective": 2.5275,
+     "names_effective": 2.5272,
      "names_short": 9.0,
-     "residue_cny": 5021.93,
-     "under_pct": 0.789372
+     "residue_cny": 5022.1,
+     "under_pct": 0.7894
     },
     {
      "capital": 20000.0,
      "names_target": 12.0,
-     "names_effective": 3.5319,
+     "names_effective": 3.5314,
      "names_short": 8.0,
-     "residue_cny": 8978.94,
-     "under_pct": 0.705678
+     "residue_cny": 8979.44,
+     "under_pct": 0.705718
     },
     {
      "capital": 50000.0,
      "names_target": 12.0,
-     "names_effective": 4.3813,
+     "names_effective": 4.381,
      "names_short": 7.0,
-     "residue_cny": 20195.75,
-     "under_pct": 0.634895
+     "residue_cny": 20196.48,
+     "under_pct": 0.634917
     },
     {
      "capital": 100000.0,
      "names_target": 12.0,
-     "names_effective": 4.7258,
+     "names_effective": 4.7257,
      "names_short": 7.0,
-     "residue_cny": 38564.72,
-     "under_pct": 0.60618
+     "residue_cny": 38565.3,
+     "under_pct": 0.606189
     },
     {
      "capital": 200000.0,
      "names_target": 12.0,
-     "names_effective": 8.6488,
+     "names_effective": 8.6509,
      "names_short": 3.0,
-     "residue_cny": 35533.1,
-     "under_pct": 0.279264
+     "residue_cny": 35511.6,
+     "under_pct": 0.279095
     },
     {
      "capital": 400000.0,
      "names_target": 12.0,
-     "names_effective": 10.1655,
+     "names_effective": 10.1653,
      "names_short": 0.0,
-     "residue_cny": 38903.87,
-     "under_pct": 0.152878
+     "residue_cny": 38907.28,
+     "under_pct": 0.152891
     },
     {
      "capital": 1000000.0,
      "names_target": 12.0,
-     "names_effective": 11.2481,
+     "names_effective": 11.2482,
      "names_short": 0.0,
-     "residue_cny": 39861.59,
-     "under_pct": 0.062657
+     "residue_cny": 39858.98,
+     "under_pct": 0.062652
     },
     {
      "capital": 1500000.0,
      "names_target": 12.0,
-     "names_effective": 11.4732,
+     "names_effective": 11.4728,
      "names_short": 0.0,
-     "residue_cny": 41894.19,
-     "under_pct": 0.043901
+     "residue_cny": 41925.12,
+     "under_pct": 0.043933
     },
     {
      "capital": 3000000.0,
      "names_target": 12.0,
-     "names_effective": 11.7515,
+     "names_effective": 11.7514,
      "names_short": 0.0,
-     "residue_cny": 39529.88,
-     "under_pct": 0.020712
+     "residue_cny": 39542.73,
+     "under_pct": 0.020718
     },
     {
      "capital": 10000000.0,
      "names_target": 12.0,
      "names_effective": 11.9204,
      "names_short": 0.0,
-     "residue_cny": 42181.05,
-     "under_pct": 0.00663
+     "residue_cny": 42191.93,
+     "under_pct": 0.006632
     }
    ]
   },
@@ -5926,7 +6172,7 @@
    {
     "window": "published_2020",
     "first_bar": "2020-01-02",
-    "last_bar": "2026-11-25",
+    "last_bar": "2026-11-26",
     "dw_median": 0.03122458,
     "dw_mean": 0.03134558,
     "model_nav": 200162.85,
@@ -5937,7 +6183,7 @@
    {
     "window": "full_2015",
     "first_bar": "2015-01-05",
-    "last_bar": "2026-11-25",
+    "last_bar": "2026-11-26",
     "dw_median": 0.02479381,
     "dw_mean": 0.0204019,
     "model_nav": 252079.05,
@@ -5992,12 +6238,12 @@
     "dw_median": 0.01539595,
     "model_nav": 405950.98,
     "delivered_nav": 324760.78,
-    "cagr_8bp": 0.0543
+    "cagr_8bp": 0.0542
    }
   ],
   "delivered_n_hold": 12,
   "ticket_n_hold": 5,
-  "ticket_bar": "2026-11-25",
+  "ticket_bar": "2026-11-26",
   "ticket_model_nav": 66751.5,
   "ticket_delivered_nav": 53401.2,
   "ticket_narrower_than_path": true,
@@ -6037,9 +6283,9 @@
    {
     "arm": "declared",
     "gap_pp": 0.0,
-    "got_cagr": 0.0801,
+    "got_cagr": 0.0792,
     "ok": true,
-    "published_cagr": 0.0801
+    "published_cagr": 0.0792
    }
   ],
   "criteria": {
@@ -6064,8 +6310,8 @@
    "up_quantile": 0.8,
    "verdict_rule": "ADOPT_GAP iff some gap arm beats `declared` on CAGR by >= gap_min_pp AND its Sharpe is >= this run's `declared` Sharpe AND its max drawdown is no deeper than declared - dd_tol_pp AND it beats declared on CAGR in >= phase_share_min of the phases; MIXED_ACROSS_PHASES if the return line is cleared but the phase share is not (or the reverse); NO_GAP_EDGE otherwise -- the gap stays information"
   },
-  "elapsed_sec": 349.1,
-  "evidence_cutoff": "2026-11-25",
+  "elapsed_sec": 105.3,
+  "evidence_cutoff": "2026-11-26",
   "gap_stats": {
    "entry_bars": 84,
    "excluded_names_per_decision": {
@@ -6074,356 +6320,356 @@
     "excl_upgap_q80": 146.7
    },
    "mean_abs_gap_bp": 41.6,
-   "median_abs_gap_bp": 24.3,
+   "median_abs_gap_bp": 24.29,
    "p90_abs_gap_bp": 97.56,
    "rule": "The gap is priced in bp of the entry bar. A channel worth 0.57 pp/yr has to show up as a selection difference, not as a rounding artefact."
   },
   "prereg": "research/CASE_PREREG_E26_OVERNIGHT_GAP.md",
   "published": {
-   "as_coded_cagr": 0.0898,
-   "declared_cagr": 0.0801,
+   "as_coded_cagr": 0.0892,
+   "declared_cagr": 0.0792,
    "source": "results/etf_book_production/latest.json::execution_basis"
   },
   "rows": [
    {
     "arm": "declared",
-    "bars": 1670,
-    "cagr": 0.0801,
+    "bars": 1671,
+    "cagr": 0.0792,
     "cost_per_side": 0.001,
     "maxdd": -0.1656,
-    "oos_cagr": 0.1605,
-    "oos_sharpe": 1.539,
+    "oos_cagr": 0.1582,
+    "oos_sharpe": 1.519,
     "phase": 0,
-    "sharpe": 0.832,
+    "sharpe": 0.824,
     "turnover": 0.959,
-    "vol": 0.1028,
-    "years": 6.89
+    "vol": 0.1027,
+    "years": 6.9
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1670,
-    "cagr": -0.0298,
+    "bars": 1671,
+    "cagr": -0.029,
     "cost_per_side": 0.001,
-    "maxdd": -0.2827,
-    "oos_cagr": -0.0426,
-    "oos_sharpe": -0.426,
+    "maxdd": -0.2795,
+    "oos_cagr": -0.0418,
+    "oos_sharpe": -0.417,
     "phase": 0,
-    "sharpe": -0.291,
-    "turnover": 0.769,
+    "sharpe": -0.282,
+    "turnover": 0.7679,
     "vol": 0.0933,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1670,
-    "cagr": 0.0476,
+    "bars": 1671,
+    "cagr": 0.048,
     "cost_per_side": 0.001,
     "maxdd": -0.2099,
-    "oos_cagr": 0.067,
-    "oos_sharpe": 0.632,
+    "oos_cagr": 0.0682,
+    "oos_sharpe": 0.642,
     "phase": 0,
-    "sharpe": 0.538,
-    "turnover": 0.7003,
-    "vol": 0.0992,
-    "years": 6.89
+    "sharpe": 0.542,
+    "turnover": 0.7,
+    "vol": 0.0991,
+    "years": 6.9
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1670,
-    "cagr": 0.0571,
+    "bars": 1671,
+    "cagr": 0.0563,
     "cost_per_side": 0.001,
     "maxdd": -0.1837,
-    "oos_cagr": 0.1295,
-    "oos_sharpe": 1.229,
+    "oos_cagr": 0.1273,
+    "oos_sharpe": 1.21,
     "phase": 0,
-    "sharpe": 0.615,
+    "sharpe": 0.607,
     "turnover": 0.9948,
     "vol": 0.1027,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1670,
-    "cagr": 0.0768,
+    "bars": 1671,
+    "cagr": 0.0759,
     "cost_per_side": 0.001,
     "maxdd": -0.1598,
-    "oos_cagr": 0.1706,
-    "oos_sharpe": 1.615,
+    "oos_cagr": 0.1683,
+    "oos_sharpe": 1.595,
     "phase": 0,
-    "sharpe": 0.805,
+    "sharpe": 0.797,
     "turnover": 0.9837,
     "vol": 0.1021,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1670,
-    "cagr": 0.0876,
+    "bars": 1671,
+    "cagr": 0.0867,
     "cost_per_side": 0.001,
     "maxdd": -0.1809,
-    "oos_cagr": 0.1731,
-    "oos_sharpe": 1.58,
+    "oos_cagr": 0.1707,
+    "oos_sharpe": 1.559,
     "phase": 0,
-    "sharpe": 0.894,
+    "sharpe": 0.886,
     "turnover": 0.9971,
     "vol": 0.1038,
-    "years": 6.89
+    "years": 6.9
    },
    {
     "arm": "declared",
-    "bars": 1665,
-    "cagr": 0.0758,
+    "bars": 1666,
+    "cagr": 0.0756,
     "cost_per_side": 0.001,
-    "maxdd": -0.169,
-    "oos_cagr": 0.1479,
-    "oos_sharpe": 1.316,
+    "maxdd": -0.1702,
+    "oos_cagr": 0.1472,
+    "oos_sharpe": 1.31,
     "phase": 1,
-    "sharpe": 0.777,
+    "sharpe": 0.774,
     "turnover": 0.9583,
     "vol": 0.1051,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1665,
-    "cagr": -0.017,
+    "bars": 1666,
+    "cagr": -0.0171,
     "cost_per_side": 0.001,
     "maxdd": -0.3094,
-    "oos_cagr": 0.0062,
-    "oos_sharpe": 0.113,
+    "oos_cagr": 0.0054,
+    "oos_sharpe": 0.106,
     "phase": 1,
-    "sharpe": -0.128,
+    "sharpe": -0.129,
     "turnover": 0.742,
-    "vol": 0.1004,
-    "years": 6.87
+    "vol": 0.1003,
+    "years": 6.88
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1665,
-    "cagr": 0.0245,
+    "bars": 1666,
+    "cagr": 0.0249,
     "cost_per_side": 0.001,
     "maxdd": -0.1686,
-    "oos_cagr": 0.0593,
-    "oos_sharpe": 0.595,
+    "oos_cagr": 0.0601,
+    "oos_sharpe": 0.601,
     "phase": 1,
-    "sharpe": 0.302,
+    "sharpe": 0.305,
     "turnover": 0.6581,
     "vol": 0.1003,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1665,
-    "cagr": 0.0867,
+    "bars": 1666,
+    "cagr": 0.0864,
     "cost_per_side": 0.001,
     "maxdd": -0.1479,
-    "oos_cagr": 0.1618,
-    "oos_sharpe": 1.379,
+    "oos_cagr": 0.161,
+    "oos_sharpe": 1.373,
     "phase": 1,
-    "sharpe": 0.858,
+    "sharpe": 0.856,
     "turnover": 0.9604,
-    "vol": 0.1076,
-    "years": 6.87
+    "vol": 0.1075,
+    "years": 6.88
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1665,
-    "cagr": 0.0852,
+    "bars": 1666,
+    "cagr": 0.0849,
     "cost_per_side": 0.001,
     "maxdd": -0.1441,
-    "oos_cagr": 0.1517,
-    "oos_sharpe": 1.36,
+    "oos_cagr": 0.1509,
+    "oos_sharpe": 1.354,
     "phase": 1,
-    "sharpe": 0.86,
+    "sharpe": 0.858,
     "turnover": 0.9383,
     "vol": 0.1054,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1665,
-    "cagr": 0.0785,
+    "bars": 1666,
+    "cagr": 0.0781,
     "cost_per_side": 0.001,
     "maxdd": -0.1517,
-    "oos_cagr": 0.165,
-    "oos_sharpe": 1.357,
+    "oos_cagr": 0.1639,
+    "oos_sharpe": 1.349,
     "phase": 1,
-    "sharpe": 0.778,
-    "turnover": 0.9889,
+    "sharpe": 0.774,
+    "turnover": 0.9887,
     "vol": 0.1088,
-    "years": 6.87
+    "years": 6.88
    },
    {
     "arm": "declared",
-    "bars": 1660,
-    "cagr": 0.0762,
+    "bars": 1661,
+    "cagr": 0.0757,
     "cost_per_side": 0.001,
     "maxdd": -0.2026,
-    "oos_cagr": 0.1621,
-    "oos_sharpe": 1.351,
+    "oos_cagr": 0.1607,
+    "oos_sharpe": 1.341,
     "phase": 2,
-    "sharpe": 0.752,
-    "turnover": 0.9647,
+    "sharpe": 0.748,
+    "turnover": 0.9705,
     "vol": 0.1097,
     "years": 6.86
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1660,
-    "cagr": -0.0219,
+    "bars": 1661,
+    "cagr": -0.0216,
     "cost_per_side": 0.001,
     "maxdd": -0.3128,
-    "oos_cagr": 0.002,
-    "oos_sharpe": 0.071,
+    "oos_cagr": 0.0013,
+    "oos_sharpe": 0.064,
     "phase": 2,
-    "sharpe": -0.197,
-    "turnover": 0.7148,
-    "vol": 0.0942,
+    "sharpe": -0.194,
+    "turnover": 0.7118,
+    "vol": 0.0943,
     "years": 6.86
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1660,
+    "bars": 1661,
     "cagr": 0.0395,
     "cost_per_side": 0.001,
     "maxdd": -0.2294,
-    "oos_cagr": 0.0799,
-    "oos_sharpe": 0.955,
+    "oos_cagr": 0.0803,
+    "oos_sharpe": 0.96,
     "phase": 2,
-    "sharpe": 0.495,
-    "turnover": 0.6691,
-    "vol": 0.0895,
+    "sharpe": 0.496,
+    "turnover": 0.6708,
+    "vol": 0.0896,
     "years": 6.86
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1660,
-    "cagr": 0.0658,
+    "bars": 1661,
+    "cagr": 0.0653,
     "cost_per_side": 0.001,
-    "maxdd": -0.1763,
-    "oos_cagr": 0.1266,
-    "oos_sharpe": 1.152,
+    "maxdd": -0.1782,
+    "oos_cagr": 0.1252,
+    "oos_sharpe": 1.14,
     "phase": 2,
-    "sharpe": 0.686,
-    "turnover": 0.977,
+    "sharpe": 0.681,
+    "turnover": 0.9827,
     "vol": 0.1049,
     "years": 6.86
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1660,
-    "cagr": 0.076,
+    "bars": 1661,
+    "cagr": 0.0754,
     "cost_per_side": 0.001,
     "maxdd": -0.2001,
-    "oos_cagr": 0.1535,
-    "oos_sharpe": 1.363,
+    "oos_cagr": 0.1521,
+    "oos_sharpe": 1.352,
     "phase": 2,
-    "sharpe": 0.774,
-    "turnover": 0.9951,
+    "sharpe": 0.769,
+    "turnover": 1.0005,
     "vol": 0.1057,
     "years": 6.86
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1660,
-    "cagr": 0.0584,
+    "bars": 1661,
+    "cagr": 0.0578,
     "cost_per_side": 0.001,
     "maxdd": -0.1866,
-    "oos_cagr": 0.1187,
-    "oos_sharpe": 1.1,
+    "oos_cagr": 0.1171,
+    "oos_sharpe": 1.087,
     "phase": 2,
-    "sharpe": 0.616,
-    "turnover": 0.9964,
-    "vol": 0.1049,
+    "sharpe": 0.61,
+    "turnover": 1.0032,
+    "vol": 0.1048,
     "years": 6.86
    },
    {
     "arm": "declared",
-    "bars": 1655,
-    "cagr": 0.0585,
+    "bars": 1656,
+    "cagr": 0.0577,
     "cost_per_side": 0.001,
     "maxdd": -0.1417,
-    "oos_cagr": 0.0279,
-    "oos_sharpe": 0.328,
+    "oos_cagr": 0.0262,
+    "oos_sharpe": 0.312,
     "phase": 3,
-    "sharpe": 0.638,
+    "sharpe": 0.631,
     "turnover": 1.0027,
     "vol": 0.1002,
     "years": 6.81
    },
    {
     "arm": "gap_rank_up",
-    "bars": 1655,
-    "cagr": 0.0322,
+    "bars": 1656,
+    "cagr": 0.0312,
     "cost_per_side": 0.001,
     "maxdd": -0.1448,
-    "oos_cagr": 0.0599,
-    "oos_sharpe": 0.712,
+    "oos_cagr": 0.0587,
+    "oos_sharpe": 0.699,
     "phase": 3,
-    "sharpe": 0.423,
-    "turnover": 0.6463,
-    "vol": 0.0866,
+    "sharpe": 0.411,
+    "turnover": 0.6467,
+    "vol": 0.0865,
     "years": 6.81
    },
    {
     "arm": "gap_rank_down",
-    "bars": 1655,
-    "cagr": 0.0344,
+    "bars": 1656,
+    "cagr": 0.0348,
     "cost_per_side": 0.001,
-    "maxdd": -0.2019,
-    "oos_cagr": 0.044,
-    "oos_sharpe": 0.468,
+    "maxdd": -0.2018,
+    "oos_cagr": 0.0448,
+    "oos_sharpe": 0.475,
     "phase": 3,
-    "sharpe": 0.401,
-    "turnover": 0.7192,
+    "sharpe": 0.404,
+    "turnover": 0.7198,
     "vol": 0.0999,
     "years": 6.81
    },
    {
     "arm": "excl_absgap_q80",
-    "bars": 1655,
-    "cagr": 0.0393,
+    "bars": 1656,
+    "cagr": 0.0386,
     "cost_per_side": 0.001,
     "maxdd": -0.2085,
-    "oos_cagr": 0.0057,
-    "oos_sharpe": 0.109,
+    "oos_cagr": 0.004,
+    "oos_sharpe": 0.092,
     "phase": 3,
-    "sharpe": 0.457,
+    "sharpe": 0.449,
     "turnover": 0.9999,
     "vol": 0.0982,
     "years": 6.81
    },
    {
     "arm": "excl_absgap_q90",
-    "bars": 1655,
-    "cagr": 0.0509,
+    "bars": 1656,
+    "cagr": 0.0502,
     "cost_per_side": 0.001,
     "maxdd": -0.1713,
-    "oos_cagr": 0.0155,
-    "oos_sharpe": 0.207,
+    "oos_cagr": 0.0138,
+    "oos_sharpe": 0.19,
     "phase": 3,
-    "sharpe": 0.569,
+    "sharpe": 0.561,
     "turnover": 0.9988,
-    "vol": 0.0993,
+    "vol": 0.0992,
     "years": 6.81
    },
    {
     "arm": "excl_upgap_q80",
-    "bars": 1655,
-    "cagr": 0.0348,
+    "bars": 1656,
+    "cagr": 0.0338,
     "cost_per_side": 0.001,
-    "maxdd": -0.2108,
-    "oos_cagr": -0.0048,
-    "oos_sharpe": -0.001,
+    "maxdd": -0.2119,
+    "oos_cagr": -0.0069,
+    "oos_sharpe": -0.023,
     "phase": 3,
-    "sharpe": 0.416,
-    "turnover": 0.9697,
+    "sharpe": 0.407,
+    "turnover": 0.9717,
     "vol": 0.0962,
     "years": 6.81
    }
   ],
   "script": "scripts\\etf_book_overnight_gap.py",
-  "ts": "2026-11-26T06:03:17+0800",
+  "ts": "2026-11-26T21:28:14+0800",
   "verdict": {
    "admissible_arms": [],
    "arms": [
@@ -6431,7 +6677,7 @@
      "admissible": false,
      "arm": "gap_rank_up",
      "full_span_tests_pass": false,
-     "gained_pp": -10.99,
+     "gained_pp": -10.82,
      "phase_share": 0.0,
      "phase_share_pass": false,
      "phase_wins": 0
@@ -6440,7 +6686,7 @@
      "admissible": false,
      "arm": "gap_rank_down",
      "full_span_tests_pass": false,
-     "gained_pp": -3.25,
+     "gained_pp": -3.12,
      "phase_share": 0.0,
      "phase_share_pass": false,
      "phase_wins": 0
@@ -6449,7 +6695,7 @@
      "admissible": false,
      "arm": "excl_absgap_q80",
      "full_span_tests_pass": false,
-     "gained_pp": -2.3,
+     "gained_pp": -2.29,
      "phase_share": 0.25,
      "phase_share_pass": false,
      "phase_wins": 1
@@ -6477,9 +6723,9 @@
    "best_gained_pp": 0.75,
    "chosen_arm": null,
    "dd_floor": -0.1856,
-   "declared_cagr": 0.0801,
+   "declared_cagr": 0.0792,
    "declared_maxdd": -0.1656,
-   "declared_sharpe": 0.832,
+   "declared_sharpe": 0.824,
    "phases": 4,
    "recommended_card_arm": "declared",
    "state": "MIXED_ACROSS_PHASES",
@@ -6537,8 +6783,8 @@
   "k_schedule_last": 0.458463,
   "consistency": {
    "generated": {
-    "permission": "2026-11-26T07:05:21+0800",
-    "gap": "2026-11-26T07:05:26+0800",
+    "permission": "2026-11-26T11:52:03+0800",
+    "gap": "2026-11-26T11:52:36+0800",
     "ledger": "2026-11-24T19:01:30+0800"
    },
    "permission_vs_gap": true,
@@ -6629,7 +6875,8 @@
    }
   ],
   "artifact": "results/etf_book_k_gap.json",
-  "status": "ok"
+  "status": "mismatch",
+  "mismatch_reason": "面是 2026-11-25 的、这一张是 2026-11-26 的；面来自 TICKET-2026-11-25.json、这一张是 TICKET-2026-11-26.json"
  },
  "premium_leak": {
   "status": "ok",
@@ -7022,7 +7269,7 @@
     "sibling_symbol": "530060",
     "sibling_name": "上证指数ETF易方达",
     "index": "LBL:上证指数ETF",
-    "amount_cny": 86926.5,
+    "amount_cny": 86900.4,
     "source_verdict": "GAP_IMMATERIAL",
     "today_gain_cny": 141.1,
     "gap_today_pp": 0.162,
@@ -7033,25 +7280,25 @@
     "verdict": "NO_GAP",
     "why": "",
     "stats": {
-     "days": 190,
+     "days": 191,
      "first_date": "2026-02-10",
-     "last_date": "2026-11-25",
+     "last_date": "2026-11-26",
      "today_gap_pp": 0.162,
-     "mean_pp": -2.6708,
-     "median_pp": -2.751,
-     "sd_pp": 1.5297,
-     "min_pp": -6.5154,
-     "max_pp": 0.4601,
-     "share_days_positive": 0.0579,
-     "today_percentile": 97.37,
-     "today_z": 1.852,
-     "last_year_mean_pp": -2.6708,
+     "mean_pp": -2.5221,
+     "median_pp": -2.6164,
+     "sd_pp": 1.538,
+     "min_pp": -6.3808,
+     "max_pp": 0.5948,
+     "share_days_positive": 0.089,
+     "today_percentile": 94.76,
+     "today_z": 1.745,
+     "last_year_mean_pp": -2.5221,
      "half_split_mean_pp": [
-      -3.3867,
-      -1.9549
+      -3.2521,
+      -1.7997
      ],
-     "nav_base_offset_pp": 31.395,
-     "gap_change_median_pp": 0.1882
+     "nav_base_offset_pp": 31.2604,
+     "gap_change_median_pp": 0.187
     },
     "repeatable_gain_cny": null,
     "one_off_gain_cny": null,
@@ -7072,7 +7319,7 @@
     "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
     "family_basis": "board_label",
     "label": "上证指数ETF",
-    "label_gap_median_pp": 0.1882
+    "label_gap_median_pp": 0.187
    }
   ],
   "skipped_legs": [
@@ -7080,7 +7327,7 @@
     "leg_symbol": "512040",
     "label": "价值ETF",
     "verdict": "CANNOT_VERIFY",
-    "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced"
+    "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced"
    },
    {
     "leg_symbol": "159655",
@@ -7127,9 +7374,9 @@
     "label": "上证指数ETF",
     "same_label_tickers": 5,
     "live_alternatives": 4,
-    "gap_median_pp": 0.1882,
+    "gap_median_pp": 0.187,
     "state": "LABEL_IS_A_BASKET",
-    "why": "the board writes the same label and the gap's median day change is 0.188 pp (<= 0.30): the price history agrees these hold the same basket",
+    "why": "the board writes the same label and the gap's median day change is 0.187 pp (<= 0.30): the price history agrees these hold the same basket",
     "sibling_symbol": "530060",
     "inner_verdict": "NO_GAP"
    },
@@ -7138,9 +7385,9 @@
     "label": "价值ETF",
     "same_label_tickers": 3,
     "live_alternatives": 1,
-    "gap_median_pp": 0.3883,
+    "gap_median_pp": 0.385,
     "state": "LABEL_NOT_A_BASKET",
-    "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced",
+    "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced",
     "sibling_symbol": "159263",
     "inner_verdict": "NO_GAP"
    },
@@ -43277,25 +43524,26 @@
  "capacity_edge": {
   "status": "ok",
   "artifact": "results/etf_book_capacity_edge.json",
-  "session": "2026-11-25",
-  "evidence_cutoff": "2026-11-25",
-  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 5 天过线、55 天不过线。今天这一行是 0.9442%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,059,112 元，离 1,000,000 元差 -59,112 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
+  "session": "2026-11-26",
+  "evidence_cutoff": "2026-11-26",
+  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 6 天过线、54 天不过线。今天这一行是 0.9240%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,082,284 元，离 1,000,000 元差 -82,284 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
   "summary": {
    "n_sessions": 60,
    "n_measurable": 60,
    "n_unmeasurable": 0,
-   "n_passes": 5,
-   "pass_rate": 0.0833,
-   "reading_today_pct": 0.9442,
+   "n_passes": 6,
+   "pass_rate": 0.1,
+   "reading_today_pct": 0.924,
    "binding_today": "159549",
-   "capital_where_at_line_today_cny": 1059111.84,
+   "capital_where_at_line_today_cny": 1082283.94,
    "reading_worst_pct": 2.9339,
-   "reading_best_pct": 0.9442,
+   "reading_best_pct": 0.924,
    "capital_min_cny": 340837.76,
    "capital_median_cny": 496475.93,
-   "capital_max_cny": 1059111.84,
+   "capital_max_cny": 1082283.94,
    "n_distinct_readings": 46,
    "distinct_readings_pct": [
+    0.924,
     0.9442,
     0.958,
     0.9627,
@@ -43318,7 +43566,6 @@
     1.2868,
     1.3583,
     1.4368,
-    1.5721,
     1.6109,
     1.6737,
     1.8072,
@@ -43348,7 +43595,7 @@
    ],
    "lens_cny": 1000000.0,
    "line_pct": 1.0,
-   "gap_to_lens_cny": -59111.84,
+   "gap_to_lens_cny": -82283.94,
    "verdict": "BELOW_LINE_MOST_SESSIONS",
    "n_names": 5
   },
@@ -43377,18 +43624,18 @@
   "status": "ok",
   "artifact": "results/etf_book_capacity_ticket.json",
   "verdict": "TRADABLE_IN_EVERY_READ_SESSION",
-  "sentence": "闸的三个资本档（1,059,111 元 / 平常 496,475 元 / 最差 340,837 元；今天这一档读在 2026-11-25 那天）都能把十二名各买到一手，一手门槛 14,465 元。",
+  "sentence": "闸的三个资本档（1,082,283 元 / 平常 496,475 元 / 最差 340,837 元；今天这一档读在 2026-11-26 那天）都能把十二名各买到一手，一手门槛 14,412 元。",
   "rungs": [
    {
     "tag": "best",
     "source_key": "capital_max_cny",
-    "capital_cny": 1059111.84,
-    "verdict": "TRADABLE_AT_1059111",
+    "capital_cny": 1082283.94,
+    "verdict": "TRADABLE_AT_1082283",
     "unfilled": [],
     "n_unfilled": 0,
-    "residual_pct_nav": 0.0859,
-    "traded_amount_cny": 962458.2,
-    "floor_cny": 14465.7,
+    "residual_pct_nav": 0.0772,
+    "traded_amount_cny": 983610.4,
+    "floor_cny": 14412.93,
     "binding": "511180"
    },
    {
@@ -43398,9 +43645,9 @@
     "verdict": "TRADABLE_AT_496475",
     "unfilled": [],
     "n_unfilled": 0,
-    "residual_pct_nav": 0.2872,
-    "traded_amount_cny": 450168.9,
-    "floor_cny": 14465.7,
+    "residual_pct_nav": 0.2784,
+    "traded_amount_cny": 450212.3,
+    "floor_cny": 14412.93,
     "binding": "511180"
    },
    {
@@ -43410,16 +43657,16 @@
     "verdict": "TRADABLE_AT_340837",
     "unfilled": [],
     "n_unfilled": 0,
-    "residual_pct_nav": 0.3641,
-    "traded_amount_cny": 308784.9,
-    "floor_cny": 14465.7,
+    "residual_pct_nav": 0.4916,
+    "traded_amount_cny": 308350.5,
+    "floor_cny": 14412.93,
     "binding": "511180"
    }
   ],
-  "one_lot_floor_cny": 14465.7,
-  "shortfall_to_typical_cny": -482010.23,
-  "evidence_cutoff": "2026-11-25",
-  "ticket_file": "results/etf_book_order/TICKET-2026-11-25-card.json"
+  "one_lot_floor_cny": 14412.93,
+  "shortfall_to_typical_cny": -482063.0,
+  "evidence_cutoff": "2026-11-26",
+  "ticket_file": "results/etf_book_order/TICKET-2026-11-26-card.json"
  },
  "width_fit": {
   "status": "ok",
@@ -44250,7 +44497,7 @@
   "status": "ok",
   "artifact": "results/etf_book_positions.json",
   "asof": "2026-11-25",
-  "ledger_bar": "2026-11-25",
+  "ledger_bar": "2026-11-26",
   "ticket_bar": "2026-11-25",
   "verdict": "PRINTED_ROWS_REBUILD_THE_BOOK",
   "printed_rows": 0,
@@ -44258,7 +44505,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-25",
    "kind": "execution",
@@ -44302,12 +44549,12 @@
    "source_face": "results/etf_book_swap_stack.json"
   },
   "next_order_base": {
-   "bar": "2026-11-25",
-   "kind": "execution",
-   "arrival": "declared",
-   "arrival_actions": 0,
-   "source": "execution_row",
-   "risk_book_cny": 434738.2,
+   "bar": "2026-11-26",
+   "kind": "valuation",
+   "arrival": null,
+   "arrival_actions": null,
+   "source": "accrued_valuation",
+   "risk_book_cny": 438005.0,
    "cash_cny": 565261.8,
    "holdings": 5,
    "superseded_execution_bar": "2026-11-25"
@@ -44315,20 +44562,74 @@
   "base_divergence": [],
   "base_divergence_total_cny": 0.0,
   "accrual": {
-   "status": "NO_NEW_BAR",
+   "status": "ACCRUED",
    "from_bar": "2026-11-25",
-   "rows": 0,
-   "written": 0,
+   "rows": 1,
+   "written": 1,
    "kept": 0,
    "skipped_execution_bars": [],
-   "rf_missing_bars": 0,
-   "last": null,
-   "rows_detail": [],
+   "rf_missing_bars": 1,
+   "last": {
+    "bar": "2026-11-26",
+    "kind": "valuation",
+    "from_bar": "2026-11-25",
+    "holdings": [
+     {
+      "symbol": "159519",
+      "lots": 525,
+      "price": 1.69,
+      "amount_cny": 88725.0
+     },
+     {
+      "symbol": "159655",
+      "lots": 469,
+      "price": 1.873,
+      "amount_cny": 87843.7
+     },
+     {
+      "symbol": "510760",
+      "lots": 717,
+      "price": 1.209,
+      "amount_cny": 86685.3
+     },
+     {
+      "symbol": "512040",
+      "lots": 746,
+      "price": 1.163,
+      "amount_cny": 86759.8
+     },
+     {
+      "symbol": "513690",
+      "lots": 792,
+      "price": 1.111,
+      "amount_cny": 87991.2
+     }
+    ],
+    "risk_book_cny": 438005.0,
+    "cash_cny": 565261.8,
+    "nav_cny": 1003266.8,
+    "ret": 0.0032668,
+    "cum_ret": 0.0032668,
+    "rf_step": 0.0,
+    "stale_price_symbols": [],
+    "source_face": "results/etf_book_swap_stack.json"
+   },
+   "rows_detail": [
+    {
+     "bar": "2026-11-26",
+     "risk_book_cny": 438005.0,
+     "cash_cny": 565261.8,
+     "nav_cny": 1003266.8,
+     "ret": 0.0032668,
+     "cum_ret": 0.0032668,
+     "rf_step": 0.0
+    }
+   ],
    "panel_missing_symbols": [],
-   "repo_quotes": 3772,
-   "rate_latest_bar": "2026-11-20",
-   "rate_latest": 1.395,
-   "valued_upto_bar": "2026-11-25"
+   "repo_quotes": 3775,
+   "rate_latest_bar": "2026-11-25",
+   "rate_latest": 1.45,
+   "valued_upto_bar": "2026-11-26"
   },
   "replay": {
    "start_bar": "2026-10-28",
@@ -44336,13 +44637,13 @@
    "legs_first_bar": 449637.2,
    "legs_last_bar": 434738.2,
    "legs_ret": -0.0331356,
-   "cash_interest_cny": 442.61,
+   "cash_interest_cny": 548.17,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-25",
-   "rf_missing_bars": 3,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -44369,7 +44670,7 @@
  },
  "executed": {
   "status": "none",
-  "asof": "2026-11-25",
+  "asof": "2026-11-26",
   "detail": "这张票没有留下成交行（空票或本 bar 未换仓）"
  },
  "do_or_wait": {
@@ -44452,7 +44753,7 @@
   "inputs": {
    "cut_order_gap": {
     "cutoff": "2026-11-25",
-    "digest": "5befdec48059abb3"
+    "digest": "b64ef5a16983c656"
    },
    "late_sheet_price": {
     "cutoff": "2026-11-25",
@@ -44471,7 +44772,7 @@
   "receipt": "results/etf_book_capacity_floor_gap.json",
   "floor_owner": "scripts/candidate_year_gate.py::CAPACITY_FLOOR_CNY",
   "floor_matches_owner": true,
-  "generated": "2026-11-26T06:31:48+0800",
+  "generated": "2026-11-26T11:17:47+0800",
   "sentence": "即使有一个候选过闸，已定价的最高上限 13,794,151 也只有地板的 69.0%（差 6,205,849），该上限出自 priced_envelope_R20",
   "status": "ok"
  },
@@ -45050,9 +45351,9 @@
   "reading": "block bootstrap (2000 resamples, block=20 bars): CAGR p5/p50/p95 = 2.93%/9.06%/15.85% per year, Sharpe 0.34/0.92/1.52, maxDD -22.66%/-13.72%/-9.13%; the published point estimate 8.98% sits at the 49.2 pctile; 0.4% of resamples lose money and 10.3% break a -20% drawdown | these are the published book's own numbers: this series reads 8.98% against the production cell n12_vt08 at 8.98%"
  },
  "stress": {
-  "n_days": 5288,
+  "n_days": 5289,
   "first": "2005-02-23",
-  "last": "2026-11-25",
+  "last": "2026-11-26",
   "worst": {
    "1d": {
     "pct": -3.66,
@@ -45111,27 +45412,27 @@
    "differs": false,
    "sentence": "按同一条修复规则把面板里的单日翻转压平（共 0 处，阈值 35%）之后，这张表最差的一天没有变化（-3.66%），也就是说它是行情，不是报价。"
   },
-  "basis": "账面权重（2026-11-25 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
-  "priced_bar": "2026-11-25",
-  "inputs_sha256": "7a476b49f14bfcab5ce49e86fa6b2c9837c3c71b06b333d395596418b127c53f"
+  "basis": "账面权重（2026-11-26 收盘）原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；不是策略实际路径，是同一批票的最坏窗口",
+  "priced_bar": "2026-11-26",
+  "inputs_sha256": "8abd50964f9d4ea2ff798d0429b337cdc019e2cf17d1b69e321cd8dd42a5eb55"
  },
  "authority": {
   "writer": "bm-c",
   "owner": "bm-a",
-  "owner_silent_h": 180.8,
+  "owner_silent_h": 194.1,
   "gate_h": 6.0,
   "took_over": true,
-  "why": "bm-a has not written its own heartbeat for 180.8 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
+  "why": "bm-a has not written its own heartbeat for 194.1 h (> 6 h): this host takes the pen for the page only -- a stopped heartbeat is not a dead machine",
   "no_bar_reason": "human_ages"
  },
  "fleet": {
-  "board_ts": "2026-11-26T07:09:22",
+  "board_ts": "2026-11-26T21:44:42",
   "verdict": "attention",
   "rows": [
    {
     "host": "bm-a",
     "last_seen": "2026-11-18T19:53:03+08:00",
-    "age_h": 179.27,
+    "age_h": 193.86,
     "alive": false,
     "lanes": [
      "heat",
@@ -45149,32 +45450,32 @@
    {
     "host": "bm-b",
     "last_seen": "2026-10-30T12:43:06+08:00",
-    "age_h": 642.44,
+    "age_h": 657.03,
     "alive": false,
     "lanes": [
-     "marks",
-     "astock_daily"
+     "astock_daily",
+     "marks"
     ],
     "taken_over": {
-     "marks": "bm-c",
-     "astock_daily": "bm-c"
+     "astock_daily": "bm-c",
+     "marks": "bm-c"
     }
    },
    {
     "host": "bm-c",
-    "last_seen": "2026-11-26T07:07:04+08:00",
-    "age_h": 0.04,
-    "alive": true,
+    "last_seen": "2026-11-26T19:43:35+08:00",
+    "age_h": 2.02,
+    "alive": false,
     "lanes": [
      "cb_panel",
      "lhb_inst",
      "moneyflow",
-     "zt_pool",
-     "minute_feed",
      "sina_mf",
      "ah_panel",
+     "ths_panel",
      "etf_panel",
-     "ths_panel"
+     "minute_feed",
+     "zt_pool"
     ],
     "taken_over": {}
    }
