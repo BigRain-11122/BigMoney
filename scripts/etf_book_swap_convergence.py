@@ -336,7 +336,13 @@ def md_lines(face, heading="## 换回来的收益量出来是多少（r1523）")
                 "- **这一问答不了**：没有已发布的收敛面（跑 "
                 "scripts/etf_book_swap_convergence.py run）。缺面不等于换回来不赚钱。", ""]
     if face.get("refused"):
-        return ["", heading, "- **算不出来**：%s。" % face["refused"],
+        # r2155: the toll section above refuses for the SAME reason (the net face is a bar
+        # behind), and both sections used to carry the identical sentence -- a reader sees
+        # one measurement printed twice and counts it as two pieces of evidence (r1911).
+        # The refusal is kept word for word; it just says which question it repeats.
+        return ["", heading,
+                "- **算不出来**（与「换回来要多少钱」同一个上游缺口，不是第二次独立读数）：%s。"
+                % face["refused"],
                 "- 读法：这一节只对已发布的价差序列做测量，不猜价差也不猜成本；"
                 "「算不出来」与「不赚钱」是两件事。", ""]
     L = ["", heading, "- %s" % (face.get("sentence") or "")]
