@@ -1,9 +1,9 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝把「8 臂停在 20 号世界」这件事真的烧完，并让「红名单」从此有人自动重问｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_phase_atlas_arms.json（2026-11-25T14:23·十臂同一世界·selftest 144/144）｜下个里程碑＝18 条红里 14 条内联腿的可独立化 + 唯一真红修复（≤48h）",
+ "CEO 三行": "当前活＝把「节奏差跟起跑日走还是跟行情段走」分开：起跑日通道 1.73pp/季、行情通道 4.45pp/季（3.7x），但 2025 下半年段内极差涨到 5-10pp，所以「起跑日不重要」这句话不成立｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\research\\\\ETF_BOOK_CADENCE_REGIME_SPLIT.md（2026-11-26 12:4x）+ results\\\\etf_book_cadence_regime_split.json｜下个里程碑＝把本面接进 S6 链与冒烟腿（无竞争窗），并查清 2025H2 段内极差为何放大（≤48h）",
  "activity": "product",
- "activity_now": "r2126: the width-ladder leg is red by construction (3-dp ends vs 1e-9) -- diagnosis + a refusing apply-piece, shared faces untouched under a contention gate",
- "activity_now_round": 2126,
+ "activity_now": "r2130: the cadence gap separates into an entry-date channel (1.73pp/quarter) and a regime channel (4.45pp/quarter) once the 2020 winter is left out -- REGIME_DOMINATES (3.7x after a two-way median polish); shared faces untouched under a contention gate",
+ "activity_now_round": 2130,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -258,7 +258,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 2128,
+ "last_round": 2129,
  "last_round_at": "2026-11-26T11:59:32+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
@@ -297,7 +297,7 @@
  "method_card": "E-r2055 carryability: a refused-to-price road still has a measurable ceiling; print the fee above which it loses, never a fee you do not have",
  "methodology_card_lock_r2068": "新方法=读者与写者必须共享同一张词表（同一份事实两个拼写：一行永久红 / 一个空转标签看起来像断供）；knowledge/METHODOLOGY_ASSETS.md 是共享面，竞争窗内不改，锁存待无竞争轮",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
- "next": "(a) attach this face to the S6 chain + two smoke legs once the contention window closes; (b) the ticket prices lots but not impact: read etf_book_capacity_at_size at these sizes and say whether 13-15% of NAV per name is placeable",
+ "next": "(a) attach etf_book_cadence_regime_split to the S6 chain + two smoke legs when the contention window closes; (b) explain the 2025H2 widening of the within-quarter spread (5.21/10.28pp) by printing each cell's bar count beside its spread",
  "next_action": "price the borrow rate you can actually be quoted (券商融券费率序列) -- until then only the ceiling is measurable",
  "next_milestone": "(a) 接 S6 链 + 冒烟腿（<=48h，需竞争窗关）；(b) IC/IM 的 0.591pp 天花板与「近零费率才成立」的判词进 CEO 一页纸（<=48h）",
  "next_pick": {
@@ -1568,7 +1568,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2129,
+ "round_no": 2130,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2261,7 +2261,7 @@
  "ts_epoch": 1794812499,
  "unverified": "full suite not run on new code this round (needs its own window)",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-26T02:14+08:00",
+ "updated": "2026-11-26T12:43:09+08:00",
  "updated_at": "2026-11-25T11:43:52+08:00",
  "vcpu": 32,
  "verdict": "lane healthy: r2114 -- the equal-risk re-budget has no capital at which it can be held (floor 2,789,167 vs equity ADV ceiling 1,043,801)",
@@ -2574,5 +2574,22 @@
  "smoke_r2129": "未跑，不宣称套件总数：竞争窗 rc=3 禁改 smoke_test.py，且对端宿主正在重写共享面（全量套件读的正是那些面）。可引用读数仍是 r2125 那趟 773 PASS / 10 FAIL（其中 r2124/r2125 各关 3、4 条）。",
  "记账_r2129": "轮报告 1 处 + QA 2 件 + state 1 处 + 心跳 1 处 = 5（不含 S6 产品面与两条结果面）",
  "carrier_debt_r2129": "etf_book_cadence_start_dates 与 heartbeat_alias_audit 均无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）：接线顺序＝cadence_start_dates 接在 etf_book_cadence_comparable 之后（先 check 48s，STALE 才付 73s 重跑）、heartbeat_alias_audit 一条零网络零计算腿；另仍挂账 Tools/money_rounding_gap_fix.py --apply（r2126）、k_axis 接线（r2127）、cadence_comparable 接线（r2128）。 新增挂账一件：Tools/gpu_face.py 的 GB_KEYS 缺 gpu_free_vram_gib（共享面，竞争窗禁改），修法＝把该键加入 GB_KEYS 或停止产出 _gib 别名；修完两台心跳的 unit_mislabel 应归零。",
- "送达自证_r2129": "commit fc519b6bb7 pushed origin/main (7a64e48329..fc519b6bb7); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r --name-only origin/main sees all seven new paths (scripts/etf_book_cadence_start_dates.py, results/etf_book_cadence_start_dates.json, research/ETF_BOOK_CADENCE_START_DATES.md, qa/cadence-start-dates-r2129.md, Tools/heartbeat_alias_audit.py, results/heartbeat_alias_audit.json, qa/heartbeat-alias-audit-r2129.md) -> 本地未达 origin commit 数=0. Commit was path-limited (git commit -- <paths>) because the tree carried ~200 peer-modified faces from the two interactive hosts; nothing of theirs was staged or committed."
+ "送达自证_r2129": "commit fc519b6bb7 pushed origin/main (7a64e48329..fc519b6bb7); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r --name-only origin/main sees all seven new paths (scripts/etf_book_cadence_start_dates.py, results/etf_book_cadence_start_dates.json, research/ETF_BOOK_CADENCE_START_DATES.md, qa/cadence-start-dates-r2129.md, Tools/heartbeat_alias_audit.py, results/heartbeat_alias_audit.json, qa/heartbeat-alias-audit-r2129.md) -> 本地未达 origin commit 数=0. Commit was path-limited (git commit -- <paths>) because the tree carried ~200 peer-modified faces from the two interactive hosts; nothing of theirs was staged or committed.",
+ "r2130": {
+  "face": "results/etf_book_cadence_regime_split.json",
+  "tool": "scripts/etf_book_cadence_regime_split.py",
+  "words_8bp": "REGIME_DOMINATES | BOTH_CHANNELS_READ",
+  "path_spread_pp": 1.7278,
+  "regime_spread_pp": 4.4539,
+  "row_spread_pp": 1.2237,
+  "col_spread_pp": 4.5355,
+  "residual_spread_pp": 2.369,
+  "cells": 142,
+  "holes": 50,
+  "selftest": "18/18",
+  "check": "CHECK_OK x2",
+  "idempotent": true,
+  "evidence_cutoff": "2026-11-25",
+  "contention": "rc=3 CONTENTION -> new-file faces only"
+ }
 }
