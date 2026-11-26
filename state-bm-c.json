@@ -1672,7 +1672,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2148,
+ "round_no": 2149,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2691,5 +2691,8 @@
  "通过_r2128": "machine.json=bm-c · orphan_face_probe py_faces=7 orphans=1（pid 70424 'scripts/update...' 龄 78.9min 三面全中，report 只读未击杀） · 登记簿/水位本轮未重读（竞争约束），沿用 r2126 字节级水位 250,586B / 79e3083b…；fleet/orders 差集仍为 2026-10-26 前 lane 广播（r2066 判例） · attrition_ledger_guard / 钩子自愈 / 饱和引擎 status 本轮未跑（同上），下个无竞争轮补",
  "通过_r2129": "machine.json=bm-c · orphan_face_probe py_faces=8 orphans=1（report 只读未击杀）· 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · fleet/orders 117 文件 / heartbeat orders_ack 332（差集仍为 2026-10-26 前 lane 广播，r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本 3 处历史缩行 healed）· Bigmoney-IterationLoop 在运行（下次 12:20）与 Bigmoney-LoopWatchdog 就绪（12:19）双任务存续 · saturation_engine status rc0 engine_alive=true heartbeat_age 55s · 心跳已写（epoch int / clock_read T 分隔 / idle_rounds 0 / agenda_starved false）",
  "通过_r2132": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（2 宿主：本窗 pid 92488 + 交互宿主 pid 107624 龄 91m；21 张共享面别宿主先写过、重叠窗 0）→ 只落新增文件面 · 孤儿面 py_faces=9 orphans=0 resident_servers=1 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 文件 / 心跳 orders_ack 332 → 未回执 43 全为 2026-10-26 以前他机 lane 广播（r2066 判例不逐令补 ack）· fleet/inbox 空 · 冒烟上次全量读数 781/783（12:50）两红：①`product: etf_book_cash_roll_today` 已由本轮重推导转绿（`--check` ok=true）②`fleet: GPU face self-consistent` 本轮做成 census 面并抓到 bm-b 3,765 MiB 分裂 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit/pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪（无需重注册）",
- "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）"
+ "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
+ "round_r2149": "gpu face: `*_gib` now resolves to GiB (name honoured), audit walks every family spelling on the face via face_family_keys(); bm-c heartbeat restated 13829->13.3, findings=[]; census unit_lies turned into a residue watch",
+ "记账_r2149": "轮报告 1 处 + QA 1 件 + state 1 处 + 心跳 1 处 = 4",
+ "竞争_r2149": "rc=0 CLEAN (single host pid=98744)"
 }
