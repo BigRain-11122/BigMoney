@@ -314,9 +314,9 @@
  "methodology_card_lock_r2068": "新方法=读者与写者必须共享同一张词表（同一份事实两个拼写：一行永久红 / 一个空转标签看起来像断供）；knowledge/METHODOLOGY_ASSETS.md 是共享面，竞争窗内不改，锁存待无竞争轮",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
  "new_files_only_round": true,
- "next": "(a) attach etf_book_cadence_regime_split to the S6 chain + two smoke legs when the contention window closes; (b) explain the 2025H2 widening of the within-quarter spread (5.21/10.28pp) by printing each cell's bar count beside its spread",
+ "next": "(a) land the de-dup rule in the UPSTREAM shared face once the contention window closes: etf_book_cadence_regime_split.channels() should collapse cells within 1e-9 and print n_independent beside every per-quarter spread; (b) wire etf_book_cadence_cell_independence into the S6 chain + two smoke legs; (c) nothing else in the cadence family is open",
  "next_action": "price the borrow rate you can actually be quoted (券商融券费率序列) -- until then only the ceiling is measurable",
- "next_milestone": "(a) 接 S6 链 + 冒烟腿（<=48h，需竞争窗关）；(b) IC/IM 的 0.591pp 天花板与「近零费率才成立」的判词进 CEO 一页纸（<=48h）",
+ "next_milestone": "(a) 上游 channels() 去重 + n_independent 印进逐季表（≤48h，需无竞争窗）；(b) 本面接 S6 链 + 两条冒烟腿（≤48h）",
  "next_pick": {
   "candidate": "wire smoke_red_triage into the chain so the red roster stops going stale, then re-run each CONTRADICTION leg before assigning it",
   "status": "open"
@@ -1673,7 +1673,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2152,
+ "round_no": 2153,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2378,7 +2378,7 @@
  "smoke_started": "2026-11-16T14:25:48+08:00",
  "smoke_verdict": "1942 log: 760/762 PASS / 1 FAIL / 1 UNVERIFIED (891.3s); the FAIL was rc=0xC000013A STATUS_CONTROL_C_EXIT -- killed child, not a verdict",
  "src": "smoke_test.py (_verdict_record, flush=True) + Tools/smoke_red.py",
- "state": "active",
+ "state": "product",
  "state_bloat_note": "state-bm-c.json 1.36MB / 2447 行（每轮只增键）——需一次收口（已完成的轮次键并进 round_reports 只留指针），未在本轮做",
  "state_lag_note": "r1986: state round_no 从 1962 推进到 1986——r1964..r1985 各窗均因 CONTENTION 未推进，轮报告标签已到 1986，四载体本次对齐。历史 carrier_debt_r1958..r1963 保留不动。",
  "state_note": "round-1757 empirical backfill: r1757 detached smoke actually finished GREEN (602/602 PASS 0 FAIL, results/_smoke_r1757.out 07:35:55); rounds literal had drifted back to 1756 in the state file and is realigned to 1757 here",
@@ -2703,5 +2703,9 @@
  "通过_r2129": "machine.json=bm-c · orphan_face_probe py_faces=8 orphans=1（report 只读未击杀）· 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · fleet/orders 117 文件 / heartbeat orders_ack 332（差集仍为 2026-10-26 前 lane 广播，r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本 3 处历史缩行 healed）· Bigmoney-IterationLoop 在运行（下次 12:20）与 Bigmoney-LoopWatchdog 就绪（12:19）双任务存续 · saturation_engine status rc0 engine_alive=true heartbeat_age 55s · 心跳已写（epoch int / clock_read T 分隔 / idle_rounds 0 / agenda_starved false）",
  "通过_r2132": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（2 宿主：本窗 pid 92488 + 交互宿主 pid 107624 龄 91m；21 张共享面别宿主先写过、重叠窗 0）→ 只落新增文件面 · 孤儿面 py_faces=9 orphans=0 resident_servers=1 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 文件 / 心跳 orders_ack 332 → 未回执 43 全为 2026-10-26 以前他机 lane 广播（r2066 判例不逐令补 ack）· fleet/inbox 空 · 冒烟上次全量读数 781/783（12:50）两红：①`product: etf_book_cash_roll_today` 已由本轮重推导转绿（`--check` ok=true）②`fleet: GPU face self-consistent` 本轮做成 census 面并抓到 bm-b 3,765 MiB 分裂 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· pre-commit/pre-push 与正典 CR 归一后 MATCH · Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪（无需重注册）",
  "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
- "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）"
+ "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）",
+ "r2153_note": "上一轮 next(b) 的答案：2025H2 路径表走宽不是行情信息——起点 2022-09-01 与 2024-03-01 从 2024Q2 起是同一本书（Δ 差 1.5e-13，两个成本档全对）；2025Q4 的 10.28 pp 去重后 2.75 pp；2025Q3 的 5.21 pp 去掉一格 0.65 pp。去重后路径中位 2.00 pp vs 行情段 4.45 pp → 上游 REGIME_DOMINATES 不变，但逐季表不能当路径风险时间序列读。",
+ "r2153_next": "(a) upstream de-dup patch when contention closes; (b) chain + smoke legs for this face",
+ "竞争_r2153": "rc=3 CONTENTION (2 hosts: peer codely pid=116576 since 23:45:30 running etf_book_vol_target_gate; evidence results/_repo_write_contention.bm-c.json)",
+ "记账_r2153": "轮报告 1 处 + QA 1 件 + state 1 处 + 心跳 1 处 = 4（无方法论新增：把「重复格」与「秩间隙」做成可复核读数属证据与载体）"
 }
