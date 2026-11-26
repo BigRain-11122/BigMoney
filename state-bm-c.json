@@ -2565,6 +2565,7 @@
  "竞争_r2128": "rc=3 CONTENTION（results/_repo_write_contention.bm-c.json）：4 宿主存活——对端 pid 77028 interactive 11:11:33 起（40.2min）、108224/107624 两个 interactive 11:48/11:49 起；71 处共享面在本轮开始前被写过、重叠窗内 5 处不可归因。另：round 2125 的 S6 链仍在飞（results/_s6chain_progress.bm-c.jsonl 11:52:42 第 225/386 腿），持续重写共享面。按 r1907 本轮只落新增文件面（scripts/results/research 三件），未改 Tools/s6_chain_bmc.py、smoke_test.py 或任何他人在写的面。",
  "通过_r2128": "machine.json=bm-c · orphan_face_probe py_faces=7 orphans=1（pid 70424 'scripts/update...' 龄 78.9min 三面全中，report 只读未击杀） · 登记簿/水位本轮未重读（竞争约束），沿用 r2126 字节级水位 250,586B / 79e3083b…；fleet/orders 差集仍为 2026-10-26 前 lane 广播（r2066 判例） · attrition_ledger_guard / 钩子自愈 / 饱和引擎 status 本轮未跑（同上），下个无竞争轮补",
  "smoke_r2128": "未跑，不宣称套件总数：竞争窗 rc=3 禁改 smoke_test.py，且对端宿主正在重写共享面（全量套件读的正是那些面）；上一趟可引用读数仍是 10:06 那趟 773 PASS / 10 FAIL（其中 r2124/r2125 各关 3、4 条，cost_tape 与 premium 两族已自愈）",
- "记账_r2128": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3",
- "carrier_debt_r2128": "etf_book_cadence_comparable 无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）；接线顺序=phase_atlas_k_axis 之后；r2126 的 money_rounding_gap_fix --apply 与 r2127 的 k_axis 接线仍挂账，同属无竞争窗任务"
+ "记账_r2128": "轮报告 2 处 + state 1 处 + 心跳 1 处 = 4",
+ "carrier_debt_r2128": "etf_book_cadence_comparable 无 S6 链腿与 smoke 腿（竞争窗 rc=3 禁改共享面）；接线顺序=phase_atlas_k_axis 之后；r2126 的 money_rounding_gap_fix --apply 与 r2127 的 k_axis 接线仍挂账，同属无竞争窗任务",
+ "送达自证_r2128": "commit ed01e9c32f pushed origin/main (0bc0c0116b..ed01e9c32f); after fetch rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r --name-only origin/main sees all three paths -> 本地未达 origin commit 数=0"
 }
