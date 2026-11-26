@@ -102,24 +102,29 @@ def inventory(face):
     return rows
 
 
-def unit_lies(rows):
-    """Spellings that promise GiB while the toolchain resolves them as MiB.
+GIB_CEILING = 512.0  # no single GPU in this fleet offers more than half a terabyte of VRAM
 
-    gpu_free_gib carrying 13752 is not a rounding disagreement: gf.key_unit() answers 'mib'
-    because the token is 'gib', not 'gb', so writer and checker both read MiB and the reader is
-    handed a number that cannot be GiB. Left on the face it makes every GiB-named alias
-    untrustworthy by association, which is what makes the family spread above hard to read.
+
+def unit_lies(rows):
+    """`*_gib` spellings carrying a number that cannot be GiB.
+
+    r2149 fixed the RULE that put MiB numbers under GiB names (`gpu_mem_family` now resolves
+    `gib` to gb, and audit() walks every spelling on the face instead of a tabulated list).
+    The numbers already written do not fix themselves -- a heartbeat is merge-only until a
+    probe runs -- and a reader that trusts the name now multiplies by 1024, so 13752 would be
+    read as 13,752 GiB free. This stays as the residue watch: any `_gib` key above any card's
+    capacity is a MiB number waiting for that machine's next `gpu_face apply`.
     """
     out = []
     for r in rows:
-        body = r["key"].lower().split(".")
-        toks = [t for t in body[-1].split("_") if t]
+        toks = [t for t in r["key"].lower().split(".")[-1].split("_") if t]
         if not toks:
             continue
-        if toks[-1] == "gib" and r["unit"] == "mib":
+        if toks[-1] == "gib" and r["unit"] == "gb" and float(r["value_raw"]) > GIB_CEILING:
             out.append({"key": r["key"], "value": r["value_raw"],
                         "implied_reading": "%s GiB" % r["value_raw"],
-                        "actual_reading": "%s MiB (%.1f GiB)" % (r["value_raw"], r["value_mib"] / 1024.0)})
+                        "actual_reading": "%s MiB (%.1f GiB) -- a probe must rewrite it"
+                                          % (r["value_raw"], float(r["value_raw"]) / 1024.0)})
     return out
 
 
@@ -396,8 +401,8 @@ def selftest():
     # family + unit resolution is inherited, but the census depends on it: pin the contract
     t("gpu_free_mib reads as free/mib", gf.gpu_mem_family("gpu_free_mib") == ("free", "mib"))
     t("gpu_vram_free_gb reads as free/gb", gf.gpu_mem_family("vram_free_gb") == ("free", "gb"))
-    t("gpu_free_gib resolves to mib (the lie)",
-      gf.gpu_mem_family("gpu_free_gib") == ("free", "mib"))
+    t("gpu_free_gib resolves to gb (name honoured since r2149)",
+      gf.gpu_mem_family("gpu_free_gib") == ("free", "gb"))
 
     rows = inventory({"gpu_free_mib": 13752, "vram_free_gb": 13.4,
                       "gpu_free_gib": 13752, "gpu": {"free_gb": 13.4, "used_mib": 2632},
@@ -413,6 +418,10 @@ def selftest():
       [r["key"] for r in lies] == ["gpu_free_gib"], str(lies))
     t("unit_lies shows the size of the lie",
       lies and lies[0]["implied_reading"] == "13752 GiB")
+    healed = inventory({"gpu_free_mib": 13752, "gpu_free_gib": 13.4})
+    serviceable = [r["key"] for r in unit_lies(healed)]
+    t("unit_lies is silent once the probe rewrote the key in GiB",
+      serviceable == [], str(serviceable))
 
     # a face two writers touched: the family disagrees, and audit must see it
     bad = {"gpu_free_mib": 13676, "gpu_free_vram_mib": 13752, "gpu_used_mib": 2632,

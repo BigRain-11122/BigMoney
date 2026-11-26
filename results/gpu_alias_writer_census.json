@@ -1,31 +1,39 @@
 {
  "face": "gpu_alias_writer_census",
  "question": "which spellings of one GPU number live on the fleet faces, which code can write each, and which names promise a unit they do not carry?",
- "generated": "2026-11-26T13:37:14+0800",
+ "generated": "2026-11-26T22:16:47+0800",
  "verdict": "INCONSISTENT",
- "sentence": "bm-b free family spreads 3758.1 MiB (gpu.free_gb vs vram_free_gb); bm-b used family spreads 3549.0 MiB (gpu_used_mib vs gpu.mem_used_mib); 3 GiB-named key(s) carry MiB numbers, so a reader of the face is told a number that cannot be GiB; 8 alias(es) are also spelled outside gpu_face/heartbeat_write, so one of them can age alone",
+ "sentence": "bm-a free family spreads 1061888.0 MiB (gpu_free_vram_gib vs free_vram_gb); bm-b free family spreads 3765.1 MiB (gpu.free_gb vs gpu_mem_free_mib); bm-b used family spreads 3549.0 MiB (gpu_mem_used_mib vs gpu.mem_used_mib); 1 GiB-named key(s) carry MiB numbers, so a reader of the face is told a number that cannot be GiB; 8 alias(es) are also spelled outside gpu_face/heartbeat_write, so one of them can age alone",
  "live_probe": {
   "util_pct": 1.0,
-  "used_mib": 2546,
+  "used_mib": 2752,
   "total_mib": 16384
  },
- "live_free_mib": 13838,
+ "live_free_mib": 13632,
  "live_probe_machine": "bm-c",
  "machines": {
   "bm-a": {
    "path": "fleet/machines/bm-a.json",
    "keys": 27,
-   "audit": [],
+   "audit": [
+    {
+     "family": "free",
+     "spread_mib": 1061888.0,
+     "high": "gpu_free_vram_gib",
+     "low": "free_vram_gb",
+     "n_keys": 19
+    }
+   ],
    "load_error": null,
    "families": {
     "free": {
      "n_keys": 19,
-     "spread_mib": 14.0,
-     "high": "free_vram_mb",
+     "spread_mib": 1061888.0,
+     "high": "gpu_free_vram_gib",
      "low": "free_vram_gb",
-     "high_mib": 1038.0,
+     "high_mib": 1062912.0,
      "low_mib": 1024.0,
-     "within_tolerance": true
+     "within_tolerance": false
     },
     "used": {
      "n_keys": 8,
@@ -44,17 +52,17 @@
    "audit": [
     {
      "family": "free",
-     "spread_mib": 3758.1,
+     "spread_mib": 3765.1,
      "high": "gpu.free_gb",
-     "low": "vram_free_gb",
-     "n_keys": 18
+     "low": "gpu_mem_free_mib",
+     "n_keys": 19
     },
     {
      "family": "used",
      "spread_mib": 3549.0,
-     "high": "gpu_used_mib",
+     "high": "gpu_mem_used_mib",
      "low": "gpu.mem_used_mib",
-     "n_keys": 8
+     "n_keys": 9
     }
    ],
    "load_error": null,
@@ -87,20 +95,20 @@
    "families": {
     "free": {
      "n_keys": 22,
-     "spread_mib": 5.0,
+     "spread_mib": 12.8,
      "high": "free_vram_mb",
      "low": "free_vram_gb",
-     "high_mib": 13829.0,
-     "low_mib": 13824.0,
+     "high_mib": 13632.0,
+     "low_mib": 13619.2,
      "within_tolerance": true
     },
     "used": {
      "n_keys": 11,
-     "spread_mib": 5.0,
+     "spread_mib": 12.8,
      "high": "vram_used_gb",
      "low": "gpu.used_mib",
-     "high_mib": 2560.0,
-     "low_mib": 2555,
+     "high_mib": 2764.8,
+     "low_mib": 2752,
      "within_tolerance": true
     }
    }
@@ -112,21 +120,7 @@
     "key": "gpu_free_vram_gib",
     "value": 1038,
     "implied_reading": "1038 GiB",
-    "actual_reading": "1038 MiB (1.0 GiB)"
-   }
-  ],
-  "bm-c": [
-   {
-    "key": "gpu_free_gib",
-    "value": 13829,
-    "implied_reading": "13829 GiB",
-    "actual_reading": "13829 MiB (13.5 GiB)"
-   },
-   {
-    "key": "gpu_free_vram_gib",
-    "value": 13829,
-    "implied_reading": "13829 GiB",
-    "actual_reading": "13829 MiB (13.5 GiB)"
+    "actual_reading": "1038 MiB (1.0 GiB) -- a probe must rewrite it"
    }
   ]
  },
@@ -164,6 +158,6 @@
   "Tools/gpu_face.py",
   "Tools/heartbeat_write.py"
  ],
- "inputs_digest": "32d7353038ccaf761a84cca002d9a1b9f374372a2226b2462d72cb986d2371e0",
- "elapsed_sec": 1.12
+ "inputs_digest": "112e12558eb5f511312f47aea9178f99b859c2bc017d37bf9471a0f63543fadb",
+ "elapsed_sec": 1.14
 }

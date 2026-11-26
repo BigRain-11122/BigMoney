@@ -79,7 +79,7 @@ GB_KEYS = ("gpu_free_gb", "gpu_free_vram_gb", "free_vram_gb", "vram_free_gb")
 # new spelling landed on the live face with a random round's number. The durable
 # form is to derive family and unit from the tokens, then let apply() restate
 # whatever spelling the face actually carries.
-_FILLER_TOKENS = {"gpu", "vram", "mem", "memory", "v", "mb", "mib", "gb"}
+_FILLER_TOKENS = {"gpu", "vram", "mem", "memory", "v", "mb", "mib", "gb", "gib"}
 
 # r1909: the face is not only English. bm-c's heartbeat carried
 # "GPU空闲VRAM": "8.6 GB free / 16 GB" beside 33 keys from one probe saying 5.6 GB
@@ -112,7 +112,11 @@ def gpu_mem_family(k):
     toks = [t for t in k.lower().split("_") if t]
     if not toks:
         return (None, None)
-    unit = "gb" if toks[-1] == "gb" else "mib"
+    # r2149: `gpu_free_gib` promised GiB in its name while this table answered 'mib'
+    # (only the exact token "gb" counted), so apply() wrote 13752 into it and every
+    # reader -- and Tools/heartbeat_alias_audit.py, which multiplies `*_gib` by 1024 --
+    # was handed 13,752 GiB. The two spellings of the same unit must resolve the same.
+    unit = "gb" if toks[-1] in ("gb", "gib") else "mib"
     body = set(toks) - _FILLER_TOKENS
     if "total" in body:
         return ("total", unit)
@@ -364,6 +368,19 @@ def _rewrite_prose(value, free_mib, total_mib):
             + value[m.end(3):])
 
 
+def face_family_keys(face, fam):
+    """Numeric spellings on THIS face that resolve to `fam`.
+
+    r2149: the spread legs walked the enumerated FREE_KEYS/USED_KEYS/TOTAL_KEYS lists, so a
+    spelling outside the table was not merely mis-unit-ed -- it was invisible. `gpu_free_gib`
+    carried 13752 (a MiB number) and audit() agreed with the face it was supposed to check.
+    Ownership is already derived (gpu_mem_family); the reader must ask the same question.
+    """
+    return [k for k in (face or {})
+            if isinstance(face.get(k), (int, float)) and not isinstance(face.get(k), bool)
+            and gpu_mem_family(k)[0] == fam]
+
+
 def audit(face):
     """Disagreements on an existing heartbeat face. Pure; returns a list of dicts."""
     out = []
@@ -391,15 +408,12 @@ def audit(face):
                         "high": hi[0], "low": lo[0],
                         "n_keys": len(got)})
 
-    spread(FREE_KEYS, "free")
-    spread(USED_KEYS, "used")
-    spread(TOTAL_KEYS, "total")
-    free = [(_mb(k, face[k]), k) for k in FREE_KEYS
-            if isinstance(face.get(k), (int, float))]
-    used = [(_mb(k, face[k]), k) for k in USED_KEYS
-            if isinstance(face.get(k), (int, float))]
-    total = [(_mb(k, face[k]), k) for k in TOTAL_KEYS
-             if isinstance(face.get(k), (int, float))]
+    spread(face_family_keys(face, "free"), "free")
+    spread(face_family_keys(face, "used"), "used")
+    spread(face_family_keys(face, "total"), "total")
+    free = [(_mb(k, face[k]), k) for k in face_family_keys(face, "free")]
+    used = [(_mb(k, face[k]), k) for k in face_family_keys(face, "used")]
+    total = [(_mb(k, face[k]), k) for k in face_family_keys(face, "total")]
     free += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
              for (p, s, f, u, v) in deep if f == "free"]
     free += [(r[0], k) for k, r in prose.items()]
@@ -446,10 +460,8 @@ def audit(face):
             out.append({"family": "pair", "key": k, "value": face.get(k),
                         "note": "not a '<free>, <total>' pair"})
             continue
-        free_med = [(_mb(x, face[x]), x) for x in FREE_KEYS
-                    if isinstance(face.get(x), (int, float))]
-        tot_med = [(_mb(x, face[x]), x) for x in TOTAL_KEYS
-                   if isinstance(face.get(x), (int, float))]
+        free_med = [(_mb(x, face[x]), x) for x in face_family_keys(face, "free")]
+        tot_med = [(_mb(x, face[x]), x) for x in face_family_keys(face, "total")]
         if free_med and abs(parsed[0] - sorted(free_med)[len(free_med) // 2][0]) >= TOL_MIB:
             out.append({"family": "pair", "key": k, "free_mib": parsed[0],
                         "note": "pair free value disagrees with the free family"})
@@ -649,6 +661,22 @@ def selftest():
     leg("L3f one probe heals the residue to GB", 4.6, healed["gpu_vram_free_gb"])
     leg("L3f the healed face audits clean", [], audit(healed))
     leg("L3c audit is silent on a self-consistent face", [], audit(f))
+
+    # L3g r2149: `gpu_free_gib` spells the same unit differently. It used to resolve to
+    #     'mib' (only the literal token "gb" counted), so apply() wrote 13752 into a name
+    #     promising GiB and every reader -- including Tools/heartbeat_alias_audit.py, which
+    #     multiplies `*_gib` by 1024 -- was shown 13,752 GiB free on a 16 GB card.
+    #     The two spellings must resolve the same, and the residue must stay visible.
+    leg("L3g a *_gib spelling resolves to GB", ("free", "gb"), gpu_mem_family("gpu_free_gib"))
+    gib_residue = dict(f, gpu_free_gib=13752, gpu_free_vram_gib=13752)
+    leg("L3h a MiB number under a GiB name is caught", True,
+        any(x["family"] == "free" for x in audit(gib_residue)),
+        "gpu_free_gib=13752 beside gpu_free_mib=%d" % f["gpu_free_mib"])
+    gib_restated = restate(gib_residue, fields_from(
+        {"util_pct": 0.0, "used_mib": 11688, "total_mib": 16384}, "2026-11-26T22:20:00+08:00"))
+    leg("L3i restate writes a GiB number under a GiB name", 4.6, gib_restated["gpu_free_gib"])
+    leg("L3j the restated GiB spellings audit clean", [],
+        audit(dict(gib_residue, **gib_restated)))
 
     # L4 audit catches the live defect: a literal 0 next to a 13.7 GB free claim
     stale = dict(f, gpu_free_vram_gb=1.31, gpu_vram_free_mb=781,
