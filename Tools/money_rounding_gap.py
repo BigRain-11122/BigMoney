@@ -122,7 +122,14 @@ def scan_family():
     """
     hits = []
     pairs_checked = 0
+    self_face = os.path.abspath(OUT)
     for p in sorted(glob.glob(os.path.join(ROOT, "results", "*.json"))):
+        # r2126: this probe's own output lives in results/ and carries the exact
+        # shape it hunts for, so an unexcluded scan counts itself as a second hit
+        # and the number grows by one every run. A probe that reports a different
+        # family size each time cannot be re-run to check anything.
+        if os.path.abspath(p) == self_face:
+            continue
         try:
             flat = _flatten(_load(p))
         except Exception:

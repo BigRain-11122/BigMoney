@@ -59,6 +59,15 @@ abs(round(obs - pred, 3) - gap_pp) > 1e-9   ->  red
 
 所以这是一个孤例，不是系统性问题。
 
+### 4b. 自捕：探针把自己算成了第二处
+
+第一版探针扫 `results/*.json`，而它自己的输出就落在 `results/money_rounding_gap_probe.json` 里、
+且带着它要找的那个形状。于是跑第二遍时读数从「2 对 / 1 命中」变成「3 对 / 2 命中」，命中的第二处是它自己。
+**每跑一次多一条**，这样的探针不能用来复核任何东西。
+
+修法：扫描时按绝对路径排除自身输出（`Tools/money_rounding_gap.py::scan_family`）。
+修后连跑两次读数恒为 **2 对 / 1 命中 / 0 无法解释**。
+
 ## 5. 修复方案（两条，建议都做，按此顺序）
 
 1. **面印未舍入的端**（`scripts/etf_book_phase_atlas_arms.py`）
