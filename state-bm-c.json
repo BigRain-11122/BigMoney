@@ -237,7 +237,7 @@
  "last_closeout_utc": 1794784912,
  "last_decisions_at": "2026-11-18T13:19:09+08:00",
  "last_decisions_check": "2026-11-07T16:37:02+08:00",
- "last_decisions_checked_at": "2026-11-23T21:20:09+08:00",
+ "last_decisions_checked_at": "2026-11-26T23:20:11+08:00",
  "last_decisions_consumed_at": "2026-11-16T00:40:00+08:00",
  "last_decisions_max_day": "20261119",
  "last_decisions_note": "r2084: origin/main:docs/decisions.md 250,586B sha256 79e3083b.. == held watermark -> zero new decisions",
@@ -1672,7 +1672,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2149,
+ "round_no": 2151,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2694,5 +2694,14 @@
  "通过_r2134": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 107624 interactive 11:49:18 起·22 张共享面别宿主先写过·重叠窗 0）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=7 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（余为 2026-10-26 前 lane 广播·r2066 判例）· 新面 paper_basis_timing_cost_split：等价闸 3442 日零差 · IC 净年化 10.069%（毛 10.842·拖累 0.773pp）· IM 净 9.347%（毛 9.934·0.587pp）· **查出台账每天两行：IC 3728 行/2390 日期、IM 2103 行/1052 日期，读者页 370.06% 实为 155.92%、116.862% 实为 47.000%** · 根因=读键 m['date'] vs 写键 product:date · 修法已写进 qa/paper-basis-timing-ledger-dup-r2134.md 但本轮未动共享面 · gpu_face audit findings=[] · 未跑 S6 链与全量冒烟（竞争窗）",
  "round_r2149": "gpu face: `*_gib` now resolves to GiB (name honoured), audit walks every family spelling on the face via face_family_keys(); bm-c heartbeat restated 13829->13.3, findings=[]; census unit_lies turned into a residue watch",
  "记账_r2149": "轮报告 1 处 + QA 1 件 + state 1 处 + 心跳 1 处 = 4",
- "竞争_r2149": "rc=0 CLEAN (single host pid=98744)"
+ "竞争_r2149": "rc=0 CLEAN (single host pid=98744)",
+ "round_r2150_note": "bench: buy_and_hold hardwired target_vol=0.10 while 13 faces armed 0.06/0.08 -> benchmark now priced at each face own vol target; arms carry excess_vs_bench_pp/excess_clears_mde; audit size_mismatch 9->0",
+ "round_r2150_next": "(a) prereg decision on whether H1 should read excess >= own MDE (21 faces/85 arms flip); (b) full smoke needs its own window",
+ "contract_c2_cost_stamp": null,
+ "round_r2151": "bench paired-excess 面：17 面/59 臂重建全部对上出版年化（59/59，零失配）；臂自己的 MDE 当成「超额宽度」是量错对象——配对宽度中位 1.38× 臂 MDE（38 宽/21 窄）；两条候选尺子判决完全一致：GO 4→0、无旧臂重开；59 条臂零条能证明跑赢同篮子持有，3 条显著跑输（bond ma_cross20/60 t=-2.03 · pair_bond_curve t=-2.67 · reversal_commodity_5d t=-2.77）",
+ "round_r2151_next": "(a) 换尺子要动 bench_generic 的闸=共享面，留给独占工作树的轮次；(b) 三条显著跑输族是否进 CLOSED_FAMILIES（需按 O-20260925-1105 重开通道写法走 science_gates）；(c) 全量冒烟与 S6 链需要一个无竞争的窗",
+ "送达自证_r2151": "commit 6572249aa2 pushed origin/main; after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r origin/main 见四件在位(scripts/bench_excess_paired_test.py, results/bench_excess_paired_test.json, research/BENCH_EXCESS_PAIRED_TEST.md, qa/bench-excess-paired-test-r2151.md) -> 本地未达 origin commit 数=0",
+ "通过_r2151": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid 88420 interactive 23:18:12 起；55 张共享面别宿主先写过、重叠窗不可归因 5）→ 只落新增文件面 · 孤儿面 orphans=0 py_faces=5 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执差集 0（2026-10-27 后 13 件全 ACK；余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 与 Bigmoney-LoopWatchdog 均在运行（未重注册，竞争窗只读核验）· 自检 16/16 · 未跑全量冒烟与 S6 链（竞争窗）",
+ "记账_r2151": "轮报告 1 处 + QA 1 件 + state 1 处 + 心跳 1 处 = 4",
+ "竞争_r2151": "rc=3 CONTENTION (peer pid 88420 interactive since 23:18:12); new-file faces only"
 }
