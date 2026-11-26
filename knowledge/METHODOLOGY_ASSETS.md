@@ -17800,3 +17800,27 @@ How：任何「A 能不能渲染/接受 B 的产物」的判断，先从 A 自�
 存储分辨率，说不出来就是一张嘴。正身 `scripts/etf_book_ceo_page.py`（selftest 477/477）、
 `scripts/idx_fut_carry_one_lot_ruler.py`（selftest 16/16）、`scripts/live_book_day_words.py`（selftest 46/46）、
 QA `qa/daywords-two-date-r2119.md`。
+
+
+## E1444 · 名字是契约：同一单位的两种拼写必须同解，审计不许靠枚举清单追拼写（2026-11-26 r2149 bm-c）
+
+`gpu_free_gib` 这一族三层同时错，而每一层单独看都「自洽」：①单位判定只认字面 token `gb`，
+`gib` 落到 mib → 写者把 MiB 数字写进承诺 GiB 的键；②检查者用同一张表读回 → 审计与自己一致，
+恒绿；③检查者的族扫描只走枚举清单（`FREE_KEYS/USED_KEYS/TOTAL_KEYS`），而 `_gib` 不在任何
+清单里 → **既没被正确读，也从没被任何一条腿看见**。读者（人，以及另一支审计）读到的却是
+13,829 GiB free on a 16 GB card。同族前科：无前缀（r1299）/ 嵌套（r1334）/ 中文本地化（r1909），
+每次都是「补一条枚举」。
+
+正法两处都落在派生而非枚举：①`unit = gb if toks[-1] in ("gb", "gib")`，同单位两种拼写同解；
+②`face_family_keys(face, fam)` —— 族成员由单位判定函数在**被测面自己身上**现算，
+spread/balance/pair 三腿全改走它，清单降级为文档。
+
+第二件事：规则修好不等于数修好。心跳是 merge-only 的，没探针就停在旧数，而读者现在按新规则读它
+→ `unit_lies` 从「名字骗人」改成**残留守卫**（`_gib` 值大于任何单片卡的 GiB 容量即判为未重述的
+MiB 数字，句子写死 `probe must rewrite it`）。姊妹面 r1185：只修写者不修已写下的值＝留着残渣。
+
+How：①任何「名字里带单位」的键，解析器必须让这个名字赢，且同单位的所有拼写归一到同一支；
+②任何「审计有没有覆盖面」的问题，答案永远是「它扫的是清单还是面」——扫清单就一定会漏下一批；
+③改单位/口径这类规则时，同时问「面上已经写下的数怎么处理」，并把残留做成会红的腿。
+正身 `Tools/gpu_face.py`（selftest 53/53）、`Tools/gpu_alias_writer_census.py`（selftest 17/17）、
+`research/GPU_GIB_UNIT_CONTRACT.md`、`qa/gib-unit-contract-r2149.md`。
