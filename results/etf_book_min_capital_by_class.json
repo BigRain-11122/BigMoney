@@ -1,0 +1,429 @@
+{
+ "evidence_cutoff": "2026-11-25",
+ "books": [
+  {
+   "book": "bond_free_production",
+   "face": "results/etf_nobond_vt.json",
+   "picks_as_of": "2026-11-25",
+   "picks": [
+    {
+     "symbol": "159207",
+     "close": 1.184,
+     "close_date": "2026-11-25",
+     "one_lot_cny": 118.4
+    },
+    {
+     "symbol": "159549",
+     "close": 1.236,
+     "close_date": "2026-11-25",
+     "one_lot_cny": 123.6
+    },
+    {
+     "symbol": "515300",
+     "close": 1.42,
+     "close_date": "2026-11-25",
+     "one_lot_cny": 142.0
+    },
+    {
+     "symbol": "562060",
+     "close": 0.602,
+     "close_date": "2026-11-25",
+     "one_lot_cny": 60.2
+    },
+    {
+     "symbol": "513800",
+     "close": 1.703,
+     "close_date": "2026-11-25",
+     "one_lot_cny": 170.3
+    }
+   ],
+   "missing_from_panel": [],
+   "min_capital": {
+    "criterion": {
+     "fee_crit_pct_of_slice": 0.25,
+     "fee_rule": "max(5 CNY, 10bp) per ticket",
+     "lot": 100
+    },
+    "min_capital": 10000.0,
+    "binding_wall": "FEE_FLOOR_BOUND",
+    "lot_bound": 851.5,
+    "fee_floor_bound": 10000.0,
+    "first_rung_that_clears_it": 10000,
+    "verdict": "EXECUTABLE_FROM_SMALL_ACCOUNT"
+   },
+   "ladder": [
+    {
+     "capital": 2500,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 4,
+      "159549": 4,
+      "515300": 3,
+      "562060": 8,
+      "513800": 2
+     },
+     "cash_pct": 10.352,
+     "fee_pct_of_capital": 1.0,
+     "max_weight_dev_pp": 6.376,
+     "weights": {
+      "159207": 0.1894,
+      "159549": 0.1978,
+      "515300": 0.1704,
+      "562060": 0.1926,
+      "513800": 0.1362
+     }
+    },
+    {
+     "capital": 5000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 8,
+      "159549": 8,
+      "515300": 7,
+      "562060": 16,
+      "513800": 5
+     },
+     "cash_pct": 4.606,
+     "fee_pct_of_capital": 0.5,
+     "max_weight_dev_pp": 2.97,
+     "weights": {
+      "159207": 0.1894,
+      "159549": 0.1978,
+      "515300": 0.1988,
+      "562060": 0.1926,
+      "513800": 0.1703
+     }
+    },
+    {
+     "capital": 10000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 16,
+      "159549": 16,
+      "515300": 14,
+      "562060": 33,
+      "513800": 11
+     },
+     "cash_pct": 2.551,
+     "fee_pct_of_capital": 0.25,
+     "max_weight_dev_pp": 1.267,
+     "weights": {
+      "159207": 0.1894,
+      "159549": 0.1978,
+      "515300": 0.1988,
+      "562060": 0.1987,
+      "513800": 0.1873
+     }
+    },
+    {
+     "capital": 20000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 33,
+      "159549": 32,
+      "515300": 28,
+      "562060": 66,
+      "513800": 23
+     },
+     "cash_pct": 1.232,
+     "fee_pct_of_capital": 0.125,
+     "max_weight_dev_pp": 0.464,
+     "weights": {
+      "159207": 0.1954,
+      "159549": 0.1978,
+      "515300": 0.1988,
+      "562060": 0.1987,
+      "513800": 0.1958
+     }
+    },
+    {
+     "capital": 50000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 84,
+      "159549": 80,
+      "515300": 70,
+      "562060": 166,
+      "513800": 58
+     },
+     "cash_pct": 0.612,
+     "fee_pct_of_capital": 0.0993,
+     "max_weight_dev_pp": 0.245,
+     "weights": {
+      "159207": 0.1989,
+      "159549": 0.1978,
+      "515300": 0.1988,
+      "562060": 0.1999,
+      "513800": 0.1975
+     }
+    },
+    {
+     "capital": 100000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 168,
+      "159549": 161,
+      "515300": 140,
+      "562060": 332,
+      "513800": 117
+     },
+     "cash_pct": 0.318,
+     "fee_pct_of_capital": 0.0996,
+     "max_weight_dev_pp": 0.12,
+     "weights": {
+      "159207": 0.1989,
+      "159549": 0.199,
+      "515300": 0.1988,
+      "562060": 0.1999,
+      "513800": 0.1993
+     }
+    },
+    {
+     "capital": 1000000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "159207": 1688,
+      "159549": 1616,
+      "515300": 1407,
+      "562060": 3319,
+      "513800": 1173
+     },
+     "cash_pct": 0.004,
+     "fee_pct_of_capital": 0.0999,
+     "max_weight_dev_pp": 0.026,
+     "weights": {
+      "159207": 0.1999,
+      "159549": 0.1997,
+      "515300": 0.1998,
+      "562060": 0.1998,
+      "513800": 0.1998
+     }
+    }
+   ]
+  },
+  {
+   "book": "with_bond",
+   "face": "results/etf_composite_pf.json",
+   "picks_as_of": "2026-11-06",
+   "picks": [
+    {
+     "symbol": "511220",
+     "close": 10.45,
+     "close_date": "2026-11-06",
+     "one_lot_cny": 1045.0
+    },
+    {
+     "symbol": "511360",
+     "close": 114.152,
+     "close_date": "2026-11-06",
+     "one_lot_cny": 11415.2
+    },
+    {
+     "symbol": "511160",
+     "close": 102.361,
+     "close_date": "2026-11-06",
+     "one_lot_cny": 10236.1
+    },
+    {
+     "symbol": "159650",
+     "close": 108.403,
+     "close_date": "2026-11-06",
+     "one_lot_cny": 10840.3
+    },
+    {
+     "symbol": "159649",
+     "close": 110.923,
+     "close_date": "2026-11-06",
+     "one_lot_cny": 11092.3
+    }
+   ],
+   "missing_from_panel": [],
+   "min_capital": {
+    "criterion": {
+     "fee_crit_pct_of_slice": 0.25,
+     "fee_rule": "max(5 CNY, 10bp) per ticket",
+     "lot": 100
+    },
+    "min_capital": 57076.0,
+    "binding_wall": "LOT_BOUND",
+    "lot_bound": 57076.0,
+    "fee_floor_bound": 10000.0,
+    "first_rung_that_clears_it": 100000,
+    "verdict": "NEEDS_A_FIVE_FIGURE_ACCOUNT"
+   },
+   "ladder": [
+    {
+     "capital": 2500,
+     "names_filled": 0,
+     "names": 5,
+     "lots": {
+      "511220": 0,
+      "511360": 0,
+      "511160": 0,
+      "159650": 0,
+      "159649": 0
+     },
+     "cash_pct": 100.0,
+     "fee_pct_of_capital": 0.0,
+     "max_weight_dev_pp": 20.0,
+     "weights": {
+      "511220": 0.0,
+      "511360": 0.0,
+      "511160": 0.0,
+      "159650": 0.0,
+      "159649": 0.0
+     }
+    },
+    {
+     "capital": 5000,
+     "names_filled": 0,
+     "names": 5,
+     "lots": {
+      "511220": 0,
+      "511360": 0,
+      "511160": 0,
+      "159650": 0,
+      "159649": 0
+     },
+     "cash_pct": 100.0,
+     "fee_pct_of_capital": 0.0,
+     "max_weight_dev_pp": 20.0,
+     "weights": {
+      "511220": 0.0,
+      "511360": 0.0,
+      "511160": 0.0,
+      "159650": 0.0,
+      "159649": 0.0
+     }
+    },
+    {
+     "capital": 10000,
+     "names_filled": 1,
+     "names": 5,
+     "lots": {
+      "511220": 1,
+      "511360": 0,
+      "511160": 0,
+      "159650": 0,
+      "159649": 0
+     },
+     "cash_pct": 89.5,
+     "fee_pct_of_capital": 0.05,
+     "max_weight_dev_pp": 20.0,
+     "weights": {
+      "511220": 0.1045,
+      "511360": 0.0,
+      "511160": 0.0,
+      "159650": 0.0,
+      "159649": 0.0
+     }
+    },
+    {
+     "capital": 20000,
+     "names_filled": 1,
+     "names": 5,
+     "lots": {
+      "511220": 3,
+      "511360": 0,
+      "511160": 0,
+      "159650": 0,
+      "159649": 0
+     },
+     "cash_pct": 84.3,
+     "fee_pct_of_capital": 0.025,
+     "max_weight_dev_pp": 20.0,
+     "weights": {
+      "511220": 0.1568,
+      "511360": 0.0,
+      "511160": 0.0,
+      "159650": 0.0,
+      "159649": 0.0
+     }
+    },
+    {
+     "capital": 50000,
+     "names_filled": 1,
+     "names": 5,
+     "lots": {
+      "511220": 9,
+      "511360": 0,
+      "511160": 0,
+      "159650": 0,
+      "159649": 0
+     },
+     "cash_pct": 81.171,
+     "fee_pct_of_capital": 0.0188,
+     "max_weight_dev_pp": 20.0,
+     "weights": {
+      "511220": 0.1881,
+      "511360": 0.0,
+      "511160": 0.0,
+      "159650": 0.0,
+      "159649": 0.0
+     }
+    },
+    {
+     "capital": 100000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "511220": 19,
+      "511360": 1,
+      "511160": 1,
+      "159650": 1,
+      "159649": 1
+     },
+     "cash_pct": 36.498,
+     "fee_pct_of_capital": 0.0634,
+     "max_weight_dev_pp": 9.764,
+     "weights": {
+      "511220": 0.1986,
+      "511360": 0.1142,
+      "511160": 0.1024,
+      "159650": 0.1084,
+      "159649": 0.1109
+     }
+    },
+    {
+     "capital": 1000000,
+     "names_filled": 5,
+     "names": 5,
+     "lots": {
+      "511220": 191,
+      "511360": 17,
+      "511160": 19,
+      "159650": 18,
+      "159649": 18
+     },
+     "cash_pct": 1.609,
+     "fee_pct_of_capital": 0.0983,
+     "max_weight_dev_pp": 0.594,
+     "weights": {
+      "511220": 0.1996,
+      "511360": 0.1941,
+      "511160": 0.1945,
+      "159650": 0.1951,
+      "159649": 0.1997
+     }
+    }
+   ]
+  }
+ ],
+ "readout": {
+  "cheapest_book": "bond_free_production",
+  "cheapest_min_capital": 10000.0,
+  "priciest_book": "with_bond",
+  "priciest_min_capital": 57076.0,
+  "ratio": 5.71,
+  "same_rule": "one lot of each of the five names, fee floor 5 CNY per ticket",
+  "why": "卡人的是标的自家的面值：面值 100 元的债/货币 ETF 一手就 1.0-1.14 万元，五只要 5.7 万；权益类 ETF 一手只要 60-170 元，于是它卡的不是整手而是券商 5 元票底——同一条规则，两本书的可执行门槛差 5.7 倍",
+  "not_a_recommendation": "this face prices representability, not edge: a book you can hold is not a book that will make money"
+ }
+}
