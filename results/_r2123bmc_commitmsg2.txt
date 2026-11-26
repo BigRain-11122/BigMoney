@@ -1,0 +1,31 @@
+round 2123 (bm-c): the zt day slice was written before the tape settled
+
+The pool collector had been refusing since 2026-11-23 ("OVERLAP MISMATCH zt
+2026-11-23 - kept local, no write") and told nobody what differed, so the four
+pool faces stopped two sessions short of the book's bar and the CEO one-pager
+said so in words ("上面的数不是今天的盘面").
+
+Evidence (results/_r2123bmc_zt_overlap_probe.py, read-only): stored 143 rows vs
+146 now, nothing removed, three names added (001360/002623/600838), and two of
+the 143 shared names still moving (000700 10.0 -> 9.992372, 603706 10.139860 ->
+9.981430).  Zero removals + late additions + unsettled values on shared names =
+the slice was written before the close settled, not a settled day restated.  The
+other three faces (zbgc 24 / dtgc 3 / strong 56) compare row-for-row equal.
+
+Ruling recorded in data/zt_pool/amendments.json as LATE_COMPLETION_SUPERSET:
+replace exactly that (day, face) slice, leave every other day untouched, say
+why.  The script refuses when the stored slice is no longer the one the probe
+examined, so an amendment can never quietly cover a later edit.
+
+First attempt broke the panel and is documented rather than hidden: fetch_day()
+returns the source frame without a day column (the collector stamps it), so
+reindexing landed 146 rows with a NaN day and the 143-row slice vanished
+(1894 -> 1897 rows, 33 -> 32 days).  Restored from HEAD, then three fixes --
+stamp the day flat, zero-pad codes to six characters (R58), and assert the row
+count before writing.  After: stored 146 / refetched 146, match=True, panel
+1897 rows over 33 days with one uniform day format.
+
+The collection pass itself does not run in this commit: the 30-minute attempt
+throttle was spent by the refusing attempt at 08:57:58, and bypassing it would
+be a lie about source pressure.  All four faces now compare equal, so the next
+window (~09:28) collects 2026-11-24 and 2026-11-25 by itself.

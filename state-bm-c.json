@@ -1568,7 +1568,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2122,
+ "round_no": 2123,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2540,5 +2540,6 @@
  "通过_r2121": "orders 117 files / heartbeat orders_ack 331 / state 273 -> unacked 0 (stale_acks only the pre-2026-10-26 lane broadcasts, r2066 precedent); fleet group decisions.md raw bytes 250,586B sha256 79e3083b85c130b8... == own watermark -> zero new decisions, zero action; fleet/inbox empty; orphan_face_probe py_faces=7 orphans=0 resident_servers=2; attrition + hooks + loop task self-heal checked this round.",
  "smoke_r2121": "full suite completed detached: 757/777 PASS, 20 FAIL. Nine of the twenty were mended in-window (4x face-generation drift: k_grid behind the ledger bar, admit_cost_ladder quoted face moved, concentration_levers DRIFT, rebal_adoption control did not reproduce; plus year_concentration_money x2, year_gate_vote 14 fields, premium_swap as_of 11-24 vs ticket 11-25, and the Chinese-page English-prose census whose 4 new lines are other faces' lane self-declarations accepted into the census allow list with counts still printed). Eleven are carried as next round's P0 and are named in the round report; none was introduced by this round's code.",
  "记账_r2121": "轮报告 1 处 + state 1 处 + 心跳 1 处 = 3",
- "送达自证_r2121": "commit 2829d2cd5d pushed origin/main (74bb952042..2829d2cd5d); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r origin/main sees the four new paths (scripts/results/md/_r2121bmc_closeout); pre-commit claw reinstalled this round (CR-normalized MATCH=True), pre-push MATCH=True, watchdog ready, loop task re-register no-op (pin=0), attrition guard CLEAN (4 ledgers, 2 historical shrink rows healed) -> 本地未达 origin commit 数=0"
+ "送达自证_r2121": "commit 2829d2cd5d pushed origin/main (74bb952042..2829d2cd5d); after fetch git rev-list --left-right --count origin/main...HEAD = 0/0; git ls-tree -r origin/main sees the four new paths (scripts/results/md/_r2121bmc_closeout); pre-commit claw reinstalled this round (CR-normalized MATCH=True), pre-push MATCH=True, watchdog ready, loop task re-register no-op (pin=0), attrition guard CLEAN (4 ledgers, 2 historical shrink rows healed) -> 本地未达 origin commit 数=0",
+ "round_note_r2123": "amended the 2026-11-23 zt day slice (late-completion superset, 143->146 rows) so the pool collector's overlap gate passes again; published the generation r2115-r2122 left uncommitted (470 faces)"
 }

@@ -1,22 +1,19 @@
 # 资源共享仲裁看板（量化 × 自媒体）
 
-generated 2026-11-26T08:51:41+08:00 | 契约 v1.0
+generated 2026-11-26T09:01:39+08:00 | 契约 v1.0
 
 | 资源 | 实测 | 谁在用 | 规则 |
 |---|---|---|---|
 | GPU | util 0% · VRAM 1839/16384MB · Comfy 队列 None/None | media（本机 GPU 归自媒体） | 量化永不申请 GPU |
-| CPU | load 21.7% | media 1 个活 · quant 5 个 | heavy 要求 media 空且 load<50 |
-| RAM | free 26.81GB | media 占 3.4GB | heavy 需 ≥6GB · light 需 ≥2GB |
+| CPU | load 7.6% | media 1 个活 · quant 2 个 | heavy 要求 media 空且 load<50 |
+| RAM | free 27.34GB | media 占 3.39GB | heavy 需 ≥6GB · light 需 ≥2GB |
 | 自媒体排队 | 清单 0 单 · None 已有 None 个产物 · 最近推进 Noneh 前 | media 产线 | 自媒体有活时量化 heavy 让路 |
 
 ## 当前在跑
 
-- media pid 82824 · 3484MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8189 --disable-sm`
-- quant pid 96660 · 162MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m smoke_test`
-- quant pid 98952 · 200MB · `C:\Program Files\PowerShell\7\pwsh.exe -NoProfile -Command $env:PYTHONIOENCODING='utf-8'; python -m smoke_test`
+- media pid 82824 · 3470MB · `D:\ComfyUI\python_embeded\python.exe -s D:\ComfyUI\ComfyUI\main.py --listen 127.0.0.1 --port 8189 --disable-sm`
 - quant pid 101180 · 75MB · `wscript.exe //B //nologo K:\Fluxgroup\FluxGroup\quant\bigmoney\Tools\InvisibleRunner.vbs powershell.exe -NoPro`
-- quant pid 101876 · 303MB · `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\Fluxgrou`
-- quant pid 103124 · 162MB · `C:\Users\Dasheng\AppData\Local\Programs\Python\Python313\python.exe -m smoke_test`
+- quant pid 101876 · 304MB · `C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\Fluxgrou`
 
 ## 最近一次裁决
 
