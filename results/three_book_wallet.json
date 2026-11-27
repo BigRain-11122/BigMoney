@@ -1,0 +1,3634 @@
+{
+ "schema": "three-book-wallet/v1",
+ "face": "three_book_wallet",
+ "generated": "2026-11-28T02:04:03+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "window": {
+  "first": "2020-01-06",
+  "last": "2026-11-26",
+  "bars": 1670,
+  "why": "intersection of the three books' own published series; a blend cannot be priced on a day one of the books does not exist"
+ },
+ "caliber": {
+  "ann_days": 244.0,
+  "target_vol_pct": 8.0,
+  "wallet_cny": 1000000.0,
+  "weights_are": "share of the 8% volatility budget after each book is scaled to it",
+  "execution": {
+   "etf": "decide at close t, own from the open of t+1",
+   "cb": "signal at close t, filled at close t+1",
+   "carry": "close-to-close; gross of cost on the hedge leg"
+  },
+  "carry_is_gross": "the hedged excess is gross of the hedge leg's cost; a real hedge also needs a second account (parent face's caliber, not re-estimated)"
+ },
+ "books": {
+  "etf": {
+   "bars": 1670,
+   "years": 6.8443,
+   "cagr": 0.076171,
+   "vol": 0.08,
+   "sharpe": 0.957817,
+   "maxdd": -0.078022,
+   "total": 0.652737,
+   "worst_year": 0.010703,
+   "neg_years": 0,
+   "years_covered": 7,
+   "pos_months_pct": 0.614458,
+   "by_year": {
+    "2020": 0.037678,
+    "2021": 0.047661,
+    "2022": 0.02472,
+    "2023": 0.021841,
+    "2024": 0.094667,
+    "2025": 0.312279,
+    "2026": 0.010703
+   },
+   "raw": {
+    "ann_mean": 0.10026,
+    "ann_vol": 0.104675,
+    "units": "fraction per day",
+    "bars": 1670,
+    "first": "2020-01-06",
+    "last": "2026-11-26"
+   },
+   "face": "results/etf_nobond_vt.json",
+   "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+   "execution": "decide at close t, own from the open of t+1",
+   "full_history": {
+    "cagr": 0.0991,
+    "sharpe": 0.978,
+    "bars": 1672,
+    "first": "2020-01-03",
+    "last": "2026-11-27"
+   },
+   "universe": 1539,
+   "flips_repaired": 169,
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+    "size": 102490,
+    "mtime": "2026-11-27T15:33:57"
+   },
+   "scaled_to_8pct_vol_factor": 0.764268,
+   "capital_floor_cny": 0.0,
+   "capital_return_at_8pct_pct": 7.663
+  },
+  "cb": {
+   "bars": 1670,
+   "years": 6.8443,
+   "cagr": 0.040833,
+   "vol": 0.08,
+   "sharpe": 0.540241,
+   "maxdd": -0.145038,
+   "total": 0.315108,
+   "worst_year": -0.130207,
+   "neg_years": 3,
+   "years_covered": 7,
+   "pos_months_pct": 0.506024,
+   "by_year": {
+    "2020": 0.069718,
+    "2021": 0.20549,
+    "2022": -0.017111,
+    "2023": -0.008467,
+    "2024": 0.174211,
+    "2025": 0.024601,
+    "2026": -0.130207
+   },
+   "raw": {
+    "ann_mean": 0.06985,
+    "ann_vol": 0.129295,
+    "units": "fraction per day",
+    "bars": 1670,
+    "first": "2020-01-06",
+    "last": "2026-11-26"
+   },
+   "face": "results/cb_dual_low.json",
+   "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
+   "execution": "signal at close t, filled at close t+1",
+   "full_history": {
+    "cagr": 0.073548,
+    "sharpe": 0.758124,
+    "bars": 4710,
+    "first": "2007-07-12",
+    "last": "2026-11-26"
+   },
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+    "size": 25433554,
+    "mtime": "2026-11-27T11:34:31"
+   },
+   "scaled_to_8pct_vol_factor": 0.618741,
+   "capital_floor_cny": 25850.2,
+   "capital_return_at_8pct_pct": 4.322
+  },
+  "carry": {
+   "bars": 1670,
+   "years": 6.8443,
+   "cagr": 0.118898,
+   "vol": 0.08,
+   "sharpe": 1.444612,
+   "maxdd": -0.073451,
+   "total": 1.157419,
+   "worst_year": 0.034627,
+   "neg_years": 0,
+   "years_covered": 7,
+   "pos_months_pct": 0.795181,
+   "by_year": {
+    "2020": 0.163521,
+    "2021": 0.205307,
+    "2022": 0.089872,
+    "2023": 0.034627,
+    "2024": 0.039497,
+    "2025": 0.159276,
+    "2026": 0.132121
+   },
+   "raw": {
+    "ann_mean": 508.38168,
+    "ann_vol": 351.915663,
+    "units": "index points per lot per day",
+    "bars": 1670,
+    "first": "2020-01-06",
+    "last": "2026-11-26"
+   },
+   "face": "results/idx_fut_carry_search_rent.json",
+   "arm": "IC main contract, hedged excess (futures minus index), roll days zeroed",
+   "execution": "close-to-close; gross of cost on the hedge leg",
+   "units": "index points per lot per day (scale-free; every book is scaled to 8% vol before mixing)",
+   "roll_days_booked_zero": 3,
+   "gross_of_cost": true,
+   "panels": [
+    {
+     "path": "data/futures_daily/IC.csv",
+     "size": 118062,
+     "mtime": "2026-11-26T20:31:23+08:00"
+    },
+    {
+     "path": "data/index_daily/sh000905.csv",
+     "size": 110845,
+     "mtime": "2026-11-26T20:35:27+08:00"
+    }
+   ],
+   "full_history": {
+    "cagr": 0.0,
+    "sharpe": 0.0,
+    "bars": 0,
+    "first": null,
+    "last": null
+   },
+   "scaled_to_8pct_vol_factor": 0.000227,
+   "capital_floor_cny": 1137862.5,
+   "capital_return_at_8pct_pct": 11.557
+  }
+ },
+ "singles": {
+  "etf": {
+   "w": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "cagr": 0.076171,
+   "sharpe": 0.957817,
+   "vol": 0.08,
+   "maxdd": -0.078022,
+   "worst_year": 0.010703
+  },
+  "cb": {
+   "w": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "cagr": 0.040833,
+   "sharpe": 0.540241,
+   "vol": 0.08,
+   "maxdd": -0.145038,
+   "worst_year": -0.130207
+  },
+  "carry": {
+   "w": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "cagr": 0.118898,
+   "sharpe": 1.444612,
+   "vol": 0.08,
+   "maxdd": -0.073451,
+   "worst_year": 0.034627
+  }
+ },
+ "correlation": {
+  "etf_cb": {
+   "daily": 0.089862,
+   "monthly": 0.144862,
+   "n_days": 1670,
+   "n_months": 83,
+   "months_both_down": 19,
+   "months_both_down_pct": 0.228916
+  },
+  "etf_carry": {
+   "daily": -0.045645,
+   "monthly": -0.122783,
+   "n_days": 1670,
+   "n_months": 83,
+   "months_both_down": 13,
+   "months_both_down_pct": 0.156627
+  },
+  "cb_carry": {
+   "daily": -0.049415,
+   "monthly": -0.015995,
+   "n_days": 1670,
+   "n_months": 83,
+   "months_both_down": 22,
+   "months_both_down_pct": 0.26506
+  }
+ },
+ "gates": {
+  "etf": {
+   "book_floor_cny": 0.0,
+   "max_weight_now": 1.0,
+   "budget_cover_now": null,
+   "wallet_for_10pct_cny": 0.0,
+   "wallet_for_20pct_cny": 0.0,
+   "wallet_for_one_third_cny": 0.0
+  },
+  "cb": {
+   "book_floor_cny": 25850.2,
+   "max_weight_now": 1.0,
+   "budget_cover_now": 38.68442,
+   "wallet_for_10pct_cny": 258502.0,
+   "wallet_for_20pct_cny": 129251.0,
+   "wallet_for_one_third_cny": 77551.0
+  },
+  "carry": {
+   "book_floor_cny": 1137862.5,
+   "max_weight_now": 0.0,
+   "budget_cover_now": 0.878841,
+   "wallet_for_10pct_cny": 11378625.0,
+   "wallet_for_20pct_cny": 5689312.0,
+   "wallet_for_one_third_cny": 3413588.0
+  }
+ },
+ "reconciliation": {
+  "three_book_rulers": {
+   "face": "results/three_book_rulers.json",
+   "why": "etf and cb reproduce book_pair_blend.in_window bit for bit (0.957817 vs 0.9578173792, 0.540241 vs 0.5402413276); three_book_rulers prints the same books on its own annualisation clock, so its etf/cb rows differ from this face without either being wrong. carry is compared to the family's own hedged-excess arm, never to its basis-only row (3.189), which is a notional figure no wallet can hold.",
+   "etf": {
+    "mine": 0.957817,
+    "published": 0.9495,
+    "diff": 0.0083
+   },
+   "cb": {
+    "mine": 0.540241,
+    "published": 0.4906,
+    "diff": 0.0496
+   },
+   "carry": {
+    "mine": 1.444612,
+    "published": 1.4162,
+    "diff": 0.0284
+   }
+  },
+  "book_pair_blend": {
+   "face": "results/book_pair_blend.json",
+   "published_best_sharpe": 1.0661818364,
+   "why": "that face mixes the parents at their own published volatility (convertible ~10 pct, ETF 8 pct); this one scales every book to 8 pct first, so the weights mean shares of the risk budget"
+  }
+ },
+ "grid": {
+  "step": 0.05,
+  "n_cells": 231,
+  "n_feasible_now": 21,
+  "rows": [
+   {
+    "w": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cagr": 0.118898,
+    "sharpe": 1.444612,
+    "vol": 0.08,
+    "maxdd": -0.073451,
+    "worst_year": 0.034627,
+    "feasible_now": false,
+    "wallet_needed_cny": 1137862.0
+   },
+   {
+    "w": [
+     0.0,
+     0.05,
+     0.95
+    ],
+    "cagr": 0.115216,
+    "sharpe": 1.47484,
+    "vol": 0.075908,
+    "maxdd": -0.065876,
+    "worst_year": 0.032515,
+    "feasible_now": false,
+    "wallet_needed_cny": 1197750.0
+   },
+   {
+    "w": [
+     0.0,
+     0.1,
+     0.9
+    ],
+    "cagr": 0.111509,
+    "sharpe": 1.503614,
+    "vol": 0.072049,
+    "maxdd": -0.058458,
+    "worst_year": 0.030398,
+    "feasible_now": false,
+    "wallet_needed_cny": 1264292.0
+   },
+   {
+    "w": [
+     0.0,
+     0.15,
+     0.85
+    ],
+    "cagr": 0.107776,
+    "sharpe": 1.529507,
+    "vol": 0.068464,
+    "maxdd": -0.051013,
+    "worst_year": 0.028276,
+    "feasible_now": false,
+    "wallet_needed_cny": 1338662.0
+   },
+   {
+    "w": [
+     0.0,
+     0.2,
+     0.8
+    ],
+    "cagr": 0.104019,
+    "sharpe": 1.550643,
+    "vol": 0.065198,
+    "maxdd": -0.043541,
+    "worst_year": 0.02615,
+    "feasible_now": false,
+    "wallet_needed_cny": 1422328.0
+   },
+   {
+    "w": [
+     0.0,
+     0.25,
+     0.75
+    ],
+    "cagr": 0.100237,
+    "sharpe": 1.564689,
+    "vol": 0.062301,
+    "maxdd": -0.038156,
+    "worst_year": 0.02402,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.0,
+     0.3,
+     0.7
+    ],
+    "cagr": 0.096431,
+    "sharpe": 1.568946,
+    "vol": 0.059826,
+    "maxdd": -0.038313,
+    "worst_year": 0.021884,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.0,
+     0.35,
+     0.65
+    ],
+    "cagr": 0.092602,
+    "sharpe": 1.560598,
+    "vol": 0.057828,
+    "maxdd": -0.038683,
+    "worst_year": 0.019744,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.0,
+     0.4,
+     0.6
+    ],
+    "cagr": 0.088749,
+    "sharpe": 1.537128,
+    "vol": 0.056358,
+    "maxdd": -0.041889,
+    "worst_year": 0.0176,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.0,
+     0.45,
+     0.55
+    ],
+    "cagr": 0.084873,
+    "sharpe": 1.496871,
+    "vol": 0.055457,
+    "maxdd": -0.045091,
+    "worst_year": 0.006775,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.0,
+     0.5,
+     0.5
+    ],
+    "cagr": 0.080975,
+    "sharpe": 1.439521,
+    "vol": 0.055153,
+    "maxdd": -0.04829,
+    "worst_year": -0.006394,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.0,
+     0.55,
+     0.45
+    ],
+    "cagr": 0.077054,
+    "sharpe": 1.36641,
+    "vol": 0.055457,
+    "maxdd": -0.054543,
+    "worst_year": -0.019416,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.0,
+     0.6,
+     0.4
+    ],
+    "cagr": 0.073112,
+    "sharpe": 1.280377,
+    "vol": 0.056358,
+    "maxdd": -0.06378,
+    "worst_year": -0.032292,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.0,
+     0.65,
+     0.35
+    ],
+    "cagr": 0.069149,
+    "sharpe": 1.185264,
+    "vol": 0.057828,
+    "maxdd": -0.072937,
+    "worst_year": -0.045024,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.0,
+     0.7,
+     0.3
+    ],
+    "cagr": 0.065164,
+    "sharpe": 1.085214,
+    "vol": 0.059826,
+    "maxdd": -0.082017,
+    "worst_year": -0.057613,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.0,
+     0.75,
+     0.25
+    ],
+    "cagr": 0.061158,
+    "sharpe": 0.984042,
+    "vol": 0.062301,
+    "maxdd": -0.091019,
+    "worst_year": -0.070059,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.0,
+     0.8,
+     0.2
+    ],
+    "cagr": 0.057132,
+    "sharpe": 0.884829,
+    "vol": 0.065198,
+    "maxdd": -0.101574,
+    "worst_year": -0.082365,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.0,
+     0.85,
+     0.15
+    ],
+    "cagr": 0.053087,
+    "sharpe": 0.789781,
+    "vol": 0.068464,
+    "maxdd": -0.112442,
+    "worst_year": -0.094532,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.0,
+     0.9,
+     0.1
+    ],
+    "cagr": 0.049021,
+    "sharpe": 0.700276,
+    "vol": 0.072049,
+    "maxdd": -0.1232,
+    "worst_year": -0.10656,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.0,
+     0.95,
+     0.05
+    ],
+    "cagr": 0.044937,
+    "sharpe": 0.617024,
+    "vol": 0.075908,
+    "maxdd": -0.133849,
+    "worst_year": -0.118451,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "cagr": 0.040833,
+    "sharpe": 0.540241,
+    "vol": 0.08,
+    "maxdd": -0.145038,
+    "worst_year": -0.130207,
+    "feasible_now": true,
+    "wallet_needed_cny": 25850.0
+   },
+   {
+    "w": [
+     0.05,
+     0.0,
+     0.95
+    ],
+    "cagr": 0.117077,
+    "sharpe": 1.496547,
+    "vol": 0.075923,
+    "maxdd": -0.069907,
+    "worst_year": 0.034125,
+    "feasible_now": false,
+    "wallet_needed_cny": 1197750.0
+   },
+   {
+    "w": [
+     0.05,
+     0.05,
+     0.9
+    ],
+    "cagr": 0.11338,
+    "sharpe": 1.530776,
+    "vol": 0.071862,
+    "maxdd": -0.062506,
+    "worst_year": 0.032009,
+    "feasible_now": false,
+    "wallet_needed_cny": 1264292.0
+   },
+   {
+    "w": [
+     0.05,
+     0.1,
+     0.85
+    ],
+    "cagr": 0.109657,
+    "sharpe": 1.563303,
+    "vol": 0.068053,
+    "maxdd": -0.055077,
+    "worst_year": 0.029889,
+    "feasible_now": false,
+    "wallet_needed_cny": 1338662.0
+   },
+   {
+    "w": [
+     0.05,
+     0.15,
+     0.8
+    ],
+    "cagr": 0.10591,
+    "sharpe": 1.592347,
+    "vol": 0.06454,
+    "maxdd": -0.047621,
+    "worst_year": 0.027764,
+    "feasible_now": false,
+    "wallet_needed_cny": 1422328.0
+   },
+   {
+    "w": [
+     0.05,
+     0.2,
+     0.75
+    ],
+    "cagr": 0.102138,
+    "sharpe": 1.615546,
+    "vol": 0.061374,
+    "maxdd": -0.040138,
+    "worst_year": 0.025634,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.05,
+     0.25,
+     0.7
+    ],
+    "cagr": 0.098342,
+    "sharpe": 1.629976,
+    "vol": 0.058611,
+    "maxdd": -0.037402,
+    "worst_year": 0.0235,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.05,
+     0.3,
+     0.65
+    ],
+    "cagr": 0.094522,
+    "sharpe": 1.632309,
+    "vol": 0.056311,
+    "maxdd": -0.037527,
+    "worst_year": 0.021361,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.05,
+     0.35,
+     0.6
+    ],
+    "cagr": 0.090678,
+    "sharpe": 1.619213,
+    "vol": 0.054532,
+    "maxdd": -0.038383,
+    "worst_year": 0.019218,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.05,
+     0.4,
+     0.55
+    ],
+    "cagr": 0.086811,
+    "sharpe": 1.58797,
+    "vol": 0.053327,
+    "maxdd": -0.041592,
+    "worst_year": 0.014496,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.05,
+     0.45,
+     0.5
+    ],
+    "cagr": 0.082922,
+    "sharpe": 1.53721,
+    "vol": 0.052735,
+    "maxdd": -0.044798,
+    "worst_year": 0.001228,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.05,
+     0.5,
+     0.45
+    ],
+    "cagr": 0.07901,
+    "sharpe": 1.467469,
+    "vol": 0.052776,
+    "maxdd": -0.048,
+    "worst_year": -0.011891,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.05,
+     0.55,
+     0.4
+    ],
+    "cagr": 0.075077,
+    "sharpe": 1.381308,
+    "vol": 0.053449,
+    "maxdd": -0.055856,
+    "worst_year": -0.024863,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.05,
+     0.6,
+     0.35
+    ],
+    "cagr": 0.071121,
+    "sharpe": 1.282862,
+    "vol": 0.054731,
+    "maxdd": -0.065083,
+    "worst_year": -0.03769,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.05,
+     0.65,
+     0.3
+    ],
+    "cagr": 0.067145,
+    "sharpe": 1.177001,
+    "vol": 0.05658,
+    "maxdd": -0.074231,
+    "worst_year": -0.050373,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.05,
+     0.7,
+     0.25
+    ],
+    "cagr": 0.063147,
+    "sharpe": 1.068441,
+    "vol": 0.058943,
+    "maxdd": -0.084182,
+    "worst_year": -0.062913,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.05,
+     0.75,
+     0.2
+    ],
+    "cagr": 0.05913,
+    "sharpe": 0.961118,
+    "vol": 0.061761,
+    "maxdd": -0.095237,
+    "worst_year": -0.075311,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.05,
+     0.8,
+     0.15
+    ],
+    "cagr": 0.055092,
+    "sharpe": 0.857903,
+    "vol": 0.064975,
+    "maxdd": -0.106179,
+    "worst_year": -0.087569,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.05,
+     0.85,
+     0.1
+    ],
+    "cagr": 0.051034,
+    "sharpe": 0.760623,
+    "vol": 0.068529,
+    "maxdd": -0.117011,
+    "worst_year": -0.099687,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.05,
+     0.9,
+     0.05
+    ],
+    "cagr": 0.046957,
+    "sharpe": 0.670238,
+    "vol": 0.072373,
+    "maxdd": -0.127732,
+    "worst_year": -0.111667,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.05,
+     0.95,
+     0.0
+    ],
+    "cagr": 0.04286,
+    "sharpe": 0.587074,
+    "vol": 0.076463,
+    "maxdd": -0.138344,
+    "worst_year": -0.123511,
+    "feasible_now": true,
+    "wallet_needed_cny": 27211.0
+   },
+   {
+    "w": [
+     0.1,
+     0.0,
+     0.9
+    ],
+    "cagr": 0.115221,
+    "sharpe": 1.549331,
+    "vol": 0.072079,
+    "maxdd": -0.066544,
+    "worst_year": 0.033608,
+    "feasible_now": false,
+    "wallet_needed_cny": 1264292.0
+   },
+   {
+    "w": [
+     0.1,
+     0.05,
+     0.85
+    ],
+    "cagr": 0.111509,
+    "sharpe": 1.587496,
+    "vol": 0.068068,
+    "maxdd": -0.059132,
+    "worst_year": 0.031489,
+    "feasible_now": false,
+    "wallet_needed_cny": 1338662.0
+   },
+   {
+    "w": [
+     0.1,
+     0.1,
+     0.8
+    ],
+    "cagr": 0.107772,
+    "sharpe": 1.623535,
+    "vol": 0.064329,
+    "maxdd": -0.051692,
+    "worst_year": 0.029365,
+    "feasible_now": false,
+    "wallet_needed_cny": 1422328.0
+   },
+   {
+    "w": [
+     0.1,
+     0.15,
+     0.75
+    ],
+    "cagr": 0.10401,
+    "sharpe": 1.655209,
+    "vol": 0.060912,
+    "maxdd": -0.044225,
+    "worst_year": 0.027237,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.1,
+     0.2,
+     0.7
+    ],
+    "cagr": 0.100223,
+    "sharpe": 1.679553,
+    "vol": 0.057875,
+    "maxdd": -0.036767,
+    "worst_year": 0.025104,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.1,
+     0.25,
+     0.65
+    ],
+    "cagr": 0.096413,
+    "sharpe": 1.692934,
+    "vol": 0.055281,
+    "maxdd": -0.036791,
+    "worst_year": 0.022966,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.1,
+     0.3,
+     0.6
+    ],
+    "cagr": 0.092579,
+    "sharpe": 1.691352,
+    "vol": 0.053194,
+    "maxdd": -0.036821,
+    "worst_year": 0.020824,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.1,
+     0.35,
+     0.55
+    ],
+    "cagr": 0.088721,
+    "sharpe": 1.671045,
+    "vol": 0.051676,
+    "maxdd": -0.038095,
+    "worst_year": 0.018677,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.1,
+     0.4,
+     0.5
+    ],
+    "cagr": 0.084841,
+    "sharpe": 1.629378,
+    "vol": 0.050777,
+    "maxdd": -0.041307,
+    "worst_year": 0.008892,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.1,
+     0.45,
+     0.45
+    ],
+    "cagr": 0.080938,
+    "sharpe": 1.565716,
+    "vol": 0.050531,
+    "maxdd": -0.044515,
+    "worst_year": -0.004325,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.1,
+     0.5,
+     0.4
+    ],
+    "cagr": 0.077013,
+    "sharpe": 1.481916,
+    "vol": 0.050947,
+    "maxdd": -0.047874,
+    "worst_year": -0.017394,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.1,
+     0.55,
+     0.35
+    ],
+    "cagr": 0.073067,
+    "sharpe": 1.382082,
+    "vol": 0.05201,
+    "maxdd": -0.057171,
+    "worst_year": -0.030317,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.1,
+     0.6,
+     0.3
+    ],
+    "cagr": 0.069099,
+    "sharpe": 1.271679,
+    "vol": 0.053681,
+    "maxdd": -0.066496,
+    "worst_year": -0.043094,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.1,
+     0.65,
+     0.25
+    ],
+    "cagr": 0.065109,
+    "sharpe": 1.156377,
+    "vol": 0.055905,
+    "maxdd": -0.077739,
+    "worst_year": -0.055728,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.1,
+     0.7,
+     0.2
+    ],
+    "cagr": 0.0611,
+    "sharpe": 1.041113,
+    "vol": 0.05862,
+    "maxdd": -0.088869,
+    "worst_year": -0.068218,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.1,
+     0.75,
+     0.15
+    ],
+    "cagr": 0.05707,
+    "sharpe": 0.929598,
+    "vol": 0.06176,
+    "maxdd": -0.099886,
+    "worst_year": -0.080567,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.1,
+     0.8,
+     0.1
+    ],
+    "cagr": 0.053019,
+    "sharpe": 0.824248,
+    "vol": 0.065265,
+    "maxdd": -0.110791,
+    "worst_year": -0.092776,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.1,
+     0.85,
+     0.05
+    ],
+    "cagr": 0.04895,
+    "sharpe": 0.726373,
+    "vol": 0.069079,
+    "maxdd": -0.121586,
+    "worst_year": -0.104846,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.1,
+     0.9,
+     0.0
+    ],
+    "cagr": 0.044861,
+    "sharpe": 0.636464,
+    "vol": 0.073154,
+    "maxdd": -0.13227,
+    "worst_year": -0.116779,
+    "feasible_now": true,
+    "wallet_needed_cny": 28722.0
+   },
+   {
+    "w": [
+     0.15,
+     0.0,
+     0.85
+    ],
+    "cagr": 0.113332,
+    "sharpe": 1.601646,
+    "vol": 0.068509,
+    "maxdd": -0.063178,
+    "worst_year": 0.033077,
+    "feasible_now": false,
+    "wallet_needed_cny": 1338662.0
+   },
+   {
+    "w": [
+     0.15,
+     0.05,
+     0.8
+    ],
+    "cagr": 0.109605,
+    "sharpe": 1.643346,
+    "vol": 0.064569,
+    "maxdd": -0.055755,
+    "worst_year": 0.030954,
+    "feasible_now": false,
+    "wallet_needed_cny": 1422328.0
+   },
+   {
+    "w": [
+     0.15,
+     0.1,
+     0.75
+    ],
+    "cagr": 0.105853,
+    "sharpe": 1.682221,
+    "vol": 0.060927,
+    "maxdd": -0.048304,
+    "worst_year": 0.028827,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.15,
+     0.15,
+     0.7
+    ],
+    "cagr": 0.102076,
+    "sharpe": 1.715453,
+    "vol": 0.057638,
+    "maxdd": -0.040827,
+    "worst_year": 0.026695,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.15,
+     0.2,
+     0.65
+    ],
+    "cagr": 0.098276,
+    "sharpe": 1.739355,
+    "vol": 0.054766,
+    "maxdd": -0.036161,
+    "worst_year": 0.024559,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.15,
+     0.25,
+     0.6
+    ],
+    "cagr": 0.094451,
+    "sharpe": 1.74952,
+    "vol": 0.05238,
+    "maxdd": -0.036192,
+    "worst_year": 0.022418,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.15,
+     0.3,
+     0.55
+    ],
+    "cagr": 0.090603,
+    "sharpe": 1.741333,
+    "vol": 0.050549,
+    "maxdd": -0.036262,
+    "worst_year": 0.020272,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.15,
+     0.35,
+     0.5
+    ],
+    "cagr": 0.086732,
+    "sharpe": 1.710878,
+    "vol": 0.049334,
+    "maxdd": -0.037817,
+    "worst_year": 0.016597,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.15,
+     0.4,
+     0.45
+    ],
+    "cagr": 0.082838,
+    "sharpe": 1.65608,
+    "vol": 0.048782,
+    "maxdd": -0.041033,
+    "worst_year": 0.003282,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.15,
+     0.45,
+     0.4
+    ],
+    "cagr": 0.078922,
+    "sharpe": 1.577618,
+    "vol": 0.048916,
+    "maxdd": -0.044244,
+    "worst_year": -0.009885,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.15,
+     0.5,
+     0.35
+    ],
+    "cagr": 0.074984,
+    "sharpe": 1.479089,
+    "vol": 0.049728,
+    "maxdd": -0.049203,
+    "worst_year": -0.022903,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.15,
+     0.55,
+     0.3
+    ],
+    "cagr": 0.071025,
+    "sharpe": 1.366233,
+    "vol": 0.051188,
+    "maxdd": -0.059946,
+    "worst_year": -0.035776,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.15,
+     0.6,
+     0.25
+    ],
+    "cagr": 0.067044,
+    "sharpe": 1.245583,
+    "vol": 0.053242,
+    "maxdd": -0.071265,
+    "worst_year": -0.048503,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.15,
+     0.65,
+     0.2
+    ],
+    "cagr": 0.063042,
+    "sharpe": 1.123162,
+    "vol": 0.055825,
+    "maxdd": -0.08247,
+    "worst_year": -0.061087,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.15,
+     0.7,
+     0.15
+    ],
+    "cagr": 0.05902,
+    "sharpe": 1.003679,
+    "vol": 0.058866,
+    "maxdd": -0.093562,
+    "worst_year": -0.073528,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.15,
+     0.75,
+     0.1
+    ],
+    "cagr": 0.054978,
+    "sharpe": 0.890302,
+    "vol": 0.062299,
+    "maxdd": -0.104542,
+    "worst_year": -0.085828,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.15,
+     0.8,
+     0.05
+    ],
+    "cagr": 0.050916,
+    "sharpe": 0.78482,
+    "vol": 0.066063,
+    "maxdd": -0.115409,
+    "worst_year": -0.097988,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.15,
+     0.85,
+     0.0
+    ],
+    "cagr": 0.046835,
+    "sharpe": 0.687975,
+    "vol": 0.070105,
+    "maxdd": -0.126167,
+    "worst_year": -0.11001,
+    "feasible_now": true,
+    "wallet_needed_cny": 30412.0
+   },
+   {
+    "w": [
+     0.2,
+     0.0,
+     0.8
+    ],
+    "cagr": 0.111408,
+    "sharpe": 1.651619,
+    "vol": 0.065257,
+    "maxdd": -0.059809,
+    "worst_year": 0.032531,
+    "feasible_now": false,
+    "wallet_needed_cny": 1422328.0
+   },
+   {
+    "w": [
+     0.2,
+     0.05,
+     0.75
+    ],
+    "cagr": 0.107667,
+    "sharpe": 1.695971,
+    "vol": 0.061418,
+    "maxdd": -0.052375,
+    "worst_year": 0.030405,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.2,
+     0.1,
+     0.7
+    ],
+    "cagr": 0.1039,
+    "sharpe": 1.736398,
+    "vol": 0.057905,
+    "maxdd": -0.044913,
+    "worst_year": 0.028275,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.2,
+     0.15,
+     0.65
+    ],
+    "cagr": 0.100109,
+    "sharpe": 1.769391,
+    "vol": 0.05478,
+    "maxdd": -0.037425,
+    "worst_year": 0.026139,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.2,
+     0.2,
+     0.6
+    ],
+    "cagr": 0.096295,
+    "sharpe": 1.790462,
+    "vol": 0.052115,
+    "maxdd": -0.03666,
+    "worst_year": 0.024,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.2,
+     0.25,
+     0.55
+    ],
+    "cagr": 0.092456,
+    "sharpe": 1.794477,
+    "vol": 0.049983,
+    "maxdd": -0.037268,
+    "worst_year": 0.021855,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.2,
+     0.3,
+     0.5
+    ],
+    "cagr": 0.088595,
+    "sharpe": 1.776464,
+    "vol": 0.048453,
+    "maxdd": -0.038188,
+    "worst_year": 0.019707,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.2,
+     0.35,
+     0.45
+    ],
+    "cagr": 0.08471,
+    "sharpe": 1.732862,
+    "vol": 0.047585,
+    "maxdd": -0.039106,
+    "worst_year": 0.01093,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.2,
+     0.4,
+     0.4
+    ],
+    "cagr": 0.080803,
+    "sharpe": 1.662812,
+    "vol": 0.047414,
+    "maxdd": -0.040769,
+    "worst_year": -0.002334,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.2,
+     0.45,
+     0.35
+    ],
+    "cagr": 0.076874,
+    "sharpe": 1.568846,
+    "vol": 0.047948,
+    "maxdd": -0.043984,
+    "worst_year": -0.01545,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.2,
+     0.5,
+     0.3
+    ],
+    "cagr": 0.072923,
+    "sharpe": 1.456463,
+    "vol": 0.049164,
+    "maxdd": -0.053364,
+    "worst_year": -0.028418,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.2,
+     0.55,
+     0.25
+    ],
+    "cagr": 0.068951,
+    "sharpe": 1.332753,
+    "vol": 0.051013,
+    "maxdd": -0.06476,
+    "worst_year": -0.04124,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.2,
+     0.6,
+     0.2
+    ],
+    "cagr": 0.064958,
+    "sharpe": 1.204764,
+    "vol": 0.05343,
+    "maxdd": -0.076041,
+    "worst_year": -0.053917,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.2,
+     0.65,
+     0.15
+    ],
+    "cagr": 0.060944,
+    "sharpe": 1.078304,
+    "vol": 0.056341,
+    "maxdd": -0.087208,
+    "worst_year": -0.066451,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.2,
+     0.7,
+     0.1
+    ],
+    "cagr": 0.05691,
+    "sharpe": 0.957449,
+    "vol": 0.059675,
+    "maxdd": -0.098262,
+    "worst_year": -0.078843,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.2,
+     0.75,
+     0.05
+    ],
+    "cagr": 0.052856,
+    "sharpe": 0.844615,
+    "vol": 0.063364,
+    "maxdd": -0.109204,
+    "worst_year": -0.091093,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.2,
+     0.8,
+     0.0
+    ],
+    "cagr": 0.048782,
+    "sharpe": 0.740912,
+    "vol": 0.06735,
+    "maxdd": -0.120229,
+    "worst_year": -0.103204,
+    "feasible_now": true,
+    "wallet_needed_cny": 32313.0
+   },
+   {
+    "w": [
+     0.25,
+     0.0,
+     0.75
+    ],
+    "cagr": 0.109451,
+    "sharpe": 1.696764,
+    "vol": 0.062373,
+    "maxdd": -0.056436,
+    "worst_year": 0.031971,
+    "feasible_now": false,
+    "wallet_needed_cny": 1517150.0
+   },
+   {
+    "w": [
+     0.25,
+     0.05,
+     0.7
+    ],
+    "cagr": 0.105695,
+    "sharpe": 1.742256,
+    "vol": 0.058669,
+    "maxdd": -0.048991,
+    "worst_year": 0.029841,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.25,
+     0.1,
+     0.65
+    ],
+    "cagr": 0.101914,
+    "sharpe": 1.782207,
+    "vol": 0.055324,
+    "maxdd": -0.041519,
+    "worst_year": 0.027708,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.25,
+     0.15,
+     0.6
+    ],
+    "cagr": 0.098109,
+    "sharpe": 1.81234,
+    "vol": 0.052408,
+    "maxdd": -0.037842,
+    "worst_year": 0.025569,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.25,
+     0.2,
+     0.55
+    ],
+    "cagr": 0.094281,
+    "sharpe": 1.827409,
+    "vol": 0.049996,
+    "maxdd": -0.038277,
+    "worst_year": 0.023426,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.25,
+     0.25,
+     0.5
+    ],
+    "cagr": 0.090429,
+    "sharpe": 1.821801,
+    "vol": 0.048164,
+    "maxdd": -0.039196,
+    "worst_year": 0.021278,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.25,
+     0.3,
+     0.45
+    ],
+    "cagr": 0.086554,
+    "sharpe": 1.790711,
+    "vol": 0.04698,
+    "maxdd": -0.040114,
+    "worst_year": 0.018618,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.25,
+     0.35,
+     0.4
+    ],
+    "cagr": 0.082656,
+    "sharpe": 1.731646,
+    "vol": 0.046494,
+    "maxdd": -0.041032,
+    "worst_year": 0.005256,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.25,
+     0.4,
+     0.35
+    ],
+    "cagr": 0.078736,
+    "sharpe": 1.645608,
+    "vol": 0.046726,
+    "maxdd": -0.04195,
+    "worst_year": -0.007956,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.25,
+     0.45,
+     0.3
+    ],
+    "cagr": 0.074794,
+    "sharpe": 1.537225,
+    "vol": 0.047668,
+    "maxdd": -0.046751,
+    "worst_year": -0.021021,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.25,
+     0.5,
+     0.25
+    ],
+    "cagr": 0.07083,
+    "sharpe": 1.413612,
+    "vol": 0.049277,
+    "maxdd": -0.058224,
+    "worst_year": -0.033938,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.25,
+     0.55,
+     0.2
+    ],
+    "cagr": 0.066846,
+    "sharpe": 1.282558,
+    "vol": 0.051491,
+    "maxdd": -0.069581,
+    "worst_year": -0.046709,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.25,
+     0.6,
+     0.15
+    ],
+    "cagr": 0.06284,
+    "sharpe": 1.150926,
+    "vol": 0.054237,
+    "maxdd": -0.080824,
+    "worst_year": -0.059336,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.25,
+     0.65,
+     0.1
+    ],
+    "cagr": 0.058814,
+    "sharpe": 1.023802,
+    "vol": 0.057439,
+    "maxdd": -0.091953,
+    "worst_year": -0.071819,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.25,
+     0.7,
+     0.05
+    ],
+    "cagr": 0.054768,
+    "sharpe": 0.90438,
+    "vol": 0.061023,
+    "maxdd": -0.102969,
+    "worst_year": -0.084161,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.25,
+     0.75,
+     0.0
+    ],
+    "cagr": 0.050703,
+    "sharpe": 0.794275,
+    "vol": 0.064928,
+    "maxdd": -0.114438,
+    "worst_year": -0.096362,
+    "feasible_now": true,
+    "wallet_needed_cny": 34467.0
+   },
+   {
+    "w": [
+     0.3,
+     0.0,
+     0.7
+    ],
+    "cagr": 0.10746,
+    "sharpe": 1.734009,
+    "vol": 0.059911,
+    "maxdd": -0.05306,
+    "worst_year": 0.031396,
+    "feasible_now": false,
+    "wallet_needed_cny": 1625518.0
+   },
+   {
+    "w": [
+     0.3,
+     0.05,
+     0.65
+    ],
+    "cagr": 0.10369,
+    "sharpe": 1.778422,
+    "vol": 0.056381,
+    "maxdd": -0.045605,
+    "worst_year": 0.029263,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.3,
+     0.1,
+     0.6
+    ],
+    "cagr": 0.099895,
+    "sharpe": 1.815096,
+    "vol": 0.053248,
+    "maxdd": -0.039035,
+    "worst_year": 0.027126,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.3,
+     0.15,
+     0.55
+    ],
+    "cagr": 0.096076,
+    "sharpe": 1.839031,
+    "vol": 0.050588,
+    "maxdd": -0.039371,
+    "worst_year": 0.024984,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.3,
+     0.2,
+     0.5
+    ],
+    "cagr": 0.092234,
+    "sharpe": 1.844462,
+    "vol": 0.048478,
+    "maxdd": -0.040206,
+    "worst_year": 0.022838,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.3,
+     0.25,
+     0.45
+    ],
+    "cagr": 0.088368,
+    "sharpe": 1.825816,
+    "vol": 0.046992,
+    "maxdd": -0.041124,
+    "worst_year": 0.020687,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.3,
+     0.3,
+     0.4
+    ],
+    "cagr": 0.08448,
+    "sharpe": 1.779197,
+    "vol": 0.04619,
+    "maxdd": -0.042041,
+    "worst_year": 0.012887,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.3,
+     0.35,
+     0.35
+    ],
+    "cagr": 0.080569,
+    "sharpe": 1.703903,
+    "vol": 0.046108,
+    "maxdd": -0.042959,
+    "worst_year": -0.000423,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.3,
+     0.4,
+     0.3
+    ],
+    "cagr": 0.076636,
+    "sharpe": 1.60313,
+    "vol": 0.04675,
+    "maxdd": -0.043876,
+    "worst_year": -0.013584,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.3,
+     0.45,
+     0.25
+    ],
+    "cagr": 0.072682,
+    "sharpe": 1.48334,
+    "vol": 0.048086,
+    "maxdd": -0.051657,
+    "worst_year": -0.026596,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.3,
+     0.5,
+     0.2
+    ],
+    "cagr": 0.068706,
+    "sharpe": 1.352537,
+    "vol": 0.050062,
+    "maxdd": -0.063091,
+    "worst_year": -0.039462,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.3,
+     0.55,
+     0.15
+    ],
+    "cagr": 0.064709,
+    "sharpe": 1.218387,
+    "vol": 0.052605,
+    "maxdd": -0.07441,
+    "worst_year": -0.052183,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.3,
+     0.6,
+     0.1
+    ],
+    "cagr": 0.060691,
+    "sharpe": 1.086961,
+    "vol": 0.055638,
+    "maxdd": -0.085614,
+    "worst_year": -0.064758,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.3,
+     0.65,
+     0.05
+    ],
+    "cagr": 0.056654,
+    "sharpe": 0.962327,
+    "vol": 0.059084,
+    "maxdd": -0.09703,
+    "worst_year": -0.077191,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.3,
+     0.7,
+     0.0
+    ],
+    "cagr": 0.052596,
+    "sharpe": 0.846747,
+    "vol": 0.062877,
+    "maxdd": -0.108624,
+    "worst_year": -0.089483,
+    "feasible_now": true,
+    "wallet_needed_cny": 36929.0
+   },
+   {
+    "w": [
+     0.35,
+     0.0,
+     0.65
+    ],
+    "cagr": 0.105436,
+    "sharpe": 1.759899,
+    "vol": 0.057923,
+    "maxdd": -0.049681,
+    "worst_year": 0.030806,
+    "feasible_now": false,
+    "wallet_needed_cny": 1750558.0
+   },
+   {
+    "w": [
+     0.35,
+     0.05,
+     0.6
+    ],
+    "cagr": 0.101651,
+    "sharpe": 1.800363,
+    "vol": 0.054612,
+    "maxdd": -0.042215,
+    "worst_year": 0.028671,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.35,
+     0.1,
+     0.55
+    ],
+    "cagr": 0.097843,
+    "sharpe": 1.830387,
+    "vol": 0.05174,
+    "maxdd": -0.040567,
+    "worst_year": 0.02653,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.35,
+     0.2,
+     0.45
+    ],
+    "cagr": 0.090154,
+    "sharpe": 1.836846,
+    "vol": 0.047619,
+    "maxdd": -0.042135,
+    "worst_year": 0.022235,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.35,
+     0.25,
+     0.4
+    ],
+    "cagr": 0.086276,
+    "sharpe": 1.802692,
+    "vol": 0.046515,
+    "maxdd": -0.043053,
+    "worst_year": 0.020081,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.35,
+     0.3,
+     0.35
+    ],
+    "cagr": 0.082374,
+    "sharpe": 1.739783,
+    "vol": 0.046117,
+    "maxdd": -0.043969,
+    "worst_year": 0.007151,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.35,
+     0.35,
+     0.3
+    ],
+    "cagr": 0.078451,
+    "sharpe": 1.649612,
+    "vol": 0.046445,
+    "maxdd": -0.044886,
+    "worst_year": -0.006107,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.35,
+     0.4,
+     0.25
+    ],
+    "cagr": 0.074505,
+    "sharpe": 1.53736,
+    "vol": 0.047483,
+    "maxdd": -0.045802,
+    "worst_year": -0.019216,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.35,
+     0.45,
+     0.2
+    ],
+    "cagr": 0.070538,
+    "sharpe": 1.41057,
+    "vol": 0.049187,
+    "maxdd": -0.05657,
+    "worst_year": -0.032177,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.35,
+     0.5,
+     0.15
+    ],
+    "cagr": 0.06655,
+    "sharpe": 1.277226,
+    "vol": 0.05149,
+    "maxdd": -0.067965,
+    "worst_year": -0.044991,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.35,
+     0.55,
+     0.1
+    ],
+    "cagr": 0.062541,
+    "sharpe": 1.144172,
+    "vol": 0.054316,
+    "maxdd": -0.07932,
+    "worst_year": -0.05766,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.35,
+     0.6,
+     0.05
+    ],
+    "cagr": 0.058512,
+    "sharpe": 1.016343,
+    "vol": 0.057588,
+    "maxdd": -0.091117,
+    "worst_year": -0.070185,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.35,
+     0.65,
+     0.0
+    ],
+    "cagr": 0.054462,
+    "sharpe": 0.896738,
+    "vol": 0.061235,
+    "maxdd": -0.102784,
+    "worst_year": -0.082567,
+    "feasible_now": true,
+    "wallet_needed_cny": 39770.0
+   },
+   {
+    "w": [
+     0.4,
+     0.0,
+     0.6
+    ],
+    "cagr": 0.103378,
+    "sharpe": 1.771003,
+    "vol": 0.05646,
+    "maxdd": -0.046299,
+    "worst_year": 0.030203,
+    "feasible_now": false,
+    "wallet_needed_cny": 1896438.0
+   },
+   {
+    "w": [
+     0.4,
+     0.05,
+     0.55
+    ],
+    "cagr": 0.09958,
+    "sharpe": 1.804279,
+    "vol": 0.053414,
+    "maxdd": -0.041764,
+    "worst_year": 0.028064,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.4,
+     0.1,
+     0.5
+    ],
+    "cagr": 0.095757,
+    "sharpe": 1.824188,
+    "vol": 0.050848,
+    "maxdd": -0.042231,
+    "worst_year": 0.02592,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.4,
+     0.15,
+     0.45
+    ],
+    "cagr": 0.091912,
+    "sharpe": 1.825198,
+    "vol": 0.048838,
+    "maxdd": -0.043149,
+    "worst_year": 0.023772,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.4,
+     0.2,
+     0.4
+    ],
+    "cagr": 0.088043,
+    "sharpe": 1.802178,
+    "vol": 0.047455,
+    "maxdd": -0.044066,
+    "worst_year": 0.021619,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.4,
+     0.25,
+     0.35
+    ],
+    "cagr": 0.084151,
+    "sharpe": 1.751831,
+    "vol": 0.046753,
+    "maxdd": -0.044982,
+    "worst_year": 0.014765,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.4,
+     0.3,
+     0.3
+    ],
+    "cagr": 0.080236,
+    "sharpe": 1.674033,
+    "vol": 0.046765,
+    "maxdd": -0.045898,
+    "worst_year": 0.001409,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.4,
+     0.35,
+     0.25
+    ],
+    "cagr": 0.0763,
+    "sharpe": 1.572326,
+    "vol": 0.04749,
+    "maxdd": -0.046814,
+    "worst_year": -0.011796,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.4,
+     0.4,
+     0.2
+    ],
+    "cagr": 0.072342,
+    "sharpe": 1.453155,
+    "vol": 0.048895,
+    "maxdd": -0.050019,
+    "worst_year": -0.024852,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.4,
+     0.45,
+     0.15
+    ],
+    "cagr": 0.068363,
+    "sharpe": 1.324202,
+    "vol": 0.050924,
+    "maxdd": -0.06149,
+    "worst_year": -0.037761,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.4,
+     0.5,
+     0.1
+    ],
+    "cagr": 0.064363,
+    "sharpe": 1.192669,
+    "vol": 0.053507,
+    "maxdd": -0.073309,
+    "worst_year": -0.050523,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.4,
+     0.55,
+     0.05
+    ],
+    "cagr": 0.060342,
+    "sharpe": 1.064186,
+    "vol": 0.056568,
+    "maxdd": -0.08518,
+    "worst_year": -0.063141,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.4,
+     0.6,
+     0.0
+    ],
+    "cagr": 0.056301,
+    "sharpe": 0.942498,
+    "vol": 0.060034,
+    "maxdd": -0.096921,
+    "worst_year": -0.075614,
+    "feasible_now": true,
+    "wallet_needed_cny": 43084.0
+   },
+   {
+    "w": [
+     0.45,
+     0.0,
+     0.55
+    ],
+    "cagr": 0.101288,
+    "sharpe": 1.764519,
+    "vol": 0.055564,
+    "maxdd": -0.042962,
+    "worst_year": 0.029585,
+    "feasible_now": false,
+    "wallet_needed_cny": 2068841.0
+   },
+   {
+    "w": [
+     0.45,
+     0.05,
+     0.5
+    ],
+    "cagr": 0.097476,
+    "sharpe": 1.7875,
+    "vol": 0.052826,
+    "maxdd": -0.043298,
+    "worst_year": 0.027442,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.45,
+     0.1,
+     0.45
+    ],
+    "cagr": 0.09364,
+    "sharpe": 1.794433,
+    "vol": 0.050606,
+    "maxdd": -0.044164,
+    "worst_year": 0.025295,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.45,
+     0.15,
+     0.4
+    ],
+    "cagr": 0.089781,
+    "sharpe": 1.780345,
+    "vol": 0.048975,
+    "maxdd": -0.04508,
+    "worst_year": 0.023144,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.45,
+     0.2,
+     0.35
+    ],
+    "cagr": 0.085898,
+    "sharpe": 1.741427,
+    "vol": 0.047992,
+    "maxdd": -0.045996,
+    "worst_year": 0.020988,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.45,
+     0.25,
+     0.3
+    ],
+    "cagr": 0.081994,
+    "sharpe": 1.67632,
+    "vol": 0.047698,
+    "maxdd": -0.046912,
+    "worst_year": 0.008965,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.45,
+     0.3,
+     0.25
+    ],
+    "cagr": 0.078067,
+    "sharpe": 1.586926,
+    "vol": 0.048105,
+    "maxdd": -0.047827,
+    "worst_year": -0.004337,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.45,
+     0.35,
+     0.2
+    ],
+    "cagr": 0.074118,
+    "sharpe": 1.478192,
+    "vol": 0.049197,
+    "maxdd": -0.048742,
+    "worst_year": -0.017489,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.45,
+     0.4,
+     0.15
+    ],
+    "cagr": 0.070148,
+    "sharpe": 1.356907,
+    "vol": 0.050928,
+    "maxdd": -0.055193,
+    "worst_year": -0.030493,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.45,
+     0.45,
+     0.1
+    ],
+    "cagr": 0.066157,
+    "sharpe": 1.230105,
+    "vol": 0.053237,
+    "maxdd": -0.067273,
+    "worst_year": -0.043349,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.45,
+     0.5,
+     0.05
+    ],
+    "cagr": 0.062145,
+    "sharpe": 1.103785,
+    "vol": 0.056052,
+    "maxdd": -0.079219,
+    "worst_year": -0.056059,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.45,
+     0.55,
+     0.0
+    ],
+    "cagr": 0.058112,
+    "sharpe": 0.982301,
+    "vol": 0.059302,
+    "maxdd": -0.091033,
+    "worst_year": -0.068625,
+    "feasible_now": true,
+    "wallet_needed_cny": 47000.0
+   },
+   {
+    "w": [
+     0.5,
+     0.0,
+     0.5
+    ],
+    "cagr": 0.099164,
+    "sharpe": 1.738924,
+    "vol": 0.055262,
+    "maxdd": -0.044498,
+    "worst_year": 0.028952,
+    "feasible_now": false,
+    "wallet_needed_cny": 2275725.0
+   },
+   {
+    "w": [
+     0.5,
+     0.05,
+     0.45
+    ],
+    "cagr": 0.095339,
+    "sharpe": 1.749244,
+    "vol": 0.052868,
+    "maxdd": -0.045181,
+    "worst_year": 0.026806,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.5,
+     0.1,
+     0.4
+    ],
+    "cagr": 0.09149,
+    "sharpe": 1.741606,
+    "vol": 0.051023,
+    "maxdd": -0.046097,
+    "worst_year": 0.024656,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.5,
+     0.15,
+     0.35
+    ],
+    "cagr": 0.087617,
+    "sharpe": 1.712164,
+    "vol": 0.049788,
+    "maxdd": -0.047013,
+    "worst_year": 0.022502,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.5,
+     0.2,
+     0.3
+    ],
+    "cagr": 0.083722,
+    "sharpe": 1.658818,
+    "vol": 0.049208,
+    "maxdd": -0.047928,
+    "worst_year": 0.016561,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.5,
+     0.25,
+     0.25
+    ],
+    "cagr": 0.079805,
+    "sharpe": 1.582112,
+    "vol": 0.049307,
+    "maxdd": -0.048843,
+    "worst_year": 0.003161,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.5,
+     0.3,
+     0.2
+    ],
+    "cagr": 0.075866,
+    "sharpe": 1.485424,
+    "vol": 0.050082,
+    "maxdd": -0.049758,
+    "worst_year": -0.010088,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.5,
+     0.35,
+     0.15
+    ],
+    "cagr": 0.071905,
+    "sharpe": 1.374264,
+    "vol": 0.0515,
+    "maxdd": -0.050672,
+    "worst_year": -0.023187,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.5,
+     0.4,
+     0.1
+    ],
+    "cagr": 0.067922,
+    "sharpe": 1.254995,
+    "vol": 0.053512,
+    "maxdd": -0.061212,
+    "worst_year": -0.036137,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.5,
+     0.45,
+     0.05
+    ],
+    "cagr": 0.063919,
+    "sharpe": 1.133562,
+    "vol": 0.056053,
+    "maxdd": -0.073232,
+    "worst_year": -0.048941,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.5,
+     0.5,
+     0.0
+    ],
+    "cagr": 0.059896,
+    "sharpe": 1.014677,
+    "vol": 0.059056,
+    "maxdd": -0.085121,
+    "worst_year": -0.061598,
+    "feasible_now": true,
+    "wallet_needed_cny": 51700.0
+   },
+   {
+    "w": [
+     0.55,
+     0.0,
+     0.45
+    ],
+    "cagr": 0.097008,
+    "sharpe": 1.694432,
+    "vol": 0.055564,
+    "maxdd": -0.0462,
+    "worst_year": 0.028305,
+    "feasible_now": false,
+    "wallet_needed_cny": 2528583.0
+   },
+   {
+    "w": [
+     0.55,
+     0.05,
+     0.4
+    ],
+    "cagr": 0.093169,
+    "sharpe": 1.690958,
+    "vol": 0.053539,
+    "maxdd": -0.047116,
+    "worst_year": 0.026156,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.55,
+     0.1,
+     0.35
+    ],
+    "cagr": 0.089307,
+    "sharpe": 1.668774,
+    "vol": 0.052083,
+    "maxdd": -0.048031,
+    "worst_year": 0.024003,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.55,
+     0.15,
+     0.3
+    ],
+    "cagr": 0.085422,
+    "sharpe": 1.625483,
+    "vol": 0.051245,
+    "maxdd": -0.048946,
+    "worst_year": 0.021845,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.55,
+     0.2,
+     0.25
+    ],
+    "cagr": 0.081514,
+    "sharpe": 1.560685,
+    "vol": 0.051055,
+    "maxdd": -0.04986,
+    "worst_year": 0.010699,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.55,
+     0.25,
+     0.2
+    ],
+    "cagr": 0.077585,
+    "sharpe": 1.476383,
+    "vol": 0.05152,
+    "maxdd": -0.050774,
+    "worst_year": -0.002647,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.55,
+     0.3,
+     0.15
+    ],
+    "cagr": 0.073633,
+    "sharpe": 1.376695,
+    "vol": 0.052622,
+    "maxdd": -0.051688,
+    "worst_year": -0.015842,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.55,
+     0.35,
+     0.1
+    ],
+    "cagr": 0.06966,
+    "sharpe": 1.266972,
+    "vol": 0.054324,
+    "maxdd": -0.055126,
+    "worst_year": -0.028887,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.55,
+     0.4,
+     0.05
+    ],
+    "cagr": 0.065666,
+    "sharpe": 1.152703,
+    "vol": 0.056572,
+    "maxdd": -0.067221,
+    "worst_year": -0.041784,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.55,
+     0.45,
+     0.0
+    ],
+    "cagr": 0.061651,
+    "sharpe": 1.038633,
+    "vol": 0.059302,
+    "maxdd": -0.079184,
+    "worst_year": -0.054535,
+    "feasible_now": true,
+    "wallet_needed_cny": 57445.0
+   },
+   {
+    "w": [
+     0.6,
+     0.0,
+     0.4
+    ],
+    "cagr": 0.09482,
+    "sharpe": 1.633053,
+    "vol": 0.05646,
+    "maxdd": -0.048136,
+    "worst_year": 0.027644,
+    "feasible_now": false,
+    "wallet_needed_cny": 2844656.0
+   },
+   {
+    "w": [
+     0.6,
+     0.05,
+     0.35
+    ],
+    "cagr": 0.090968,
+    "sharpe": 1.616062,
+    "vol": 0.054816,
+    "maxdd": -0.049051,
+    "worst_year": 0.025492,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.6,
+     0.1,
+     0.3
+    ],
+    "cagr": 0.087093,
+    "sharpe": 1.580849,
+    "vol": 0.053748,
+    "maxdd": -0.049965,
+    "worst_year": 0.023335,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.6,
+     0.15,
+     0.25
+    ],
+    "cagr": 0.083195,
+    "sharpe": 1.526469,
+    "vol": 0.053293,
+    "maxdd": -0.05088,
+    "worst_year": 0.018275,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.6,
+     0.2,
+     0.2
+    ],
+    "cagr": 0.079275,
+    "sharpe": 1.453874,
+    "vol": 0.053466,
+    "maxdd": -0.051793,
+    "worst_year": 0.004832,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.6,
+     0.25,
+     0.15
+    ],
+    "cagr": 0.075333,
+    "sharpe": 1.365911,
+    "vol": 0.054261,
+    "maxdd": -0.052707,
+    "worst_year": -0.008459,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.6,
+     0.3,
+     0.1
+    ],
+    "cagr": 0.071369,
+    "sharpe": 1.266791,
+    "vol": 0.055651,
+    "maxdd": -0.05362,
+    "worst_year": -0.021599,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.6,
+     0.35,
+     0.05
+    ],
+    "cagr": 0.067384,
+    "sharpe": 1.16126,
+    "vol": 0.057593,
+    "maxdd": -0.061186,
+    "worst_year": -0.034591,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.6,
+     0.4,
+     0.0
+    ],
+    "cagr": 0.063379,
+    "sharpe": 1.053789,
+    "vol": 0.060034,
+    "maxdd": -0.073223,
+    "worst_year": -0.047434,
+    "feasible_now": true,
+    "wallet_needed_cny": 64626.0
+   },
+   {
+    "w": [
+     0.65,
+     0.0,
+     0.35
+    ],
+    "cagr": 0.092599,
+    "sharpe": 1.558199,
+    "vol": 0.057923,
+    "maxdd": -0.050073,
+    "worst_year": 0.026968,
+    "feasible_now": false,
+    "wallet_needed_cny": 3251036.0
+   },
+   {
+    "w": [
+     0.65,
+     0.05,
+     0.3
+    ],
+    "cagr": 0.088734,
+    "sharpe": 1.529182,
+    "vol": 0.056657,
+    "maxdd": -0.050987,
+    "worst_year": 0.024813,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.65,
+     0.1,
+     0.25
+    ],
+    "cagr": 0.084847,
+    "sharpe": 1.483456,
+    "vol": 0.055964,
+    "maxdd": -0.051901,
+    "worst_year": 0.022654,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.65,
+     0.15,
+     0.2
+    ],
+    "cagr": 0.080936,
+    "sharpe": 1.421267,
+    "vol": 0.055868,
+    "maxdd": -0.052814,
+    "worst_year": 0.012351,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.65,
+     0.2,
+     0.15
+    ],
+    "cagr": 0.077004,
+    "sharpe": 1.34443,
+    "vol": 0.05637,
+    "maxdd": -0.053727,
+    "worst_year": -0.001037,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.65,
+     0.25,
+     0.1
+    ],
+    "cagr": 0.07305,
+    "sharpe": 1.256074,
+    "vol": 0.057455,
+    "maxdd": -0.055499,
+    "worst_year": -0.014274,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.65,
+     0.3,
+     0.05
+    ],
+    "cagr": 0.069074,
+    "sharpe": 1.160075,
+    "vol": 0.059092,
+    "maxdd": -0.057556,
+    "worst_year": -0.02736,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "cagr": 0.065078,
+    "sharpe": 1.060401,
+    "vol": 0.061235,
+    "maxdd": -0.067237,
+    "worst_year": -0.040297,
+    "feasible_now": true,
+    "wallet_needed_cny": 73858.0
+   },
+   {
+    "w": [
+     0.7,
+     0.0,
+     0.3
+    ],
+    "cagr": 0.090347,
+    "sharpe": 1.473999,
+    "vol": 0.059911,
+    "maxdd": -0.052395,
+    "worst_year": 0.026278,
+    "feasible_now": false,
+    "wallet_needed_cny": 3792875.0
+   },
+   {
+    "w": [
+     0.7,
+     0.05,
+     0.25
+    ],
+    "cagr": 0.086469,
+    "sharpe": 1.435212,
+    "vol": 0.059009,
+    "maxdd": -0.053131,
+    "worst_year": 0.02412,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.7,
+     0.1,
+     0.2
+    ],
+    "cagr": 0.082569,
+    "sharpe": 1.381876,
+    "vol": 0.058669,
+    "maxdd": -0.054698,
+    "worst_year": 0.019908,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.7,
+     0.15,
+     0.15
+    ],
+    "cagr": 0.078646,
+    "sharpe": 1.315045,
+    "vol": 0.0589,
+    "maxdd": -0.056264,
+    "worst_year": 0.006423,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.7,
+     0.2,
+     0.1
+    ],
+    "cagr": 0.074702,
+    "sharpe": 1.236931,
+    "vol": 0.059695,
+    "maxdd": -0.05783,
+    "worst_year": -0.00691,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.7,
+     0.25,
+     0.05
+    ],
+    "cagr": 0.070736,
+    "sharpe": 1.150556,
+    "vol": 0.061032,
+    "maxdd": -0.059665,
+    "worst_year": -0.020091,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.7,
+     0.3,
+     0.0
+    ],
+    "cagr": 0.066749,
+    "sharpe": 1.059263,
+    "vol": 0.062877,
+    "maxdd": -0.061712,
+    "worst_year": -0.033123,
+    "feasible_now": true,
+    "wallet_needed_cny": 86167.0
+   },
+   {
+    "w": [
+     0.75,
+     0.0,
+     0.25
+    ],
+    "cagr": 0.088062,
+    "sharpe": 1.384583,
+    "vol": 0.062373,
+    "maxdd": -0.056249,
+    "worst_year": 0.025574,
+    "feasible_now": false,
+    "wallet_needed_cny": 4551450.0
+   },
+   {
+    "w": [
+     0.75,
+     0.05,
+     0.2
+    ],
+    "cagr": 0.084172,
+    "sharpe": 1.338558,
+    "vol": 0.061816,
+    "maxdd": -0.057575,
+    "worst_year": 0.023413,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.75,
+     0.1,
+     0.15
+    ],
+    "cagr": 0.08026,
+    "sharpe": 1.280393,
+    "vol": 0.061798,
+    "maxdd": -0.059134,
+    "worst_year": 0.013921,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.75,
+     0.15,
+     0.1
+    ],
+    "cagr": 0.076325,
+    "sharpe": 1.211582,
+    "vol": 0.062323,
+    "maxdd": -0.060693,
+    "worst_year": 0.000492,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.75,
+     0.2,
+     0.05
+    ],
+    "cagr": 0.072369,
+    "sharpe": 1.134393,
+    "vol": 0.063374,
+    "maxdd": -0.062252,
+    "worst_year": -0.012785,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.75,
+     0.25,
+     0.0
+    ],
+    "cagr": 0.068391,
+    "sharpe": 1.051529,
+    "vol": 0.064928,
+    "maxdd": -0.063816,
+    "worst_year": -0.025911,
+    "feasible_now": true,
+    "wallet_needed_cny": 103401.0
+   },
+   {
+    "w": [
+     0.8,
+     0.0,
+     0.2
+    ],
+    "cagr": 0.085746,
+    "sharpe": 1.293557,
+    "vol": 0.065257,
+    "maxdd": -0.060449,
+    "worst_year": 0.024856,
+    "feasible_now": false,
+    "wallet_needed_cny": 5689312.0
+   },
+   {
+    "w": [
+     0.8,
+     0.05,
+     0.15
+    ],
+    "cagr": 0.081844,
+    "sharpe": 1.242708,
+    "vol": 0.065017,
+    "maxdd": -0.062002,
+    "worst_year": 0.021458,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.8,
+     0.1,
+     0.1
+    ],
+    "cagr": 0.077919,
+    "sharpe": 1.182074,
+    "vol": 0.065291,
+    "maxdd": -0.063555,
+    "worst_year": 0.007932,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.8,
+     0.15,
+     0.05
+    ],
+    "cagr": 0.073973,
+    "sharpe": 1.113304,
+    "vol": 0.066075,
+    "maxdd": -0.065106,
+    "worst_year": -0.005441,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.8,
+     0.2,
+     0.0
+    ],
+    "cagr": 0.070005,
+    "sharpe": 1.038516,
+    "vol": 0.06735,
+    "maxdd": -0.066657,
+    "worst_year": -0.018663,
+    "feasible_now": true,
+    "wallet_needed_cny": 129251.0
+   },
+   {
+    "w": [
+     0.85,
+     0.0,
+     0.15
+    ],
+    "cagr": 0.083399,
+    "sharpe": 1.203735,
+    "vol": 0.068509,
+    "maxdd": -0.064867,
+    "worst_year": 0.024123,
+    "feasible_now": false,
+    "wallet_needed_cny": 7585750.0
+   },
+   {
+    "w": [
+     0.85,
+     0.05,
+     0.1
+    ],
+    "cagr": 0.079485,
+    "sharpe": 1.15013,
+    "vol": 0.068557,
+    "maxdd": -0.066413,
+    "worst_year": 0.01541,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.85,
+     0.1,
+     0.05
+    ],
+    "cagr": 0.075548,
+    "sharpe": 1.088858,
+    "vol": 0.069093,
+    "maxdd": -0.067958,
+    "worst_year": 0.00194,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.85,
+     0.15,
+     0.0
+    ],
+    "cagr": 0.07159,
+    "sharpe": 1.021537,
+    "vol": 0.070105,
+    "maxdd": -0.069503,
+    "worst_year": -0.011377,
+    "feasible_now": true,
+    "wallet_needed_cny": 172335.0
+   },
+   {
+    "w": [
+     0.9,
+     0.0,
+     0.1
+    ],
+    "cagr": 0.08102,
+    "sharpe": 1.1171,
+    "vol": 0.072079,
+    "maxdd": -0.069268,
+    "worst_year": 0.022925,
+    "feasible_now": false,
+    "wallet_needed_cny": 11378625.0
+   },
+   {
+    "w": [
+     0.9,
+     0.05,
+     0.05
+    ],
+    "cagr": 0.077094,
+    "sharpe": 1.062376,
+    "vol": 0.072387,
+    "maxdd": -0.070807,
+    "worst_year": 0.009359,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.9,
+     0.1,
+     0.0
+    ],
+    "cagr": 0.073146,
+    "sharpe": 1.001786,
+    "vol": 0.073154,
+    "maxdd": -0.072345,
+    "worst_year": -0.004054,
+    "feasible_now": true,
+    "wallet_needed_cny": 258502.0
+   },
+   {
+    "w": [
+     0.95,
+     0.0,
+     0.05
+    ],
+    "cagr": 0.078611,
+    "sharpe": 1.034903,
+    "vol": 0.075923,
+    "maxdd": -0.073653,
+    "worst_year": 0.016815,
+    "feasible_now": false,
+    "wallet_needed_cny": 22757250.0
+   },
+   {
+    "w": [
+     0.95,
+     0.05,
+     0.0
+    ],
+    "cagr": 0.074673,
+    "sharpe": 0.980275,
+    "vol": 0.076463,
+    "maxdd": -0.075185,
+    "worst_year": 0.003306,
+    "feasible_now": true,
+    "wallet_needed_cny": 517004.0
+   },
+   {
+    "w": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "cagr": 0.076171,
+    "sharpe": 0.957817,
+    "vol": 0.08,
+    "maxdd": -0.078022,
+    "worst_year": 0.010703,
+    "feasible_now": true,
+    "wallet_needed_cny": 0.0
+   }
+  ]
+ },
+ "best_inside_gate": {
+  "w": [
+   0.65,
+   0.35,
+   0.0
+  ],
+  "cagr": 0.065078,
+  "sharpe": 1.060401,
+  "vol": 0.061235,
+  "maxdd": -0.067237,
+  "worst_year": -0.040297,
+  "feasible_now": true,
+  "wallet_needed_cny": 73858.0
+ },
+ "best_ignoring_gate": {
+  "w": [
+   0.35,
+   0.15,
+   0.5
+  ],
+  "cagr": 0.09401,
+  "sharpe": 1.844477,
+  "vol": 0.049383,
+  "maxdd": -0.041218,
+  "worst_year": 0.024385,
+  "feasible_now": false,
+  "wallet_needed_cny": 2275725.0
+ },
+ "best_single": {
+  "w": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "cagr": 0.118898,
+  "sharpe": 1.444612,
+  "vol": 0.08,
+  "maxdd": -0.073451,
+  "worst_year": 0.034627
+ },
+ "same_risk_at_8pct": {
+  "portfolio_vol_pct": 6.123,
+  "leverage_to_reach_8pct": 1.3065,
+  "cagr_at_8pct_pct": 8.5856,
+  "note": "a scaled portfolio with leverage > 1 is the same bet with more money on it; the Sharpe does not change, the drawdown does"
+ },
+ "verdict": "THE_THIRD_BOOK_IS_BEHIND_A_GATE",
+ "verdict_detail": {
+  "word": "THE_THIRD_BOOK_IS_BEHIND_A_GATE",
+  "sharpe_if_it_could_enter": 1.844477,
+  "sharpe_with_the_gate": 1.060401,
+  "gate_price_sharpe": 0.784076,
+  "capital_to_let_it_in_at_20pct_cny": 5689312.0
+ },
+ "sentence": "Three books, one wallet: the carry book has the best Sharpe of the three (1.445 vs 0.958 and 0.540) and still takes weight 0.00 in a 1,000,000 wallet, because one IC lot consumes 91029 CNY of the 8% volatility budget -- it fits only once the wallet is 5689312 CNY (w=0.20) 3413588 CNY (w=1/3). Inside the gate the best mix is ETF 65% / convertible 35% / carry 0%: 6.508% a year, Sharpe 1.060, drawdown -6.72%. Ignoring the gate the same grid would print Sharpe 1.844, so the gate costs 0.784 of Sharpe -- and that number is not a loss, it is a price nobody has paid yet.",
+ "provenance": {
+  "inputs": {
+   "etf": {
+    "path": "results/etf_nobond_vt.json",
+    "size": 3374,
+    "mtime": "2026-11-27T13:38:43+08:00"
+   },
+   "cb": {
+    "path": "results/cb_dual_low.json",
+    "size": 17068,
+    "mtime": "2026-11-27T11:47:04+08:00"
+   },
+   "carry_panel": {
+    "path": "data/futures_daily/IC.csv",
+    "size": 118062,
+    "mtime": "2026-11-26T20:31:23+08:00"
+   },
+   "index_panel": {
+    "path": "data/index_daily/sh000905.csv",
+    "size": 110845,
+    "mtime": "2026-11-26T20:35:27+08:00"
+   },
+   "sizing_spec": {
+    "path": "results/idx_fut_carry_sizing_spec.json",
+    "size": 4402,
+    "mtime": "2026-11-27T02:33:48+08:00"
+   },
+   "cb_floor": {
+    "path": "results/cb_book_ticket_floor.json",
+    "size": 8260,
+    "mtime": "2026-11-27T11:57:09+08:00"
+   },
+   "pair_blend": {
+    "path": "results/book_pair_blend.json",
+    "size": 13535,
+    "mtime": "2026-11-27T16:14:48+08:00"
+   }
+  },
+  "script": "scripts/three_book_wallet.py"
+ }
+}

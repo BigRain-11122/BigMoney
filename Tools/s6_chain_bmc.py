@@ -2899,6 +2899,20 @@ LEGS = [
     ("cadence_start_dates",
      ["python", "scripts/etf_book_cadence_start_dates.py", "check"],
      ["python", "scripts/etf_book_cadence_start_dates.py", "run"]),
+    # r2202: two faces were published on 2026-11-27/28 with no leg anywhere -- and one of
+    # them was not even in git (the holdout imports `three_book_wallet` as a module, so a
+    # fresh clone would hit ImportError while this chain reported green). The r2122 fleet
+    # leg only sees scripts a leg *names*, which is exactly why an unwired face can sit
+    # orphaned indefinitely (r1282 class). Both checks already speak STALE for a missing
+    # face or a moved upstream stamp, so `run` is paid only when the probe asks; the
+    # holdout's own check also holds it to the parent's published mix and it reads the
+    # parent face, hence the parent goes first.
+    ("three_book_wallet",
+     ["python", "scripts/three_book_wallet.py", "check"],
+     ["python", "scripts/three_book_wallet.py"]),
+    ("three_book_wallet_holdout",
+     ["python", "scripts/three_book_wallet_holdout.py", "check"],
+     ["python", "scripts/three_book_wallet_holdout.py"]),
 ]
 
 

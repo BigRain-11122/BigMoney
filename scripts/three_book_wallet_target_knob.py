@@ -25,10 +25,12 @@
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import math
 import os
 import sys
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -415,17 +417,74 @@ def render_md(face):
     return "\n".join(L) + "\n"
 
 
+def _stamp_now(rel):
+    # panels are stamped with a naive local ISO string (no offset) elsewhere in this
+    # family, so the comparison has to use the same shape or every panel reads moved.
+    path = rel if os.path.isabs(rel) else os.path.join(ROOT, rel)
+    if not os.path.exists(path):
+        return {"missing": True}
+    return {"size": os.path.getsize(path),
+            "mtime": datetime.fromtimestamp(os.path.getmtime(path))
+            .isoformat(timespec="seconds")}
+
+
+def _drift(face):
+    """Has any input this face read moved since it was built? (r2202 / r1850 family)
+
+    The parent's own `generated` stamp is the cheap external anchor: a parent rebuilt
+    after this face means this face is quoting a mix nobody publishes any more. Panel
+    size/mtime catches the same thing one level down when a parent face did not move
+    but its data did.
+    """
+    drifted = []
+    gen = face.get("generated")
+    try:
+        gen_dt = datetime.fromisoformat(gen) if gen else None
+    except ValueError:
+        gen_dt = None
+    for key, rec in (face.get("parents") or {}).items():
+        if not isinstance(rec, dict):
+            continue
+        panel = rec.get("panel")
+        if isinstance(panel, dict) and panel.get("path"):
+            now = _stamp_now(panel["path"])
+            if now.get("missing"):
+                drifted.append("%s panel missing now" % key)
+            elif now.get("size") != panel.get("size") or now.get("mtime") != panel.get("mtime"):
+                drifted.append("%s panel %s -> %s" % (key, panel.get("mtime"), now.get("mtime")))
+        rel = rec.get("face")
+        if rel:
+            path = os.path.join(ROOT, rel)
+            if not os.path.exists(path):
+                drifted.append("%s face missing now" % key)
+            elif gen_dt is not None:
+                try:
+                    with open(path, encoding="utf-8") as fh:
+                        theirs = json.load(fh).get("generated")
+                    theirs_dt = datetime.fromisoformat(theirs) if theirs else None
+                    if theirs_dt is not None:
+                        if (theirs_dt.tzinfo is None) != (gen_dt.tzinfo is None):
+                            theirs_dt = theirs_dt.replace(tzinfo=gen_dt.tzinfo or TZ)
+                        if theirs_dt > gen_dt:
+                            drifted.append("%s face rebuilt at %s, after this face"
+                                           % (key, theirs))
+                except (OSError, ValueError, TypeError):
+                    drifted.append("%s face unreadable" % key)
+    return drifted
+
+
 def check(quiet=False):
     p = FACE
     if not os.path.exists(p):
-        print("check: face missing -> run `python scripts/three_book_wallet_target_knob.py`")
-        return 2
+        print("STALE face missing: results/three_book_wallet_target_knob.json")
+        return 3
     with open(p, encoding="utf-8") as f:
         face = json.load(f)
+    drifted = _drift(face)
+    if drifted:
+        print("STALE upstream moved: " + "; ".join(drifted))
+        return 3
     errs = []
-    # Parent inputs must not have moved since this face was built.
-    for rel, stamp in (face.get("parents") or {}).items():
-        pass
     for a in face["arms"]:
         b = a["best_inside_gate"]
         if b is None:
@@ -477,7 +536,7 @@ def check(quiet=False):
     if errs:
         for e in errs:
             print("CHECK FAILED:", e)
-        return 3
+        return 2
     if not quiet:
         a8 = [a for a in face["arms"] if a["target"] == 0.08][0]
         print("check ok: %d arms, %s, 8%% best %.4f/%.3f"
@@ -485,6 +544,16 @@ def check(quiet=False):
                  a8["best_inside_gate"]["stats"]["cagr"],
                  a8["best_inside_gate"]["stats"]["sharpe"]))
     return 0
+
+
+def _check_path(path):
+    global FACE
+    saved = FACE
+    try:
+        FACE = path
+        return check(quiet=True)
+    finally:
+        FACE = saved
 
 
 def selftest():
@@ -552,6 +621,49 @@ def selftest():
        "verdict: weights moved but never into carry")
     ok(_verdict_of([], False) == "THE_KNOB_MOVED_NOTHING_BUT_VOLATILITY",
        "verdict: no feasible point at all is still not a jump")
+
+    # 9. r2202: the check used to answer only its own arithmetic, so a knob face left
+    # behind by a rebuilt parent stayed green forever. Three behaviour legs pin the
+    # contract the S6 chain pays against: drift says STALE, a defect must not wear it,
+    # and a missing face is a rebuild too.
+    tmp = os.path.join(ROOT, "results", "_three_book_wallet_target_knob_selftest.json")
+    try:
+        with open(FACE, encoding="utf-8") as fh:
+            real = json.load(fh)
+
+        moved = json.loads(json.dumps(real))
+        for rec in (moved.get("parents") or {}).values():
+            if isinstance(rec, dict) and isinstance(rec.get("panel"), dict):
+                rec["panel"]["mtime"] = "1970-01-01T00:00:00+08:00"
+                break
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(moved, fh)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = _check_path(tmp)
+        ok(rc == 3 and "STALE" in buf.getvalue(), "a moved parent panel is rc3 and says STALE")
+
+        broken = json.loads(json.dumps(real))
+        for arm in broken["arms"]:
+            if arm["best_inside_gate"] is not None:
+                arm["best_inside_gate"]["stats"]["vol"] = arm["target"] + 0.5
+                break
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(broken, fh)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = _check_path(tmp)
+        ok(rc == 2 and "CHECK FAILED" in buf.getvalue() and "STALE" not in buf.getvalue(),
+           "an arm above its own target is CHECK FAILED and does not wear STALE")
+
+        os.remove(tmp)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = _check_path(tmp)
+        ok(rc == 3 and "STALE" in buf.getvalue(), "a missing face is rc3 and says STALE")
+    finally:
+        if os.path.exists(tmp):
+            os.remove(tmp)
 
     if fails:
         print("selftest FAILED %d/%d" % (len(fails), n))

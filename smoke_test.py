@@ -16645,6 +16645,77 @@ def _legs_supply_and_book():
     except Exception as e:
         check("fleet: every script a leg names travels with the repo", False, repr(e)[:180])
 
+    # r2202: the wallet face and its holdout were both published on 2026-11-27/28 with no
+    # leg anywhere, and the module the holdout imports was not even in git. Four questions
+    # answered from the files: the holdout holds the mix the page recommends (not a mix of
+    # its own), the gate is book_floor / weight arithmetic, carry is unaffordable at
+    # 1,000,000, and the published page carries the verdict the face derives.
+    try:
+        _bad101 = three_book_wallet_problems()
+        check("product: the third book's gate is money and the holdout holds the published mix",
+              not _bad101, "; ".join(_bad101)[:240]
+              or "frozen mix == published mix; gate = book_floor / weight; carry weight 0; page prints the verdict")
+        _neg101 = three_book_wallet_problems(frozen_override=[0.34, 0.34, 0.32])
+        check("product: the wallet predicate speaks when the holdout drifts off the published mix",
+              len(_neg101) == 1 and "published mix" in _neg101[0],
+              "negative control: %r" % (_neg101,))
+    except Exception as e:
+        check("product: the third book's gate is money and the holdout holds the published mix",
+              False, repr(e)[:180])
+
+
+def three_book_wallet_problems(frozen_override=None, root=None):
+    """Problems with the three-book wallet face or the holdout that quotes it (r2202)."""
+    root = root or os.path.dirname(os.path.abspath(__file__))
+    problems = []
+    fp = os.path.join(root, "results", "three_book_wallet.json")
+    hp = os.path.join(root, "results", "three_book_wallet_holdout.json")
+    mp = os.path.join(root, "research", "THREE_BOOK_WALLET.md")
+    for p, name in ((fp, "results/three_book_wallet.json"),
+                    (hp, "results/three_book_wallet_holdout.json"),
+                    (mp, "research/THREE_BOOK_WALLET.md")):
+        if not os.path.exists(p):
+            problems.append("%s missing" % name)
+    if problems:
+        return problems
+    with open(fp, encoding="utf-8") as fh:
+        parent = json.load(fh) or {}
+    with open(hp, encoding="utf-8") as fh:
+        hold = json.load(fh) or {}
+    with open(mp, encoding="utf-8") as fh:
+        page = fh.read()
+    pw = ((parent.get("best_inside_gate") or {}).get("w") or [])
+    fw = frozen_override if frozen_override is not None else (hold.get("frozen_weights") or [])
+    if len(pw) != 3 or len(fw) != 3:
+        problems.append("weights not three-wide: frozen=%s parent=%s" % (fw, pw))
+    elif max(abs(a - b) for a, b in zip(fw, pw)) > 1e-9:
+        problems.append("holdout frozen mix %s is not the parent's published mix %s"
+                        % (fw, pw))
+    gates = parent.get("gates") or {}
+    for book, w, key in (("cb", 0.10, "wallet_for_10pct_cny"),
+                         ("carry", 0.20, "wallet_for_20pct_cny"),
+                         ("carry", 1.0 / 3.0, "wallet_for_one_third_cny")):
+        g = gates.get(book) or {}
+        floor = g.get("book_floor_cny")
+        printed = g.get(key)
+        if floor is None or printed is None:
+            problems.append("%s gate row missing %s" % (book, key))
+            continue
+        want = floor / w
+        if abs(printed - want) > max(1.0, want * 1e-6):
+            problems.append("%s %s printed %.1f != book_floor/weight %.1f"
+                            % (book, key, printed, want))
+    carry = gates.get("carry") or {}
+    if carry.get("max_weight_now") != 0.0:
+        problems.append("carry max weight at 1,000,000 is %r, not 0"
+                        % (carry.get("max_weight_now"),))
+    verdict = parent.get("verdict")
+    if not verdict:
+        problems.append("parent publishes no verdict")
+    elif verdict not in page:
+        problems.append("research/THREE_BOOK_WALLET.md does not print %s" % verdict)
+    return problems
+
 
 def unwired_script_problems(legs=None, root=None, tracked_set=None, staged_set=None,
                             scan_own=True):

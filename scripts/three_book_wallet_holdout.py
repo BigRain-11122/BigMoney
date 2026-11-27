@@ -568,6 +568,23 @@ def check(quiet=False):
     if v.get("walk_sharpe") is not None and arms.get("walk_expanding", {}).get("sharpe") is not None:
         if abs(v["walk_sharpe"] - arms["walk_expanding"]["sharpe"]) > 1e-6:
             problems.append("verdict walk_sharpe disagrees with the arm")
+    # r2202: the mix this face holds frozen is not its own choice -- it is whatever the
+    # parent wallet published as best-inside-gate. Its provenance stamp already makes a
+    # moved parent a STALE rebuild; this leg catches the case a rebuild cannot: a hand
+    # edit (or a parent that now recommends a different mix) leaving the holdout
+    # answering about weights nobody recommends any more.
+    try:
+        with open(PARENT_FACE, encoding="utf-8") as _fh_p:
+            _parent = json.load(_fh_p) or {}
+        _pw = ((_parent.get("best_inside_gate") or {}).get("w") or [])
+        _fw = face.get("frozen_weights") or []
+        if len(_pw) != 3 or len(_fw) != 3:
+            problems.append("frozen/parent weights not three-wide: %s vs %s" % (_fw, _pw))
+        elif max(abs(a - b) for a, b in zip(_fw, _pw)) > 1e-9:
+            problems.append("frozen weights %s are not the parent's published mix %s"
+                            % (_fw, _pw))
+    except (OSError, ValueError) as exc:
+        problems.append("parent face unreadable: %s" % exc)
     if problems:
         print("CHECK FAILED " + "; ".join(problems))
         return 2
@@ -692,6 +709,24 @@ def selftest():
     finally:
         if os.path.exists(tmp2):
             os.remove(tmp2)
+
+    # r2202 negative control: a hand edit that moves the frozen mix away from the
+    # parent's published best-inside-gate weights is a defect, not a stale rebuild.
+    tmp3 = os.path.join(ROOT, "results", "_three_book_wallet_holdout_selftest3.json")
+    try:
+        with open(FACE, encoding="utf-8") as fh:
+            _real = json.load(fh)
+        _real["frozen_weights"] = [0.34, 0.34, 0.32]
+        with open(tmp3, "w", encoding="utf-8") as fh:
+            json.dump(_real, fh)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = _check_path(tmp3)
+        leg("a frozen mix that is not the parent's published mix is CHECK FAILED",
+            rc == 2 and "not the parent's published mix" in buf.getvalue())
+    finally:
+        if os.path.exists(tmp3):
+            os.remove(tmp3)
 
     ok = sum(1 for _, c in legs if c)
     for name, c in legs:
