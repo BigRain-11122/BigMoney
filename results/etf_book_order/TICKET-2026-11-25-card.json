@@ -2,7 +2,7 @@
  "kind": "card_config",
  "asof_bar": "2026-11-25",
  "capital_cny": 1000000.0,
- "generated": "2026-11-26T06:57:40+08:00",
+ "generated": "2026-11-26T11:44:27+08:00",
  "card_capital_cny": 1000000.0,
  "scale": 0.9094,
  "config": {
@@ -210,7 +210,7 @@
   "same_scale_as_ledger": true,
   "ledger_book_bar": "2026-11-11",
   "ledger_last_bar": "2026-11-25",
-  "ledger_last_nav": 0.9694970572,
+  "ledger_last_nav": 0.9694970571,
   "ledger_status": "live",
   "ledger_last_cash": 0.090616,
   "ledger_pending": null,
@@ -283,7 +283,9 @@
    "2026-11-17",
    "2026-11-18",
    "2026-11-19",
-   "2026-11-20"
+   "2026-11-20",
+   "2026-11-23",
+   "2026-11-24"
   ],
   "restatements": [
    {
@@ -356,6 +358,22 @@
     "nav_published": 0.9800380766,
     "nav_settled": 0.9800317259,
     "delta": 6.3507e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-23",
+    "ts": "2026-11-26T10:34:48+0800",
+    "nav_published": 0.9769618943,
+    "nav_settled": 0.9769682251,
+    "delta": 6.3308e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-24",
+    "ts": "2026-11-26T10:34:48+0800",
+    "nav_published": 0.9810849598,
+    "nav_settled": 0.9810786023,
+    "delta": 6.3575e-06,
     "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
@@ -607,7 +625,10 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
-     "buffer_k40"
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0"
     ],
     "last": "2026-11-25",
     "bars": 5288,
@@ -618,9 +639,6 @@
     "digest": "706c06e09a2cc87d",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "cost0",
      "cost05",
      "cost20",
      "cost40"
@@ -635,13 +653,13 @@
   "comparable": [
    "buffer_k02",
    "buffer_k05",
-   "buffer_k40"
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40",
+   "cost0"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "buffer_k10",
-   "buffer_k20",
-   "cost0",
    "cost05",
    "cost20",
    "cost40"
@@ -650,9 +668,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "cost0",
     "cost05",
     "cost20",
     "cost40"
@@ -678,14 +693,14 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
@@ -696,8 +711,8 @@
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
@@ -735,8 +750,8 @@
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 4,
+   "detail": "all 3 REJECTs keep their median beyond the family-wise threshold under exact sign flipping, so their cells agree on a direction that noise does not",
+   "n_reject": 3,
    "n_reject_standing": 3,
    "standing": [
     "buffer_k05_cost20",
@@ -744,16 +759,15 @@
     "cost40"
    ],
    "overturned": [
-    "buffer_k05",
     "buffer_k20",
+    "buffer_k40",
     "cost0",
     "cost05"
    ],
-   "overstated": [
-    "buffer_k05"
-   ],
+   "overstated": [],
    "understated": [
     "buffer_k20",
+    "buffer_k40",
     "cost0",
     "cost05"
    ],
@@ -767,7 +781,7 @@
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "REJECT",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 8
@@ -796,9 +810,9 @@
     {
      "arm": "buffer_k40",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "BETTER",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 11
     },
     {
      "arm": "cost0",
@@ -829,7 +843,7 @@
      "cells_positive": 0
     }
    ],
-   "verdict": "SOME_REJECTS_STAND",
+   "verdict": "EVERY_PUBLISHED_REJECT_STANDS",
    "evidence_cutoff": "2026-11-25",
    "bar_now": "2026-11-25"
   },
@@ -845,9 +859,6 @@
    "covers_family": true,
    "family": {
     "stale_arms": [
-     "buffer_k10",
-     "buffer_k20",
-     "cost0",
      "cost05",
      "cost20",
      "cost40",
@@ -857,23 +868,24 @@
    },
    "detail": "the run itself left 2 panels across its own faces (608916d7, 706c06e0)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-26T06:55:21+0800",
-   "elapsed_sec": 1029.8,
+   "generated": "2026-11-26T11:42:07+0800",
+   "elapsed_sec": 1032.4,
    "rebuilt": [
-    "buffer_k05",
-    "buffer_k40"
+    "buffer_k10",
+    "buffer_k20",
+    "cost0"
    ]
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016); the harvested arm's own 12 cells say +0.748pp (median); gap +0.449pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
-   "verdict": "REFUTED",
+   "detail": "the fit says +0.520pp at k=0.30 (slope +1.409, intercept +0.097); the harvested arm's own 12 cells say +0.748pp (median); gap +0.228pp against tolerance 0.951pp = 3.0x the fit's largest in-sample residual (0.317pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.298,
+   "predicted_pp": 0.52,
    "observed_pp": 0.748,
-   "gap_pp": 0.449,
-   "tolerance_pp": 0.057,
+   "gap_pp": 0.228,
+   "tolerance_pp": 0.951,
    "evidence_cutoff": "2026-10-29"
   }
  }

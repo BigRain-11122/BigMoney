@@ -1,7 +1,7 @@
 {
  "evidence_cutoff": "2026-11-25",
  "beta_target": 0.2,
- "generated": "2026-11-26T06:57:38+08:00",
+ "generated": "2026-11-26T11:44:25+08:00",
  "permission": {
   "status": "within_permission",
   "k_now": 0.435003,
@@ -242,9 +242,9 @@
   "status": "ok",
   "zone": "inside",
   "band": {
-   "inside_pp": 12.24,
-   "warn_pp": 24.48,
-   "noise_pp": 12.24
+   "inside_pp": 12.25,
+   "warn_pp": 24.5,
+   "noise_pp": 12.25
   },
   "issued_k": 0.435003,
   "fresh_k": 0.435003,
@@ -256,7 +256,7 @@
   "production_effect": "advisory in v1 -- the ticket's k is unchanged until the band reproduces twice",
   "receipt": null,
   "verdict": "WITHIN_BAND",
-  "sentence": "距签发的 floor 0.000pp，落在尺子自己 12.24pp 的分辨率之内。"
+  "sentence": "距签发的 floor 0.000pp，落在尺子自己 12.25pp 的分辨率之内。"
  },
  "inception": "2024-01-02",
  "rebal": 20,
@@ -398,8 +398,8 @@
   },
   "same_beta_benchmark": {
    "cagr": 0.0257,
-   "sharpe": 0.681,
-   "maxdd": -0.0434,
+   "sharpe": 0.682,
+   "maxdd": -0.0433,
    "vol": 0.0377,
    "bars": 701
   },
@@ -476,60 +476,60 @@
  },
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
-  "mean_accrual_ann_pct": 2.077,
+  "mean_accrual_ann_pct": 2.078,
   "accrual_window": {
    "first": "2020-01-02",
    "last": "2026-11-25",
    "years": 6.9
   },
-  "missing_bar_steps": 2,
+  "missing_bar_steps": 0,
   "money": {
    "cash_amount_cny": 565261.8,
    "spot": {
-    "pct": 1.395,
-    "date": "2026-11-20",
-    "annual_cny": 7885.0,
+    "pct": 1.45,
+    "date": "2026-11-25",
+    "annual_cny": 8196.0,
     "quotes": 250,
-    "net_pct": 1.152,
-    "net_annual_cny": 6512.0
+    "net_pct": 1.207,
+    "net_annual_cny": 6823.0
    },
    "mean_tail": {
-    "pct": 1.3496,
-    "annual_cny": 7629.0,
-    "net_pct": 1.1066,
+    "pct": 1.3495,
+    "annual_cny": 7628.0,
+    "net_pct": 1.1065,
     "net_annual_cny": 6255.0
    },
    "window": {
-    "pct": 2.0769,
-    "annual_cny": 11740.0,
-    "net_pct": 1.8339,
-    "net_annual_cny": 10366.0
+    "pct": 2.078,
+    "annual_cny": 11746.0,
+    "net_pct": 1.835,
+    "net_annual_cny": 10373.0
    },
    "tail": 250,
    "fall_bp": 25.0,
    "verdict": "RATES_STEADY",
-   "sentence": "现金 ¥565,261 按 2026-11-20 报价 1.40% 一年赚 ¥7,885；按自己近 250 个报价的均值 1.35% 是 ¥7,629；按账本自己走过的全窗均值 2.08% 是 ¥11,740。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,366——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-20 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
-   "spread_vs_tail_cny": 256.0,
-   "spread_vs_window_cny": -3855.0,
+   "sentence": "现金 ¥565,261 按 2026-11-25 报价 1.45% 一年赚 ¥8,196；按自己近 250 个报价的均值 1.35% 是 ¥7,628；按账本自己走过的全窗均值 2.08% 是 ¥11,746。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,823**（年化 1.21%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,373——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）。2026-11-25 的报价就在它自己的均值上，这一半该怎么算就怎么算。",
+   "spread_vs_tail_cny": 568.0,
+   "spread_vs_window_cny": -3550.0,
    "book_rate": {
-    "pct": 1.7708,
-    "annual_cny": 10010.0,
+    "pct": 1.7696,
+    "annual_cny": 10003.0,
     "source": "etf_book_idle_cash.json",
-    "asof": "2026-11-26T05:31:27",
+    "asof": "2026-11-26T10:28:51",
     "book_cagr_without_pct": 10.96,
     "book_cagr_with_pct": 11.54,
     "basis": "as_coded",
     "declared": {
      "cagr_without_pct": 8.74,
      "cagr_with_pct": 9.31,
-     "sharpe_with": 0.893,
+     "sharpe_with": 0.894,
      "maxdd_with_pct": -11.98,
      "lag": 1,
      "convention": "lag +1: score(bar d-1) selects, the book earns open[d] -> open[d+1] -- the execution the card's config.execution string claims (decide at the close of bar d, fill at the open of bar d+1)"
     },
     "declared_gap_pp": -2.23,
-    "gap_vs_spot_bp": -37.58,
-    "gap_vs_spot_cny": -2124.0,
+    "gap_vs_spot_bp": -31.96,
+    "gap_vs_spot_cny": -1807.0,
     "per_year_net_pct": {
      "2020": 2.335,
      "2021": 2.143,
@@ -547,35 +547,35 @@
    "fee_cny_per_year": 1374.0,
    "fee_basis": "exchange_calendar",
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,512**（年化 1.15%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,366——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
+   "fee_clause": "。这三个数都是**毛**口径：这笔钱按过去一年这张交易日历要逐交易日滚 243 次、每次佣金 0.1bp，全年手续费约 **¥1,374**，所以按上面那个报价**入账 ¥6,823**（年化 1.21%）、按近 250 个报价的均值 ¥6,255、按全窗均值 ¥10,373——毛数与入账数之间差的就是这条路的手续费，不是利率差（费率表同 `etf_book_cash_ladder` 的 FEE_BP）"
   },
   "forward": {
    "verdict": "TWO_RATES",
-   "sentence": "从 2026-11-23（2026-11-20 之后的第一个交易日）到 2026-12-09（下一张单）共 **16 个日历天**：同一笔 ¥565,261 若利率停在 2026-11-20 的报价 1.40%，这段窗口**毛收** ¥346；这笔钱在这段窗口要逐交易日滚 **12 次**，每次佣金 0.1bp（≈ ¥6），共 **¥68**，所以按这个报价**入账 ¥278**（这段窗口年化 1.12%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥439，与**入账**数差 **64.96bp / ¥161**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 37.58bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
-   "start_session": "2026-11-23",
+   "sentence": "从 2026-11-26（2026-11-25 之后的第一个交易日）到 2026-12-09（下一张单）共 **13 个日历天**：同一笔 ¥565,261 若利率停在 2026-11-25 的报价 1.45%，这段窗口**毛收** ¥292；这笔钱在这段窗口要逐交易日滚 **9 次**，每次佣金 0.1bp（≈ ¥6），共 **¥51**，所以按这个报价**入账 ¥241**（这段窗口年化 1.20%，比报价低的那截就是这条路的手续费）；若按整段窗口扣佣金的净滚 1.77% 付是 ¥356，与**入账**数差 **57.23bp / ¥115**——佣金两边都已扣过，这个差是纯利率差（不扣佣金的毛口径是 31.96bp，那个数里混进了手续费，不能拿来当利率差用）。两个数都假设利率不动——1.77% 是已经走过的那段窗口的净滚，不是下一段的隔夜报价，它只说明过去付过多少，不承诺这一段。",
+   "start_session": "2026-11-26",
    "end_session": "2026-12-09",
-   "calendar_days": 16,
+   "calendar_days": 13,
    "ruler": "calendar_days/365 x annualised rate, net of per-roll commission",
    "start_basis": "exchange_calendar",
    "cash_amount_cny": 565261.8,
    "spot": {
-    "pct": 1.395,
-    "cny": 346.0
+    "pct": 1.45,
+    "cny": 292.0
    },
    "spot_net": {
-    "pct": 1.1212,
-    "cny": 278.0
+    "pct": 1.1973,
+    "cny": 241.0
    },
-   "rolls": 12,
+   "rolls": 9,
    "fee_bp_per_roll": 0.1,
-   "fee_cny": 68.0,
+   "fee_cny": 51.0,
    "fee_src": "scripts/etf_book_cash_ladder.py FEE_BP (one source for every rung)",
-   "gap_cny": 161.0,
-   "gap_bp": 64.96,
-   "gap_bp_gross": 37.58,
+   "gap_cny": 115.0,
+   "gap_bp": 57.23,
+   "gap_bp_gross": 31.96,
    "book": {
-    "pct": 1.7708,
-    "cny": 439.0,
+    "pct": 1.7696,
+    "cny": 356.0,
     "source": "etf_book_idle_cash.json"
    }
   }
@@ -588,7 +588,7 @@
   "withdrawn_now": [],
   "withdrawal_note": "ledger withdrew 1 bar(s) at 2026-11-09 23:54:02 because the price panel then ended 2026-11-06 (2026-11-09); the panel has since carried 2026-11-09 again and that ledger row is live -- the withdrawal stays on record but it is not this sheet's pricing bar",
   "reinstatements": {
-   "at": "2026-11-26 06:57:38",
+   "at": "2026-11-26 11:44:25",
    "n_reinstated": 1,
    "rewritten": [],
    "verbatim_identical": [
@@ -905,7 +905,7 @@
   "unexplained": [],
   "unexplained_total_cny": 0,
   "unexplained_unpriced_rows": 0,
-  "ledger_action": "updated",
+  "ledger_action": "kept",
   "ledger_row": {
    "bar": "2026-11-25",
    "kind": "execution",
@@ -1066,9 +1066,9 @@
    "last": null,
    "rows_detail": [],
    "panel_missing_symbols": [],
-   "repo_quotes": 3772,
-   "rate_latest_bar": "2026-11-20",
-   "rate_latest": 1.395,
+   "repo_quotes": 3775,
+   "rate_latest_bar": "2026-11-25",
+   "rate_latest": 1.45,
    "valued_upto_bar": "2026-11-25"
   },
   "accrual_rows": [],
@@ -1087,13 +1087,13 @@
    "legs_first_bar": 449637.2,
    "legs_last_bar": 434738.2,
    "legs_ret": -0.0331356,
-   "cash_interest_cny": 442.61,
+   "cash_interest_cny": 548.17,
    "identity_delta_cny": 0.0,
    "identity_status": "PRICED_BAR",
    "identity_holds": true,
    "base_bar_missing_closes": [],
    "base_bar_last_priced_day": "2026-11-25",
-   "rf_missing_bars": 3,
+   "rf_missing_bars": 0,
    "stale_bars": 0
   },
   "engine_book": {
@@ -1181,9 +1181,24 @@
    "trail_starts_with_this_version": true,
    "trail_covers_bar": true,
    "page_block": {
-    "bar": "2026-11-24",
-    "same_bar": false
-   }
+    "bar": "2026-11-25",
+    "same_bar": true,
+    "lots": {
+     "159519": 525,
+     "159655": 469,
+     "510760": 717,
+     "512040": 746,
+     "513690": 792
+    },
+    "cash_cny": 565262.0
+   },
+   "page_vs_ledger_lots": [],
+   "page_vs_ledger_cash": {
+    "page": 565262.0,
+    "ledger": 565261.8,
+    "page_minus_ledger": 0.2
+   },
+   "page_vs_ledger_agree": false
   },
   "caveats": [
    "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",
@@ -1593,7 +1608,7 @@
  },
  "next_decision": {
   "artifact": "etf_book_next_decision",
-  "generated": "2026-11-26T06:57:38",
+  "generated": "2026-11-26T11:44:25",
   "evidence_cutoff": "2026-11-25",
   "calendar_source": "data/exchange_calendar.csv",
   "calendar_last": "2026-12-31",
@@ -1740,7 +1755,7 @@
  },
  "swap_freshness": {
   "artifact": "etf_book_swap_freshness",
-  "generated": "2026-11-26T06:57:38",
+  "generated": "2026-11-26T11:44:25",
   "evidence_cutoff": "2026-11-25",
   "calendar_source": "data/exchange_calendar.csv",
   "close_accept_time": "15:30",
@@ -1859,21 +1874,21 @@
  },
  "premium_roads": {
   "status": "produced",
-  "face_asof": "2026-11-24",
-  "stale": true,
+  "face_asof": "2026-11-25",
+  "stale": false,
   "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
   "legs": [
    {
     "symbol": "159655",
     "class": "crossborder",
-    "amount_cny": 86928.4,
-    "premium_pct": 5.053412,
-    "premium_cny": 4392.85,
-    "leg_score": 0.502194,
+    "amount_cny": 86952.6,
+    "premium_pct": 6.951255,
+    "premium_cny": 6044.3,
+    "leg_score": 0.514626,
     "verdict": "SWAP_AT_BOOK_HORIZON",
     "annual_ruler": "HOLD",
     "rulers_disagree": true,
-    "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 7.0% convergence probability; the annual ruler read the same numbers as 3.37 pp/yr against a 2.00 cap",
+    "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 4.6% convergence probability; the annual ruler read the same numbers as 2.72 pp/yr against a 2.00 cap",
     "roads": [
      {
       "road": "A_buy_as_printed",
@@ -1886,33 +1901,33 @@
       "breakeven_convergence_p": null,
       "floor_convergence_p": null,
       "twin": null,
-      "note": "baseline: pay 4393 CNY of premium once, substitute nothing, so there is neither a saving nor a give-up to compare"
+      "note": "baseline: pay 6044 CNY of premium once, substitute nothing, so there is neither a saving nor a give-up to compare"
      },
      {
       "road": "B_same_market_twin",
       "label": "B 换同市场孪生",
-      "saving_cny_once": 3315.77,
-      "giveup_cny_per_window": 232.65,
-      "giveup_pp_per_year": 3.3721,
-      "breakeven_tenure_windows": 14.252,
-      "breakeven_tenure_years": 1.1311,
-      "breakeven_convergence_p": 0.070164,
+      "saving_cny_once": 4062.19,
+      "giveup_cny_per_window": 188.02,
+      "giveup_pp_per_year": 2.7245,
+      "breakeven_tenure_windows": 21.605,
+      "breakeven_tenure_years": 1.7147,
+      "breakeven_convergence_p": 0.046285,
       "floor_convergence_p": 0.5,
-      "twin": "159529",
-      "note": "the swap pays for itself if the premium gap closes by more than 7.0% before exit; it takes 14.3 windows of give-up to eat the whole saving"
+      "twin": "159502",
+      "note": "the swap pays for itself if the premium gap closes by more than 4.6% before exit; it takes 21.6 windows of give-up to eat the whole saving"
      },
      {
       "road": "C_drop_to_cash",
       "label": "C 落现金腿",
-      "saving_cny_once": 4392.85,
-      "giveup_cny_per_window": 372.59,
+      "saving_cny_once": 6044.3,
+      "giveup_cny_per_window": 384.31,
       "giveup_pp_per_year": null,
-      "breakeven_tenure_windows": 11.79,
-      "breakeven_tenure_years": 0.9357,
-      "breakeven_convergence_p": 0.084818,
+      "breakeven_tenure_windows": 15.728,
+      "breakeven_tenure_years": 1.2482,
+      "breakeven_convergence_p": 0.063582,
       "floor_convergence_p": 0.5,
       "twin": null,
-      "note": "the swap pays for itself if the premium gap closes by more than 8.5% before exit; it takes 11.8 windows of give-up to eat the whole saving"
+      "note": "the swap pays for itself if the premium gap closes by more than 6.4% before exit; it takes 15.7 windows of give-up to eat the whole saving"
      }
     ]
    }
@@ -1920,19 +1935,19 @@
   "unstretched": [
    {
     "symbol": "510760",
-    "premium_pct": -0.153859
+    "premium_pct": -0.041237
    },
    {
     "symbol": "512040",
-    "premium_pct": -0.228872
+    "premium_pct": -0.034294
    },
    {
     "symbol": "513690",
-    "premium_pct": -1.191436
+    "premium_pct": -0.91147
    },
    {
     "symbol": "159519",
-    "premium_pct": -0.979004
+    "premium_pct": -0.838323
    }
   ],
   "tenure": {
@@ -1954,7 +1969,7 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1008,
+   "cagr": 0.1009,
    "sharpe": 1.24,
    "maxdd": -0.0601,
    "vol": 0.0813
@@ -1966,20 +1981,20 @@
    "vol": 0.0891
   },
   "width_effect": {
+   "beta": {
+    "ticket_width_cagr": 0.1009,
+    "card_width_cagr": 0.0885,
+    "pp": -1.24
+   },
    "vol": {
     "ticket_width_cagr": 0.103,
     "card_width_cagr": 0.1072,
     "pp": 0.42
-   },
-   "beta": {
-    "ticket_width_cagr": 0.1008,
-    "card_width_cagr": 0.0885,
-    "pp": -1.23
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -0.64,
+   "cagr_pp": -0.63,
    "sharpe": 0.037,
    "maxdd_pp": 1.94,
    "vol_pp": -0.78
@@ -1987,7 +2002,7 @@
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.1008,
+     "cagr": 0.1009,
      "sharpe": 1.24,
      "maxdd": -0.0601,
      "turnover": 1.531,
@@ -2002,7 +2017,7 @@
     },
     "vol@5": {
      "cagr": 0.103,
-     "sharpe": 1.176,
+     "sharpe": 1.177,
      "maxdd": -0.0756,
      "turnover": 1.531,
      "cash_share": 0.4727
@@ -2016,21 +2031,21 @@
     }
    },
    "width_effect_pp": {
-    "beta": -1.23,
+    "beta": -1.24,
     "vol": 0.42
    },
    "rule_effect_pp": {
-    "n5": 0.22,
+    "n5": 0.21,
     "n12": 1.87
    },
-   "interaction_pp": 1.65,
-   "published_diagonal_pp": 0.64,
+   "interaction_pp": 1.66,
+   "published_diagonal_pp": 0.63,
    "sharpe_width_effect": {
     "beta": 0.211,
-    "vol": 0.027
+    "vol": 0.026
    },
    "sharpe_rule_effect": {
-    "n5": -0.064,
+    "n5": -0.063,
     "n12": -0.248
    }
   },
@@ -2130,7 +2145,10 @@
      "baseline",
      "buffer_k02",
      "buffer_k05",
-     "buffer_k40"
+     "buffer_k10",
+     "buffer_k20",
+     "buffer_k40",
+     "cost0"
     ],
     "last": "2026-11-25",
     "bars": 5288,
@@ -2141,9 +2159,6 @@
     "digest": "706c06e09a2cc87d",
     "faces": [
      "buffer_k05_cost20",
-     "buffer_k10",
-     "buffer_k20",
-     "cost0",
      "cost05",
      "cost20",
      "cost40"
@@ -2158,13 +2173,13 @@
   "comparable": [
    "buffer_k02",
    "buffer_k05",
-   "buffer_k40"
+   "buffer_k10",
+   "buffer_k20",
+   "buffer_k40",
+   "cost0"
   ],
   "withheld": [
    "buffer_k05_cost20",
-   "buffer_k10",
-   "buffer_k20",
-   "cost0",
    "cost05",
    "cost20",
    "cost40"
@@ -2173,9 +2188,6 @@
    "readable": false,
    "withheld": [
     "buffer_k05_cost20",
-    "buffer_k10",
-    "buffer_k20",
-    "cost0",
     "cost05",
     "cost20",
     "cost40"
@@ -2201,14 +2213,14 @@
     },
     {
      "arm": "buffer_k10",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)"
     },
     {
      "arm": "buffer_k20",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)"
     },
     {
@@ -2219,8 +2231,8 @@
     },
     {
      "arm": "cost0",
-     "verdict": "WORLDS_NOT_COMPARABLE",
-     "readable": false,
+     "verdict": "NOT-SEPARABLE",
+     "readable": true,
      "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands"
     },
     {
@@ -2258,8 +2270,8 @@
   "signflip": {
    "artifact": "results/etf_book_arms_signflip.json",
    "status": "ok",
-   "detail": "3 of 4 published REJECTs stand on their own cells (buffer_k05_cost20, cost20, cost40); the rest are inside sign noise and must not be read as findings",
-   "n_reject": 4,
+   "detail": "all 3 REJECTs keep their median beyond the family-wise threshold under exact sign flipping, so their cells agree on a direction that noise does not",
+   "n_reject": 3,
    "n_reject_standing": 3,
    "standing": [
     "buffer_k05_cost20",
@@ -2267,16 +2279,15 @@
     "cost40"
    ],
    "overturned": [
-    "buffer_k05",
     "buffer_k20",
+    "buffer_k40",
     "cost0",
     "cost05"
    ],
-   "overstated": [
-    "buffer_k05"
-   ],
+   "overstated": [],
    "understated": [
     "buffer_k20",
+    "buffer_k40",
     "cost0",
     "cost05"
    ],
@@ -2290,7 +2301,7 @@
     },
     {
      "arm": "buffer_k05",
-     "frozen_label": "REJECT",
+     "frozen_label": "NOT-SEPARABLE",
      "verdict": "NOT-SEPARABLE",
      "sign_cells": 12,
      "cells_positive": 8
@@ -2319,9 +2330,9 @@
     {
      "arm": "buffer_k40",
      "frozen_label": "NOT-SEPARABLE",
-     "verdict": "NOT-SEPARABLE",
+     "verdict": "BETTER",
      "sign_cells": 12,
-     "cells_positive": 10
+     "cells_positive": 11
     },
     {
      "arm": "cost0",
@@ -2352,7 +2363,7 @@
      "cells_positive": 0
     }
    ],
-   "verdict": "SOME_REJECTS_STAND",
+   "verdict": "EVERY_PUBLISHED_REJECT_STANDS",
    "evidence_cutoff": "2026-11-25",
    "bar_now": "2026-11-25"
   },
@@ -2368,9 +2379,6 @@
    "covers_family": true,
    "family": {
     "stale_arms": [
-     "buffer_k10",
-     "buffer_k20",
-     "cost0",
      "cost05",
      "cost20",
      "cost40",
@@ -2380,23 +2388,24 @@
    },
    "detail": "the run itself left 2 panels across its own faces (608916d7, 706c06e0)",
    "artifact": "results/etf_book_atlas_arms_rebuild.json",
-   "generated": "2026-11-26T06:55:21+0800",
-   "elapsed_sec": 1029.8,
+   "generated": "2026-11-26T11:42:07+0800",
+   "elapsed_sec": 1032.4,
    "rebuilt": [
-    "buffer_k05",
-    "buffer_k40"
+    "buffer_k10",
+    "buffer_k20",
+    "cost0"
    ]
   },
   "floor_extrapolation": {
    "artifact": "results/etf_book_buffer_floor_readback.json",
    "present": true,
-   "detail": "the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016); the harvested arm's own 12 cells say +0.748pp (median); gap +0.449pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line misses the point it never saw by more than its own residual band:",
-   "verdict": "REFUTED",
+   "detail": "the fit says +0.520pp at k=0.30 (slope +1.409, intercept +0.097); the harvested arm's own 12 cells say +0.748pp (median); gap +0.228pp against tolerance 0.951pp = 3.0x the fit's largest in-sample residual (0.317pp, floored at 0.05); cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book; the line predicts a point it never saw, on the widest gap it spans -- the ",
+   "verdict": "HOLDS",
    "buffer_k": 0.3,
-   "predicted_pp": 0.298,
+   "predicted_pp": 0.52,
    "observed_pp": 0.748,
-   "gap_pp": 0.449,
-   "tolerance_pp": 0.057,
+   "gap_pp": 0.228,
+   "tolerance_pp": 0.951,
    "evidence_cutoff": "2026-10-29"
   }
  },
@@ -2617,21 +2626,21 @@
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
-  "artifact_sha16": "e473863fbcd50533",
+  "artifact_sha16": "2f4187eb9b582f82",
   "evidence_cutoff": "2026-11-25",
   "beta": 0.2,
   "beta_requested": 0.2,
   "observed_pct": 11.64,
-  "flat_today_pct": 11.48,
+  "flat_today_pct": 11.51,
   "zero_pct": 10.61,
   "carry_pp": 1.03,
-  "flat_rate_cost_pp": 0.16,
+  "flat_rate_cost_pp": 0.13,
   "carry_share_pct": 8.8,
-  "pp_per_100bp": 0.276,
+  "pp_per_100bp": 0.248,
   "cash_share": 0.5635,
-  "rate_today_pct": 1.395,
-  "rate_today_date": "2026-11-20",
-  "rate_observed_pct": 1.9743,
+  "rate_today_pct": 1.45,
+  "rate_today_date": "2026-11-25",
+  "rate_observed_pct": 1.9732,
   "identity_matched": true
  },
  "restatements": {
@@ -2710,6 +2719,22 @@
     "nav_settled": 0.9800317259,
     "delta": 6.3507e-06,
     "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-23",
+    "ts": "2026-11-26T10:34:48+0800",
+    "nav_published": 0.9769618943,
+    "nav_settled": 0.9769682251,
+    "delta": 6.3308e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
+   },
+   {
+    "bar": "2026-11-24",
+    "ts": "2026-11-26T10:34:48+0800",
+    "nav_published": 0.9810849598,
+    "nav_settled": 0.9810786023,
+    "delta": 6.3575e-06,
+    "reason": "published while the panel for that date was still gaining symbols"
    }
   ],
   "withdrawn": [
@@ -2729,7 +2754,9 @@
    "2026-11-17",
    "2026-11-18",
    "2026-11-19",
-   "2026-11-20"
+   "2026-11-20",
+   "2026-11-23",
+   "2026-11-24"
   ],
   "bars_withdrawn": [
    "2026-11-02"
@@ -2764,20 +2791,20 @@
  ],
  "premium": {
   "status": "produced",
-  "face_asof": "2026-11-24",
-  "stale": true,
+  "face_asof": "2026-11-25",
+  "stale": false,
   "rows": [
    {
     "symbol": "510760",
     "class": "equity",
-    "latest_pct": -3.9644832152036735,
-    "median_pct": 0.039308176100627534,
-    "lag_median_pp": 0.10961215152409665,
-    "lag_latest_pp": 0.9854989620604271,
-    "nav_lag_days": 13,
+    "latest_pct": -5.600124620297542,
+    "median_pct": 0.03919297042623837,
+    "lag_median_pp": 0.10972735719848581,
+    "lag_latest_pp": 0.9687143082053762,
+    "nav_lag_days": 14,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
-    "price_session": "2026-11-24",
+    "price_session": "2026-11-25",
     "counted": true,
     "verdict": "MEAN_REVERTING",
     "rank": 0.0013297872340425532,
@@ -2792,14 +2819,14 @@
    {
     "symbol": "512040",
     "class": "equity",
-    "latest_pct": -1.7775181507134974,
-    "median_pct": 0.016002560409655864,
-    "lag_median_pp": 0.27116333311807406,
-    "lag_latest_pp": 1.3899026637661405,
-    "nav_lag_days": 13,
+    "latest_pct": -2.695485270800302,
+    "median_pct": 0.015926466446702925,
+    "lag_median_pp": 0.2702691443217331,
+    "lag_latest_pp": 1.3769129192449547,
+    "nav_lag_days": 14,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
-    "price_session": "2026-11-24",
+    "price_session": "2026-11-25",
     "counted": true,
     "verdict": "LAG_DOMINATED",
     "rank": 0.013584117032392894,
@@ -2814,14 +2841,14 @@
    {
     "symbol": "159655",
     "class": "crossborder",
-    "latest_pct": 2.550248541171385,
-    "median_pct": 1.2569342040587017,
-    "lag_median_pp": 0.7127005928227126,
-    "lag_latest_pp": 3.7088489843016825,
-    "nav_lag_days": 13,
+    "latest_pct": 0.17289820618111573,
+    "median_pct": 1.2521401381227704,
+    "lag_median_pp": 0.7196317033204669,
+    "lag_latest_pp": 3.6228693450449656,
+    "nav_lag_days": 14,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
-    "price_session": "2026-11-24",
+    "price_session": "2026-11-25",
     "counted": true,
     "verdict": "LAG_DOMINATED",
     "rank": 0.3014112903225806,
@@ -2836,14 +2863,14 @@
    {
     "symbol": "513690",
     "class": "crossborder",
-    "latest_pct": -5.167225518012208,
-    "median_pct": -0.01976075110132758,
-    "lag_median_pp": 0.07638355060118895,
-    "lag_latest_pp": 0.48669630219136994,
-    "nav_lag_days": 13,
+    "latest_pct": -5.597111168429192,
+    "median_pct": -0.02023881805301997,
+    "lag_median_pp": 0.07608055126949731,
+    "lag_latest_pp": 0.4844900632875122,
+    "nav_lag_days": 14,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
-    "price_session": "2026-11-24",
+    "price_session": "2026-11-25",
     "counted": true,
     "verdict": "MEAN_REVERTING",
     "rank": 0.022404779686333084,
@@ -2858,14 +2885,14 @@
    {
     "symbol": "159519",
     "class": "crossborder",
-    "latest_pct": -5.1305232229630455,
-    "median_pct": 0.22245638683995317,
-    "lag_median_pp": 0.38984484274732223,
-    "lag_latest_pp": 0.7023427332904513,
-    "nav_lag_days": 13,
+    "latest_pct": -6.430105096621097,
+    "median_pct": 0.22241598576718813,
+    "lag_median_pp": 0.3894808945618222,
+    "lag_latest_pp": 0.6927215999577019,
+    "nav_lag_days": 14,
     "nav_source": "cache-stale",
     "session_state": "SAME_SESSION",
-    "price_session": "2026-11-24",
+    "price_session": "2026-11-25",
     "counted": true,
     "verdict": "MEAN_REVERTING",
     "rank": 0.0012787723785166241,
@@ -2878,7 +2905,7 @@
     "rank_rulers_disagree": false
    }
   ],
-  "face_session": "2026-11-24",
+  "face_session": "2026-11-25",
   "face_session_field": "base_bar",
   "face_off_session_legs": [],
   "lag_dominated": [
@@ -2888,11 +2915,11 @@
   "unpriced": [],
   "missing_legs": [],
   "nav_lag_days": [
-   13,
-   13,
-   13,
-   13,
-   13
+   14,
+   14,
+   14,
+   14,
+   14
   ],
   "pct_status": "produced",
   "pct_face_asof": "2026-11-25",
@@ -2904,71 +2931,71 @@
   "pct_disagree_legs": [],
   "pct_max_shift_pp": 0.04994362192371482,
   "fwd_status": "produced",
-  "fwd_face_asof": "2026-11-24",
-  "fwd_stale": true,
+  "fwd_face_asof": "2026-11-25",
+  "fwd_stale": false,
   "fwd_verdict": "HIGH_PREMIUM_PAYS",
   "fwd_horizon": 20,
-  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.012 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.15% (n=272, t=+0.5); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-24 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
+  "fwd_sentence": "premium percentile rank-IC with the next 20 sessions is +0.012 (5 legs); 159519: after sessions in its top decile the next 20 sessions averaged +2.94% (n=49, t=+3.6); 159655: after sessions in its top decile the next 20 sessions averaged +0.12% (n=273, t=+0.4); 510760: after sessions in its top decile the next 20 sessions averaged +0.75% (n=143, t=+2.2); 512040: after sessions in its top decile the next 20 sessions averaged +1.01% (n=157, t=+2.3); 513690: after sessions in its top decile the next 20 sessions averaged +0.12% (n=171, t=+0.3) || one session: after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-25 || sample: legs 159519,159655,510760,512040,513690 replaced 159263,159501,159577,513100,513690 (last published 2026-11-10) -- not comparable across sessions",
   "fwd_caveat": "five legs of one ticket: this is a description of these funds' own records, not a cross-sectional study and not a forecast. Overlapping windows are counted once per stride in the t-stat and reported in full only as coverage.",
   "fwd_rows": [
    {
     "symbol": "510760",
     "bucket": "BOTTOM",
-    "latest_pctile": 0.3994673768308921,
+    "latest_pctile": 0.1330671989354624,
     "mean_pct": 0.9254189116816655,
     "n": 136,
     "t": 2.3880933610528055,
     "nonoverlap_obs": 72,
-    "amount_cny": 86926.5,
-    "same_bucket_move_cny": 804.434270262963
+    "amount_cny": 86900.4,
+    "same_bucket_move_cny": 804.192735927014
    },
    {
     "symbol": "512040",
     "bucket": "BOTTOM",
-    "latest_pctile": 4.2364016736401675,
+    "latest_pctile": 1.3591217982226869,
     "mean_pct": 0.6686540189013278,
     "n": 154,
     "t": 1.2184799505606034,
     "nonoverlap_obs": 92,
-    "amount_cny": 86980.3,
-    "same_bucket_move_cny": 581.5972716024316
+    "amount_cny": 86983.6,
+    "same_bucket_move_cny": 581.6193371850554
    },
    {
     "symbol": "159655",
     "bucket": "MID",
-    "latest_pctile": 64.64646464646465,
+    "latest_pctile": 30.272452068617557,
     "mean_pct": 2.990787070426713,
     "n": 253,
     "t": 11.39827726106193,
     "nonoverlap_obs": 46,
-    "amount_cny": 86928.4,
-    "same_bucket_move_cny": 2599.8433477288145
+    "amount_cny": 86952.6,
+    "same_bucket_move_cny": 2600.567118199858
    },
    {
     "symbol": "513690",
     "bucket": "BOTTOM",
-    "latest_pctile": 2.243829468960359,
-    "mean_pct": 1.0492967442516776,
-    "n": 129,
-    "t": 1.8093060925702986,
+    "latest_pctile": 2.242152466367713,
+    "mean_pct": 1.0433327123938934,
+    "n": 130,
+    "t": 1.8129253162920218,
     "nonoverlap_obs": 63,
-    "amount_cny": 86916.4,
-    "same_bucket_move_cny": 912.0109554207651
+    "amount_cny": 86961.6,
+    "same_bucket_move_cny": 907.298820021128
    },
    {
     "symbol": "159519",
     "bucket": "BOTTOM",
-    "latest_pctile": 0.1282051282051282,
+    "latest_pctile": 0.12804097311139565,
     "mean_pct": 2.0676407710174614,
     "n": 110,
     "t": 4.012511028053157,
     "nonoverlap_obs": 36,
-    "amount_cny": 86972.2,
-    "same_bucket_move_cny": 1798.2726666508484
+    "amount_cny": 86940.0,
+    "same_bucket_move_cny": 1797.606886322581
    }
   ],
   "fwd_missing_legs": [],
-  "fwd_cny_total": 6696.16,
+  "fwd_cny_total": 6691.28,
   "fwd_sample_signature": "3600c87ce854",
   "fwd_sample_legs": [
    "159519",
@@ -2988,12 +3015,12 @@
   "fwd_sample_previous_session": "2026-11-10",
   "fwd_defer_verdict": "WAITING_COST",
   "fwd_defer_band": "P98P",
-  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-24",
+  "fwd_defer_sentence": "after sessions at or above the 98th percentile of the fund's own history, the NEXT session moved a median +0.34% (mean +0.39%, fell in 34% of 136 cases); no leg of this ticket sits in that band on 2026-11-25",
   "fwd_defer_rows": [
    {
     "symbol": "510760",
     "band": null,
-    "latest_pctile": 0.3994673768308921,
+    "latest_pctile": 0.1330671989354624,
     "n": 28,
     "median_pct": 0.24254593948100922,
     "share_down": 0.32142857142857145
@@ -3001,7 +3028,7 @@
    {
     "symbol": "512040",
     "band": null,
-    "latest_pctile": 4.2364016736401675,
+    "latest_pctile": 1.3591217982226869,
     "n": 18,
     "median_pct": 0.7928535801374426,
     "share_down": 0.2777777777777778
@@ -3009,7 +3036,7 @@
    {
     "symbol": "159655",
     "band": null,
-    "latest_pctile": 64.64646464646465,
+    "latest_pctile": 30.272452068617557,
     "n": 44,
     "median_pct": 0.23847704273124437,
     "share_down": 0.4090909090909091
@@ -3017,7 +3044,7 @@
    {
     "symbol": "513690",
     "band": null,
-    "latest_pctile": 2.243829468960359,
+    "latest_pctile": 2.242152466367713,
     "n": 34,
     "median_pct": 0.4556476186771463,
     "share_down": 0.3235294117647059
@@ -3025,7 +3052,7 @@
    {
     "symbol": "159519",
     "band": null,
-    "latest_pctile": 0.1282051282051282,
+    "latest_pctile": 0.12804097311139565,
     "n": 12,
     "median_pct": 0.2591991530661586,
     "share_down": 0.25

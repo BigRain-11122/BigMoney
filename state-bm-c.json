@@ -1694,7 +1694,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2176,
+ "round_no": 2177,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2769,5 +2769,6 @@
  "round_t2173_next": "(a) 30/70 的逐年分布与最差月单独量一次（当前只印 worst_year -6.0%）；(b) 两个钱包之间的调仓成本建模（现在是 0，读者真搬钱会付）；(c) heat 收盘窗首次真接管（需 15:30 后）；(d) 链契约词候选 13 条仍原样",
  "round_t2173_verify": "selftest 19/19 (incl. 3 contract-word behaviour legs + edge-weight reconciliation); parent reproduction diff 0.0pp on cagr/sharpe/mdd for both parents; poison test: etf panel stamp +1B -> check STALE rc3 -> run rebuild -> check rc0; byte-stable across reruns except generated_at (floats rounded to 10dp); chain --only 6/6 rc0; contract-word face regenerated 397 legs/140 writer legs/13 candidates/0 permanent red; writer audit 4 faces checked 0 newly paired",
  "round_t2176_note": "book_pair_rebalance（新面）：父面 book_pair_blend 的 caliber 行承认两书之间搬钱成本没建模，本轮把它定价——六种日历节拍（从不/每20bar/月/季/半年/年）× 每边 5/10/20bp × 0.1-0.9 权重网格。从不搬 8.87%/SR1.043/MDD-8.9%（6.9 年后 30/70 漂成 25.4/74.6，最大偏离 8.9pp）；最优付费节拍=季频 9.12%/SR1.065/MDD-9.3%，27 次搬运、单边换手 0.05/年、成本拖累 0.01pp；本面每日零成本臂 SR 1.0662 == 父面 1.0662（差 0.0000）→ 再平衡买回的是纸面数，不是第二个收益来源。判词 REBALANCE_PAYS（对持有 +0.022 Sharpe）；权重网格加成本后最优仍是 0.30。",
- "round_t2176_next": "(a) 把这一行接进 CEO 一页纸（ceo_live_usage 的 carry/两书节旁）；(b) heat 收盘窗首次真接管（需 15:30 后，data_lane_freshness 现 worst=heat/stalled）；(c) 链契约词候选 13 条仍原样未动。"
+ "round_t2176_next": "(a) 把这一行接进 CEO 一页纸（ceo_live_usage 的 carry/两书节旁）；(b) heat 收盘窗首次真接管（需 15:30 后，data_lane_freshness 现 worst=heat/stalled）；(c) 链契约词候选 13 条仍原样未动。",
+ "通过_r2177": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=117420）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执 0（余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：CEO 一页纸新增 ⑨「一笔钱分两本书」把 r2176 book_pair_rebalance 送上游页面（REBALANCE_PAYS +0.022 Sharpe·按季搬 9.12%/1.065/-9.25% vs 不搬 8.87%/1.043/-8.92%·诚实半句=搬钱买回纸面数非第二收益源）+ 4 条行为自检腿（207/207 ALL PASS）· page_repeat_guard 0 repeated · 自捕两处自造数（期末权重/零成本夏普）已改读面自身字段 · 全量冒烟 796 腿 11 红（detached 1142.3s）：6 条已重派生修绿（year_gate/chain audit/CEO 页 rollup/dashboard×2/scorecard）+ 工单重生补等待句，余 3 条 swap 族同根（当日快照 NAV 约 22:00 才可得）+ 1 条 live-quote 判据待复现，如实留账 （qa/ceo-page-pair-rebalance-r2177.md）· 数据面 4 腿 rc0 + 纸盘链 7 腿 rc0 + t35 PASS(matched 1) + attrition CLEAN"
 }

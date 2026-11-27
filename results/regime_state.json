@@ -1,32 +1,32 @@
 {
-  "updated": "2026-11-26 06:19:18",
-  "asof": "2026-11-25",
+  "updated": "2026-11-27 15:35:06",
+  "asof": "2026-11-27",
   "mode": "shadow",
   "state": "RED",
   "state_cn": "红·危机",
-  "raw_level": "RED",
+  "raw_level": "ORANGE",
   "green_streak": 0,
-  "days_in_state": 16,
+  "days_in_state": 18,
   "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
-      "asof": "2026-11-25",
-      "close": 3.97,
-      "crash_10d": -0.04337349397590362,
-      "panic_1d": -0.015621125712868889,
-      "vol20": 0.008755,
+      "asof": "2026-11-27",
+      "close": 4.162,
+      "crash_10d": 0.019348518246387503,
+      "panic_1d": 0.051275574640060606,
+      "vol20": 0.014391,
       "vol_p95": 0.0173,
       "vol_p80": 0.01184,
       "vol_status": "ok",
-      "ma200": 4.6284,
+      "ma200": 4.6219,
       "below_ma200": true,
       "event_fomc": false,
       "event_pre_holiday": null,
       "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
     },
     "breadth": {
-      "share_below_ma20": 0.9167,
-      "share_slope_5d": 0.0625,
+      "share_below_ma20": 0.5625,
+      "share_slope_5d": -0.2917,
       "share_5d_ago": 0.8542,
       "status": "ok",
       "n_symbols": 48,
@@ -34,21 +34,20 @@
     },
     "bear_r_pei3": {
       "status": "ok",
-      "as_of": "2026-11-25",
-      "close": 3.97,
-      "ma250": 4.6489,
-      "dd_from_250d_high": -0.2202,
+      "as_of": "2026-11-27",
+      "close": 4.162,
+      "ma250": 4.6436,
+      "dd_from_250d_high": -0.1825,
       "below_ma250": true,
-      "dd_triggered": true,
-      "is_major_bear": true,
-      "position_cap": 0.2,
-      "cash_floor": 0.8
+      "dd_triggered": false,
+      "is_major_bear": false,
+      "position_cap": 0.8,
+      "cash_floor": 0.2
     }
   },
   "triggers": [
-    "R-配3 major bear (regime.py)",
     "hs300<MA200 (#10 collected)",
-    "breadth 0.92>=65%"
+    "vol20>p80 (3y)"
   ],
   "transitions": [
     {
@@ -454,6 +453,20 @@
       "state": "RED",
       "green_streak": 0,
       "days_in_state": 16
+    },
+    {
+      "asof": "2026-11-26",
+      "raw": "RED",
+      "state": "RED",
+      "green_streak": 0,
+      "days_in_state": 17
+    },
+    {
+      "asof": "2026-11-27",
+      "raw": "ORANGE",
+      "state": "RED",
+      "green_streak": 0,
+      "days_in_state": 18
     }
   ],
   "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
