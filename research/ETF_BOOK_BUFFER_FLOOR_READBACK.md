@@ -6,30 +6,30 @@ r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=
 
 | 读数 | 值 |
 |---|---|
-| 拟合预测 (k=0.30) | +0.298pp |
-| 实测中位 | +0.748pp |
-| 差 | +0.449pp (容差 0.057pp) |
-| 拟合自身最大样本内残差 | 0.019pp |
+| 拟合预测 (k=0.30) | +0.319pp |
+| 实测中位 | +0.770pp |
+| 差 | +0.451pp (容差 0.209pp) |
+| 拟合自身最大样本内残差 | 0.070pp |
 
 判决：**REFUTED**
 
 | n | R | 中位 CAGR | 基线 | Δ |
 |---|---|---|---|---|
-| 3 | 10 | +12.16pp | +10.26pp | +1.910pp |
-| 3 | 20 | +9.76pp | +8.29pp | +1.465pp |
-| 3 | 40 | +6.06pp | +6.38pp | -0.315pp |
-| 5 | 10 | +12.31pp | +11.06pp | +1.245pp |
-| 5 | 20 | +9.79pp | +8.88pp | +0.905pp |
-| 5 | 40 | +8.06pp | +7.50pp | +0.560pp |
-| 8 | 10 | +12.22pp | +11.56pp | +0.665pp |
-| 8 | 20 | +10.00pp | +9.82pp | +0.180pp |
-| 8 | 40 | +8.60pp | +7.88pp | +0.725pp |
-| 12 | 10 | +11.64pp | +11.10pp | +0.540pp |
-| 12 | 20 | +9.82pp | +9.05pp | +0.770pp |
-| 12 | 40 | +8.37pp | +7.20pp | +1.165pp |
+| 3 | 10 | +12.16pp | +10.22pp | +1.945pp |
+| 3 | 20 | +9.76pp | +8.24pp | +1.510pp |
+| 3 | 40 | +6.06pp | +6.26pp | -0.205pp |
+| 5 | 10 | +12.31pp | +11.04pp | +1.265pp |
+| 5 | 20 | +9.79pp | +8.82pp | +0.965pp |
+| 5 | 40 | +8.06pp | +7.45pp | +0.620pp |
+| 8 | 10 | +12.22pp | +11.53pp | +0.700pp |
+| 8 | 20 | +10.00pp | +9.79pp | +0.210pp |
+| 8 | 40 | +8.60pp | +7.84pp | +0.755pp |
+| 12 | 10 | +11.64pp | +11.05pp | +0.585pp |
+| 12 | 20 | +9.82pp | +9.04pp | +0.785pp |
+| 12 | 40 | +8.37pp | +7.16pp | +1.205pp |
 
-- the fit says +0.298pp at k=0.30 (slope +1.047, intercept -0.016)
-- the harvested arm's own 12 cells say +0.748pp (median)
-- gap +0.449pp against tolerance 0.057pp = 3.0x the fit's largest in-sample residual (0.019pp, floored at 0.05)
-- cell spread of the same arm: -0.315 .. +1.910pp (12 cells), i.e. the median is not the book
+- the fit says +0.319pp at k=0.30 (slope +1.217, intercept -0.046)
+- the harvested arm's own 12 cells say +0.770pp (median)
+- gap +0.451pp against tolerance 0.209pp = 3.0x the fit's largest in-sample residual (0.070pp, floored at 0.05)
+- cell spread of the same arm: -0.205 .. +1.945pp (12 cells), i.e. the median is not the book
 - the line misses the point it never saw by more than its own residual band: the k the floor reports is an extrapolation with no support

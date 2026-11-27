@@ -1,5 +1,5 @@
 {
- "as_of": "2026-11-26T06:18:27",
+ "as_of": "2026-11-27T02:29:15",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
@@ -12,35 +12,37 @@
   "scope_start": "1990-12-19"
  },
  "coverage_by_day": {
-  "2026-11-12": 1.0,
   "2026-11-13": 1.0,
   "2026-11-16": 1.0,
   "2026-11-17": 1.0,
   "2026-11-18": 1.0,
   "2026-11-19": 1.0,
   "2026-11-20": 1.0,
-  "2026-11-23": 0.9994,
-  "2026-11-24": 0.9988,
-  "2026-11-25": 0.9988
+  "2026-11-23": 1.0,
+  "2026-11-24": 0.9994,
+  "2026-11-25": 0.9994,
+  "2026-11-26": 0.9977
  },
  "detail": "the maintained panel covers every official trading day it should by now; 4 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12), sz159528 (source_ended; last bar 2026-11-18) -- every one of them is declared by the lane's own receipt",
- "expected_last_official_day": "2026-11-25",
+ "expected_last_official_day": "2026-11-26",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-11-25",
+  "ledger_last_bar": "2026-11-26",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
  "machine": "bm-c",
  "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-11-19",
-  "cutoff_max": "2026-11-25",
+  "active_floor": "2026-11-20",
+  "cutoff_max": "2026-11-26",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-11-25",
+  "effective_cutoff": "2026-11-26",
   "lagging_active_sample": [
-   "sh511820",
-   "sh563280"
+   "sh511670",
+   "sh511920",
+   "sh563280",
+   "sz159650"
   ],
   "n_active": 1721,
   "n_stale_cohort": 4,
@@ -74,10 +76,10 @@
  "stale_scope": {
   "by_reason": {
    "declared_out_of_scope": 1,
-   "no_trade": 2,
+   "no_trade": 3,
    "source_ended": 3
   },
-  "declared": 6,
+  "declared": 7,
   "error": null,
   "receipt": "results/etf_wide_update_status.json"
  },

@@ -6,7 +6,7 @@
   "slope_pp_per_k": "pp of median CAGR per unit k",
   "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"
  },
- "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff": "2026-11-26",
  "rule": {
   "degenerate_k": 1.0,
   "min_points": 4,
@@ -14,64 +14,64 @@
   "anchor_intercept_share_max": 0.05,
   "frozen": "written before the first read of the floor: the axis is fitted linearly on the published medians and the answer is a k, which only means anything inside [0,1]; amended 2026-11-18 (r1815) to state the intercept band as a share of the ruler"
  },
- "ruler_pp": 6.7993,
+ "ruler_pp": 6.6527,
  "arms": {
   "buffer_k02": {
    "buffer_k": 0.02,
-   "median_delta_pp": 0.013,
-   "median_band_pp": 7.352,
+   "median_delta_pp": -0.01,
+   "median_band_pp": 7.197,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k05": {
    "buffer_k": 0.05,
-   "median_delta_pp": 0.022,
-   "median_band_pp": 6.698,
+   "median_delta_pp": -0.055,
+   "median_band_pp": 6.534,
    "resolvable_share": 0.0,
    "verdict": "REJECT"
   },
   "buffer_k10": {
    "buffer_k": 0.1,
-   "median_delta_pp": 0.07,
-   "median_band_pp": 6.621,
+   "median_delta_pp": 0.085,
+   "median_band_pp": 6.457,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k20": {
    "buffer_k": 0.2,
-   "median_delta_pp": 0.203,
-   "median_band_pp": 6.481,
+   "median_delta_pp": 0.19,
+   "median_band_pp": 6.21,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   },
   "buffer_k40": {
    "buffer_k": 0.4,
-   "median_delta_pp": 0.405,
-   "median_band_pp": 6.411,
+   "median_delta_pp": 0.45,
+   "median_band_pp": 6.26,
    "resolvable_share": 0.0,
    "verdict": "NOT-SEPARABLE"
   }
  },
  "rungs_skipped": {},
  "fit": {
-  "slope_pp_per_k": 1.0469,
-  "intercept_pp": -0.0156,
-  "intercept_share_of_ruler": -0.0023,
-  "r2": 0.9925,
+  "slope_pp_per_k": 1.2171,
+  "intercept_pp": -0.0462,
+  "intercept_share_of_ruler": -0.0069,
+  "r2": 0.9583,
   "n_points": 6,
   "anchor": "k=0 (identity: the baseline's own delta is 0.0)"
  },
- "k_required": 6.509,
- "k_required_without_intercept": 6.494,
+ "k_required": 5.504,
+ "k_required_without_intercept": 5.466,
  "verdict_without_intercept": "UNREACHABLE_BY_CONSTRUCTION",
- "sweep_span_pp": 0.393,
- "sweep_share_of_ruler": 0.0577,
+ "sweep_span_pp": 0.46,
+ "sweep_share_of_ruler": 0.0691,
  "verdict": "UNREACHABLE_BY_CONSTRUCTION",
  "verdict_reasons": [
-  "slope +1.047pp per unit k, r2 0.993 on 5 arms + the k=0 identity",
-  "ruler = baseline median cell band 6.80pp (a median effect that size is the floor)",
-  "k required to reach the floor = 6.51",
-  "the whole axis spans 0.393pp = 0.058 of the ruler (flag if >= 0.25)",
-  "k=6.51 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer"
+  "slope +1.217pp per unit k, r2 0.958 on 5 arms + the k=0 identity",
+  "ruler = baseline median cell band 6.65pp (a median effect that size is the floor)",
+  "k required to reach the floor = 5.50",
+  "the whole axis spans 0.460pp = 0.069 of the ruler (flag if >= 0.25)",
+  "k=5.50 sits past k=1, which is 'never trade': this design cannot resolve the axis at any setting that is still a buffer"
  ]
 }

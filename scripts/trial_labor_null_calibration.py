@@ -825,7 +825,7 @@ def _cmp(old, new, problems, key, path="", tol=1e-9):
 def cmd_check():
     p = os.path.join(ROOT, OUT_JSON)
     if not os.path.exists(p):
-        print("CHECK FAILED: %s missing -- run first" % OUT_JSON)
+        print("STALE: face missing (%s) -- run first" % OUT_JSON)
         return 2
     with open(p, encoding="utf-8") as fh:
         old = json.load(fh)

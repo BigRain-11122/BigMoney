@@ -589,13 +589,17 @@ def check(path=None, verbose=True):
     if abs(pub_diag["sleeve_growth_etf"] - cash_diag["sleeve_growth_etf"]) > 1e-12:
         bad.append("sleeve etf pnl differs between arms")
 
+    # r1934: the digest/cutoff exits run first. A moved panel re-derives different numbers
+    # below, so testing the numbers first would call every restatement a defect and the chain
+    # would never pay the rebuild. Held-back count is printed so the republish is not blind.
+    if stale:
+        tail = "" if not bad else (" (%d value mismatch(es) held back until republished)" % len(bad))
+        print("[defensive_sleeve] STALE: %s%s (re-run: python scripts/bench_defensive_sleeve_vehicle.py run)"
+              % ("; ".join(stale), tail))
+        return 3
     if bad:
         print("[defensive_sleeve] CHECK FAILED (%d): %s" % (len(bad), "; ".join(bad)))
         return 1
-    if stale:
-        print("[defensive_sleeve] STALE: %s (re-run: python scripts/bench_defensive_sleeve_vehicle.py run)"
-              % "; ".join(stale))
-        return 3
     if verbose:
         print("[defensive_sleeve] check OK  verdict=%s  cagr %.4f%%/%.4f%%  (re-derived in %.1fs)"
               % (j["verdict"], pub_full["cagr"] * 100, cash_full["cagr"] * 100, time.time() - t0))

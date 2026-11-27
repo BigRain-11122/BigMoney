@@ -1,8 +1,8 @@
 {
  "schema": "etf_book_forced_hold/v1",
- "generated": "2026-11-26 06:10:44",
- "elapsed_sec": 76.9,
- "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-27 02:10:44",
+ "elapsed_sec": 57.2,
+ "evidence_cutoff": "2026-11-26",
  "question": "r1237 reported 109 positions (2.78%) as outside_cap with no price attached; what are they worth when sold at the first print available?",
  "arm": "declared fill (score held one bar back, close t -> open t+1); rows imported from etf_book_exit_liquidity.measure_positions, never re-typed",
  "config": {
@@ -36,9 +36,9 @@
   },
   "anchor_note": "the numbers this face reproduced when the control was written; kept as a disclosure, never as the gate (a frozen count cannot police a forward-accumulating census)",
   "measured": {
-   "positions_total": 3960,
+   "positions_total": 3972,
    "outside_cap_total": 109,
-   "share_below_gate_mean": 0.0419
+   "share_below_gate_mean": 0.0418
   },
   "tolerances": {
    "counts_rel": 0.02,
@@ -47,11 +47,11 @@
   "artifact": "results\\etf_book_exit_liquidity.json",
   "same_census": true,
   "reproduced": true,
-  "sibling_cutoff": "2026-11-25",
+  "sibling_cutoff": "2026-11-26",
   "expected": {
-   "positions_total": 3960,
+   "positions_total": 3972,
    "outside_cap_total": 109,
-   "share_below_gate_mean": 0.0419
+   "share_below_gate_mean": 0.0418
   },
   "state": "same_cutoff"
  },
@@ -63,12 +63,12 @@
  ],
  "panel": {
   "shape": [
-   5288,
-   1532
+   5289,
+   1536
   ],
   "flips_repaired": 169,
   "first": "2005-02-23",
-  "last": "2026-11-25"
+  "last": "2026-11-26"
  },
  "summary": {
   "phases": [
@@ -860,10 +860,10 @@
     "tail_positions": 33,
     "priced": 33,
     "open_at_end": 0,
-    "pp_per_year": 0.0671,
+    "pp_per_year": 0.0664,
     "mean_ret": 0.000138,
-    "weight_ceiling_pp": 26.0153,
-    "gate_wait_pp_per_year": 1.5057,
+    "weight_ceiling_pp": 25.7245,
+    "gate_wait_pp_per_year": 1.4889,
     "gate_wait_median_bars": 54.0,
     "rows": [
      {
@@ -1016,7 +1016,7 @@
       "sale_to": "2020-12-16",
       "open_at_end": false,
       "outcome": "sold_at_first_print",
-      "delta_ret": 0.0,
+      "delta_ret": -0.0,
       "sold_at_first_print": true,
       "weight_share": 0.041662
      },
@@ -1329,14 +1329,14 @@
       "weight_share": 0.032829
      }
     ],
-    "positions_in_phase": 984,
-    "tail_share_of_positions": 0.0335,
+    "positions_in_phase": 996,
+    "tail_share_of_positions": 0.0331,
     "phase": 2,
     "phase_start": "2020-01-16",
-    "holds": 82,
-    "span_years": 6.782,
-    "share_below_gate": 0.0467,
-    "positions": 984,
+    "holds": 83,
+    "span_years": 6.858,
+    "share_below_gate": 0.0462,
+    "positions": 996,
     "mean_sale_bars": 1.0
    },
    {
@@ -1683,18 +1683,18 @@
     "mean_sale_bars": 1.0
    }
   ],
-  "positions_total": 3960,
+  "positions_total": 3972,
   "outside_cap_total": 109,
   "open_at_end_total": 0,
-  "share_below_gate_mean": 0.0419,
-  "pp_per_year_mean": 0.05,
+  "share_below_gate_mean": 0.0418,
+  "pp_per_year_mean": 0.0498,
   "pp_per_year_min": 0.0132,
   "pp_per_year_max": 0.094,
-  "gate_wait_pp_per_year_mean": 1.1828,
+  "gate_wait_pp_per_year_mean": 1.1786,
   "verdict": "CENSORED_TAIL_IS_IMMATERIAL",
   "tail_total": 109,
-  "tail_share": 0.0275,
-  "pp_mean": 0.05,
+  "tail_share": 0.0274,
+  "pp_mean": 0.0498,
   "pp_min": 0.0132,
   "pp_max": 0.094,
   "priced_total": 109,
@@ -1706,9 +1706,9 @@
    },
    "anchor_note": "the numbers this face reproduced when the control was written; kept as a disclosure, never as the gate (a frozen count cannot police a forward-accumulating census)",
    "measured": {
-    "positions_total": 3960,
+    "positions_total": 3972,
     "outside_cap_total": 109,
-    "share_below_gate_mean": 0.0419
+    "share_below_gate_mean": 0.0418
    },
    "tolerances": {
     "counts_rel": 0.02,
@@ -1717,11 +1717,11 @@
    "artifact": "results\\etf_book_exit_liquidity.json",
    "same_census": true,
    "reproduced": true,
-   "sibling_cutoff": "2026-11-25",
+   "sibling_cutoff": "2026-11-26",
    "expected": {
-    "positions_total": 3960,
+    "positions_total": 3972,
     "outside_cap_total": 109,
-    "share_below_gate_mean": 0.0419
+    "share_below_gate_mean": 0.0418
    },
    "state": "same_cutoff"
   }

@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-26T06:21:38",
- "evidence_cutoff": "2026-11-25",
+ "generated": "2026-11-27T02:31:08",
+ "evidence_cutoff": "2026-11-26",
  "inputs": {
   "parent_face": "results/idx_fut_basis.json",
-  "parent_generated": "2026-11-26T06:20:34",
+  "parent_generated": "2026-11-27T02:30:06",
   "cash_rate_pct": 1.325,
   "cash_rate_year": "2026",
   "cash_rate_source": "data/repo_daily/GC001.csv yearly mean close",
@@ -42,142 +42,142 @@
   "IF": {
    "index": "sh000300",
    "index_name": "CSI300",
-   "price_date": "2026-11-25",
-   "price": 3824.0,
+   "price_date": "2026-11-26",
+   "price": 3849.8,
    "multiplier": 300,
-   "contract_value_cny": 1147200,
+   "contract_value_cny": 1154940,
    "index_vol_pct": 17.51,
-   "carry_net_ann_pct": 0.697,
+   "carry_net_ann_pct": 0.725,
    "carry_net_source": "parent verdict.carries[IF].net_carry_pct",
    "carry_net_by_reading": {
-    "median_ann_pct": 0.697,
-    "trimmed_mean_ann_pct": 0.601,
-    "mean_ann_pct": -0.107
+    "median_ann_pct": 0.725,
+    "trimmed_mean_ann_pct": 0.669,
+    "mean_ann_pct": -0.019
    },
    "carry_net_by_mask": {
     "published": {
-     "median_ann_pct": 0.697,
-     "trimmed_mean_ann_pct": 0.601,
-     "mean_ann_pct": -0.107
+     "median_ann_pct": 0.725,
+     "trimmed_mean_ann_pct": 0.669,
+     "mean_ann_pct": -0.019
     },
     "calendar": {
-     "median_ann_pct": 3.6,
-     "trimmed_mean_ann_pct": 4.37,
-     "mean_ann_pct": 3.987
+     "median_ann_pct": 3.668,
+     "trimmed_mean_ann_pct": 4.44,
+     "mean_ann_pct": 4.075
     },
     "strictest": {
-     "median_ann_pct": 3.643,
-     "trimmed_mean_ann_pct": 4.394,
-     "mean_ann_pct": 4.573
+     "median_ann_pct": 3.72,
+     "trimmed_mean_ann_pct": 4.464,
+     "mean_ann_pct": 4.662
     }
    },
-   "carry_per_unit_vol": 0.04,
+   "carry_per_unit_vol": 0.041,
    "index_max_drawdown_pct": -45.603,
-   "parent_last_2y_median_ann_pct": 4.354,
+   "parent_last_2y_median_ann_pct": 4.698,
    "tiers": [
     {
      "capital_cny": 1000000,
      "lots": 0,
      "lots_by_risk": 0,
      "lots_by_margin": 3,
-     "one_lot_capital_needed_cny": 2511545
+     "one_lot_capital_needed_cny": 2527420
     },
     {
      "capital_cny": 3000000,
      "lots": 1,
      "lots_by_risk": 1,
      "lots_by_margin": 10,
-     "one_lot_capital_needed_cny": 2511545,
-     "notional_cny": 1147200,
+     "one_lot_capital_needed_cny": 2527420,
+     "notional_cny": 1154940,
      "notional_x_capital": 0.38,
-     "margin_cny": 172080,
-     "margin_pct_of_capital": 5.7,
-     "carry_cny": 7996,
+     "margin_cny": 173241,
+     "margin_pct_of_capital": 5.8,
+     "carry_cny": 8373,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 4589,
-      "25": 11472,
-      "50": 22944
+      "10": 4620,
+      "25": 11549,
+      "50": 23099
      },
-     "cash_cny": 37466,
+     "cash_cny": 37468,
      "net_pct_of_capital": {
-      "0": 1.52,
-      "10": 1.36,
-      "25": 1.13,
-      "50": 0.75
+      "0": 1.53,
+      "10": 1.37,
+      "25": 1.14,
+      "50": 0.76
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 1.36,
-      "trimmed_mean_ann_pct": 1.33,
-      "mean_ann_pct": 1.05
+      "median_ann_pct": 1.37,
+      "trimmed_mean_ann_pct": 1.35,
+      "mean_ann_pct": 1.09
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 1.36,
-       "trimmed_mean_ann_pct": 1.33,
-       "mean_ann_pct": 1.05
+       "median_ann_pct": 1.37,
+       "trimmed_mean_ann_pct": 1.35,
+       "mean_ann_pct": 1.09
       },
       "calendar": {
-       "median_ann_pct": 2.47,
-       "trimmed_mean_ann_pct": 2.77,
-       "mean_ann_pct": 2.62
+       "median_ann_pct": 2.51,
+       "trimmed_mean_ann_pct": 2.8,
+       "mean_ann_pct": 2.66
       },
       "strictest": {
-       "median_ann_pct": 2.49,
-       "trimmed_mean_ann_pct": 2.78,
-       "mean_ann_pct": 2.84
+       "median_ann_pct": 2.53,
+       "trimmed_mean_ann_pct": 2.81,
+       "mean_ann_pct": 2.89
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 38% of capital: no single index fall wipes it",
      "vol_contrib_pct": 6.7,
-     "stress_loss_pct_of_capital": 17.4
+     "stress_loss_pct_of_capital": 17.6
     },
     {
      "capital_cny": 5000000,
      "lots": 1,
      "lots_by_risk": 1,
      "lots_by_margin": 17,
-     "one_lot_capital_needed_cny": 2511545,
-     "notional_cny": 1147200,
+     "one_lot_capital_needed_cny": 2527420,
+     "notional_cny": 1154940,
      "notional_x_capital": 0.23,
-     "margin_cny": 172080,
-     "margin_pct_of_capital": 3.4,
-     "carry_cny": 7996,
+     "margin_cny": 173241,
+     "margin_pct_of_capital": 3.5,
+     "carry_cny": 8373,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 4589,
-      "25": 11472,
-      "50": 22944
+      "10": 4620,
+      "25": 11549,
+      "50": 23099
      },
-     "cash_cny": 63963,
+     "cash_cny": 63978,
      "net_pct_of_capital": {
-      "0": 1.44,
+      "0": 1.45,
       "10": 1.35,
-      "25": 1.21,
-      "50": 0.98
+      "25": 1.22,
+      "50": 0.99
      },
      "net_pct_of_capital_by_reading": {
       "median_ann_pct": 1.35,
-      "trimmed_mean_ann_pct": 1.33,
-      "mean_ann_pct": 1.16
+      "trimmed_mean_ann_pct": 1.34,
+      "mean_ann_pct": 1.18
      },
      "net_pct_of_capital_by_mask": {
       "published": {
        "median_ann_pct": 1.35,
-       "trimmed_mean_ann_pct": 1.33,
-       "mean_ann_pct": 1.16
+       "trimmed_mean_ann_pct": 1.34,
+       "mean_ann_pct": 1.18
       },
       "calendar": {
-       "median_ann_pct": 2.01,
-       "trimmed_mean_ann_pct": 2.19,
-       "mean_ann_pct": 2.1
+       "median_ann_pct": 2.03,
+       "trimmed_mean_ann_pct": 2.21,
+       "mean_ann_pct": 2.13
       },
       "strictest": {
-       "median_ann_pct": 2.02,
-       "trimmed_mean_ann_pct": 2.2,
-       "mean_ann_pct": 2.24
+       "median_ann_pct": 2.05,
+       "trimmed_mean_ann_pct": 2.22,
+       "mean_ann_pct": 2.26
       }
      },
      "margin_call_fall_pct": 15.0,
@@ -191,201 +191,201 @@
      "lots": 3,
      "lots_by_risk": 3,
      "lots_by_margin": 34,
-     "one_lot_capital_needed_cny": 2511545,
-     "notional_cny": 3441600,
-     "notional_x_capital": 0.34,
-     "margin_cny": 516240,
+     "one_lot_capital_needed_cny": 2527420,
+     "notional_cny": 3464820,
+     "notional_x_capital": 0.35,
+     "margin_cny": 519723,
      "margin_pct_of_capital": 5.2,
-     "carry_cny": 23988,
+     "carry_cny": 25120,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 13766,
-      "25": 34416,
-      "50": 68832
+      "10": 13859,
+      "25": 34648,
+      "50": 69296
      },
-     "cash_cny": 125646,
+     "cash_cny": 125660,
      "net_pct_of_capital": {
-      "0": 1.5,
-      "10": 1.36,
-      "25": 1.15,
+      "0": 1.51,
+      "10": 1.37,
+      "25": 1.16,
       "50": 0.81
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 1.36,
-      "trimmed_mean_ann_pct": 1.33,
-      "mean_ann_pct": 1.08
+      "median_ann_pct": 1.37,
+      "trimmed_mean_ann_pct": 1.35,
+      "mean_ann_pct": 1.11
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 1.36,
-       "trimmed_mean_ann_pct": 1.33,
-       "mean_ann_pct": 1.08
+       "median_ann_pct": 1.37,
+       "trimmed_mean_ann_pct": 1.35,
+       "mean_ann_pct": 1.11
       },
       "calendar": {
-       "median_ann_pct": 2.36,
-       "trimmed_mean_ann_pct": 2.62,
-       "mean_ann_pct": 2.49
+       "median_ann_pct": 2.39,
+       "trimmed_mean_ann_pct": 2.66,
+       "mean_ann_pct": 2.53
       },
       "strictest": {
-       "median_ann_pct": 2.37,
-       "trimmed_mean_ann_pct": 2.63,
-       "mean_ann_pct": 2.69
+       "median_ann_pct": 2.41,
+       "trimmed_mean_ann_pct": 2.66,
+       "mean_ann_pct": 2.73
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
-     "account_wipe_note": "notional is 34% of capital: no single index fall wipes it",
-     "vol_contrib_pct": 6.0,
-     "stress_loss_pct_of_capital": 15.7
+     "account_wipe_note": "notional is 35% of capital: no single index fall wipes it",
+     "vol_contrib_pct": 6.1,
+     "stress_loss_pct_of_capital": 15.8
     }
    ]
   },
   "IC": {
    "index": "sh000905",
    "index_name": "CSI500",
-   "price_date": "2026-11-25",
-   "price": 5769.0,
+   "price_date": "2026-11-26",
+   "price": 5790.0,
    "multiplier": 200,
-   "contract_value_cny": 1153800,
+   "contract_value_cny": 1158000,
    "index_vol_pct": 22.57,
-   "carry_net_ann_pct": 4.131,
+   "carry_net_ann_pct": 4.15,
    "carry_net_source": "parent verdict.carries[IC].net_carry_pct",
    "carry_net_by_reading": {
-    "median_ann_pct": 4.131,
-    "trimmed_mean_ann_pct": 3.01,
-    "mean_ann_pct": 1.926
+    "median_ann_pct": 4.15,
+    "trimmed_mean_ann_pct": 3.066,
+    "mean_ann_pct": 2.011
    },
    "carry_net_by_mask": {
     "published": {
-     "median_ann_pct": 4.131,
-     "trimmed_mean_ann_pct": 3.01,
-     "mean_ann_pct": 1.926
+     "median_ann_pct": 4.15,
+     "trimmed_mean_ann_pct": 3.066,
+     "mean_ann_pct": 2.011
     },
     "calendar": {
-     "median_ann_pct": 7.631,
-     "trimmed_mean_ann_pct": 8.422,
-     "mean_ann_pct": 8.874
+     "median_ann_pct": 7.642,
+     "trimmed_mean_ann_pct": 8.481,
+     "mean_ann_pct": 8.959
     },
     "strictest": {
-     "median_ann_pct": 7.631,
-     "trimmed_mean_ann_pct": 8.42,
-     "mean_ann_pct": 8.917
+     "median_ann_pct": 7.642,
+     "trimmed_mean_ann_pct": 8.478,
+     "mean_ann_pct": 9.003
     }
    },
-   "carry_per_unit_vol": 0.183,
+   "carry_per_unit_vol": 0.184,
    "index_max_drawdown_pct": -41.808,
-   "parent_last_2y_median_ann_pct": 9.678,
+   "parent_last_2y_median_ann_pct": 10.133,
    "tiers": [
     {
      "capital_cny": 1000000,
      "lots": 0,
      "lots_by_risk": 0,
      "lots_by_margin": 3,
-     "one_lot_capital_needed_cny": 3255876
+     "one_lot_capital_needed_cny": 3267596
     },
     {
      "capital_cny": 3000000,
      "lots": 0,
      "lots_by_risk": 0,
      "lots_by_margin": 10,
-     "one_lot_capital_needed_cny": 3255876
+     "one_lot_capital_needed_cny": 3267596
     },
     {
      "capital_cny": 5000000,
      "lots": 1,
      "lots_by_risk": 1,
      "lots_by_margin": 17,
-     "one_lot_capital_needed_cny": 3255876,
-     "notional_cny": 1153800,
+     "one_lot_capital_needed_cny": 3267596,
+     "notional_cny": 1158000,
      "notional_x_capital": 0.23,
-     "margin_cny": 173070,
+     "margin_cny": 173700,
      "margin_pct_of_capital": 3.5,
-     "carry_cny": 47663,
+     "carry_cny": 48057,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 4615,
-      "25": 11538,
-      "50": 23076
+      "10": 4632,
+      "25": 11580,
+      "50": 23160
      },
-     "cash_cny": 63950,
+     "cash_cny": 63972,
      "net_pct_of_capital": {
-      "0": 2.23,
-      "10": 2.14,
-      "25": 2.0,
-      "50": 1.77
+      "0": 2.24,
+      "10": 2.15,
+      "25": 2.01,
+      "50": 1.78
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 2.14,
-      "trimmed_mean_ann_pct": 1.88,
-      "mean_ann_pct": 1.63
+      "median_ann_pct": 2.15,
+      "trimmed_mean_ann_pct": 1.9,
+      "mean_ann_pct": 1.65
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 2.14,
-       "trimmed_mean_ann_pct": 1.88,
-       "mean_ann_pct": 1.63
+       "median_ann_pct": 2.15,
+       "trimmed_mean_ann_pct": 1.9,
+       "mean_ann_pct": 1.65
       },
       "calendar": {
-       "median_ann_pct": 2.95,
-       "trimmed_mean_ann_pct": 3.13,
-       "mean_ann_pct": 3.23
+       "median_ann_pct": 2.96,
+       "trimmed_mean_ann_pct": 3.15,
+       "mean_ann_pct": 3.26
       },
       "strictest": {
-       "median_ann_pct": 2.95,
-       "trimmed_mean_ann_pct": 3.13,
-       "mean_ann_pct": 3.24
+       "median_ann_pct": 2.96,
+       "trimmed_mean_ann_pct": 3.15,
+       "mean_ann_pct": 3.27
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 23% of capital: no single index fall wipes it",
      "vol_contrib_pct": 5.2,
-     "stress_loss_pct_of_capital": 9.6
+     "stress_loss_pct_of_capital": 9.7
     },
     {
      "capital_cny": 10000000,
      "lots": 3,
      "lots_by_risk": 3,
      "lots_by_margin": 34,
-     "one_lot_capital_needed_cny": 3255876,
-     "notional_cny": 3461400,
+     "one_lot_capital_needed_cny": 3267596,
+     "notional_cny": 3474000,
      "notional_x_capital": 0.35,
-     "margin_cny": 519210,
+     "margin_cny": 521100,
      "margin_pct_of_capital": 5.2,
-     "carry_cny": 142990,
+     "carry_cny": 144171,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 13846,
-      "25": 34614,
-      "50": 69228
+      "10": 13896,
+      "25": 34740,
+      "50": 69480
      },
-     "cash_cny": 125607,
+     "cash_cny": 125642,
      "net_pct_of_capital": {
-      "0": 2.69,
-      "10": 2.55,
-      "25": 2.34,
-      "50": 1.99
+      "0": 2.7,
+      "10": 2.56,
+      "25": 2.35,
+      "50": 2.0
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 2.55,
-      "trimmed_mean_ann_pct": 2.16,
-      "mean_ann_pct": 1.78
+      "median_ann_pct": 2.56,
+      "trimmed_mean_ann_pct": 2.18,
+      "mean_ann_pct": 1.82
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 2.55,
-       "trimmed_mean_ann_pct": 2.16,
-       "mean_ann_pct": 1.78
+       "median_ann_pct": 2.56,
+       "trimmed_mean_ann_pct": 2.18,
+       "mean_ann_pct": 1.82
       },
       "calendar": {
-       "median_ann_pct": 3.76,
-       "trimmed_mean_ann_pct": 4.03,
-       "mean_ann_pct": 4.19
+       "median_ann_pct": 3.77,
+       "trimmed_mean_ann_pct": 4.06,
+       "mean_ann_pct": 4.23
       },
       "strictest": {
-       "median_ann_pct": 3.76,
-       "trimmed_mean_ann_pct": 4.03,
-       "mean_ann_pct": 4.2
+       "median_ann_pct": 3.77,
+       "trimmed_mean_ann_pct": 4.06,
+       "mean_ann_pct": 4.25
       }
      },
      "margin_call_fall_pct": 15.0,
@@ -399,90 +399,90 @@
   "IH": {
    "index": "sh000016",
    "index_name": "SSE50",
-   "price_date": "2026-11-25",
-   "price": 2708.6,
+   "price_date": "2026-11-26",
+   "price": 2716.0,
    "multiplier": 300,
-   "contract_value_cny": 812580,
-   "index_vol_pct": 16.38,
-   "carry_net_ann_pct": 1.703,
+   "contract_value_cny": 814800,
+   "index_vol_pct": 16.36,
+   "carry_net_ann_pct": 1.72,
    "carry_net_source": "parent verdict.carries[IH].net_carry_pct",
    "carry_net_by_reading": {
-    "median_ann_pct": 1.703,
-    "trimmed_mean_ann_pct": 1.645,
-    "mean_ann_pct": 1.405
+    "median_ann_pct": 1.72,
+    "trimmed_mean_ann_pct": 1.668,
+    "mean_ann_pct": 1.425
    },
    "carry_net_by_mask": {
     "published": {
-     "median_ann_pct": 1.703,
-     "trimmed_mean_ann_pct": 1.645,
-     "mean_ann_pct": 1.405
+     "median_ann_pct": 1.72,
+     "trimmed_mean_ann_pct": 1.668,
+     "mean_ann_pct": 1.425
     },
     "calendar": {
-     "median_ann_pct": 3.911,
-     "trimmed_mean_ann_pct": 4.815,
-     "mean_ann_pct": 5.386
+     "median_ann_pct": 3.913,
+     "trimmed_mean_ann_pct": 4.837,
+     "mean_ann_pct": 5.406
     },
     "strictest": {
-     "median_ann_pct": 3.859,
-     "trimmed_mean_ann_pct": 4.591,
-     "mean_ann_pct": 5.059
+     "median_ann_pct": 3.876,
+     "trimmed_mean_ann_pct": 4.614,
+     "mean_ann_pct": 5.08
     }
    },
-   "carry_per_unit_vol": 0.104,
+   "carry_per_unit_vol": 0.105,
    "index_max_drawdown_pct": -45.408,
-   "parent_last_2y_median_ann_pct": 2.182,
+   "parent_last_2y_median_ann_pct": 2.3,
    "tiers": [
     {
      "capital_cny": 1000000,
      "lots": 0,
      "lots_by_risk": 0,
      "lots_by_margin": 4,
-     "one_lot_capital_needed_cny": 1663944
+     "one_lot_capital_needed_cny": 1666080
     },
     {
      "capital_cny": 3000000,
      "lots": 1,
      "lots_by_risk": 1,
      "lots_by_margin": 14,
-     "one_lot_capital_needed_cny": 1663944,
-     "notional_cny": 812580,
+     "one_lot_capital_needed_cny": 1666080,
+     "notional_cny": 814800,
      "notional_x_capital": 0.27,
-     "margin_cny": 121887,
+     "margin_cny": 122220,
      "margin_pct_of_capital": 4.1,
-     "carry_cny": 13838,
+     "carry_cny": 14015,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 3250,
-      "25": 8126,
-      "50": 16252
+      "10": 3259,
+      "25": 8148,
+      "50": 16296
      },
-     "cash_cny": 38131,
+     "cash_cny": 38145,
      "net_pct_of_capital": {
-      "0": 1.73,
-      "10": 1.62,
-      "25": 1.46,
-      "50": 1.19
+      "0": 1.74,
+      "10": 1.63,
+      "25": 1.47,
+      "50": 1.2
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 1.62,
-      "trimmed_mean_ann_pct": 1.61,
-      "mean_ann_pct": 1.54
+      "median_ann_pct": 1.63,
+      "trimmed_mean_ann_pct": 1.62,
+      "mean_ann_pct": 1.55
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 1.62,
-       "trimmed_mean_ann_pct": 1.61,
-       "mean_ann_pct": 1.54
+       "median_ann_pct": 1.63,
+       "trimmed_mean_ann_pct": 1.62,
+       "mean_ann_pct": 1.55
       },
       "calendar": {
-       "median_ann_pct": 2.22,
-       "trimmed_mean_ann_pct": 2.47,
-       "mean_ann_pct": 2.62
+       "median_ann_pct": 2.23,
+       "trimmed_mean_ann_pct": 2.48,
+       "mean_ann_pct": 2.63
       },
       "strictest": {
-       "median_ann_pct": 2.21,
-       "trimmed_mean_ann_pct": 2.41,
-       "mean_ann_pct": 2.53
+       "median_ann_pct": 2.22,
+       "trimmed_mean_ann_pct": 2.42,
+       "mean_ann_pct": 2.54
       }
      },
      "margin_call_fall_pct": 15.0,
@@ -496,260 +496,260 @@
      "lots": 3,
      "lots_by_risk": 3,
      "lots_by_margin": 24,
-     "one_lot_capital_needed_cny": 1663944,
-     "notional_cny": 2437740,
+     "one_lot_capital_needed_cny": 1666080,
+     "notional_cny": 2444400,
      "notional_x_capital": 0.49,
-     "margin_cny": 365661,
+     "margin_cny": 366660,
      "margin_pct_of_capital": 7.3,
-     "carry_cny": 41515,
+     "carry_cny": 42044,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 9751,
-      "25": 24377,
-      "50": 48755
+      "10": 9778,
+      "25": 24444,
+      "50": 48888
      },
-     "cash_cny": 61398,
+     "cash_cny": 61414,
      "net_pct_of_capital": {
-      "0": 2.06,
-      "10": 1.86,
-      "25": 1.57,
-      "50": 1.08
+      "0": 2.07,
+      "10": 1.87,
+      "25": 1.58,
+      "50": 1.09
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 1.86,
-      "trimmed_mean_ann_pct": 1.83,
-      "mean_ann_pct": 1.72
+      "median_ann_pct": 1.87,
+      "trimmed_mean_ann_pct": 1.85,
+      "mean_ann_pct": 1.73
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 1.86,
-       "trimmed_mean_ann_pct": 1.83,
-       "mean_ann_pct": 1.72
+       "median_ann_pct": 1.87,
+       "trimmed_mean_ann_pct": 1.85,
+       "mean_ann_pct": 1.73
       },
       "calendar": {
-       "median_ann_pct": 2.94,
-       "trimmed_mean_ann_pct": 3.38,
-       "mean_ann_pct": 3.66
+       "median_ann_pct": 2.95,
+       "trimmed_mean_ann_pct": 3.4,
+       "mean_ann_pct": 3.68
       },
       "strictest": {
-       "median_ann_pct": 2.91,
-       "trimmed_mean_ann_pct": 3.27,
-       "mean_ann_pct": 3.5
+       "median_ann_pct": 2.93,
+       "trimmed_mean_ann_pct": 3.29,
+       "mean_ann_pct": 3.52
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 49% of capital: no single index fall wipes it",
      "vol_contrib_pct": 8.0,
-     "stress_loss_pct_of_capital": 22.1
+     "stress_loss_pct_of_capital": 22.2
     },
     {
      "capital_cny": 10000000,
      "lots": 6,
      "lots_by_risk": 6,
      "lots_by_margin": 49,
-     "one_lot_capital_needed_cny": 1663944,
-     "notional_cny": 4875480,
+     "one_lot_capital_needed_cny": 1666080,
+     "notional_cny": 4888800,
      "notional_x_capital": 0.49,
-     "margin_cny": 731322,
+     "margin_cny": 733320,
      "margin_pct_of_capital": 7.3,
-     "carry_cny": 83029,
+     "carry_cny": 84087,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 19502,
-      "25": 48755,
-      "50": 97510
+      "10": 19555,
+      "25": 48888,
+      "50": 97776
      },
-     "cash_cny": 122797,
+     "cash_cny": 122829,
      "net_pct_of_capital": {
-      "0": 2.06,
-      "10": 1.86,
-      "25": 1.57,
-      "50": 1.08
+      "0": 2.07,
+      "10": 1.87,
+      "25": 1.58,
+      "50": 1.09
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 1.86,
-      "trimmed_mean_ann_pct": 1.83,
-      "mean_ann_pct": 1.72
+      "median_ann_pct": 1.87,
+      "trimmed_mean_ann_pct": 1.85,
+      "mean_ann_pct": 1.73
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 1.86,
-       "trimmed_mean_ann_pct": 1.83,
-       "mean_ann_pct": 1.72
+       "median_ann_pct": 1.87,
+       "trimmed_mean_ann_pct": 1.85,
+       "mean_ann_pct": 1.73
       },
       "calendar": {
-       "median_ann_pct": 2.94,
-       "trimmed_mean_ann_pct": 3.38,
-       "mean_ann_pct": 3.66
+       "median_ann_pct": 2.95,
+       "trimmed_mean_ann_pct": 3.4,
+       "mean_ann_pct": 3.68
       },
       "strictest": {
-       "median_ann_pct": 2.91,
-       "trimmed_mean_ann_pct": 3.27,
-       "mean_ann_pct": 3.5
+       "median_ann_pct": 2.93,
+       "trimmed_mean_ann_pct": 3.29,
+       "mean_ann_pct": 3.52
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 49% of capital: no single index fall wipes it",
      "vol_contrib_pct": 8.0,
-     "stress_loss_pct_of_capital": 22.1
+     "stress_loss_pct_of_capital": 22.2
     }
    ]
   },
   "IM": {
    "index": "sh000852",
    "index_name": "CSI1000",
-   "price_date": "2026-11-25",
-   "price": 5434.4,
+   "price_date": "2026-11-26",
+   "price": 5469.0,
    "multiplier": 200,
-   "contract_value_cny": 1086880,
-   "index_vol_pct": 25.32,
-   "carry_net_ann_pct": 5.887,
+   "contract_value_cny": 1093800,
+   "index_vol_pct": 25.31,
+   "carry_net_ann_pct": 5.982,
    "carry_net_source": "parent verdict.carries[IM].net_carry_pct",
    "carry_net_by_reading": {
-    "median_ann_pct": 5.887,
-    "trimmed_mean_ann_pct": 3.655,
-    "mean_ann_pct": 2.717
+    "median_ann_pct": 5.982,
+    "trimmed_mean_ann_pct": 3.828,
+    "mean_ann_pct": 2.941
    },
    "carry_net_by_mask": {
     "published": {
-     "median_ann_pct": 5.887,
-     "trimmed_mean_ann_pct": 3.655,
-     "mean_ann_pct": 2.717
+     "median_ann_pct": 5.982,
+     "trimmed_mean_ann_pct": 3.828,
+     "mean_ann_pct": 2.941
     },
     "calendar": {
-     "median_ann_pct": 9.294,
-     "trimmed_mean_ann_pct": 8.404,
-     "mean_ann_pct": 8.946
+     "median_ann_pct": 9.333,
+     "trimmed_mean_ann_pct": 8.586,
+     "mean_ann_pct": 9.17
     },
     "strictest": {
-     "median_ann_pct": 9.261,
-     "trimmed_mean_ann_pct": 8.231,
-     "mean_ann_pct": 8.557
+     "median_ann_pct": 9.332,
+     "trimmed_mean_ann_pct": 8.411,
+     "mean_ann_pct": 8.783
     }
    },
-   "carry_per_unit_vol": 0.233,
+   "carry_per_unit_vol": 0.236,
    "index_max_drawdown_pct": -41.602,
-   "parent_last_2y_median_ann_pct": 12.523,
+   "parent_last_2y_median_ann_pct": 12.96,
    "tiers": [
     {
      "capital_cny": 1000000,
      "lots": 0,
      "lots_by_risk": 0,
      "lots_by_margin": 3,
-     "one_lot_capital_needed_cny": 3439903
+     "one_lot_capital_needed_cny": 3461178
     },
     {
      "capital_cny": 3000000,
      "lots": 0,
      "lots_by_risk": 0,
-     "lots_by_margin": 11,
-     "one_lot_capital_needed_cny": 3439903
+     "lots_by_margin": 10,
+     "one_lot_capital_needed_cny": 3461178
     },
     {
      "capital_cny": 5000000,
      "lots": 1,
      "lots_by_risk": 1,
      "lots_by_margin": 18,
-     "one_lot_capital_needed_cny": 3439903,
-     "notional_cny": 1086880,
+     "one_lot_capital_needed_cny": 3461178,
+     "notional_cny": 1093800,
      "notional_x_capital": 0.22,
-     "margin_cny": 163032,
+     "margin_cny": 164070,
      "margin_pct_of_capital": 3.3,
-     "carry_cny": 63985,
+     "carry_cny": 65431,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 4348,
-      "25": 10869,
-      "50": 21738
+      "10": 4375,
+      "25": 10938,
+      "50": 21876
      },
-     "cash_cny": 64083,
+     "cash_cny": 64100,
      "net_pct_of_capital": {
-      "0": 2.56,
-      "10": 2.47,
-      "25": 2.34,
-      "50": 2.13
+      "0": 2.59,
+      "10": 2.5,
+      "25": 2.37,
+      "50": 2.15
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 2.47,
-      "trimmed_mean_ann_pct": 1.99,
-      "mean_ann_pct": 1.79
+      "median_ann_pct": 2.5,
+      "trimmed_mean_ann_pct": 2.03,
+      "mean_ann_pct": 1.84
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 2.47,
-       "trimmed_mean_ann_pct": 1.99,
-       "mean_ann_pct": 1.79
+       "median_ann_pct": 2.5,
+       "trimmed_mean_ann_pct": 2.03,
+       "mean_ann_pct": 1.84
       },
       "calendar": {
-       "median_ann_pct": 3.22,
-       "trimmed_mean_ann_pct": 3.02,
-       "mean_ann_pct": 3.14
+       "median_ann_pct": 3.24,
+       "trimmed_mean_ann_pct": 3.07,
+       "mean_ann_pct": 3.2
       },
       "strictest": {
-       "median_ann_pct": 3.21,
-       "trimmed_mean_ann_pct": 2.98,
-       "mean_ann_pct": 3.05
+       "median_ann_pct": 3.24,
+       "trimmed_mean_ann_pct": 3.03,
+       "mean_ann_pct": 3.12
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 22% of capital: no single index fall wipes it",
      "vol_contrib_pct": 5.5,
-     "stress_loss_pct_of_capital": 9.0
+     "stress_loss_pct_of_capital": 9.1
     },
     {
      "capital_cny": 10000000,
      "lots": 2,
      "lots_by_risk": 2,
      "lots_by_margin": 36,
-     "one_lot_capital_needed_cny": 3439903,
-     "notional_cny": 2173760,
+     "one_lot_capital_needed_cny": 3461178,
+     "notional_cny": 2187600,
      "notional_x_capital": 0.22,
-     "margin_cny": 326064,
+     "margin_cny": 328140,
      "margin_pct_of_capital": 3.3,
-     "carry_cny": 127969,
+     "carry_cny": 130862,
      "roll_cost_cny_by_bps": {
       "0": 0,
-      "10": 8695,
-      "25": 21738,
-      "50": 43475
+      "10": 8750,
+      "25": 21876,
+      "50": 43752
      },
-     "cash_cny": 128166,
+     "cash_cny": 128199,
      "net_pct_of_capital": {
-      "0": 2.56,
-      "10": 2.47,
-      "25": 2.34,
-      "50": 2.13
+      "0": 2.59,
+      "10": 2.5,
+      "25": 2.37,
+      "50": 2.15
      },
      "net_pct_of_capital_by_reading": {
-      "median_ann_pct": 2.47,
-      "trimmed_mean_ann_pct": 1.99,
-      "mean_ann_pct": 1.79
+      "median_ann_pct": 2.5,
+      "trimmed_mean_ann_pct": 2.03,
+      "mean_ann_pct": 1.84
      },
      "net_pct_of_capital_by_mask": {
       "published": {
-       "median_ann_pct": 2.47,
-       "trimmed_mean_ann_pct": 1.99,
-       "mean_ann_pct": 1.79
+       "median_ann_pct": 2.5,
+       "trimmed_mean_ann_pct": 2.03,
+       "mean_ann_pct": 1.84
       },
       "calendar": {
-       "median_ann_pct": 3.22,
-       "trimmed_mean_ann_pct": 3.02,
-       "mean_ann_pct": 3.14
+       "median_ann_pct": 3.24,
+       "trimmed_mean_ann_pct": 3.07,
+       "mean_ann_pct": 3.2
       },
       "strictest": {
-       "median_ann_pct": 3.21,
-       "trimmed_mean_ann_pct": 2.98,
-       "mean_ann_pct": 3.05
+       "median_ann_pct": 3.24,
+       "trimmed_mean_ann_pct": 3.03,
+       "mean_ann_pct": 3.12
       }
      },
      "margin_call_fall_pct": 15.0,
      "account_wipe_fall_pct": null,
      "account_wipe_note": "notional is 22% of capital: no single index fall wipes it",
      "vol_contrib_pct": 5.5,
-     "stress_loss_pct_of_capital": 9.0
+     "stress_loss_pct_of_capital": 9.1
     }
    ]
   }
@@ -757,123 +757,123 @@
  "roll_mask": {
   "face": "idx_fut_roll_gap",
   "available": true,
-  "generated": "2026-11-26T06:20:37",
-  "evidence_cutoff": "2026-11-25",
+  "generated": "2026-11-27T02:30:09",
+  "evidence_cutoff": "2026-11-26",
   "verdict": "ROLL_MASK_INCOMPLETE",
   "published_rule": "single-leg basis step > 8x the median step and > 0.5%",
   "carry_pct": {
    "IC": {
-    "published": 2.808,
-    "calendar": 9.756,
+    "published": 2.892,
+    "calendar": 9.84,
     "missed_share_pct": 81.4,
     "published_stats": {
      "hit_rate_pct": 53.2,
-     "mean_ann_pct": 2.808,
-     "median_ann_pct": 5.013,
-     "n": 2368,
-     "trimmed_mean_ann_pct": 3.892
+     "mean_ann_pct": 2.892,
+     "median_ann_pct": 5.031,
+     "n": 2369,
+     "trimmed_mean_ann_pct": 3.947
     },
     "calendar_stats": {
-     "hit_rate_pct": 55.6,
-     "mean_ann_pct": 9.756,
-     "median_ann_pct": 8.513,
-     "n": 2272,
-     "trimmed_mean_ann_pct": 9.304
+     "hit_rate_pct": 55.7,
+     "mean_ann_pct": 9.84,
+     "median_ann_pct": 8.523,
+     "n": 2273,
+     "trimmed_mean_ann_pct": 9.362
     },
-    "strictest": 9.799,
+    "strictest": 9.884,
     "strictest_stats": {
      "hit_rate_pct": 55.7,
-     "mean_ann_pct": 9.799,
-     "median_ann_pct": 8.513,
-     "n": 2262,
-     "trimmed_mean_ann_pct": 9.302
+     "mean_ann_pct": 9.884,
+     "median_ann_pct": 8.523,
+     "n": 2263,
+     "trimmed_mean_ann_pct": 9.359
     }
    },
    "IF": {
-    "published": 1.715,
-    "calendar": 5.809,
+    "published": 1.778,
+    "calendar": 5.872,
     "missed_share_pct": 77.1,
     "published_stats": {
      "hit_rate_pct": 52.1,
-     "mean_ann_pct": 1.715,
-     "median_ann_pct": 2.519,
-     "n": 2363,
-     "trimmed_mean_ann_pct": 2.423
+     "mean_ann_pct": 1.778,
+     "median_ann_pct": 2.522,
+     "n": 2364,
+     "trimmed_mean_ann_pct": 2.466
     },
     "calendar_stats": {
-     "hit_rate_pct": 54.5,
-     "mean_ann_pct": 5.809,
-     "median_ann_pct": 5.422,
-     "n": 2272,
-     "trimmed_mean_ann_pct": 6.192
+     "hit_rate_pct": 54.6,
+     "mean_ann_pct": 5.872,
+     "median_ann_pct": 5.465,
+     "n": 2273,
+     "trimmed_mean_ann_pct": 6.237
     },
-    "strictest": 6.395,
+    "strictest": 6.459,
     "strictest_stats": {
      "hit_rate_pct": 54.6,
-     "mean_ann_pct": 6.395,
-     "median_ann_pct": 5.465,
-     "n": 2253,
-     "trimmed_mean_ann_pct": 6.216
+     "mean_ann_pct": 6.459,
+     "median_ann_pct": 5.517,
+     "n": 2254,
+     "trimmed_mean_ann_pct": 6.261
     }
    },
    "IH": {
-    "published": 1.405,
-    "calendar": 5.386,
+    "published": 1.425,
+    "calendar": 5.406,
     "missed_share_pct": 70.3,
     "published_stats": {
      "hit_rate_pct": 51.7,
-     "mean_ann_pct": 1.405,
-     "median_ann_pct": 1.703,
-     "n": 2355,
-     "trimmed_mean_ann_pct": 1.645
+     "mean_ann_pct": 1.425,
+     "median_ann_pct": 1.72,
+     "n": 2356,
+     "trimmed_mean_ann_pct": 1.668
     },
     "calendar_stats": {
      "hit_rate_pct": 54.2,
-     "mean_ann_pct": 5.386,
-     "median_ann_pct": 3.911,
-     "n": 2272,
-     "trimmed_mean_ann_pct": 4.815
+     "mean_ann_pct": 5.406,
+     "median_ann_pct": 3.913,
+     "n": 2273,
+     "trimmed_mean_ann_pct": 4.837
     },
-    "strictest": 5.059,
+    "strictest": 5.08,
     "strictest_stats": {
      "hit_rate_pct": 54.1,
-     "mean_ann_pct": 5.059,
-     "median_ann_pct": 3.859,
-     "n": 2249,
-     "trimmed_mean_ann_pct": 4.591
+     "mean_ann_pct": 5.08,
+     "median_ann_pct": 3.876,
+     "n": 2250,
+     "trimmed_mean_ann_pct": 4.614
     }
    },
    "IM": {
-    "published": 5.68,
-    "calendar": 11.909,
+    "published": 5.866,
+    "calendar": 12.095,
     "missed_share_pct": 64.7,
     "published_stats": {
      "hit_rate_pct": 55.9,
-     "mean_ann_pct": 5.68,
-     "median_ann_pct": 8.85,
-     "n": 1034,
-     "trimmed_mean_ann_pct": 6.618
+     "mean_ann_pct": 5.866,
+     "median_ann_pct": 8.907,
+     "n": 1035,
+     "trimmed_mean_ann_pct": 6.753
     },
     "calendar_stats": {
-     "hit_rate_pct": 58.2,
-     "mean_ann_pct": 11.909,
-     "median_ann_pct": 12.257,
-     "n": 1001,
-     "trimmed_mean_ann_pct": 11.367
+     "hit_rate_pct": 58.3,
+     "mean_ann_pct": 12.095,
+     "median_ann_pct": 12.258,
+     "n": 1002,
+     "trimmed_mean_ann_pct": 11.511
     },
-    "strictest": 11.52,
+    "strictest": 11.708,
     "strictest_stats": {
      "hit_rate_pct": 58.3,
-     "mean_ann_pct": 11.52,
-     "median_ann_pct": 12.224,
-     "n": 992,
-     "trimmed_mean_ann_pct": 11.194
+     "mean_ann_pct": 11.708,
+     "median_ann_pct": 12.257,
+     "n": 993,
+     "trimmed_mean_ann_pct": 11.336
     }
    }
   },
   "arms_gap_pp": {
    "IC": {
-    "calendar": -1.668,
+    "calendar": -1.669,
     "published": 0.313
    },
    "IF": {
@@ -882,11 +882,11 @@
    },
    "IH": {
     "calendar": 0.207,
-    "published": 1.137
+    "published": 1.138
    },
    "IM": {
-    "calendar": -1.902,
-    "published": -0.972
+    "calendar": -1.95,
+    "published": -1.022
    }
   }
  },
@@ -907,7 +907,7 @@
     "trimmed_mean_ann_pct": false,
     "mean_ann_pct": false
    },
-   "net_declared_pct": 1.36,
+   "net_declared_pct": 1.37,
    "ruler_stable": true,
    "ADMIT_every_reading": false,
    "first_affordable_tier_cny": 3000000,
@@ -929,7 +929,7 @@
     "trimmed_mean_ann_pct": false,
     "mean_ann_pct": false
    },
-   "net_declared_pct": 2.14,
+   "net_declared_pct": 2.15,
    "ruler_stable": true,
    "ADMIT_every_reading": false,
    "first_affordable_tier_cny": 5000000,
@@ -951,7 +951,7 @@
     "trimmed_mean_ann_pct": false,
     "mean_ann_pct": false
    },
-   "net_declared_pct": 1.62,
+   "net_declared_pct": 1.63,
    "ruler_stable": true,
    "ADMIT_every_reading": false,
    "first_affordable_tier_cny": 3000000,
@@ -973,7 +973,7 @@
     "trimmed_mean_ann_pct": false,
     "mean_ann_pct": false
    },
-   "net_declared_pct": 2.47,
+   "net_declared_pct": 2.5,
    "ruler_stable": true,
    "ADMIT_every_reading": false,
    "first_affordable_tier_cny": 5000000,
@@ -998,7 +998,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 1.36,
+    "net_declared_pct": 1.37,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1020,7 +1020,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.14,
+    "net_declared_pct": 2.15,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 5000000,
@@ -1042,7 +1042,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 1.62,
+    "net_declared_pct": 1.63,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1064,7 +1064,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.47,
+    "net_declared_pct": 2.5,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 5000000,
@@ -1088,7 +1088,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.47,
+    "net_declared_pct": 2.51,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1110,7 +1110,7 @@
      "trimmed_mean_ann_pct": true,
      "mean_ann_pct": true
     },
-    "net_declared_pct": 2.95,
+    "net_declared_pct": 2.96,
     "ruler_stable": false,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 5000000,
@@ -1132,7 +1132,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.22,
+    "net_declared_pct": 2.23,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1154,7 +1154,7 @@
      "trimmed_mean_ann_pct": true,
      "mean_ann_pct": true
     },
-    "net_declared_pct": 3.22,
+    "net_declared_pct": 3.24,
     "ruler_stable": true,
     "ADMIT_every_reading": true,
     "first_affordable_tier_cny": 5000000,
@@ -1178,7 +1178,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.49,
+    "net_declared_pct": 2.53,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1200,7 +1200,7 @@
      "trimmed_mean_ann_pct": true,
      "mean_ann_pct": true
     },
-    "net_declared_pct": 2.95,
+    "net_declared_pct": 2.96,
     "ruler_stable": false,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 5000000,
@@ -1222,7 +1222,7 @@
      "trimmed_mean_ann_pct": false,
      "mean_ann_pct": false
     },
-    "net_declared_pct": 2.21,
+    "net_declared_pct": 2.22,
     "ruler_stable": true,
     "ADMIT_every_reading": false,
     "first_affordable_tier_cny": 3000000,
@@ -1236,17 +1236,17 @@
     "mask": "strictest",
     "V1_by_reading": {
      "median_ann_pct": true,
-     "trimmed_mean_ann_pct": false,
+     "trimmed_mean_ann_pct": true,
      "mean_ann_pct": true
     },
     "ADMIT_by_reading": {
      "median_ann_pct": true,
-     "trimmed_mean_ann_pct": false,
+     "trimmed_mean_ann_pct": true,
      "mean_ann_pct": true
     },
-    "net_declared_pct": 3.21,
-    "ruler_stable": false,
-    "ADMIT_every_reading": false,
+    "net_declared_pct": 3.24,
+    "ruler_stable": true,
+    "ADMIT_every_reading": true,
     "first_affordable_tier_cny": 5000000,
     "read_on_tier": 5000000
    }

@@ -1,16 +1,16 @@
 {
- "ts": "2026-11-26T09:01:39+08:00",
- "ram_free_gb": 27.34,
- "cpu_load_pct": 7.6,
+ "ts": "2026-11-27T16:01:44+08:00",
+ "ram_free_gb": 15.62,
+ "cpu_load_pct": 17.4,
  "gpu": {
   "available": true,
-  "util_pct": 0,
-  "vram_used_mb": 1839,
+  "util_pct": 2,
+  "vram_used_mb": 4098,
   "vram_total_mb": 16384
  },
  "comfy_8188": {
-  "running": null,
-  "pending": null
+  "running": 0,
+  "pending": 0
  },
  "comfy_8189": {
   "running": 0,
@@ -18,23 +18,28 @@
  },
  "media_jobs": [
   {
-   "pid": 82824,
-   "mb": 3470,
+   "pid": 36036,
+   "mb": 4233,
+   "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s ComfyUI\\main.py --windows-standalone-build"
+  },
+  {
+   "pid": 119628,
+   "mb": 3848,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory"
   }
  ],
  "quant_jobs": [
   {
-   "pid": 101180,
-   "mb": 75,
-   "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
+   "pid": 128448,
+   "mb": 347,
+   "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
   },
   {
-   "pid": 101876,
-   "mb": 304,
-   "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
+   "pid": 129128,
+   "mb": 75,
+   "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
   }
  ],
- "media_cpu_jobs": 1,
- "media_ram_gb": 3.39
+ "media_cpu_jobs": 2,
+ "media_ram_gb": 7.89
 }

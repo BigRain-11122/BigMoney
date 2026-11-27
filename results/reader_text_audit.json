@@ -5,15 +5,16 @@
   "results",
   "docs"
  ],
- "files_scanned": 15202,
- "n_hits": 967,
+ "files_scanned": 15307,
+ "n_hits": 1131,
  "counts": {
   "closed-round-evidence": 303,
   "code-string": 88,
-  "frozen-evidence": 386,
-  "live-face": 14,
+  "frozen-evidence": 390,
+  "live-face": 169,
+  "machine-status": 1,
   "pool-record": 100,
-  "self-census": 76
+  "self-census": 80
  },
  "gated_buckets": [
   "live-face",
@@ -38,6 +39,1401 @@
    "token": "%%",
    "bucket": "live-face",
    "text": "three states, strict comparison of Sharpe (excess over 0%%) at k=1: OUT_OF_SAMPLE = k=1 beats k=0 on the not-fitted part AND earns >0 there; IN_SAMPLE_ONLY = full window better but out-of-sample not; "
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[0]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[0]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d field(s) drift"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[1]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[1]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d field(s) drift"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[2]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[2]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d field(s) drift"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[3]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[3]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %s (sample %d files)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[4]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[4]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %s (sample %d files)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[5]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[6]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[7]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[7]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: page does not print `%s`"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[8]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE parent %s moved (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[8]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d problem(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[9]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[10]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: the parent face moved since this face was derived (%s -> %s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[10]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d disagreement(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[11]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[12]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE parent %s missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[12]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d problem(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[13]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[14]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s face moved since this face was derived (%s -> %s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[14]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d disagreement(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[15]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE parent %s moved (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[15]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d problem(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[16]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[17]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE parent %s missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[17]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d problem(s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[18]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[19]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[20]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: the book face moved to %s, this face still says %s -- rebuild"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[20]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: published rows (%d) disagree with the face's own period "
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[21]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[21]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %s (sample %d files)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[22]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[23]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[23]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %s (sample %d files)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[24]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[25]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[25]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %s (sample %d files)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[26]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing -> %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[28]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "[cash_vehicle_window] STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[28]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "[cash_vehicle_window] CHECK FAILED (%d):"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[30]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "[defensive_sleeve] STALE: %s%s (re-run: python scripts/bench_defensive"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[30]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "[defensive_sleeve] CHECK FAILED (%d): %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[33]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "STALE: the queue moved since the published face (published %d drifts, "
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[34]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[37]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[38]/rows[1]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing -> %s (run: python %s run)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[39]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[40]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[44]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%r",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: ticket cash is not a number (%r)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[45]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: upstream face missing %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[46]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[46]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d leg(s):"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[47]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s) -> run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[47]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: rebuild rc=%s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[48]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: upstream %s bytes changed (face %s.. != disk %s..) -> re-run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[49]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[50]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[54]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[55]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s missing"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[56]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face priced on %s while the production card is on %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[57]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[58]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[59]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE FACE_MISSING %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[60]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "STALE upstream cells %d != %d"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[61]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[61]/rows[1]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[62]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%r",
+   "bucket": "live-face",
+   "text": "STALE upstream cutoff %r != %r"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[63]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[65]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[66]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[66]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED fields differ: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[67]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[69]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: sentence does not quote %s (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[72]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[73]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "[check] STALE: no receipt at %s (face missing)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[75]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE -- face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[76]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[76]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: re-derived %s differ from the face (same inputs, differe"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[77]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face priced on %s while the production card is on %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[78]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[79]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[82]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[83]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[83]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %s does not re-derive from the same inputs"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[84]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "REFRESH_STALE panel or receipt unreadable (receipt=%s, panel=%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[86]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: published face priced legs %s (ticket %s); today's ticket carri"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[87]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face is unprovenanced: it records no digest of %s, so there is n"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[88]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[89]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing -- %s is not on disk"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[90]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s -- run it before checking"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[91]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED (%d)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[93]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "[supply_gate_decision] STALE %d/%d  moved=%s -- the receipts or the si"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[94]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "[check] STALE: no receipt at %s (face missing)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[95]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[96]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[97]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[103]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[104]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE census moved: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[105]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "check: STALE face -- drifted keys: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[106]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: evidence_cutoff moved %s -> %s (%d problem row(s) held back unt"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[109]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[109]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[110]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[111]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[112]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[114]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE inputs changed since %s -- rerun to republish"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[114]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED judgement moved: face says %s/%s/%s, arithmetic now says "
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[115]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE inputs changed since %s -- rerun to republish"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[115]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED verdict moved: face says %s/%s, arithmetic now says %s/%s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[116]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[116]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED stored judgment disagrees with its own measurements: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[117]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[119]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s (run 'run')"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[120]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[120]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%r",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: published face is not ok (%r)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[122]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: panel moved (%s -> %s) -- rebuild this face"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[123]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[124]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE FACE: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[126]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[127]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s -- run the writer"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[129]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "STALE (%d upstream byte(s) moved) -- run `run` to rebuild this face"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[130]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: panel tail moved %s -> %s, this face is a statement about a win"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[130]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED %d leg(s):"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[131]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "STALE (%d upstream byte(s) moved) -- run `run` to rebuild this face"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[132]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s -- run it"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[132]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED (%d):"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[133]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing: %s -- run the scan first"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[133]/rows[1]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: page missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[134]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE / MISMATCH: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[136]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[137]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing -- %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[137]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: same inputs, different numbers -- %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[138]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[138]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED keys=%s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[139]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing or unreadable (%s) -- rebuild with run"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[140]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[141]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing at %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[143]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: %s missing"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[144]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s)"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[146]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[146]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED (%d):"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[149]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK_STALE %s -- the remedy is a re-render (--write), not an edit"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[150]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing (%s) -- run first"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[150]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED: %d disagreement(s): %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[151]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[151]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "CHECK FAILED upstream: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[155]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[156]/rows[0]/drift_test",
+   "key": "drift_test",
+   "kind": "printf-token",
+   "token": "%s",
+   "bucket": "live-face",
+   "text": "STALE: face missing: %s"
+  },
+  {
+   "file": "results/check_drift_precedence_audit.json",
+   "json_path": "/modules[156]/rows[0]/value_test",
+   "key": "value_test",
+   "kind": "printf-token",
+   "token": "%d",
+   "bucket": "live-face",
+   "text": "CHECK FAILED (%d)"
+  },
+  {
+   "file": "results/etf_book_year_line_reach.json",
+   "json_path": "/honest[3]",
+   "key": "honest",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "a cell that passes the share can still fail capacity: this page moves the selection width, and a 3-name book concentrates the same money into fewer slots -- capacity at 5%% participation is printed on"
   },
   {
    "file": "results/etf_paper_marks.json",
@@ -150,6 +1546,8 @@
  ],
  "offender_files": [
   "results/astock_veto_hedgeable_beta.json",
+  "results/check_drift_precedence_audit.json",
+  "results/etf_book_year_line_reach.json",
   "results/etf_paper_marks.json",
   "results/idx_fut_carry_portfolio.json",
   "results/money_band_blind_spot.json",
@@ -290,7 +1688,7 @@
    ]
   },
   "frozen-evidence": {
-   "n": 386,
+   "n": 390,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
@@ -366,6 +1764,23 @@
     }
    ]
   },
+  "machine-status": {
+   "n": 1,
+   "files": [
+    "results/etf_wide_update_status.json"
+   ],
+   "sample": [
+    {
+     "file": "results/etf_wide_update_status.json",
+     "json_path": "/quote_face",
+     "key": "quote_face",
+     "kind": "brace-token",
+     "token": "{syms}",
+     "bucket": "machine-status",
+     "text": "https://hq.sinajs.cn/list={syms}"
+    }
+   ]
+  },
   "pool-record": {
    "n": 100,
    "files": [
@@ -423,7 +1838,7 @@
    ]
   },
   "self-census": {
-   "n": 76,
+   "n": 80,
    "files": [
     "results/reader_text_audit.json"
    ],

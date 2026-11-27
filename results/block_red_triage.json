@@ -1,8 +1,8 @@
 {
-  "generated": "2026-11-25T03:32:59+08:00",
-  "evidence_cutoff": "2026-11-24",
+  "generated": "2026-11-27T01:32:12+08:00",
+  "evidence_cutoff": "2026-11-26",
   "board": {
-    "rows": 25,
+    "rows": 26,
     "red": 3,
     "line_state_printed": "STARVING",
     "queue_pending": 0,
@@ -10,27 +10,25 @@
     "line_state_honest": "BUSY"
   },
   "cash_panel": {
-    "modal_bar": "2026-11-20",
+    "modal_bar": "2026-11-25",
     "files": 11,
     "hist": {
-      "2026-11-20": 11
+      "2026-11-25": 11
     },
     "allowance_days": 4,
-    "printed_lag": 5,
-    "honest_lag": 4,
-    "horizon": "2026-11-24",
-    "sessions": 2,
-    "calendar_sessions": 1670,
-    "calendar_last": "2026-11-24"
+    "printed_lag": 2,
+    "honest_lag": 1,
+    "horizon": "2026-11-26",
+    "sessions": 1,
+    "calendar_sessions": 1672,
+    "calendar_last": "2026-11-26"
   },
   "class_counts": {
-    "UNINFORMATIVE": 1,
     "FALSE_RED_READER": 1,
-    "FALSE_GREEN_PRODUCER": 1
+    "FALSE_GREEN_PRODUCER": 1,
+    "UNCLASSIFIED": 1
   },
-  "real_gaps": [
-    "D6_cash_rate"
-  ],
+  "real_gaps": [],
   "false_reds": [
     "W1_supply"
   ],
@@ -38,33 +36,6 @@
     "G6_ingest"
   ],
   "reds": [
-    {
-      "id": "D6_cash_rate",
-      "board_status": "RED",
-      "board_detail": "modal bar 2026-11-20 is 5d behind last weekday 2026-11-25 (100% of sample)",
-      "class": "UNINFORMATIVE",
-      "producer_wrote": {
-        "modal_bar": "2026-11-20",
-        "files": 11,
-        "hist": {
-          "2026-11-20": 11
-        },
-        "allowance_days": 4
-      },
-      "reader_counts": {
-        "printed_lag_calendar_days": 5,
-        "honest_lag_calendar_days": 4,
-        "sessions_behind": 2
-      },
-      "true_state": {
-        "row_would_be_under_shipped_rule": "RED",
-        "row_would_be_under_honest_reference": "GREEN",
-        "row_would_be_under_sessions": "RED"
-      },
-      "patch": "measure the bar-dated lanes in SESSIONS behind the last complete bar (today's bar only exists after 15:30; holiday_allow_days=4 calendar days swallows a two-session gap)",
-      "proof": "modal 2026-11-20 · printed lag 5d vs today's weekday · honest lag 4d vs last complete bar 2026-11-24 · 2 session(s) behind; allowance 4d -> a 2-session gap passes",
-      "why_it_matters": "the row is red, but the number it prints (5 days) is not the number a reader needs (2 sessions), and the same spec would print GREEN on a two-session gap -- the block cannot be trusted in either direction, so the cash leg's staleness is a disclosure problem that no colour on this board answers"
-    },
     {
       "id": "W1_supply",
       "board_status": "RED",
@@ -115,6 +86,14 @@
       "patch": "the producer (ingest diff writer) must take the two sides from two different machines; until then the artefact's COMPLETE is a tautology and no handover has ever been measured",
       "proof": "15/15 lanes identical, machine 'FLUXGROUP' on both sides, generated 'same' on both sides -> the diff compares a tree with itself",
       "why_it_matters": "the row reads 'no handover received' while the file on disk says COMPLETE; the reader is right to refuse but the label hides that the ingest lane has never verified anything -- a green here would be worse than the red"
+    },
+    {
+      "id": "P1_cpu_fill",
+      "board_status": "RED",
+      "board_detail": "duty 0.0% < floor 60.0% (units=0, waiting=0)",
+      "class": "UNCLASSIFIED",
+      "patch": null,
+      "proof": "no independent probe for this probe type yet"
     }
   ],
   "history": [

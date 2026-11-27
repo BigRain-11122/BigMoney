@@ -1,24 +1,24 @@
 {
  "artifact": "results/etf_premium/PREMIUM-SESSION-DELTA.json",
- "evidence_cutoff": "2026-11-25",
+ "evidence_cutoff": "2026-11-26",
  "sessions": [
-  "2026-11-20",
-  "2026-11-25"
+  "2026-11-25",
+  "2026-11-26"
  ],
  "denominator": {
-  "state": "changed",
+  "state": "same",
   "prev": {
-   "session": "2026-11-20",
+   "session": "2026-11-25",
    "rows": 5,
-   "same_session": 0,
+   "same_session": 5,
    "cross_session": 0,
-   "undated": 5,
+   "undated": 0,
    "readers": {
-    "em_iopv": 5
+    "sina_nav_not_iopv": 5
    }
   },
   "now": {
-   "session": "2026-11-25",
+   "session": "2026-11-26",
    "rows": 5,
    "same_session": 5,
    "cross_session": 0,
@@ -31,55 +31,111 @@
  },
  "excluded": {
   "cross_session": [],
-  "convention_boundary": [
-   {
-    "symbol": "159519",
-    "prev_pct": -0.1408,
-    "now_pct": -0.8383,
-    "prev_basis": "undated",
-    "now_basis": "same_session",
-    "prev_nav_session": null,
-    "now_nav_session": "2026-11-25"
-   },
-   {
-    "symbol": "159655",
-    "prev_pct": 6.4294,
-    "now_pct": 6.9513,
-    "prev_basis": "undated",
-    "now_basis": "same_session",
-    "prev_nav_session": null,
-    "now_nav_session": "2026-11-25"
-   },
-   {
-    "symbol": "510760",
-    "prev_pct": -0.2599,
-    "now_pct": -0.0412,
-    "prev_basis": "undated",
-    "now_basis": "same_session",
-    "prev_nav_session": null,
-    "now_nav_session": "2026-11-25"
-   },
-   {
-    "symbol": "512040",
-    "prev_pct": -0.2109,
-    "now_pct": -0.0343,
-    "prev_basis": "undated",
-    "now_basis": "same_session",
-    "prev_nav_session": null,
-    "now_nav_session": "2026-11-25"
-   },
-   {
-    "symbol": "513690",
-    "prev_pct": -0.6587,
-    "now_pct": -0.9115,
-    "prev_basis": "undated",
-    "now_basis": "same_session",
-    "prev_nav_session": null,
-    "now_nav_session": "2026-11-25"
-   }
-  ],
+  "convention_boundary": [],
   "one_face_only": []
  },
- "status": "no_comparable_legs",
- "detail": "0 只的分母不属于本场、5 只两块板读法不同：两块板价的是同一批票，但不是同一个量"
+ "status": "ok",
+ "rows": [
+  {
+   "symbol": "159519",
+   "amount_cny": 86866.0,
+   "prev_pct": -0.8383,
+   "now_pct": -0.436,
+   "delta_pp": 0.4023,
+   "prev_cny": -728.2,
+   "now_cny": -378.74,
+   "delta_cny": 349.46,
+   "prev_sheet_cny": 86972.2,
+   "basis": "same_session",
+   "prev_nav_session": "2026-11-25",
+   "now_nav_session": "2026-11-26"
+  },
+  {
+   "symbol": "159655",
+   "amount_cny": 86907.2,
+   "prev_pct": 6.9513,
+   "now_pct": 7.3229,
+   "delta_pp": 0.3716,
+   "prev_cny": 6041.18,
+   "now_cny": 6364.13,
+   "delta_cny": 322.95,
+   "prev_sheet_cny": 86928.4,
+   "basis": "same_session",
+   "prev_nav_session": "2026-11-25",
+   "now_nav_session": "2026-11-26"
+  },
+  {
+   "symbol": "510760",
+   "amount_cny": 86927.1,
+   "prev_pct": -0.0412,
+   "now_pct": -0.1816,
+   "delta_pp": -0.1404,
+   "prev_cny": -35.81,
+   "now_cny": -157.86,
+   "delta_cny": -122.05,
+   "prev_sheet_cny": 86926.5,
+   "basis": "same_session",
+   "prev_nav_session": "2026-11-25",
+   "now_nav_session": "2026-11-26"
+  },
+  {
+   "symbol": "512040",
+   "amount_cny": 86992.4,
+   "prev_pct": -0.0343,
+   "now_pct": -0.2402,
+   "delta_pp": -0.2059,
+   "prev_cny": -29.84,
+   "now_cny": -208.96,
+   "delta_cny": -179.12,
+   "prev_sheet_cny": 86980.3,
+   "basis": "same_session",
+   "prev_nav_session": "2026-11-25",
+   "now_nav_session": "2026-11-26"
+  },
+  {
+   "symbol": "513690",
+   "amount_cny": 86991.3,
+   "prev_pct": -0.9115,
+   "now_pct": 0.3523,
+   "delta_pp": 1.2638,
+   "prev_cny": -792.93,
+   "now_cny": 306.47,
+   "delta_cny": 1099.4,
+   "prev_sheet_cny": 86916.4,
+   "basis": "same_session",
+   "prev_nav_session": "2026-11-25",
+   "now_nav_session": "2026-11-26"
+  }
+ ],
+ "verdict": "PREMIUM_WIDENED",
+ "unverifiable": [],
+ "totals": {
+  "priced_amount_cny": 434684.0,
+  "prev_cny": 4454.4,
+  "now_cny": 5925.04,
+  "delta_cny": 1470.64,
+  "prev_share_pct": 1.0247,
+  "now_share_pct": 1.3631,
+  "delta_share_pp": 0.3383,
+  "note": "computed over the legs whose rates are struck against the same kind of denominator; everything else is named in `excluded` and carries no yuan"
+ },
+ "cross_check": {
+  "published_cny": -439.08,
+  "recomputed_cny": -439.08,
+  "gap_cny": -0.0,
+  "legs": 4,
+  "ok": true
+ },
+ "sheets": {
+  "prev_amount_cny": 434723.8,
+  "now_amount_cny": 434684.0,
+  "delta_cny_on_now_sheet": 1470.64,
+  "note": "each rate is per unit, so both are applied to the NEWER sheet; the two faces' own totals are printed beside each other and never subtracted"
+ },
+ "caveats": [
+  "two boards, two readings: IOPV is a realtime estimate and a cross-border leg's premium moves with a timezone the local close does not see",
+  "legs one face could not price are named and excluded, never counted as zero",
+  "if the two faces priced different order sizes, the move is recomputed on the newer sheet only -- a sizing change is not a market move",
+  "a leg whose denominator belongs to another session, or whose board reads a different convention, is named with both dates and stays out of the money (r1606)"
+ ]
 }

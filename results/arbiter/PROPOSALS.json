@@ -1,23 +1,27 @@
 {
- "generated": "2026-11-25T23:40:01+08:00",
- "samples": 345,
- "grants": 94,
- "denies": 251,
- "deny_ratio": 0.728,
+ "generated": "2026-11-26T23:40:01+08:00",
+ "samples": 924,
+ "grants": 215,
+ "denies": 709,
+ "deny_ratio": 0.767,
  "reasons": {
-  "DENY_RAM": 7,
-  "DENY_MEDIA_CPU_BUSY": 244
+  "DENY_RAM": 49,
+  "DENY_MEDIA_CPU_BUSY": 646,
+  "DENY_CPU_LOAD": 10,
+  "HELD_BY_LEASE": 4
  },
- "ram_share_of_denies": 0.028,
+ "ram_share_of_denies": 0.069,
  "state": "OK",
  "proposals": [
   {
    "id": "quant_wait_high",
    "evidence": {
-    "deny_ratio": 0.73,
+    "deny_ratio": 0.77,
     "top_reasons": {
-     "DENY_RAM": 7,
-     "DENY_MEDIA_CPU_BUSY": 244
+     "DENY_RAM": 49,
+     "DENY_MEDIA_CPU_BUSY": 646,
+     "DENY_CPU_LOAD": 10,
+     "HELD_BY_LEASE": 4
     }
    },
    "propose": "把 bench tick 从 20 分钟放到 30 分钟；heavy 格改到 media 空窗",
@@ -26,6 +30,6 @@
   }
  ],
  "applied": {
-  "date": "2026-11-25"
+  "date": "2026-11-26"
  }
 }

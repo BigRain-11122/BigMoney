@@ -14,46 +14,46 @@
   "dead_tail_count": 327,
   "dead_tail_first_named": [
    {
-    "calendar_days_old": 40,
+    "calendar_days_old": 41,
     "last_bar": "2026-10-16",
     "symbol": "IC2610"
    },
    {
-    "calendar_days_old": 40,
+    "calendar_days_old": 41,
     "last_bar": "2026-10-16",
     "symbol": "IF2610"
    },
    {
-    "calendar_days_old": 40,
+    "calendar_days_old": 41,
     "last_bar": "2026-10-16",
     "symbol": "IH2610"
    },
    {
-    "calendar_days_old": 40,
+    "calendar_days_old": 41,
     "last_bar": "2026-10-16",
     "symbol": "IM2610"
    },
    {
-    "calendar_days_old": 68,
+    "calendar_days_old": 69,
     "last_bar": "2026-09-18",
     "symbol": "IC2609"
    }
   ],
   "newest_dead_tail": {
-   "calendar_days_old": 40,
+   "calendar_days_old": 41,
    "last_bar": "2026-10-16",
    "symbol": "IC2610"
   },
   "oldest_dead_tail": {
-   "calendar_days_old": 2812,
+   "calendar_days_old": 2813,
    "last_bar": "2019-03-15",
    "symbol": "IH1903"
   },
   "tail_free_share_of_contracts_with_bars": 0.0239,
-  "window_cut_date": "2026-11-16"
+  "window_cut_date": "2026-11-17"
  },
- "evidence_cutoff": "2026-11-25",
- "generated": "2026-11-26T05:32:37+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "generated": "2026-11-27T02:33:47+08:00",
  "live_set": {
   "agree": true,
   "declared_by_face": [
@@ -79,10 +79,10 @@
  },
  "panel": "data/futures_contracts",
  "pick_rule": {
-  "panel_date_used_by_the_writer": "2026-11-25",
-  "reading": "a contract is live if its last bar is on/after 2026-11-16; the universe is the panel as of 2026-11-25, not today",
+  "panel_date_used_by_the_writer": "2026-11-26",
+  "reading": "a contract is live if its last bar is on/after 2026-11-17; the universe is the panel as of 2026-11-26, not today",
   "stated_by": "scripts/update_futures_contracts.py::live_symbols",
-  "window_cut_date": "2026-11-16",
+  "window_cut_date": "2026-11-17",
   "window_days_param": 5,
   "window_is": "calendar days = window*7//5 + 2"
  },
@@ -91,7 +91,7 @@
  "writer": {
   "cadence": "every S6 chain pass (Tools/s6_chain_bmc.py leg update_futures_contracts)",
   "face": "results/futures_contracts_refresh.json",
-  "face_generated": "2026-11-26T05:31:30+0800",
+  "face_generated": "2026-11-27T02:33:05+0800",
   "face_verdict": "ALREADY_CURRENT",
   "runs_in_s6_chain": true,
   "script": "scripts/update_futures_contracts.py"

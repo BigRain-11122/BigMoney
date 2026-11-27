@@ -59,6 +59,18 @@ SCALE_TOL = 2e-3
 # A booked trade moves nav by at least a cost unit (~1bp = 1e-4), four orders above this floor,
 # so the floor costs no detection power.
 NAV_TOL = 5e-9
+# r2125: the floor above is a FLOOR, not the tolerance. The record prints `scale` with six
+# decimals (0.909384) and `carry` with five significant digits (3.4136e-06), while this replay
+# recomputes every bar from scale/n; each bar therefore carries a bias of half a storage step,
+# and the bias compounds multiplicatively along the path. Measured on the live book at
+# 2026-11-20: path deviation walked 4.9e-12 -> 6.47e-9 over seven settled bars (one-bar steps
+# 4e-12..3.9e-9), monotone -- i.e. a constant 5e-9 floor goes green on the sixth bar and red on
+# the seventh of a healthy book (r1935 family: a guard whose scale does not follow the record it
+# reads). So the tolerance is DERIVED: replay the same path with `scale` and each bar's `carry`
+# moved by the half step their printed digits can hide, and call anything inside that band
+# PRECISION_ONLY. A real defect (a booked trade: >=1bp = 1e-4) is four orders above the band.
+SCALE_HALF = 5e-7     # scale is stored with 6 decimals -> half of 1e-6
+CARRY_HALF = 5e-11    # carry is stored with 5 significant digits at ~1e-5 -> half of 1e-10
 
 
 def load_json(path, default=None):
@@ -315,29 +327,64 @@ def drift(led, close, openp, cost_per_side=None):
     _led_provisional = {str(b.get("bar")) for b in bars if b.get("provisional")}
     not_policed |= _led_provisional
     nav_hat, dev, nav_bh = {}, [], {}
+    dev_by_bar = {}
     cur_cw, cur_bh = 1.0, 1.0
     prev = None
     _anchor_i = dates.index(anchor)
-    for b in bars:
-        bar = b.get("bar")
-        if bar not in dates:
-            continue
-        if dates.index(bar) < _anchor_i:
-            continue            # before the replay's origin (the fill when it is not the seed)
-        bh = sum(w_seed[k] * float(close.loc[bar, k]) / float(close.loc[anchor, k])
-                 for k in names) + cash_seed
-        nav_bh[bar] = bh
-        if prev is None:
-            cur_cw = 1.0
-        else:
-            ret = sum(w0 * (float(close.loc[bar, k]) / float(close.loc[prev, k]) - 1.0)
-                      for k in names)
-            cur_cw *= (1.0 + ret + (b.get("carry") or 0.0))
-        nav_hat[bar] = cur_cw
-        prev = bar
-        if b.get("nav") is not None and bar not in not_policed:
-            dev.append(abs(cur_cw - float(b["nav"]) / _nav_anchor))
-    worst = max(dev) if dev else None
+
+    def _replay(scale_shift=0.0, carry_shift=0.0):
+        """Same constant-weight path, optionally moved by the record's own storage steps.
+
+        Returns (path, worst) where `path` is bar -> re-derived nav and `worst` is the max
+        deviation over the bars this replay is allowed to police. Used twice: once exactly
+        (the published identity) and once per corner of the precision box the record's
+        printed digits can hide (the band below).
+        """
+        path, worst_l, prev_l, cur = {}, None, None, 1.0
+        for b in bars:
+            bar = b.get("bar")
+            if bar not in dates or dates.index(bar) < _anchor_i:
+                continue
+            if prev_l is not None:
+                ret = sum((w0 + scale_shift / float(len(names)))
+                          * (float(close.loc[bar, k]) / float(close.loc[prev_l, k]) - 1.0)
+                          for k in names)
+                cur *= (1.0 + ret + (b.get("carry") or 0.0) + carry_shift)
+            path[bar] = cur
+            prev_l = bar
+            if b.get("nav") is not None and bar not in not_policed:
+                worst_l = max(worst_l or 0.0, abs(cur - float(b["nav"]) / _nav_anchor))
+        return path, worst_l
+
+    nav_hat, worst = _replay()
+    dev_by_bar = {str(b.get("bar")): abs(nav_hat[str(b.get("bar"))]
+                                         - float(b["nav"]) / _nav_anchor)
+                  for b in bars
+                  if b.get("nav") is not None and str(b.get("bar")) in nav_hat
+                  and str(b.get("bar")) not in not_policed}
+    dev = list(dev_by_bar.values())
+    # The precision box: the four corners of (scale +/- half step, carry +/- half step). The
+    # band is the SPREAD between a corner path and the exact one on the bars this replay may
+    # police -- not the corner's own deviation from the recorded nav, which would carry the
+    # defect along and make every defect "explainable". A deviation inside the spread cannot be
+    # told apart from the record's own printing, so it is PRECISION_ONLY rather than BROKEN.
+    spread = 0.0
+    for ss in (-SCALE_HALF, SCALE_HALF):
+        for cs in (-CARRY_HALF, CARRY_HALF):
+            corner, _ = _replay(ss, cs)
+            for bar, v in corner.items():
+                if nav_hat.get(bar) is not None:
+                    spread = max(spread, abs(v - nav_hat[bar]))
+    band = max(NAV_TOL, spread)
+    if worst is None:
+        ident_state = None
+    elif worst <= NAV_TOL:
+        ident_state = "EXACT"
+    elif worst <= band:
+        ident_state = "PRECISION_ONLY"
+    else:
+        ident_state = "BROKEN"
+    ident_worst_bar = max(dev_by_bar, key=dev_by_bar.get) if dev_by_bar else None
     bh_dev = None
     if bars and bars[-1].get("nav") is not None and nav_bh.get(bars[-1].get("bar")) is not None:
         bh_dev = abs(nav_bh[bars[-1]["bar"]] - float(bars[-1]["nav"]) / _nav_anchor)
@@ -403,7 +450,23 @@ def drift(led, close, openp, cost_per_side=None):
         "bars_not_on_panel": unpriced,
         "lag_on_panel_bars": len(unpriced),
         "nav_identity_max_dev": None if worst is None else round(worst, 10),
-        "nav_identity_ok": None if worst is None else bool(worst <= NAV_TOL),
+        "nav_identity_ok": None if worst is None else bool(ident_state != "BROKEN"),
+        # r2125: the three-state answer and the band it was judged against, so a reader can
+        # tell "the book agrees" from "the book cannot be told apart from its own printing".
+        "nav_identity_state": ident_state,
+        "nav_identity_band": round(band, 10),
+        "nav_identity_worst_bar": ident_worst_bar,
+        "nav_identity_dev_by_bar": {k: round(v, 10) for k, v in sorted(dev_by_bar.items())},
+        "nav_identity_tolerance": {
+            "floor": NAV_TOL,
+            "band": round(band, 10),
+            "scale_half_step": SCALE_HALF,
+            "carry_half_step": CARRY_HALF,
+            "note": ("the record prints scale with 6 decimals and carry with 5 significant "
+                     "digits; the band is the spread of the same replay over the four corners "
+                     "those digits can hide, so EXACT = inside the floor, PRECISION_ONLY = the "
+                     "record's own printing explains it, BROKEN = a deviation no storage step "
+                     "can produce (a booked trade is >=1bp = 1e-4, four orders above)")},
         "nav_buyhold_gap": None if bh_dev is None else round(bh_dev, 10),
         "nav_buyhold_gap_bp": None if bh_dev is None else round(bh_dev * 1e4, 3),
         "cum_carry_bars": round(cum_carry, 10),
@@ -511,8 +574,12 @@ def gate_exit(a, d, t=None):
     if t is not None and t.get("present") and t.get("agrees") is not True:
         return 1, "CARD_TICKET_STALE"
     if d.get("available"):
-        if d.get("nav_identity_ok") is False:
+        if d.get("nav_identity_state") == "BROKEN":
             return 1, "NAV_IDENTITY_BROKEN"
+        if d.get("nav_identity_state") is None and d.get("nav_identity_ok") is False:
+            return 1, "NAV_IDENTITY_BROKEN"          # pre-r2125 faces carry only the boolean
+        if d.get("nav_identity_state") == "PRECISION_ONLY":
+            return 0, "AGREE_ON_ROUNDED_SCALE"
         return 0, "AGREE"
     if d.get("reason") == NO_FILL_BAR:
         return 0, "AGREE_ON_A_DECISION_BAR"
@@ -561,6 +628,10 @@ def main():
                  "n/a" if d["nav_identity_max_dev"] is None
                  else "%.2e" % d["nav_identity_max_dev"], d["nav_identity_ok"],
                  d["bars_matched"],
+                 "" if not d.get("nav_identity_state") else
+                 " state=%s band=%.2e worst_bar=%s (scale printed to 6dp, band = what that can hide)"
+                 % (d["nav_identity_state"], d.get("nav_identity_band") or 0.0,
+                    d.get("nav_identity_worst_bar"))) + (
                  "" if d.get("anchor_bar") == d.get("seed_bar")
                  else " | replay anchored at %s (the fill), not the seed %s"
                  % (d["anchor_bar"], d["seed_bar"])), flush=True)
@@ -659,6 +730,30 @@ def selftest():
         str(d2.get("nav_identity_max_dev")))
     chk("L7b identity leg is clean on the untampered fixture",
         d["available"] and d["nav_identity_ok"] is True, str(d.get("nav_identity_max_dev")))
+
+    # r2125: the tolerance is a BAND the record's own printed digits open, not a constant, so
+    # the third state has to fire in both directions or it is decoration: (i) the band is
+    # derived and finite, (ii) a deviation half a band wide reads PRECISION_ONLY and the gate
+    # still lets the book trade, (iii) three bands wide is BROKEN.
+    chk("L7d the tolerance band is derived from the record's printed steps",
+        d["available"] and 0.0 < (d.get("nav_identity_band") or 0.0) < 1e-4,
+        "band=%s state=%s" % (d.get("nav_identity_band"), d.get("nav_identity_state")))
+    _band = d.get("nav_identity_band") or 0.0
+    _gate_ok = {"same_decision_bar": True, "agrees": True}
+    led_b = json.loads(json.dumps(led))
+    led_b["bars"][-2]["nav"] = float(led_b["bars"][-2]["nav"]) + _band / 2.0
+    d_b = drift(led_b, px, op, cost_per_side=0.001)
+    chk("L7e half a band reads PRECISION_ONLY and the gate still trades",
+        d_b.get("nav_identity_state") == "PRECISION_ONLY"
+        and gate_exit(_gate_ok, d_b) == (0, "AGREE_ON_ROUNDED_SCALE"),
+        "%s / dev=%s / %s" % (d_b.get("nav_identity_state"), d_b.get("nav_identity_max_dev"),
+                              gate_exit(_gate_ok, d_b)))
+    led_b3 = json.loads(json.dumps(led))
+    led_b3["bars"][-2]["nav"] = float(led_b3["bars"][-2]["nav"]) + _band * 3.0
+    d_b3 = drift(led_b3, px, op, cost_per_side=0.001)
+    chk("L7f three bands wide reads BROKEN",
+        d_b3.get("nav_identity_state") == "BROKEN" and gate_exit(_gate_ok, d_b3)[0] == 1,
+        "%s / dev=%s" % (d_b3.get("nav_identity_state"), d_b3.get("nav_identity_max_dev")))
 
     # r1248: a WITHDRAWN mark is inert in the ledger's own nav path, so it must be inert here
     # too. Same fixture plus one withdrawn bar carrying an absurd nav: with the old read of

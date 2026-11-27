@@ -1,7 +1,7 @@
 {
  "schema": "idx-fut-basis-segments/v1",
- "generated": "2026-11-23T16:50:24+08:00",
- "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-27T01:39:12+08:00",
+ "evidence_cutoff": "2026-11-26",
  "judged_before_running": {
   "S1_split_is_exact": "A[t] + B[t] == spread[t] on every non-roll day, max |resid| < 1e-12",
   "S2_segments_rebuild_the_published_arm": "annualised(w*A + w*B - cost) reproduces the published weighted carry within 0.02pp",
@@ -14,49 +14,49 @@
  "pairs": {
   "IC": {
    "state": "ok",
-   "bars": 2388,
+   "bars": 2392,
    "first": "2017-01-18",
-   "last": "2026-11-20",
+   "last": "2026-11-26",
    "proxy_index": "sh000905",
    "index": {
     "path": "data/index_ohlc/sh000905.csv",
-    "cache_last": "2026-11-20",
+    "cache_last": "2026-11-26",
     "state": "ok"
    },
    "close_arm": {
-    "carry_ann_pct": 10.092,
-    "carry_ann_gross_pct": 10.864,
-    "avg_weight": 0.4965,
-    "per_unit_ann_pct": 19.474
+    "carry_ann_pct": 10.156,
+    "carry_ann_gross_pct": 10.93,
+    "avg_weight": 0.497,
+    "per_unit_ann_pct": 19.574
    },
    "always_on": {
-    "carry_ann_pct": 2.726,
-    "per_unit_ann_pct": 2.815
+    "carry_ann_pct": 2.776,
+    "per_unit_ann_pct": 2.864
    },
-   "margin_pp_close": 7.366,
+   "margin_pp_close": 7.38,
    "segments": {
     "overnight": {
-     "carry_ann_gross_pct": 15.43,
-     "mean_daily_overnight_spread": 0.000658,
-     "share_of_gross": 1.353
+     "carry_ann_gross_pct": 15.552,
+     "mean_daily_overnight_spread": 0.000664,
+     "share_of_gross": 1.3543
     },
     "intraday": {
-     "carry_ann_gross_pct": -4.026,
-     "mean_daily_intraday_spread": -0.000652,
-     "share_of_gross": -0.353
+     "carry_ann_gross_pct": -4.069,
+     "mean_daily_intraday_spread": -0.000656,
+     "share_of_gross": -0.3543
     },
-    "gross_sum_pct": 11.404,
+    "gross_sum_pct": 11.483,
     "named_side": "OVERNIGHT",
     "note": "cost is charged once at the total; it is not attributed to a segment"
    },
    "identity": {
     "max_abs_A_plus_B_minus_spread": 5.152128723651117e-16,
-    "rebuild_gap_pp": 0.777
+    "rebuild_gap_pp": 0.779
    },
    "next_open_arm": {
-    "carry_ann_pct": 7.124,
-    "per_unit_ann_pct": 13.977,
-    "margin_per_unit_pp": 11.162
+    "carry_ann_pct": 7.171,
+    "per_unit_ann_pct": 14.053,
+    "margin_per_unit_pp": 11.189
    },
    "captured_share_pct": 71.8,
    "checks": {
@@ -70,51 +70,51 @@
   },
   "IM": {
    "state": "ok",
-   "bars": 1050,
+   "bars": 1054,
    "first": "2022-07-25",
-   "last": "2026-11-20",
+   "last": "2026-11-26",
    "proxy_index": "sh000852",
    "index": {
     "path": "data/index_ohlc/sh000852.csv",
-    "cache_last": "2026-11-20",
+    "cache_last": "2026-11-26",
     "state": "ok"
    },
    "close_arm": {
-    "carry_ann_pct": 9.304,
-    "carry_ann_gross_pct": 9.886,
-    "avg_weight": 0.5298,
-    "per_unit_ann_pct": 16.902
+    "carry_ann_pct": 9.523,
+    "carry_ann_gross_pct": 10.11,
+    "avg_weight": 0.5304,
+    "per_unit_ann_pct": 17.262
    },
    "always_on": {
-    "carry_ann_pct": 5.632,
-    "per_unit_ann_pct": 5.608
+    "carry_ann_pct": 5.793,
+    "per_unit_ann_pct": 5.763
    },
-   "margin_pp_close": 3.672,
+   "margin_pp_close": 3.73,
    "segments": {
     "overnight": {
-     "carry_ann_gross_pct": 13.473,
-     "mean_daily_overnight_spread": 0.000481,
-     "share_of_gross": 1.311
+     "carry_ann_gross_pct": 13.608,
+     "mean_daily_overnight_spread": 0.000488,
+     "share_of_gross": 1.2967
     },
     "intraday": {
-     "carry_ann_gross_pct": -3.196,
-     "mean_daily_intraday_spread": -0.000461,
-     "share_of_gross": -0.311
+     "carry_ann_gross_pct": -3.114,
+     "mean_daily_intraday_spread": -0.000462,
+     "share_of_gross": -0.2967
     },
-    "gross_sum_pct": 10.277,
+    "gross_sum_pct": 10.494,
     "named_side": "OVERNIGHT",
     "note": "cost is charged once at the total; it is not attributed to a segment"
    },
    "identity": {
     "max_abs_A_plus_B_minus_spread": 4.395355607256235e-16,
-    "rebuild_gap_pp": 0.585
+    "rebuild_gap_pp": 0.591
    },
    "next_open_arm": {
-    "carry_ann_pct": 8.23,
-    "per_unit_ann_pct": 15.041,
-    "margin_per_unit_pp": 9.433
+    "carry_ann_pct": 8.395,
+    "per_unit_ann_pct": 15.312,
+    "margin_per_unit_pp": 9.549
    },
-   "captured_share_pct": 89.0,
+   "captured_share_pct": 88.7,
    "checks": {
     "S1_split_is_exact": true,
     "S2_segments_rebuild_the_published_arm": false,
@@ -126,38 +126,38 @@
   },
   "IF": {
    "state": "ok",
-   "bars": 2388,
+   "bars": 2392,
    "first": "2017-01-18",
-   "last": "2026-11-20",
+   "last": "2026-11-26",
    "proxy_index": "sh000300",
    "index": {
     "path": "data/index_ohlc/sh000300.csv",
-    "cache_last": "2026-11-20",
+    "cache_last": "2026-11-26",
     "state": "ok"
    },
    "close_arm": {
-    "carry_ann_pct": 6.91,
-    "carry_ann_gross_pct": 7.597,
-    "avg_weight": 0.5019,
-    "per_unit_ann_pct": 13.376
+    "carry_ann_pct": 6.902,
+    "carry_ann_gross_pct": 7.59,
+    "avg_weight": 0.5024,
+    "per_unit_ann_pct": 13.349
    },
    "always_on": {
-    "carry_ann_pct": 1.727,
-    "per_unit_ann_pct": 1.78
+    "carry_ann_pct": 1.702,
+    "per_unit_ann_pct": 1.756
    },
-   "margin_pp_close": 5.183,
+   "margin_pp_close": 5.2,
    "segments": {
     "overnight": {
-     "carry_ann_gross_pct": 13.492,
-     "mean_daily_overnight_spread": 0.000707,
-     "share_of_gross": 1.6318
+     "carry_ann_gross_pct": 13.538,
+     "mean_daily_overnight_spread": 0.000709,
+     "share_of_gross": 1.637
     },
     "intraday": {
-     "carry_ann_gross_pct": -5.224,
-     "mean_daily_intraday_spread": -0.000708,
-     "share_of_gross": -0.6318
+     "carry_ann_gross_pct": -5.268,
+     "mean_daily_intraday_spread": -0.000706,
+     "share_of_gross": -0.637
     },
-    "gross_sum_pct": 8.268,
+    "gross_sum_pct": 8.27,
     "named_side": "OVERNIGHT",
     "note": "cost is charged once at the total; it is not attributed to a segment"
    },
@@ -166,11 +166,11 @@
     "rebuild_gap_pp": 0.692
    },
    "next_open_arm": {
-    "carry_ann_pct": 4.231,
-    "per_unit_ann_pct": 8.321,
-    "margin_per_unit_pp": 6.541
+    "carry_ann_pct": 4.218,
+    "per_unit_ann_pct": 8.289,
+    "margin_per_unit_pp": 6.533
    },
-   "captured_share_pct": 62.2,
+   "captured_share_pct": 62.1,
    "checks": {
     "S1_split_is_exact": true,
     "S2_segments_rebuild_the_published_arm": false,
@@ -182,51 +182,51 @@
   },
   "IH": {
    "state": "ok",
-   "bars": 2388,
+   "bars": 2392,
    "first": "2017-01-18",
-   "last": "2026-11-20",
+   "last": "2026-11-26",
    "proxy_index": "sh000016",
    "index": {
     "path": "data/index_ohlc/sh000016.csv",
-    "cache_last": "2026-11-20",
+    "cache_last": "2026-11-26",
     "state": "ok"
    },
    "close_arm": {
-    "carry_ann_pct": 5.772,
-    "carry_ann_gross_pct": 6.464,
-    "avg_weight": 0.5049,
-    "per_unit_ann_pct": 11.167
+    "carry_ann_pct": 5.732,
+    "carry_ann_gross_pct": 6.423,
+    "avg_weight": 0.5056,
+    "per_unit_ann_pct": 11.076
    },
    "always_on": {
-    "carry_ann_pct": 1.396,
-    "per_unit_ann_pct": 1.44
+    "carry_ann_pct": 1.358,
+    "per_unit_ann_pct": 1.403
    },
-   "margin_pp_close": 4.376,
+   "margin_pp_close": 4.374,
    "segments": {
     "overnight": {
-     "carry_ann_gross_pct": 11.295,
-     "mean_daily_overnight_spread": 0.000634,
-     "share_of_gross": 1.631
+     "carry_ann_gross_pct": 11.322,
+     "mean_daily_overnight_spread": 0.000635,
+     "share_of_gross": 1.643
     },
     "intraday": {
-     "carry_ann_gross_pct": -4.37,
-     "mean_daily_intraday_spread": -0.000636,
-     "share_of_gross": -0.631
+     "carry_ann_gross_pct": -4.431,
+     "mean_daily_intraday_spread": -0.000633,
+     "share_of_gross": -0.643
     },
-    "gross_sum_pct": 6.925,
+    "gross_sum_pct": 6.891,
     "named_side": "OVERNIGHT",
     "note": "cost is charged once at the total; it is not attributed to a segment"
    },
    "identity": {
     "max_abs_A_plus_B_minus_spread": 5.204170427930421e-16,
-    "rebuild_gap_pp": 0.697
+    "rebuild_gap_pp": 0.695
    },
    "next_open_arm": {
-    "carry_ann_pct": 3.35,
-    "per_unit_ann_pct": 6.582,
-    "margin_per_unit_pp": 5.142
+    "carry_ann_pct": 3.307,
+    "per_unit_ann_pct": 6.491,
+    "margin_per_unit_pp": 5.088
    },
-   "captured_share_pct": 58.9,
+   "captured_share_pct": 58.6,
    "checks": {
     "S1_split_is_exact": true,
     "S2_segments_rebuild_the_published_arm": false,

@@ -2,7 +2,7 @@
 
 **Question.** r1237 reported 109 positions (2.78%) as outside_cap with no price attached; what are they worth when sold at the first print available?
 
-**Panel.** 1532 funds x 5288 bars, 2005-02-23..2026-11-25, 169 quote flips repaired.
+**Panel.** 1536 funds x 5289 bars, 2005-02-23..2026-11-26, 169 quote flips repaired.
 
 **Arm.** declared fill (score held one bar back, close t -> open t+1); rows imported from etf_book_exit_liquidity.measure_positions, never re-typed.
 
@@ -12,14 +12,14 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 0 | 2020-01-02 | 83 | 996 | 25 | 2.51% | 25 | 0 | +0.000 | +0.026 | 20.31 | +1.189 | 64 |
 | 1 | 2020-01-09 | 83 | 996 | 28 | 2.81% | 28 | 0 | +0.000 | +0.094 | 24.30 | +1.540 | 62 |
-| 2 | 2020-01-16 | 82 | 984 | 33 | 3.35% | 33 | 0 | +0.000 | +0.067 | 26.02 | +1.506 | 54 |
+| 2 | 2020-01-16 | 83 | 996 | 33 | 3.31% | 33 | 0 | +0.000 | +0.066 | 25.72 | +1.489 | 54 |
 | 3 | 2020-01-23 | 82 | 984 | 23 | 2.34% | 23 | 0 | +0.000 | +0.013 | 18.46 | +0.497 | 57 |
 
 **Verdict: `CENSORED_TAIL_IS_IMMATERIAL`** -- the tail is worth +0.05 pp/yr when sold at the first print available (range +0.01..+0.09), inside the 0.57 pp material line.
 
-109 of 3960 positions sit in the tail (109 in the sibling face's `outside_cap` bucket); 0 could not be priced at all and are reported as `open_at_end` rather than as zero.
+109 of 3972 positions sit in the tail (109 in the sibling face's `outside_cap` bucket); 0 could not be priced at all and are reported as `open_at_end` rather than as zero.
 
-**The control.** This face speaks for the same census the sibling published, or it does not speak: the sibling's own face (results\etf_book_exit_liquidity.json) says 3960 positions / 109 outside_cap / 4.19% below gate, this face measures 3960 / 109 / 4.19% -> **same census** (same cutoff: same_cutoff).
+**The control.** This face speaks for the same census the sibling published, or it does not speak: the sibling's own face (results\etf_book_exit_liquidity.json) says 3972 positions / 109 outside_cap / 4.18% below gate, this face measures 3972 / 109 / 4.18% -> **same census** (same cutoff: same_cutoff).
 
 **The other definition, kept separate.** If instead of taking the first print you wait for the name to clear the 20M gate again, the same bucket reads +1.18 pp/yr -- a median wait of ~60 bars, which is mostly time in the market rather than a liquidity effect. The two arms answer different questions and are never added.
 

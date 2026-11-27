@@ -1,20 +1,20 @@
 # 判决里的钱：三本候选的一年集中度（etf_book_year_concentration_money）
 
-证据截止 **2026-11-26**；源面 `results/etf_book_year_gate/YEAR-GATE.json`（asof 2026-11-26T03:29:09+0800）；本金 **1,000,000 元**；年集中线 **70%** 从 `candidate_year_gate.TOP2_SHARE_MAX` 导入。
+证据截止 **2026-11-26**；源面 `results/etf_book_year_gate/YEAR-GATE.json`（asof 2026-11-26T20:27:57+0800）；本金 **1,000,000 元**；年集中线 **70%** 从 `candidate_year_gate.TOP2_SHARE_MAX` 导入。
 
 ## 一句话
 
-- nobond_vt08_adopted: best year 2025 at 43.06% is worth 604,292 of the lifetime gain (60.0% of it); -8.82pp on that one year (-124,513 on the capital standing then) flips to a pass — top-2 share now 73.37% against the 70.00% line
-- nobond_base: best year 2025 at 53.73% is worth 886,453 of the lifetime gain (57.7% of it); -2.72pp on that one year (-44,281 on the capital standing then) flips to a pass — top-2 share now 70.76% against the 70.00% line
+- nobond_vt08_adopted: best year 2025 at 43.06% is worth 601,616 of the lifetime gain (60.2% of it); -9.84pp on that one year (-139,013 on the capital standing then) flips to a pass — top-2 share now 73.78% against the 70.00% line
+- nobond_base: best year 2025 at 53.73% is worth 881,794 of the lifetime gain (57.9% of it); -3.97pp on that one year (-64,512 on the capital standing then) flips to a pass — top-2 share now 71.12% against the 70.00% line
 - all_classes_published: best year 2025 at 36.34% is worth 481,009 of the lifetime gain (59.8% of it); -16.68pp on that one year (-219,095 on the capital standing then) flips to a pass — top-2 share now 77.60% against the 70.00% line
-- 最薄的那一本是 nobond_base：top-2 份额 70.76% 对 70.00% 的线，只差 0.76pp；换成钱，就是 2025 年那一年只要多印（或少印）2.72pp、当时本金上 44,281 元，判词就翻面。这不是能力测量，是一次舍入测量。
+- 最薄的那一本是 nobond_base：top-2 份额 71.12% 对 70.00% 的线，只差 1.12pp；换成钱，就是 2025 年那一年只要多印（或少印）3.97pp、当时本金上 64,512 元，判词就翻面。这不是能力测量，是一次舍入测量。
 
 ## 逐本读数
 
 | 书 | 已发布判词 | 全期倍数 | 年化(年桶重算/在印) | 百万本金到 2026-11-26 | 最好一年 | 该年值多少钱 | 占全期总赚 | 到线的距离 | 该距离值多少钱 |
 |---|---|---|---|---|---|---|---|---|---|
-| nobond_vt08_adopted | CONDITIONAL | 2.0076× | 10.47% / 10.96% | 2,007,576 | 2025 43.06% | 604,292 | 60.0% | -8.817pp | -124,513 |
-| nobond_base | CONDITIONAL | 2.5362× | 14.22% / 14.93% | 2,536,199 | 2025 53.73% | 886,453 | 57.7% | -2.724pp | -44,281 |
+| nobond_vt08_adopted | CONDITIONAL | 1.9987× | 10.40% / 10.89% | 1,998,686 | 2025 43.06% | 601,616 | 60.2% | -9.843pp | -139,013 |
+| nobond_base | CONDITIONAL | 2.5229× | 14.13% / 14.84% | 2,522,869 | 2025 53.73% | 881,794 | 57.9% | -3.969pp | -64,512 |
 | all_classes_published | CONDITIONAL | 1.8046× | 8.80% / — | 1,804,643 | 2025 36.34% | 481,009 | 59.8% | -16.677pp | -219,095 |
 
 ## 去掉最好那一年还剩什么（leave-one-out·百万本金）
@@ -23,25 +23,25 @@
 
 | 去掉哪一年 | 保留比例 | 年化(其余年) | 百万本金剩 | 该年部分年 |
 |---|---|---|---|---|
-| 2020 | 0.9469 | 11.30% | 1,900,984 | 否 |
-| 2021 | 0.9291 | 10.95% | 1,865,290 | 否 |
-| 2022 | 0.9724 | 11.79% | 1,952,149 | 否 |
-| 2023 | 0.9481 | 11.32% | 1,903,403 | 否 |
-| 2024 | 0.8730 | 9.80% | 1,752,583 | 否 |
-| 2025 **（最好的一年）** | 0.6990 | 5.81% | 1,403,284 | 否 |
-| 2026 | 1.0064 | 12.44% | 2,020,410 | 是 |
+| 2020 | 0.9469 | 11.22% | 1,892,566 | 否 |
+| 2021 | 0.9291 | 10.87% | 1,857,030 | 否 |
+| 2022 | 0.9724 | 11.71% | 1,943,505 | 否 |
+| 2023 | 0.9481 | 11.24% | 1,894,974 | 否 |
+| 2024 | 0.8730 | 9.72% | 1,744,822 | 否 |
+| 2025 **（最好的一年）** | 0.6990 | 5.73% | 1,397,070 | 否 |
+| 2026 | 1.0109 | 12.44% | 2,020,410 | 是 |
 
 **nobond_base**（已发布判词 CONDITIONAL）
 
 | 去掉哪一年 | 保留比例 | 年化(其余年) | 百万本金剩 | 该年部分年 |
 |---|---|---|---|---|
-| 2020 | 0.8184 | 12.94% | 2,075,546 | 否 |
-| 2021 | 0.9148 | 15.06% | 2,320,208 | 否 |
-| 2022 | 0.9772 | 16.33% | 2,478,418 | 否 |
-| 2023 | 0.9500 | 15.78% | 2,409,286 | 否 |
-| 2024 | 0.8852 | 14.43% | 2,245,040 | 否 |
-| 2025 **（最好的一年）** | 0.6505 | 8.70% | 1,649,746 | 否 |
-| 2026 | 0.9853 | 16.49% | 2,498,828 | 是 |
+| 2020 | 0.8184 | 12.84% | 2,064,637 | 否 |
+| 2021 | 0.9148 | 14.96% | 2,308,014 | 否 |
+| 2022 | 0.9772 | 16.23% | 2,465,393 | 否 |
+| 2023 | 0.9500 | 15.68% | 2,396,624 | 否 |
+| 2024 | 0.8852 | 14.33% | 2,233,241 | 否 |
+| 2025 **（最好的一年）** | 0.6505 | 8.61% | 1,641,075 | 否 |
+| 2026 | 0.9905 | 16.49% | 2,498,828 | 是 |
 
 **all_classes_published**（已发布判词 CONDITIONAL）
 

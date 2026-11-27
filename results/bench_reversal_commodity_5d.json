@@ -1,7 +1,7 @@
 {
  "cell": "reversal_commodity_5d",
- "generated": "2026-11-24T21:38:47+08:00",
- "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-26T23:15:10+08:00",
+ "evidence_cutoff": "2026-11-26",
  "question": null,
  "config": {
   "id": "reversal_commodity_5d",
@@ -28,9 +28,9 @@
   "target_edge_pp": 3.0
  },
  "coverage": {
-  "bars": 4597,
+  "bars": 4599,
   "start": "2008-01-09",
-  "end": "2026-11-24",
+  "end": "2026-11-26",
   "products": [
    "AU",
    "RB",
@@ -41,12 +41,12 @@
   {
    "tags": {},
    "common_window": {
-    "n": 4597,
-    "ann_pct": -4.22,
+    "n": 4599,
+    "ann_pct": -4.2,
     "vol_pct": 8.66,
-    "sharpe": -0.454,
+    "sharpe": -0.452,
     "mdd_pct": -59.71,
-    "t_stat": -1.97,
+    "t_stat": -1.96,
     "years": {
      "2008": -7.21,
      "2009": -13.39,
@@ -66,38 +66,38 @@
      "2023": -4.84,
      "2024": 8.66,
      "2025": -3.82,
-     "2026": -8.91
+     "2026": -8.61
     },
     "best_year": 2022,
-    "drop_best_year_ann_pct": -3.37
+    "drop_best_year_ann_pct": -3.36
    },
    "oos_2024_after": {
-    "n": 700,
-    "ann_pct": -1.7,
+    "n": 702,
+    "ann_pct": -1.58,
     "vol_pct": 8.9,
-    "sharpe": -0.149,
+    "sharpe": -0.135,
     "mdd_pct": -17.57,
-    "t_stat": -0.25,
+    "t_stat": -0.23,
     "years": {
      "2024": 8.66,
      "2025": -3.82,
-     "2026": -8.91
+     "2026": -8.61
     },
     "best_year": 2024,
-    "drop_best_year_ann_pct": -6.6
+    "drop_best_year_ann_pct": -6.42
    },
-   "first_half_ann_pct": -5.53,
-   "second_half_ann_pct": -2.89,
-   "turnover_per_year": 37.38,
+   "first_half_ann_pct": -5.52,
+   "second_half_ann_pct": -2.86,
+   "turnover_per_year": 37.36,
    "cost_drag_ann_pct": 1.12,
    "avg_live": 2.4,
    "mde_pp": 3.91,
    "powered_for_target": false,
    "control": {
-    "real_ann_pct": -3.93,
+    "real_ann_pct": -3.91,
     "null_mean_ann_pct": -0.46,
-    "null_p95_ann_pct": 4.34,
-    "p_value": 0.54,
+    "null_p95_ann_pct": 4.29,
+    "p_value": 0.71,
     "draws": 100
    },
    "checks": {
@@ -107,56 +107,65 @@
     "H4_drop_best": false,
     "H5_control": false
    },
-   "verdict": "NO_EDGE"
+   "verdict": "NO_EDGE",
+   "bench_target_vol": 0.08,
+   "excess_vs_bench_pp": -8.0,
+   "excess_clears_mde": false
   }
  ],
  "benchmark_buy_and_hold": {
   "common_window": {
-   "n": 4597,
-   "ann_pct": 4.62,
-   "vol_pct": 11.17,
-   "sharpe": 0.46,
-   "mdd_pct": -56.0,
-   "t_stat": 2.0,
+   "n": 4599,
+   "ann_pct": 3.8,
+   "vol_pct": 8.94,
+   "sharpe": 0.462,
+   "mdd_pct": -47.91,
+   "t_stat": 2.01,
    "years": {
-    "2008": -0.09,
-    "2009": 24.55,
-    "2010": 7.53,
-    "2011": 2.5,
-    "2012": -7.39,
-    "2013": -14.88,
-    "2014": -18.03,
-    "2015": -18.1,
-    "2016": 14.74,
-    "2017": 12.88,
-    "2018": 3.03,
-    "2019": 24.41,
-    "2020": 6.73,
-    "2021": 11.06,
-    "2022": 10.65,
-    "2023": 10.4,
-    "2024": 5.06,
-    "2025": 18.56,
-    "2026": 7.79
+    "2008": -0.0,
+    "2009": 19.33,
+    "2010": 6.08,
+    "2011": 2.11,
+    "2012": -5.86,
+    "2013": -12.01,
+    "2014": -14.59,
+    "2015": -14.69,
+    "2016": 11.74,
+    "2017": 10.26,
+    "2018": 2.51,
+    "2019": 19.18,
+    "2020": 5.48,
+    "2021": 8.87,
+    "2022": 8.55,
+    "2023": 8.33,
+    "2024": 4.15,
+    "2025": 14.71,
+    "2026": 6.63
    },
    "best_year": 2009,
-   "drop_best_year_ann_pct": 4.94
+   "drop_best_year_ann_pct": 3.88
   },
   "oos_2024_after": {
-   "n": 700,
-   "ann_pct": 10.82,
-   "vol_pct": 11.38,
-   "sharpe": 0.959,
-   "mdd_pct": -12.91,
-   "t_stat": 1.63,
+   "n": 702,
+   "ann_pct": 8.78,
+   "vol_pct": 9.1,
+   "sharpe": 0.97,
+   "mdd_pct": -10.41,
+   "t_stat": 1.65,
    "years": {
-    "2024": 5.06,
-    "2025": 18.56,
-    "2026": 7.79
+    "2024": 4.15,
+    "2025": 14.71,
+    "2026": 6.63
    },
    "best_year": 2025,
-   "drop_best_year_ann_pct": 7.07
+   "drop_best_year_ann_pct": 5.88
   }
+ },
+ "benchmark_sizing": {
+  "target_vol": 0.08,
+  "same_yardstick": true,
+  "rule": "the benchmark is scaled to the arm's own vol target; a hardwired 0.10 made 9 faces compare books of different size (results/bench_go_ruler_audit.json, r2136)",
+  "arms_excess_clears_own_mde": 0
  },
  "criteria": {
   "cost_bp_side": 3.0,

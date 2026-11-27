@@ -1,7 +1,7 @@
 {
  "schema": "bench_defensive_sleeve_vehicle/v1",
- "generated": "2026-11-23T07:50:43+0800",
- "evidence_cutoff": "2026-11-20",
+ "generated": "2026-11-27T01:42:24+0800",
+ "evidence_cutoff": "2026-11-26",
  "question": "这本 ETF 书约 44% 的调仓期完全防御、平均 71.4% 权重压在债+货币 ETF 上。同一批 bar、同一套排名、同一笔成本，如果这部分钱改停在隔夜逆回购（GC001），整本书的收益与回撤会变成什么？",
  "cell": {
   "rebal": 20,
@@ -12,46 +12,46 @@
  },
  "window": {
   "start": "2020-01-03",
-  "end": "2026-11-20",
-  "bars": 1667,
-  "repo_bars": 1667,
-  "bars_without_repo_quote": 0
+  "end": "2026-11-26",
+  "bars": 1671,
+  "repo_bars": 1670,
+  "bars_without_repo_quote": 1
  },
  "panel": {
   "shape": [
-   5285,
-   1637
+   5289,
+   1645
   ],
   "flips_repaired": 169,
   "class_counts": {
-   "equity": 1485,
+   "equity": 1493,
    "money": 59,
    "bond": 50,
    "commodity": 41,
    "convertible": 2
   },
   "digest": {
-   "digest": "2e875bf4876e25e5",
-   "dates": 5285,
-   "columns": 1637,
+   "digest": "fdb64c20030d2fb9",
+   "dates": 5289,
+   "columns": 1645,
    "first": "2005-02-23",
-   "last": "2026-11-20",
+   "last": "2026-11-26",
    "blocks": [
     "close",
     "open",
     "amount"
    ],
-   "amount_columns": 1637
+   "amount_columns": 1645
   }
  },
  "arms": {
   "published_bond_money_etfs": {
    "label": "published_bond_money_etfs",
-   "years": 6.88,
+   "years": 6.9,
    "start_level": 1.0106,
-   "cagr": 0.0897,
-   "vol": 0.1038,
-   "sharpe": 0.914,
+   "cagr": 0.0895,
+   "vol": 0.1037,
+   "sharpe": 0.913,
    "maxdd": -0.1254,
    "worst_year": -0.0117,
    "neg_years": 1,
@@ -60,11 +60,11 @@
   },
   "cash_gc001_in_the_sleeve": {
    "label": "cash_gc001_in_the_sleeve",
-   "years": 6.88,
+   "years": 6.9,
    "start_level": 1.0106,
-   "cagr": 0.0909,
-   "vol": 0.1033,
-   "sharpe": 0.929,
+   "cagr": 0.0907,
+   "vol": 0.1031,
+   "sharpe": 0.928,
    "maxdd": -0.1254,
    "worst_year": -0.0036,
    "neg_years": 2,
@@ -74,33 +74,33 @@
  },
  "sleeve": {
   "diag_published": {
-   "bars": 1667,
+   "bars": 1671,
    "avg_turnover": 1.2595,
-   "sleeve_days": 1547,
-   "avg_sleeve_weight": 0.7673,
-   "sleeve_growth_etf": 0.078654,
-   "sleeve_growth_cash": 0.085634
+   "sleeve_days": 1551,
+   "avg_sleeve_weight": 0.7678,
+   "sleeve_growth_etf": 0.078712,
+   "sleeve_growth_cash": 0.085792
   },
   "diag_cash": {
-   "bars": 1667,
+   "bars": 1671,
    "avg_turnover": 1.2595,
-   "sleeve_days": 1547,
-   "avg_sleeve_weight": 0.7673,
-   "sleeve_growth_etf": 0.078654,
-   "sleeve_growth_cash": 0.085634
+   "sleeve_days": 1551,
+   "avg_sleeve_weight": 0.7678,
+   "sleeve_growth_etf": 0.078712,
+   "sleeve_growth_cash": 0.085792
   },
-  "cash_net_pct_over_repo_bars": 1.7708,
-  "cash_contracts": 1666,
+  "cash_net_pct_over_repo_bars": 1.7696,
+  "cash_contracts": 1669,
   "cash_missing_quotes": 0,
-  "sleeve_cagr_etf": 0.0111,
+  "sleeve_cagr_etf": 0.011,
   "sleeve_cagr_cash": 0.012,
   "growth_is_bar_summed": "sleeve_growth_* 是书级压缩读数：每根 bar 的防御档收益按当时权重累乘，不是把 76.7% 的钱单独投出去的净值。"
  },
  "money": {
   "nav_cny": 1000000.0,
-  "source": "TICKET-2026-11-20.json",
+  "source": "TICKET-2026-11-26.json",
   "cny_per_year": 1200.0,
-  "sleeve_cny": 767300.0
+  "sleeve_cny": 767800.0
  },
  "yearly": {
   "published": {
@@ -119,14 +119,14 @@
    "2023": 0.0316,
    "2024": 0.0586,
    "2025": 0.3679,
-   "2026": -0.0008
+   "2026": -0.0007
   }
  },
  "judgment": {
   "verdict": "SLEEVE_EDGE_TOO_SMALL_FOR_THE_BOOK",
   "book_move_pp": 0.12,
   "drawdown_delta_pp": 0.0,
-  "sleeve_move_pp": 0.7,
+  "sleeve_move_pp": 0.71,
   "years_cash_wins": 5,
   "years_compared": 7,
   "years_cash_wins_list": [
@@ -148,16 +148,16 @@
  },
  "controls": {
   "C1_reproduces_published_book": {
-   "published_cagr": 0.0897,
-   "published_sharpe": 0.914,
+   "published_cagr": 0.0895,
+   "published_sharpe": 0.913,
    "published_maxdd": -0.1254,
-   "ours_cagr": 0.0897,
+   "ours_cagr": 0.0895,
    "gap_pp": 0.0,
    "tolerance_pp": 0.01
   },
   "C2_reproduces_released_gc001": {
    "published_gc001_net_pct": 1.7733,
-   "gap_bp": 0.2512,
+   "gap_bp": 0.3735,
    "tolerance_bp": 0.5
   }
  },
@@ -186,14 +186,14 @@
   "本面不改生产配置；它只给出「要不要改」的价目。改配置属另一轮的决定。"
  ],
  "inputs": {
-  "published_face": "a2d3e9940ee71fb706724f866debb8eb4fd1e5c889cb58dbf85f1cd62e8dc782",
+  "published_face": "ac6d17fbadefdda01b873d3600b3fdc60f3cb72ccd7e9399535d473fb17c6fed",
   "cash_ladder_face": "f15a4d0f0e667581b3c2e8724863f9186e4d52fceccb7ed8a8485ed61deedaf6",
-  "repo_gc001": "564df41b677636502d65eab6f9df1c2237369282f39eb7a2e098828422e25319",
+  "repo_gc001": "f424c53bb2770cd133a051d8309dfd3ba8ef538134ff31c4ec1807b0638783ee",
   "panel_input_set": {
    "files": 1725,
-   "bytes": 93056753,
-   "newest_mtime_ns": 1795162439549339900
+   "bytes": 93446959,
+   "newest_mtime_ns": 1795695470149589700
   }
  },
- "elapsed_sec": 40.69
+ "elapsed_sec": 55.16
 }

@@ -3930,7 +3930,7 @@
  ],
  "evidence_cutoff": "2026-11-20",
  "first_session": "2011-05-13",
- "generated": "2026-11-26T07:09:40+08:00",
+ "generated": "2026-11-27T03:11:33+08:00",
  "lag_days": {
   "max": 10,
   "median": 1,
@@ -3952,7 +3952,7 @@
  "method": "first commit whose tail reaches a session dates that session's arrival; lag_days = commit date - session date, bulk imports (>=20 sessions in one commit) excluded from the headline",
  "page_vs_frontier": {
   "pages_behind": 0,
-  "pages_judged": 10,
+  "pages_judged": 11,
   "rows": [
    {
     "frontier": "2026-11-17",
@@ -4028,11 +4028,19 @@
    },
    {
     "frontier": "2026-11-20",
-    "gap_days": 0,
+    "gap_days": -5,
     "page": "LIVE-2026-11-26.json",
-    "priced": "2026-11-20",
+    "priced": "2026-11-25",
     "verdict": "AT_FRONTIER",
-    "written": "2026-11-26T07:09:35"
+    "written": "2026-11-26T23:38:10"
+   },
+   {
+    "frontier": "2026-11-20",
+    "gap_days": -5,
+    "page": "LIVE-2026-11-27.json",
+    "priced": "2026-11-25",
+    "verdict": "AT_FRONTIER",
+    "written": "2026-11-27T03:11:27"
    }
   ],
   "verdict": "PAGE_AT_FRONTIER",

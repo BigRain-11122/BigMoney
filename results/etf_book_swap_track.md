@@ -1,6 +1,6 @@
 # 换到兄弟票之后，每年贵多少、又多担多少（r1526）
 
-bar 2026-11-25 ｜ 判定 **NOTHING_MEASURED**
+bar 2026-11-26 ｜ 判定 **NOTHING_MEASURED**
 
 
 ## 逐腿读数

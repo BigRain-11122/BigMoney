@@ -1,0 +1,2130 @@
+{
+ "face": "check_drift_precedence_audit",
+ "contract": "a probe must ask whether the bytes moved before it compares values (r1934)",
+ "scanned_modules": 157,
+ "scanned_scopes": 164,
+ "clean_scopes": 163,
+ "verdict_counts": {
+  "VALUES_FIRST": 0,
+  "NO_STALE_PATH": 1,
+  "UNPARSEABLE": 0
+ },
+ "values_first": [],
+ "no_stale_path": [
+  {
+   "path": "scripts/etf_book_cash_rate_flip.py",
+   "scope": "check_doc",
+   "line": 430,
+   "test": "CHECK FAILED doc has no rendered block"
+  }
+ ],
+ "unparseable": [],
+ "modules": [
+  {
+   "path": "scripts/astock_rankind_control_swap.py",
+   "sha16": "2e10c98db503175c",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 402,
+     "value_line": 466,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: %d field(s) drift"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_rankind_second_sample.py",
+   "sha16": "a8b61744a22740c8",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 377,
+     "value_line": 427,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: %d field(s) drift"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_rankind_stability.py",
+   "sha16": "2b26bc772bc68b60",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 369,
+     "value_line": 391,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: %d field(s) drift"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_resid_veto_layer.py",
+   "sha16": "9d80976cabebf0fd",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 326,
+     "value_line": 336,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED %s (sample %d files)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_affordable_book.py",
+   "sha16": "c8501dfad83565f9",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 463,
+     "value_line": 473,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED %s (sample %d files)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_executable.py",
+   "sha16": "b335843508da9589",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 665,
+     "value_line": 673,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED face has no evidence_cutoff"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_fill_wait.py",
+   "sha16": "56ad317a073dd729",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 840,
+     "value_line": 848,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED face has no evidence_cutoff"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_band.py",
+   "sha16": "01b72de66ad6cf27",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 776,
+     "value_line": 867,
+     "drift_test": "STALE: face missing (%s)",
+     "value_test": "CHECK FAILED: page does not print `%s`"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_carrier.py",
+   "sha16": "3934497fa41b017b",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 556,
+     "value_line": 648,
+     "drift_test": "STALE parent %s moved (%s)",
+     "value_test": "CHECK FAILED %d problem(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_dating.py",
+   "sha16": "6439843ddbca6c79",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 446,
+     "value_line": 505,
+     "drift_test": "STALE: face missing (%s)",
+     "value_test": "CHECK FAILED: page does not print the verdict as a code word"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_default.py",
+   "sha16": "8cedd7fee9b689c5",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 495,
+     "value_line": 604,
+     "drift_test": "STALE: the parent face moved since this face was derived (%s -> %s)",
+     "value_test": "CHECK FAILED: %d disagreement(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_deploy_wait.py",
+   "sha16": "c55f874ed26bc816",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 625,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_funding.py",
+   "sha16": "028c1594d7d78d60",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 776,
+     "value_line": 805,
+     "drift_test": "STALE parent %s missing (%s)",
+     "value_test": "CHECK FAILED %d problem(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_instrument.py",
+   "sha16": "8b2bf000400ceef9",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 841,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_lots.py",
+   "sha16": "899e60d647552746",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 603,
+     "value_line": 751,
+     "drift_test": "STALE: %s face moved since this face was derived (%s -> %s)",
+     "value_test": "CHECK FAILED: %d disagreement(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_margin.py",
+   "sha16": "8da5582b14544cde",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 662,
+     "value_line": 765,
+     "drift_test": "STALE parent %s moved (%s)",
+     "value_test": "CHECK FAILED %d problem(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_resize.py",
+   "sha16": "09e7ba50edf917e4",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 779,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_stability.py",
+   "sha16": "ed976d71b376d739",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 885,
+     "value_line": 913,
+     "drift_test": "STALE parent %s missing (%s)",
+     "value_test": "CHECK FAILED %d problem(s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_wait_ladder.py",
+   "sha16": "0fb5c7d75a9d614e",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 706,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedge_walkforward.py",
+   "sha16": "b80d8acb3958efa4",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 634,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_hedgeable_beta.py",
+   "sha16": "40afef7a16d17f36",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 842,
+     "value_line": 852,
+     "drift_test": "STALE: the book face moved to %s, this face still says %s -- rebuild",
+     "value_test": "CHECK FAILED: published rows (%d) disagree with the face's own period "
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_holdable_width.py",
+   "sha16": "4eb2e62b8d0b07e9",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 339,
+     "value_line": 349,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED %s (sample %d files)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_liquidity_legs.py",
+   "sha16": "c38d36d2d578f8a3",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 317,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_open_capital.py",
+   "sha16": "7dfd1fd84b547688",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 304,
+     "value_line": 314,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED %s (sample %d files)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_size_layers.py",
+   "sha16": "9a7ccbbd438a6668",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 380,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_size_matched.py",
+   "sha16": "5df39e2a12273d8f",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 558,
+     "value_line": 568,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED %s (sample %d files)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/astock_veto_year_source.py",
+   "sha16": "687ae96dc37fc37a",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 499,
+     "drift_test": "STALE: face missing -> %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_basis_timing_replicate.py",
+   "sha16": "147fa246ae117bbe",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 421,
+     "value_line": 440,
+     "drift_test": "STALE: results/bench_basis_timing_replicate.json missing",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_cash_vehicle_window.py",
+   "sha16": "c1834c37158acb96",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 432,
+     "value_line": 475,
+     "drift_test": "[cash_vehicle_window] STALE face missing: %s",
+     "value_test": "[cash_vehicle_window] CHECK FAILED (%d):"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_cost_stamp_census.py",
+   "sha16": "396f0ab9b1866485",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 239,
+     "drift_test": "STALE census face drifted:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_defensive_sleeve_vehicle.py",
+   "sha16": "88fe5ffb15685ec0",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 595,
+     "value_line": 600,
+     "drift_test": "[defensive_sleeve] STALE: %s%s (re-run: python scripts/bench_defensive",
+     "value_test": "[defensive_sleeve] CHECK FAILED (%d): %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_donchian_unit_audit.py",
+   "sha16": "9f0e62eef5422be6",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 645,
+     "drift_test": "STALE: face missing"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_ledger_donchian_exposure.py",
+   "sha16": "9d768a2d52c6d1a9",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 425,
+     "drift_test": "STALE: face missing (results/bench_ledger_donchian_exposure.json)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_queue_truth.py",
+   "sha16": "8eb1b86e2d9a2a9f",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 411,
+     "drift_test": "STALE: the queue moved since the published face (published %d drifts, "
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_size_normalized_h1.py",
+   "sha16": "abd637616b3c7066",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 416,
+     "drift_test": "STALE: face missing (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/bench_verdict_book.py",
+   "sha16": "798ec86cb5a70d41",
+   "rows": [
+    {
+     "scope": "verify",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 504,
+     "drift_test": "STALE: face missing"
+    }
+   ]
+  },
+  {
+   "path": "scripts/block_red_triage.py",
+   "sha16": "9691007e6bf03318",
+   "rows": [
+    {
+     "scope": "check_only",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 528,
+     "value_line": 535,
+     "drift_test": "STALE: face missing or doc missing -- rebuild with block_red_triage.py",
+     "value_test": "CHECK FAILED doc has no rendered block"
+    }
+   ]
+  },
+  {
+   "path": "scripts/book_deflated_expectation.py",
+   "sha16": "d466205bb00c71c7",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 423,
+     "value_line": 426,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED criteria differ from the frozen constants (face is not th"
+    }
+   ]
+  },
+  {
+   "path": "scripts/book_pay_vs_cash_ruler.py",
+   "sha16": "de33eb113bdb4609",
+   "rows": [
+    {
+     "scope": "build",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 203,
+     "drift_test": "face missing: results/etf_book_search_rent.json (STALE: run its writer"
+    },
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 338,
+     "value_line": 398,
+     "drift_test": "STALE: face missing -> %s (run: python %s run)",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/capital_marginal_road.py",
+   "sha16": "abe75a3fd7f39b8a",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 363,
+     "value_line": 367,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED the published face no longer hashes to its own facts_dige"
+    }
+   ]
+  },
+  {
+   "path": "scripts/capital_placement_rent_audit.py",
+   "sha16": "e05d4ca0543babdd",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 607,
+     "value_line": 610,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED criteria differ from the frozen constants (face is not th"
+    }
+   ]
+  },
+  {
+   "path": "scripts/capital_substitution.py",
+   "sha16": "0a18aafcdf1334fc",
+   "rows": [
+    {
+     "scope": "_load",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 57,
+     "drift_test": "(STALE: run its writer, do not guess)"
+    },
+    {
+     "scope": "build",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 87,
+     "drift_test": "volgate face carries no published_cell.full (STALE)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/capital_union_decision.py",
+   "sha16": "92908f2366cd3e72",
+   "rows": [
+    {
+     "scope": "_load",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 40,
+     "drift_test": "(STALE: run its writer, do not guess)"
+    },
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 258,
+     "drift_test": "STALE face drifted:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/carry_risk_dial_vs_book.py",
+   "sha16": "d0548138ec2c3f49",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 516,
+     "value_line": 569,
+     "drift_test": "STALE face missing: {}",
+     "value_test": "CHECK FAILED {} (same inputs, different numbers)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_leg_shelf_decision.py",
+   "sha16": "36142657e6ceb874",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 498,
+     "value_line": 524,
+     "drift_test": "STALE:",
+     "value_test": "CHECK FAILED: ticket cash is not a number (%r)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_build_out_plan.py",
+   "sha16": "bef100bea9781279",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 547,
+     "drift_test": "STALE: upstream face missing %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_flip_census.py",
+   "sha16": "cc8c65f6138c49ae",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 653,
+     "value_line": 705,
+     "drift_test": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run",
+     "value_test": "CHECK FAILED %d leg(s):"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_inflight_carry.py",
+   "sha16": "1fd56acda28d40e4",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 532,
+     "value_line": 552,
+     "drift_test": "STALE: face missing (%s) -> run",
+     "value_test": "CHECK FAILED: rebuild rc=%s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_total_return_audit.py",
+   "sha16": "b3aa96343688ebbe",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 743,
+     "value_line": 829,
+     "drift_test": "STALE: upstream %s bytes changed (face %s.. != disk %s..) -> re-run",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_wait_payback.py",
+   "sha16": "062bc8737efb7988",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 398,
+     "value_line": 424,
+     "drift_test": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cash_shelf_year_by_year.py",
+   "sha16": "49c232278e615ac3",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 658,
+     "value_line": 701,
+     "drift_test": "STALE: %s bytes changed (face %s.. != disk %s..) -> re-run",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cb_debt_floor_mde.py",
+   "sha16": "ec6782230d29c498",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 427,
+     "drift_test": "STALE"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cb_parking_bakeoff.py",
+   "sha16": "58d6b4dac34a7ed6",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 668,
+     "value_line": 737,
+     "drift_test": "STALE face missing:",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/cb_parking_shelf_at_size.py",
+   "sha16": "84ad8d1c59260a8c",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 532,
+     "value_line": 643,
+     "drift_test": "STALE face missing:",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/contention_window.py",
+   "sha16": "31c37755ce79ed75",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 288,
+     "value_line": 301,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED (same inputs, different numbers -- a disagreement, not dr"
+    }
+   ]
+  },
+  {
+   "path": "scripts/defensive_ruler_flip_subperiods.py",
+   "sha16": "e0cc41b85f50c632",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 611,
+     "value_line": 631,
+     "drift_test": "STALE: %s missing",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_buffer_price_of_size.py",
+   "sha16": "c42a215601ec7180",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 321,
+     "drift_test": "STALE: face priced on %s while the production card is on %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_cell_independence.py",
+   "sha16": "b1c999952bd0ae32",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 451,
+     "value_line": 513,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_comparable.py",
+   "sha16": "014fb8b7ccfe5e2b",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 436,
+     "value_line": 448,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED no panels"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_h2_spread.py",
+   "sha16": "5de85b9c519b74a5",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 567,
+     "drift_test": "STALE FACE_MISSING %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_regime_predict.py",
+   "sha16": "17114e63f5387686",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 549,
+     "value_line": 584,
+     "drift_test": "STALE upstream cells %d != %d",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_regime_split.py",
+   "sha16": "0d6528516e9fb850",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 439,
+     "value_line": 459,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED no cells stored"
+    },
+    {
+     "scope": "assert_dedup",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 673,
+     "value_line": 681,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED the face carries no cells or no 8bp channels"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_sign_freeze.py",
+   "sha16": "a3d8ba4b34ea1e8a",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 511,
+     "value_line": 550,
+     "drift_test": "STALE upstream cutoff %r != %r",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cadence_start_dates.py",
+   "sha16": "0f6af41da2cc66d3",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 441,
+     "value_line": 463,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED no cells stored"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cagr_reconcile.py",
+   "sha16": "3732ddb3571de989",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 513,
+     "drift_test": "reconcile STALE"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cap_beta_power.py",
+   "sha16": "3c7365a4864812dd",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 474,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cap_beta_units.py",
+   "sha16": "0894474f604f63a2",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 329,
+     "value_line": 342,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED fields differ: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cap_trim_toll.py",
+   "sha16": "74d8b72f243417f4",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 463,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cash_rate_flip.py",
+   "sha16": "eba2353ec0422eae",
+   "rows": [
+    {
+     "scope": "check_doc",
+     "verdict": "NO_STALE_PATH",
+     "value_line": 430,
+     "value_test": "CHECK FAILED doc has no rendered block"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_closed_axes.py",
+   "sha16": "57972df53d2a55ce",
+   "rows": [
+    {
+     "scope": "_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 293,
+     "value_line": 309,
+     "drift_test": "STALE FACE_BEHIND: the published face no longer quotes the faces it re",
+     "value_test": "CHECK FAILED: sentence does not quote %s (%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_cost_tape.py",
+   "sha16": "47b415f53f64cf3e",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 779,
+     "drift_test": "STALE"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_day_delta.py",
+   "sha16": "108fde3350aa541a",
+   "rows": [
+    {
+     "scope": "check_published",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 850,
+     "drift_test": "check STALE: a second day page landed since this face wrote NO_SECOND_"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_defense_spells.py",
+   "sha16": "34e3f4ddad44dc08",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 365,
+     "value_line": 386,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_deploy_price.py",
+   "sha16": "526a28da2843e614",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 252,
+     "drift_test": "[check] STALE: no receipt at %s (face missing)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_do_or_wait.py",
+   "sha16": "5b481249632fc2e7",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 500,
+     "drift_test": "STALE: this face never recorded the receipts it priced -- the chain re"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_entry_price.py",
+   "sha16": "5de048bb2249c265",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 314,
+     "drift_test": "STALE -- face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_headroom_two_readings.py",
+   "sha16": "8768ae28660098f2",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 296,
+     "value_line": 306,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: re-derived %s differ from the face (same inputs, differe"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_hysteresis_paths.py",
+   "sha16": "fbb90a9195f7f0bd",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 482,
+     "drift_test": "STALE: face priced on %s while the production card is on %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_k_identity_bar.py",
+   "sha16": "4d3b5655529086a8",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 411,
+     "value_line": 452,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_k_leg_rehearsal.py",
+   "sha16": "870e61adfc25c557",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 442,
+     "value_line": 451,
+     "drift_test": "STALE: no face on disk -- run first",
+     "value_test": "CHECK FAILED: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_late_sheet_price.py",
+   "sha16": "6a9c9a2c9ef0ec7e",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 480,
+     "drift_test": "STALE: this face never recorded the panel it priced -- the chain repri"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_nobond_ticket.py",
+   "sha16": "144631a054efda2c",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 383,
+     "drift_test": "check FAIL: STALE face missing at"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_permission_vs_size.py",
+   "sha16": "c0eebbfb7a7aeb3e",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 448,
+     "value_line": 484,
+     "drift_test": "STALE: face missing at %s",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_phase_atlas_k_axis.py",
+   "sha16": "d9ff7aecfa31aee8",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 310,
+     "value_line": 327,
+     "drift_test": "STALE: face missing at %s",
+     "value_test": "CHECK FAILED: %s does not re-derive from the same inputs"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_phase_stub.py",
+   "sha16": "67d45cb4141274bf",
+   "rows": [
+    {
+     "scope": "refresh",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 419,
+     "drift_test": "REFRESH_STALE panel or receipt unreadable (receipt=%s, panel=%s)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_prehistory.py",
+   "sha16": "eb644a547c686f1a",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 270,
+     "drift_test": "STALE face missing:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_premium_forward.py",
+   "sha16": "02c15741ec0f316c",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 804,
+     "drift_test": "STALE: published face priced legs %s (ticket %s); today's ticket carri"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_promotion_provenance.py",
+   "sha16": "1524283c440cc69f",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 401,
+     "drift_test": "STALE face is unprovenanced: it records no digest of %s, so there is n"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_reader_faces.py",
+   "sha16": "97093b4fb113025f",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 95,
+     "drift_test": "STALE %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_return_regime.py",
+   "sha16": "39cd054c2a0c5748",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 261,
+     "drift_test": "STALE: face missing -- %s is not on disk"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_search_rent.py",
+   "sha16": "d879f0289fc6cd4e",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 372,
+     "value_line": 455,
+     "drift_test": "STALE: face missing at %s -- run it before checking",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_sell_plan.py",
+   "sha16": "7b9f33542744e986",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 317,
+     "value_line": 361,
+     "drift_test": "STALE face missing: results/etf_book_sell_plan.json",
+     "value_test": "CHECK FAILED (%d)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_skip_the_exit.py",
+   "sha16": "50989a60dbcc6ca1",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 374,
+     "value_line": 400,
+     "drift_test": "STALE face missing",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_supply_gate_decision.py",
+   "sha16": "bdc1e721553e4f6c",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 502,
+     "drift_test": "[supply_gate_decision] STALE %d/%d  moved=%s -- the receipts or the si"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_target_price.py",
+   "sha16": "06e680db7cad767d",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 317,
+     "drift_test": "[check] STALE: no receipt at %s (face missing)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_unreadable_rail_floor.py",
+   "sha16": "a666b7f37a051db0",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 358,
+     "value_line": 371,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED (same inputs, different numbers -- a disagreement, not dr"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_width_curve.py",
+   "sha16": "e3927ba3114bab88",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 288,
+     "value_line": 294,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED ladder empty"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_width_curve_bare.py",
+   "sha16": "514e8d15c7c21434",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 332,
+     "value_line": 349,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED ladder empty"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_year_concentration_money.py",
+   "sha16": "f15bdd21ec060dcd",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 526,
+     "value_line": 575,
+     "drift_test": "STALE: receipt face missing:",
+     "value_test": "CHECK FAILED ({} problems)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_book_year_line_reach.py",
+   "sha16": "15b537d7e07f5ddf",
+   "rows": [
+    {
+     "scope": "rejudge",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 326,
+     "drift_test": "STALE: face missing:"
+    },
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 505,
+     "value_line": 592,
+     "drift_test": "STALE: face missing:",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_class_ew_ruler_repair.py",
+   "sha16": "8120369233b44e6f",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 507,
+     "value_line": 511,
+     "drift_test": "STALE: inputs moved since the published face",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_paper_marks.py",
+   "sha16": "3167e1459f16ab47",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 343,
+     "drift_test": "STALE face missing:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/etf_sign_prior.py",
+   "sha16": "55d844068b58bc45",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 384,
+     "value_line": 410,
+     "drift_test": "STALE FACE_MISSING source results/etf_sign_stability.json -- cannot te",
+     "value_test": "CHECK FAILED this face disagrees with its own rows"
+    }
+   ]
+  },
+  {
+   "path": "scripts/face_orphan_census.py",
+   "sha16": "c4126e68c6f7a374",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 639,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/futures_panel_gaps.py",
+   "sha16": "0749e264bfbcf726",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 332,
+     "drift_test": "STALE census moved: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/futures_panel_provenance.py",
+   "sha16": "6432695108542679",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 223,
+     "drift_test": "check: STALE face -- drifted keys: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_basis_segments.py",
+   "sha16": "8fae9881af1d5c43",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 487,
+     "drift_test": "STALE: evidence_cutoff moved %s -> %s (%d problem row(s) held back unt"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_always_on_price.py",
+   "sha16": "508043480340b377",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 276,
+     "drift_test": "STALE face missing: results/idx_fut_carry_always_on_price.json"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_capacity_lots.py",
+   "sha16": "83f91de8c1cb8e1e",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 345,
+     "value_line": 406,
+     "drift_test": "STALE face missing: results/idx_fut_carry_capacity_lots.json",
+     "value_test": "CHECK FAILED results/idx_fut_carry_capacity_lots.json (same panel, dif"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_decision_face.py",
+   "sha16": "8b68836c93c659b4",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 334,
+     "value_line": 384,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_forward_clock.py",
+   "sha16": "26832c2cf44cc5f6",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 505,
+     "value_line": 508,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED criteria differ from the frozen constants (face is not th"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_hedge_beta_lots.py",
+   "sha16": "01951f8653a0216f",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 532,
+     "value_line": 557,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED face contradicts its own inputs:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_hedge_carry_clock.py",
+   "sha16": "608a82fc8224ea4b",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 706,
+     "value_line": 734,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED face contradicts its own inputs:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_impact_decay.py",
+   "sha16": "2a41d94f806c2493",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 369,
+     "value_line": 372,
+     "drift_test": "STALE:",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_kill_rule_economics.py",
+   "sha16": "bd1a28f070d56c8d",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 662,
+     "value_line": 666,
+     "drift_test": "STALE inputs changed since %s -- rerun to republish",
+     "value_test": "CHECK FAILED judgement moved: face says %s/%s/%s, arithmetic now says "
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_kill_rule_power.py",
+   "sha16": "56aa59eda2526c25",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 459,
+     "value_line": 464,
+     "drift_test": "STALE inputs changed since %s -- rerun to republish",
+     "value_test": "CHECK FAILED verdict moved: face says %s/%s, arithmetic now says %s/%s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_ladder_risk.py",
+   "sha16": "748f705583fc3cf2",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 496,
+     "value_line": 532,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED stored judgment disagrees with its own measurements: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_ladder_stability.py",
+   "sha16": "65cb90fb23e40bda",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 453,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_one_lot_ruler.py",
+   "sha16": "7d91f20f8e143f48",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 497,
+     "value_line": 551,
+     "drift_test": "STALE face missing: results/idx_fut_carry_one_lot_ruler.json",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_pause_price.py",
+   "sha16": "fad9c3bf8752f89b",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 538,
+     "value_line": 580,
+     "drift_test": "STALE face missing: %s (run 'run')",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_portfolio.py",
+   "sha16": "33c64740b7de215a",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 697,
+     "value_line": 702,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED: published face is not ok (%r)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_rebudget_floor.py",
+   "sha16": "ba888c2373c63757",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 536,
+     "value_line": 583,
+     "drift_test": "STALE face missing: results/idx_fut_carry_rebudget_floor.json",
+     "value_test": "CHECK FAILED results/idx_fut_carry_rebudget_floor.json (same inputs, d"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_roll_step_reversal.py",
+   "sha16": "fb397df889d9adf3",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 403,
+     "value_line": 415,
+     "drift_test": "STALE: panel moved (%s -> %s) -- rebuild this face",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/idx_fut_carry_search_rent.py",
+   "sha16": "dd6d7344a6ed6436",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 452,
+     "value_line": 455,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED criteria differ from the frozen constants (face is not th"
+    }
+   ]
+  },
+  {
+   "path": "scripts/indep_cap_audit_bmc.py",
+   "sha16": "fb4112b206de4446",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 457,
+     "drift_test": "STALE FACE: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/indep_recheck_astock_veto_tearsheet_bmc.py",
+   "sha16": "bf29f7ca3b28473d",
+   "rows": [
+    {
+     "scope": "cmd_run",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 363,
+     "drift_test": "STALE parent face missing: results/astock_veto_lot_drag.json"
+    },
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 384,
+     "value_line": 398,
+     "drift_test": "STALE evidence missing: run first",
+     "value_test": "CHECK FAILED (recomputation drifted from published evidence)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/ingest_lanes_doc.py",
+   "sha16": "58cce326d0d613df",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 455,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/minute_feed_first_reader.py",
+   "sha16": "053072344e90ecb8",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 457,
+     "drift_test": "STALE: face missing at %s -- run the writer"
+    }
+   ]
+  },
+  {
+   "path": "scripts/money_accrual_rate.py",
+   "sha16": "6a99e98c98381ef0",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 565,
+     "drift_test": "check STALE: this face was written against inputs that have since move"
+    }
+   ]
+  },
+  {
+   "path": "scripts/money_band_blind_spot.py",
+   "sha16": "76cf5f955f318fe0",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 586,
+     "drift_test": "STALE (%d upstream byte(s) moved) -- run `run` to rebuild this face"
+    }
+   ]
+  },
+  {
+   "path": "scripts/money_carry_one_sided_repair.py",
+   "sha16": "d3e0f992fd2ac448",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 638,
+     "value_line": 674,
+     "drift_test": "STALE: panel tail moved %s -> %s, this face is a statement about a win",
+     "value_test": "CHECK FAILED %d leg(s):"
+    }
+   ]
+  },
+  {
+   "path": "scripts/money_premium_carry_audit.py",
+   "sha16": "e74707f445e1ee19",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 520,
+     "drift_test": "STALE (%d upstream byte(s) moved) -- run `run` to rebuild this face"
+    }
+   ]
+  },
+  {
+   "path": "scripts/money_subband_jump_audit.py",
+   "sha16": "fea19fba54f2a2ed",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 1071,
+     "value_line": 1138,
+     "drift_test": "STALE: face missing at %s -- run it",
+     "value_test": "CHECK FAILED (%d):"
+    }
+   ]
+  },
+  {
+   "path": "scripts/page_fmt_guard_v2_page.py",
+   "sha16": "5f3d1953778ddaa0",
+   "rows": [
+    {
+     "scope": "load",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 29,
+     "drift_test": "STALE: face missing: %s -- run the scan first"
+    },
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 147,
+     "value_line": 151,
+     "drift_test": "STALE: page missing: %s",
+     "value_test": "CHECK FAILED: page length differs"
+    }
+   ]
+  },
+  {
+   "path": "scripts/panel_price_flip_census.py",
+   "sha16": "24fe05a53867468d",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 399,
+     "drift_test": "STALE / MISMATCH: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/paper_basis_timing_cost_split.py",
+   "sha16": "efaf44a1d8504c53",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 468,
+     "drift_test": "face missing (STALE: no published split yet)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/paper_cash_value.py",
+   "sha16": "67cd0c12f8929608",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 182,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/policy_return_lattice.py",
+   "sha16": "e1919176d30d49de",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 411,
+     "value_line": 419,
+     "drift_test": "STALE: face missing -- %s",
+     "value_test": "CHECK FAILED: same inputs, different numbers -- %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/policy_trigger_audit.py",
+   "sha16": "3dc2439bfa966a75",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 397,
+     "value_line": 421,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED keys=%s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_binding_days.py",
+   "sha16": "ffafc787b3659a74",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 491,
+     "drift_test": "STALE: face missing or unreadable (%s) -- rebuild with run"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_breach_cash_vs_repo.py",
+   "sha16": "6bd0033921cb0a08",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 672,
+     "drift_test": "STALE: face missing at %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_breach_pnl.py",
+   "sha16": "a760675da065da09",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 352,
+     "drift_test": "STALE: face missing at %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_breach_timeline.py",
+   "sha16": "4f95f3c1a1ea7daa",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 674,
+     "drift_test": "check: STALE face"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_compliance_cost.py",
+   "sha16": "8b911fdb0043deef",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 568,
+     "value_line": 591,
+     "drift_test": "STALE: %s missing",
+     "value_test": "CHECK FAILED:"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_enforced_counterfactual.py",
+   "sha16": "0fc65fac031f11ae",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 820,
+     "value_line": 847,
+     "drift_test": "STALE: face missing (%s)",
+     "value_test": "CHECK FAILED"
+    }
+   ]
+  },
+  {
+   "path": "scripts/regime_cap_measure_sizes.py",
+   "sha16": "4f80d067edbd7a70",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 516,
+     "drift_test": "check: STALE / mismatch"
+    }
+   ]
+  },
+  {
+   "path": "scripts/repo_capacity_at_size.py",
+   "sha16": "e7262134b4b79080",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 284,
+     "value_line": 335,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED (%d):"
+    }
+   ]
+  },
+  {
+   "path": "scripts/repo_quote_arrival.py",
+   "sha16": "a33ccdcd00591050",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 268,
+     "drift_test": "[repo_quote_arrival] STALE -- face missing (nothing on disk to check)"
+    }
+   ]
+  },
+  {
+   "path": "scripts/smoke_red_root_cause.py",
+   "sha16": "7555e4e3a9c616df",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 226,
+     "drift_test": "STALE face missing: run `python scripts/smoke_red_root_cause.py run`"
+    }
+   ]
+  },
+  {
+   "path": "scripts/treasury_curve_page.py",
+   "sha16": "f1a42ea8e0a491be",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 277,
+     "drift_test": "CHECK_STALE %s -- the remedy is a re-render (--write), not an edit"
+    }
+   ]
+  },
+  {
+   "path": "scripts/trial_labor_null_calibration.py",
+   "sha16": "db8580114ffd3e34",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 827,
+     "value_line": 853,
+     "drift_test": "STALE: face missing (%s) -- run first",
+     "value_test": "CHECK FAILED: %d disagreement(s): %s"
+    }
+   ]
+  },
+  {
+   "path": "scripts/verified_lines_money_caliber.py",
+   "sha16": "0c8962e05e5623d0",
+   "rows": [
+    {
+     "scope": "cmd_check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 461,
+     "value_line": 467,
+     "drift_test": "STALE face missing: %s",
+     "value_test": "CHECK FAILED upstream: %s"
+    }
+   ]
+  },
+  {
+   "path": "Tools/_r747bmc_merge_finish.py",
+   "sha16": "620f423f772799a5",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 71,
+     "drift_test": "STALE LIVE FACE (disk older than origin):"
+    }
+   ]
+  },
+  {
+   "path": "Tools/_r762bmc_merge_finish.py",
+   "sha16": "17522ffac3121d20",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 71,
+     "drift_test": "STALE LIVE FACE (disk older than origin):"
+    }
+   ]
+  },
+  {
+   "path": "Tools/_r763bmc_merge_finish.py",
+   "sha16": "9cae3ce597d0f107",
+   "rows": [
+    {
+     "scope": "main",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 71,
+     "drift_test": "STALE LIVE FACE (disk older than origin):"
+    }
+   ]
+  },
+  {
+   "path": "Tools/heartbeat_alias_audit.py",
+   "sha16": "8786bf17e779a091",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 293,
+     "drift_test": "STALE face missing: %s"
+    }
+   ]
+  },
+  {
+   "path": "Tools/page_fmt_guard_v2.py",
+   "sha16": "0c545632d22a1e2d",
+   "rows": [
+    {
+     "scope": "check",
+     "verdict": "BYTES_FIRST",
+     "drift_line": 474,
+     "value_line": 546,
+     "drift_test": "STALE: face missing: %s",
+     "value_test": "CHECK FAILED (%d)"
+    }
+   ]
+  }
+ ]
+}

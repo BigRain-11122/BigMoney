@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_sibling_gap",
- "session": "2026-11-25",
- "ticket": "TICKET-2026-11-24.json",
+ "session": "2026-11-26",
+ "ticket": "TICKET-2026-11-26.json",
  "source_face": "results\\etf_book_sibling_entry.json",
  "criteria": {
   "min_days": 120,
@@ -13,50 +13,54 @@
  "pairs": [
   {
    "leg_symbol": "510760",
-   "sibling_symbol": "530060",
-   "sibling_name": "上证指数ETF易方达",
+   "sibling_symbol": "510910",
+   "sibling_name": "上证指数ETF南方",
    "index": "LBL:上证指数ETF",
-   "amount_cny": 86926.5,
+   "amount_cny": 86927.1,
    "source_verdict": "GAP_IMMATERIAL",
-   "today_gain_cny": 141.1,
-   "gap_today_pp": 0.162,
+   "today_gain_cny": 103.1,
+   "gap_today_pp": 0.118,
    "daily_files": [
     "data\\daily\\sh510760.csv",
-    "data\\daily\\sh530060.csv"
+    "data\\daily\\sh510910.csv"
    ],
    "verdict": "NO_GAP",
    "why": "",
    "stats": {
-    "days": 190,
-    "first_date": "2026-02-10",
-    "last_date": "2026-11-25",
-    "today_gap_pp": 0.162,
-    "mean_pp": -2.6708,
-    "median_pp": -2.751,
-    "sd_pp": 1.5297,
-    "min_pp": -6.5154,
-    "max_pp": 0.4601,
-    "share_days_positive": 0.0579,
-    "today_percentile": 97.37,
-    "today_z": 1.852,
-    "last_year_mean_pp": -2.6708,
+    "days": 120,
+    "first_date": "2026-06-03",
+    "last_date": "2026-11-26",
+    "today_gap_pp": 0.118,
+    "mean_pp": -2.9243,
+    "median_pp": -2.6985,
+    "sd_pp": 2.1975,
+    "min_pp": -7.6488,
+    "max_pp": 0.4554,
+    "share_days_positive": 0.1,
+    "today_percentile": 94.17,
+    "today_z": 1.384,
+    "last_year_mean_pp": -2.9243,
     "half_split_mean_pp": [
-     -3.3867,
-     -1.9549
+     -4.7537,
+     -1.0949
     ],
-    "nav_base_offset_pp": 31.395,
-    "gap_change_median_pp": 0.1882
+    "nav_base_offset_pp": 33.3639,
+    "gap_change_median_pp": 0.1936
    },
    "repeatable_gain_cny": null,
    "one_off_gain_cny": null,
    "steps": [
     {
-     "date": "2026-07-13",
-     "jump_pp": -1.1049
+     "date": "2026-06-08",
+     "jump_pp": -1.4403
     },
     {
-     "date": "2026-07-14",
-     "jump_pp": 1.1836
+     "date": "2026-06-09",
+     "jump_pp": 1.2598
+    },
+    {
+     "date": "2026-06-26",
+     "jump_pp": -1.1922
     }
    ],
    "flags": {
@@ -66,7 +70,7 @@
    "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
    "family_basis": "board_label",
    "label": "上证指数ETF",
-   "label_gap_median_pp": 0.1882
+   "label_gap_median_pp": 0.1936
   }
  ],
  "skipped_legs": [
@@ -74,7 +78,7 @@
    "leg_symbol": "512040",
    "label": "价值ETF",
    "verdict": "CANNOT_VERIFY",
-   "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced"
+   "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced"
   },
   {
    "leg_symbol": "159655",
@@ -100,7 +104,7 @@
   "CANNOT_VERIFY": 4
  },
  "today_gain_cny": 0,
- "immaterial_gain_cny": 141.1,
+ "immaterial_gain_cny": 103.1,
  "repeatable_gain_cny": 0.0,
  "one_off_gain_cny": 0.0,
  "sentence": "no pair carries a gap that can be read: 1 pair(s) unverifiable or immaterial",
@@ -118,10 +122,10 @@
    "label": "上证指数ETF",
    "same_label_tickers": 5,
    "live_alternatives": 4,
-   "gap_median_pp": 0.1882,
+   "gap_median_pp": 0.1936,
    "state": "LABEL_IS_A_BASKET",
-   "why": "the board writes the same label and the gap's median day change is 0.188 pp (<= 0.30): the price history agrees these hold the same basket",
-   "sibling_symbol": "530060",
+   "why": "the board writes the same label and the gap's median day change is 0.194 pp (<= 0.30): the price history agrees these hold the same basket",
+   "sibling_symbol": "510910",
    "inner_verdict": "NO_GAP"
   },
   {
@@ -129,9 +133,9 @@
    "label": "价值ETF",
    "same_label_tickers": 3,
    "live_alternatives": 1,
-   "gap_median_pp": 0.3883,
+   "gap_median_pp": 0.385,
    "state": "LABEL_NOT_A_BASKET",
-   "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced",
+   "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced",
    "sibling_symbol": "159263",
    "inner_verdict": "NO_GAP"
   },
@@ -163,7 +167,7 @@
    "why": "no other live ticker writes this label on the board"
   }
  ],
- "label_family_board_session": "2026-11-25",
+ "label_family_board_session": "2026-11-26",
  "label_family_sensitivity": [
   {
    "line_pp": 0.25,

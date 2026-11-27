@@ -1,27 +1,27 @@
 {
  "evidence_cutoff": "2026-11-24",
- "generated": "2026-11-26T05:32:41+0800",
+ "generated": "2026-11-27T02:33:51+0800",
  "input_cutoffs": {
-  "capacity": "2026-11-25",
-  "open_capital": "2026-11-25",
+  "capacity": "2026-11-26",
+  "open_capital": "2026-11-26",
   "price": "2026-11-24",
-  "roll": "2026-11-25"
+  "roll": "2026-11-26"
  },
  "inputs": {
   "capacity": {
-   "digest": "d7890d59d74bb14b",
+   "digest": "71795b1553652f66",
    "path": "results/idx_fut_carry_capacity_lots.json"
   },
   "open_capital": {
-   "digest": "e0c491ebc217f235",
+   "digest": "1ffffdc26d8dfc4b",
    "path": "results/idx_fut_carry_open_capital.json"
   },
   "price": {
-   "digest": "17fef4b85b8e0cf0",
+   "digest": "2c8655a90cb1c0cb",
    "path": "results/idx_fut_carry_always_on_price.json"
   },
   "roll": {
-   "digest": "321b524e12dddef7",
+   "digest": "d9cae2d574a9dde7",
    "path": "results/idx_fut_carry_roll_step_reversal.json"
   }
  },
@@ -43,14 +43,14 @@
    },
    "capital": {
     "book_cny": 1000000.0,
-    "first_rung_cny": 1132145.38,
-    "gap_cny": 132145.38
+    "first_rung_cny": 1137862.5,
+    "gap_cny": 137862.5
    },
    "desk_ticket": {
-    "capital_the_ticket_needs_cny": 4528581.5,
+    "capital_the_ticket_needs_cny": 4551450.0,
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.5286
+    "multiple_of_budget": 4.5514
    },
    "product": "IC",
    "quotable_rate": {
@@ -61,24 +61,24 @@
     "by_ruler": {
      "calendar": {
       "ann_pct": 9.65,
-      "excess_cny": 108881.34,
-      "excess_pct_of_capital": 9.6173,
+      "excess_cny": 109277.68,
+      "excess_pct_of_capital": 9.6038,
       "timed_ann_pct": 12.02
      },
      "strictest": {
       "ann_pct": 9.68,
-      "excess_cny": 109227.48,
-      "excess_pct_of_capital": 9.6478,
+      "excess_cny": 109625.08,
+      "excess_pct_of_capital": 9.6343,
       "timed_ann_pct": 11.36
      }
     },
     "excess_over_parking_cny_band": [
-     108881.34,
-     109227.48
+     109277.68,
+     109625.08
     ],
     "excess_pct_of_capital_band": [
-     9.6173,
-     9.6478
+     9.6038,
+     9.6343
     ],
     "never_quoted_as": "a single point rate -- the admitted rulers disagree by 0.030pp",
     "spread_across_admitted_rulers_pp": 0.03
@@ -101,9 +101,9 @@
     {
      "can_be_bought_with_capital": true,
      "condition": "capital at the first executable rung",
-     "gap_cny": 132145.38,
-     "gap_pct_of_book": 13.2145,
-     "needed_cny": 1132145.38,
+     "gap_cny": 137862.5,
+     "gap_pct_of_book": 13.7863,
+     "needed_cny": 1137862.5,
      "today_cny": 1000000.0
     }
    ],
@@ -118,14 +118,14 @@
    },
    "capital": {
     "book_cny": 1000000.0,
-    "first_rung_cny": 1161161.25,
-    "gap_cny": 161161.25
+    "first_rung_cny": 1165749.12,
+    "gap_cny": 165749.12
    },
    "desk_ticket": {
-    "capital_the_ticket_needs_cny": 4644645.0,
+    "capital_the_ticket_needs_cny": 4662996.5,
     "conformance": "OUT_OF_RULER",
     "lots": 4,
-    "multiple_of_budget": 4.6446
+    "multiple_of_budget": 4.663
    },
    "product": "IM",
    "quotable_rate": {
@@ -163,9 +163,9 @@
     {
      "can_be_bought_with_capital": true,
      "condition": "capital at the first executable rung",
-     "gap_cny": 161161.25,
-     "gap_pct_of_book": 16.1161,
-     "needed_cny": 1161161.25,
+     "gap_cny": 165749.12,
+     "gap_pct_of_book": 16.5749,
+     "needed_cny": 1165749.12,
      "today_cny": 1000000.0
     }
    ],
@@ -175,7 +175,7 @@
  },
  "question": "the four carry faces each answered a sub-question; this one answers what the book should do today and what number would change it",
  "reading": {
-  "one_line": "NO_ORDER_ON_BOTH_LEGS -- IC 口径已定（9.65-9.68%）但本金差 132,145 元；IM 无口径（无可采信尺子）",
+  "one_line": "NO_ORDER_ON_BOTH_LEGS -- IC 口径已定（9.65-9.68%）但本金差 137,862 元；IM 无口径（无可采信尺子）",
   "precedence": [
    "accounting_unsettled",
    "capital_below_first_rung",

@@ -1,70 +1,143 @@
 {
  "schema": "smoke-red-recheck/v1",
  "machine_id": "bm-c",
- "generated": "2026-11-26T05:28:11+0800",
+ "generated": "2026-11-27T01:17:27+0800",
  "source_triage": "results/smoke_red_triage.json",
- "source_ts": "2026-11-26T05:03:47",
+ "source_ts": "2026-11-27T01:09:01",
  "budget_sec": 420.0,
- "elapsed_sec": 29.6,
- "legs": 45,
- "still_red": 13,
+ "elapsed_sec": 16.7,
+ "legs": 24,
+ "still_red": 15,
  "now_green": 0,
  "green_but_mapping_guessed": 0,
  "guessed_rows": 0,
  "counts": {
   "GREEN": 0,
   "GREEN_ENTRY_GUESSED": 0,
-  "RED_CONTRADICTION": 5,
-  "RED_STALE": 6,
+  "RED_CONTRADICTION": 8,
+  "RED_STALE": 4,
   "RED_SELFTEST": 0,
   "RED_EXCEPTION": 0,
-  "RED_OTHER": 2,
+  "RED_OTHER": 3,
   "RED_SILENT": 0,
   "RED_MAPPING_GUESS": 0,
-  "NO_CHECK_ENTRY": 32,
+  "NO_CHECK_ENTRY": 9,
   "NOT_RUN": 0
  },
- "newly_dirty_paths": [
-  "results/cpu_fill/.agent.lock"
- ],
+ "newly_dirty_paths": [],
  "rows": [
   {
-   "leg": "product: etf_book_supply_gate_decision (one word for the rebalance)",
-   "face": "etf_book_supply_gate_decision",
+   "leg": "product: index-futures proxy noise re-derived",
+   "face": null,
+   "triage_class": "CONTRADICTION",
+   "triage_subject": "product: index-futures proxy noise re-derived",
+   "mapping": null,
+   "argv_tail": [],
+   "script": null,
+   "verdict": "NO_CHECK_ENTRY",
+   "why": "inline leg -- only the suite itself can re-ask it"
+  },
+  {
+   "leg": "product: carry-vs-ETF swap rulers (face re-derived from its inputs)",
+   "face": null,
    "triage_class": "UNCLASSIFIED",
-   "triage_subject": "one word for the rebalance",
+   "triage_subject": "face re-derived from its inputs",
+   "mapping": null,
+   "argv_tail": [],
+   "script": null,
+   "verdict": "NO_CHECK_ENTRY",
+   "why": "inline leg -- only the suite itself can re-ask it"
+  },
+  {
+   "leg": "product: the substitution rulers reach the CEO page (r1933)",
+   "face": null,
+   "triage_class": "UNCLASSIFIED",
+   "triage_subject": "r1933",
+   "mapping": null,
+   "argv_tail": [],
+   "script": null,
+   "verdict": "NO_CHECK_ENTRY",
+   "why": "inline leg -- only the suite itself can re-ask it"
+  },
+  {
+   "leg": "product: etf_book_decision_line (row re-derived from the receipts)",
+   "face": "etf_book_decision_line",
+   "triage_class": "UNCLASSIFIED",
+   "triage_subject": "row re-derived from the receipts",
    "mapping": "table",
    "argv_tail": [
-    "selftest"
+    "--check"
    ],
-   "script": "scripts/etf_book_supply_gate_decision.py",
-   "verdict": "RED_OTHER",
+   "script": "scripts/etf_book_decision_line.py",
+   "verdict": "RED_CONTRADICTION",
    "argv": [
-    "selftest"
+    "--check"
    ],
    "rc": 1,
-   "line": "FAIL  L13b the agent that prices the ticket reads ADMIT in the wrapper receipt",
+   "line": "CHECK_FAIL drift in: row",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
   },
   {
-   "leg": "product: etf_book_supply_gate_decision (verdict re-derived from receipts)",
-   "face": "etf_book_supply_gate_decision",
-   "triage_class": "CONTRADICTION",
-   "triage_subject": "verdict re-derived from receipts",
+   "leg": "product: etf_book_concentration_levers (published arms re-derived)",
+   "face": "etf_book_concentration_levers",
+   "triage_class": "STALE_OR_MISSING",
+   "triage_subject": "published arms re-derived",
    "mapping": "table",
    "argv_tail": [
-    "--check"
+    "check"
    ],
-   "script": "scripts/etf_book_supply_gate_decision.py",
-   "verdict": "RED_CONTRADICTION",
+   "script": "scripts/etf_book_concentration_levers.py",
+   "verdict": "RED_STALE",
    "argv": [
-    "--check"
+    "check"
    ],
    "rc": 1,
-   "line": "[supply_gate_decision] CHECK FAIL 6/9  drift=money_constructions_that_are_gifts,cross_receipt_agreement,sources",
+   "line": "[check] DRIFT STALE the quoted receipt moved: published 10.96 -> 10.8900",
+   "check_wrote_face": false,
+   "restored": false,
+   "collateral_writes": [],
+   "collateral_restored": []
+  },
+  {
+   "leg": "product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
+   "face": "etf_book_admit_cost_ladder",
+   "triage_class": "STALE_OR_MISSING",
+   "triage_subject": "quoted rungs and verdict re-derived",
+   "mapping": "table",
+   "argv_tail": [
+    "check"
+   ],
+   "script": "scripts/etf_book_admit_cost_ladder.py",
+   "verdict": "RED_STALE",
+   "argv": [
+    "check"
+   ],
+   "rc": 3,
+   "line": "[check] PROBLEMS | verdict=NO_ARMS_PRICED | n_arms=0 survivors_20bp=[] | problems=[\"STALE a quoted face moved: stored {'published_arms': '7b89b05cb9bbb965d21aee20bf827d3a4a81702fcb569a37979ffd36e10d42c7', 'control_receip",
+   "check_wrote_face": false,
+   "restored": false,
+   "collateral_writes": [],
+   "collateral_restored": []
+  },
+  {
+   "leg": "product: etf_book_rebal_adoption (published cells and arithmetic re-derived)",
+   "face": "etf_book_rebal_adoption",
+   "triage_class": "CONTRADICTION",
+   "triage_subject": "published cells and arithmetic re-derived",
+   "mapping": "table",
+   "argv_tail": [
+    "check"
+   ],
+   "script": "scripts/etf_book_rebal_adoption.py",
+   "verdict": "RED_CONTRADICTION",
+   "argv": [
+    "check"
+   ],
+   "rc": 1,
+   "line": "[check] DRIFT control did not reproduce the published book",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -85,28 +158,7 @@
     "check"
    ],
    "rc": 1,
-   "line": "{\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 510760/530060: census 0.1870 vs sibling face 0.1882; 159263/512040: census 0.3917 vs sibling face 0.3883\"], \"labels_multi\": 86, \"groups\": 76, \"sh",
-   "check_wrote_face": false,
-   "restored": false,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
-  {
-   "leg": "product: etf_book_capacity_ticket (rungs re-derived from the gate face)",
-   "face": "etf_book_capacity_ticket",
-   "triage_class": "CONTRADICTION",
-   "triage_subject": "rungs re-derived from the gate face",
-   "mapping": "table",
-   "argv_tail": [
-    "check"
-   ],
-   "script": "scripts/etf_book_capacity_ticket.py",
-   "verdict": "RED_STALE",
-   "argv": [
-    "check"
-   ],
-   "rc": 1,
-   "line": "{\"ok\": false, \"problems\": [\"STALE face: one-lot floor re-derives to 14465.7, face says 14666.23\", \"STALE face: shortfall re-derives to -482010.23, face says -481809.7\", \"rung best capital 1043800.91 != gate 1059111.84\", ",
+   "line": "{\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 512040/159263: census 0.3883 vs sibling face 0.3850\"], \"labels_multi\": 89, \"groups\": 78, \"shared_pairs_crosschecked\": 1}",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
@@ -127,248 +179,106 @@
     "check"
    ],
    "rc": 1,
-   "line": "{\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.9442, face says 0.958\", \"impact_breach_cny re-derives to -59111.84, face says -43800.91\", \"best_largest_cny re-derives to 1059000, face says 1043000\", \"one",
+   "line": "{\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.924, face says 0.9442\", \"impact_breach_cny re-derives to -82283.94, face says -59111.84\", \"best_largest_cny re-derives to 1082000, face says 1059000\", \"one",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
   },
   {
-   "leg": "product: swap section freshness (every face on the calendar's close)",
-   "face": "etf_book_swap_freshness",
-   "triage_class": "STALE_OR_MISSING",
-   "triage_subject": "every face on the calendar's close",
+   "leg": "product: etf_book_cash_roll_today (instruction re-derived from disk)",
+   "face": "etf_book_cash_roll_today",
+   "triage_class": "UNCLASSIFIED",
+   "triage_subject": "instruction re-derived from disk",
    "mapping": "table",
    "argv_tail": [
-    "check"
+    "--check"
    ],
-   "script": "scripts/etf_book_swap_freshness.py",
-   "verdict": "RED_STALE",
+   "script": "scripts/etf_book_cash_roll_today.py",
+   "verdict": "RED_OTHER",
    "argv": [
-    "check"
-   ],
-   "rc": 2,
-   "line": "[swap_freshness] every leg above is stale, not wrong: pay its producer in dependency order (python scripts/etf_book_swap_freshness.py run)",
-   "check_wrote_face": false,
-   "restored": false,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
-  {
-   "leg": "product: the ticket behind the page states the same two days (link walk)",
-   "face": "etf_book_ceo_page",
-   "triage_class": "SUBCHAIN_FAILED",
-   "triage_subject": "link walk",
-   "mapping": "table",
-   "argv_tail": [
-    "selftest"
-   ],
-   "script": "scripts/etf_book_ceo_page.py",
-   "verdict": "RED_STALE",
-   "argv": [
-    "selftest"
+    "--check"
    ],
    "rc": 1,
-   "line": "Summary: 475/477 PASS -- 2 FAIL",
+   "line": "\"ok\": false,",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
   },
   {
-   "leg": "product: CEO one-pager (bars, dates and cash constraints agree)",
-   "face": "ceo_live_usage",
+   "leg": "product: the book re-levers off its own decision grid (every phase re-derives)",
+   "face": "etf_book_k_grid",
    "triage_class": "UNCLASSIFIED",
-   "triage_subject": "bars, dates and cash constraints agree",
+   "triage_subject": "every phase re-derives",
    "mapping": "table",
    "argv_tail": [
-    "selftest"
+    "--check"
    ],
-   "script": "scripts/ceo_live_usage.py",
+   "script": "scripts/etf_book_k_grid.py",
    "verdict": "RED_STALE",
    "argv": [
-    "selftest"
+    "--check"
    ],
    "rc": 1,
-   "line": "selftest: FAIL ['the order is measured on its own names at its own size (r1827)', 'a reading on another five names is named as another book (r1827)', 'an at-size face answering another ticket is refused (r1830)', 'the sa",
+   "line": "[check] face cutoff 2026-11-25 is behind the ledger's last bar 2026-11-26",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
   },
   {
-   "leg": "product: the book envelope says whose book it describes",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the book envelope says whose book it describes",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the Chinese CEO pages carry no new English prose (r1582)",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "r1582",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the CEO page shows where the six signs came from and what peeking pays",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the CEO page shows where the six signs came from and what peeking pays",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the paper book owns the book the card sells",
-   "face": null,
+   "leg": "product: the discount subset sits on the ledger's own line (r1528)",
+   "face": "etf_book_positions",
    "triage_class": "CONTRADICTION",
-   "triage_subject": "product: the paper book owns the book the card sells",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the page says what fills at the open and whose book that is",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the page says what fills at the open and whose book that is",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "fleet: a lane that appended nothing still says whether it reaches the last session",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "fleet: a lane that appended nothing still says whether it reaches the last session",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "fleet: a lane green inside its own window says so on every face",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "fleet: a lane green inside its own window says so on every face",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: a lane green inside its own window says how much slack is left on the board, not only on the board's markdown",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: a lane green inside its own window says how much slack is left on the board, not only on the board's markdown",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: both reader faces print the cut that picks the universe, recomputed",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: both reader faces print the cut that picks the universe, recomputed",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the sheet's swap-section freshness is re-derived, not remembered",
-   "face": null,
-   "triage_class": "STALE_OR_MISSING",
-   "triage_subject": "product: the sheet's swap-section freshness is re-derived, not remembered",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the order sheet prints the floor's per-name cut, not only its total",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the order sheet prints the floor's per-name cut, not only its total",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the two adjudications on the sheet read the same panel",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the two adjudications on the sheet read the same panel",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: paper_equity_recheck (every reader face still equals the ledger)",
-   "face": "paper_equity_recheck",
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "every reader face still equals the ledger",
+   "triage_subject": "r1528",
    "mapping": "table",
    "argv_tail": [
-    "run"
+    "--check"
    ],
-   "script": "scripts/paper_equity_recheck.py",
+   "script": "scripts/etf_book_positions.py",
    "verdict": "RED_CONTRADICTION",
    "argv": [
-    "run"
+    "--check"
    ],
    "rc": 1,
-   "line": "paper_equity_recheck: verdict=BREACH traders=6 total_equity=5906444.95 problems=8 price_lags=0 unverified=0 -> results/paper_equity_recheck.json",
-   "check_wrote_face": true,
-   "restored": true,
-   "collateral_writes": [],
-   "collateral_restored": []
-  },
-  {
-   "leg": "product: capital_union_decision (published union re-derives from the three faces)",
-   "face": "capital_union_decision",
-   "triage_class": "STALE_OR_MISSING",
-   "triage_subject": "published union re-derives from the three faces",
-   "mapping": "table",
-   "argv_tail": [
-    "--check"
-   ],
-   "script": "scripts/capital_union_decision.py",
-   "verdict": "RED_STALE",
-   "argv": [
-    "--check"
-   ],
-   "rc": 3,
-   "line": "STALE face drifted: union, etf_book, carry_book, face_cutoffs -- rerun to republish",
+   "line": "CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, replay_drift, settlement_bar disagree with a fresh derivation",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
+  },
+  {
+   "leg": "product: etf_book_positions (position ledger and base divergence re-derived)",
+   "face": "etf_book_positions",
+   "triage_class": "CONTRADICTION",
+   "triage_subject": "position ledger and base divergence re-derived",
+   "mapping": "table",
+   "argv_tail": [
+    "check"
+   ],
+   "script": "scripts/etf_book_positions.py",
+   "verdict": "RED_CONTRADICTION",
+   "argv": [
+    "check"
+   ],
+   "rc": 1,
+   "line": "CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, replay_drift, settlement_bar disagree with a fresh derivation",
+   "check_wrote_face": false,
+   "restored": false,
+   "collateral_writes": [],
+   "collateral_restored": []
+  },
+  {
+   "leg": "fleet: a panel tail read by sample is certified against a full scan",
+   "face": null,
+   "triage_class": "UNCLASSIFIED",
+   "triage_subject": "fleet: a panel tail read by sample is certified against a full scan",
+   "mapping": null,
+   "argv_tail": [],
+   "script": null,
+   "verdict": "NO_CHECK_ENTRY",
+   "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
    "leg": "product: year_concentration_money (top-2 year shares priced in yuan)",
@@ -427,94 +337,59 @@
     "--check"
    ],
    "rc": 1,
-   "line": "CHECK_FAIL 10 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote.py`",
+   "line": "CHECK_FAIL 14 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote.py`",
    "check_wrote_face": false,
    "restored": false,
    "collateral_writes": [],
    "collateral_restored": []
   },
   {
-   "leg": "product: toll-ladder verdict is recomputable from the arm faces",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: toll-ladder verdict is recomputable from the arm faces",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
+   "leg": "product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
+   "face": "etf_book_premium_swap",
+   "triage_class": "CONTRADICTION",
+   "triage_subject": "verdicts still re-derive from the ticket",
+   "mapping": "table",
+   "argv_tail": [
+    "--check"
+   ],
+   "script": "scripts/etf_book_premium_swap.py",
+   "verdict": "RED_OTHER",
+   "argv": [
+    "--check"
+   ],
+   "rc": 2,
+   "line": "{\"ok\": false, \"problems\": [\"face as_of '2026-11-25' != ticket as_of '2026-11-26'\", \"510760 premium -0.041237 on the face but -0.181638 in the snapshot\", \"512040 premium -0.034294 on the face but -0.240178 in the snapshot",
+   "check_wrote_face": false,
+   "restored": false,
+   "collateral_writes": [],
+   "collateral_restored": []
   },
   {
-   "leg": "product: both reader faces print the cut that picks the universe, recomputed",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: both reader faces print the cut that picks the universe, recomputed",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
+   "leg": "product: etf_book_premium_choice (road arithmetic still re-derives)",
+   "face": "etf_book_premium_choice",
+   "triage_class": "CONTRADICTION",
+   "triage_subject": "road arithmetic still re-derives",
+   "mapping": "table",
+   "argv_tail": [
+    "--check"
+   ],
+   "script": "scripts/etf_book_premium_choice.py",
+   "verdict": "RED_CONTRADICTION",
+   "argv": [
+    "--check"
+   ],
+   "rc": 2,
+   "line": "{\"ok\": false, \"problems\": [\"159655/B_same_market_twin break-even windows drifted\"], \"verdict\": \"RULERS_DISAGREE_SWAP_AT_HORIZON\", \"tenure_windows\": 1.573, \"re_derived_from_inputs\": [\"premium_pct\", \"premium_cny\", \"stretch",
+   "check_wrote_face": false,
+   "restored": false,
+   "collateral_writes": [],
+   "collateral_restored": []
   },
   {
-   "leg": "product: the carry split reproduces the ticket and stays ordered",
+   "leg": "config: no CEO-facing page prints one measurement twice",
    "face": null,
    "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the carry split reproduces the ticket and stays ordered",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the executable ticket decomposes its own headline",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the executable ticket decomposes its own headline",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: a bar restated after settling reaches the ticket's own ledger line",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: a bar restated after settling reaches the ticket's own ledger line",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: three faces of one book price one panel, and the digest can move",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: three faces of one book price one panel, and the digest can move",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the dashboard says which bar the three papers were priced on",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the dashboard says which bar the three papers were priced on",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the sleeve-gate answer survives a moved decision grid",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the sleeve-gate answer survives a moved decision grid",
+   "triage_subject": "config: no CEO-facing page prints one measurement twice",
    "mapping": null,
    "argv_tail": [],
    "script": null,
@@ -533,54 +408,10 @@
    "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
-   "leg": "product: a de-levered book is told apart from a well-timed one",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: a de-levered book is told apart from a well-timed one",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: a fixed fraction is only an adoption if it survives out of sample",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: a fixed fraction is only an adoption if it survives out of sample",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the vol window is judged on more than one decision calendar",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the vol window is judged on more than one decision calendar",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the window grid's floor is the engine's, measured not assumed",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the window grid's floor is the engine's, measured not assumed",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the expectation table's rows name the ruler that priced each one",
+   "leg": "product: the sheet prints what it pays and where that price sits in history",
    "face": null,
    "triage_class": "CONTRADICTION",
-   "triage_subject": "product: the expectation table's rows name the ruler that priced each one",
+   "triage_subject": "product: the sheet prints what it pays and where that price sits in history",
    "mapping": null,
    "argv_tail": [],
    "script": null,
@@ -588,10 +419,10 @@
    "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
-   "leg": "product: the CEO page prices the carry book's zero (funding line)",
+   "leg": "product: the sheet prints what the price did after a reading like today's",
    "face": null,
    "triage_class": "UNCLASSIFIED",
-   "triage_subject": "funding line",
+   "triage_subject": "product: the sheet prints what the price did after a reading like today's",
    "mapping": null,
    "argv_tail": [],
    "script": null,
@@ -599,54 +430,10 @@
    "why": "inline leg -- only the suite itself can re-ask it"
   },
   {
-   "leg": "product: the CEO page prices the book's idle cash (r1908)",
+   "leg": "product: what carrying the sibling costs per year is on the sheet",
    "face": null,
    "triage_class": "UNCLASSIFIED",
-   "triage_subject": "r1908",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the page names which half refused the carry product (r1910)",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "r1910",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: a gate that flips on the decision phase is not a gate",
-   "face": null,
-   "triage_class": "CONTRADICTION",
-   "triage_subject": "product: a gate that flips on the decision phase is not a gate",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the page names the board session the premium section never captured",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the page names the board session the premium section never captured",
-   "mapping": null,
-   "argv_tail": [],
-   "script": null,
-   "verdict": "NO_CHECK_ENTRY",
-   "why": "inline leg -- only the suite itself can re-ask it"
-  },
-  {
-   "leg": "product: the trades between the target and the executed book reconcile to the sheet's cash",
-   "face": null,
-   "triage_class": "UNCLASSIFIED",
-   "triage_subject": "product: the trades between the target and the executed book reconcile to the sheet's cash",
+   "triage_subject": "product: what carrying the sibling costs per year is on the sheet",
    "mapping": null,
    "argv_tail": [],
    "script": null,

@@ -3,20 +3,20 @@
   "moneyflow",
   "sina_mf"
  ],
- "generated": "2026-11-26T05:29:39",
+ "generated": "2026-11-27T02:31:29",
  "host": "bm-c",
  "lanes": [
   {
    "claim": {
     "key": "universe_n",
     "path": "/panel/universe_n",
-    "value": 5227
+    "value": 5317
    },
    "claim_fields": [
     {
      "key": "universe_n",
      "path": "/panel/universe_n",
-     "value": 5227
+     "value": 5317
     },
     {
      "key": "per_files",
@@ -29,7 +29,7 @@
    "lane": "astock_daily",
    "names": {
     "kind": "list",
-    "n": 12,
+    "n": 17,
     "path": "/quarantined"
    },
    "names_cover_claims": [],
@@ -38,7 +38,7 @@
    "panel_files_here": 5221,
    "tracked": false,
    "verdict": "NAMES_PARTIAL",
-   "why": "the receipt names 12 members at /quarantined while the number it quotes is universe_n=5227; the named set is not the quoted set"
+   "why": "the receipt names 17 members at /quarantined while the number it quotes is universe_n=5317; the named set is not the quoted set"
   },
   {
    "claim": {
@@ -143,11 +143,6 @@
      "key": "mapped_pairs",
      "path": "/mapped_pairs",
      "value": 211
-    },
-    {
-     "key": "fresh_pairs",
-     "path": "/fresh_pairs",
-     "value": 184
     }
    ],
    "face": "results/ah_panel_status.json",
@@ -155,16 +150,16 @@
    "lane": "ah_panel",
    "names": {
     "kind": "dict",
-    "n": 22,
+    "n": 6,
     "path": "/quarantined"
    },
    "names_cover_claims": [],
    "owner": "bm-a",
    "panel": "data/ah_panel/per",
-   "panel_files_here": 187,
+   "panel_files_here": 188,
    "tracked": false,
    "verdict": "NAMES_PARTIAL",
-   "why": "the receipt names 22 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
+   "why": "the receipt names 6 members at /quarantined while the number it quotes is universe_em_total=211; the named set is not the quoted set"
   },
   {
    "claim": {
@@ -207,7 +202,7 @@
    "names": null,
    "owner": "bm-a",
    "panel": "data/zt_pool",
-   "panel_files_here": 5,
+   "panel_files_here": 6,
    "tracked": true,
    "verdict": "NO_COVERAGE_CLAIM",
    "why": "this receipt carries no member-count claim to check"
@@ -299,14 +294,14 @@
    },
    "claim_fields": [
     {
-     "key": "coverage_total",
-     "path": "/coverage_total",
-     "value": 1719
-    },
-    {
      "key": "universe",
      "path": "/universe",
      "value": 1724
+    },
+    {
+     "key": "coverage_total",
+     "path": "/coverage_total",
+     "value": 1718
     }
    ],
    "face": "results/etf_wide_update_status.json",
@@ -318,7 +313,7 @@
    "panel_files_here": 1725,
    "tracked": true,
    "verdict": "COUNT_RECONCILED",
-   "why": "1724 members refreshed plus 1 file(s) the receipt declares out of scope at /skipped (510880_t73) = 1725 files on disk; the difference is named, so the panel re-counts"
+   "why": "1724 members refreshed plus 1 file(s) the receipt declares out of scope at /skipped_stems (510880_t73) = 1725 files on disk; the difference is named, so the panel re-counts"
   },
   {
    "claim": {

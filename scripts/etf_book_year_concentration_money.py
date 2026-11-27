@@ -562,13 +562,20 @@ def cmd_check(args):
             problems.append("{b}: recomputed top-2 share disagrees with the gate "
                             "({p} vs {q})".format(b=b["book"], p=cc.get("recomputed"),
                                                   q=cc.get("published")))
+    if moved:
+        # r1850/r1934: a receipt priced on source bytes that have since moved is stale, not
+        # defective -- the value comparison would be between two different panels. The held
+        # back count is printed so the republish is not blind.
+        tail = ""
+        if problems:
+            tail = " ({} value mismatch(es) held back until the face is republished)".format(
+                len(problems))
+        print("STALE face behind its source: {}{}".format("; ".join(moved), tail))
+        return 3
     if problems:
         print("CHECK FAILED ({} problems)".format(len(problems)))
         for p in problems:
             print(" -", p)
-        return 3
-    if moved:
-        print("STALE face behind its source: {}".format("; ".join(moved)))
         return 3
     print("CHECK OK: {n} books re-derived, line {l:.2f}%, capital {c:,.0f}".format(
         n=len(now["books"]), l=100.0 * now["line"]["top2_share_max"],

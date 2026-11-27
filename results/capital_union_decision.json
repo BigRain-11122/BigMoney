@@ -1,42 +1,42 @@
 {
   "artifact": "capital_union_decision",
-  "evidence_cutoff": "2026-11-25",
+  "evidence_cutoff": "2026-11-26",
   "face_cutoffs": {
-    "carry_open_capital": "2026-11-25",
-    "etf_book_capacity_edge": "2026-11-25",
-    "etf_book_ticket_floor": "2026-11-25"
+    "carry_open_capital": "2026-11-26",
+    "etf_book_capacity_edge": "2026-11-26",
+    "etf_book_ticket_floor": "2026-11-26"
   },
   "lens_cny": 1000000.0,
   "etf_book": {
     "openable": true,
-    "one_lot_floor_cny": 14465.7,
-    "capital_multiple_vs_floor": 69.1,
+    "one_lot_floor_cny": 14412.93,
+    "capital_multiple_vs_floor": 69.4,
     "ticket_verdict": "TRADABLE_AT_1000000",
-    "capacity_reading_pct": 0.9442,
+    "capacity_reading_pct": 0.924,
     "capacity_line_pct": 1.0,
-    "capital_at_line_today_cny": 1059111.84,
-    "headroom_cny": 59111.840000000084,
+    "capital_at_line_today_cny": 1082283.94,
+    "headroom_cny": 82283.93999999994,
     "capacity_verdict": "BELOW_LINE_MOST_SESSIONS",
     "sessions_measured": 60,
-    "sessions_passing": 5
+    "sessions_passing": 6
   },
   "carry_book": {
     "openable": false,
     "cheapest_product": "IC",
-    "funding_cny": 1132145.38,
-    "short_cny": 132145.3799999999,
-    "short_pct": 0.1321453799999999,
-    "all_legs_funding_cny": 2293306.63,
+    "funding_cny": 1137862.5,
+    "short_cny": 137862.5,
+    "short_pct": 0.1378625,
+    "all_legs_funding_cny": 2303611.62,
     "executable_lots_total": 0,
     "decision": "WITHDRAW_FROM_TICKET"
   },
   "union": {
     "verdict": "ETF_BOOK_IS_THE_ONLY_ONE_THIS_ACCOUNT_CAN_OPEN_TODAY",
-    "both_books_best_day_cny": 2191257.2199999997,
-    "both_books_median_day_cny": 1628621.3099999998,
+    "both_books_best_day_cny": 2220146.44,
+    "both_books_median_day_cny": 1634338.43,
     "first_book_to_open": "etf_book"
   },
-  "sentence": "At 1,000,000 CNY the ETF book is open (one lot 14,465.70 CNY, 69.1x the floor) while the carry book prints 0 executable lot(s) and needs 1,132,145 CNY to open its cheapest leg (short 132,145 = 13.21%). Today's ETF capacity line sits at 1,059,112 CNY (reading 0.9442% of ADV against a 1.00% line), so this capital fits with 59,112 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,191,257 CNY on the best capacity day (1,628,621 on the median day).",
+  "sentence": "At 1,000,000 CNY the ETF book is open (one lot 14,412.93 CNY, 69.4x the floor) while the carry book prints 0 executable lot(s) and needs 1,137,862 CNY to open its cheapest leg (short 137,862 = 13.79%). Today's ETF capacity line sits at 1,082,284 CNY (reading 0.9240% of ADV against a 1.00% line), so this capital fits with 82,284 CNY of headroom on the best day of the last 60 sessions. Opening both at once needs 2,220,146 CNY on the best capacity day (1,634,338 on the median day).",
   "caveats": [
     "The ETF capacity reading is a 60-session ladder of 20-day median ADV, not an order-book measurement: it says how often this capital fits, not how much it costs to push.",
     "etf_book_ticket_floor is a whole-lot arithmetic face and its cutoff can lag the capacity face; every face's own cutoff is printed in face_cutoffs.",

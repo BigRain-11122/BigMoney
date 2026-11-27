@@ -283,6 +283,28 @@ def align_futures(panel):
     return dates, closes, rets, vols
 
 
+def align_highs_lows(panel, closes):
+    """High/low in the *same units* as the adjusted closes from ``align_futures``.
+
+    ``closes`` is a roll-adjusted index (see ``adjusted_price``) while the panel
+    carries as-traded prices, so a breakout rule handed both compares an index
+    against raw thousand-yuan quotes: the long side can never trigger (measured
+    in r2142: 30/30 donchian combos never opened a long). Scaling each bar's
+    high/low by that same bar's (adjusted / raw) close puts one bar's extremes
+    into its own close's units, and the roll gaps cancel with it.
+    """
+    highs, lows = {}, {}
+    for code, df in panel.items():
+        if code not in closes:
+            continue
+        raw = df["close"].ffill()
+        adj = closes[code].ffill().reindex(df.index)
+        factor = (adj / raw).replace([np.inf, -np.inf], np.nan)
+        highs[code] = (df["high"] * factor).replace([np.inf, -np.inf], np.nan)
+        lows[code] = (df["low"] * factor).replace([np.inf, -np.inf], np.nan)
+    return highs, lows
+
+
 def vol_weighted_positions(signals, vols, target_vol=0.10, max_weight=2.0):
     """Equal risk budget across the instruments live *on that bar*.
 

@@ -1,7 +1,7 @@
 {
  "cell": "pair_all10_60d",
- "generated": "2026-11-24T21:25:19+08:00",
- "evidence_cutoff": "2026-11-24",
+ "generated": "2026-11-26T23:15:04+08:00",
+ "evidence_cutoff": "2026-11-26",
  "question": null,
  "config": {
   "id": "pair_all10_60d",
@@ -36,9 +36,9 @@
   "target_edge_pp": 3.0
  },
  "coverage": {
-  "bars": 4598,
+  "bars": 4600,
   "start": "2008-01-09",
-  "end": "2026-11-24",
+  "end": "2026-11-26",
   "products": [
    "AU",
    "IC",
@@ -56,12 +56,12 @@
   {
    "tags": {},
    "common_window": {
-    "n": 4598,
-    "ann_pct": 1.32,
+    "n": 4600,
+    "ann_pct": 1.41,
     "vol_pct": 13.93,
-    "sharpe": 0.163,
+    "sharpe": 0.17,
     "mdd_pct": -58.88,
-    "t_stat": 0.71,
+    "t_stat": 0.74,
     "years": {
      "2008": 0.74,
      "2009": 22.72,
@@ -81,38 +81,38 @@
      "2023": 0.8,
      "2024": 10.91,
      "2025": 16.83,
-     "2026": -12.46
+     "2026": -10.9
     },
     "best_year": 2009,
-    "drop_best_year_ann_pct": 0.24
+    "drop_best_year_ann_pct": 0.34
    },
    "oos_2024_after": {
-    "n": 700,
-    "ann_pct": 4.49,
-    "vol_pct": 13.73,
-    "sharpe": 0.388,
+    "n": 702,
+    "ann_pct": 5.12,
+    "vol_pct": 13.72,
+    "sharpe": 0.432,
     "mdd_pct": -20.68,
-    "t_stat": 0.66,
+    "t_stat": 0.73,
     "years": {
      "2024": 10.91,
      "2025": 16.83,
-     "2026": -12.46
+     "2026": -10.9
     },
     "best_year": 2025,
-    "drop_best_year_ann_pct": -1.56
+    "drop_best_year_ann_pct": -0.63
    },
-   "first_half_ann_pct": -0.95,
-   "second_half_ann_pct": 3.63,
+   "first_half_ann_pct": -0.88,
+   "second_half_ann_pct": 3.75,
    "turnover_per_year": 10.49,
    "cost_drag_ann_pct": 0.31,
    "avg_live": 2.4,
    "mde_pp": 6.29,
    "powered_for_target": false,
    "control": {
-    "real_ann_pct": 2.28,
+    "real_ann_pct": 2.37,
     "null_mean_ann_pct": 0.23,
     "null_p95_ann_pct": 6.64,
-    "p_value": 0.44,
+    "p_value": 0.43,
     "draws": 100
    },
    "checks": {
@@ -122,56 +122,65 @@
     "H4_drop_best": false,
     "H5_control": false
    },
-   "verdict": "NO_EDGE"
+   "verdict": "NO_EDGE",
+   "bench_target_vol": 0.08,
+   "excess_vs_bench_pp": -3.42,
+   "excess_clears_mde": false
   }
  ],
  "benchmark_buy_and_hold": {
   "common_window": {
-   "n": 4598,
-   "ann_pct": 5.78,
-   "vol_pct": 13.03,
-   "sharpe": 0.496,
-   "mdd_pct": -56.0,
-   "t_stat": 2.15,
+   "n": 4600,
+   "ann_pct": 4.83,
+   "vol_pct": 10.52,
+   "sharpe": 0.501,
+   "mdd_pct": -47.91,
+   "t_stat": 2.18,
    "years": {
-    "2008": -0.09,
-    "2009": 24.55,
-    "2010": 7.53,
-    "2011": 2.5,
-    "2012": -7.39,
-    "2013": -14.88,
-    "2014": -18.03,
-    "2015": -18.1,
-    "2016": 14.74,
-    "2017": 15.59,
-    "2018": 2.81,
-    "2019": 37.57,
-    "2020": 22.74,
-    "2021": 17.16,
-    "2022": -8.94,
-    "2023": 3.21,
-    "2024": 14.94,
-    "2025": 35.08,
-    "2026": 0.86
+    "2008": -0.0,
+    "2009": 19.33,
+    "2010": 6.08,
+    "2011": 2.11,
+    "2012": -5.86,
+    "2013": -12.01,
+    "2014": -14.59,
+    "2015": -14.69,
+    "2016": 11.74,
+    "2017": 12.21,
+    "2018": 2.72,
+    "2019": 29.46,
+    "2020": 18.74,
+    "2021": 14.08,
+    "2022": -7.04,
+    "2023": 2.94,
+    "2024": 12.73,
+    "2025": 26.82,
+    "2026": 0.97
    },
    "best_year": 2019,
-   "drop_best_year_ann_pct": 6.13
+   "drop_best_year_ann_pct": 4.93
   },
   "oos_2024_after": {
-   "n": 700,
-   "ann_pct": 16.92,
-   "vol_pct": 15.51,
-   "sharpe": 1.086,
-   "mdd_pct": -17.05,
-   "t_stat": 1.84,
+   "n": 702,
+   "ann_pct": 13.61,
+   "vol_pct": 12.65,
+   "sharpe": 1.072,
+   "mdd_pct": -13.77,
+   "t_stat": 1.82,
    "years": {
-    "2024": 14.94,
-    "2025": 35.08,
-    "2026": 0.86
+    "2024": 12.73,
+    "2025": 26.82,
+    "2026": 0.97
    },
    "best_year": 2025,
-   "drop_best_year_ann_pct": 8.5
+   "drop_best_year_ann_pct": 7.35
   }
+ },
+ "benchmark_sizing": {
+  "target_vol": 0.08,
+  "same_yardstick": true,
+  "rule": "the benchmark is scaled to the arm's own vol target; a hardwired 0.10 made 9 faces compare books of different size (results/bench_go_ruler_audit.json, r2136)",
+  "arms_excess_clears_own_mde": 0
  },
  "criteria": {
   "cost_bp_side": 3.0,

@@ -39,7 +39,7 @@ STALE 并付一次重生、同输入下数字不符仍说 CHECK_FAIL」。契约
 | `scripts/etf_book_swap_trigger.py` | `_digest/_pin/recorded_inputs/drift`；`build()` 写 `inputs.gap`；`check()` 先 `drift()` → `CHECK_STALE` rc3（不重生），再逐字段 → `CHECK_FAIL` rc1；selftest +6 腿（含 2 条端到端） |
 | `scripts/etf_book_swap_toll.py` | 同上，锚 `stack` + `trigger` 两份；`run()` 写 `inputs`；`main(["check"])` 三态；selftest +6 腿，`leg()` 支持 detail（仅 FAIL 时打印） |
 | `smoke_test.py` | +2 条 product 腿（两脚本 `selftest`，离线） |
-| `results/_r2163bmc_swap_stale_probe.py` | 真面探针（钉 sha → 问 check → 恢复并断言字节恒等） |
+| `results/_r2163bmc_swap_stale_probe.py` | 真面探针（钉 sha → 问 check → 恢复并断言字节恒等）。按 `.gitignore:257 _r[0-9]*` 的既有规矩**留在盘上不入 git**（新轮脚本 birth gate），副本输出 `results/_r2163bmc_swap_stale_probe.json` 同律；下文所有读数是本轮实跑值 |
 | `results/chain_contract_word_audit.json` | 重推导：19 → 17 候选 |
 
 ## 自捕（本轮）

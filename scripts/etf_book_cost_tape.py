@@ -184,6 +184,93 @@ def price_at(close, openp, amt, score, cost):
     return R.stats(eq, "cell"), eq
 
 
+def price_at_window(close, openp, amt, score, cost, cutoff=None):
+    """The same engine and settings, but the panel cut at `cutoff` -- the card's own window.
+
+    A control arm that prices the live panel against a card written eighteen sessions earlier
+    is comparing two books, and the difference it reports is the panel's drift, not a defect
+    in the engine.
+    """
+    if cutoff:
+        idx = close.index[close.index <= pd.Timestamp(cutoff)]
+        if len(idx) == 0:
+            raise SystemExit("no bars at or before %s" % cutoff)
+        last = idx[-1]
+        close, openp = close.loc[:last], openp.loc[:last]
+        amt, score = amt.loc[:last], score.loc[:last]
+    st, _ = price_at(close, openp, amt, score, cost)
+    return st, str(close.index[-1].date())
+
+
+CARD_DIR = os.path.join(ROOT, "results", "etf_book_production")
+
+
+def card_cell_name():
+    return "n%d_%s" % (N_HOLD, "vt08" if TARGET_VOL else "base")
+
+
+def read_card(cell_key=None):
+    """The published cell this face is the control arm for -- read, never remembered.
+
+    r2126: this used to open a path pinned to PRODUCTION-2026-10-30.json and walk a `runs`
+    block the face stopped carrying, so the read raised, the handler substituted a hand
+    constant copied from that card, and the control compared a live-panel run against a
+    number eighteen sessions old -- the panel's own drift printed as an engine miss (r98
+    family: a missing read shown as a number). The card is re-derived every session, so the
+    control follows the newest one. Nothing readable => `readable=False` + a reason, and the
+    caller must refuse rather than compare.
+    """
+    key = cell_key or card_cell_name()
+    out = {"cell": key, "readable": False, "why": None, "path": None,
+           "evidence_cutoff": None, "cagr": None, "settings_match": False, "config": None}
+    try:
+        names = sorted(n for n in os.listdir(CARD_DIR)
+                       if n.startswith("PRODUCTION-") and n.endswith(".json"))
+    except OSError as exc:                                           # noqa: BLE001
+        out["why"] = "no card directory (%s)" % str(exc)[:80]
+        return out
+    if not names:
+        out["why"] = "no PRODUCTION-*.json face in %s" % os.path.relpath(CARD_DIR, ROOT)
+        return out
+    picked = None
+    ptr = os.path.join(CARD_DIR, "latest.json")
+    if os.path.exists(ptr):
+        try:
+            cut = json.load(open(ptr, encoding="utf-8")).get("evidence_cutoff")
+            cand = "PRODUCTION-%s.json" % cut
+            if cut and cand in names:
+                picked = cand
+        except Exception as exc:                                     # noqa: BLE001
+            out["why"] = "latest.json unreadable (%s)" % str(exc)[:80]
+    picked = picked or names[-1]
+    path = os.path.join(CARD_DIR, picked)
+    try:
+        out["path"] = os.path.relpath(path, ROOT).replace("\\", "/")
+    except ValueError:                       # a fixture on another drive
+        out["path"] = path.replace("\\", "/")
+    try:
+        doc = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:                                         # noqa: BLE001
+        out["why"] = "card unreadable (%s)" % str(exc)[:80]
+        return out
+    out["evidence_cutoff"] = doc.get("evidence_cutoff")
+    cfg = doc.get("config") or {}
+    out["config"] = {k: cfg.get(k) for k in
+                     ("n_hold", "rebal", "cost_bp_per_side", "vol_target")}
+    out["settings_match"] = bool(
+        cfg.get("n_hold") == N_HOLD
+        and cfg.get("rebal") == REBAL
+        and cfg.get("cost_bp_per_side") is not None
+        and abs(float(cfg["cost_bp_per_side"]) - COST * 1e4) < 1e-9
+        and (cfg.get("vol_target") or None) == (TARGET_VOL or None))
+    full = ((doc.get("backtest") or {}).get(key) or {}).get("full") or {}
+    out["cagr"] = full.get("cagr")
+    out["readable"] = out["cagr"] is not None
+    if not out["readable"] and not out["why"]:
+        out["why"] = "card carries no backtest.%s.full.cagr" % key
+    return out
+
+
 # --------------------------------------------------------------------------- run
 def run():
     close, openp, amt, score, cls, n_flip = P.prep_panel()
@@ -239,15 +326,23 @@ def run():
     if measured:
         survives = bool(measured["cagr"] >= CRITERIA["survive_min_cagr"]
                         and measured["sharpe"] >= CRITERIA["survive_min_sharpe"])
-    published = CARD_CAGR
-    try:
-        published = float((json.load(open(os.path.join(
-            ROOT, "results", "etf_book_production", "PRODUCTION-2026-10-30.json"),
-            encoding="utf-8")).get("runs", {}).get("n%d_vt08" % N_HOLD, {}).get("full", {})
-            or {}).get("cagr", CARD_CAGR))
-    except Exception:
-        published = CARD_CAGR
-    control_ok = abs((base or {}).get("cagr", 0.0) - published) <= CRITERIA["control_tolerance_pp"] / 100.0
+    # r2126: the control re-prices the card's OWN window, and the distance between that and
+    # the live panel is published as its own number (panel drift) instead of being charged
+    # to the engine.
+    card = read_card()
+    same, same_bar = (None, None)
+    if card.get("readable") and card.get("evidence_cutoff"):
+        same, same_bar = price_at_window(close, openp, amt, score, COST,
+                                        cutoff=card["evidence_cutoff"])
+    engine_cagr = (same or {}).get("cagr")
+    card_cagr = card.get("cagr")
+    gap_pp = (None if card_cagr is None or engine_cagr is None
+              else round(100.0 * (engine_cagr - float(card_cagr)), 4))
+    drift_pp = (None if card_cagr is None or not base
+                else round(100.0 * ((base or {}).get("cagr", 0.0) - float(card_cagr)), 4))
+    control_ok = bool(card.get("readable") and card.get("settings_match")
+                      and gap_pp is not None
+                      and abs(gap_pp) <= CRITERIA["control_tolerance_pp"])
 
     widest = sorted(per_name.items(), key=lambda kv: -kv[1]["p50"])[:5]
     payload = {
@@ -285,10 +380,21 @@ def run():
                  "widest_traded": [{"symbol": k, "p50_bp": round(1e4 * v["p50"], 1),
                                     "p90_bp": round(1e4 * v["p90"], 1)} for k, v in widest]},
         "arms": {"assumed_10bp": base, "measured": measured, "upper_p75": upper},
-        "control": {"engine_cagr_at_10bp": (base or {}).get("cagr"),
-                    "published_cagr": published,
+        "control": {"engine_cagr_at_10bp": engine_cagr,
+                    "published_cagr": card_cagr,
                     "tolerance_pp": CRITERIA["control_tolerance_pp"],
-                    "passes": bool(control_ok)},
+                    "passes": bool(control_ok),
+                    "window_bar": same_bar,
+                    "same_window_gap_pp": gap_pp,
+                    "card": {"path": card.get("path"), "cell": card.get("cell"),
+                             "evidence_cutoff": card.get("evidence_cutoff"),
+                             "readable": bool(card.get("readable")),
+                             "settings_match": bool(card.get("settings_match")),
+                             "why_unreadable": card.get("why"),
+                             "config": card.get("config")},
+                    "live_panel": {"bar": str(close.index[-1].date()),
+                                   "cagr": (base or {}).get("cagr")},
+                    "panel_drift_pp": drift_pp},
         "assumption_verdict": assumption,
         "survives_verdict": ("SURVIVES" if survives else "FRAGILE") if survives is not None else "UNPRICED",
         "verdict": "%s | %s" % (assumption, ("SURVIVES" if survives else "FRAGILE") if survives is not None else "UNPRICED"),
@@ -298,9 +404,6 @@ def run():
     write_json(payload, OUT_JSON)
     write_md(payload, OUT_MD)
     return payload
-
-
-CARD_CAGR = 0.096       # results/etf_book_production/CARD.md, 2020-01 onwards
 
 
 def sentence(p):
@@ -419,9 +522,23 @@ def write_md(p, path):
         L.append("| %s | %s | %.1f%% | %.2f | %.1f%% |" % (
             label, c, (s.get("cagr") or 0) * 100, s.get("sharpe") or 0, (s.get("maxdd") or 0) * 100))
     L.append("")
-    L.append("Control: the identical engine at 10 bp reproduces the published %.1f%% within %.1fpp -> %s."
-             % ((p["control"]["published_cagr"] or 0) * 100, p["control"]["tolerance_pp"],
-                "PASS" if p["control"]["passes"] else "FAIL"))
+    ctl = p["control"]
+    _card_cut = (ctl.get("card") or {}).get("evidence_cutoff") or "?"
+    if ctl["passes"]:
+        _ctl_word = "PASS"
+    else:
+        _ctl_word = "FAIL (%s)" % ((ctl.get("card") or {}).get("why_unreadable")
+                                  or "this face was priced on another book")
+    L.append("Control: the identical engine at %.0f bp, run on the card's own window"
+             " (%s -> %s), reproduces the published %.1f%% within %.1fpp -> %s."
+             % (CRITERIA["assumed_cost_bp"], _card_cut, ctl.get("window_bar") or "?",
+                (ctl.get("published_cagr") or 0) * 100, ctl["tolerance_pp"], _ctl_word))
+    if ctl.get("panel_drift_pp") is not None:
+        L.append("Since that card the panel has grown to %s, where the same book reads "
+                 "%.2f%% (%+.2fpp). That gap is the book moving, not the engine."
+                 % ((ctl.get("live_panel") or {}).get("bar"),
+                    100 * ((ctl.get("live_panel") or {}).get("cagr") or 0.0),
+                    ctl["panel_drift_pp"]))
     L.append("")
     t = p["tape"]
     L.append("Tape: %d traded names carry an estimate (median own-median %.1f bp, median p75 %.1f bp of price). "
@@ -562,6 +679,61 @@ def selftest():
     leg("a face that carries no stamp cannot pass as fresh",
         check(path=_face({"symbols": 1504}), stamp={"digest": "aaaa"}) == 2)
 
+    # r2126: the control's published number must be read from the card face, followed when
+    # the card is re-derived, refused when the card prices a different book, and refused
+    # again when there is no card -- the old code answered all four with one constant.
+    cdir = tempfile.mkdtemp(prefix="ct_r2126_")
+    cell = card_cell_name()
+
+    def _card(cagr, cut="2026-10-30", cfg=None):
+        d = {"evidence_cutoff": cut,
+             "config": cfg or {"n_hold": N_HOLD, "rebal": REBAL,
+                               "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL},
+             "backtest": {cell: {"full": {"cagr": cagr}}}}
+        with open(os.path.join(cdir, "PRODUCTION-%s.json" % cut), "w", encoding="utf-8") as fh:
+            json.dump(d, fh)
+
+    saved_dir = globals()["CARD_DIR"]
+    try:
+        globals()["CARD_DIR"] = cdir
+        _card(0.111)
+        c1 = read_card()
+        leg("the published cell is read from the card face, not a remembered constant",
+            c1["readable"] and abs(c1["cagr"] - 0.111) < 1e-12 and c1["settings_match"],
+            "cagr=%r" % (c1.get("cagr"),))
+        _card(0.222, cut="2026-11-02")
+        c2 = read_card()
+        leg("a re-derived card is followed to its own cutoff",
+            abs(c2["cagr"] - 0.222) < 1e-12 and c2["evidence_cutoff"] == "2026-11-02")
+        _card(0.05, cut="2026-11-03",
+              cfg={"n_hold": 5, "rebal": REBAL, "cost_bp_per_side": COST * 1e4,
+                   "vol_target": TARGET_VOL})
+        c3 = read_card()
+        leg("a card priced on another book is flagged instead of compared",
+            c3["readable"] and not c3["settings_match"], "%r" % (c3.get("config"),))
+        globals()["CARD_DIR"] = os.path.join(cdir, "absent")
+        c4 = read_card()
+        leg("an unreadable card is a refusal with a reason, never a substituted number",
+            not c4["readable"] and c4["cagr"] is None and bool(c4["why"]), "%r" % (c4.get("why"),))
+        globals()["CARD_DIR"] = cdir
+        _card(0.333, cut="2026-11-04")
+        stale = dict(clean, control={"passes": True,
+                                     "card": {"path": "results/etf_book_production/PRODUCTION-2026-10-30.json",
+                                              "cell": cell, "evidence_cutoff": "2026-10-30",
+                                              "readable": True},
+                                     "published_cagr": 0.333, "engine_cagr_at_10bp": 0.333,
+                                     "same_window_gap_pp": 0.0,
+                                     "live_panel": {"bar": "2026-11-04", "cagr": 0.333},
+                                     "panel_drift_pp": 0.0})
+        stale["panel"] = {"digest": "aaaa"}
+        with open(fx, "w", encoding="utf-8") as fh:
+            json.dump(stale, fh)
+        leg("a face priced on a card that has since been rebuilt says STALE (the word the chain rebuilds on)",
+            check(path=fx, stamp={"digest": "aaaa"}) == 2)
+    finally:
+        globals()["CARD_DIR"] = saved_dir
+
+
     ok = all(l["pass"] for l in legs)
     print(json.dumps({"selftest": "PASS" if ok else "FAIL", "legs": legs}, ensure_ascii=False, indent=1))
     return 0 if ok else 1
@@ -599,6 +771,38 @@ def check(path=OUT_JSON, stamp=None):
             bad.append("survival verdict does not match its own arms")
     if not (p.get("control") or {}).get("passes"):
         bad.append("control does not reproduce the published cell")
+    # r2126: the card face is re-derived every session, so a face priced against an older
+    # one is stale by construction -- and that has to be SAID with the word the chain pays
+    # a rewrite on (r1850), not silently compared to a number nobody reads any more.
+    ctl = p.get("control") or {}
+    fc = ctl.get("card") or {}
+    if fc.get("path") or fc.get("evidence_cutoff"):
+        card = read_card(fc.get("cell"))
+        if card.get("readable") and (card.get("path") != fc.get("path")
+                                     or card.get("evidence_cutoff") != fc.get("evidence_cutoff")):
+            print(json.dumps({"check": "STALE",
+                              "why": "card face moved: priced on %s (%s), on disk now %s (%s)"
+                                     % (fc.get("evidence_cutoff"), fc.get("path"),
+                                        card.get("evidence_cutoff"), card.get("path"))},
+                             ensure_ascii=False))
+            return 2
+        if card.get("readable") and not fc.get("readable"):
+            print(json.dumps({"check": "STALE",
+                              "why": "this face recorded the card as unreadable (%s) but %s reads"
+                                     % (fc.get("why_unreadable"), card.get("path"))},
+                             ensure_ascii=False))
+            return 2
+    lp = ctl.get("live_panel") or {}
+    if ctl.get("published_cagr") is not None and lp.get("cagr") is not None:
+        want = round(100.0 * (lp["cagr"] - float(ctl["published_cagr"])), 4)
+        if ctl.get("panel_drift_pp") is None or abs(ctl["panel_drift_pp"] - want) > 1e-6:
+            bad.append("published drift %r does not match its own live panel and card (%.4f)"
+                       % (ctl.get("panel_drift_pp"), want))
+    if ctl.get("engine_cagr_at_10bp") is not None and ctl.get("published_cagr") is not None:
+        want = round(100.0 * (ctl["engine_cagr_at_10bp"] - float(ctl["published_cagr"])), 4)
+        if ctl.get("same_window_gap_pp") is None or abs(ctl["same_window_gap_pp"] - want) > 1e-6:
+            bad.append("same-window gap %r is not engine minus card (%.4f)"
+                       % (ctl.get("same_window_gap_pp"), want))
     print(json.dumps({"check": "OK" if not bad else "BAD", "problems": bad,
                       "verdict": p.get("verdict")}, ensure_ascii=False))
     return 0 if not bad else 1

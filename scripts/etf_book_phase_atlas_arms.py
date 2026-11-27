@@ -1913,7 +1913,36 @@ def _selftest():
 
     # L12-L17 the resolution floor: a size needs the same guards a direction does. Every leg
     # below re-derives from the published medians, then moves ONE thing in a fixture.
-    fl = floor_of(p)
+    #
+    # r2125: on the morning the arms' panels split (the 11-25 close landed on the baseline and
+    # the atlas, seven arms still priced on the 11-24 panel), all of these went red on a face
+    # that was publishing the right answer -- MIXED_WORLDS with the withheld arms named. A leg
+    # that can only be green once the producer has re-priced every arm teaches a reader to
+    # ignore red (r1789 family), and the split recurs every morning between the first face and
+    # the last. So the fit legs are asked of the COMPARABLE subset (the rule, not the morning's
+    # lag), the live split gets its own leg below, and the mechanism fixtures are built on that
+    # same subset so a steep/flat axis is testable whatever the panels did overnight.
+    _coh = json.loads(json.dumps(p))
+    _pc = p.get("panel_coherence") or {}
+    _withheld_live = list(_pc.get("withheld_arms") or [])
+    if _pc.get("verdict") == "MIXED_WORLDS":
+        for _name in _withheld_live:
+            _coh["arms"].pop(_name, None)
+    fl_live = floor_of(_coh)
+    # The fit itself is tested on a SYNTHETIC five-rung axis (a stated slope, clearly a fixture
+    # -- the same construction L15 has always used for its direction test). Waiting for the
+    # morning every arm is re-priced on the same close before the FITTING rule may be tested is
+    # what left these legs red for a day (r1849); the live face answers the coherence question
+    # in the leg right below instead.
+    _synth = json.loads(json.dumps(p))
+    _tmpl = next(n for n in _synth["arms"] if n in BUFFER_ARMS)
+    for _n, _k in BUFFER_ARMS.items():
+        if _n not in _synth["arms"]:
+            _synth["arms"][_n] = json.loads(json.dumps(_synth["arms"][_tmpl]))
+        _synth["arms"][_n].pop("comparable_to_baseline", None)
+        for _r in _synth["arms"][_n]["rows"]:
+            _r["delta_pp"] = 2.0 * _k
+    fl = floor_of(_synth)
     # r1842: when the arms move to another panel this payload can no longer be fitted, and the
     # legs below used to die on `fl["fit"]["..."]` with a TypeError -- a suite that ran while the
     # data advanced reported a crash here instead of naming "3 of 5 rungs are on another panel".
@@ -1925,9 +1954,19 @@ def _selftest():
         % (len(fl["arms"]), fl.get("k_required"),
            "" if _fit else " -- only %d rung(s) on the axis: %s"
            % (len(fl["arms"]), "; ".join(fl.get("verdict_reasons") or []))))
+    # r2125: and the live face must be readable in BOTH states, or the two legs above can only
+    # speak on the mornings the producer won: either it publishes a fit, or it publishes the
+    # split and names every arm it withheld.
+    chk((fl_live.get("k_required") is not None and not _withheld_live)
+        or (_withheld_live and (p.get("panel_coherence") or {}).get("verdict") == "MIXED_WORLDS"
+            and len((p.get("panel_coherence") or {}).get("panels") or []) >= 2),
+        "the live family either fits a k on one panel or says which arms it withheld "
+        "(%s, withheld=%d, panels=%d)"
+        % ((p.get("panel_coherence") or {}).get("verdict"), len(_withheld_live),
+           len((p.get("panel_coherence") or {}).get("panels") or [])))
     # L12 fit reproduces each published arm median to the rounding it publishes
     worst = 0.0
-    for name, a in fl["arms"].items():
+    for name, a in fl_live["arms"].items():
         rows = p["arms"][name]["rows"]
         worst = max(worst, abs(a["median_delta_pp"] - round(_median([r["delta_pp"] for r in rows]), 3)))
     chk(worst < 1e-9, "every arm median in the floor equals the arm face's own rows (max %r)" % worst)
@@ -1955,7 +1994,7 @@ def _selftest():
            fl.get("verdict_without_intercept"), fl.get("k_required_without_intercept")))
     # L13c and the anchor band is not vacuous: a design whose arms all sit a whole ruler off
     # the k=0 identity is caught by L13, while the face as published clears it.
-    _lift = json.loads(json.dumps(p))
+    _lift = json.loads(json.dumps(_synth))
     for name in BUFFER_ARMS:
         for r in _lift["arms"].get(name, {}).get("rows", []):
             r["delta_pp"] = r["delta_pp"] + fl["ruler_pp"]     # a whole ruler of lift, flat axis
@@ -1975,7 +2014,10 @@ def _selftest():
            else "%.3f" % fl["sweep_share_of_ruler"], FLOOR_RULE["sweep_band_share_max"]))
     # L15 direction test on fixtures: a steep axis is reachable, a flat one is not
     def _fix(slope):
-        f = json.loads(json.dumps(p))
+        # r2125: built on the synthetic five-rung axis (_synth), not on whatever arms happen to
+        # be comparable this morning -- a fixture that reads the live arms dies with a KeyError
+        # on the first morning an arm is withheld, and a selftest may fail, never crash (r1842).
+        f = json.loads(json.dumps(_synth))
         for name, k in BUFFER_ARMS.items():
             for r in f["arms"][name]["rows"]:
                 r["delta_pp"] = slope * k
@@ -1988,7 +2030,7 @@ def _selftest():
     chk(flat["verdict"] == "UNREACHABLE_BY_CONSTRUCTION",
         "a shallow axis stays unreachable (%s, k=%r)" % (flat["verdict"], flat["k_required"]))
     # L16 a short axis is not assessed, not zero-sloped
-    thin = json.loads(json.dumps(p))
+    thin = json.loads(json.dumps(_coh))
     for name in ("buffer_k02", "buffer_k40"):
         thin["arms"].pop(name, None)
     chk(floor_of(thin)["verdict"] == "NOT-ASSESSED",
@@ -2738,9 +2780,21 @@ def _world_split_problem(coh):
                ",".join(withheld) or "-"))
 
 
+def _split_explains(drift):
+    """Which drift a panel split can produce by itself (r2125).
+
+    The face publishes the split (its coherence block), stamps each arm with the panel it was
+    priced on, and copies per-cell numbers a partial reprice rewrites. Everything else -- a
+    verdict word, a frozen rule, a median -- moving while no copied field moved is a hand, and
+    calling it "stale" would let the chain re-derive the edit away (r1346).
+    """
+    ok = ("/panel_coherence", "/comparable_to_baseline", "/panel_digest", "/rows/",
+          "/withheld", "/licen")
+    return all(any(tok in d for tok in ok) for d in drift)
+
+
 def check():
     """Gate: the published face must equal a re-derivation from the four arm faces.
-
     Two red states, and the difference matters (r1346): a face whose SOURCE has advanced past
     it is 'stale' and the chain pays the declared refresh; a face that disagrees with its own
     sources while the sources have not moved is 'inconsistent' and stays red, because that is a
@@ -2791,8 +2845,15 @@ def check():
         # matches" no longer means "nobody touched this by hand", it means "we are mid-reprice".
         # A split family is stale by construction; calling it hand-edited would keep the chain
         # from paying the 0.9s re-aggregate that puts the face back in step with its arms.
+        #
+        # r2125: that forgiveness was one path too wide -- on a split family ANY hand edit came
+        # back as "stale, re-derive me" (r1346's laundering hole, caught by L11/L11c). The split
+        # explains exactly three kinds of movement: the coherence block it publishes, an arm's
+        # comparability stamp, and per-cell numbers a partial reprice rewrites. A published WORD
+        # that moved while no copied field did is still somebody's hand.
         split = _world_split_problem(rebuilt.get("panel_coherence"))
-        if split and _world_split_problem(pub.get("panel_coherence")):
+        if split and _world_split_problem(pub.get("panel_coherence")) \
+                and _split_explains(drift):
             print("%s; drift=%s" % (split, "; ".join(drift)[:240]))
             return 2
     if why:

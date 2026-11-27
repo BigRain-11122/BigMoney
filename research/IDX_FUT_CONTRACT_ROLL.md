@@ -2,7 +2,7 @@
 
 The carry numbers on the basis pages are priced with a roll mask.  Both masks in use are guesses -- one from the size of a basis step, one from where the most negative step falls near expiry.  This page replaces the guess with the observation: which contract the market was actually holding, read from open interest, and what the two legs were worth on the day they were both quoted.
 
-Evidence cutoff: `2026-11-25`  ·  generated 2026-11-26T06:20:38
+Evidence cutoff: `2026-11-26`  ·  generated 2026-11-27T02:30:09
 
 ## Does each mask land on the real rolls?
 
@@ -19,22 +19,22 @@ Carry is the same measurement under three masks, on the same days (the window be
 
 | product | window | days named | rolls in window | carry: size | calendar | observed | admit: size / cal / obs | jump ratio |
 |---|---|---|---|---|---|---|---|---|
-| IC | 2020-01-02 → 2026-11-25 | 100.0% | 74 | 3.26 | 9.23 | 7.12 | True / True / True | 3.3 |
-| IF | 2020-01-02 → 2026-11-25 | 100.0% | 70 | 1.98 | 5.54 | 3.52 | False / True / True | 2.9 |
-| IH | 2020-01-02 → 2026-11-25 | 100.0% | 74 | 1.94 | 5.60 | 2.33 | False / True / False | 1.9 |
-| IM | 2022-07-22 → 2026-11-25 | 100.0% | 36 | 5.68 | 11.91 | 8.59 | True / True / True | 4.0 |
+| IC | 2020-01-02 → 2026-11-26 | 100.0% | 74 | 3.38 | 9.35 | 7.24 | True / True / True | 3.3 |
+| IF | 2020-01-02 → 2026-11-26 | 100.0% | 70 | 2.07 | 5.63 | 3.61 | False / True / True | 2.9 |
+| IH | 2020-01-02 → 2026-11-26 | 100.0% | 74 | 1.97 | 5.62 | 2.36 | False / True / False | 1.9 |
+| IM | 2022-07-22 → 2026-11-26 | 100.0% | 36 | 5.87 | 12.10 | 8.77 | True / True / True | 4.0 |
 
 「days named」 is the share of trading days in the window whose contract could be identified by matching the continuous close to a contract close to the tick. 「jump ratio」 is the median absolute basis step on the days we call rolls over the same statistic on all other days -- the price's corroboration of the naming (a ratio near 1 would mean the naming and the series disagree about where the seam is).
 
 ## How many observations behind each number
 
-- **IC**: 2017-01-17 to 2026-11-25, 2391 bars; 84 splices over the whole span (77.2% of days named); 83 with a measured gap, median -33.6 pts; OI agrees on 61.4% of named days
+- **IC**: 2017-01-17 to 2026-11-26, 2392 bars; 84 splices over the whole span (77.2% of days named); 83 with a measured gap, median -33.6 pts; OI agrees on 61.5% of named days
   - years excluded from the comparison for want of contract data: 2017 (0.0%), 2018 (0.0%), 2019 (71.7%)
-- **IF**: 2017-01-17 to 2026-11-25, 2391 bars; 81 splices over the whole span (77.3% of days named); 79 with a measured gap, median -11.4 pts; OI agrees on 69.6% of named days
+- **IF**: 2017-01-17 to 2026-11-26, 2392 bars; 81 splices over the whole span (77.3% of days named); 79 with a measured gap, median -11.4 pts; OI agrees on 69.6% of named days
   - years excluded from the comparison for want of contract data: 2017 (0.0%), 2018 (0.4%), 2019 (72.5%)
-- **IH**: 2017-01-17 to 2026-11-25, 2391 bars; 85 splices over the whole span (77.2% of days named); 84 with a measured gap, median -0.2 pts; OI agrees on 74.7% of named days
+- **IH**: 2017-01-17 to 2026-11-26, 2392 bars; 85 splices over the whole span (77.3% of days named); 84 with a measured gap, median -0.2 pts; OI agrees on 74.7% of named days
   - years excluded from the comparison for want of contract data: 2017 (0.0%), 2018 (0.0%), 2019 (72.1%)
-- **IM**: 2022-07-22 to 2026-11-25, 1053 bars; 36 splices over the whole span (100.0% of days named); 36 with a measured gap, median -48.4 pts; OI agrees on 69.7% of named days
+- **IM**: 2022-07-22 to 2026-11-26, 1054 bars; 36 splices over the whole span (100.0% of days named); 36 with a measured gap, median -48.4 pts; OI agrees on 69.7% of named days
   - years excluded from the comparison for want of contract data: none
 
 ## Adoption

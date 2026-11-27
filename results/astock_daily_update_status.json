@@ -1,29 +1,21 @@
 {
-  "ts": "2026-11-26T06:21:27",
+  "ts": "2026-11-27T05:44:50",
   "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-11-25",
+    "cutoff": "2026-11-26",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
-    "coverage_90": "2026-11-25",
+    "coverage_pct": 99.5,
+    "coverage_90": "2026-11-26",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-11-26",
+        5194
+      ],
+      [
         "2026-11-25",
-        5213
-      ],
-      [
-        "2026-11-24",
-        3
-      ],
-      [
-        "2026-11-18",
-        1
-      ],
-      [
-        "2026-11-11",
-        1
+        24
       ],
       [
         "2026-10-28",
@@ -32,9 +24,13 @@
       [
         "2026-10-12",
         1
+      ],
+      [
+        "2026-09-10",
+        1
       ]
     ],
-    "universe_n": 5227,
+    "universe_n": 5317,
     "per_files": 5221
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
@@ -49,43 +45,55 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 2,
-    "fetched": 1,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [
-      "000820:conn:TimeoutError"
+    "todo": 5300,
+    "fetched": 5197,
+    "appended": 5183,
+    "readjusted": 11,
+    "readjusted_tail": [
+      "003036@2021-01-28",
+      "300357@2014-01-21",
+      "301449@2025-12-23",
+      "601618@2009-09-21",
+      "603298@2016-12-27",
+      "603737@2016-06-03",
+      "603886@2016-12-28",
+      "688112@2021-12-01"
     ],
-    "failures_n": 1,
+    "failures_tail": [
+      "603382:conn:TimeoutError",
+      "603385:conn:TimeoutError",
+      "603388:JSONDecodeError:No value to decode",
+      "603555:JSONDecodeError:No value to decode",
+      "603603:JSONDecodeError:No value to decode",
+      "603963:JSONDecodeError:No value to decode",
+      "605007:conn:TimeoutError",
+      "605081:JSONDecodeError:No value to decode",
+      "605169:conn:TimeoutError",
+      "605507:conn:TimeoutError",
+      "688287:JSONDecodeError:No value to decode",
+      "688343:conn:TimeoutError"
+    ],
+    "failures_n": 103,
     "conn_stopped": false,
-    "elapsed_min": 1.1,
-    "vwap_anchor_max": 0.0,
+    "elapsed_min": 544.4,
+    "vwap_anchor_max": 0.14678,
     "repull": false
   },
-  "quarantined_n": 12,
-  "last_spawn_attempt": "2026-11-26T06:20:20",
-  "settled_n": 7,
-  "settled": [
-    "002717",
-    "300670",
-    "600185",
-    "600567",
-    "603595",
-    "688121",
-    "688496"
-  ],
+  "quarantined_n": 32,
+  "last_spawn_attempt": "2026-11-26T20:40:21",
+  "settled_n": 0,
+  "settled": [],
   "per_files_on_disk": 5221,
   "validation": {
-    "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "suspended_rows": 3,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 641.6h >= 120min",
-    "ts": "2026-11-26T06:20:20"
+    "reason": "owner bm-b silent 656.0h >= 120min",
+    "ts": "2026-11-26T20:40:21"
   },
   "authority": {
     "lane_owner": "bm-b",
@@ -93,24 +101,44 @@
     "data_face_machine": "bm-c",
     "declared_takeover": true,
     "took_over_by": "bm-c",
-    "took_over_at": "2026-11-26T06:20:20",
-    "reason": "owner bm-b silent 641.6h >= 120min"
+    "took_over_at": "2026-11-26T20:40:21",
+    "reason": "owner bm-b silent 656.0h >= 120min"
   },
   "machine": "bm-c",
   "quarantined": [
+    "000004",
     "000005",
+    "000016",
     "000023",
     "000040",
     "000413",
     "000416",
+    "000584",
+    "000622",
+    "000627",
+    "000638",
+    "000836",
+    "000851",
+    "000961",
+    "000971",
+    "000996",
     "001235",
     "001381",
+    "002002",
+    "002087",
+    "002089",
+    "002231",
+    "002280",
+    "002288",
+    "002308",
+    "002325",
+    "002731",
     "301139",
     "301661",
     "688827",
     "688845",
     "689009"
   ],
-  "spawn_reason": "panel incomplete at cutoff 2026-11-25 (coverage 99.8%, expected 2026-11-25) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-11-25 (coverage 99.8%, expected 2026-11-26) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation"
 }

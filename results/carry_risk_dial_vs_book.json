@@ -1,13 +1,13 @@
 {
  "book": {
-  "ann_compound_pct": 27.1913,
-  "days": 1052,
+  "ann_compound_pct": 27.6431,
+  "days": 1053,
   "equity_weight": 0.4347,
   "span": [
    "2022-07-25",
-   "2026-11-25"
+   "2026-11-26"
   ],
-  "vol_pct": 14.0528,
+  "vol_pct": 14.0656,
   "weights_x_nav": {
    "IC_leg": 1.1538,
    "IM_leg": 1.08688,
@@ -23,7 +23,7 @@
    "159549",
    "515300",
    "562060",
-   "513800"
+   "513690"
   ],
   "same_size_reading": {
    "median": {
@@ -33,9 +33,9 @@
     "sleeve_money_cny": 434700.0
    },
    "today": {
-    "capacity_cny": 1059111.84,
+    "capacity_cny": 1082283.94,
     "fits": true,
-    "share_of_line_pct": 41.0438,
+    "share_of_line_pct": 40.1651,
     "sleeve_money_cny": 434700.0
    },
    "worst": {
@@ -46,7 +46,7 @@
    }
   },
   "sleeve_money_cny": 434700.0,
-  "today_bar": "2026-11-25",
+  "today_bar": "2026-11-26",
   "weights_reading": {
    "median": {
     "capacity_cny": 496475.93,
@@ -54,8 +54,8 @@
     "dial_fits": false
    },
    "today": {
-    "capacity_cny": 1059111.84,
-    "capacity_nav_cny": 2436420.15,
+    "capacity_cny": 1082283.94,
+    "capacity_nav_cny": 2489726.11,
     "dial_fits": true
    },
    "worst": {
@@ -68,48 +68,48 @@
  "cross_face": {
   "median_and_worst": "CROSS_FACE_MATCHES",
   "today": {
-   "capacity_face_bar": "2026-11-25",
-   "capacity_face_cny": 1059111.84,
+   "capacity_face_bar": "2026-11-26",
+   "capacity_face_cny": 1082283.94,
    "delta_cny": 0.0,
-   "floor_face_bar": "2026-11-25",
-   "floor_face_cny": 1059111.84,
+   "floor_face_bar": "2026-11-26",
+   "floor_face_cny": 1082283.94,
    "why": "the two faces read different bars: the floor face takes the equity panel's own last bar, the capacity face its own session. Both are printed; this face reads the floor face because it is the face that owns this book's window"
   }
  },
  "dial": {
-  "capital_where_risk_is_dial_cny": 1756600.0,
-  "cost_of_the_dial_pp": 11.7118,
-  "excess_over_dial_pp": 6.0528,
-  "multiple_of_lens_nav": 1.7566,
+  "capital_where_risk_is_dial_cny": 1758200.0,
+  "cost_of_the_dial_pp": 11.9207,
+  "excess_over_dial_pp": 6.0656,
+  "multiple_of_lens_nav": 1.7582,
   "pct": 8.0,
-  "return_at_that_capital_pct": 15.4795,
+  "return_at_that_capital_pct": 15.7224,
   "sharpe_unchanged_because": "return and vol both divide by the same capital; the dial is a size, not a quality",
-  "vol_money_cny_per_year": 140528.0
+  "vol_money_cny_per_year": 140656.0
  },
  "dial_window": {
-  "lower_cny": 1756600.0,
-  "sleeve_weight_that_would_fit_at_dial_capital_median": 0.282635,
+  "lower_cny": 1758200.0,
+  "sleeve_weight_that_would_fit_at_dial_capital_median": 0.282377,
   "upper_median_cny": 1142111.64,
-  "upper_today_cny": 2436420.15,
+  "upper_today_cny": 2489726.11,
   "upper_worst_cny": 784075.82,
-  "width_today_cny": 679820.15
+  "width_today_cny": 731526.11
  },
- "evidence_cutoff": "2026-11-25",
- "generated": "2026-11-26T05:53:07+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "generated": "2026-11-27T03:39:47+08:00",
  "inputs": {
   "capacity_edge": {
    "path": "results/etf_book_capacity_edge.json",
-   "sha256": "a0e2f2eedac4a20e7a936759b829eb0225b97773e7171192ce2b6eba684c1afc"
+   "sha256": "4dfb3876a37c1afa456ed1542e6318448e1dc92f0899dc20efe674884086b1ee"
   },
   "dial_pct": 8.0,
   "nav_cny": 1000000.0,
   "rebudget_floor": {
    "path": "results/idx_fut_carry_rebudget_floor.json",
-   "sha256": "7a7adcebbfaf5c65b1ee15e3bd1b02a43b8da7130f1c1ccc16b1a51c642a80ee"
+   "sha256": "957accdb9c3521a1d92b433f559ce8fe614d1fa70147cb0c6db79088922162ad"
   },
   "rent_by_component": {
    "path": "results/idx_fut_carry_rent_by_component.json",
-   "sha256": "ac700c6095508a7fafbd863c5164546a5be0eeb62640497d82fd6a0dc82e48f0"
+   "sha256": "fa55e175b201f4e84f849a4bca770f5cf24d0555a0e36743a684230ca8a403bb"
   }
  },
  "kind": "carry_risk_dial_vs_book",
@@ -131,11 +131,11 @@
  },
  "rung": "1/1",
  "schema": "carry-risk-dial-vs-book/v1",
- "sentence": "这本书实测年波动 **14.05%**，按 100 万本金算是 **140,528 元**——要把这笔波动压到 8%，资本得是 **1,756,600 元**（今天的 1.757 倍）。代价是账面年化从 27.19% 摊薄到 **15.48%**（夏普不变：8% 是尺码不是质量）。而权益袖的 1% ADV 线只在最松的那一天（今天 2,436,420 元）容得下这个资本，中位 session 只到 1,142,112 元——**这个窗口今天开着、一半的日子关着**。换个读法（book 就是今天这个钱数、加资本只做稀释）：袖子的 434,700 元占今天那条线的 41.0%、中位 87.6%、最紧的一天 **127.5%**。",
+ "sentence": "这本书实测年波动 **14.07%**，按 100 万本金算是 **140,656 元**——要把这笔波动压到 8%，资本得是 **1,758,200 元**（今天的 1.758 倍）。代价是账面年化从 27.64% 摊薄到 **15.72%**（夏普不变：8% 是尺码不是质量）。而权益袖的 1% ADV 线只在最松的那一天（今天 2,489,726 元）容得下这个资本，中位 session 只到 1,142,112 元——**这个窗口今天开着、一半的日子关着**。换个读法（book 就是今天这个钱数、加资本只做稀释）：袖子的 434,700 元占今天那条线的 40.2%、中位 87.6%、最紧的一天 **127.5%**。",
  "upstream_cutoffs": {
-  "capacity_edge": "2026-11-25",
+  "capacity_edge": "2026-11-26",
   "rebudget_floor": null,
-  "rent_by_component": "2026-11-25"
+  "rent_by_component": "2026-11-26"
  },
  "verdict": "DIAL_FITS_THE_BEST_SESSION_ONLY",
  "verdict_same_size": "SAME_SIZE_BREACHES_THE_WORST_SESSION"

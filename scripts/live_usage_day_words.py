@@ -330,6 +330,16 @@ CLAIM_RULES = [
      ["sign_prior.evidence_cutoff"]),
     (re.compile(r"etf_sign_prior\.json`｜cutoff " + _D + r"｜generated " + _D + r"T[\d:+]+"),
      ["sign_prior.evidence_cutoff", "sign_prior.source_generated"]),
+    # r2173: the convertible book's three dated sentences. The rung line names the bar the lot
+    # grid was priced on (the floor face's own `panel.last_bar`), and the two provenance lines
+    # carry (cutoff, generated) -- every one of them is a field on this page's JSON, so a date
+    # that drifts from its field reads as a mismatch rather than an untracked debt (r1671).
+    (re.compile(r"这本书在 " + _D + r" 那根 bar 上读"),
+     ["cb_book.panel_last_bar"]),
+    (re.compile(r"cb_book_ticket_floor\.json`｜cutoff " + _D + r"｜generated " + _D),
+     ["cb_book.floor.cutoff", "cb_book.floor.generated"]),
+    (re.compile(r"cb_dual_low\.json`｜cutoff " + _D + r"｜generated " + _D),
+     ["cb_book.cutoff", "cb_book.generated"]),
 ]
 
 # A date that rides inside a file name (`TICKET-2026-11-17.json`) names a paper; it does not

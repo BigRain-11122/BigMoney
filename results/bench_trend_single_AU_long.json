@@ -1,7 +1,7 @@
 {
  "cell": "trend_single_AU_long",
- "generated": "2026-11-24T21:25:43+08:00",
- "evidence_cutoff": "2026-11-23",
+ "generated": "2026-11-26T23:15:17+08:00",
+ "evidence_cutoff": "2026-11-26",
  "question": null,
  "config": {
   "id": "trend_single_AU_long",
@@ -28,9 +28,9 @@
   "target_edge_pp": 5.0
  },
  "coverage": {
-  "bars": 4596,
+  "bars": 4599,
   "start": "2008-01-09",
-  "end": "2026-11-23",
+  "end": "2026-11-26",
   "products": [
    "AU"
   ]
@@ -39,7 +39,7 @@
   {
    "tags": {},
    "common_window": {
-    "n": 4596,
+    "n": 4599,
     "ann_pct": 7.95,
     "vol_pct": 8.52,
     "sharpe": 0.941,
@@ -67,13 +67,13 @@
      "2026": 4.19
     },
     "best_year": 2025,
-    "drop_best_year_ann_pct": 10.21
+    "drop_best_year_ann_pct": 10.2
    },
    "oos_2024_after": {
-    "n": 699,
-    "ann_pct": 27.92,
-    "vol_pct": 10.71,
-    "sharpe": 2.354,
+    "n": 702,
+    "ann_pct": 27.79,
+    "vol_pct": 10.69,
+    "sharpe": 2.349,
     "mdd_pct": -8.26,
     "t_stat": 3.98,
     "years": {
@@ -82,19 +82,19 @@
      "2026": 4.19
     },
     "best_year": 2025,
-    "drop_best_year_ann_pct": 18.78
+    "drop_best_year_ann_pct": 18.66
    },
-   "first_half_ann_pct": 2.88,
-   "second_half_ann_pct": 13.27,
-   "turnover_per_year": 1.9,
+   "first_half_ann_pct": 2.9,
+   "second_half_ann_pct": 13.25,
+   "turnover_per_year": 1.89,
    "cost_drag_ann_pct": 0.06,
    "avg_live": 1.0,
    "mde_pp": 3.85,
    "powered_for_target": true,
    "control": {
-    "real_ann_pct": 8.02,
+    "real_ann_pct": 8.01,
     "null_mean_ann_pct": 0.1,
-    "null_p95_ann_pct": 8.02,
+    "null_p95_ann_pct": 8.01,
     "p_value": 0.51,
     "draws": 100
    },
@@ -105,17 +105,20 @@
     "H4_drop_best": true,
     "H5_control": false
    },
-   "verdict": "NO_EDGE"
+   "verdict": "NO_EDGE",
+   "bench_target_vol": 0.1,
+   "excess_vs_bench_pp": -0.16,
+   "excess_clears_mde": false
   }
  ],
  "benchmark_buy_and_hold": {
   "common_window": {
-   "n": 4596,
-   "ann_pct": 8.16,
+   "n": 4599,
+   "ann_pct": 8.11,
    "vol_pct": 10.49,
-   "sharpe": 0.801,
+   "sharpe": 0.796,
    "mdd_pct": -32.04,
-   "t_stat": 3.47,
+   "t_stat": 3.46,
    "years": {
     "2008": -0.09,
     "2009": 15.25,
@@ -135,26 +138,32 @@
     "2023": 18.94,
     "2024": 29.67,
     "2025": 49.88,
-    "2026": 0.07
+    "2026": -0.71
    },
    "best_year": 2025,
-   "drop_best_year_ann_pct": 10.78
+   "drop_best_year_ann_pct": 10.65
   },
   "oos_2024_after": {
-   "n": 699,
-   "ann_pct": 26.14,
-   "vol_pct": 11.23,
-   "sharpe": 2.124,
-   "mdd_pct": -11.76,
-   "t_stat": 3.6,
+   "n": 702,
+   "ann_pct": 25.67,
+   "vol_pct": 11.25,
+   "sharpe": 2.089,
+   "mdd_pct": -12.38,
+   "t_stat": 3.54,
    "years": {
     "2024": 29.67,
     "2025": 49.88,
-    "2026": 0.07
+    "2026": -0.71
    },
    "best_year": 2025,
-   "drop_best_year_ann_pct": 15.93
+   "drop_best_year_ann_pct": 15.28
   }
+ },
+ "benchmark_sizing": {
+  "target_vol": 0.1,
+  "same_yardstick": true,
+  "rule": "the benchmark is scaled to the arm's own vol target; a hardwired 0.10 made 9 faces compare books of different size (results/bench_go_ruler_audit.json, r2136)",
+  "arms_excess_clears_own_mde": 0
  },
  "criteria": {
   "cost_bp_side": 3.0,

@@ -481,6 +481,14 @@ def check():
     if pub.get("verdict") != fresh.get("verdict"):
         problems.append("verdict %s != %s" % (pub.get("verdict"), fresh.get("verdict")))
     if problems:
+        # r1934: one new bar moves every carry reading, so a face priced on an older cutoff
+        # must ask for a writer first. Without this the chain reads a bare CHECK FAILED and the
+        # face never republishes; the count is printed so the rebuild is not blind.
+        if pub.get("evidence_cutoff") != fresh.get("evidence_cutoff"):
+            print("STALE: evidence_cutoff moved %s -> %s (%d problem row(s) held back until "
+                  "republished)" % (pub.get("evidence_cutoff"), fresh.get("evidence_cutoff"),
+                                    len(problems)))
+            return 3
         for p in problems:
             print("PROBLEM", p)
         print("CHECK FAILED")

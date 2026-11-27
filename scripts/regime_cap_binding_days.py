@@ -489,7 +489,9 @@ def check():
     """Re-derive from disk inputs and compare to what is published (no rewrite)."""
     published, err = _read_json(OUT)
     if err:
-        print("CHECK FAILED: %s" % err)
+        # r1581/r1934: an unreadable receipt is a rebuild request, not a defect. The chain pays
+        # a writer on STALE / "face missing" only, so this exit has to speak that vocabulary.
+        print("STALE: face missing or unreadable (%s) -- rebuild with run" % err)
         return 3
     fresh = build(mask=load_bear_mask())
     diffs = []
@@ -497,6 +499,15 @@ def check():
         if published.get(k) != fresh.get(k):
             diffs.append(k)
     if diffs:
+        # r1934: a face priced on an older cutoff is stale, not defective. The chain pays a
+        # writer on the word STALE only, and a bare "disagrees with a fresh derive" is exactly
+        # what one new bar produces -- so the cutoff exit has to come first. The held-back
+        # count keeps the republish honest about how much was not compared.
+        if published.get("evidence_cutoff") != fresh.get("evidence_cutoff"):
+            print("STALE: evidence_cutoff moved %s -> %s (%d derivation key(s) held back "
+                  "until republished)"
+                  % (published.get("evidence_cutoff"), fresh.get("evidence_cutoff"), len(diffs)))
+            return 3
         print("CHECK FAILED: published face disagrees with a fresh derive on %s"
               % ", ".join(diffs))
         return 3

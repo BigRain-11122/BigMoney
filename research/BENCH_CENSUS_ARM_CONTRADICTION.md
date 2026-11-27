@@ -1,8 +1,8 @@
 # Does a census headline agree with the arms inside it?
 
-generated 2026-11-27T02:21:54+08:00 · cutoff 2026-11-26 · **HEADLINE_OVERSTATES_MERIT**
+generated 2026-11-27T03:04:31+08:00 · cutoff 2026-11-26 · **HEADLINE_OVERSTATES_MERIT**
 
-3 census faces read · 49 skipped (non-census or unreadable) · **1 flagged**
+3 census faces read · 50 skipped (non-census or unreadable) · **1 flagged**
 
 ## The defect
 
@@ -29,4 +29,4 @@ and an arm at +9% that cleared all five checks produce the same headline word.
 * it does not reload panels; every number is read off published faces
 * it does not decide whether a census space is worth another burn -- it only says whether its headline is supported by its own arms
 
-inputs digest `9367783b41ec5f6e…`
+inputs digest `4d6907c4dab3b498…`

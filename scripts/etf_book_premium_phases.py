@@ -59,6 +59,12 @@ from scripts import etf_book_production as P
 OUT_JSON = ROOT / "results" / "etf_book_premium_phases.json"
 OUT_MD = ROOT / "research" / "ETF_BOOK_PREMIUM_PHASES.md"
 
+# The one artifact the control arm quotes. It is this face's INPUT, not a decoration:
+# phase 0 has to reproduce the book this file publishes, so when the file is re-derived on
+# a new bar every premium below is priced against a book nobody holds any more.
+UPSTREAM = ROOT / "results" / "etf_book_production" / "latest.json"
+PUBLISHED_TOL = 1e-6          # a re-derivation changes the rounded CAGR, a float echo does not
+
 # ---------------------------------------------------------------- frozen criteria
 # Written before the first run. The payload echoes these and --check refuses a face whose
 # echo differs, so the rule cannot be re-tuned after the numbers are known.
@@ -205,6 +211,10 @@ def build():
             "book_sharpe": range_of(cells, "book_sharpe"),
         },
         "control": control_block(cells, M.published_book_cagr()),
+        # what the control arm was compared against, recorded so --check can tell a rebuild
+        # from a contradiction (r2160 family: the published book is re-priced every round)
+        "upstream": dict(upstream_reads() or {},
+                         artifact=UPSTREAM.relative_to(ROOT).as_posix()),
         "window": "%s..panel end (every phase)" % M.A.START,
         "caveats": [
             ("the static arm rides class equal-weight indices that rebalance daily at ZERO "
@@ -313,6 +323,59 @@ def _spread_pp(x):
     return "n/a" if not isinstance(x, (int, float)) else "%.2f" % (x * 100)
 
 
+# ---------------------------------------------------------------- staleness
+def upstream_reads(path=None):
+    """Read the published book's bar and CAGR -- the two numbers this face compares against.
+
+    Cheap on purpose (one small JSON, no panel): r1850's rule is that a freshness probe must
+    ask an EXTERNAL anchor, and the control arm's anchor is this file, not this script.
+    """
+    try:
+        with open(path or UPSTREAM, encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    try:
+        cagr = float(doc["backtest"]["n12_vt08"]["full"]["cagr"])
+    except (KeyError, TypeError, ValueError):
+        cagr = None
+    return {"evidence_cutoff": doc.get("evidence_cutoff"), "ts": doc.get("ts"),
+            "published_cagr": cagr}
+
+
+def drift(payload, up="disk"):
+    """Is this table OLDER than the book it quotes? Say STALE -- never a contradiction.
+
+    r1935/r2160/r2162: `check_payload` only re-derives this face's own arithmetic, so it can
+    never notice that the panel rolled forward. Without these sentences the chain leg
+    (`run_leg` pays a rebuild only when the probe itself says stale) would leave the face
+    frozen on yesterday's bar and the control arm would later fail against a book that moved
+    -- red forever, and looking like an arithmetic defect.
+    """
+    if up == "disk":
+        up = upstream_reads()
+    if up is None:
+        return ["STALE: the published book face %s could not be read"
+                % UPSTREAM.relative_to(ROOT).as_posix()]
+    out = []
+    was = payload.get("upstream") or {}
+    if not was.get("evidence_cutoff") and was.get("published_cagr") is None:
+        # a face that never recorded its anchor cannot tell a rebuild from a contradiction;
+        # silence here would read as "clean" (r1311 family), so it asks for one rebuild
+        return ["STALE: this face does not record which book it compared against -- rebuild it"]
+    now_bar, was_bar = up.get("evidence_cutoff"), was.get("evidence_cutoff")
+    if was_bar and now_bar and str(now_bar) != str(was_bar):
+        out.append("STALE: the published book re-derived on bar %s, this table priced %s"
+                   % (now_bar, was_bar))
+    now_cagr, was_cagr = up.get("published_cagr"), was.get("published_cagr")
+    if (now_cagr is not None and was_cagr is not None
+            and abs(float(now_cagr) - float(was_cagr)) > PUBLISHED_TOL
+            and not out):
+        out.append("STALE: the published book's CAGR is now %.4f, this table compared against %.4f"
+                   % (now_cagr, was_cagr))
+    return out
+
+
 # ---------------------------------------------------------------- gate
 def check_payload(payload, criteria=None):
     """Refuse a face whose rule echo or recomputed verdict drifted from the frozen rule."""
@@ -341,11 +404,17 @@ def check_payload(payload, criteria=None):
             "median_pp": summary.get("median_pp")}
 
 
-def check():
+def check(up="disk"):
     if not OUT_JSON.exists():
         raise SystemExit("no face at %s -- run it first" % OUT_JSON)
     with open(OUT_JSON, encoding="utf-8") as fh:
         payload = json.load(fh)
+    stale = drift(payload, up=up)
+    if stale:
+        for s in stale:
+            print(s)
+        print("CHECK_STALE")
+        return 3
     read = check_payload(payload)
     print("premium_phases --check OK %s -> %s" % (read, payload.get("verdict")))
     return 0
@@ -359,6 +428,7 @@ def _cells(premiums, book=0.09, static=0.03):
 
 
 def selftest():
+    global OUT_JSON
     ok = 0
 
     def eq(name, got, want, tol=1e-9):
@@ -446,9 +516,9 @@ def selftest():
         raise SystemExit("FAIL gate accepted a hand-written verdict")
 
     # 9) the gate refuses a criteria echo that differs from the frozen rule
-    drift = dict(payload, criteria=dict(CRITERIA, median_premium_floor_pp=0.0))
+    retuned = dict(payload, criteria=dict(CRITERIA, median_premium_floor_pp=0.0))
     try:
-        check_payload(drift)
+        check_payload(retuned)
     except SystemExit:
         ok += 1
     else:
@@ -464,6 +534,48 @@ def selftest():
         ok += 1
     else:
         raise SystemExit("FAIL gate accepted four identical phases")
+
+    # 11) staleness: the face records which book it compared against, and says STALE -- not
+    #     "the arithmetic is wrong" -- when that book moves (r2162 contract word).
+    face = dict(payload, upstream={"evidence_cutoff": "2026-01-05", "published_cagr": 0.1000})
+    eq("same bar, same book -> no drift", drift(face, up=dict(face["upstream"])), [])
+    moved = drift(face, up={"evidence_cutoff": "2026-01-06", "published_cagr": 0.1000})
+    eq("a book re-derived one bar later is STALE",
+       len(moved) == 1 and "STALE" in moved[0] and "2026-01-06" in moved[0], True)
+    revalued = drift(face, up={"evidence_cutoff": "2026-01-05", "published_cagr": 0.1012})
+    eq("the same bar with a re-derived CAGR is STALE too",
+       len(revalued) == 1 and "STALE" in revalued[0] and "0.1012" in revalued[0], True)
+    eq("an unreadable book is STALE, never a silent pass",
+       "STALE" in drift(face, up=None)[0], True)
+
+    # 12) end-to-end: drive the REAL check() over a copy of the REAL face, poison the anchor
+    #     one bar forward, and assert rc/flags -- a leg that only calls drift() would pass
+    #     even if check() never consulted it.
+    if OUT_JSON.exists():
+        import shutil
+        import tempfile
+        _real = OUT_JSON
+        _tmp = Path(tempfile.mkdtemp(prefix="premphase_")) / "face.json"
+        try:
+            shutil.copyfile(_real, _tmp)
+            OUT_JSON = _tmp
+            with open(_tmp, encoding="utf-8") as fh:
+                _pay = json.load(fh)
+            _up0 = dict(_pay.get("upstream") or {"evidence_cutoff": "2026-01-05",
+                                                "published_cagr": 0.1})
+            import contextlib
+            import io as _io
+            with contextlib.redirect_stdout(_io.StringIO()):
+                _green = check(up=_up0)
+                _poisoned = check(up=dict(_up0, evidence_cutoff="2026-01-06"))
+            if (_pay.get("upstream") or {}).get("evidence_cutoff"):
+                eq("real check() on the real face is green", _green, 0)
+            else:
+                eq("a face with no recorded anchor asks for one rebuild", _green, 3)
+            eq("real check() says STALE when the book rolls one bar", _poisoned, 3)
+        finally:
+            OUT_JSON = _real
+            shutil.rmtree(str(_tmp.parent), ignore_errors=True)
 
     print("etf_book_premium_phases selftest: %d/%d PASS" % (ok, ok))
     return 0

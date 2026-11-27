@@ -1,6 +1,6 @@
 # A股低波单因子试验（bench cell 3）
 
-evidence cutoff 2026-11-20 | generated 2026-11-26T06:03:47+08:00 | 标的 5091 只 | bar 2887 | 每次持仓约 654.3 只
+evidence cutoff 2026-11-20 | generated 2026-11-26T23:22:55+08:00 | 标的 5091 只 | bar 2887 | 每次持仓约 654.3 只
 
 **判决 NO_EDGE**
 

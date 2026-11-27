@@ -293,8 +293,7 @@ def run():
     if len(panel) < 5:
         return {"ok": False, "error": f"only {len(panel)} futures files usable"}
     dates, closes, rets, vols = bc.align_futures(panel)
-    highs = {c: df["high"] for c, df in panel.items()}
-    lows = {c: df["low"] for c, df in panel.items()}
+    highs, lows = bc.align_highs_lows(panel, closes)
     csi = bc.load_index_close("sh000300")
 
     signals = {

@@ -478,7 +478,26 @@ def run() -> int:
             prev = json.load(f)
         prev_by = {b["book"]: b["phase_rows"] for b in prev.get("books", [])
                    if b.get("book") in cells_by_arm}
-        if set(prev_by) == set(cells_by_arm):
+        prev_data = prev.get("data") or {}
+        now_vintage = {"bars": int(len(close.index)), "universe": int(len(close.columns))}
+        # r1311/r1860/r2160 family: the receipt is a FROZEN historical face priced on the
+        # panel of its own day (11-22: 5,285 bars / 1,528 names). Re-pricing it on today's
+        # panel is a different book, not a contradiction -- refusing here would park this
+        # face forever, because the receipt never grows. Same vintage => assert exactly.
+        same_vintage = (prev_data.get("bars") == now_vintage["bars"]
+                        and prev_data.get("universe") == now_vintage["universe"])
+        if set(prev_by) == set(cells_by_arm) and not same_vintage:
+            phase_identity = {"checked": False,
+                              "reason": "receipt panel is a different vintage",
+                              "receipt": {"bars": prev_data.get("bars"),
+                                          "universe": prev_data.get("universe"),
+                                          "asof": prev.get("asof")},
+                              "now": now_vintage,
+                              "source": "results/etf_book_sleeve_cap_phases.json"}
+            print("phase identity SKIPPED: receipt priced %s bars / %s names, this run %s / %s"
+                  % (prev_data.get("bars"), prev_data.get("universe"),
+                     now_vintage["bars"], now_vintage["universe"]), flush=True)
+        elif set(prev_by) == set(cells_by_arm):
             worst = 0.0
             n = 0
             for arm, rows in prev_by.items():
@@ -569,13 +588,56 @@ def run() -> int:
     return 0
 
 
-def check() -> int:
+def upstream_reads():
+    """The published arm this face's identity leg re-derives -- read, never an echoed constant."""
+    try:
+        return C.load_published(R.PATHS.results_dir)
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def drift(face, up="disk"):
+    """Is this face OLDER than the arm it proved identity against? STALE, never a defect.
+
+    r1935/r2160/r2162: check() rebuilds the decision out of the face's OWN cells, so it can
+    never notice the panel rolled forward. `run()` can -- it refuses on the identity leg
+    ("cap-free arm no longer reproduces") -- but `run_leg` only pays a rebuild when the probe
+    itself says stale, so without this sentence the face freezes on an old bar and the chain
+    reads a refusal as a permanent arithmetic fault.
+    """
+    if up == "disk":
+        up = upstream_reads()
+    if up is None:
+        return ["STALE: the published arm face could not be read"]
+    was = face.get("published_arm") or {}
+    if not was:
+        return ["STALE: this face does not record the arm it proved identity against -- rebuild it"]
+    if str(up.get("as_of")) != str(was.get("as_of")):
+        return ["STALE: the published arm re-derived on %s, this face proved identity on %s"
+                % (up.get("as_of"), was.get("as_of"))]
+    now, old = up.get("numbers") or {}, was.get("numbers") or {}
+    moved = [k for k in ("cagr", "sharpe", "maxdd")
+             if now.get(k) is not None and old.get(k) is not None
+             and abs(float(now[k]) - float(old[k])) > C.PUBLISHED_ULP.get(k, 5e-5)]
+    if moved:
+        return ["STALE: the published arm's same-bar numbers moved (%s) -- rebuild"
+                % ",".join(moved)]
+    return []
+
+
+def check(up="disk") -> int:
     """Re-derive the decision from the published rows; refuse if the face disagrees."""
     if not os.path.exists(OUT):
         print("no face at", OUT)
         return 2
     with open(OUT, encoding="utf-8") as f:
         face = json.load(f)
+    stale = drift(face, up=up)
+    if stale:
+        for s in stale:
+            print(s)
+        print("CHECK_STALE")
+        return 3
     cells = face.get("cells") or {}
     if not cells:
         print("FAIL the face publishes no cells")
@@ -623,6 +685,7 @@ def check() -> int:
 
 # ---------------------------------------------------------------- selftest
 def selftest() -> int:
+    global OUT
     errs = []
     seen = [0]
 
@@ -821,6 +884,53 @@ def selftest() -> int:
         and pick2["composite_verdict"] == "UNADJUDICABLE_CALIBER",
         "L13 nothing resolves an even book -> no trusted caliber, no verdict (%s)"
         % pick2["composite_verdict"])
+
+    # ---- staleness contract (r2163, r2162 family): a check that only rebuilds its own cells
+    #      can never say the panel rolled; these legs pin the sentences that let it.
+    _face0 = {"published_arm": {"as_of": "2026-01-05",
+                                "numbers": {"cagr": 0.10, "sharpe": 1.0, "maxdd": -0.10},
+                                "universe": "u"}}
+    chk(drift(_face0, up=dict(_face0["published_arm"])) == [],
+        "L14 same bar, same numbers -> no drift")
+    _moved = drift(_face0, up=dict(_face0["published_arm"], as_of="2026-01-06"))
+    chk(len(_moved) == 1 and "STALE" in _moved[0] and "2026-01-06" in _moved[0],
+        "L15 the arm re-derived one bar later is STALE (%s)" % (_moved,))
+    _renum = drift(_face0, up=dict(_face0["published_arm"],
+                                   numbers={"cagr": 0.1002, "sharpe": 1.0, "maxdd": -0.10}))
+    chk(len(_renum) == 1 and "STALE" in _renum[0] and "cagr" in _renum[0],
+        "L16 the same bar with a moved number is STALE too (%s)" % (_renum,))
+    chk("STALE" in drift({"published_arm": {}}, up=dict(_face0["published_arm"]))[0],
+        "L17 a face that never recorded its anchor asks for one rebuild")
+    chk("STALE" in drift(_face0, up=None)[0],
+        "L18 an unreadable arm face is STALE, never a silent pass")
+    # end-to-end: drive the REAL check() over a copy of the REAL face -- a leg that only
+    # calls drift() would pass even if check() never consulted it (r1861 family)
+    if os.path.exists(OUT):
+        import contextlib
+        import io as _io
+        import shutil
+        import tempfile
+        _real = OUT
+        _tmpd = tempfile.mkdtemp(prefix="ycaliber_")
+        try:
+            _tmp = os.path.join(_tmpd, "face.json")
+            shutil.copyfile(_real, _tmp)
+            OUT = _tmp
+            with open(_tmp, encoding="utf-8") as f:
+                _pay = json.load(f)
+            _up = dict(_pay.get("published_arm")
+                       or {"as_of": "2026-01-05",
+                           "numbers": {"cagr": 0.1, "sharpe": 1.0, "maxdd": -0.1}})
+            with contextlib.redirect_stdout(_io.StringIO()):
+                _green = check(up=_up)
+                _stale = check(up=dict(_up, as_of="1999-01-01"))
+            chk(_green in (0, 1),
+                "L19 the real check() answers on the real face (%r)" % (_green,))
+            chk(_stale == 3,
+                "L20 the real check() says STALE when the arm's bar moves (%r)" % (_stale,))
+        finally:
+            OUT = _real
+            shutil.rmtree(_tmpd, ignore_errors=True)
 
     print("selftest %d/%d" % (seen[0] - len(errs), seen[0]), flush=True)
     return 0 if not errs else 1

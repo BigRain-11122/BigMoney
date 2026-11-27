@@ -526,7 +526,7 @@ def write_doc(p):
 
 def check_only():
     if not os.path.exists(OUT) or not os.path.exists(DOC):
-        print("CHECK FAILED face or doc missing")
+        print("STALE: face missing or doc missing -- rebuild with block_red_triage.py run")
         return 3
     with io.open(OUT, encoding="utf-8") as f:
         p = json.load(f)
