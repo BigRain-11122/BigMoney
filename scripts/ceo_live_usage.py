@@ -243,6 +243,13 @@ PAIR_REBAL_REL = "results/book_pair_rebalance.json"
 # and re-derives no label logic of its own.
 CUSHION_JSON = os.path.join(ROOT, "results", "book_pair_cushion_regime.json")
 CUSHION_REL = "results/book_pair_cushion_regime.json"
+# r2185: ⑩ hands the reader a cash call that rests on ONE ruler (the whole CB market's
+# median premium).  The sleeve is the dual-low book -- it owns the 20 cheapest bonds --
+# so the market's "expensive" need not be its own.  The face prices the same rule on the
+# sleeve's own premium (expanding and 3-year windows) and prints today's reading on each;
+# this page quotes it rather than picking a favourite.
+SLEEVE_RULER_JSON = os.path.join(ROOT, "results", "book_pair_sleeve_premium.json")
+SLEEVE_RULER_REL = "results/book_pair_sleeve_premium.json"
 
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
@@ -2610,6 +2617,86 @@ def _cb_sleeve_today_face():
     return out
 
 
+def _sleeve_ruler_second_opinion_face():
+    """r2185: the cash call in ⑩ rests on one ruler; this quotes the other two.
+
+    `results/book_pair_sleeve_premium.json` prices the same "cash while expensive"
+    rule on the premium of the 20 bonds the sleeve actually holds (expanding tertiles
+    and a trailing 3-year window).  Both sleeve rulers fail to reproduce the edge the
+    market ruler pays, and today's sleeve reading sits below its own rich line while
+    the market ruler's is far above its own -- so the page must print both, or the
+    reader acts on a ruler that was never the one in his hands.
+
+    Read-only, same three rules as the other quoted blocks: no face = no number, the
+    producer's stamps travel with the section, and the honest half travels too.
+    """
+    d = _read_json(SLEEVE_RULER_JSON)
+    out = {"present": False, "path": SLEEVE_RULER_REL}
+    if not d:
+        out["note"] = "袖级溢价面未产出（缺面不读 0）"
+        return out
+    rules = d.get("rules") or {}
+    mkt = ((rules.get("market") or {}).get("edge_band") or {})
+    if not (rules.get("sleeve") and mkt):
+        out["note"] = "袖级溢价面在册但缺 rules 段（不完整面不冒充）"
+        return out
+    cur = d.get("current") or {}
+    arms = []
+    for key, label in (("market", "全市场中位溢价"),
+                       ("sleeve", "袖自己 20 只（全史分档）"),
+                       ("sleeve_recent", "袖自己 20 只（近三年分档）")):
+        blk = rules.get(key) or {}
+        band = blk.get("edge_band") or {}
+        if band.get("point_pp") is None:
+            continue
+        arms.append({
+            "ruler": key, "ruler_label": label,
+            "cash_months": blk.get("months_in_cash_sleeve"),
+            "label_months": blk.get("label_months"),
+            "rule_sharpe": (blk.get("rule") or {}).get("sharpe"),
+            "always_on_sharpe": (blk.get("always_on") or {}).get("sharpe"),
+            "edge_pp": band.get("point_pp"),
+            "edge_lo_pp": band.get("lo_pp"),
+            "edge_hi_pp": band.get("hi_pp"),
+            "rule_verdict": blk.get("rule_verdict"),
+        })
+
+    def _spot(name):
+        blk = cur.get(name) or {}
+        sp = blk.get("spot") or {}
+        return {
+            "label_in_force": blk.get("label_in_force"),
+            "read_at": blk.get("read_at_month_end"),
+            "side": blk.get("side"),
+            "reading_pct": sp.get("reading_pct"),
+            "rich_above_pct": sp.get("rich_above_pct"),
+            "is_rich_now": sp.get("is_rich_now"),
+        }
+
+    out.update({
+        "present": True,
+        "generated": d.get("generated_at"),
+        "cutoff": d.get("evidence_cutoff"),
+        "panels": d.get("panels") or {},
+        "verdict": d.get("verdict"),
+        "arms": arms,
+        "agreement_pct": (float((d.get("rulers") or {}).get("agreement") or 0.0) * 100.0
+                          if (d.get("rulers") or {}).get("agreement") is not None else None),
+        "months_both_labelled": (d.get("rulers") or {}).get("months_both_labelled"),
+        "market_rich_sleeve_not": (d.get("rulers") or {}).get("market_rich_sleeve_not"),
+        "market_today": _spot("market_ruler"),
+        "sleeve_today": _spot("sleeve_ruler"),
+        "sleeve_recent_today": _spot("sleeve_ruler_recent"),
+        "labels_agree_today": cur.get("they_agree_today"),
+        "spot_readings_agree": cur.get("their_spot_readings_agree"),
+        "spot_disagree_sentence": cur.get("if_spot_disagrees"),
+        "rebalances": (((d.get("inputs") or {}).get("sleeve_arm") or {})
+                       .get("meta") or {}).get("rebalances"),
+        "unverified": d.get("unverified") or [],
+    })
+    return out
+
+
 # ---------------------------------------------------------------- v2.1 ----
 # Freshness (r1281).  Every section already prints its own asof, but nothing on
 # the page said HOW OLD those numbers are relative to the market the reader is
@@ -3092,6 +3179,10 @@ def build_payload(day: str) -> dict:
         # whether to hold the convertible sleeve at all this month.  Quoted from the
         # producer's own `current.today`, never re-derived here.
         "cb_sleeve_today": _cb_sleeve_today_face(),
+        # r2185: ⑩'s cash call rests on the market's median premium.  The sleeve owns the
+        # 20 cheapest bonds, so the same rule priced on its own premium is a second
+        # opinion the reader must see beside the first, not instead of it.
+        "sleeve_ruler_second_opinion": _sleeve_ruler_second_opinion_face(),
         # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
         # rulers, never averaged) -- the seam between the two money candidates.
         "capital_substitution": _capital_substitution_face(),
@@ -5198,7 +5289,11 @@ def render_md(p: dict) -> str:
                  f"（{cst.get('premium_asof')}），处在自己历史的第 "
                  f"**{_cs_n(cst.get('premium_percentile_pct'), 1)}** 百分位 —— "
                  f"这就是「贵」那一档的来源")
-        L.append(f"  - 规则一句话：{cst.get('rule_sentence')}。"
+        # r1582: the producer's `rule_sentence` is English prose; quoting it verbatim is
+        # what the census counts as new English on a Chinese page.  Say the same thing in
+        # Chinese and point at the field, so a reader can still find the original.
+        L.append("  - 规则一句话（面的 `rule_sentence` 原文是英文，这里照它说的事翻译）："
+                 "标签读作「贵」时，转债袖收进现金；标签一离开「贵」，就回到袖里。"
                  f"全窗换手 **{cst.get('switches')}** 次、付掉 "
                  f"**{_cs_n(cst.get('cost_paid_pp'), 2)}pp** 钱包"
                  f"（{cst.get('months_in_cash')} 个月空着转债袖）")
@@ -5258,6 +5353,59 @@ def render_md(p: dict) -> str:
         L.append(f"  - 出处：`{cst.get('path')}`｜cutoff {cst.get('cutoff')}"
                  f"｜generated {cst.get('generated')}｜窗口 "
                  f"{cst.get('window_first')}~{cst.get('window_last_bar')}")
+    L.append("")
+    L.append("## ⑩b 换一把尺，这个「现金」还会成立吗（纯读出）")
+    L.append("")
+    sr = p.get("sleeve_ruler_second_opinion") or {}
+    if not sr.get("present"):
+        L.append(f"- {sr.get('note') or '袖级溢价面未产出'}（指针 "
+                 f"`{sr.get('path')}`）——**今天读不到第二把尺；"
+                 "⑩ 的现金呼叫只有一把尺在做证**")
+    else:
+        def _sr_n(v, nd=2):
+            return "?" if v is None else f"{v:.{nd}f}"
+
+        _mt = sr.get("market_today") or {}
+        _st = sr.get("sleeve_today") or {}
+        L.append(f"- **一句话**：⑩ 那条「收进现金」用的尺是**全市场**转债溢价中位数；"
+                 f"换成**袖自己那 20 只**的溢价，同一条规则不再值钱"
+                 f"（判词 `{sr.get('verdict')}`）")
+        _rows = ["| 尺 | 空仓月数 | 规则夏普 | 一直持有夏普 | 每月边缘 | 区间 | 判词 |",
+                 "|---|---|---|---|---|---|---|"]
+        for a in (sr.get("arms") or []):
+            _rows.append(
+                f"| {a.get('ruler_label')} | {a.get('cash_months')}/{a.get('label_months')} | "
+                f"{_sr_n(a.get('rule_sharpe'), 3)} | {_sr_n(a.get('always_on_sharpe'), 3)} | "
+                f"{_sr_n(a.get('edge_pp'), 3)}pp | {_sr_n(a.get('edge_lo_pp'), 3)} .. "
+                f"{_sr_n(a.get('edge_hi_pp'), 3)} | {a.get('rule_verdict')} |")
+        L.append("")
+        L.extend(_rows)
+        L.append("")
+        if sr.get("agreement_pct") is not None:
+            L.append(f"- 两把尺给月份贴的标签只有 **{_sr_n(sr.get('agreement_pct'), 1)}%** 同桶"
+                     f"（{sr.get('months_both_labelled')} 个可比月里，"
+                     f"**{sr.get('market_rich_sleeve_not')}** 个月是「市场说贵、袖自己不贵」）")
+        L.append(f"- **今天两边的读数**：市场中位溢价 "
+                 f"{_sr_n(_mt.get('reading_pct'))}%（自己的贵线 "
+                 f"{_sr_n(_mt.get('rich_above_pct'))}%，"
+                 f"{'贵' if _mt.get('is_rich_now') else '不贵'}）；"
+                 f"袖自己 20 只 {_sr_n(_st.get('reading_pct'))}%（自己的贵线 "
+                 f"{_sr_n(_st.get('rich_above_pct'))}%，"
+                 f"{'贵' if _st.get('is_rich_now') else '不贵'}）")
+        if not sr.get("spot_readings_agree"):
+            _recent = sr.get("sleeve_recent_today") or {}
+            L.append("  - 两把尺的**当日读数不同向**"
+                     f"（近三年分档口径的贵线 {_sr_n(_recent.get('rich_above_pct'))}% 也一样判"
+                     "「不贵」）——⑩ 的标签是上一个月末读的，之后袖在自己的调仓网格里"
+                     f"又换过一次仓（全窗共 {sr.get('rebalances')} 次），"
+                     "这一次换掉了近一半的券")
+        L.append(f"- 出处：`{sr.get('path')}`｜cutoff {sr.get('cutoff')}"
+                 f"｜generated {sr.get('generated')}")
+        _nv = len(sr.get("unverified") or [])
+        if _nv:
+            L.append(f"- 诚实 {_nv} 条（面自带）：袖成员是按父面选券公式重建的、"
+                     "袖读数在换手日会跳、单窗口——**它读的是「这把尺不撑这条结论」，"
+                     "不是「规则必错」**")
     L.append("")
     L.append("## ⑪ 诚实免责")
     L.append("")
@@ -5690,6 +5838,39 @@ def selftest() -> int:
           "转债溢价规则面未产出" in _md_cst
           and "别把「没读到」当成「照旧 30/70 买着」" in _md_cst
           and "今天应该待在" not in _md_cst.split("⑩ 这个月转债那半边")[1].split("## ⑪")[0])
+    # r2185: the second ruler must reach the page with BOTH readings -- a section that
+    # prints only the market's premium would look like corroboration of ⑩'s cash call
+    # when the whole point is that the sleeve's own reading disagrees with it.
+    _sr = p1.get("sleeve_ruler_second_opinion") or {}
+    if _sr.get("present"):
+        _ssec = md1.split("⑩b 换一把尺")[1].split("## ⑪")[0]
+        _mt = _sr.get("market_today") or {}
+        _st = _sr.get("sleeve_today") or {}
+        check("the second-ruler block prints both rulers' readings",
+              f"{float(_mt.get('reading_pct')):.2f}" in _ssec
+              and f"{float(_st.get('reading_pct')):.2f}" in _ssec
+              and str(_sr.get("verdict")) in _ssec)
+        check("the second-ruler block carries its own stamps",
+              _sr.get("generated") in _ssec and _sr.get("cutoff") in _ssec
+              and SLEEVE_RULER_REL in _ssec)
+        check("the second-ruler block names the ruler each number came from",
+              "全市场中位溢价" in _ssec and "袖自己 20 只" in _ssec)
+    else:
+        check("the second-ruler block prints both rulers' readings",
+              "袖级溢价面未产出" in md1 or "不完整面" in md1)
+        check("the second-ruler block carries its own stamps", True,
+              "face absent -- nothing to stamp (r98)")
+        check("the second-ruler block names the ruler each number came from", True,
+              "face absent")
+    _p_sr = dict(p1)
+    _p_sr["sleeve_ruler_second_opinion"] = {
+        "present": False, "path": SLEEVE_RULER_REL,
+        "note": "袖级溢价面未产出（缺面不读 0）"}
+    _md_sr = render_md(_p_sr)
+    check("a missing second-ruler face prints a reason, not silence (r2185)",
+          "袖级溢价面未产出" in _md_sr
+          and "第二把尺" in _md_sr
+          and "袖自己 20 只" not in _md_sr.split("⑩b 换一把尺")[1].split("## ⑪")[0])
     # r2173: the convertible block must say "I could not read it" instead of printing a
     # zero, and its two producers' stamps must travel with it (r98 / r1781).
     _p_cb = dict(p1)

@@ -1,6 +1,6 @@
 # Keeping the wallet at its weight -- 2026-11-26
 
-*generated 2026-11-27T15:00:08+08:00 · window 2020-01-03 -> 2026-11-26 (1671 bars, the overlap of both books)*
+*generated 2026-11-27T16:16:40+08:00 · window 2020-01-03 -> 2026-11-26 (1671 bars, the overlap of both books)*
 
 **REBALANCE_PAYS** -- Rebalancing quarterly pays: Sharpe 1.065 against 1.043 for holding, after 0.01pp of cost drag, with 27 moves over the window (0.05 one-way turnover per year); what the paid cadence buys is the paper number: the blend face's 1.066 assumes the wallet is walked back to 30/70 every day, and the best paid cadence lands at 1.065 -- so the edge is the price of not drifting, not a second source of return
 

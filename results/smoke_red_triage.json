@@ -1,306 +1,318 @@
 {
- "source_ts": "2026-11-27T01:09:01",
- "legs": 783,
- "pass": 759,
- "fail": 24,
- "unverified": 0,
+ "source_ts": "2026-11-27T20:52:47",
+ "legs": 801,
+ "pass": 775,
+ "fail": 25,
+ "unverified": 1,
  "counts": {
   "EXCEPTION": 0,
-  "SUBCHAIN_FAILED": 0,
-  "CONTRADICTION": 10,
-  "STALE_OR_MISSING": 2,
-  "UNCLASSIFIED": 12
+  "SUBCHAIN_FAILED": 1,
+  "CONTRADICTION": 5,
+  "STALE_OR_MISSING": 6,
+  "UNCLASSIFIED": 13
  },
  "rows": [
   {
-   "leg": "product: index-futures proxy noise re-derived",
-   "subject": "product: index-futures proxy noise re-derived",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "exit=1 | CHECK_FAIL IF.level_offset_pct 0.243 != 0.244; IF.agree_pct moved; IC.agree_pct moved; IM.daily_noise_bp 22.48"
-  },
-  {
-   "leg": "product: carry-vs-ETF swap rulers (face re-derived from its inputs)",
-   "subject": "face re-derived from its inputs",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "exit=1 | -- check 3 problem(s)"
-  },
-  {
-   "leg": "product: the substitution rulers reach the CEO page (r1933)",
-   "subject": "r1933",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "the CEO page has no substitution block"
-  },
-  {
-   "leg": "product: etf_book_decision_line (row re-derived from the receipts)",
-   "subject": "row re-derived from the receipts",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "exit=1 |   row.late_sheet.aggregate_pp_per_year: -1.8900000000000001 -> -1.88000000000000"
-  },
-  {
-   "leg": "product: etf_book_concentration_levers (published arms re-derived)",
-   "subject": "published arms re-derived",
+   "leg": "product: etf_book_year_gate (published verdicts re-derived)",
+   "subject": "published verdicts re-derived",
    "class": "STALE_OR_MISSING",
    "empty_detail": false,
-   "detail": "exit=1 | [check] DRIFT STALE the quoted receipt moved: published 10.96 -> 10.8900"
+   "detail": "exit=2 | stale: gate panel is on 2026-11-26 while the official calendar expects 2026-11-2"
   },
   {
-   "leg": "product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
-   "subject": "quoted rungs and verdict re-derived",
+   "leg": "product: etf_book_late_sheet_price (locals add up, verdict re-derived)",
+   "subject": "locals add up, verdict re-derived",
    "class": "STALE_OR_MISSING",
    "empty_detail": false,
-   "detail": "exit=3 | [check] PROBLEMS | verdict=NO_ARMS_PRICED | n_arms=0 survivors_20bp=[] | problem"
+   "detail": "exit=2 | STALE: the panel's file set moved since this face priced it ([1725, 93449848, 17"
   },
   {
-   "leg": "product: etf_book_rebal_adoption (published cells and arithmetic re-derived)",
-   "subject": "published cells and arithmetic re-derived",
+   "leg": "product: etf_book_do_or_wait (decision and ladder re-derived)",
+   "subject": "decision and ladder re-derived",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=2 | STALE: the receipts moved ({'cut_order_gap': '2026-11-26', 'late_sheet_price': '"
+  },
+  {
+   "leg": "product: etf_book_permission_persistence (lifetime re-derived)",
+   "subject": "lifetime re-derived",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=2 | STALE: this face is priced on the panel bar 2026-11-26 while the panel now ends"
+  },
+  {
+   "leg": "product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked)",
+   "subject": "history re-derived from the panels, anchor re-checked",
    "class": "CONTRADICTION",
    "empty_detail": false,
-   "detail": "exit=1 | [check] DRIFT control did not reproduce the published book"
+   "detail": "exit=1 | [sibling_gap] CHECK_FAIL 510760 mean drifted: published -2.9243, now -2.8742"
+  },
+  {
+   "leg": "product: etf_label_census (does the board's name survive the board's prices)",
+   "subject": "does the board's name survive the board's prices",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=1 | selftest 21/23 FAIL"
   },
   {
    "leg": "product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
    "subject": "face re-derived from its own pair table, ruler cross-checked",
-   "class": "CONTRADICTION",
+   "class": "STALE_OR_MISSING",
    "empty_detail": false,
-   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 51204"
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"STALE the panel moved under 312 priced pair(s) and t"
   },
   {
-   "leg": "product: etf_book_ticket_band (face re-derives from the two source faces)",
-   "subject": "face re-derives from the two source faces",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.924, face says"
-  },
-  {
-   "leg": "product: etf_book_cash_roll_today (instruction re-derived from disk)",
-   "subject": "instruction re-derived from disk",
-   "class": "UNCLASSIFIED",
-   "empty_detail": true,
-   "detail": "exit=1 | }"
-  },
-  {
-   "leg": "product: the book re-levers off its own decision grid (every phase re-derives)",
-   "subject": "every phase re-derives",
+   "leg": "product: etf_book_open_gap (band re-derived from the ticket's own panels)",
+   "subject": "band re-derived from the ticket's own panels",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
-   "detail": "exit=1 | [check] face cutoff 2026-11-25 is behind the ledger's last bar 2026-11-26"
+   "detail": "exit=1 | check 4/5 PASS"
+  },
+  {
+   "leg": "product: etf_book_swap_trigger (when does the swap have to be looked at again)",
+   "subject": "when does the swap have to be looked at again",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "exit=1 | 32/33"
+  },
+  {
+   "leg": "product: etf_book_swap_trigger (trigger re-derived from the gap face's own panels)",
+   "subject": "trigger re-derived from the gap face's own panels",
+   "class": "CONTRADICTION",
+   "empty_detail": false,
+   "detail": "exit=1 | CHECK_FAIL: 510760.mean_gap_pp, 510760.window_share"
+  },
+  {
+   "leg": "product: swap section freshness (every face on the calendar's close)",
+   "subject": "every face on the calendar's close",
+   "class": "STALE_OR_MISSING",
+   "empty_detail": false,
+   "detail": "exit=2 | [swap_freshness] every leg above is stale, not wrong: pay its producer in depend"
+  },
+  {
+   "leg": "product: the ticket behind the page states the same two days (link walk)",
+   "subject": "link walk",
+   "class": "SUBCHAIN_FAILED",
+   "empty_detail": false,
+   "detail": "exit=1 | Summary: 478/479 PASS -- 1 FAIL"
   },
   {
    "leg": "product: the discount subset sits on the ledger's own line (r1528)",
    "subject": "r1528",
    "class": "CONTRADICTION",
    "empty_detail": false,
-   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+   "detail": "exit=1 | CHECK_FAIL: accrual_status, accrual_rows, settlement_last_fully_priced_bar disag"
   },
   {
    "leg": "product: etf_book_positions (position ledger and base divergence re-derived)",
    "subject": "position ledger and base divergence re-derived",
    "class": "CONTRADICTION",
    "empty_detail": false,
-   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+   "detail": "exit=1 | CHECK_FAIL: accrual_status, accrual_rows, settlement_last_fully_priced_bar disag"
   },
   {
-   "leg": "fleet: a panel tail read by sample is certified against a full scan",
-   "subject": "fleet: a panel tail read by sample is certified against a full scan",
+   "leg": "product: swap trigger (a re-derived gap face reads STALE, a wrong toll stays a defect)",
+   "subject": "a re-derived gap face reads STALE, a wrong toll stays a defect",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
-   "detail": "['ah_panel']: a sampled row prints a tail with no record of the scan behind it"
+   "detail": "exit=1 | 32/33"
   },
   {
-   "leg": "product: year_concentration_money (top-2 year shares priced in yuan)",
-   "subject": "top-2 year shares priced in yuan",
+   "leg": "product: the Chinese CEO pages carry no new English prose (r1582)",
+   "subject": "r1582",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
-   "detail": "exit=1 | selftest 29/30 PASS"
+   "detail": "day=2026-11-27 hits=8 inherited=7 new=1 first_new=LIVE-2026-11-27.md:341"
   },
   {
-   "leg": "product: year_concentration_money (published money face re-derives from YEAR-GATE)",
-   "subject": "published money face re-derives from YEAR-GATE",
+   "leg": "fleet: a lane that appended nothing still says whether it reaches the last session",
+   "subject": "fleet: a lane that appended nothing still says whether it reaches the last session",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
-   "detail": "exit=3 |  - nobond_base.margin.delta_pp: receipt -2.724279 vs recomputed -3.968915"
+   "detail": "the named holes differ from the holes the archives actually have; the last completed session is not the one the calendar allows; covering count does not follow the named holes"
   },
   {
-   "leg": "product: etf_book_year_gate_vote (census still re-derives from the faces)",
-   "subject": "census still re-derives from the faces",
+   "leg": "product: the live-quote section and the panel's own lane agree on tonight",
+   "subject": "product: the live-quote section and the panel's own lane agree on tonight",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the retirement heading never reaches the page"
+  },
+  {
+   "leg": "product: the sleeve-gate answer survives a moved decision grid",
+   "subject": "product: the sleeve-gate answer survives a moved decision grid",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "judgements do not recompute from the published rows"
+  },
+  {
+   "leg": "product: a de-levered book is told apart from a well-timed one",
+   "subject": "product: a de-levered book is told apart from a well-timed one",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the verdict does not recompute from the published rows"
+  },
+  {
+   "leg": "product: a fixed fraction is only an adoption if it survives out of sample",
+   "subject": "product: a fixed fraction is only an adoption if it survives out of sample",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the verdict does not recompute from the published rows"
+  },
+  {
+   "leg": "product: the vol window is judged on more than one decision calendar",
+   "subject": "product: the vol window is judged on more than one decision calendar",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the verdict does not recompute from the published rows"
+  },
+  {
+   "leg": "product: the window grid's floor is the engine's, measured not assumed",
+   "subject": "product: the window grid's floor is the engine's, measured not assumed",
+   "class": "UNCLASSIFIED",
+   "empty_detail": false,
+   "detail": "the verdict/position do not recompute from the published rows"
+  },
+  {
+   "leg": "product: the expectation table's rows name the ruler that priced each one",
+   "subject": "product: the expectation table's rows name the ruler that priced each one",
    "class": "CONTRADICTION",
    "empty_detail": false,
-   "detail": "exit=1 | CHECK_FAIL 14 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote."
+   "detail": "the stored verdict no longer recomputes"
   },
   {
-   "leg": "product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
-   "subject": "verdicts still re-derive from the ticket",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"face as_of '2026-11-25' != ticket as_of '2026-11-26'"
-  },
-  {
-   "leg": "product: etf_book_premium_choice (road arithmetic still re-derives)",
-   "subject": "road arithmetic still re-derives",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"159655/B_same_market_twin break-even windows drifted"
-  },
-  {
-   "leg": "config: no CEO-facing page prints one measurement twice",
-   "subject": "config: no CEO-facing page prints one measurement twice",
+   "leg": "product: the page names the board session the premium section never captured",
+   "subject": "product: the page names the board session the premium section never captured",
    "class": "UNCLASSIFIED",
    "empty_detail": false,
-   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-25、这张单是 2026-11-26：两个 bar 的数不能相减（r1516 律）。"
-  },
-  {
-   "leg": "product: the CEO page's sections each name the bar they were priced on",
-   "subject": "product: the CEO page's sections each name the bar they were priced on",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it"
-  },
-  {
-   "leg": "product: the sheet prints what it pays and where that price sits in history",
-   "subject": "product: the sheet prints what it pays and where that price sits in history",
-   "class": "CONTRADICTION",
-   "empty_detail": false,
-   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
-  },
-  {
-   "leg": "product: the sheet prints what the price did after a reading like today's",
-   "subject": "product: the sheet prints what the price did after a reading like today's",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "the producer's forward sentence is dropped or rewritten"
-  },
-  {
-   "leg": "product: what carrying the sibling costs per year is on the sheet",
-   "subject": "product: what carrying the sibling costs per year is on the sheet",
-   "class": "UNCLASSIFIED",
-   "empty_detail": false,
-   "detail": "nothing was swapped and the carry face does not say why its table is empty"
+   "detail": "page does not print the board hole"
   }
  ],
  "fix_order": [
   {
-   "class": "CONTRADICTION",
-   "leg": "product: index-futures proxy noise re-derived",
-   "detail": "exit=1 | CHECK_FAIL IF.level_offset_pct 0.243 != 0.244; IF.agree_pct moved; IC.agree_pct moved; IM.daily_noise_bp 22.48"
+   "class": "SUBCHAIN_FAILED",
+   "leg": "product: the ticket behind the page states the same two days (link walk)",
+   "detail": "exit=1 | Summary: 478/479 PASS -- 1 FAIL"
   },
   {
    "class": "CONTRADICTION",
-   "leg": "product: etf_book_rebal_adoption (published cells and arithmetic re-derived)",
-   "detail": "exit=1 | [check] DRIFT control did not reproduce the published book"
+   "leg": "product: etf_book_sibling_gap (history re-derived from the panels, anchor re-checked)",
+   "detail": "exit=1 | [sibling_gap] CHECK_FAIL 510760 mean drifted: published -2.9243, now -2.8742"
   },
   {
    "class": "CONTRADICTION",
-   "leg": "product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
-   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"the two faces price the same pair differently: 51204"
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: etf_book_ticket_band (face re-derives from the two source faces)",
-   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"impact_pct_at_signed re-derives to 0.924, face says"
+   "leg": "product: etf_book_swap_trigger (trigger re-derived from the gap face's own panels)",
+   "detail": "exit=1 | CHECK_FAIL: 510760.mean_gap_pp, 510760.window_share"
   },
   {
    "class": "CONTRADICTION",
    "leg": "product: the discount subset sits on the ledger's own line (r1528)",
-   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+   "detail": "exit=1 | CHECK_FAIL: accrual_status, accrual_rows, settlement_last_fully_priced_bar disag"
   },
   {
    "class": "CONTRADICTION",
    "leg": "product: etf_book_positions (position ledger and base divergence re-derived)",
-   "detail": "exit=1 | CHECK_FAIL: asof, base_divergence_total_cny, transition_bar, base_arrival, repla"
+   "detail": "exit=1 | CHECK_FAIL: accrual_status, accrual_rows, settlement_last_fully_priced_bar disag"
   },
   {
    "class": "CONTRADICTION",
-   "leg": "product: etf_book_year_gate_vote (census still re-derives from the faces)",
-   "detail": "exit=1 | CHECK_FAIL 14 field(s) drifted -- rerun `python scripts/etf_book_year_gate_vote."
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: etf_book_premium_swap (verdicts still re-derive from the ticket)",
-   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"face as_of '2026-11-25' != ticket as_of '2026-11-26'"
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: etf_book_premium_choice (road arithmetic still re-derives)",
-   "detail": "exit=2 | {\"ok\": false, \"problems\": [\"159655/B_same_market_twin break-even windows drifted"
-  },
-  {
-   "class": "CONTRADICTION",
-   "leg": "product: the sheet prints what it pays and where that price sits in history",
-   "detail": "510760 premium disagrees with its producer; 512040 premium disagrees with its producer; 159655 premium disagrees with its producer; 513690 premium disagrees with its producer; 159519 premium disagrees with its producer"
+   "leg": "product: the expectation table's rows name the ruler that priced each one",
+   "detail": "the stored verdict no longer recomputes"
   },
   {
    "class": "STALE_OR_MISSING",
-   "leg": "product: etf_book_concentration_levers (published arms re-derived)",
-   "detail": "exit=1 | [check] DRIFT STALE the quoted receipt moved: published 10.96 -> 10.8900"
+   "leg": "product: etf_book_year_gate (published verdicts re-derived)",
+   "detail": "exit=2 | stale: gate panel is on 2026-11-26 while the official calendar expects 2026-11-2"
   },
   {
    "class": "STALE_OR_MISSING",
-   "leg": "product: etf_book_admit_cost_ladder (quoted rungs and verdict re-derived)",
-   "detail": "exit=3 | [check] PROBLEMS | verdict=NO_ARMS_PRICED | n_arms=0 survivors_20bp=[] | problem"
+   "leg": "product: etf_book_late_sheet_price (locals add up, verdict re-derived)",
+   "detail": "exit=2 | STALE: the panel's file set moved since this face priced it ([1725, 93449848, 17"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: etf_book_do_or_wait (decision and ladder re-derived)",
+   "detail": "exit=2 | STALE: the receipts moved ({'cut_order_gap': '2026-11-26', 'late_sheet_price': '"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: etf_book_permission_persistence (lifetime re-derived)",
+   "detail": "exit=2 | STALE: this face is priced on the panel bar 2026-11-26 while the panel now ends"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: etf_label_census (face re-derived from its own pair table, ruler cross-checked)",
+   "detail": "exit=1 | {\"ok\": false, \"problems\": [\"STALE the panel moved under 312 priced pair(s) and t"
+  },
+  {
+   "class": "STALE_OR_MISSING",
+   "leg": "product: swap section freshness (every face on the calendar's close)",
+   "detail": "exit=2 | [swap_freshness] every leg above is stale, not wrong: pay its producer in depend"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: carry-vs-ETF swap rulers (face re-derived from its inputs)",
-   "detail": "exit=1 | -- check 3 problem(s)"
+   "leg": "product: etf_label_census (does the board's name survive the board's prices)",
+   "detail": "exit=1 | selftest 21/23 FAIL"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: the substitution rulers reach the CEO page (r1933)",
-   "detail": "the CEO page has no substitution block"
+   "leg": "product: etf_book_open_gap (band re-derived from the ticket's own panels)",
+   "detail": "exit=1 | check 4/5 PASS"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: etf_book_decision_line (row re-derived from the receipts)",
-   "detail": "exit=1 |   row.late_sheet.aggregate_pp_per_year: -1.8900000000000001 -> -1.88000000000000"
+   "leg": "product: etf_book_swap_trigger (when does the swap have to be looked at again)",
+   "detail": "exit=1 | 32/33"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: etf_book_cash_roll_today (instruction re-derived from disk)",
-   "detail": "exit=1 | }"
+   "leg": "product: swap trigger (a re-derived gap face reads STALE, a wrong toll stays a defect)",
+   "detail": "exit=1 | 32/33"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: the book re-levers off its own decision grid (every phase re-derives)",
-   "detail": "exit=1 | [check] face cutoff 2026-11-25 is behind the ledger's last bar 2026-11-26"
+   "leg": "product: the Chinese CEO pages carry no new English prose (r1582)",
+   "detail": "day=2026-11-27 hits=8 inherited=7 new=1 first_new=LIVE-2026-11-27.md:341"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "fleet: a panel tail read by sample is certified against a full scan",
-   "detail": "['ah_panel']: a sampled row prints a tail with no record of the scan behind it"
+   "leg": "fleet: a lane that appended nothing still says whether it reaches the last session",
+   "detail": "the named holes differ from the holes the archives actually have; the last completed session is not the one the calendar allows; covering count does not follow the named holes"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: year_concentration_money (top-2 year shares priced in yuan)",
-   "detail": "exit=1 | selftest 29/30 PASS"
+   "leg": "product: the live-quote section and the panel's own lane agree on tonight",
+   "detail": "the retirement heading never reaches the page"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: year_concentration_money (published money face re-derives from YEAR-GATE)",
-   "detail": "exit=3 |  - nobond_base.margin.delta_pp: receipt -2.724279 vs recomputed -3.968915"
+   "leg": "product: the sleeve-gate answer survives a moved decision grid",
+   "detail": "judgements do not recompute from the published rows"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "config: no CEO-facing page prints one measurement twice",
-   "detail": "order:234,244 2x **算不出来**：净额单面停在 2026-11-25、这张单是 2026-11-26：两个 bar 的数不能相减（r1516 律）。"
+   "leg": "product: a de-levered book is told apart from a well-timed one",
+   "detail": "the verdict does not recompute from the published rows"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: the CEO page's sections each name the bar they were priced on",
-   "detail": "section 'bets' is behind the page and no chain leg re-runs it; section 'derisk' is behind the page and no chain leg re-runs it"
+   "leg": "product: a fixed fraction is only an adoption if it survives out of sample",
+   "detail": "the verdict does not recompute from the published rows"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: the sheet prints what the price did after a reading like today's",
-   "detail": "the producer's forward sentence is dropped or rewritten"
+   "leg": "product: the vol window is judged on more than one decision calendar",
+   "detail": "the verdict does not recompute from the published rows"
   },
   {
    "class": "UNCLASSIFIED",
-   "leg": "product: what carrying the sibling costs per year is on the sheet",
-   "detail": "nothing was swapped and the carry face does not say why its table is empty"
+   "leg": "product: the window grid's floor is the engine's, measured not assumed",
+   "detail": "the verdict/position do not recompute from the published rows"
+  },
+  {
+   "class": "UNCLASSIFIED",
+   "leg": "product: the page names the board session the premium section never captured",
+   "detail": "page does not print the board hole"
   }
  ],
  "legs_face": "logs/smoke_legs.json"

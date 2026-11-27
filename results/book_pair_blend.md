@@ -1,6 +1,6 @@
 # Two books, one wallet -- 2026-11-26
 
-*generated 2026-11-27T13:13:24+08:00 · window 2020-01-03 -> 2026-11-26 (1671 bars, the overlap of both books)*
+*generated 2026-11-27T16:14:48+08:00 · window 2020-01-03 -> 2026-11-26 (1671 bars, the overlap of both books)*
 
 **DIVERSIFICATION_PAYS** -- Splitting the wallet beats either book on its own: 30% convertible / 70% ETF gives Sharpe 1.066 (vs 0.540 and 0.958), worst year -6.0%, max drawdown -9.3%; the two books move together on the daily tape (corr 0.0899) and go down in 23% of months together -- read the gain as +0.11 Sharpe, not as insurance
 

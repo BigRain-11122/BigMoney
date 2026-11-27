@@ -1,6 +1,6 @@
 {
   "face": "etf_book_derisk_rule",
-  "asof": "2026-11-27T08:01:46+0800",
+  "asof": "2026-11-27T20:08:47+0800",
   "evidence_cutoff": "2026-11-26",
   "cell": "N5_R20_10bp",
   "question": "r1486 showed no vol-target rung both clears Y4 and buys drawdown; does a de-risking RULE that only acts in bad states (own drawdown, own trend, vol target conditioned on a loss regime) clear both",
@@ -36,7 +36,7 @@
     "phase_offset_days": 0
   },
   "inputs": {
-    "panel_last_bar": "2026-11-26"
+    "panel_last_bar": "2026-11-27"
   },
   "panel": {
     "digest": "fdb64c20030d2fb9",
@@ -902,5 +902,5 @@
     ],
     "detail": "rules passing the gate: none | of those buying >=0.5pp drawdown vs control (-0.1604): none | PHASE-DEPENDENT (passes in some phases only, not a rule): vt08 | closest vt08: top2 0.7378 vs 0.70, mdd -0.1056 vs control -0.1604, fails Y4_top2_share"
   },
-  "elapsed_sec": 87.8
+  "elapsed_sec": 74.2
 }

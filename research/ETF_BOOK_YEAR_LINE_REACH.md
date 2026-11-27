@@ -1,6 +1,6 @@
 # 年度线的可达性：冻结网格里有没有一个格子能过（etf_book_year_line_reach）
 
-截至 2026-11-26，源面 results/etf_book_year_gate/YEAR-GATE.json（asof 2026-11-26T20:27:57+0800），线 = top-2 年份占年度收益之和 ≤ 70.00%。
+截至 2026-11-26，源面 results/etf_book_year_gate/YEAR-GATE.json（asof 2026-11-27T20:05:44+0800），线 = top-2 年份占年度收益之和 ≤ 70.00%。
 
 **判词：REACHED_IN_SHAPE_NOT_IN_CAPACITY**（测了 12 个格子）
 

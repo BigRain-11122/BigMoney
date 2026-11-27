@@ -23,20 +23,20 @@ Partial: 银行ETF (21/28 priced), 科创50ETF (55/66 priced), 港股通信息�
 
 | label | class | live | priced pairs | worst median pp |
 |---|---|---|---|---|
-| 有色ETF | NOT_A_BASKET | 2 | 1 | 1.371 |
-| 通信ETF | NOT_A_BASKET | 3 | 3 | 0.523 |
-| 港股通央企红利ETF | MIXED | 3 | 3 | 0.448 |
-| 卫星ETF | MIXED | 5 | 10 | 0.436 |
+| 有色ETF | NOT_A_BASKET | 2 | 1 | 1.392 |
+| 通信ETF | NOT_A_BASKET | 3 | 3 | 0.522 |
+| 港股通央企红利ETF | MIXED | 3 | 3 | 0.447 |
+| 卫星ETF | MIXED | 5 | 10 | 0.437 |
 | 创新药ETF | MIXED | 4 | 6 | 0.434 |
-| 港股科技ETF | NOT_A_BASKET | 2 | 1 | 0.415 |
-| 港股通科技ETF | NOT_A_BASKET | 2 | 1 | 0.405 |
-| 港股通红利ETF | MIXED | 3 | 3 | 0.390 |
-| 价值ETF | NOT_A_BASKET | 2 | 1 | 0.385 |
-| 电池ETF | MIXED | 3 | 3 | 0.381 |
+| 港股科技ETF | NOT_A_BASKET | 2 | 1 | 0.414 |
+| 港股通科技ETF | NOT_A_BASKET | 2 | 1 | 0.403 |
+| 港股通红利ETF | MIXED | 3 | 3 | 0.388 |
+| 价值ETF | NOT_A_BASKET | 2 | 1 | 0.388 |
+| 电池ETF | MIXED | 3 | 3 | 0.383 |
 | 半导体设备ETF | MIXED | 3 | 3 | 0.368 |
-| 港股通创新药ETF | NOT_A_BASKET | 2 | 1 | 0.362 |
+| 港股通创新药ETF | NOT_A_BASKET | 2 | 1 | 0.361 |
 | 港股创新药ETF | NOT_A_BASKET | 2 | 1 | 0.335 |
-| 港股通金融ETF | NOT_A_BASKET | 2 | 1 | 0.333 |
+| 港股通金融ETF | NOT_A_BASKET | 2 | 1 | 0.334 |
 | 消费ETF | NOT_A_BASKET | 2 | 1 | 0.328 |
 | 医药ETF | NOT_A_BASKET | 2 | 1 | 0.307 |
 

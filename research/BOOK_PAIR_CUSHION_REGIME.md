@@ -31,7 +31,8 @@ The number that would make this actionable is the rich-minus-rest difference and
 
 ## Owed
 
-- chain leg + smoke leg (shared faces; this round ran under a contention window and touched only new files)
+- chain leg: landed r2184 (`book_pair_cushion_regime` writes behind the blend page)
+- smoke leg: landed r2185 -- it re-derives the band-vs-verdict rule, the rich-minus-rest point from the three rows, the rule-vs-own-exposure claim and the `today` block, so a face that drifts reads red instead of reading calm
 - CEO page section, once the shared page can be edited
 - the sleeve-level premium (the 20 held bonds' own premium) as a second regime, to test whether the market median is the wrong measure
 

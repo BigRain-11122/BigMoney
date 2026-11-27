@@ -1,6 +1,6 @@
 # book_pair_years — 钱包的每一年：哪一年会考验你，30/70 扛不扛得住
 
-面：`results/book_pair_years.json` ｜ 截止：**2026-11-26** ｜ 生成：2026-11-27T14:12:34+08:00
+面：`results/book_pair_years.json` ｜ 截止：**2026-11-26** ｜ 生成：2026-11-27T16:15:42+08:00
 
 问题：which year tests the wallet, and does the 30/70 split hold in it?
 

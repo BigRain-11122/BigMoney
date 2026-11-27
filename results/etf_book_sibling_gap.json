@@ -1,7 +1,7 @@
 {
  "artifact": "etf_book_sibling_gap",
- "session": "2026-11-26",
- "ticket": "TICKET-2026-11-26.json",
+ "session": "2026-11-27",
+ "ticket": "TICKET-2026-11-27.json",
  "source_face": "results\\etf_book_sibling_entry.json",
  "criteria": {
   "min_days": 120,
@@ -13,54 +13,46 @@
  "pairs": [
   {
    "leg_symbol": "510760",
-   "sibling_symbol": "510910",
-   "sibling_name": "上证指数ETF南方",
+   "sibling_symbol": "510210",
+   "sibling_name": "上证指数ETF富国",
    "index": "LBL:上证指数ETF",
-   "amount_cny": 86927.1,
+   "amount_cny": 86996.9,
    "source_verdict": "GAP_IMMATERIAL",
    "today_gain_cny": 103.1,
-   "gap_today_pp": 0.118,
+   "gap_today_pp": 0.1191,
    "daily_files": [
     "data\\daily\\sh510760.csv",
-    "data\\daily\\sh510910.csv"
+    "data\\daily\\sh510210.csv"
    ],
    "verdict": "NO_GAP",
    "why": "",
    "stats": {
-    "days": 120,
-    "first_date": "2026-06-03",
-    "last_date": "2026-11-26",
-    "today_gap_pp": 0.118,
-    "mean_pp": -2.9243,
-    "median_pp": -2.6985,
-    "sd_pp": 2.1975,
-    "min_pp": -7.6488,
-    "max_pp": 0.4554,
-    "share_days_positive": 0.1,
-    "today_percentile": 94.17,
-    "today_z": 1.384,
-    "last_year_mean_pp": -2.9243,
+    "days": 1505,
+    "first_date": "2020-09-09",
+    "last_date": "2026-11-27",
+    "today_gap_pp": 0.1191,
+    "mean_pp": -19.7445,
+    "median_pp": -4.5702,
+    "sd_pp": 42.7994,
+    "min_pp": -187.6595,
+    "max_pp": 7.1474,
+    "share_days_positive": 0.1874,
+    "today_percentile": 82.46,
+    "today_z": 0.464,
+    "last_year_mean_pp": -2.1186,
     "half_split_mean_pp": [
-     -4.7537,
-     -1.0949
+     -38.7421,
+     -0.7722
     ],
-    "nav_base_offset_pp": 33.3639,
-    "gap_change_median_pp": 0.1936
+    "nav_base_offset_pp": 28.9939,
+    "gap_change_median_pp": 0.1692
    },
    "repeatable_gain_cny": null,
    "one_off_gain_cny": null,
    "steps": [
     {
-     "date": "2026-06-08",
-     "jump_pp": -1.4403
-    },
-    {
-     "date": "2026-06-09",
-     "jump_pp": 1.2598
-    },
-    {
-     "date": "2026-06-26",
-     "jump_pp": -1.1922
+     "date": "2021-01-25",
+     "jump_pp": 160.7249
     }
    ],
    "flags": {
@@ -70,7 +62,7 @@
    "advice": "today's gap is under the 0.5 pp materiality line: nothing to swap",
    "family_basis": "board_label",
    "label": "上证指数ETF",
-   "label_gap_median_pp": 0.1936
+   "label_gap_median_pp": 0.1692
   }
  ],
  "skipped_legs": [
@@ -78,7 +70,7 @@
    "leg_symbol": "512040",
    "label": "价值ETF",
    "verdict": "CANNOT_VERIFY",
-   "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced"
+   "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced"
   },
   {
    "leg_symbol": "159655",
@@ -122,10 +114,10 @@
    "label": "上证指数ETF",
    "same_label_tickers": 5,
    "live_alternatives": 4,
-   "gap_median_pp": 0.1936,
+   "gap_median_pp": 0.1692,
    "state": "LABEL_IS_A_BASKET",
-   "why": "the board writes the same label and the gap's median day change is 0.194 pp (<= 0.30): the price history agrees these hold the same basket",
-   "sibling_symbol": "510910",
+   "why": "the board writes the same label and the gap's median day change is 0.169 pp (<= 0.30): the price history agrees these hold the same basket",
+   "sibling_symbol": "510210",
    "inner_verdict": "NO_GAP"
   },
   {
@@ -133,9 +125,9 @@
    "label": "价值ETF",
    "same_label_tickers": 3,
    "live_alternatives": 1,
-   "gap_median_pp": 0.385,
+   "gap_median_pp": 0.3883,
    "state": "LABEL_NOT_A_BASKET",
-   "why": "the board writes the same label, but the gap's median day change is 0.385 pp (> 0.30): these are not the same basket, so no swap is priced",
+   "why": "the board writes the same label, but the gap's median day change is 0.388 pp (> 0.30): these are not the same basket, so no swap is priced",
    "sibling_symbol": "159263",
    "inner_verdict": "NO_GAP"
   },
@@ -167,7 +159,7 @@
    "why": "no other live ticker writes this label on the board"
   }
  ],
- "label_family_board_session": "2026-11-26",
+ "label_family_board_session": "2026-11-27",
  "label_family_sensitivity": [
   {
    "line_pp": 0.25,

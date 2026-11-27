@@ -1,11 +1,11 @@
 {
- "ts": "2026-11-27T16:01:44+08:00",
- "ram_free_gb": 15.62,
- "cpu_load_pct": 17.4,
+ "ts": "2026-11-27T21:01:44+08:00",
+ "ram_free_gb": 10.81,
+ "cpu_load_pct": 26.0,
  "gpu": {
   "available": true,
-  "util_pct": 2,
-  "vram_used_mb": 4098,
+  "util_pct": 0,
+  "vram_used_mb": 4125,
   "vram_total_mb": 16384
  },
  "comfy_8188": {
@@ -19,27 +19,37 @@
  "media_jobs": [
   {
    "pid": 36036,
-   "mb": 4233,
+   "mb": 3897,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s ComfyUI\\main.py --windows-standalone-build"
   },
   {
    "pid": 119628,
-   "mb": 3848,
+   "mb": 3847,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory"
   }
  ],
  "quant_jobs": [
   {
-   "pid": 128448,
-   "mb": 347,
+   "pid": 22676,
+   "mb": 75,
+   "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
+  },
+  {
+   "pid": 76500,
+   "mb": 22,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py 2185 --only=etf_premium,sibling_entry,sibling_gap,swap_trigger,swap"
+  },
+  {
+   "pid": 130548,
+   "mb": 330,
    "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
   },
   {
-   "pid": 129128,
-   "mb": 75,
-   "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
+   "pid": 132248,
+   "mb": 95,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command cd K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney; $env:PYTHONIOENCODING='utf-8'; python -u Tools\\s6_chain_bmc"
   }
  ],
  "media_cpu_jobs": 2,
- "media_ram_gb": 7.89
+ "media_ram_gb": 7.56
 }

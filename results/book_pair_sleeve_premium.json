@@ -1,0 +1,607 @@
+{
+ "face": "results/book_pair_sleeve_premium.json",
+ "generated_at": "2026-11-27T20:51:42+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "panels": {
+  "etf": "2026-11-27",
+  "cb_arm": "2026-11-26",
+  "sleeve_premium": "2026-11-26",
+  "premium_day_used": "2026-11-26"
+ },
+ "question": "Does 'the cb sleeve is expensive' mean the same thing on the market's median premium as on the premium of the 20 bonds the sleeve actually holds?",
+ "caliber": {
+  "weight": "read from results/book_pair_blend.json best.w_cb",
+  "market_ruler": "median conv_premium across the whole cb panel on each date (the parent's own series)",
+  "sleeve_ruler": "median conv_premium of the bonds the dual-low rule held on that date; membership rebuilt from cb_dual_low._eligible with the parent's pick formula and grid",
+  "coverage_gate": "a month is dropped when fewer than 80% of the held bonds have a premium reading on that date",
+  "labels": "tertiles of each ruler's own history up to the previous month end, expanding window, >=250 readings -- identical machinery both sides",
+  "rule_cost": "10bp per side on the 0.30 cb share",
+  "bootstrap": "circular blocks of 3 months, 4000 draws, seed 20261127"
+ },
+ "window": {
+  "first": "2020-02-29",
+  "last": "2026-11-30",
+  "last_bar": "2026-11-27",
+  "months": 82,
+  "market_labelled_months": 81,
+  "sleeve_labelled_months": 81,
+  "recent_window_labelled_months": 81,
+  "months_dropped_for_coverage": 0,
+  "why": "the blend only exists where both parents have a level"
+ },
+ "inputs": {
+  "w_cb": 0.3,
+  "w_source": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/book_pair_blend.json",
+   "w_cb": 0.3,
+   "stamp": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/book_pair_blend.json",
+    "size": 13535,
+    "mtime": "2026-11-27T16:14:48"
+   }
+  },
+  "cb": {
+   "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
+   "bars": 4710,
+   "cagr": 0.07354814635438345,
+   "sharpe": 0.7581240490932705,
+   "last": "2026-11-26",
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+    "size": 25433554,
+    "mtime": "2026-11-27T11:34:31"
+   }
+  },
+  "etf": {
+   "face": "results/etf_nobond_vt.json",
+   "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+   "execution": "decide at close t, own from the open of t+1",
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+    "size": 102490,
+    "mtime": "2026-11-27T15:33:57"
+   },
+   "universe": 1539
+  },
+  "sleeve_arm": {
+   "meta": {
+    "arm": "n_hold=20 rebal=20 phase=0 cost=parent",
+    "filters": "close 80..200, drop deep-ITM (close>=130 and premium<=1%), no premium cap",
+    "rebalances": 141,
+    "short_pool_skips": 95,
+    "days_with_a_level": 3489,
+    "first": "2007-07-12",
+    "last": "2026-11-26",
+    "coverage_min": 0.0,
+    "coverage_median": 1.0
+   },
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+    "size": 25433554,
+    "mtime": "2026-11-27T11:34:31"
+   }
+  },
+  "generic_panel": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/generic_cb_panel.csv.gz",
+   "missing": true
+  }
+ },
+ "rulers": {
+  "months_both_labelled": 81,
+  "months_same": 23,
+  "agreement": 0.284,
+  "gap_pp": 71.6,
+  "market_rich_sleeve_not": 43,
+  "sleeve_rich_market_not": 0,
+  "pairs_differing": 58
+ },
+ "rulers_recent_window": {
+  "months_both_labelled": 81,
+  "months_same": 30,
+  "agreement": 0.3704,
+  "gap_pp": 62.96,
+  "market_rich_sleeve_not": 28,
+  "sleeve_rich_market_not": 10,
+  "pairs_differing": 51
+ },
+ "label_differences": [
+  {
+   "month_ending": "2020-04-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2020-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2021-01-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-03-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-04-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-05-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-06-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-08-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2021-10-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2022-02-28",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-03-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-04-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-06-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-07-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-08-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-09-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-10-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-11-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2022-12-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-01-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-02-28",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-03-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-04-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2023-06-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-07-31",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-08-31",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-09-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-10-31",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-11-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2023-12-31",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2024-01-31",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2024-03-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-04-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-06-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2024-07-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-08-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-09-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2024-10-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2024-11-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2024-12-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2025-02-28",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2025-03-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2025-04-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2025-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2025-07-31",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2025-09-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2025-11-30",
+   "market": "mid",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2026-01-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2026-02-28",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2026-04-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2026-05-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2026-06-30",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2026-08-31",
+   "market": "rich",
+   "sleeve": "mid"
+  },
+  {
+   "month_ending": "2026-09-30",
+   "market": "rich",
+   "sleeve": "cheap"
+  },
+  {
+   "month_ending": "2026-10-31",
+   "market": "rich",
+   "sleeve": "mid"
+  }
+ ],
+ "rules": {
+  "market": {
+   "label_months": 81,
+   "months_in_cash_sleeve": 46,
+   "months_scored": 81,
+   "switches": 11,
+   "cost_paid_pp": 0.33,
+   "avg_cb_exposure": 0.4321,
+   "rule": {
+    "cagr": 0.099694,
+    "sharpe": 1.383456,
+    "maxdd": -0.043718,
+    "vol": 0.070717,
+    "months": 81,
+    "worst_month": -0.035604,
+    "pos_pct": 0.6173
+   },
+   "always_on": {
+    "cagr": 0.092871,
+    "sharpe": 1.21465,
+    "maxdd": -0.089574,
+    "vol": 0.075677,
+    "months": 81,
+    "worst_month": -0.037076,
+    "pos_pct": 0.6049
+   },
+   "matched_exposure": {
+    "cagr": 0.081515,
+    "sharpe": 1.266249,
+    "maxdd": -0.051633,
+    "vol": 0.063643,
+    "months": 81,
+    "worst_month": -0.028884,
+    "pos_pct": 0.642
+   },
+   "edge_band": {
+    "point_pp": 0.144,
+    "lo_pp": 0.018,
+    "hi_pp": 0.275,
+    "share_le_0": 0.0127,
+    "n": 81,
+    "block_len": 3,
+    "draws": 4000
+   },
+   "rule_verdict": "THE_RULE_BEATS_ITS_OWN_EXPOSURE"
+  },
+  "sleeve": {
+   "label_months": 81,
+   "months_in_cash_sleeve": 3,
+   "months_scored": 81,
+   "switches": 5,
+   "cost_paid_pp": 0.15,
+   "avg_cb_exposure": 0.963,
+   "rule": {
+    "cagr": 0.093558,
+    "sharpe": 1.245422,
+    "maxdd": -0.081293,
+    "vol": 0.074227,
+    "months": 81,
+    "worst_month": -0.035745,
+    "pos_pct": 0.6049
+   },
+   "always_on": {
+    "cagr": 0.092871,
+    "sharpe": 1.21465,
+    "maxdd": -0.089574,
+    "vol": 0.075677,
+    "months": 81,
+    "worst_month": -0.037076,
+    "pos_pct": 0.6049
+   },
+   "matched_exposure": {
+    "cagr": 0.092143,
+    "sharpe": 1.219861,
+    "maxdd": -0.087139,
+    "vol": 0.074748,
+    "months": 81,
+    "worst_month": -0.036507,
+    "pos_pct": 0.6173
+   },
+   "edge_band": {
+    "point_pp": 0.011,
+    "lo_pp": -0.026,
+    "hi_pp": 0.057,
+    "share_le_0": 0.315,
+    "n": 81,
+    "block_len": 3,
+    "draws": 4000
+   },
+   "rule_verdict": "RULE_EDGE_NOT_SEPARABLE_FROM_NOISE"
+  },
+  "sleeve_recent": {
+   "label_months": 81,
+   "months_in_cash_sleeve": 28,
+   "months_scored": 81,
+   "switches": 27,
+   "cost_paid_pp": 0.81,
+   "avg_cb_exposure": 0.6543,
+   "rule": {
+    "cagr": 0.092601,
+    "sharpe": 1.254881,
+    "maxdd": -0.06782,
+    "vol": 0.072888,
+    "months": 81,
+    "worst_month": -0.035604,
+    "pos_pct": 0.6173
+   },
+   "always_on": {
+    "cagr": 0.092871,
+    "sharpe": 1.21465,
+    "maxdd": -0.089574,
+    "vol": 0.075677,
+    "months": 81,
+    "worst_month": -0.037076,
+    "pos_pct": 0.6049
+   },
+   "matched_exposure": {
+    "cagr": 0.086008,
+    "sharpe": 1.255282,
+    "maxdd": -0.066631,
+    "vol": 0.067732,
+    "months": 81,
+    "worst_month": -0.031766,
+    "pos_pct": 0.6543
+   },
+   "edge_band": {
+    "point_pp": 0.054,
+    "lo_pp": -0.056,
+    "hi_pp": 0.166,
+    "share_le_0": 0.177,
+    "n": 81,
+    "block_len": 3,
+    "draws": 4000
+   },
+   "rule_verdict": "RULE_EDGE_NOT_SEPARABLE_FROM_NOISE"
+  }
+ },
+ "current": {
+  "sleeve_ruler": {
+   "asof": "2026-11-26",
+   "median_premium_pct": 8.769,
+   "percentile_in_own_history": 0.3032,
+   "label_in_force": "rich",
+   "read_at_month_end": "2026-10-31",
+   "applies_to_month_ending": "2026-11-30",
+   "side": "cash",
+   "spot": {
+    "reading_pct": 8.769,
+    "cheap_below_pct": 9.246,
+    "rich_above_pct": 15.233,
+    "is_rich_now": false,
+    "is_cheap_now": true,
+    "asof": "2026-11-26",
+    "window": "all readings"
+   }
+  },
+  "market_ruler": {
+   "asof": "2026-11-26",
+   "median_premium_pct": 70.345,
+   "percentile_in_own_history": 0.9817,
+   "label_in_force": "rich",
+   "read_at_month_end": "2026-10-31",
+   "applies_to_month_ending": "2026-11-30",
+   "side": "cash",
+   "spot": {
+    "reading_pct": 70.345,
+    "cheap_below_pct": 21.451,
+    "rich_above_pct": 32.642,
+    "is_rich_now": true,
+    "is_cheap_now": false,
+    "asof": "2026-11-26",
+    "window": "all readings"
+   }
+  },
+  "sleeve_ruler_recent": {
+   "asof": "2026-11-26",
+   "median_premium_pct": 8.769,
+   "percentile_in_own_history": 0.3032,
+   "label_in_force": "rich",
+   "read_at_month_end": "2026-10-31",
+   "applies_to_month_ending": "2026-11-30",
+   "side": "cash",
+   "spot": {
+    "reading_pct": 8.769,
+    "cheap_below_pct": 8.233,
+    "rich_above_pct": 12.283,
+    "is_rich_now": false,
+    "is_cheap_now": false,
+    "asof": "2026-11-26",
+    "window": "trailing 750 readings"
+   },
+   "label_basis": "trailing 750 readings"
+  },
+  "they_agree_today": true,
+  "their_spot_readings_agree": false,
+  "if_they_disagree": null,
+  "if_spot_disagrees": "the label in force was read at the previous month end; the bonds the sleeve holds today read differently, so the call is a month-old reading of a sleeve that has since re-picked"
+ },
+ "verdict": "THE_ANSWER_DEPENDS_ON_WHICH_RULER",
+ "unverified": [
+  "membership is rebuilt from the parent's pick formula, not read from the parent's holdings -- the parent does not publish them, so a formula change on its side would move this face without either side failing",
+  "the sleeve's own premium jumps at rebalances (a pick turns over half the 20 bonds), so part of its month-end reading is 'which bonds we happen to hold', not only 'how expensive they are' -- the coverage gate cannot see that",
+  "the sleeve ruler still has only one premium cycle in it (81 labelled months); a second cycle is what would tell us whether the two rulers converge in a genuinely cheap market",
+  "an expanding-window tertile cannot call a structurally falling series rich: the sleeve reads rich in 3 of 81 months and the market in 46, so the two arms do not fire equally often -- the recent-window arm is published beside them for that reason, not as a tiebreak",
+  "premium on a held bond can be stale on its last quoted day; the coverage gate drops a month below 80% coverage, it does not correct the rest",
+  "the rule is priced on monthly switches only; intra-month runs are not modelled",
+  "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them"
+ ]
+}
