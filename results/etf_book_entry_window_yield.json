@@ -1,0 +1,375 @@
+{
+ "schema": "etf-book-entry-window-yield/v1",
+ "face": "etf_book_entry_window_yield",
+ "machine": "bm-c",
+ "question": "和今天差不多的时间上车、拿满一年，历史上的人都拿到了什么？中途要扛多深？",
+ "execution": "decide at close t, own from open t+1 (entry_lag=1) -- the executable caliber",
+ "universe": 1539,
+ "flips_repaired": 169,
+ "arms": {
+  "nobond_vt08": {
+   "n_start_days": 1420,
+   "horizon_bars": 252,
+   "return": {
+    "median_pct": 9.08,
+    "p10_pct": 1.41,
+    "p25_pct": 4.16,
+    "p75_pct": 15.28,
+    "p90_pct": 33.75,
+    "min_pct": -6.62,
+    "max_pct": 56.01,
+    "share_of_starts_negative_pct": 5.6,
+    "spread_p90_minus_p10_pp": 32.34,
+    "spread_over_median_x": 3.56
+   },
+   "path_drawdown": {
+    "median_pct": -6.71,
+    "p10_pct": -10.11,
+    "worst_pct": -10.11,
+    "n_distinct_values": 64
+   },
+   "worst_decile_start_months": {
+    "2021-09": 20,
+    "2021-05": 18,
+    "2021-04": 16,
+    "2020-07": 16,
+    "2021-10": 14
+   },
+   "worst_starts": [
+    {
+     "from": "2021-09-10",
+     "to": "2022-09-27",
+     "return_pct": -6.62,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-14",
+     "to": "2022-09-29",
+     "return_pct": -6.27,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-13",
+     "to": "2022-09-28",
+     "return_pct": -5.32,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-09",
+     "to": "2022-09-26",
+     "return_pct": -5.11,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-15",
+     "to": "2022-09-30",
+     "return_pct": -4.77,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-23",
+     "to": "2022-10-13",
+     "return_pct": -4.28,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-16",
+     "to": "2022-10-10",
+     "return_pct": -4.23,
+     "path_maxdd_pct": -8.25
+    },
+    {
+     "from": "2021-09-08",
+     "to": "2022-09-23",
+     "return_pct": -3.76,
+     "path_maxdd_pct": -8.25
+    }
+   ],
+   "best_starts": [
+    {
+     "from": "2024-10-08",
+     "to": "2025-10-21",
+     "return_pct": 56.01
+    },
+    {
+     "from": "2024-09-27",
+     "to": "2025-10-17",
+     "return_pct": 54.47
+    },
+    {
+     "from": "2024-09-30",
+     "to": "2025-10-20",
+     "return_pct": 54.27
+    }
+   ],
+   "turnover": 1.08,
+   "window": [
+    "2020-01-03",
+    "2026-11-27"
+   ],
+   "independent_full_years": [
+    {
+     "from": "2020-01-03",
+     "to": "2021-01-18",
+     "return_pct": 6.92
+    },
+    {
+     "from": "2021-01-18",
+     "to": "2022-02-07",
+     "return_pct": 2.87
+    },
+    {
+     "from": "2022-02-07",
+     "to": "2023-02-20",
+     "return_pct": 5.92
+    },
+    {
+     "from": "2023-02-20",
+     "to": "2024-03-05",
+     "return_pct": 5.28
+    },
+    {
+     "from": "2024-03-05",
+     "to": "2025-03-20",
+     "return_pct": 15.89
+    },
+    {
+     "from": "2025-03-20",
+     "to": "2026-04-03",
+     "return_pct": 34.84
+    }
+   ],
+   "entry_year_median": {
+    "2020": {
+     "n": 242,
+     "median_pct": 6.21,
+     "worst_pct": -3.67
+    },
+    "2021": {
+     "n": 243,
+     "median_pct": 2.1,
+     "worst_pct": -6.62
+    },
+    "2022": {
+     "n": 242,
+     "median_pct": 7.94,
+     "worst_pct": -0.09
+    },
+    "2023": {
+     "n": 242,
+     "median_pct": 8.96,
+     "worst_pct": -0.13
+    },
+    "2024": {
+     "n": 242,
+     "median_pct": 18.55,
+     "worst_pct": 11.11
+    },
+    "2025": {
+     "n": 209,
+     "median_pct": 30.49,
+     "worst_pct": -0.28
+    }
+   },
+   "verdict": "LOSING_YEARS_EXIST_BUT_RARE"
+  },
+  "nobond_base": {
+   "n_start_days": 1420,
+   "horizon_bars": 252,
+   "return": {
+    "median_pct": 10.85,
+    "p10_pct": 1.28,
+    "p25_pct": 4.73,
+    "p75_pct": 26.03,
+    "p90_pct": 42.46,
+    "min_pct": -7.19,
+    "max_pct": 80.91,
+    "share_of_starts_negative_pct": 6.8,
+    "spread_p90_minus_p10_pp": 41.18,
+    "spread_over_median_x": 3.79
+   },
+   "path_drawdown": {
+    "median_pct": -10.6,
+    "p10_pct": -15.13,
+    "worst_pct": -16.23,
+    "n_distinct_values": 59
+   },
+   "worst_decile_start_months": {
+    "2021-09": 20,
+    "2021-05": 18,
+    "2021-04": 17,
+    "2020-08": 13,
+    "2021-10": 13
+   },
+   "worst_starts": [
+    {
+     "from": "2021-09-10",
+     "to": "2022-09-27",
+     "return_pct": -7.19,
+     "path_maxdd_pct": -10.6
+    },
+    {
+     "from": "2021-09-14",
+     "to": "2022-09-29",
+     "return_pct": -6.92,
+     "path_maxdd_pct": -10.6
+    },
+    {
+     "from": "2020-08-07",
+     "to": "2021-08-19",
+     "return_pct": -6.33,
+     "path_maxdd_pct": -13.21
+    },
+    {
+     "from": "2021-09-13",
+     "to": "2022-09-28",
+     "return_pct": -5.65,
+     "path_maxdd_pct": -10.6
+    },
+    {
+     "from": "2020-08-10",
+     "to": "2021-08-20",
+     "return_pct": -5.44,
+     "path_maxdd_pct": -13.21
+    },
+    {
+     "from": "2021-09-09",
+     "to": "2022-09-26",
+     "return_pct": -5.4,
+     "path_maxdd_pct": -10.6
+    },
+    {
+     "from": "2020-08-06",
+     "to": "2021-08-18",
+     "return_pct": -5.27,
+     "path_maxdd_pct": -13.21
+    },
+    {
+     "from": "2020-08-11",
+     "to": "2021-08-23",
+     "return_pct": -5.07,
+     "path_maxdd_pct": -13.21
+    }
+   ],
+   "best_starts": [
+    {
+     "from": "2024-10-08",
+     "to": "2025-10-21",
+     "return_pct": 80.91
+    },
+    {
+     "from": "2024-09-27",
+     "to": "2025-10-17",
+     "return_pct": 78.03
+    },
+    {
+     "from": "2024-09-30",
+     "to": "2025-10-20",
+     "return_pct": 76.92
+    }
+   ],
+   "turnover": 1.53,
+   "window": [
+    "2020-01-03",
+    "2026-11-27"
+   ],
+   "independent_full_years": [
+    {
+     "from": "2020-01-03",
+     "to": "2021-01-18",
+     "return_pct": 25.83
+    },
+    {
+     "from": "2021-01-18",
+     "to": "2022-02-07",
+     "return_pct": 4.19
+    },
+    {
+     "from": "2022-02-07",
+     "to": "2023-02-20",
+     "return_pct": 5.65
+    },
+    {
+     "from": "2023-02-20",
+     "to": "2024-03-05",
+     "return_pct": 5.99
+    },
+    {
+     "from": "2024-03-05",
+     "to": "2025-03-20",
+     "return_pct": 22.31
+    },
+    {
+     "from": "2025-03-20",
+     "to": "2026-04-03",
+     "return_pct": 37.4
+    }
+   ],
+   "entry_year_median": {
+    "2020": {
+     "n": 242,
+     "median_pct": 12.77,
+     "worst_pct": -6.33
+    },
+    "2021": {
+     "n": 243,
+     "median_pct": 2.55,
+     "worst_pct": -7.19
+    },
+    "2022": {
+     "n": 242,
+     "median_pct": 8.18,
+     "worst_pct": -0.42
+    },
+    "2023": {
+     "n": 242,
+     "median_pct": 8.65,
+     "worst_pct": -1.55
+    },
+    "2024": {
+     "n": 242,
+     "median_pct": 26.86,
+     "worst_pct": 15.12
+    },
+    "2025": {
+     "n": 209,
+     "median_pct": 34.85,
+     "worst_pct": -0.62
+    }
+   },
+   "verdict": "LOSING_YEARS_EXIST_BUT_RARE"
+  }
+ },
+ "vol_target_bought": {
+  "median_pp": -1.77,
+  "p10_pp": 0.13,
+  "worst_pp": 0.57,
+  "path_drawdown_median_pp": 3.89,
+  "path_drawdown_worst_pp": 6.12,
+  "verdict": "THE_DIAL_BUYS_THE_PATH_NOT_THE_YIELD",
+  "reading": "if you would sell at the drawdown, the dial buys the ability to stay; if you would not, it costs you one-year median return"
+ },
+ "verdict": {
+  "headline": "THE_DAY_YOU_START_MOVES_THE_ANSWER_MORE_THAN_THE_STRATEGY_DOES",
+  "spread_over_median_x": 3.56,
+  "reading": "same book, same year, 10th vs 90th percentile start day: the gap is the spread; the typical outcome is the median"
+ },
+ "last_full_year": {
+  "from": "2025-11-13",
+  "to": "2026-11-27",
+  "return_pct_vt08": -0.28
+ },
+ "evidence_cutoff": "2026-11-27",
+ "inputs": {
+  "panel_probe": "data/daily/sh510300.csv",
+  "panel_last_bar": "2026-11-27",
+  "books": [
+   "results/etf_nobond_vt.json"
+  ]
+ },
+ "not_measured": [
+  "overlapping start days are not independent samples -- no p-value is claimed",
+  "the carries/cb books are not on this ruler yet",
+  "costs are the book's own 10bp per side; entry slippage beyond that is not priced"
+ ]
+}
