@@ -1506,6 +1506,162 @@ def main() -> int:
     except Exception as _e81:
         check("product: the split's cushion is half the losing months, and it is arithmetic (r2181)",
               False, repr(_e81)[:160])
+    # r2185: book_pair_cushion_regime (r2183) and book_pair_split_ci (r2180) each got a
+    # chain leg in r2184 but no smoke leg -- the r1282 orphan class comes in pairs, and a
+    # face that only its own check reads is a face that is never asked whether the
+    # sentence it sells still follows its rows. These two legs re-derive that sentence
+    # from the published rows, so a face that drifts reads red instead of reading calm.
+    try:
+        from config import PATHS as _P84
+        _f84 = os.path.join(_P84.results_dir, "book_pair_cushion_regime.json")
+        _bad84 = []
+        if not os.path.exists(_f84):
+            _bad84.append("results/book_pair_cushion_regime.json missing")
+        else:
+            with open(_f84, encoding="utf-8") as _fh84:
+                _r84 = json.load(_fh84) or {}
+            if not str(_r84.get("verdict") or ""):
+                _bad84.append("no verdict printed")
+            if not str(_r84.get("evidence_cutoff") or ""):
+                _bad84.append("no evidence_cutoff printed")
+            _rg84 = _r84.get("regimes") or {}
+            for _k84 in ("cheap", "mid", "rich"):
+                if not isinstance(_rg84.get(_k84), dict):
+                    _bad84.append("regime row missing: %s" % _k84)
+            # the band is the whole argument: a split that straddles zero cannot be sold
+            # as a separable difference, and one that sits entirely on one side of zero
+            # cannot be sold as "the cushion does not depend on the premium"
+            _cd84 = _r84.get("cushion_difference") or {}
+            _lo84 = _cd84.get("lo_pp")
+            _hi84 = _cd84.get("hi_pp")
+            _vd84 = str(_r84.get("verdict") or "")
+            if _lo84 is None or _hi84 is None:
+                _bad84.append("the rich-minus-rest band is not printed")
+            elif _lo84 <= 0.0 <= _hi84:
+                if "NOT_SEPARABLE" not in _vd84:
+                    _bad84.append("band %s..%s straddles zero but the verdict says %s"
+                                  % (_lo84, _hi84, _vd84))
+            elif "NOT_SEPARABLE" in _vd84:
+                _bad84.append("band %s..%s does not straddle zero but the verdict says %s"
+                              % (_lo84, _hi84, _vd84))
+            # the printed point must be the three rows weighted by their falling months,
+            # not a number carried over from a previous run (stored cushions are 2dp, so
+            # 0.05pp is the printing grid and not a tolerance somebody picked)
+            _dn84 = {}
+            _cp84 = {}
+            for _k84 in ("cheap", "mid", "rich"):
+                _rw84 = _rg84.get(_k84) or {}
+                _dn84[_k84] = int(_rw84.get("down_months") or 0)
+                _cp84[_k84] = float(_rw84.get("cushion_pp") or 0.0)
+            _nrich84 = _dn84["rich"]
+            _nrest84 = _dn84["cheap"] + _dn84["mid"]
+            if _nrich84 and _nrest84 and _cd84.get("point_pp") is not None:
+                _rest84 = ((_cp84["cheap"] * _dn84["cheap"] + _cp84["mid"] * _dn84["mid"])
+                           / float(_nrest84))
+                _pt84 = float(_cd84.get("point_pp"))
+                if abs((_cp84["rich"] - _rest84) - _pt84) > 0.05:
+                    _bad84.append("printed point %.3fpp is not rich %.3f minus rest %.3f "
+                                  "over %d/%d falling months"
+                                  % (_pt84, _cp84["rich"], _rest84, _nrich84, _nrest84))
+            # the rule's headline is earned against its own exposure, not against
+            # always-on: beating a book that carried more convertible risk is not the edge
+            _ru84 = _r84.get("rule") or {}
+            if "BEATS_ITS_OWN_EXPOSURE" in str(_r84.get("rule_verdict") or ""):
+                _sr84 = float((_ru84.get("rule") or {}).get("sharpe") or 0.0)
+                _sm84 = float((_ru84.get("matched_exposure") or {}).get("sharpe") or 0.0)
+                if not (_sr84 > _sm84):
+                    _bad84.append("rule claims it beats its own exposure but %.3f <= %.3f"
+                                  % (_sr84, _sm84))
+            # the page quotes this block for "where the sleeve sits today", so it has to
+            # follow the label it was derived from
+            _cur84 = _r84.get("current") or {}
+            _td84 = _cur84.get("today") or {}
+            if _td84:
+                _lab84 = _cur84.get("last_label")
+                _side84 = "cash" if _lab84 == 2 else "in_book"
+                if _td84.get("sleeve_state") != _side84:
+                    _bad84.append("today says %r while the label %r says %r"
+                                  % (_td84.get("sleeve_state"), _lab84, _side84))
+        check("product: the premium-regime split may not be called separable, and its rule "
+              "must beat its own exposure (r2185)",
+              not _bad84, "; ".join(_bad84)[:220]
+              or "band straddles zero and the verdict says so; rich-minus-rest re-derived "
+                 "from the three rows; rule beats its matched exposure; today follows the label")
+    except Exception as _e84:
+        check("product: the premium-regime split may not be called separable, and its rule "
+              "must beat its own exposure (r2185)",
+              False, repr(_e84)[:160])
+    # r2185: the sibling leg. r2180 answered "is the cushion real" with a band, and the
+    # band's lower edge is the whole claim -- but the same face also prints the mean as if
+    # it were skill. This leg keeps both honest: the verdict must follow the edge, and the
+    # cushioned mean must be the sleeve mix, not a number with a story.
+    try:
+        from config import PATHS as _P85
+        _f85 = os.path.join(_P85.results_dir, "book_pair_split_ci.json")
+        _bad85 = []
+        if not os.path.exists(_f85):
+            _bad85.append("results/book_pair_split_ci.json missing")
+        else:
+            with open(_f85, encoding="utf-8") as _fh85:
+                _r85 = json.load(_fh85) or {}
+            _vd85 = str(_r85.get("verdict") or "")
+            if not _vd85:
+                _bad85.append("no verdict printed")
+            _ci85 = _r85.get("primary_ci90") or []
+            if len(_ci85) != 2:
+                _bad85.append("primary_ci90 is not a pair: %r" % (_ci85,))
+            else:
+                _lo85, _hi85 = float(_ci85[0]), float(_ci85[1])
+                if _lo85 > _hi85:
+                    _bad85.append("primary_ci90 is inverted: %s..%s" % (_lo85, _hi85))
+                elif _lo85 > 0.0 and "POSITIVE" not in _vd85:
+                    _bad85.append("band %s..%s is entirely above zero but the verdict says %s"
+                                  % (_lo85, _hi85, _vd85))
+                elif _hi85 < 0.0 and "NEGATIVE" not in _vd85:
+                    _bad85.append("band %s..%s is entirely below zero but the verdict says %s"
+                                  % (_lo85, _hi85, _vd85))
+                elif _lo85 <= 0.0 <= _hi85 and "NOT_SEPARABLE" not in _vd85:
+                    _bad85.append("band %s..%s straddles zero but the verdict says %s"
+                                  % (_lo85, _hi85, _vd85))
+            _cs85 = _r85.get("cushion") or {}
+            _n85 = int(_cs85.get("n") or 0)
+            if _n85 <= 0:
+                _bad85.append("no falling months scored")
+            for _k85 in ("improved", "cushioned"):
+                if int(_cs85.get(_k85) or 0) > _n85:
+                    _bad85.append("%s %s > falling months %d"
+                                  % (_k85, _cs85.get(_k85), _n85))
+            # the cushioned mean is a weighted average of the two books at the published
+            # weight -- within-month compounding leaves ~2e-5, so 5e-5 is 0.5bp
+            _w85 = float(((_r85.get("inputs") or {}).get("blend_dep") or {}).get("w_cb") or -1.0)
+            if not (0.0 < _w85 < 1.0):
+                _bad85.append("sleeve weight out of range: %s" % _w85)
+            elif _cs85:
+                _me85 = float(_cs85.get("mean_etf") or 0.0)
+                _mc85 = float(_cs85.get("mean_cb") or 0.0)
+                _mb85 = float(_cs85.get("mean_blend") or 0.0)
+                _mix85 = (1.0 - _w85) * _me85 + _w85 * _mc85
+                if abs(_mb85 - _mix85) > 5e-5:
+                    _bad85.append("cushioned mean %.6f is not the sleeve mix %.6f at w_cb=%.2f"
+                                  % (_mb85, _mix85, _w85))
+                elif _me85 < 0.0 and not (_mb85 > _me85):
+                    _bad85.append("scored only in falling months but the split does not lose less")
+            # the face claims its losing months are the parent's own: if any parent check
+            # stopped matching, the cushion is measured on a different month set
+            _pr85 = (_r85.get("parent_reconciliation") or {}).get("checks") or {}
+            _off85 = [_k85 for _k85, _v85 in _pr85.items()
+                      if isinstance(_v85, dict) and not _v85.get("matched")]
+            if _off85:
+                _bad85.append("parent checks no longer match: %s" % ",".join(sorted(_off85)))
+        check("product: the split's cushion band must match its verdict, and the cushioned "
+              "mean must be the sleeve mix (r2185)",
+              not _bad85, "; ".join(_bad85)[:220]
+              or "CI edge and verdict agree; cushioned mean reproduces the sleeve mix and "
+                 "loses less than the ETF; every parent check still matches")
+    except Exception as _e85:
+        check("product: the split's cushion band must match its verdict, and the cushioned "
+              "mean must be the sleeve mix (r2185)",
+              False, repr(_e85)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than
