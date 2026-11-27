@@ -1,0 +1,182 @@
+{
+ "schema": "carry-three-lines-window/v1",
+ "face": "carry_three_lines_window",
+ "machine": "bm-c",
+ "evidence_cutoff": "2026-11-25",
+ "lines": [
+  {
+   "line": "basis_nominal",
+   "caliber": "名义额基差收益（读者拿不到：钱包买不到名义额，见 r2190）",
+   "sharpe": 2.972,
+   "cagr_pct": 10.069,
+   "ann_vol_pct": 3.2463,
+   "mdd_pct": -1.8896,
+   "first": "2017-01-18",
+   "last": "2026-11-25",
+   "bars": 2390,
+   "source_face": "results/idx_fut_carry_kill_rule_economics.json",
+   "source_generated": "2026-11-26T15:29:49+08:00",
+   "source_key": "products.IC.baseline"
+  },
+  {
+   "line": "excess_hedged",
+   "caliber": "扣掉指数后的对冲残差（袖能持有的那条）",
+   "sharpe": 1.4162,
+   "cagr_pct": null,
+   "ann_vol_pct": null,
+   "mdd_pct": null,
+   "first": "2018-10-22",
+   "last": "2026-11-20",
+   "bars": 1961,
+   "source_face": "results/idx_fut_carry_search_rent.json",
+   "source_generated": "2026-11-23T03:11:13+08:00",
+   "source_key": "cells.IC|excess_hedged"
+  },
+  {
+   "line": "carry_unhedged",
+   "caliber": "不带对冲的 per-lot 点位收益",
+   "sharpe": 0.5057,
+   "cagr_pct": null,
+   "ann_vol_pct": null,
+   "mdd_pct": null,
+   "first": "2018-10-22",
+   "last": "2026-11-20",
+   "bars": 1961,
+   "source_face": "results/idx_fut_carry_search_rent.json",
+   "source_generated": "2026-11-23T03:11:13+08:00",
+   "source_key": "cells.IC|carry_unhedged"
+  }
+ ],
+ "overlap": {
+  "first": "2018-10-22",
+  "last": "2026-11-20",
+  "calendar_days": 2951
+ },
+ "coverage": {
+  "basis_nominal": {
+   "own_days": 3598,
+   "shared_days": 2951,
+   "share_of_own_pct": 82.02
+  },
+  "excess_hedged": {
+   "own_days": 2951,
+   "shared_days": 2951,
+   "share_of_own_pct": 100.0
+  },
+  "carry_unhedged": {
+   "own_days": 2951,
+   "shared_days": 2951,
+   "share_of_own_pct": 100.0
+  }
+ },
+ "conversions": [
+  {
+   "line": "basis_nominal",
+   "sharpe": 2.972,
+   "target_vol_pct": 8.0,
+   "capital_return_pct": 23.776,
+   "window": [
+    "2017-01-18",
+    "2026-11-25"
+   ],
+   "note": "恒等式 8% 目标 x Sharpe；它不是预测，且两个乘数各自的窗口不同"
+  },
+  {
+   "line": "excess_hedged",
+   "sharpe": 1.4162,
+   "target_vol_pct": 8.0,
+   "capital_return_pct": 11.33,
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "note": "恒等式 8% 目标 x Sharpe；它不是预测，且两个乘数各自的窗口不同"
+  },
+  {
+   "line": "carry_unhedged",
+   "sharpe": 0.5057,
+   "target_vol_pct": 8.0,
+   "capital_return_pct": 4.046,
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "note": "恒等式 8% 目标 x Sharpe；它不是预测，且两个乘数各自的窗口不同"
+  }
+ ],
+ "basis_segments": {
+  "train": {
+   "first": "2017-01-18",
+   "last": "2023-12-29",
+   "bars": 1689,
+   "rule_key": "0.4sig_cooldown20",
+   "sharpe": 3.1736,
+   "cagr_pct": 10.4378,
+   "ann_vol_pct": 3.1445,
+   "mdd_pct": -1.2618
+  },
+  "test": {
+   "first": "2024-01-02",
+   "last": "2026-11-25",
+   "bars": 701,
+   "rule_key": "0.4sig_cooldown20",
+   "sharpe": 2.5422,
+   "cagr_pct": 9.1854,
+   "ann_vol_pct": 3.4812,
+   "mdd_pct": -1.8896
+  }
+ },
+ "ordering_check": {
+  "full_window_order": [
+   "basis_nominal",
+   "excess_hedged",
+   "carry_unhedged"
+  ],
+  "cut_order": [
+   "basis_nominal",
+   "excess_hedged",
+   "carry_unhedged"
+  ],
+  "cut_used": {
+   "line": "basis_nominal",
+   "sharpe": 2.5422,
+   "window": [
+    "2024-01-02",
+    "2026-11-25"
+   ]
+  },
+  "verdict": "ORDERING_SURVIVES_THE_CUT",
+  "note": "排序不变时说「这三条腿谁更厚」对切点不敏感；它不证明任何一个绝对值"
+ },
+ "judgement": {
+  "verdict": "THE_TABLE_MIXES_WINDOWS",
+  "widest_line": "basis_nominal",
+  "widest_days": 3598,
+  "narrowest_line": "excess_hedged",
+  "narrowest_days": 2951,
+  "extra_days_in_widest": 647,
+  "sentence": "三条读数不是同一段时间上的钱：basis_nominal 从 2017-01-18 起算，excess_hedged 从 2018-10-22 起算，前者多出 647 个日历日；把它们的 Sharpe 并排或相乘（8% 目标 x Sharpe）都跨了窗"
+ },
+ "what_can_still_be_said": [
+  "对冲残差与点位那两条的日历完全一样（2018-10-22..2026-11-20），它们之间可以排序",
+  "basis 那条的绝对值与另两条不可比；它的窗口多出 2017-01-18..2018-10-19 一整段",
+  "跨窗的 8% x Sharpe 得到的两个百分比（23.78% 与 11.33%）不能相减，也不能当成同一年的书",
+  "父面自己的 test 段（2024-01-02 起）给了 basis 臂一个独立读数，见 ordering_check：排序变不变由它回答，不由本面口头保证"
+ ],
+ "what_is_needed_to_compare": [
+  "在共同窗 2018-10-22..2026-11-20 上重算 basis 臂的 Sharpe 与 CAGR（需要父面的日序列或重跑基差腿）",
+  "另两条只有 Sharpe，没有 CAGR / 波动 / 回撤 —— 三行读完仍拼不出一张完整的风险表"
+ ],
+ "inputs_digest": "8299c4d2cba97a823ce06addeafbba5fb6d28cedff67893f74330a199d02b2fa",
+ "sources": {
+  "results/idx_fut_carry_kill_rule_economics.json": {
+   "generated": "2026-11-26T15:29:49+08:00",
+   "evidence_cutoff": "2026-11-25"
+  },
+  "results/idx_fut_carry_search_rent.json": {
+   "generated": "2026-11-23T03:11:13+08:00",
+   "evidence_cutoff": "2026-11-20"
+  }
+ },
+ "generated": "2026-11-27T23:32:45+08:00"
+}
