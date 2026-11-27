@@ -1,0 +1,646 @@
+{
+ "tool": "three_book_wallet_target_knob",
+ "schema": "three-book-wallet-target-knob/v1",
+ "generated": "2026-11-28T03:29:00+08:00",
+ "question": "the parent says the third book needs 1.14M at an 8% target; does turning the risk target buy it, and what does turning it cost?",
+ "rule": {
+  "targets": [
+   0.05,
+   0.06,
+   0.08,
+   0.091,
+   0.1,
+   0.12
+  ],
+  "wallet_cny": 1000000.0,
+  "weight_step": 0.05,
+  "carry_vol_budget_per_lot_cny": 91029.0,
+  "cb_one_lot_floor_cny": 25850.2,
+  "etf_floor_cny": 0.0,
+  "floors_rule": "carry floor = budget / target; cb and etf floors do not move",
+  "grid": "weights on 0.05 steps summing to 1, blended after per-book vol scaling",
+  "does_not_change_production": "this file only prices what different risk targets would deliver; it wires nothing into the live book"
+ },
+ "panel": {
+  "bars": 1670,
+  "first_bar": "2020-01-06",
+  "last_bar": "2026-11-26"
+ },
+ "parents": {
+  "etf": {
+   "face": "results/etf_nobond_vt.json",
+   "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+   "execution": "decide at close t, own from the open of t+1",
+   "full_history": {
+    "cagr": 0.0991,
+    "sharpe": 0.978,
+    "maxdd": -0.1011,
+    "vol": 0.1064,
+    "bars": 1672,
+    "first": "2020-01-03",
+    "last": "2026-11-27",
+    "turnover": 1.08
+   },
+   "universe": 1539,
+   "flips_repaired": 169,
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+    "size": 102490,
+    "mtime": "2026-11-27T15:33:57"
+   }
+  },
+  "cb": {
+   "face": "results/cb_dual_low.json",
+   "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
+   "execution": "signal at close t, filled at close t+1",
+   "full_history": {
+    "cagr": 0.07354814635438323,
+    "sharpe": 0.7581240490932696,
+    "maxdd": -0.22588481873937416,
+    "vol": 0.10067485694980836,
+    "bars": 4710,
+    "first": "2007-07-12",
+    "last": "2026-11-26",
+    "annual_turnover": 4.59756866900356
+   },
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+    "size": 25433554,
+    "mtime": "2026-11-27T11:34:31"
+   }
+  },
+  "carry": {
+   "face": "results/idx_fut_carry_search_rent.json",
+   "arm": "IC main contract, hedged excess (futures minus index), roll days zeroed",
+   "execution": "close-to-close; gross of cost on the hedge leg",
+   "units": "index points per lot per day (scale-free; every book is scaled to 8% vol before mixing)",
+   "roll_days_booked_zero": 3,
+   "gross_of_cost": true,
+   "panels": [
+    {
+     "path": "data/futures_daily/IC.csv",
+     "size": 118062,
+     "mtime": "2026-11-26T20:31:23+08:00"
+    },
+    {
+     "path": "data/index_daily/sh000905.csv",
+     "size": 110845,
+     "mtime": "2026-11-26T20:35:27+08:00"
+    }
+   ]
+  }
+ },
+ "reconcile_vs_parent": {
+  "face": "results/three_book_wallet.json",
+  "checked": true,
+  "parent_w": [
+   0.65,
+   0.35,
+   0.0
+  ],
+  "mine_w": [
+   0.65,
+   0.35,
+   0.0
+  ],
+  "max_abs_delta": 0.0,
+  "delta": {
+   "w": 0.0,
+   "cagr": 0.0,
+   "sharpe": 0.0,
+   "vol": 0.0,
+   "maxdd": 0.0
+  },
+  "ok": true
+ },
+ "arms": [
+  {
+   "target": 0.05,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 1820580.0
+   },
+   "grid_points_affordable": 21,
+   "max_carry_weight_affordable": 0.0,
+   "carry_affordable": false,
+   "best_inside_gate": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.040652,
+     "vol": 0.038272,
+     "sharpe": 1.060401,
+     "maxdd": -0.042368,
+     "total": 0.313539,
+     "worst_year": -0.025148,
+     "neg_years": 1,
+     "years_covered": 7,
+     "pos_months_pct": 0.590361,
+     "by_year": {
+      "2020": 0.03235,
+      "2021": 0.062898,
+      "2022": 0.007165,
+      "2023": 0.007594,
+      "2024": 0.076329,
+      "2025": 0.124229,
+      "2026": -0.025148
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.05807,
+     "vol": 0.030865,
+     "sharpe": 1.844477,
+     "maxdd": -0.025847,
+     "total": 0.471573,
+     "worst_year": 0.015275,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.065798,
+      "2021": 0.091513,
+      "2022": 0.032205,
+      "2023": 0.015275,
+      "2024": 0.050551,
+      "2025": 0.115504,
+      "2026": 0.030007
+     }
+    }
+   },
+   "gate_costs": 0.784076
+  },
+  {
+   "target": 0.06,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 1517150.0
+   },
+   "grid_points_affordable": 21,
+   "max_carry_weight_affordable": 0.0,
+   "carry_affordable": false,
+   "best_inside_gate": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.048793,
+     "vol": 0.045926,
+     "sharpe": 1.060401,
+     "maxdd": -0.050704,
+     "total": 0.385498,
+     "worst_year": -0.030193,
+     "neg_years": 1,
+     "years_covered": 7,
+     "pos_months_pct": 0.590361,
+     "by_year": {
+      "2020": 0.038603,
+      "2021": 0.075751,
+      "2022": 0.008483,
+      "2023": 0.009023,
+      "2024": 0.092086,
+      "2025": 0.150624,
+      "2026": -0.030193
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.069958,
+     "vol": 0.037037,
+     "sharpe": 1.844477,
+     "maxdd": -0.030982,
+     "total": 0.588523,
+     "worst_year": 0.018317,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.079303,
+      "2021": 0.110689,
+      "2022": 0.038674,
+      "2023": 0.018317,
+      "2024": 0.060796,
+      "2025": 0.140035,
+      "2026": 0.035965
+     }
+    }
+   },
+   "gate_costs": 0.784076
+  },
+  {
+   "target": 0.08,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 1137862.5
+   },
+   "grid_points_affordable": 21,
+   "max_carry_weight_affordable": 0.0,
+   "carry_affordable": false,
+   "best_inside_gate": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.065078,
+     "vol": 0.061235,
+     "sharpe": 1.060401,
+     "maxdd": -0.067237,
+     "total": 0.539591,
+     "worst_year": -0.040297,
+     "neg_years": 1,
+     "years_covered": 7,
+     "pos_months_pct": 0.590361,
+     "by_year": {
+      "2020": 0.050877,
+      "2021": 0.101724,
+      "2022": 0.011002,
+      "2023": 0.01179,
+      "2024": 0.124096,
+      "2025": 0.205031,
+      "2026": -0.040297
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.09401,
+     "vol": 0.049383,
+     "sharpe": 1.844477,
+     "maxdd": -0.041218,
+     "total": 0.849577,
+     "worst_year": 0.024385,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.106659,
+      "2021": 0.149946,
+      "2022": 0.051638,
+      "2023": 0.024385,
+      "2024": 0.081418,
+      "2025": 0.1906,
+      "2026": 0.047833
+     }
+    }
+   },
+   "gate_costs": 0.784076
+  },
+  {
+   "target": 0.091,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 1000318.68
+   },
+   "grid_points_affordable": 21,
+   "max_carry_weight_affordable": 0.0,
+   "carry_affordable": false,
+   "best_inside_gate": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.074034,
+     "vol": 0.069654,
+     "sharpe": 1.060401,
+     "maxdd": -0.076252,
+     "total": 0.630405,
+     "worst_year": -0.045861,
+     "neg_years": 1,
+     "years_covered": 7,
+     "pos_months_pct": 0.590361,
+     "by_year": {
+      "2020": 0.057489,
+      "2021": 0.116162,
+      "2022": 0.01232,
+      "2023": 0.013261,
+      "2024": 0.141984,
+      "2025": 0.235894,
+      "2026": -0.045861
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.107395,
+     "vol": 0.056173,
+     "sharpe": 1.844477,
+     "maxdd": -0.046828,
+     "total": 1.010109,
+     "worst_year": 0.027714,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.121901,
+      "2021": 0.172061,
+      "2022": 0.058782,
+      "2023": 0.027714,
+      "2024": 0.092832,
+      "2025": 0.219285,
+      "2026": 0.054331
+     }
+    }
+   },
+   "gate_costs": 0.784076
+  },
+  {
+   "target": 0.1,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 910290.0
+   },
+   "grid_points_affordable": 24,
+   "max_carry_weight_affordable": 1.0,
+   "carry_affordable": true,
+   "best_inside_gate": {
+    "w": [
+     0.05,
+     0.0,
+     0.95
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.147385,
+     "vol": 0.094903,
+     "sharpe": 1.496547,
+     "maxdd": -0.087105,
+     "total": 1.562509,
+     "worst_year": 0.042628,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.199355,
+      "2021": 0.251325,
+      "2022": 0.108875,
+      "2023": 0.042628,
+      "2024": 0.051817,
+      "2025": 0.212069,
+      "2026": 0.158424
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.11843,
+     "vol": 0.061729,
+     "sharpe": 1.844477,
+     "maxdd": -0.051407,
+     "total": 1.151251,
+     "worst_year": 0.030434,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.134475,
+      "2021": 0.190436,
+      "2022": 0.064635,
+      "2023": 0.030434,
+      "2024": 0.102209,
+      "2025": 0.243228,
+      "2026": 0.059631
+     }
+    }
+   },
+   "gate_costs": 0.34793
+  },
+  {
+   "target": 0.12,
+   "floors": {
+    "etf": 0.0,
+    "cb": 25850.2,
+    "carry": 758575.0
+   },
+   "grid_points_affordable": 36,
+   "max_carry_weight_affordable": 1.0,
+   "carry_affordable": true,
+   "best_inside_gate": {
+    "w": [
+     0.2,
+     0.0,
+     0.8
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.169793,
+     "vol": 0.097886,
+     "sharpe": 1.651619,
+     "maxdd": -0.089206,
+     "total": 1.925195,
+     "worst_year": 0.048775,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.213089,
+      "2021": 0.268872,
+      "2022": 0.116866,
+      "2023": 0.048775,
+      "2024": 0.075671,
+      "2025": 0.29627,
+      "2026": 0.163553
+     }
+    }
+   },
+   "best_ignoring_gate": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "stats": {
+     "bars": 1670,
+     "years": 6.8443,
+     "cagr": 0.143218,
+     "vol": 0.074075,
+     "sharpe": 1.844477,
+     "maxdd": -0.061551,
+     "total": 1.49948,
+     "worst_year": 0.036461,
+     "neg_years": 0,
+     "years_covered": 7,
+     "pos_months_pct": 0.783133,
+     "by_year": {
+      "2020": 0.162751,
+      "2021": 0.232191,
+      "2022": 0.07766,
+      "2023": 0.036461,
+      "2024": 0.123165,
+      "2025": 0.297996,
+      "2026": 0.071355
+     }
+    }
+   },
+   "gate_costs": 0.192858
+  }
+ ],
+ "knob_breakpoints": {
+  "target_one_carry_lot_at_1m": 0.091029,
+  "target_one_carry_lot_at_1m_pct": 9.1029,
+  "target_gate_stops_binding": 0.182058,
+  "unconstrained_weights": [
+   0.35,
+   0.15,
+   0.5
+  ]
+ },
+ "scaling_theorem": {
+  "claim": "vol_scale is a constant multiple, so Sharpe does not move with the target",
+  "same_unconstrained_weight_at_both_ends": true,
+  "sharpe_shift_5pct_to_12pct": 0.0
+ },
+ "weights_the_knob_moved_between": [
+  [
+   0.65,
+   0.35,
+   0.0
+  ],
+  [
+   0.05,
+   0.0,
+   0.95
+  ],
+  [
+   0.2,
+   0.0,
+   0.8
+  ]
+ ],
+ "knob_effect_bands": [
+  {
+   "from": 0.05,
+   "to": 0.06,
+   "weight_unchanged": true,
+   "sharpe_from": 1.060401,
+   "sharpe_to": 1.060401,
+   "sharpe_jump": 0.0,
+   "carry_became_affordable": false
+  },
+  {
+   "from": 0.06,
+   "to": 0.08,
+   "weight_unchanged": true,
+   "sharpe_from": 1.060401,
+   "sharpe_to": 1.060401,
+   "sharpe_jump": 0.0,
+   "carry_became_affordable": false
+  },
+  {
+   "from": 0.08,
+   "to": 0.091,
+   "weight_unchanged": true,
+   "sharpe_from": 1.060401,
+   "sharpe_to": 1.060401,
+   "sharpe_jump": 0.0,
+   "carry_became_affordable": false
+  },
+  {
+   "from": 0.091,
+   "to": 0.1,
+   "weight_unchanged": false,
+   "sharpe_from": 1.060401,
+   "sharpe_to": 1.496547,
+   "sharpe_jump": 0.436146,
+   "carry_became_affordable": true
+  },
+  {
+   "from": 0.1,
+   "to": 0.12,
+   "weight_unchanged": false,
+   "sharpe_from": 1.496547,
+   "sharpe_to": 1.651619,
+   "sharpe_jump": 0.155072,
+   "carry_became_affordable": false
+  }
+ ],
+ "flat_bands": 3,
+ "jump_bands": 1,
+ "inside_gate_sharpe_by_target": [
+  {
+   "target": 0.05,
+   "sharpe": 1.060401
+  },
+  {
+   "target": 0.06,
+   "sharpe": 1.060401
+  },
+  {
+   "target": 0.08,
+   "sharpe": 1.060401
+  },
+  {
+   "target": 0.091,
+   "sharpe": 1.060401
+  },
+  {
+   "target": 0.1,
+   "sharpe": 1.496547
+  },
+  {
+   "target": 0.12,
+   "sharpe": 1.651619
+  }
+ ],
+ "verdict": "THE_KNOB_CROSSED_A_FLOOR_AND_JUMPED"
+}
