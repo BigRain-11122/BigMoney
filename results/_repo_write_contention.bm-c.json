@@ -1,69 +1,79 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-27T21:55:37",
+ "probed_at": "2026-11-27T22:55:37",
  "lookback_min": 45.0,
  "verdict": "CONTENTION",
- "why": "4 hosts alive; 1 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
+ "why": "3 hosts alive; 23 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
-  {
-   "pid": 17788,
-   "kind": "interactive",
-   "started_epoch": 1795787614.4696348,
-   "started": "2026-11-27T21:53:34",
-   "age_min": 2.1,
-   "exempt_from_cloud_cap": true,
-   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
-  },
-  {
-   "pid": 12408,
-   "kind": "interactive",
-   "started_epoch": 1795787622.0142715,
-   "started": "2026-11-27T21:53:42",
-   "age_min": 1.9,
-   "exempt_from_cloud_cap": true,
-   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
-  },
   {
    "pid": 30500,
    "kind": "interactive",
    "started_epoch": 1795787681.333959,
    "started": "2026-11-27T21:54:41",
-   "age_min": 0.9,
+   "age_min": 60.9,
    "exempt_from_cloud_cap": true,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
   },
   {
-   "pid": 17936,
+   "pid": 4176,
+   "kind": "interactive",
+   "started_epoch": 1795789074.1272864,
+   "started": "2026-11-27T22:17:54",
+   "age_min": 37.7,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 12924,
    "kind": "other",
-   "started_epoch": 1795787702.72965,
-   "started": "2026-11-27T21:55:02",
+   "started_epoch": 1795791302.4533868,
+   "started": "2026-11-27T22:55:02",
    "age_min": 0.6,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 17936,
- "my_host_started": "2026-11-27T21:55:02",
+ "my_host_pid": 12924,
+ "my_host_started": "2026-11-27T22:55:02",
  "host_probe_error": null,
  "overlap_windows": [
   {
    "pair": [
-    17788,
-    12408
+    30500,
+    4176
    ],
    "kinds": [
     "interactive",
     "interactive"
    ],
-   "from": "2026-11-27T21:53:42",
-   "to": "2026-11-27T21:55:37",
-   "minutes": 1.9,
-   "lo": 1795787622.0142715
+   "from": "2026-11-27T22:17:54",
+   "to": "2026-11-27T22:55:37",
+   "minutes": 37.7,
+   "lo": 1795789074.1272864
   }
  ],
  "peer_only_writes": [
-  "fleet/machines/bm-c.json"
+  "fleet/machine-health.json",
+  "fleet/machines/bm-c.json",
+  "research/ARBITER-BOARD.md",
+  "research/BOOK_SAME_WINDOW.md",
+  "research/CB_UNION_LENS.md",
+  "research/QUANT-BLOCK-BOARD.md",
+  "research/WALLET_SCALE_LADDER.md",
+  "results/_attrition_guard_scan.json",
+  "results/allocation/alloc_backtest.log",
+  "results/arbiter/STATE.json",
+  "results/book_same_window.json",
+  "results/book_same_window.md",
+  "results/cb_union_lens.json",
+  "results/cpu_fill/STATE.json",
+  "results/paper_equity_recheck.json",
+  "results/quant_block_board.json",
+  "results/wallet_scale_ladder.json",
+  "results/wallet_scale_ladder.md",
+  "results/wallet_scale_ladder.state.json",
+  "results/zh_page_prose_census.json"
  ],
  "ambiguous_writes": [],
  "ignored_patterns": [
@@ -75,253 +85,151 @@
   "results/_repo_write_contention",
   "results/_host_contention"
  ],
- "ignored_write_count": 9,
+ "ignored_write_count": 8,
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 35596,
+ "writes_scanned_files": 35612,
  "recent_writes": [
   {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-27T21:55:02",
-   "mtime_epoch": 1795787702.0702703,
-   "bytes": 267179
+   "mtime": "2026-11-27T22:55:00",
+   "mtime_epoch": 1795791300.3303435,
+   "bytes": 267681
   },
   {
    "path": "results/cpu_fill/STATE.json",
-   "mtime": "2026-11-27T21:52:44",
-   "mtime_epoch": 1795787564.0418406,
+   "mtime": "2026-11-27T22:52:43",
+   "mtime_epoch": 1795791163.3838797,
    "bytes": 665
   },
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-27T21:51:39",
-   "mtime_epoch": 1795787499.5014017,
-   "bytes": 1414
+   "mtime": "2026-11-27T22:51:40",
+   "mtime_epoch": 1795791100.056315,
+   "bytes": 1529
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-27T21:51:39",
-   "mtime_epoch": 1795787499.4858882,
-   "bytes": 1041
+   "mtime": "2026-11-27T22:51:40",
+   "mtime_epoch": 1795791100.0553133,
+   "bytes": 1189
   },
   {
-   "path": "scripts/smoke_red_recheck.py",
-   "mtime": "2026-11-27T21:50:59",
-   "mtime_epoch": 1795787459.6580756,
-   "bytes": 22710
+   "path": "results/paper_equity_recheck.json",
+   "mtime": "2026-11-27T22:49:40",
+   "mtime_epoch": 1795790980.987398,
+   "bytes": 5432
   },
   {
-   "path": "results/_s6chain_progress.bm-c.jsonl",
-   "mtime": "2026-11-27T21:38:33",
-   "mtime_epoch": 1795786713.987918,
-   "bytes": 1123974
+   "path": "results/allocation/alloc_backtest.log",
+   "mtime": "2026-11-27T22:49:17",
+   "mtime_epoch": 1795790957.3494744,
+   "bytes": 529050
   },
   {
-   "path": "results/_r1483bmc_t29_unpriced_bar.json",
-   "mtime": "2026-11-27T21:38:32",
-   "mtime_epoch": 1795786712.7934847,
-   "bytes": 2878
+   "path": "research/BOOK_SAME_WINDOW.md",
+   "mtime": "2026-11-27T22:48:44",
+   "mtime_epoch": 1795790924.1187243,
+   "bytes": 2757
   },
   {
-   "path": "results/_r2186bmc_s6_chain.only-cash_roll_today-cut_order_gap-cut_orde+7-0587d1ff.json",
-   "mtime": "2026-11-27T21:38:21",
-   "mtime_epoch": 1795786701.2761555,
-   "bytes": 853
+   "path": "results/book_same_window.md",
+   "mtime": "2026-11-27T22:48:44",
+   "mtime_epoch": 1795790924.1177225,
+   "bytes": 5161
   },
   {
-   "path": "results/etf_book_open_gap.json",
-   "mtime": "2026-11-27T21:37:36",
-   "mtime_epoch": 1795786656.4172385,
-   "bytes": 6752
+   "path": "results/book_same_window.json",
+   "mtime": "2026-11-27T22:48:44",
+   "mtime_epoch": 1795790924.1167212,
+   "bytes": 9581
   },
   {
-   "path": "results/etf_book_open_gap.md",
-   "mtime": "2026-11-27T21:37:36",
-   "mtime_epoch": 1795786656.4172385,
-   "bytes": 1513
-  },
-  {
-   "path": "results/etf_book_cut_order_gap.json",
-   "mtime": "2026-11-27T21:37:31",
-   "mtime_epoch": 1795786651.0766106,
-   "bytes": 2897
-  },
-  {
-   "path": "research/ETF_BOOK_CUT_ORDER_GAP.md",
-   "mtime": "2026-11-27T21:37:31",
-   "mtime_epoch": 1795786651.0766106,
-   "bytes": 1743
-  },
-  {
-   "path": "results/_r2186bmc_s6_chain.only-etf_book_order-etf_book_order_card.json",
-   "mtime": "2026-11-27T21:37:19",
-   "mtime_epoch": 1795786639.7528298,
-   "bytes": 421
-  },
-  {
-   "path": "results/etf_book_order/ORDER-2026-11-27-card.md",
-   "mtime": "2026-11-27T21:37:19",
-   "mtime_epoch": 1795786639.6404908,
-   "bytes": 23328
-  },
-  {
-   "path": "results/etf_book_order/TICKET-2026-11-27-card.json",
-   "mtime": "2026-11-27T21:37:19",
-   "mtime_epoch": 1795786639.6159694,
-   "bytes": 23987
-  },
-  {
-   "path": "results/etf_book_order/LOTCURVE-2026-11-27-card.json",
-   "mtime": "2026-11-27T21:37:19",
-   "mtime_epoch": 1795786639.593452,
-   "bytes": 26961
-  },
-  {
-   "path": "results/etf_book_order/ORDER-2026-11-27.md",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.9749172,
-   "bytes": 56467
-  },
-  {
-   "path": "results/etf_book_order/latest.json",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.968912,
-   "bytes": 482
-  },
-  {
-   "path": "results/etf_book_order/TICKET-2026-11-27.json",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.9679122,
-   "bytes": 96247
-  },
-  {
-   "path": "results/etf_book_order/WIDTH-ESCAPE-2026-11-27.md",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.9639132,
-   "bytes": 1715
-  },
-  {
-   "path": "results/etf_book_order/WIDTH-ESCAPE-2026-11-27.json",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.9629116,
-   "bytes": 5935
-  },
-  {
-   "path": "results/etf_book_order/state.json",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.882787,
-   "bytes": 159
-  },
-  {
-   "path": "results/etf_book_order/reinstatements.json",
-   "mtime": "2026-11-27T21:37:17",
-   "mtime_epoch": 1795786637.6958642,
-   "bytes": 715
-  },
-  {
-   "path": "results/etf_book_production/CARD.md",
-   "mtime": "2026-11-27T21:35:05",
-   "mtime_epoch": 1795786505.1210918,
-   "bytes": 22204
-  },
-  {
-   "path": "results/etf_book_production/latest.json",
-   "mtime": "2026-11-27T21:35:05",
-   "mtime_epoch": 1795786505.1210918,
-   "bytes": 43308
-  },
-  {
-   "path": "results/etf_book_production/PRODUCTION-2026-11-27.json",
-   "mtime": "2026-11-27T21:35:05",
-   "mtime_epoch": 1795786505.1180835,
-   "bytes": 43308
+   "path": "fleet/machine-health.json",
+   "mtime": "2026-11-27T22:48:36",
+   "mtime_epoch": 1795790916.8609166,
+   "bytes": 688
   },
   {
    "path": "results/zh_page_prose_census.json",
-   "mtime": "2026-11-27T21:31:06",
-   "mtime_epoch": 1795786266.9658656,
+   "mtime": "2026-11-27T22:48:28",
+   "mtime_epoch": 1795790908.1903324,
    "bytes": 2019
   },
   {
-   "path": "results/_r2186bmc_s6_chain.only-do_or_wait-late_sheet_price-positions+4-0485504d.json",
-   "mtime": "2026-11-27T21:29:53",
-   "mtime_epoch": 1795786193.4553702,
-   "bytes": 722
+   "path": "scripts/book_same_window.py",
+   "mtime": "2026-11-27T22:47:33",
+   "mtime_epoch": 1795790853.1014056,
+   "bytes": 46364
   },
   {
-   "path": "results/etf_book_do_or_wait.json",
-   "mtime": "2026-11-27T21:29:51",
-   "mtime_epoch": 1795786191.9922628,
-   "bytes": 11561
+   "path": "results/wallet_scale_ladder.state.json",
+   "mtime": "2026-11-27T22:24:21",
+   "mtime_epoch": 1795789461.999642,
+   "bytes": 155
   },
   {
-   "path": "results/_r2186bmc_s6_chain.only-permission_persistence-sibling_gap-swa+5-cbad14af.json",
-   "mtime": "2026-11-27T21:28:33",
-   "mtime_epoch": 1795786113.6280394,
-   "bytes": 1067
+   "path": "research/WALLET_SCALE_LADDER.md",
+   "mtime": "2026-11-27T22:24:21",
+   "mtime_epoch": 1795789461.999642,
+   "bytes": 3768
   },
   {
-   "path": "results/etf_book_year_gate/WRAPPER-GATE.json",
-   "mtime": "2026-11-27T21:27:47",
-   "mtime_epoch": 1795786067.2031643,
-   "bytes": 9113
+   "path": "results/wallet_scale_ladder.json",
+   "mtime": "2026-11-27T22:24:21",
+   "mtime_epoch": 1795789461.998642,
+   "bytes": 16172
   },
   {
-   "path": "results/_r2186bmc_s6_chain.only-cash_roll_today-cut_order_gap-cut_orde+6-a030e88b.json",
-   "mtime": "2026-11-27T21:26:51",
-   "mtime_epoch": 1795786011.8151472,
-   "bytes": 1001
+   "path": "results/wallet_scale_ladder.md",
+   "mtime": "2026-11-27T22:24:21",
+   "mtime_epoch": 1795789461.998642,
+   "bytes": 3768
   },
   {
-   "path": "results/etf_book_cash_roll_today.json",
-   "mtime": "2026-11-27T21:26:48",
-   "mtime_epoch": 1795786008.4475505,
-   "bytes": 5976
-  },
-  {
-   "path": "results/etf_book_order/ORDER-2026-11-26-card.md",
-   "mtime": "2026-11-27T21:26:28",
-   "mtime_epoch": 1795785988.034188,
-   "bytes": 23264
-  },
-  {
-   "path": "results/etf_book_order/TICKET-2026-11-26-card.json",
-   "mtime": "2026-11-27T21:26:28",
-   "mtime_epoch": 1795785988.0101545,
-   "bytes": 23902
-  },
-  {
-   "path": "results/etf_book_order/LOTCURVE-2026-11-26-card.json",
-   "mtime": "2026-11-27T21:26:27",
-   "mtime_epoch": 1795785987.9886365,
-   "bytes": 26918
-  },
-  {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-27T21:21:10",
-   "mtime_epoch": 1795785670.1478472,
-   "bytes": 11260
+   "path": "scripts/wallet_scale_ladder.py",
+   "mtime": "2026-11-27T22:24:14",
+   "mtime_epoch": 1795789454.6274395,
+   "bytes": 25266
   },
   {
    "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-27T21:21:10",
-   "mtime_epoch": 1795785670.1478472,
-   "bytes": 5915
+   "mtime": "2026-11-27T22:21:12",
+   "mtime_epoch": 1795789272.188862,
+   "bytes": 5916
   },
   {
-   "path": "results/_r2185bmc_s6_chain.only-book_pair_sleeve_premium-dualrun.json",
-   "mtime": "2026-11-27T21:17:18",
-   "mtime_epoch": 1795785438.7617974,
-   "bytes": 454
+   "path": "results/quant_block_board.json",
+   "mtime": "2026-11-27T22:21:12",
+   "mtime_epoch": 1795789272.187864,
+   "bytes": 11261
   },
   {
-   "path": "results/pool_dualrun.bm-c.jsonl",
-   "mtime": "2026-11-27T21:17:18",
-   "mtime_epoch": 1795785438.5879798,
-   "bytes": 15881
+   "path": "results/_attrition_guard_scan.json",
+   "mtime": "2026-11-27T22:17:07",
+   "mtime_epoch": 1795789027.911627,
+   "bytes": 2154
+  },
+  {
+   "path": "research/CB_UNION_LENS.md",
+   "mtime": "2026-11-27T22:14:14",
+   "mtime_epoch": 1795788854.9712298,
+   "bytes": 3499
+  },
+  {
+   "path": "results/cb_union_lens.json",
+   "mtime": "2026-11-27T22:14:14",
+   "mtime_epoch": 1795788854.9702306,
+   "bytes": 4046
+  },
+  {
+   "path": "scripts/cb_union_lens.py",
+   "mtime": "2026-11-27T22:14:05",
+   "mtime_epoch": 1795788845.2927756,
+   "bytes": 22388
   }
  ],
- "recent_write_count": 46,
+ "recent_write_count": 23,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }

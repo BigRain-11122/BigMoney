@@ -1,0 +1,170 @@
+{
+ "face": "three_book_rulers",
+ "kind": "three_book_same_window_rulers",
+ "generated": "2026-11-27T23:13:43+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "window": {
+  "first": "2020-01-03",
+  "last": "2026-11-26",
+  "bars": 1671,
+  "clock": "244 trading days; each book's own published execution lag is kept",
+  "how_chosen": "intersection of the three published daily series"
+ },
+ "books": {
+  "etf": {
+   "bars": 1671,
+   "years": 6.8443,
+   "cagr_pct": 9.9384,
+   "vol_pct": 10.4675,
+   "sharpe": 0.9495,
+   "mdd_pct": -10.1085,
+   "total_pct": 91.2663
+  },
+  "cb": {
+   "bars": 1671,
+   "years": 6.8443,
+   "cagr_pct": 6.3434,
+   "vol_pct": 12.9295,
+   "sharpe": 0.4906,
+   "mdd_pct": -22.5885,
+   "total_pct": 52.3402
+  },
+  "carry": {
+   "bars": 1671,
+   "years": 6.8443,
+   "cagr_pct": 10.222,
+   "vol_pct": 3.2051,
+   "sharpe": 3.1893,
+   "mdd_pct": -2.4698,
+   "total_pct": 94.6686
+  }
+ },
+ "by_year_pct": {
+  "etf": {
+   "2020": 4.752,
+   "2021": 5.168,
+   "2022": 2.878,
+   "2023": 2.384,
+   "2024": 12.411,
+   "2025": 42.474,
+   "2026": 0.859
+  },
+  "cb": {
+   "2020": 10.761,
+   "2021": 33.25,
+   "2022": -4.873,
+   "2023": -2.176,
+   "2024": 27.79,
+   "2025": 4.785,
+   "2026": -20.755
+  },
+  "carry": {
+   "2020": 16.685,
+   "2021": 10.37,
+   "2022": 6.974,
+   "2023": 5.54,
+   "2024": 7.219,
+   "2025": 13.797,
+   "2026": 9.191
+  }
+ },
+ "carry_arms": {
+  "carry_basis_only": {
+   "sharpe": 2.972,
+   "ann_mean_pct": 9.6482,
+   "ann_vol_pct": 3.2463,
+   "window": [
+    "2017-01-18",
+    "2026-11-25"
+   ],
+   "source": "results/idx_fut_carry_kill_rule_power.json",
+   "definition": "the basis move net of cost -- no index exposure, no hedge, no account"
+  },
+  "carry_excess_hedged": {
+   "sharpe": 1.4162,
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "source": "results/idx_fut_carry_search_rent.json",
+   "definition": "the same day minus the same notional's index return -- the residual a hedge leaves"
+  },
+  "carry_unhedged": {
+   "sharpe": 0.5057,
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "source": "results/idx_fut_carry_search_rent.json",
+   "definition": "per-lot daily points on the held contract -- carries the index's own vol"
+  },
+  "capital": {
+   "target_pct": 8.0,
+   "per_lot_vol_cny_hedged": 91029.0,
+   "first_executable_capital_cny": 1137862.5,
+   "lots_at_wallet": 0,
+   "gap_cny": 137862.5,
+   "wallet_cny": 1000000.0,
+   "arm_used": "hedged",
+   "decision": "WITHDRAW_FROM_TICKET",
+   "source": "results/idx_fut_carry_sizing_spec.json"
+  }
+ },
+ "capital_line": {
+  "target_pct": 8.0,
+  "per_lot_vol_cny_hedged": 91029.0,
+  "first_executable_capital_cny": 1137862.5,
+  "lots_at_wallet": 0,
+  "gap_cny": 137862.5,
+  "wallet_cny": 1000000.0,
+  "arm_used": "hedged",
+  "decision": "WITHDRAW_FROM_TICKET",
+  "source": "results/idx_fut_carry_sizing_spec.json",
+  "lots_at_first_rung": 1,
+  "lots_at_wallet_recomputed": 0
+ },
+ "capital_return_identity": {
+  "rule": "expected return on capital = target vol x Sharpe (a vol-targeted book holds vol fixed)",
+  "is_a_forecast": false,
+  "hedged_pct": 11.33,
+  "basis_only_pct": 23.776,
+  "note": "printed because the casual comparison is a Sharpe: a reader who multiplies sees why the basis line's 3.19 cannot turn into a 25% book"
+ },
+ "verdict": "THE_SMOOTH_LINE_IS_THE_ONE_NOBODY_CAN_HOLD",
+ "sentence": "On one window (2020-01-03..2026-11-26) and one clock the three books print 9.94% / 6.34% / 10.22% (ETF / CB / carry basis). The carry line wins and cannot be bought: it is the basis arm, quoted per notional, and the family's own hedged arm on the same leg is 1.42 Sharpe, not 2.97. At the book's 8.0% vol target one IC lot still needs 1,137,862 CNY of capital against a 1,000,000 CNY wallet, so the executable line is 0 lots.",
+ "what_this_face_does_not_do": "it re-prices nothing and re-runs no rule; it slices three published daily series onto one calendar and reads the published sizing faces for the capital arithmetic",
+ "caveats": [
+  "the carry arm is a daily excess return on notional; the ETF/CB books are returns on capital",
+  "the carry row's sharpe on this common window is not the family's published 2.97 — that one is the 2017-2026 IC-only window; the two differ because the window differs, not because the rule changed",
+  "2020-01..2022-07 the carry arm is IC only (IM listed 2022-07-25); after that it is the mean of the two legs",
+  "the ETF book's vol target makes its drawdown a dial, so its return is not a fair 'more risk more return' comparison",
+  "costs: ETF/CB 10bp per side as published, carry 1.5bp per side as published"
+ ],
+ "inputs": {
+  "etf_book": {
+   "path": "results/etf_nobond_vt.json",
+   "sha256": "479730ff58a1ab5776095a443c4cc54e895dcebd045ec9c332ddd8b1661dbc1f"
+  },
+  "cb_sleeve": {
+   "path": "results/cb_dual_low.json",
+   "sha256": "e37bb31b20caf2ae798bd38dba3be028b65ccaf8b4686d501710a246659c3ed7"
+  },
+  "carry_power": {
+   "path": "results/idx_fut_carry_kill_rule_power.json",
+   "sha256": "1e07a075c26499c11b0d37f9ad0ae2864dc0e2a85bdc0b68448ab8a4474f97f0"
+  },
+  "carry_search_rent": {
+   "path": "results/idx_fut_carry_search_rent.json",
+   "sha256": "50fa862f6803da8c8613fef01a6212c7bffc84ec8bd5d03d47d2756f7a485d66"
+  },
+  "carry_sizing": {
+   "path": "results/idx_fut_carry_sizing_spec.json",
+   "sha256": "05e9ccb2b934a50229aeb1ccf58087a97bc9f7e50a6a972372351217e24c5464"
+  },
+  "carry_open_capital": {
+   "path": "results/idx_fut_carry_open_capital.json",
+   "sha256": "b913a28846b84ad52bcae0f142236e66e50646cfd8d4fdd5dc27d294f008c1f4"
+  }
+ }
+}
