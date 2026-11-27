@@ -272,6 +272,34 @@ def render_md(out):
     return OUT_MD
 
 
+def _list_verdict(want, got, pub_n, live_n):
+    """Which list differences are a rebuild and which are this face contradicting itself.
+
+    r2168: a leg LEAVING the candidate list is the good news -- some check learned to say
+    STALE, so it moved from "would not survive a moved input" to "can name one". That is the
+    world moving under a reading, not this face disagreeing with itself, and the repair is a
+    rebuild (r1934: the word "stale" is what makes the chain pay for one). A count that
+    disagrees while the rows are intact is a defect and must NOT carry that word. Naming who
+    left and who joined keeps a fix distinguishable from a parser regression.
+
+    Extracted from `check()` so both branches can be proved on synthetic inputs; a test that
+    has to move the live face to exercise one branch cannot exercise both.
+    """
+    moved, problems = [], []
+    departed = sorted(set(got) - set(want))
+    arrived = sorted(set(want) - set(got))
+    if departed or arrived:
+        moved.append("the candidate set moved: left [%s], joined [%s]"
+                     % (", ".join(departed) or "-", ", ".join(arrived) or "-"))
+    elif got != want:
+        problems.append("the probed leg list changed (%d rows now, %d on the face)"
+                        % (len(want), len(got)))
+    if pub_n != live_n:
+        _msg = "n_candidates re-derives to %d, face says %s" % (live_n, pub_n)
+        (moved if (departed or arrived) else problems).append(_msg)
+    return moved, problems
+
+
 def check():
     """Static re-derivation plus a digest gate on the live column."""
     problems = []
@@ -290,15 +318,12 @@ def check():
     for key in ("n_legs", "n_writer_legs"):
         if pub.get(key) != s[key]:
             problems.append("%s re-derives to %s, face says %s" % (key, s[key], pub.get(key)))
-    if pub.get("n_candidates") != len(s["candidates"]):
-        problems.append("n_candidates re-derives to %d, face says %s"
-                        % (len(s["candidates"]), pub.get("n_candidates")))
     want = sorted((l[0] for l in s["writer_legs"]) if pub.get("deep")
                   else (r["leg"] for r in s["candidates"]))
     got = sorted(r.get("leg") or "" for r in (pub.get("rows") or []))
-    if got != want:
-        problems.append("the probed leg list changed (%d rows now, %d on the face)"
-                        % (len(want), len(got)))
+    _m, _p = _list_verdict(want, got, pub.get("n_candidates"), len(s["candidates"]))
+    moved.extend(_m)
+    problems.extend(_p)
     cur = {r["leg"]: r.get("script_sha256") for r in s["candidates"]}
     for row in (pub.get("rows") or []):
         if row.get("script") and cur.get(row["leg"]) and \
@@ -403,12 +428,20 @@ def selftest():
         assert "CHECK FAILED" not in text, text
 
     def l8():
-        def poison(p):
-            p["n_candidates"] = int(p["n_candidates"]) + 1
-        rc, text = _check_on(poison)
-        assert rc == 1, (rc, text)
-        assert "CHECK FAILED" in text, text
-        assert "STALE" not in text, text
+        """A count that disagrees while the rows are intact is a defect, never stale."""
+        moved, problems = _list_verdict(["a", "b"], ["a", "b"], 3, 2)
+        assert not moved, moved
+        assert problems and "n_candidates" in problems[0], problems
+
+    def l9():
+        """A candidate that LEAVES the list is a fix, not a defect (r2168)."""
+        moved, problems = _list_verdict(["a"], ["a", "b"], 2, 1)
+        assert not problems, problems
+        assert moved and "left [b]" in moved[0], moved
+        # and the reverse direction is a reading that predates a candidate
+        moved, problems = _list_verdict(["a", "c"], ["a"], 1, 2)
+        assert not problems, problems
+        assert moved and "joined [c]" in moved[0], moved
 
     for name, fn in (("the LEGS table is read as data", l1),
                      ("the contract word is a literal, not a description", l2),
@@ -417,7 +450,8 @@ def selftest():
                      ("the script is found inside the check command", l5),
                      ("drift words are listed, not guessed", l6),
                      ("a changed check script makes the live column STALE", l7),
-                     ("a disagreeing count with still digests is a defect", l8)):
+                     ("a disagreeing count with still digests is a defect", l8),
+                     ("a candidate leaving the list is a fix, not a defect", l9)):
         leg(name, fn)
     npass = sum(1 for x in legs if x["pass"])
     for x in legs:

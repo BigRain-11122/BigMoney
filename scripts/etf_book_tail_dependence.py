@@ -26,9 +26,12 @@ Usage:
 """
 from __future__ import annotations
 
+import contextlib
+import io
 import json
 import os
 import sys
+import tempfile
 import time
 from math import ceil
 
@@ -258,6 +261,11 @@ def run():
             "jackpot that already paid",
         ],
     }
+    # r2168: record the panel bar this face priced. Without it the check could only
+    # re-derive its own rows, so it stayed green while the panel ran four weeks past it
+    # (r1935 family: a guard that only re-reads itself never has an "I am old" state).
+    _panel_blk = doc.get("panel") or {}
+    doc["inputs"] = {"panel_last_bar": _panel_blk.get("last_bar") or F.panel_last_bar()}
     doc["verdict"] = decide(doc)
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
@@ -427,6 +435,52 @@ def selftest():
     d2 = _doc_from_returns(_fixture("dense"))
     chk(d1["drops"][1]["placebo_pct"] == d2["drops"][1]["placebo_pct"], "placebo must be reproducible")
 
+    # r2168: the freshness gate earns its keep only if it is proved on a face that has
+    # actually gone stale. Three behaviour legs on the published face copied to a temp
+    # path: an old bar must produce rc 2 and the word the chain pays on, a self-
+    # contradiction must produce rc 1 *without* that word (r1934), and a current face
+    # must stay green.
+    live = F.panel_last_bar()
+    if live and os.path.exists(OUT_JSON):
+        with open(OUT_JSON, encoding="utf-8") as fh:
+            base = json.load(fh)
+
+        def _probe(mutate):
+            fd, path = tempfile.mkstemp(suffix=".json")
+            os.close(fd)
+            try:
+                doc = json.loads(json.dumps(base))
+                mutate(doc)
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump(doc, fh, ensure_ascii=False)
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    rc = check(path)
+                return rc, buf.getvalue()
+            finally:
+                try:
+                    os.remove(path)
+                except OSError:
+                    pass
+
+        rc, out = _probe(lambda d: d.__setitem__("inputs", {"panel_last_bar": live}))
+        chk(rc == 0 and "stale" not in out.lower(),
+            "a face on the live bar is green, got rc=%s out=%r" % (rc, out.strip()[:120]))
+        rc, out = _probe(lambda d: d.__setitem__("inputs", {"panel_last_bar": "2000-01-03"}))
+        chk(rc == 2 and "stale" in out.lower(),
+            "a face priced on an old bar must say stale (rc 2), got rc=%s out=%r"
+            % (rc, out.strip()[:120]))
+
+        def _contradict(d):
+            d["inputs"] = {"panel_last_bar": live}
+            v = d["verdict"]
+            other = "TAIL_DEPENDENT" if v["state"] != "TAIL_DEPENDENT" else "ROBUST_TO_TAILS"
+            v["state"] = other
+        rc, out = _probe(_contradict)
+        chk(rc == 1 and "stale" not in out.lower(),
+            "a self-contradicting face is a defect, never stale, got rc=%s out=%r"
+            % (rc, out.strip()[:120]))
+
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -435,6 +489,15 @@ def check(path=None):
     path = path or OUT_JSON
     with open(path, encoding="utf-8") as fh:
         doc = json.load(fh)
+    # r2168: the outside question first. Re-deriving the verdict from this face's own
+    # bars_series is green on any panel -- that is why it read CURRENT on 2026-11-27 while
+    # the book had priced 19 bars since (r1935). 0.3s when the face recorded the bar it
+    # priced; the ~47s digest gate only when it cannot answer.
+    _bar_rc = F.check_panel_bar(doc, label="tail dependence")
+    if _bar_rc:
+        return 2
+    if _bar_rc is None and F.check_panel_stamp(doc, label="tail dependence"):
+        return 2
     got = decide(doc)
     stored = doc.get("verdict", {})
     same = (got["state"] == stored.get("state"))
@@ -444,9 +507,11 @@ def check(path=None):
     share_ok = True
     if len(r) >= DENSE_MIN and doc.get("top_share") is not None:
         share_ok = abs(top_share(r) - doc["top_share"]) <= 1e-3
+    # r1934: a face disagreeing with itself is a defect, not staleness -- the word "stale"
+    # is what makes the chain pay for a rebuild, so it must never ride on this sentence.
     print("check: verdict %s (stored %s) %s | top share reproduced %s"
-          % (got["state"], stored.get("state"), "OK" if same else "DRIFT",
-             "OK" if share_ok else "DRIFT"))
+          % (got["state"], stored.get("state"), "OK" if same else "CHECK FAILED",
+             "OK" if share_ok else "CHECK FAILED"))
     return 0 if (same and share_ok) else 1
 
 

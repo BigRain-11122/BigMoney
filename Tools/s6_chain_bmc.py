@@ -582,6 +582,17 @@ LEGS = [
     # arrives. Without this leg the audit was a document; with it, "nothing regenerates this
     # face" cannot be added quietly.
     ("chain_writer_audit_check", ["python", "Tools/chain_writer_audit.py", "--check"]),
+    # r2168: the third question about the chain's own readings. chain_writer_audit asks "can
+    # anything regenerate this face"; this one asks "would this face TELL the chain to
+    # regenerate it". A check that describes a moved input as "drifted" and never says STALE
+    # is invisible to run_leg, so the face it guards stays green on any world (r1850/r1934):
+    # etf_book_tail_dependence sat on the 2026-10-30 panel for 19 bars that way. `--check`
+    # re-derives the candidate list from the LEGS table and the sources in 0.3s, and names
+    # the legs that left or joined -- a check learning the word is a fix, not a defect. Only
+    # the 24s full probe is paid when a script actually moved.
+    ("chain_contract_word_audit",
+     ["python", "scripts/chain_contract_word_audit.py", "--check"],
+     ["python", "scripts/chain_contract_word_audit.py"]),
     # r1992: the other half of the same question. chain_writer_audit asks "does anything
     # regenerate this face"; face_orphan_census asks "can a fresh clone open the face a
     # committed reader names" -- r1783's defect, which r1990 published as a face and left

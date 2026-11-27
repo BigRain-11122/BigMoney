@@ -2,21 +2,21 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-27T08:24:34+0800",
+ "generated": "2026-11-27T09:42:48+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
  },
  "chain": "Tools\\s6_chain_bmc.py",
- "chain_sha256": "47e7d2c5ef3b627c094dda66bb9d4589fc046f9e230d0c05dbf2d3b6de8bcfeb",
- "n_legs": 392,
- "n_writer_legs": 136,
- "n_candidates": 14,
- "n_probed": 14,
+ "chain_sha256": "4f2181cb1cc81b14bc0605952da2b9c93b9f0c5862fe75475d4d2ff475c97164",
+ "n_legs": 393,
+ "n_writer_legs": 137,
+ "n_candidates": 13,
+ "n_probed": 13,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 24.2,
+ "elapsed_sec": 25.3,
  "rows": [
   {
    "leg": "etf_book_fill_venue",
@@ -34,23 +34,6 @@
    "state": "CURRENT",
    "rc": 0,
    "first_line": "CHECK OK: INFORMATION_DOMINATES (gap +1.14pp, recovered -0.03pp, share -0.0263, budget NONE)"
-  },
-  {
-   "leg": "etf_book_tail_dependence",
-   "script": "scripts/etf_book_tail_dependence.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_tail_dependence.py",
-    "--check"
-   ],
-   "script_sha256": "bcb32775fa4d9c9d94909716b40be15f1e9c0ef6b1b61008bbac96ec928cae0b",
-   "drift_words": [
-    "moved",
-    "drift"
-   ],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "check: verdict ROBUST_TO_TAILS (stored ROBUST_TO_TAILS) OK | top share reproduced OK"
   },
   {
    "leg": "etf_book_voltarget_phase",
