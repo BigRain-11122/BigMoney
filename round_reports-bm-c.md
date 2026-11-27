@@ -2889,3 +2889,5 @@ watermark_red red=false lane=healthy；idle_trigger green_idle=true 但 claimabl
 Tools/_r820bmc_close.py（已提交但 line 130 字面量未闭合，永不可运行）仍只报不修。
 
 | 2026-11-28T07:08+08:00 | 2206 | 修红：ETF 票据族 11-26→11-27，--only 11 腿全 rc0（7 腿真刷新，ticket_floor 41.2s 最重）；13/46 条红点名这些面，全量冒烟未复跑故不宣称红数下降；余红族=premium 三面/phase_admission/start_grid/astock_resid/0x08 控制字符；attrition CLEAN；decisions 与 orders 水位零新；竞争 CLEAN、孤儿面 0、未回执 0 | 链记录 results/_r2206bmc_s6_chain.only-…+11-b9b5c3ff.json；QA qa/ticket-family-refresh-r2206.md；日志 logs/_r2206_s6_ticket_family.log | 下一轮：全量冒烟 + 余红族逐个收
+
+**S7 addendum（2026-11-28T07:10+08:00）**：Bigmoney-IterationLoop 经 Tools\register_loop_task.ps1 幂等重注册 = **no-op**（pin 0，首跳 11/28 07:15，PT5H）；Bigmoney-LoopWatchdog 注册成功但 **S4U XML 翻转被拒（拒绝访问）** → 任务留在默认 principal = LogonType 回归面，需一次管理员提权重注册（**物理件，留账**）；pre-commit / pre-push 两爪与 Tools/git-hooks/ 逐字一致，未重装。
