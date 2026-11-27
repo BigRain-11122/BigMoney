@@ -1,0 +1,266 @@
+{
+ "face": "paired_book_ticket",
+ "generated": "2026-11-27T13:37:26+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "with one wallet and the 30/70 split the blend face calls best, what exactly do I buy -- lots, fees, and the cash that is left?",
+ "split": {
+  "w_cb": 0.3,
+  "w_etf": 0.7,
+  "source": "results/book_pair_blend.json best.w_cb (imported, not chosen here)"
+ },
+ "inputs": {
+  "etf": {
+   "face": "results/etf_book_nobond_ticket.json",
+   "asof_bar": "2026-11-26",
+   "stamp": {
+    "bytes": 9229,
+    "mtime": 1795757688
+   },
+   "scale": 0.750724502753,
+   "cash_weight": 0.249275497247,
+   "picks": [
+    "159207",
+    "159549",
+    "515300",
+    "562060",
+    "513690"
+   ]
+  },
+  "cb": {
+   "face": "results/cb_book_ticket_floor.json",
+   "asof_bar": "2026-11-26",
+   "stamp": {
+    "bytes": 8260,
+    "mtime": 1795751829
+   },
+   "picks": [
+    "127061",
+    "111027",
+    "123107",
+    "127040",
+    "128142",
+    "113056",
+    "113042",
+    "127045",
+    "113052",
+    "113062",
+    "113631",
+    "127056",
+    "110095",
+    "118034",
+    "127110",
+    "113058",
+    "113575",
+    "118020",
+    "111000",
+    "113043"
+   ],
+   "one_lot_floor_cny": 25850.2
+  },
+  "blend": {
+   "face": "results/book_pair_blend.json",
+   "stamp": {
+    "bytes": 13535,
+    "mtime": 1795756404
+   },
+   "verdict": "DIVERSIFICATION_PAYS"
+  }
+ },
+ "cash_caliber": {
+  "design_cash": "inside the ETF sleeve: the 8% vol target deliberately holds this much out of equities (not an artifact)",
+  "lot_grid_cash": "left behind by whole lots (100 shares of an ETF, 10 bonds of a CB) -- this is the artifact, and it is what STRAND_CAP judges"
+ },
+ "ladder": [
+  {
+   "wallet_cny": 50000.0,
+   "verdict": "CB_SLEEVE_TOO_SMALL",
+   "etf_sleeve_cny": 35000.0,
+   "cb_sleeve_cny": 15000.0,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 0,
+   "cb_names": 20,
+   "cb_top_weight": 0.0,
+   "cb_max_weight_dev_pp": 5.0,
+   "invested_cny": 26096.3,
+   "fees_cny": 25.0,
+   "cash_cny": 23878.7,
+   "cash_pct": 0.477574,
+   "design_cash_cny": 8724.64,
+   "lot_grid_cash_cny": 15179.06,
+   "lot_grid_pct": 0.303581
+  },
+  {
+   "wallet_cny": 86167.0,
+   "verdict": "PARTIAL",
+   "etf_sleeve_cny": 60316.9,
+   "cb_sleeve_cny": 25850.1,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 19,
+   "cb_names": 20,
+   "cb_top_weight": 0.047032,
+   "cb_max_weight_dev_pp": 5.0,
+   "invested_cny": 65150.58,
+   "fees_cny": 25.0,
+   "cash_cny": 20991.42,
+   "cash_pct": 0.243613,
+   "design_cash_cny": 15035.53,
+   "lot_grid_cash_cny": 5980.89,
+   "lot_grid_pct": 0.06941
+  },
+  {
+   "wallet_cny": 86168.0,
+   "verdict": "HOLDS_WITH_STRAND",
+   "etf_sleeve_cny": 60317.6,
+   "cb_sleeve_cny": 25850.4,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 20,
+   "cb_names": 20,
+   "cb_top_weight": 0.05,
+   "cb_max_weight_dev_pp": 1.85,
+   "invested_cny": 66443.09,
+   "fees_cny": 25.0,
+   "cash_cny": 19699.91,
+   "cash_pct": 0.228622,
+   "design_cash_cny": 15035.7,
+   "lot_grid_cash_cny": 4689.21,
+   "lot_grid_pct": 0.054419
+  },
+  {
+   "wallet_cny": 100000.0,
+   "verdict": "HOLDS_WITH_STRAND",
+   "etf_sleeve_cny": 70000.0,
+   "cb_sleeve_cny": 30000.0,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 20,
+   "cb_names": 20,
+   "cb_top_weight": 0.043084,
+   "cb_max_weight_dev_pp": 2.285,
+   "invested_cny": 73911.39,
+   "fees_cny": 25.0,
+   "cash_cny": 26063.61,
+   "cash_pct": 0.260636,
+   "design_cash_cny": 17449.28,
+   "lot_grid_cash_cny": 8639.33,
+   "lot_grid_pct": 0.086393
+  },
+  {
+   "wallet_cny": 200000.0,
+   "verdict": "HOLDS_WITH_STRAND",
+   "etf_sleeve_cny": 140000.0,
+   "cb_sleeve_cny": 60000.0,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 20,
+   "cb_names": 20,
+   "cb_top_weight": 0.05,
+   "cb_max_weight_dev_pp": 1.543,
+   "invested_cny": 152502.26,
+   "fees_cny": 31.5,
+   "cash_cny": 47466.24,
+   "cash_pct": 0.237331,
+   "design_cash_cny": 34898.57,
+   "lot_grid_cash_cny": 12599.17,
+   "lot_grid_pct": 0.062996
+  },
+  {
+   "wallet_cny": 500000.0,
+   "verdict": "HOLDS_WITH_STRAND",
+   "etf_sleeve_cny": 350000.0,
+   "cb_sleeve_cny": 150000.0,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 20,
+   "cb_names": 20,
+   "cb_top_weight": 0.049757,
+   "cb_max_weight_dev_pp": 0.692,
+   "invested_cny": 400979.63,
+   "fees_cny": 78.79,
+   "cash_cny": 98941.58,
+   "cash_pct": 0.197883,
+   "design_cash_cny": 87246.42,
+   "lot_grid_cash_cny": 11773.95,
+   "lot_grid_pct": 0.023548
+  },
+  {
+   "wallet_cny": 1000000.0,
+   "verdict": "HOLDS_THE_BLEND",
+   "etf_sleeve_cny": 700000.0,
+   "cb_sleeve_cny": 300000.0,
+   "etf_names_held": 5,
+   "etf_names": 5,
+   "cb_names_held": 20,
+   "cb_names": 20,
+   "cb_top_weight": 0.05,
+   "cb_max_weight_dev_pp": 0.3,
+   "invested_cny": 814110.51,
+   "fees_cny": 157.59,
+   "cash_cny": 185731.9,
+   "cash_pct": 0.185732,
+   "design_cash_cny": 174492.85,
+   "lot_grid_cash_cny": 11396.64,
+   "lot_grid_pct": 0.011397
+  }
+ ],
+ "verdict_by_wallet": {
+  "50000": "CB_SLEEVE_TOO_SMALL",
+  "86167": "PARTIAL",
+  "86168": "HOLDS_WITH_STRAND",
+  "100000": "HOLDS_WITH_STRAND",
+  "200000": "HOLDS_WITH_STRAND",
+  "500000": "HOLDS_WITH_STRAND",
+  "1000000": "HOLDS_THE_BLEND"
+ },
+ "floor_check": {
+  "published_min_wallet_cny": 86167.0,
+  "published_by": "results/book_pair_blend.json executable_floor.min_wallet_cny",
+  "cb_budget_at_published_cny": 25850.1,
+  "cb_one_lot_rung_cny": 25850.2,
+  "holds_at_published_floor": false,
+  "names_held_at_published": 19,
+  "exact_threshold_cny": 86167.33,
+  "true_min_wallet_cny": 86168,
+  "names_held_at_ceil": 20,
+  "gap_cny": 1.0,
+  "why": "the published floor divides the one-lot rung by the sleeve weight and rounds to the yuan; the grid needs the budget to reach the rung, so the wallet must round UP -- one yuan below, one name is silently dropped"
+ },
+ "first_wallet_that_holds": 86168.0,
+ "short": null,
+ "reconciliation": {
+  "etf_tickets": [
+   {
+    "capital_cny": 100000.0,
+    "legs": 5,
+    "diffs": [],
+    "matches": true
+   },
+   {
+    "capital_cny": 500000.0,
+    "legs": 5,
+    "diffs": [],
+    "matches": true
+   },
+   {
+    "capital_cny": 1000000.0,
+    "legs": 5,
+    "diffs": [],
+    "matches": true
+   }
+  ],
+  "cb_rung_cny": 25850.2,
+  "min_wallet_cny": 86167.33,
+  "blend_min_wallet_cny": 86167.0,
+  "min_wallet_matches_blend": true,
+  "why": "the ETF sleeve must reproduce the parent ticket lot for lot, and the minimum wallet must be the same number the blend face published -- if either fails this is not the blend's ticket"
+ },
+ "honest_limits": [
+  "prices are each parent's as-of close; a real order pays the next open plus impact",
+  "the CB parent prices no broker bill, so this ticket's fee line is the ETF sleeve only",
+  "the 30/70 split is sample-in optimal on the overlap (2020-01..2026-11) -- it is the blend face's best, not a law",
+  "cash between the two sleeves is not rebalanced here; the blend face's own note says it models no transfer cost",
+  "the CB sleeve's twenty names are chosen on one bar; names that leave the pool before the next rebalance are the book's problem, not the ticket's"
+ ]
+}

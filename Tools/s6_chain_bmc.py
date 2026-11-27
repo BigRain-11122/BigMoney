@@ -2725,6 +2725,24 @@ LEGS = [
     # the penalty stays attached to the published number instead of living in a research
     # note; the printed keys are untouched, so no downstream reading moves.
     ("etf_nobond_vt", ["python", "scripts/etf_nobond_vt.py"]),
+    # r2174: the ticketed version of that same book had no driver at all -- the writer
+    # existed, no leg ever ran it, and by this round its five names were six days old
+    # (it printed 562550/159307 where the book now holds 562060/513690). A ticket without
+    # a driver rots silently: the book rotates and nothing re-prices the lots. check is a
+    # stat against the parent's stamp plus one page comparison (~0.05s); a rotated book
+    # says STALE so this leg pays for `run` (~1s, zero network).
+    ("etf_nobond_ticket",
+     ["python", "scripts/etf_book_nobond_ticket.py", "check"],
+     ["python", "scripts/etf_book_nobond_ticket.py", "run"]),
+    # r2174: the blend face printed a split and a minimum wallet, but no order list -- and
+    # its printed minimum (86,167) is one yuan short: at that wallet the CB sleeve budgets
+    # 25,850.10 against a 25,850.20 lot rung and silently drops a name. This leg prices one
+    # wallet across both books (imports both tickets' own lot arithmetic), so the split
+    # cannot be quoted without the lots that go with it. It must run AFTER both tickets and
+    # after the blend; check is three stat calls (~0.05s), run ~1s zero network.
+    ("paired_book_ticket",
+     ["python", "scripts/paired_book_ticket.py", "check"],
+     ["python", "scripts/paired_book_ticket.py", "run"]),
     # r2160: moved here from its r1462 position (see the note left there). This face's
     # control arm reproduces the published book, so it must be read AFTER the leg that
     # prices that book on this round's bar -- otherwise one panel advance turns the

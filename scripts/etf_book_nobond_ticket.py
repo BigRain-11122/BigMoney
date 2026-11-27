@@ -396,8 +396,21 @@ def check():
             par = json.load(f)
         pub = [x.get("symbol") for x in ((par.get("live_picks") or {}).get("picks") or [])]
         ours = [p["symbol"] for p in face.get("picks") or []]
+        # r2174: a rotated book is drift, not a contradiction (r1934/r1850 contract).
+        # The book names a new five every rebalance, so a ticket priced before that
+        # rotation will print the old names -- that is the parent moving, and the chain
+        # only pays for a re-run when the word is STALE.  Same dates with different
+        # names is still this face contradicting its parent, and stays a defect.
+        parent_moved = ((par.get("live_picks") or {}).get("as_of") != face.get("asof_bar")
+                        or par.get("evidence_cutoff") != face.get("evidence_cutoff"))
         if set(pub) != set(ours):
-            probs.append("picks %s are not the parent's book %s" % (ours, pub))
+            if parent_moved:
+                stale.append("the book rotated since this ticket was priced: %s -> %s "
+                             "(parent as_of %r, this ticket %r)"
+                             % (ours, pub, (par.get("live_picks") or {}).get("as_of"),
+                                face.get("asof_bar")))
+            else:
+                probs.append("picks %s are not the parent's book %s" % (ours, pub))
         if a.get("published_match") is not True:
             probs.append("anchor block says published_match=%r" % (a.get("published_match"),))
         if (par.get("live_picks") or {}).get("as_of") != face.get("asof_bar"):

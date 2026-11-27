@@ -18025,3 +18025,24 @@ How：正身=scripts/book_pair_blend.py（selftest 19/19，含端点/同书/反�
 results/book_pair_blend.json|md、research/BOOK_PAIR_BLEND.md、qa/book-pair-blend-r2173.md、
 Tools/s6_chain_bmc.py 腿 book_pair_blend（check 0.1s 只比字节戳 / run 55s）。
 
+
+### E-20261127-r2174 · 凡「规则算出的门槛」都要按能下单的整数最小单位再问一遍（2026-11-27 r2174 bm-c）
+
+`book_pair_blend` 印的最小钱包 86,167 元 = 转债一手门槛 25,850.20 / 0.30，按元向下取整。
+整手网格不取整：86,167 × 0.30 = 25,850.10，差 0.10 元，最贵那只转债拿 **0 手** ——
+钱包里只有 19 只，不是回测那 20 只的书；86,168 才拿满。**判据：任何「最小本金/最小门槛」
+类数字，必须用买家能下的整数最小单位（整手、整张、整股）重算一遍，并对取整方向断言。**
+
+同一面上还有两枚：①**已发布票面停在六天前**——写者在盘、链上无腿，父书天天换名而票面不动
+（r2171 `no_driver` 第二例）；②**票面的 check 把「父面轮换」判成自相矛盾**（印
+`picks [...] are not the parent's book [...]`，不含 STALE），而链只在文本含 STALE 时付费补写
+（r1934 契约）→ 即使补了腿也永久红、永不刷新。正法：check 先判父面 as_of/cutoff 是否移动，
+移动=漂移归 stale 并说出「A -> B」，日期相同而名字不同才是缺陷。
+
+另有一条口径：**现金要拆成「设计内」与「整手搁浅」两个数印**。ETF 袖的 8% 波动目标主动留
+~25% 袖内现金，与整手买不满的余数完全不是一回事，混着印读者必错读。
+
+How：正身=scripts/paired_book_ticket.py（selftest 19/19，L11-L13 用合成四名钉死取整方向）、
+scripts/etf_book_nobond_ticket.py check（stale/probs 分家）、Tools/s6_chain_bmc.py 腿
+etf_nobond_ticket / paired_book_ticket、results/paired_book_ticket.json|md、
+qa/paired-book-ticket-r2174.md、research/PAIRED_BOOK_TICKET.md。
