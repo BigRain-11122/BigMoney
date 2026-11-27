@@ -1,0 +1,396 @@
+{
+  "face": "book_pair_years",
+  "generated_at": "2026-11-27T14:12:34+08:00",
+  "evidence_cutoff": "2026-11-26",
+  "question": "which year tests the wallet, and does the 30/70 split hold in it?",
+  "sleeve": {
+    "w_cb": 0.3,
+    "w_etf": 0.7,
+    "chosen_by": "results/book_pair_blend.json best.w_cb (not re-chosen here)"
+  },
+  "window": {
+    "first": "2020-01-06",
+    "last": "2026-11-26",
+    "bars": 1670,
+    "years": 7,
+    "why": "the overlap only -- cb starts 2007, etf starts 2020-01-03"
+  },
+  "method": {
+    "common_start": "every year is cut from ONE start -- the latest of the three columns' first bar in that year -- because cb prints 2020 from 2020-01-03 and the blend from 2020-01-06; each column's own raw number (its own start) is printed beside it",
+    "year_return": "last level / first level - 1 inside the year's own slice",
+    "caliber": {
+      "cb": "signal at close t, filled at close t+1",
+      "etf": "decide at close t, own from the open of t+1",
+      "same_cost_floor": "each parent already pays its own 10bp per side; the blend adds no rebalancing cost between books (not modelled -- a reader who moves money between them pays it)",
+      "ann_days": 244.0,
+      "overlap_assets": "the etf book keeps a convertible sleeve, so a few convertible ETFs sit in both wallets -- the correlation is not independent by construction and is not claimed to be"
+    },
+    "partial_rule": "a year whose bars fall below 95% of the window's fullest year is marked partial and gets an annualised equivalent",
+    "ann_equiv": "annualised equivalent of a partial year, printed only so a 10.9-month number is not read as a year; it is not an observation"
+  },
+  "inputs": {
+    "cb_panel": {
+      "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+      "size": 25433554,
+      "mtime": "2026-11-27T11:34:31"
+    },
+    "etf_panel": {
+      "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+      "size": 102428,
+      "mtime": "2026-11-26T20:07:21"
+    },
+    "blend_face": {
+      "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\book_pair_blend.json",
+      "w_cb": 0.3,
+      "window_last": "2026-11-26",
+      "cutoff": "2026-11-26"
+    }
+  },
+  "years": [
+    {
+      "year": 2020,
+      "start": "2020-01-06",
+      "end": "2020-12-31",
+      "bars": 241,
+      "ret_cb": 0.099639364,
+      "ret_etf": 0.0553737473,
+      "ret_blend": 0.0729299724,
+      "raw_cb": 0.1076090973,
+      "raw_etf": 0.047516939,
+      "raw_blend": 0.0729299724,
+      "gap_cb_pp": -0.7969733305,
+      "gap_etf_pp": 0.7856808305,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": -2.6709391669,
+      "cushion_vs_etf_pp": 1.7556225109,
+      "drop_from_best_pp": 2.6709391669,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2021,
+      "start": "2021-01-04",
+      "end": "2021-12-31",
+      "bars": 243,
+      "ret_cb": 0.3324968291,
+      "ret_etf": 0.0516767645,
+      "ret_blend": 0.1317981669,
+      "raw_cb": 0.3324968291,
+      "raw_etf": 0.0516767645,
+      "raw_blend": 0.1317981669,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": -20.0698662148,
+      "cushion_vs_etf_pp": 8.0121402495,
+      "drop_from_best_pp": 20.0698662148,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2022,
+      "start": "2022-01-04",
+      "end": "2022-12-30",
+      "bars": 242,
+      "ret_cb": -0.0487264154,
+      "ret_etf": 0.0287770869,
+      "ret_blend": 0.0071198959,
+      "raw_cb": -0.0487264154,
+      "raw_etf": 0.0287770869,
+      "raw_blend": 0.0071198959,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": 5.5846311287,
+      "cushion_vs_etf_pp": -2.1657191021,
+      "drop_from_best_pp": 2.1657191021,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2023,
+      "start": "2023-01-03",
+      "end": "2023-12-29",
+      "bars": 242,
+      "ret_cb": -0.0217629394,
+      "ret_etf": 0.023839174,
+      "ret_blend": 0.0111348229,
+      "raw_cb": -0.0217629394,
+      "raw_etf": 0.023839174,
+      "raw_blend": 0.0111348229,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": 3.2897762318,
+      "cushion_vs_etf_pp": -1.2704351137,
+      "drop_from_best_pp": 1.2704351137,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2024,
+      "start": "2024-01-02",
+      "end": "2024-12-31",
+      "bars": 242,
+      "ret_cb": 0.277903535,
+      "ret_etf": 0.124109465,
+      "ret_blend": 0.1731371665,
+      "raw_cb": 0.277903535,
+      "raw_etf": 0.124109465,
+      "raw_blend": 0.1731371665,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": -10.4766368518,
+      "cushion_vs_etf_pp": 4.9027701486,
+      "drop_from_best_pp": 10.4766368518,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2025,
+      "start": "2025-01-02",
+      "end": "2025-12-31",
+      "bars": 243,
+      "ret_cb": 0.0478509151,
+      "ret_etf": 0.4247368213,
+      "ret_blend": 0.3023488455,
+      "raw_cb": 0.0478509151,
+      "raw_etf": 0.4247368213,
+      "raw_blend": 0.3023488455,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": 25.449793037,
+      "cushion_vs_etf_pp": -12.2387975819,
+      "drop_from_best_pp": 12.2387975819,
+      "partial": false,
+      "ann_equiv_blend": null
+    },
+    {
+      "year": 2026,
+      "start": "2026-01-05",
+      "end": "2026-11-26",
+      "bars": 217,
+      "ret_cb": -0.2075549299,
+      "ret_etf": 0.0085914188,
+      "ret_blend": -0.0604366502,
+      "raw_cb": -0.2075549299,
+      "raw_etf": 0.0085914188,
+      "raw_blend": -0.0604366502,
+      "gap_cb_pp": 0.0,
+      "gap_etf_pp": 0.0,
+      "gap_blend_pp": 0.0,
+      "cushion_vs_cb_pp": 14.7118279637,
+      "cushion_vs_etf_pp": -6.9028069021,
+      "drop_from_best_pp": 6.9028069021,
+      "partial": true,
+      "ann_equiv_blend": -0.0676962703
+    }
+  ],
+  "stats": {
+    "cb": {
+      "worst_year": -0.2075549299,
+      "best_year": 0.3324968291,
+      "neg_years": 3,
+      "mean_year": 0.0685494798
+    },
+    "etf": {
+      "worst_year": 0.0085914188,
+      "best_year": 0.4247368213,
+      "neg_years": 0,
+      "mean_year": 0.1024434968
+    },
+    "blend": {
+      "worst_year": -0.0604366502,
+      "best_year": 0.3023488455,
+      "neg_years": 1,
+      "mean_year": 0.09114746
+    }
+  },
+  "verdict": {
+    "word": "DIVERSIFICATION_CUSHIONS_CB_DOWN_YEARS",
+    "sentence": "The split held through every bad year cb had (3 of 3: 2022, 2023, 2026), but etf lost nothing in any of the 7 years in this window, so the blend has never been tested against an etf down year -- that half of the defensive claim is open.",
+    "cb_down_years": [
+      2022,
+      2023,
+      2026
+    ],
+    "etf_down_years": [],
+    "blend_down_years": [
+      2026
+    ],
+    "cushioned_cb_down_years": [
+      2022,
+      2023,
+      2026
+    ],
+    "etf_down_years_untested": true
+  },
+  "reconciliation": {
+    "why": "the raw column here must equal each parent face's own published yearly number -- if it does not, this face is not reading the book the parent published",
+    "rows": [
+      {
+        "year": 2020,
+        "column": "cb",
+        "published": 0.1076090973,
+        "mine": 0.1076090973,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2020,
+        "column": "etf",
+        "published": 0.047516939,
+        "mine": 0.047516939,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2020,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2021,
+        "column": "cb",
+        "published": 0.3324968291,
+        "mine": 0.3324968291,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2021,
+        "column": "etf",
+        "published": 0.0516767645,
+        "mine": 0.0516767645,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2021,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2022,
+        "column": "cb",
+        "published": -0.0487264154,
+        "mine": -0.0487264154,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2022,
+        "column": "etf",
+        "published": 0.0287770869,
+        "mine": 0.0287770869,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2022,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2023,
+        "column": "cb",
+        "published": -0.0217629394,
+        "mine": -0.0217629394,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2023,
+        "column": "etf",
+        "published": 0.023839174,
+        "mine": 0.023839174,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2023,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2024,
+        "column": "cb",
+        "published": 0.277903535,
+        "mine": 0.277903535,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2024,
+        "column": "etf",
+        "published": 0.124109465,
+        "mine": 0.124109465,
+        "diff": -0.0,
+        "matched": true
+      },
+      {
+        "year": 2024,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2025,
+        "column": "cb",
+        "published": 0.0478509151,
+        "mine": 0.0478509151,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2025,
+        "column": "etf",
+        "published": 0.4247368213,
+        "mine": 0.4247368213,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2025,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      },
+      {
+        "year": 2026,
+        "column": "cb",
+        "published": -0.2075549299,
+        "mine": -0.2075549299,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2026,
+        "column": "etf",
+        "published": 0.0085914188,
+        "mine": 0.0085914188,
+        "diff": 0.0,
+        "matched": true
+      },
+      {
+        "year": 2026,
+        "column": "blend",
+        "published": null,
+        "matched": null
+      }
+    ],
+    "n_mismatch": 0
+  },
+  "unverified": [
+    "the two sleeves' rebalancing cost between wallets is not modelled (each parent's own 10bp is inside its series)",
+    "the overlap is 6.9 of cb's 19.4 years -- every number here is a recent-window number",
+    "30/70 is the blend face's in-sample best, not a law: this face inherits that optimism",
+    "etf has no down year in this window, so the blend's behaviour inside an etf down year is unobserved"
+  ]
+}

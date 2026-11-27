@@ -174,6 +174,12 @@ LEGS = [
     ("book_pair_blend",
      ["python", "scripts/book_pair_blend.py", "check"],
      ["python", "scripts/book_pair_blend.py", "run"]),
+    # r2175: the year table sits on the blend face and depends on two of its numbers (the
+    # sleeve weight and the window end), not on its bytes -- so its own check stays cheap
+    # even though the blend face above is rebuilt every time it goes stale.
+    ("book_pair_years",
+     ["python", "scripts/book_pair_years.py", "check"],
+     ["python", "scripts/book_pair_years.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --
