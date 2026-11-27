@@ -18008,3 +18008,20 @@ How：正身=scripts/cb_dual_low.py（check(预期/发布/字节锚/记录锚) +
 Tools/chain_writer_audit.py WRITER_MODES、Tools/s6_chain_bmc.py 腿 update_cb_dual_low、
 qa/cb-panel-driver-r2171.md、research/CB_PANEL_DRIVER.md；真面实证 = 面板 mtime 毒化 → check rc3 STALE
 → 链 `+refresh(rc=0,54.2s)` → 复 check rc0。
+
+### E-20261127-r2173 · 「分散赚钱」的判据是波动与回撤都比最好的单书低，不是夏普高一点点（2026-11-27 r2173 bm-c）
+
+给定两张各自已发布的资金书（双低转债 6.29%/SR0.540/-22.6%，去债ETF 9.86%/SR0.958/-10.1%，
+重叠 2020-01-03..2026-11-26），按 11 档权重扫同一段日历：30/70 得 9.07%/SR1.066/-9.3%/vol8.59%。
+**真判据不是「夏普比最好的那本高 0.11」，而是「波动 8.59% 比两本都低、回撤 -9.3% 比最好的单书
+(-10.1%) 还浅」**——夏普高一点点可能只是付掉年化换来的；波动与回撤同时低于两个父面，才是
+分散没用杠杆、没藏风险。三条必做：①端点复现（w=0/w=1 必须逐位落回两本单书，否则混合的不是
+那两本书）；②父面复现（本面复算 vs 父面公布值逐位对，diff 全 0 才算同一本账）；③重叠窗与全史
+并列（转债全史 19.4 年 7.35%/0.758 vs 重叠 6.9 年 6.29%/0.540，禁把重叠段当全书）。
+另两枚已踩：最优权重是样本内挑的，须自报乐观偏差；浮点不 round 到 10 位则每次 rerun 末位抖动
+~1e-15，面就无法字节比对（round 后两次 run 除 generated_at 外逐字段相同）。
+
+How：正身=scripts/book_pair_blend.py（selftest 19/19，含端点/同书/反向/契约三类行为腿）、
+results/book_pair_blend.json|md、research/BOOK_PAIR_BLEND.md、qa/book-pair-blend-r2173.md、
+Tools/s6_chain_bmc.py 腿 book_pair_blend（check 0.1s 只比字节戳 / run 55s）。
+

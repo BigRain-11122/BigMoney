@@ -1,6 +1,6 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝把「这本书能不能真的买到」变成数字（双低转债一手门槛/搁浅现金/权重偏斜）｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\cb_book_ticket_floor.json（2026-11-27 11:5x·selftest 17/17）｜下个里程碑＝(a) 改后全量冒烟在分离进程跑通给出套件总数（≤48h）(b) heat 收盘窗首次真接管（≤48h·需 15:30 后）",
+ "CEO 三行": "当前活＝把「两本书各自值不值得跟」接成「一个钱包分不分散」｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\book_pair_blend.json（2026-11-27 13:0x·selftest 19/19）+ qa/book-pair-blend-r2173.md｜下个里程碑＝(a) 30/70 混合同等风险下逐年分布单独量一次（≤48h）(b) heat 收盘窗首次真接管（≤48h·需 15:30 后）",
  "active_lane": "lane freshness: who is supposed to move the panel",
  "activity": "product",
  "activity_now": "r2172 cb_book_ticket_floor: the dual-low book priced at the lot level (rung 25,850 CNY; <=2% stranded only at 518,625)",
@@ -280,7 +280,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
- "last_round": 2166,
+ "last_round": 2173,
  "last_round_at": "2026-11-27T10:02:16+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
@@ -1694,7 +1694,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2172,
+ "round_no": 2173,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2764,5 +2764,8 @@
   "how": "detached Start-Process python -m smoke_test (r2167 host lesson: the CLI host cancels a suite after 5 min of silence)"
  },
  "通过_r2170": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=123656）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 ack 332 -> 未回执 0（余为 2026-10-26 前他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：把归因面里两条「声明不是驱动」的车道补上驱动 —— ①update_lhb_inst 接成链腿（此前三源驱动全空、面板停 11-20 四日；现 no-op 门秒级，cutoff 11-26）②update_lhb 链腿补 --takeover（新鲜度面早已印 taken_over=lhb<-bm-c，链腿却每轮印 refused；实测 +88 行、cutoff 11-25->11-26）· 新鲜度面重 derive：lhb_inst stalled->in_sync、repo behind_1d->in_sync；余 heat(stalled·盘中不可补)/cb_panel(no_driver·研究线需先写 no-op 门)/ah_panel(absent·源失败) 如实留 · 三腿 3/3 rc0 + update_lhb 腿 1/1 rc0 + dualrun ZERO-DRIFT streak 51 + attrition CLEAN(4 账本·3 历史缩行 healed) + 饱和引擎 status rc0 + loop pin=0 no-op + watchdog S4U 翻转被拒(提权面如实注记)",
- "pool_dualrun": "ZERO-DRIFT (747 entries, streak 51, cutoff 2026-11-26T10:24:50+0800)"
+ "pool_dualrun": "ZERO-DRIFT (747 entries, streak 51, cutoff 2026-11-26T10:24:50+0800)",
+ "round_t2173_note": "r2173: two books, one wallet. The company had two published capital books (dual-low convertible 6.29%/SR0.540/-22.6% on the overlap; bond-free ETF 9.86%/SR0.958/-10.1%) but no face answered whether splitting one wallet beats picking the better one. New face imports each parent backtest (no rule drift), aligns the two daily equity series on their overlap (1671 bars, 2020-01-03..2026-11-26), sweeps 11 weights. 30/70 -> 9.07%/SR1.066/MDD-9.3%/vol8.59%: vol below BOTH books and drawdown shallower than the better book, at 0.79pp of CAGR. Correlation daily 0.0899. Verdict DIVERSIFICATION_PAYS (+0.108 SR).",
+ "round_t2173_next": "(a) 30/70 的逐年分布与最差月单独量一次（当前只印 worst_year -6.0%）；(b) 两个钱包之间的调仓成本建模（现在是 0，读者真搬钱会付）；(c) heat 收盘窗首次真接管（需 15:30 后）；(d) 链契约词候选 13 条仍原样",
+ "round_t2173_verify": "selftest 19/19 (incl. 3 contract-word behaviour legs + edge-weight reconciliation); parent reproduction diff 0.0pp on cagr/sharpe/mdd for both parents; poison test: etf panel stamp +1B -> check STALE rc3 -> run rebuild -> check rc0; byte-stable across reruns except generated_at (floats rounded to 10dp); chain --only 6/6 rc0; contract-word face regenerated 397 legs/140 writer legs/13 candidates/0 permanent red; writer audit 4 faces checked 0 newly paired"
 }

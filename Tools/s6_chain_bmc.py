@@ -165,6 +165,15 @@ LEGS = [
     ("cb_book_ticket_floor",
      ["python", "scripts/cb_book_ticket_floor.py", "--check"],
      ["python", "scripts/cb_book_ticket_floor.py"]),
+    # r2173: two books, one wallet. Every face so far priced a book on its own; nobody had
+    # asked whether splitting one wallet across both beats putting it all in the better
+    # one. This face imports each parent's own backtest (no rule drift) and reads the two
+    # daily equity series on their overlap. It is the most expensive check in this family
+    # (~55s, because the ETF parent rebuilds its panel), so it sits behind a cheap stat:
+    # check only compares the two recorded panel stamps and says STALE when either moved.
+    ("book_pair_blend",
+     ["python", "scripts/book_pair_blend.py", "check"],
+     ["python", "scripts/book_pair_blend.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --
