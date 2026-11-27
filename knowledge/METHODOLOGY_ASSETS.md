@@ -17953,3 +17953,32 @@ How：正身=scripts/live_book_section_bars.py（LEG_ALIASES 两条 + L21 按活
 scripts/etf_book_forward.py（panel_last_bar / check_panel_bar）、
 scripts/etf_book_derisk_rule.py（selftest 48/48）、results/_r2166bmc_derisk_bar_probe.py（5/5）、
 qa/section-bars-writer-guards-r2166.md；节面 n_no_writer 2→0。
+
+## E-20261127-r2167 · 「绿着冻住的成本面」与「绿着冻住的研究面」是同一条判据的两种尸体
+
+`results/etf_book_liquidity_select.json` / `etf_book_liquidity_era.json` 停在
+`evidence_cutoff 2026-11-19`，而 core48 面板已到 `2026-11-26`；两张面的 `check()` 只把
+自己发布的行拿回来重算，于是**任何面板上都绿**（r1935 族）。链不去救它们，不是因为懒：
+`run_leg` 只在探针文本含 `stale` 时才付钱跑写者，而这两个脚本连 `stale` 这个词都没有
+（`chain_contract_word_audit` 的 `drift_words` 一栏是空的）。
+
+三件事值得记住：
+
+①**契约词是链的付款条件，不是文档礼貌**。不写 STALE 的面不是「红着」，是「永远红着且没人
+修」——红会被读到、会被当背景噪声，冻住的绿根本不会被人看到。
+
+②**锚要选便宜的那一个**。记 `panel_last_bar`（48 个 CSV 尾行取最大日期，0.3s）就够了；
+重建面板（秒级）在这里只能让你选择「不检查」。
+
+③**同一件事抄两遍，检查要两处都看得见**。`era` 的 `full_window.rebalances` 与
+`full_window.substitution.rebalances` 是同一个数，过去只校验了前者——本轮探针把毒打在
+后者上得 rc0，才暴露这条缝。
+
+判据：任何「发布面 + 自检」的组合，先问它的 check 能不能说出「我过期了」这四个字；
+说不出来就先去补一个外部锚，而不是讨论它现在对不对。
+
+How：正身=scripts/etf_book_liquidity_select.py（panel_bar / gate_ruler / drift，selftest 18/18）、
+scripts/etf_book_liquidity_era.py（复用 LS.drift，selftest 16/16）、
+results/_r2167bmc_liquidity_drift_probe.py（10/10，真面毒化→rc3 STALE→按字节复原）、
+qa/liquidity-drift-contract-r2167.md；链自愈实证 `liquidity_select_write` 印 `+refresh(rc=0,55.1s)`；
+契约词审计候选 16→14。

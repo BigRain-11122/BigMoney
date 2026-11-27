@@ -35,6 +35,8 @@ Criterion, frozen before the read (also written into the payload):
 Every input is causal: the ADV reading used at a decision is the one visible ON that bar.
 """
 import argparse
+import contextlib
+import io
 import json
 import math
 import os
@@ -71,6 +73,87 @@ CRIT = {
     "t_min": 2.0,                # D2: B must beat R by more than its own noise
     "min_paired_months": 24,     # D2: a t-stat on 6 months is not a reading
 }
+
+
+# ---------------------------------------------------------------- outside anchors
+
+def panel_bar():
+    """The bar the frozen core48 panel is on right now, read off its own CSVs (r2167).
+
+    `S.nobond_universe()` rebuilds the panel (seconds), so a check that called it every
+    round would be too slow to run -- and this check used to re-derive only its own rows,
+    which makes it green on any panel (r1935). This is the cheap outside question: the tail
+    date of each core48 file.
+    """
+    try:
+        import live.paper as P
+        core = sorted(P.load_core())
+    except Exception:                                          # noqa: BLE001
+        return None
+    daily = os.path.join(ROOT, "data", "daily")
+    last = None
+    for sym in core:
+        path = os.path.join(daily, "%s.csv" % sym)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "rb") as f:
+                f.seek(0, 2)
+                f.seek(max(0, f.tell() - 400))
+                tail = f.read().decode("utf-8", "replace")
+        except Exception:                                      # noqa: BLE001
+            continue
+        body = [x for x in tail.splitlines() if x.strip()]
+        if not body:
+            continue
+        day = body[-1].split(",")[0].strip()[:10]
+        if last is None or day > last:
+            last = day
+    return last
+
+
+def gate_ruler():
+    """The line and the lens this face's 'need ADV' is built from (a cheap gate read)."""
+    try:
+        r = EC.rulers(EC.load_gate())
+    except Exception:                                          # noqa: BLE001
+        return None
+    return {"line_pct": r.get("line_pct"), "line_frac": r.get("line_frac"),
+            "lens_cny": r.get("lens_cny")}
+
+
+def drift(payload, live="disk", ruler="disk"):
+    """Has the world moved under this face? Only an outside anchor can answer (r1935).
+
+    A newer panel or a re-published gate is a rebuild, not a contradiction: the chain pays
+    for the writer when the probe says STALE (r1850), and it must never pay because a face
+    disagreed with itself.
+    """
+    if live == "disk":
+        live = panel_bar()
+    if ruler == "disk":
+        ruler = gate_ruler()
+    was = (payload or {}).get("inputs") or {}
+    out = []
+    if not was.get("panel_last_bar"):
+        out.append("the face records no panel bar, so there is nothing to age it against")
+    elif live is None:
+        out.append("the panel bar cannot be read (core48 tails unreadable), so this face "
+                   "cannot be aged")
+    elif str(was["panel_last_bar"]) != str(live):
+        out.append("the panel is on bar %s, this face priced %s"
+                   % (live, was["panel_last_bar"]))
+    g0 = was.get("gate") or {}
+    if ruler is None:
+        out.append("the gate ruler cannot be read, so this face cannot be aged")
+    else:
+        for k in ("line_frac", "lens_cny"):
+            a, b = g0.get(k), ruler.get(k)
+            if a is None:
+                out.append("the face records no gate %s" % k)
+            elif b is not None and abs(float(a) - float(b)) > 1e-12 * max(1.0, abs(float(b))):
+                out.append("the gate's %s is %r, this face priced %r" % (k, b, a))
+    return out
 
 
 # ------------------------------------------------------------------ liquidity ruler
@@ -308,6 +391,14 @@ def run() -> int:
         "face": "etf_book_liquidity_select",
         "generated": pd.Timestamp.now(tz="Asia/Shanghai").isoformat(timespec="seconds"),
         "evidence_cutoff": str(pd.Timestamp(ser_a.index[-1]).date()),
+        "inputs": {
+            "panel_last_bar": panel_bar() or str(pd.Timestamp(close.index[-1]).date()),
+            "gate": gate_ruler() or {"line_pct": rituals.get("line_pct"),
+                                     "line_frac": line, "lens_cny": lens},
+            "data_end": str(pd.Timestamp(close.index[-1]).date()),
+            "why": "what this face priced; check() ages the face against the live panel and "
+                   "the live gate instead of only re-deriving its own rows (r2167)",
+        },
         "criteria": {
             "line_pct": rituals.get("line_pct"), "line_frac": line,
             "lens_cny": lens, "lens_label": rituals.get("lens"),
@@ -444,11 +535,18 @@ def render_md(p):
 
 # ------------------------------------------------------------------ check
 
-def check(payload=None):
+def check(payload=None, live="disk", ruler="disk"):
     problems = []
     if payload is None:
         with open(OUT_JSON, "r", encoding="utf-8") as f:
             payload = json.load(f)
+    stale = drift(payload, live, ruler)
+    if stale:
+        print("check STALE: this face priced a book the panel or the gate has since left "
+              "behind")
+        for x in stale:
+            print("  -", x)
+        return 3
     c = payload.get("criteria") or {}
     line, slots = c.get("line_frac"), c.get("slots")
     lens, per_name = c.get("lens_cny"), c.get("per_name_cny")
@@ -479,9 +577,16 @@ def check(payload=None):
     if again != payload.get("verdict"):
         problems.append("verdict %r re-derives as %r" % (payload.get("verdict"), again))
     ok = not problems
+    if problems:
+        # A number that will not re-derive is a defect, not a moved world: the chain must
+        # not buy a rebuild for it, so this line never carries the word STALE (r1934).
+        print("check FAIL:")
+        for x in problems:
+            print("  -", x)
+        return 1
     print(json.dumps({"ok": ok, "problems": problems, "verdict": payload.get("verdict")},
                      ensure_ascii=False))
-    return 0 if ok else 3
+    return 0 if ok else 1
 
 
 # ------------------------------------------------------------------ selftest
@@ -570,6 +675,43 @@ def selftest() -> int:
     sh = paired(t, s, "shift")
     leg("L12 paired() zero on the same book, non-zero on a shifted one",
         z["mean_pp"] == 0.0 and sh["mean_pp"] not in (0.0, None), "%r/%r" % (z, sh))
+
+    # L13-L18 the check must be able to say "the world moved", and only then (r1935/r2165)
+    gate = {"line_pct": 1.0, "line_frac": 0.01, "lens_cny": 1_000_000.0}
+    face = {"inputs": {"panel_last_bar": "2026-11-26", "gate": dict(gate)},
+            "criteria": {"line_frac": 0.01, "slots": 5, "lens_cny": 1_000_000.0,
+                         "per_name_cny": 200_000.0, "need_adv_cny": 20_000_000.0},
+            "capacity_rows": {"A_published": [], "B_floor": []},
+            "substitution": {"rebalances": 10, "rebalances_with_a_substitution": 0,
+                             "share_of_rebalances": 0.0},
+            "paired_ba": {"mean_pp": 0.0, "months": 60}, "paired_br": {"mean_pp": 0.2,
+                                                                      "t": 2.5,
+                                                                      "months": 60},
+            "verdict": "NO_CONFLICT"}
+    leg("L13 a face on its own bar and ruler has nothing to age",
+        drift(face, "2026-11-26", dict(gate)) == [],
+        "%r" % (drift(face, "2026-11-26", dict(gate)),))
+    leg("L14 the panel rolling a bar reads as drift",
+        bool(drift(face, "2026-11-27", dict(gate))))
+    leg("L15 a re-published gate ruler reads as drift",
+        bool(drift(face, "2026-11-26", {"line_pct": 2.0, "line_frac": 0.02,
+                                        "lens_cny": 1_000_000.0})))
+    leg("L16 a face with no recorded anchor is not 'fine'", bool(drift({}, "2026-11-26", gate)))
+
+    def _run_check(pl, live_bar, live_gate):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = check(pl, live_bar, live_gate)
+        return rc, buf.getvalue()
+
+    rc, txt = _run_check(face, "2026-11-27", dict(gate))
+    leg("L17 end-to-end: a rolled panel is rc3 and says STALE", rc == 3 and "STALE" in txt,
+        "rc=%r" % (rc,))
+    bad = json.loads(json.dumps(face))
+    bad["substitution"]["share_of_rebalances"] = 0.9
+    rc, txt = _run_check(bad, "2026-11-26", dict(gate))
+    leg("L18 end-to-end: a number that will not re-derive is rc1 and never says STALE",
+        rc == 1 and "STALE" not in txt, "rc=%r txt=%r" % (rc, txt[:80]))
 
     bad = [c for c in checks if not c[1]]
     for name, ok, detail in checks:

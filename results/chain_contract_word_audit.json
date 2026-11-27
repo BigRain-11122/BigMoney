@@ -2,7 +2,7 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-27T06:58:32+0800",
+ "generated": "2026-11-27T08:24:34+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
@@ -11,41 +11,13 @@
  "chain_sha256": "47e7d2c5ef3b627c094dda66bb9d4589fc046f9e230d0c05dbf2d3b6de8bcfeb",
  "n_legs": 392,
  "n_writer_legs": 136,
- "n_candidates": 16,
- "n_probed": 16,
+ "n_candidates": 14,
+ "n_probed": 14,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 27.1,
+ "elapsed_sec": 24.2,
  "rows": [
-  {
-   "leg": "liquidity_select_write",
-   "script": "scripts/etf_book_liquidity_select.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_liquidity_select.py",
-    "check"
-   ],
-   "script_sha256": "0de95b92735a3cde47e501c18285dee767b7a017883ebe87685e4d94c843d615",
-   "drift_words": [],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "{\"ok\": true, \"problems\": [], \"verdict\": \"SUBSTITUTION_NOT_SEPARABLE\"}"
-  },
-  {
-   "leg": "liquidity_era_write",
-   "script": "scripts/etf_book_liquidity_era.py",
-   "check_cmd": [
-    "python",
-    "scripts/etf_book_liquidity_era.py",
-    "check"
-   ],
-   "script_sha256": "a26976d95533e9e045c9fd06e7f029edfa7917285539c17d2895f543e8dfe8da",
-   "drift_words": [],
-   "state": "CURRENT",
-   "rc": 0,
-   "first_line": "{\"ok\": true, \"problems\": [], \"notes\": [], \"verdict\": \"NOT_SEPARABLE_IN_THIS_ERA\"}"
-  },
   {
    "leg": "etf_book_fill_venue",
    "script": "scripts/etf_book_fill_venue.py",
@@ -175,7 +147,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "����Ҫ **0.458463**�����ֻ�� **0.435003**���� 2.35pp�������ŵ�������� **39 �� + 40 �� + 25 �� + 42 �� + 28 ��**�������Եļ��۳� **23,447.80 Ԫ**�� ���Ȳ���**һ��**������˵��� **159519**��159519 �Ķ���ϵ� **0.0172pp** �͹�������һ�֣�����ÿ����Ҫ 0.0237~0.0540pp��"
+   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **39 手 + 40 手 + 25 手 + 42 手 + 28 手**，按各自的价折成 **23,447.80 元**。 想先补回**一手**，最便宜的是 **159519**：159519 的额度上调 **0.0172pp** 就够买它那一手，其余每名各要 0.0237~0.0540pp。"
   },
   {
    "leg": "sibling_entry",

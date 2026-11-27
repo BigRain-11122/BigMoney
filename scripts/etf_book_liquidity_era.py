@@ -35,6 +35,8 @@ The headline verdict is the LATE era's verdict, because that is the regime the d
 trading. The early era and the full window are printed beside it, never averaged into it.
 """
 import argparse
+import contextlib
+import io
 import json
 import math
 import os
@@ -330,6 +332,14 @@ def run() -> int:
         "face": "etf_book_liquidity_era",
         "generated": pd.Timestamp.now(tz="Asia/Shanghai").isoformat(timespec="seconds"),
         "evidence_cutoff": str(pd.Timestamp(ser_a.index[-1]).date()),
+        "inputs": {
+            "panel_last_bar": LS.panel_bar() or str(pd.Timestamp(close.index[-1]).date()),
+            "gate": LS.gate_ruler() or {"line_pct": rituals.get("line_pct"),
+                                        "line_frac": line, "lens_cny": lens},
+            "data_end": str(pd.Timestamp(close.index[-1]).date()),
+            "why": "what this face priced; check() ages the face against the live panel and "
+                   "the live gate instead of only re-deriving its own rows (r2167)",
+        },
         "criteria": {
             "line_pct": rituals.get("line_pct"), "line_frac": line,
             "lens_cny": lens, "lens_label": rituals.get("lens"),
@@ -478,12 +488,19 @@ def render_md(p):
 
 # ------------------------------------------------------------------ check
 
-def check(payload=None):
+def check(payload=None, live="disk", ruler="disk"):
     problems = []
     notes = []
     if payload is None:
         with open(OUT_JSON, "r", encoding="utf-8") as f:
             payload = json.load(f)
+    stale = LS.drift(payload, live, ruler)
+    if stale:
+        print("check STALE: this face sliced a window the panel or the gate has since left "
+              "behind")
+        for x in stale:
+            print("  -", x)
+        return 3
     c = payload.get("criteria") or {}
     line, slots = c.get("line_frac"), c.get("slots")
     lens, per_name = c.get("lens_cny"), c.get("per_name_cny")
@@ -513,6 +530,10 @@ def check(payload=None):
     if full.get("rebalances") and rb_sum and rb_sum != full["rebalances"]:
         problems.append("era rebalances %d do not partition the full %d"
                         % (rb_sum, full["rebalances"]))
+    fsub_rb = (full.get("substitution") or {}).get("rebalances")
+    if fsub_rb and full.get("rebalances") and fsub_rb != full["rebalances"]:
+        problems.append("the full window prints two rebalance counts: %s and %s"
+                        % (full["rebalances"], fsub_rb))
     sub_sum = sum((e.get("substitution") or {}).get("names_substituted") or 0 for e in eras)
     if full.get("substitution") and full["substitution"].get("names_substituted") is not None \
             and sub_sum and sub_sum != full["substitution"]["names_substituted"]:
@@ -557,9 +578,16 @@ def check(payload=None):
         notes.append(rep["note"])
 
     ok = not problems
+    if problems:
+        # A number that will not re-derive is a defect, not a moved world: the chain must
+        # not buy a rebuild for it, so this line never carries the word STALE (r1934).
+        print("check FAIL:")
+        for x in problems:
+            print("  -", x)
+        return 1
     print(json.dumps({"ok": ok, "problems": problems, "notes": notes,
                       "verdict": payload.get("verdict")}, ensure_ascii=False))
-    return 0 if ok else 3
+    return 0 if ok else 1
 
 
 # ------------------------------------------------------------------ selftest
@@ -693,6 +721,26 @@ def selftest() -> int:
     md = render_md(rp)
     leg("L13 a zero-trigger year prints beside its rebalances", "2022 2/0" in md,
         "row missing from the printed table")
+
+    # L14-L16 this check must be able to say "the world moved", and only then (r1935/r2165)
+    gate = {"line_pct": 1.0, "line_frac": 0.01, "lens_cny": 1_000_000.0}
+    rp["inputs"] = {"panel_last_bar": "2026-11-26", "gate": dict(gate)}
+    leg("L14 a face on its own bar and ruler has nothing to age",
+        LS.drift(rp, "2026-11-26", dict(gate)) == [],
+        "%r" % (LS.drift(rp, "2026-11-26", dict(gate)),))
+
+    def _run_check(pl, live_bar, live_gate):
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = check(pl, live_bar, live_gate)
+        return rc, buf.getvalue()
+
+    rc, txt = _run_check(rp, "2026-11-27", dict(gate))
+    leg("L15 end-to-end: a rolled panel is rc3 and says STALE", rc == 3 and "STALE" in txt,
+        "rc=%r" % (rc,))
+    rc, txt = _run_check(rp, "2026-11-26", dict(gate))
+    leg("L16 end-to-end: a structural mismatch is rc1 and never says STALE",
+        rc == 1 and "STALE" not in txt, "rc=%r txt=%r" % (rc, txt[:80]))
 
     bad_legs = [c for c in checks if not c[1]]
     for name, ok, detail in checks:
