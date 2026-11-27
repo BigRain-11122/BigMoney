@@ -122,9 +122,27 @@ LEGS = [
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
-    ("update_lhb", ["python", "scripts/update_lhb.py"]),
+    # r2170: `data_lane_freshness` prints `taken_over=lhb<-bm-c` (owner bm-a silent
+    # 206.9h >= TAKEOVER_STALE_MIN) and the panel sits one bar behind -- while this leg
+    # printed `takeover refused: no --takeover flag` every round. Same shape as
+    # update_heat / update_repo below and update_futures above: the permission was
+    # granted, nobody exercised it. --takeover keeps the guard intact (a revived bm-a
+    # whose heartbeat is fresher than the threshold keeps the lane and this call goes
+    # back to a stdout-only no-op), and the stale-window / 30min throttle guards inside
+    # the writer still decide whether anything is fetched at all.
+    ("update_lhb", ["python", "scripts/update_lhb.py", "--takeover"]),
+    # r2170: the institutional-seat aggregate of the same 龙虎榜 feed was DECLARED to this
+    # machine (config/lane_hosts.json + the script's own lane guard) but had no driver in
+    # any of the three sources the lag attribution reads -- no chain leg, no scheduled
+    # task, no register script -- so the panel sat at 11-20 for four trading days while
+    # every audit line said "owner bm-c, host alive". Declaration is not a driver. The
+    # writer is the same no-op-when-covered shape as the rest of this family: one monthly
+    # page, overlap check, append-only, ~21s when stale and zero network when the panel
+    # already carries the expected complete bar day. It goes right after update_lhb
+    # because it accumulates the same vendor's seat columns for the same 上榜 days.
+    ("update_lhb_inst", ["python", "scripts/update_lhb_inst.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
-    ("update_heat", ["python", "scripts/update_heat.py"]),
+    ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --
     # so on this machine the leg printed its honest no-op every round while the
     # main-continuous panel fell to 11-18 (IC/TF 11-17) and the whole carry book priced
@@ -477,7 +495,14 @@ LEGS = [
     # the measured cells. ~25s, no network, no judge; decides nothing by itself.
     ("futures_overlay_fliprate_paths", ["python",
                                         "scripts/futures_overlay_fliprate_paths.py"]),
-    ("update_repo", ["python", "scripts/update_repo.py"]),
+    # r2170: same shape as update_futures / update_heat above -- `data_lane_freshness`
+    # had already declared `taken_over=repo<-bm-c` (owner bm-a silent 206.6h, threshold
+    # 120min) while the bare call printed "takeover refused: no --takeover flag" every
+    # round, so the 11-member repo-rate panel sat one trading day behind and the cash
+    # leg priced it. The permission was granted; nobody exercised it. --takeover keeps
+    # the guard intact: a revived bm-a (heartbeat fresher than TAKEOVER_STALE_MIN) still
+    # owns the lane and this call goes back to an honest no-op.
+    ("update_repo", ["python", "scripts/update_repo.py", "--takeover"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
     ("update_sina_mf", ["python", "scripts/update_sina_mf.py"]),
