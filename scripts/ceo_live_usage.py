@@ -235,6 +235,15 @@ CB_FLOOR_REL = "results/cb_book_ticket_floor.json"
 PAIR_REBAL_JSON = os.path.join(ROOT, "results", "book_pair_rebalance.json")
 PAIR_REBAL_REL = "results/book_pair_rebalance.json"
 
+# r2184: sections ⑧ and ⑨ price the two books and the split, but neither says which
+# side of the split the rule is on TODAY -- and r2183 found a rule (cash in the cb
+# sleeve while the convertible market's premium sits in its own top third) that is
+# right now saying "cash".  A decision that exists only in results/ is not a product
+# (r1782), so this page quotes that face's own `current.today` block, stamps and all,
+# and re-derives no label logic of its own.
+CUSHION_JSON = os.path.join(ROOT, "results", "book_pair_cushion_regime.json")
+CUSHION_REL = "results/book_pair_cushion_regime.json"
+
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
 # zero lots" lived in a research file.  The reader needs the funding line that
@@ -2511,6 +2520,96 @@ def _book_pair_rebalance_face():
     return out
 
 
+def _cb_sleeve_today_face():
+    """r2184: which side of the 30/70 split the rule is on today, and what it bought.
+
+    The reader who funds both books has two questions the page could not answer: how
+    often to move money (⑨) and whether to hold the convertible sleeve at all right
+    now.  `results/book_pair_cushion_regime.json` answers the second with a rule and
+    its price, and publishes `current.today` -- the label in force, the month end it
+    was read at, the side it puts the sleeve on, and the day of the next decision.
+    This block quotes that block; it does not re-derive the labels (two
+    implementations of a label rule drift apart, and the reader would be reading the
+    page's arithmetic instead of the producer's).
+
+    Same three rules as the other money blocks:
+      * a missing face prints no number -- "只买 ETF" must never be how the page says
+        "I could not read the rule" (r98);
+      * the producer's own `generated_at` / `evidence_cutoff` travel with the section
+        (r1781: the page runs after the producer on the chain);
+      * the honest half travels too -- the edge lives in five months, and the cushion
+        itself was not separable by premium regime (r2183).
+    """
+    d = _read_json(CUSHION_JSON)
+    out = {"present": False, "path": CUSHION_REL}
+    if not d:
+        out["note"] = "转债溢价规则面未产出（缺面不读 0）"
+        return out
+    cur = d.get("current") or {}
+    today = cur.get("today") or {}
+    rule = d.get("rule") or {}
+    if not (today.get("sleeve_state") and rule.get("rule")):
+        out["note"] = ("转债溢价规则面在册但缺 current.today / rule 段"
+                       "（不完整面不冒充）")
+        return out
+
+    def _pct(v):
+        return None if v is None else float(v) * 100.0
+
+    arms = []
+    for name, key in (("rule", "rule"), ("always_on", "always_on"),
+                      ("matched_exposure", "matched_exposure")):
+        a = rule.get(key) or {}
+        if a.get("sharpe") is None:
+            continue
+        arms.append({"arm": name, "cagr_pct": _pct(a.get("cagr")),
+                     "sharpe": a.get("sharpe"), "maxdd_pct": _pct(a.get("maxdd")),
+                     "months": a.get("months")})
+    conc = d.get("rule_edge_concentration") or {}
+    band = d.get("rule_edge_band") or {}
+    diff = d.get("cushion_difference") or {}
+    out.update({
+        "present": True,
+        "generated": d.get("generated_at"),
+        "cutoff": d.get("evidence_cutoff"),
+        "w_cb": (d.get("inputs") or {}).get("w_cb"),
+        "window_first": (d.get("window") or {}).get("first"),
+        "window_last_bar": (d.get("window") or {}).get("last_bar"),
+        "labelled_months": (d.get("window") or {}).get("labelled_months"),
+        "label_in_force": today.get("label_in_force"),
+        "decided_at": today.get("decided_at_month_end"),
+        "applies_to": today.get("month_the_label_applies_to"),
+        "sleeve_state": today.get("sleeve_state"),
+        "sleeve_share_pct": _pct(today.get("sleeve_share_of_wallet")),
+        "next_decision_day": today.get("next_decision_day"),
+        "rule_sentence": today.get("rule_sentence"),
+        "premium_pct": cur.get("median_conv_premium_pct"),
+        "premium_percentile_pct": _pct(cur.get("percentile_in_own_history")),
+        "premium_asof": cur.get("asof"),
+        "rule_verdict": d.get("rule_verdict"),
+        "rule_edge_sharpe": d.get("rule_verdict_edge"),
+        "arms": arms,
+        "switches": rule.get("switches"),
+        "cost_paid_pp": rule.get("cost_paid_pp"),
+        "months_in_cash": rule.get("months_in_cash_sleeve"),
+        "avg_cb_exposure": rule.get("avg_cb_exposure"),
+        "edge_pp": band.get("point_pp"),
+        "edge_lo_pp": band.get("lo_pp"),
+        "edge_hi_pp": band.get("hi_pp"),
+        "edge_total_pp": conc.get("total_pp"),
+        "edge_top_k": conc.get("top_k"),
+        "edge_top_k_pp": conc.get("top_k_pp"),
+        "edge_top_k_share_pct": _pct(conc.get("top_k_share")),
+        "cushion_verdict": d.get("verdict"),
+        "cushion_diff_pp": diff.get("point_pp"),
+        "cushion_diff_lo_pp": diff.get("lo_pp"),
+        "cushion_diff_hi_pp": diff.get("hi_pp"),
+        "regimes": d.get("regimes") or {},
+        "unverified": d.get("unverified") or [],
+    })
+    return out
+
+
 # ---------------------------------------------------------------- v2.1 ----
 # Freshness (r1281).  Every section already prints its own asof, but nothing on
 # the page said HOW OLD those numbers are relative to the market the reader is
@@ -2989,6 +3088,10 @@ def build_payload(day: str) -> dict:
         # page said whether funding both beats picking one, nor what moving money between
         # them costs.  Quoted from the producer, never re-derived here.
         "pair_rebalance": _book_pair_rebalance_face(),
+        # r2184: ⑨ says how often to move money between the two books; nothing said
+        # whether to hold the convertible sleeve at all this month.  Quoted from the
+        # producer's own `current.today`, never re-derived here.
+        "cb_sleeve_today": _cb_sleeve_today_face(),
         # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
         # rulers, never averaged) -- the seam between the two money candidates.
         "capital_substitution": _capital_substitution_face(),
@@ -5065,7 +5168,98 @@ def render_md(p: dict) -> str:
                  f"｜generated {pr.get('generated')}｜窗口 "
                  f"{pr.get('bar_first')}~{pr.get('bar_last')}（{pr.get('bars')} bar·两书重叠段）")
     L.append("")
-    L.append("## ⑩ 诚实免责")
+    L.append("## ⑩ 这个月转债那半边该不该在仓里（纯读出）")
+    L.append("")
+    cst = p.get("cb_sleeve_today") or {}
+    if not cst.get("present"):
+        L.append(f"- {cst.get('note') or '转债溢价规则面未产出'}（指针 "
+                 f"`{cst.get('path')}`）——**今天读不到决策规则；"
+                 "别把「没读到」当成「照旧 30/70 买着」**")
+    else:
+        def _cs_n(v, nd=2):
+            return "?" if v is None else f"{v:.{nd}f}"
+
+        _wc = cst.get("w_cb")
+        _wc_s = "?" if _wc is None else f"{float(_wc) * 100:.0f}"
+        _cash = (cst.get("sleeve_state") or "") == "cash"
+        _side = "现金" if _cash else "转债书里"
+        _share = cst.get("sleeve_share_pct") or 0.0
+        L.append(f"- **结论先行**：规则说转债那半边**今天应该待在{_side}** —— "
+                 f"依据是上一个月底（{cst.get('decided_at')}）读到的标签 "
+                 f"**{cst.get('label_in_force')}**，它管到 "
+                 f"{cst.get('applies_to')}；下一次拍板 "
+                 f"{cst.get('next_decision_day')}")
+        L.append(f"  - 所以此刻这本钱包的样子是 **ETF {_cs_n(100 - _share, 0)}% / "
+                 f"转债袖 {_cs_n(_share, 0)}%**，而不是设计时的 "
+                 f"{_wc_s}/{'?' if _wc is None else str(100 - int(float(_wc) * 100))} —— "
+                 f"差的那块是现金，不是第三个策略")
+        L.append(f"  - 今天的读数：可转债市场转股溢价率中位数 "
+                 f"**{_cs_n(cst.get('premium_pct'))}%**"
+                 f"（{cst.get('premium_asof')}），处在自己历史的第 "
+                 f"**{_cs_n(cst.get('premium_percentile_pct'), 1)}** 百分位 —— "
+                 f"这就是「贵」那一档的来源")
+        L.append(f"  - 规则一句话：{cst.get('rule_sentence')}。"
+                 f"全窗换手 **{cst.get('switches')}** 次、付掉 "
+                 f"**{_cs_n(cst.get('cost_paid_pp'), 2)}pp** 钱包"
+                 f"（{cst.get('months_in_cash')} 个月空着转债袖）")
+        _arms = cst.get("arms") or []
+        if len(_arms) >= 2:
+            _label = {"rule": "按规则", "always_on": "一直满仓",
+                      "matched_exposure": "同样暴露但不择时"}
+            L.append(f"  - 三条腿同一段历史（{_cs_n(cst.get('labelled_months'), 0)} 个月）："
+                     + "；".join(
+                         f"{_label.get(a['arm'], a['arm'])} 年化 "
+                         f"**{_cs_n(a.get('cagr_pct'))}%** / 夏普 "
+                         f"**{_cs_n(a.get('sharpe'), 3)}** / 回撤 "
+                         f"**{_cs_n(a.get('maxdd_pct'))}%**"
+                         for a in _arms))
+            L.append(f"  - 第三条腿是这条结论的骨头：对照组每月持有**相同平均转债暴露**"
+                     f"（{_cs_n((cst.get('avg_cb_exposure') or 0) * 100, 0)}%），"
+                     f"所以差别只能是**什么时候**持有、不是持有多少"
+                     f"（判词 `{cst.get('rule_verdict')}`）")
+        _topk = cst.get("edge_top_k_share_pct")
+        if _topk is not None:
+            L.append(f"  - **诚实的一半**：这条规则全窗多赚 "
+                     f"{_cs_n(cst.get('edge_total_pp'))}pp，其中最好 "
+                     f"{cst.get('edge_top_k')} 个月就占了 "
+                     f"**{_cs_n(_topk, 1)}%**（{_cs_n(cst.get('edge_top_k_pp'))}pp）—— "
+                     f"这是一个**回撤故事**，不是收益故事；按月边缘 "
+                     f"{_cs_n(cst.get('edge_pp'), 3)}pp（区间 "
+                     f"{_cs_n(cst.get('edge_lo_pp'), 3)} .. "
+                     f"{_cs_n(cst.get('edge_hi_pp'), 3)}）")
+        _reg = cst.get("regimes") or {}
+        if _reg:
+            L.append("  - 防守是不是只在「便宜」时才成立："
+                     + "；".join(
+                         f"{k} 档 {(_reg.get(k) or {}).get('months')} 个月、"
+                         f"下跌 {( _reg.get(k) or {}).get('down_months')} 个月、"
+                         f"缓冲 {_cs_n((_reg.get(k) or {}).get('cushion_pp'), 2)}pp"
+                         for k in ("cheap", "mid", "rich"))
+                     + f" —— 判词 `{cst.get('cushion_verdict')}`，"
+                     f"贵月减其余 = {_cs_n(cst.get('cushion_diff_pp'), 2)}pp"
+                     f"（区间 {_cs_n(cst.get('cushion_diff_lo_pp'), 2)} .. "
+                     f"{_cs_n(cst.get('cushion_diff_hi_pp'), 2)}，跨零）")
+        _nv = len(cst.get("unverified") or [])
+        if _nv:
+            L.append(f"  - 诚实 {_nv} 条（面自带）：单一窗口、只按月换手、"
+                     "溢价是全市场中位数而非这 20 只的读数——"
+                     "**再读一遍才算数**")
+        _lag = None
+        try:
+            _pg_last = ((p.get("etf_book") or {}).get("last_bar")
+                        or (p.get("freshness") or {}).get("expected_bar"))
+            if _pg_last and cst.get("cutoff") and str(cst["cutoff"]) < str(_pg_last):
+                _lag = (f"本面截止 {cst.get('cutoff')} 落后本书 {_pg_last} —— "
+                        "**今天这一步先别照它下单**，等链把面刷新")
+        except Exception:                                            # noqa: BLE001
+            _lag = None
+        if _lag:
+            L.append(f"  - {_lag}")
+        L.append(f"  - 出处：`{cst.get('path')}`｜cutoff {cst.get('cutoff')}"
+                 f"｜generated {cst.get('generated')}｜窗口 "
+                 f"{cst.get('window_first')}~{cst.get('window_last_bar')}")
+    L.append("")
+    L.append("## ⑪ 诚实免责")
     L.append("")
     for d in p["disclaimers"]:
         L.append(f"- {d}")
@@ -5466,7 +5660,36 @@ def selftest() -> int:
                                  "⑦ 指数期货 carry 书",
                                  "⑧ 可转债双低书",
                                  "⑨ 一笔钱分两本书",
-                                 "⑩ 诚实免责")))
+                                 "⑩ 这个月转债那半边该不该在仓里",
+                                 "⑪ 诚实免责")))
+    # r2184: the sleeve-today block must (a) print the side the producer's own
+    # `current.today` says, stamped with that producer's generation, and (b) say
+    # "I could not read the rule" instead of printing a split when the face is
+    # missing (r98).  Both halves asserted on the page, not on the payload.
+    _cst = p1.get("cb_sleeve_today") or {}
+    if _cst.get("present"):
+        _want_side = "现金" if _cst.get("sleeve_state") == "cash" else "转债书里"
+        _sec = md1.split("⑩ 这个月转债那半边该不该在仓里")[1].split("## ⑪")[0]
+        check("the sleeve-today block prints the side the producer chose",
+              _want_side in _sec
+              and str(_cst.get("next_decision_day")) in _sec
+              and str(_cst.get("label_in_force")) in _sec)
+        check("the sleeve-today block carries the producer's own stamps",
+              _cst.get("generated") in _sec and _cst.get("cutoff") in _sec
+              and CUSHION_REL in _sec)
+    else:
+        check("the sleeve-today block prints the side the producer chose",
+              "转债溢价规则面未产出" in md1 or "不完整面" in md1)
+        check("the sleeve-today block carries the producer's own stamps", True,
+              "face absent -- nothing to stamp (r98: printed as unreadable)")
+    _p_cst = dict(p1)
+    _p_cst["cb_sleeve_today"] = {"present": False, "path": CUSHION_REL,
+                                 "note": "转债溢价规则面未产出（缺面不读 0）"}
+    _md_cst = render_md(_p_cst)
+    check("a missing sleeve face prints a reason, not a 30/70 split (r2184)",
+          "转债溢价规则面未产出" in _md_cst
+          and "别把「没读到」当成「照旧 30/70 买着」" in _md_cst
+          and "今天应该待在" not in _md_cst.split("⑩ 这个月转债那半边")[1].split("## ⑪")[0])
     # r2173: the convertible block must say "I could not read it" instead of printing a
     # zero, and its two producers' stamps must travel with it (r98 / r1781).
     _p_cb = dict(p1)

@@ -205,6 +205,19 @@ LEGS = [
     ("book_pair_worst_windows",
      ["python", "scripts/book_pair_worst_windows.py", "check"],
      ["python", "scripts/book_pair_worst_windows.py", "run"]),
+    # r2184: two faces in this family were published and never given a driver (r1282
+    # orphan class): split_ci (r2180) puts a confidence interval under the cushion, and
+    # cushion_regime (r2183) is the premium-regime rule that decides whether the cb
+    # sleeve is held this month -- its `current.today` block is what the reader's page
+    # quotes for "today the sleeve sits in cash".  Both checks name an external anchor
+    # (the blend page's weight/window, and the cb panel stamp), so the walk is only paid
+    # when a parent moved.  Writer order: both read the blend face rebuilt above.
+    ("book_pair_split_ci",
+     ["python", "scripts/book_pair_split_ci.py", "check"],
+     ["python", "scripts/book_pair_split_ci.py", "run"]),
+    ("book_pair_cushion_regime",
+     ["python", "scripts/book_pair_cushion_regime.py", "check"],
+     ["python", "scripts/book_pair_cushion_regime.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

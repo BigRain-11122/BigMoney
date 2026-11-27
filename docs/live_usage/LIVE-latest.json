@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-27",
- "generated": "2026-11-27T15:48:04",
+ "generated": "2026-11-27T19:39:17",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -578,7 +578,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 73826.3
+    "last_append_age_min": 74057.5
    },
    {
     "family": "FUND-VALUE-P1",
@@ -586,7 +586,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 74670.7
+    "last_append_age_min": 74902.0
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -594,7 +594,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71464.1
+    "last_append_age_min": 71695.3
    }
   ]
  },
@@ -2357,7 +2357,7 @@
  "pair_rebalance": {
   "present": true,
   "path": "results/book_pair_rebalance.json",
-  "generated": "2026-11-27T15:00:08+08:00",
+  "generated": "2026-11-27T16:16:40+08:00",
   "cutoff": "2026-11-26",
   "bar_first": "2020-01-03",
   "bar_last": "2026-11-26",
@@ -2414,6 +2414,102 @@
    "the move is charged at the bar close, not at the open a reader would use",
    "tax, the underlying bid-ask and the whole-lot grid are not in this cost",
    "a 2x per-side round trip is the stated floor; a real desk moving size pays more"
+  ]
+ },
+ "cb_sleeve_today": {
+  "present": true,
+  "path": "results/book_pair_cushion_regime.json",
+  "generated": "2026-11-27T19:36:59+08:00",
+  "cutoff": "2026-11-26",
+  "w_cb": 0.3,
+  "window_first": "2020-02-29",
+  "window_last_bar": "2026-11-26",
+  "labelled_months": 81,
+  "label_in_force": "rich",
+  "decided_at": "2026-10-31",
+  "applies_to": "2026-11-30",
+  "sleeve_state": "cash",
+  "sleeve_share_pct": 0.0,
+  "next_decision_day": "2026-11-30",
+  "rule_sentence": "cash in the cb sleeve while the label reads rich; back into the sleeve as soon as the label leaves rich",
+  "premium_pct": 70.345,
+  "premium_percentile_pct": 98.17,
+  "premium_asof": "2026-11-26",
+  "rule_verdict": "THE_RULE_BEATS_ITS_OWN_EXPOSURE",
+  "rule_edge_sharpe": 0.1172,
+  "arms": [
+   {
+    "arm": "rule",
+    "cagr_pct": 9.9694,
+    "sharpe": 1.383456,
+    "maxdd_pct": -4.3718,
+    "months": 81
+   },
+   {
+    "arm": "always_on",
+    "cagr_pct": 9.287099999999999,
+    "sharpe": 1.21465,
+    "maxdd_pct": -8.9574,
+    "months": 81
+   },
+   {
+    "arm": "matched_exposure",
+    "cagr_pct": 8.1515,
+    "sharpe": 1.266249,
+    "maxdd_pct": -5.1633,
+    "months": 81
+   }
+  ],
+  "switches": 11,
+  "cost_paid_pp": 0.33,
+  "months_in_cash": 46,
+  "avg_cb_exposure": 0.4321,
+  "edge_pp": 0.144,
+  "edge_lo_pp": 0.018,
+  "edge_hi_pp": 0.275,
+  "edge_total_pp": 11.64,
+  "edge_top_k": 5,
+  "edge_top_k_pp": 7.529,
+  "edge_top_k_share_pct": 64.68,
+  "cushion_verdict": "CUSHION_DIFFERENCE_NOT_SEPARABLE",
+  "cushion_diff_pp": -0.455,
+  "cushion_diff_lo_pp": -1.365,
+  "cushion_diff_hi_pp": 0.653,
+  "regimes": {
+   "cheap": {
+    "months": 6,
+    "mean_month_pct": 1.183,
+    "down_months": 3,
+    "cushion_pp": 0.261,
+    "down_improved": 1,
+    "up_months": 3,
+    "give_pp": 1.189
+   },
+   "mid": {
+    "months": 29,
+    "mean_month_pct": 1.481,
+    "down_months": 6,
+    "cushion_pp": 0.929,
+    "down_improved": 4,
+    "up_months": 23,
+    "give_pp": -0.243
+   },
+   "rich": {
+    "months": 46,
+    "mean_month_pct": 0.269,
+    "down_months": 22,
+    "cushion_pp": 0.251,
+    "down_improved": 10,
+    "up_months": 24,
+    "give_pp": -0.702
+   }
+  },
+  "unverified": [
+   "the premium regime is a market-wide median; the sleeve holds 20 bonds, so a market-rich month need not be a sleeve-rich month",
+   "the rule is priced on monthly switches only; intra-month runs are not modelled",
+   "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them",
+   "there is one window: 2020-02-29..2026-11-26. The CB market was rich in 46 of 81 labelled months and in cash in 46 of them, so the rule reads mostly as 'be out of the sleeve when it is expensive' over a single premium cycle -- a repeated reading is what would make its 0.144 pp a month edge durable",
+   "the cheap side holds only 3 falling months -- the cheap-vs-rich split is printed for the record and is not evidence of anything"
   ]
  },
  "capital_substitution": {

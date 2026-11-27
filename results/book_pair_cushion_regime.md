@@ -1,6 +1,6 @@
 # The cushion, split by what the convertible market costs
 
-Generated 2026-11-27T19:22:02+08:00 · bars to **2026-11-26** · 82 months, 81 of them labelled (the last month is month-to-date through 2026-11-26)
+Generated 2026-11-27T19:36:59+08:00 · bars to **2026-11-26** · 82 months, 81 of them labelled (the last month is month-to-date through 2026-11-26)
 
 **Verdict: `CUSHION_DIFFERENCE_NOT_SEPARABLE`**
 
@@ -35,6 +35,8 @@ Where that edge lives: the rule's whole edge over its own exposure is **+11.64 p
 ## Where the market sits today
 
 Median conversion premium **70.34%** as of 2026-11-26 -- the **98.2th percentile** of its own history; last label **rich**.
+
+So the rule puts the sleeve **in cash** today: the label now in force (**rich**) was read at the 2026-10-31 month end and governs the month ending 2026-11-30; the next decision falls on **2026-11-30**. With the sleeve in cash the wallet is **100% ETF / 0% cash**, not the split it was designed as.
 
 ## What this face does not claim
 

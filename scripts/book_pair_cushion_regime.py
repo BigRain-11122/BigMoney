@@ -542,6 +542,25 @@ def build(write=True, quiet=False):
             parents = json.load(fh).get("parents") or {}
     rec = reconciliation(cb, parents)
     cur = current_state(prem, labels, list(mi))
+    # r2184: "which side of the split am I on today" is a decision, not a description.
+    # `labels[k]` is decided at month end k-1, so the last labelled month is the one in
+    # force now -- its label was read at the previous month end and the next decision
+    # falls on this month's end.  Published here so the reader's page can quote it
+    # instead of re-deriving the label logic (two implementations would drift).
+    _lab = cur.get("last_label")
+    cur["today"] = {
+        "label_in_force": ({0: "cheap", 1: "mid", 2: "rich"}).get(_lab),
+        "decided_at_month_end": (str(mi[-2].date())
+                                 if _lab is not None and len(mi) >= 2 else None),
+        "month_the_label_applies_to": str(mi[-1].date()) if len(mi) else None,
+        "sleeve_state": (None if _lab is None else
+                         ("cash" if _lab == 2 else "in_book")),
+        "sleeve_share_of_wallet": (None if _lab is None else
+                                   (0.0 if _lab == 2 else float(w))),
+        "next_decision_day": str(mi[-1].date()) if len(mi) else None,
+        "rule_sentence": ("cash in the cb sleeve while the label reads rich; back into "
+                          "the sleeve as soon as the label leaves rich"),
+    }
 
     face = {
         "face": FACE,
@@ -742,6 +761,20 @@ def render_md(face):
              % (cur.get("median_conv_premium_pct") or 0.0, cur.get("asof"),
                 100 * (cur.get("percentile_in_own_history") or 0.0),
                 cur.get("last_label_name")))
+    _td = cur.get("today") or {}
+    if _td.get("sleeve_state"):
+        L.append("")
+        L.append("So the rule puts the sleeve **%s** today: the label now in force "
+                 "(**%s**) was read at the %s month end and governs the month ending "
+                 "%s; the next decision falls on **%s**. With the sleeve in cash the "
+                 "wallet is **%.0f%% ETF / %.0f%% cash**, not the split it was designed "
+                 "as."
+                 % ("in cash" if _td.get("sleeve_state") == "cash" else "in the book",
+                    _td.get("label_in_force"), _td.get("decided_at_month_end"),
+                    _td.get("month_the_label_applies_to"), _td.get("next_decision_day"),
+                    100.0 * (1.0 - float(_td.get("sleeve_share_of_wallet") or 0.0)),
+                    100.0 * float(_td.get("sleeve_share_of_wallet") or 0.0)))
+
     L.append("")
     L.append("## What this face does not claim")
     L.append("")
@@ -862,6 +895,22 @@ def _verify(face, stamps=None):
     if rr and aa and rr.get("months") != aa.get("months"):
         problems.append("rule and always-on scored on different month counts: %s vs %s"
                         % (rr.get("months"), aa.get("months")))
+
+    # r2184: the "today" block is the page's only source for which side of the split
+    # the rule is on, so it must agree with the label it was derived from -- a face
+    # that prints "in cash" beside a mid label would be read as a decision nobody made.
+    cur = face.get("current") or {}
+    td = cur.get("today") or {}
+    if td:
+        lab = cur.get("last_label")
+        want_side = None if lab is None else ("cash" if lab == 2 else "in_book")
+        if td.get("sleeve_state") != want_side:
+            problems.append("today.sleeve_state %r does not follow the label %r"
+                            % (td.get("sleeve_state"), lab))
+        if td.get("next_decision_day") != cur.get("label_asof_month_end"):
+            problems.append("today.next_decision_day %r != label month end %r"
+                            % (td.get("next_decision_day"),
+                               cur.get("label_asof_month_end")))
 
     drift = []
     if stamps:
@@ -1152,6 +1201,31 @@ def selftest():
         face = {"a": 1, "b": [1, 2], "c": {"d": 0.5}}
         _assert(json.loads(json.dumps(face)) == face, "json roundtrip")
 
+    def _face_with_today(lab, side, next_day="2026-11-30", lab_me="2026-11-30"):
+        return {
+            "face": FACE, "evidence_cutoff": "2026-01-01",
+            "verdict": "CUSHION_IS_NOT_A_CUSHION",
+            "regimes": {n: {"cushion_pp": -0.1, "down_months": 20, "down_improved": 0}
+                        for n, _ in REGIMES},
+            "rule": {"rule": {"months": 5}, "always_on": {"months": 5}},
+            "window": {"months": 6},
+            "cushion_difference": {"lo_pp": None, "hi_pp": None},
+            "current": {"last_label": lab, "label_asof_month_end": lab_me,
+                        "today": {"sleeve_state": side, "next_decision_day": next_day}},
+        }
+
+    def t_today_follows_label():
+        assert _verify(_face_with_today(2, "cash"))["ok"], "rich label must verify as cash"
+        assert _verify(_face_with_today(0, "in_book"))["ok"], "cheap label must verify in book"
+
+    def t_today_contradiction_caught():
+        # r2184: a face that says "in cash" beside a mid label is a decision nobody made.
+        res = _verify(_face_with_today(1, "cash"))
+        _assert(not res["ok"], "a side that does not follow its label must be caught")
+        _assert(res["kind"].startswith("CHECK FAILED"), "that is a defect, not drift")
+        res2 = _verify(_face_with_today(2, "cash", next_day="2026-12-31"))
+        _assert(not res2["ok"], "the decision day must equal the label month end")
+
     def t_edge_concentration():
         a = [0.05, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         b = [0.0] * 8
@@ -1180,6 +1254,8 @@ def selftest():
     leg("consistent face verifies", t_verify_ok)
     leg("memorised verdict is caught", t_verify_verdict_drift)
     leg("drift is named STALE", t_verify_stale_word)
+    leg("today's side follows the label in force", t_today_follows_label)
+    leg("a side that contradicts its label is caught", t_today_contradiction_caught)
     leg("json roundtrip", t_json_roundtrip)
 
     bad = [x for x in legs if x[1] != "PASS"]
