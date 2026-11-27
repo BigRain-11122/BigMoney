@@ -2,65 +2,65 @@
  "verdict": "BOTH_LINES_HOLD_AT_SIGNED",
  "signed_capital_cny": 1000000.0,
  "impact_cap_cny": {
-  "best": 1082283.94,
-  "typical": 496475.93,
-  "worst": 340837.76
+  "best": 4934481.85,
+  "typical": 4323294.06,
+  "worst": 3602528.38
  },
- "impact_pct_at_signed": 0.924,
+ "impact_pct_at_signed": 0.2027,
  "line_pct": 1.0,
- "impact_breach_cny": -82283.94,
- "impact_pass_rate_at_signed": 0.1,
+ "impact_breach_cny": -3934481.85,
+ "impact_pass_rate_at_signed": 1.0,
  "n_sessions": 60,
  "residue": {
   "verdict": "TRADABLE_AT_1000000",
-  "residual_pct_nav": 0.1266,
+  "residual_pct_nav": 0.075,
   "n_unfilled": 0,
   "unfilled": [],
-  "traded_amount_cny": 908334.4
+  "traded_amount_cny": 908849.9
  },
  "residual_max_pct": 0.5,
  "bands": {
   "best": {
-   "lo_cny": 159000,
-   "hi_cny": 1082000,
-   "n_points": 814,
+   "lo_cny": 179000,
+   "hi_cny": 4934000,
+   "n_points": 4664,
    "step_cny": 1000.0,
-   "n_grid": 1068,
-   "span_points": 924,
+   "n_grid": 4920,
+   "span_points": 4756,
    "contiguous": false
   },
   "typical": {
-   "lo_cny": 159000,
-   "hi_cny": 496000,
-   "n_points": 228,
+   "lo_cny": 179000,
+   "hi_cny": 4323000,
+   "n_points": 4053,
    "step_cny": 1000.0,
-   "n_grid": 482,
-   "span_points": 338,
+   "n_grid": 4309,
+   "span_points": 4145,
    "contiguous": false
   },
   "worst": {
-   "lo_cny": 159000,
-   "hi_cny": 340000,
-   "n_points": 77,
+   "lo_cny": 179000,
+   "hi_cny": 3602000,
+   "n_points": 3332,
    "step_cny": 1000.0,
-   "n_grid": 326,
-   "span_points": 182,
+   "n_grid": 3588,
+   "span_points": 3424,
    "contiguous": false
   }
  },
- "best_largest_cny": 1082000,
- "typical_largest_cny": 496000,
- "worst_largest_cny": 340000,
+ "best_largest_cny": 4934000,
+ "typical_largest_cny": 4323000,
+ "worst_largest_cny": 3602000,
  "n_rungs_with_band": 3,
- "one_lot_floor_cny": 14412.93,
- "gate_verdict": "BELOW_LINE_MOST_SESSIONS",
- "gate_binding_today": "159549",
+ "one_lot_floor_cny": 14902.37,
+ "gate_verdict": "ABOVE_LINE_EVERY_SESSION",
+ "gate_binding_today": "159887",
  "artifact": "etf_book_ticket_band",
  "face": "results/etf_book_ticket_band.json",
  "script": "scripts/etf_book_ticket_band.py",
- "ticket_file": "results/etf_book_order/TICKET-2026-11-26-card.json",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-27-card.json",
  "capacity_face": "results/etf_book_capacity_edge.json",
- "evidence_cutoff": "2026-11-26",
+ "evidence_cutoff": "2026-11-27",
  "frozen": {
   "lot_shares": 100,
   "residual_max_pct": 0.5,
@@ -73,13 +73,13 @@
  },
  "inputs": {
   "ticket": {
-   "path": "results/etf_book_order/TICKET-2026-11-26-card.json",
-   "sha256": "43944db44eb689277b3c216456b4e7b05d526156a12cb583b06effbe8052cef5"
+   "path": "results/etf_book_order/TICKET-2026-11-27-card.json",
+   "sha256": "c4561340dba249ad5de715418400ef9d0abfb0c71085e492daae7b6c1db2a7bd"
   },
   "capacity": {
    "path": "results/etf_book_capacity_edge.json",
-   "sha256": "4dfb3876a37c1afa456ed1542e6318448e1dc92f0899dc20efe674884086b1ee"
+   "sha256": "0ed646907215625c893606f9707b73097e6d1751e618f9a1a6eff567228be288"
   }
  },
- "sentence": "签出的 1,000,000 元两条线同时成立：成交额占比 0.9240%（闸线 1%），整手残差 0.1266% 的净值（门 0.5%）。"
+ "sentence": "签出的 1,000,000 元两条线同时成立：成交额占比 0.2027%（闸线 1%），整手残差 0.0750% 的净值（门 0.5%）。"
 }

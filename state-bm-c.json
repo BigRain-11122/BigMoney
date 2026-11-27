@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝carry 这本书的「起点分布」：1717 个一年窗里对冲臂中位 8.61%/p10 3.23%/p90 14.48%，只有 0.1% 的起点亏钱；顺带发现 r2192 的排序只在 83.46% 的窗口成立（按 Sharpe 排），按钱排会翻成另一条线占优｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\carry_entry_window_yield.md（2026-11-28T01:09:06+08:00·cutoff 2026-11-26·selftest 31/31·check OK）+ qa/carry-entry-window-yield-r2196.md｜下个里程碑＝(a) 竞争窗关闭即补链腿+冒烟腿（连续第 12 轮留账，≤24h）(b) 把「对冲臂一年中位 8.61%、亏钱起点 0.1%」印进 CEO 一页纸（≤48h）",
- "active_lane": "carry entry-window distribution: does when you start matter, and is r2192's ordering a calendar artifact?",
+ "CEO 三行": "当前活＝S1 修红：冒烟 46 红里最大同族簇=十张 ETF 决策面仍印 TICKET-2026-11-26，盘上最新已是 11-27｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\qa\\\\ticket-family-refresh-r2206.md + results/_r2206bmc_s6_chain.only-capacity_ticket-capital_union_decision+11-b9b5c3ff.json（2026-11-28T07:08+08:00·11/11 链腿 rc0）｜下个里程碑＝全量冒烟复跑核实红数（≤24h）+ 余红族逐个收（premium 三面/phase_admission/start_grid/astock_resid/0x08 控制字符）",
+ "active_lane": "smoke reds: the ticket moved to 11-27 and ten decision faces still priced 11-26",
  "activity": "product",
- "activity_now": "r2196 carry_entry_window_yield: 把 r2195 问 ETF 书的那句「哪天开始」搬到 carry 书上：1717 个一年窗（entry_lag=1）——对冲臂中位 8.61%、p10 3.23%、p90 14.48%、只有 0.1% 的起点亏钱，p90-p10 11.25pp（跨度/中位 1.31x，ETF vt08 是 3.56x）；同一批窗口按窗内 Sharpe 排，r2192 的 basis>对冲残差>不带对冲 占 83.46%（翻转 284 窗），而按「钱」排只有 24.34% —— 排序是风险调整收益的性质，不是钱的排序",
- "activity_now_round": 2196,
+ "activity_now": "r2206 fixed the largest same-family red cluster: the newest ticket is results/etf_book_order/TICKET-2026-11-27-card.json (landed 11-27 21:37) while ten downstream faces still printed TICKET-2026-11-26. Ran Tools/s6_chain_bmc.py 2206 --only=<11 legs> in writer-dependency order: 11/11 rc0, seven really refreshed (entry_price 1.1s, capacity_ticket 1.1s, ticket_band 1.9s, ticket_floor 41.2s, cash_roll 1.2s, year_concentration 0.1s, capital_union 0.1s). Landed: ticket_band/ticket_floor/capacity_ticket now evidence_cutoff 2026-11-27 with ticket=.../TICKET-2026-11-27-card.json, capital_union same cutoff, decision_line/cash_roll generated 2026-11-28T07:06. 13 of the 46 smoke reds name these faces. NOT claimed: fail did not fall from 46 to 33 -- the full smoke (~960s) was not re-run this round; next round numbers are the judge.",
+ "activity_now_round": 2206,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2205,
+ "round_no": 2206,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2897,7 +2897,21 @@
  "carrier_debt_r2203": "paid: chain legs for etf_book_bond_bear_stress and etf_book_leverage_budget (carried >=4 rounds), chain leg for import_git_coverage. still owed: CEO page section (ceo_live_usage.py) for those three faces, smoke_test legs for them, CODELY card, and repair-or-retire of Tools/_r820bmc_close.py (needs treasure_guard prescan + quarantine).",
  "记账_r2203": "轮报1 + QA1 + results1 + research1 + 脚本1 + 链文件1 + 方法论卡1 + state1 + 心跳1",
  "下个里程碑_r2203": "共享面回落补 CEO 页小节（ceo_live_usage.py 三面新节 + 冒烟腿），窗 ≤48h",
- "last_verdict": "A_YEAR_IS_A_RANGE_NOT_A_NUMBER",
- "last_face": "results/three_book_wallet_ride.json",
- "watermark_note_r2205": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders.md advanced to sha256 9ff2f31c4d38d392 (115,550B): new rows are MacBook 主控 lane rebuild (5 lanes + compute broker) and the T0 net-selfheal broadcast already receipted by bm-c (cph4/fleet/receipts/net-bm-c-20261127.md on origin) -> zero quant rows, zero execution; fleet/orders 119 files vs heartbeat ack -> unacked 0; fleet/inbox empty; contention CLEAN (single host); orphans 0"
+ "last_verdict": "THE_TICKET_MOVED_AND_NOBODY_REPRICED",
+ "last_face": "results/_r2206bmc_s6_chain.only-capacity_ticket-capital_union_decision+11-b9b5c3ff.json",
+ "watermark_note_r2205": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders.md advanced to sha256 9ff2f31c4d38d392 (115,550B): new rows are MacBook 主控 lane rebuild (5 lanes + compute broker) and the T0 net-selfheal broadcast already receipted by bm-c (cph4/fleet/receipts/net-bm-c-20261127.md on origin) -> zero quant rows, zero execution; fleet/orders 119 files vs heartbeat ack -> unacked 0; fleet/inbox empty; contention CLEAN (single host); orphans 0",
+ "通过_r2206": "machine.json=bm-c · contention rc=0 CLEAN (fewer than two codely hosts alive) -> shared faces writable · S1 RED FIX: 46 smoke reds, largest same-family cluster = faces still priced on TICKET-2026-11-26 while disk already holds TICKET-2026-11-27-card.json (landed 11-27 21:37:19). Ran python Tools/s6_chain_bmc.py 2206 --only=entry_price_write,etf_book_size_rulers_write,decision_line_write,ticket_band,ticket_floor_write,capacity_ticket,cash_roll_today,rebalance_permission_write,permission_vs_size_write,year_concentration_money,capital_union_decision -> 11/11 rc0, 7 real refreshes. Verified on disk: ticket_band / ticket_floor / capacity_ticket evidence_cutoff=2026-11-27 with ticket=results/etf_book_order/TICKET-2026-11-27-card.json; capital_union 2026-11-27; decision_line and cash_roll generated 2026-11-28T07:06. 13 of the 46 reds name the refreshed faces. NOT claimed cleared: full smoke not re-run (~960s > round budget), so the red count is unchanged as far as this round measured. Still red and untouched this round: etf_book_phase_admission, etf_book_start_grid (exit 3, year-gate bytes moved), etf_book_premium_* three faces (PREMIUM-2026-11-27.json landed, readers on 11-26), astock_resid_veto_layer (panel at 11-27, face at 11-26), config control-character (knowledge/METHODOLOGY_ASSETS.md:18125 has 0x08), config 159519 MONEY_ON_FOREIGN_NAV. decisions.md origin blob 250,586B sha 79e3083b85c1 == watermark (zero new) · orders.md 115,550B sha 9ff2f31c4d38 (unchanged) · fleet/orders 119 · fleet/inbox empty · watermark_red red=false lane=healthy · idle_trigger green_idle=true but claimable_pool_lines=0 and board open=0 · attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical shrinks healed) · orphan_face_probe py_faces=4 orphans=0 · S6 full chain NOT run (r2205 died at 102/415 with no chain_done).",
+ "contention_r2206": {
+  "probe": "Tools/repo_write_contention.py --lookback-min 45",
+  "rc": 0,
+  "verdict": "CLEAN",
+  "why": "fewer than two codely hosts alive",
+  "policy": "shared faces writable; ticket family refreshed in place",
+  "evidence": "results/_repo_write_contention.bm-c.json"
+ },
+ "记账_r2206": "轮报告1 + QA1 + results(链记录)1 + state1 + 心跳1 = 5 处（记账律内）",
+ "下个里程碑_r2206": "全量冒烟复跑核实红数（≤24h）+ 余红族逐个收（premium 三面 / phase_admission / start_grid / astock_resid / 0x08）",
+ "s6_note_r2206": "S6: --only 11 ticket-family legs run (11/11 rc0); full 388-leg chain NOT run; attrition guard CLEAN",
+ "smoke_note_r2206": "full smoke NOT re-run (~960s); the 46-red snapshot is from 2026-11-28T06:56:04 and is NOT claimed improved",
+ "watermark_note_r2206": "watermark red=false lane=healthy; group decisions.md 250,586B sha 79e3083b85c1 == own watermark; orders.md 115,550B sha 9ff2f31c4d38 unchanged; fleet/inbox empty; board open=0"
 }

@@ -2857,3 +2857,35 @@ ed=false lane=healthy。
 - 当前活：S6 全链自愈在跑（28/388 腿完成·全 rc0·逐腿把停在 11-26 的面推到 11-27）
 - 最近实物：docs/live_usage/LIVE-2026-11-28.md §⑩c「这本书拿到手里，一年是什么感觉」+ Tools/probe_ceo_page_wallet_ride.py（2026-11-28T06:0x，已推 origin a72078fc43）
 - 下个里程碑：链跑完后按实际 rc 复判那 45 条 smoke 红并出结论文档（窗 ≤48h）
+
+
+## 2026-11-28T07:08+08:00 ｜ r2206 ｜ 修红：ETF 票据族从 11-26 推到 11-27（11/11 链腿 rc0）
+
+**实况三行**
+- 当前活：S1 修红——冒烟 46 红里最大同族簇是「十张决策面仍印 TICKET-2026-11-26，盘上最新已是 11-27」
+- 最近实物：
+esults/_r2206bmc_s6_chain.only-capacity_ticket-capital_union_decision+11-b9b5c3ff.json + qa/ticket-family-refresh-r2206.md（2026-11-28T07:08+08:00）
+- 下个里程碑：全量冒烟复跑核实红数（窗 ≤24h）；余下红族（premium 三面 / phase_admission / start_grid / astock_resid / 0x08 控制字符）
+
+**判词**：THE_TICKET_MOVED_AND_NOBODY_REPRICED —— 46 条红里 13 条点名同一件事：盘上票据早就是
+TICKET-2026-11-27-card.json（11-27 21:37 落盘），十张下游面还印 11-26。这不是算法差一档，是写者没跑
+（r1850/r1934 族：可再生的面不会自己回来）。
+**动作**：python Tools\\s6_chain_bmc.py 2206 --only=<11 腿> 按写者依赖序跑完 —— **11/11 rc0**，
+其中 7 腿真刷新（entry_price 1.1s / capacity_ticket 1.1s / ticket_band 1.9s / ticket_floor 41.2s /
+cash_roll 1.2s / year_concentration 0.1s / capital_union 0.1s），其余 check 即 rc0 不动盘。
+**落地复核**：ticket_band / ticket_floor / capacity_ticket 三面 vidence_cutoff=2026-11-27 且
+	icket=…TICKET-2026-11-27-card.json；capital_union 同 cutoff；decision_line / cash_roll 的
+generated 已到 2026-11-28T07:06。
+**不宣称**：全量冒烟未复跑（实测 ~960s，超本轮预算），所以**不说 fail 由 46 降到 33**——
+链腿 check rc0 是同一谓词，下一轮冒烟的计数才是判据。
+**S0/S0.5 实况**：machine.json=bm-c；
+epo_write_contention --lookback-min 45 = **rc0 CLEAN**（<2 hosts）
+→ 共享面可写；孤儿面 **orphans=0**（py_faces 4 / resident_servers 2）；集团 docs/decisions.md
+原生字节 250,586B sha256 79e3083b85c1 == 自持水位 → **零新决策零动作**；docs/orders.md
+115,550B sha256 9ff2f31c4d38（与上轮同）→ 零新令；leet/orders 119 件、leet/inbox 空；
+watermark_red red=false lane=healthy；idle_trigger green_idle=true 但 claimable_pool_lines=0、board open=0。
+**S7**：ttrition_ledger_guard scan = **CLEAN**（4 账本，3 处历史缩行 healed）。
+**未做**：S6 全链 388 腿未整跑（上轮 r2205 跑到 102/415 被杀，无 chain_done）；全量冒烟未跑；
+Tools/_r820bmc_close.py（已提交但 line 130 字面量未闭合，永不可运行）仍只报不修。
+
+| 2026-11-28T07:08+08:00 | 2206 | 修红：ETF 票据族 11-26→11-27，--only 11 腿全 rc0（7 腿真刷新，ticket_floor 41.2s 最重）；13/46 条红点名这些面，全量冒烟未复跑故不宣称红数下降；余红族=premium 三面/phase_admission/start_grid/astock_resid/0x08 控制字符；attrition CLEAN；decisions 与 orders 水位零新；竞争 CLEAN、孤儿面 0、未回执 0 | 链记录 results/_r2206bmc_s6_chain.only-…+11-b9b5c3ff.json；QA qa/ticket-family-refresh-r2206.md；日志 logs/_r2206_s6_ticket_family.log | 下一轮：全量冒烟 + 余红族逐个收
