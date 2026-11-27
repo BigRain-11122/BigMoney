@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2201,
+ "round_no": 2203,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2884,5 +2884,17 @@
  "smoke_note_r2200": "full smoke_test NOT run (shared faces + ~1000s; peer host live in the tree)",
  "watermark_note_r2200": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders 119 / ack 337 -> 43 unacked all pre-2026-10-26 other-machine lane broadcasts, none @bm-c; fleet/inbox empty; board open=0",
  "记账_r2200": "轮报告1 + QA1 + results2 + research1 + 脚本1 + state1 + 心跳1 = 5 处（记账律内）",
- "下个里程碑_r2200": "共享面回落补 r2193-r2200 载体欠账（链腿/冒烟腿/CEO 页小节），窗 <=48h"
+ "下个里程碑_r2200": "共享面回落补 r2193-r2200 载体欠账（链腿/冒烟腿/CEO 页小节），窗 <=48h",
+ "通过_r2203": "machine.json=bm-c · contention rc=0 CLEAN (fewer than two codely hosts alive; peer pid 30500 gone) -> shared faces writable this round. PRODUCT: import_git_coverage -- 2,949 files / 21,026 imports / 3,568 local edges parsed and judged against git ls-tree: 0 imported modules missing from the tree, 340 chain-named scripts all on disk and all in git, but ONE committed file cannot be parsed at all (Tools/_r820bmc_close.py line 130, newline inside a string literal -- it could never run since the day it was committed) and one @@SUB_BLOCK@@ generator template is classified by CONTENT not by filename. Negative control: replay of aa653c1e61 (the commit before r2202) names exactly the r2202 defect (three_book_wallet imported by two committed scripts, absent from that tree) plus two chain legs. Wiring: 3 new S6 legs (import_git_coverage + etf_book_bond_bear_stress + etf_book_leverage_budget, the latter two carried >=4 rounds); --only run: the two checks rc0, the new leg rc4 CHECK FAILED (0 vs 1 chain legs) because the script itself was not yet committed -- the face telling the truth, cleared by this round's commit. Perf: first check 152.1s in-chain, 41.2s after a basename index, the rest is ast.parse. Not run: full S6 chain (388 legs), full smoke (~1000s).",
+ "contention_r2203": {
+  "probe": "Tools/repo_write_contention.py --lookback-min 45",
+  "rc": 0,
+  "verdict": "CLEAN",
+  "why": "fewer than two codely hosts alive",
+  "policy": "shared faces writable; chain legs + METHODOLOGY card written, CODELY.md untouched",
+  "evidence": "results/_repo_write_contention.bm-c.json"
+ },
+ "carrier_debt_r2203": "paid: chain legs for etf_book_bond_bear_stress and etf_book_leverage_budget (carried >=4 rounds), chain leg for import_git_coverage. still owed: CEO page section (ceo_live_usage.py) for those three faces, smoke_test legs for them, CODELY card, and repair-or-retire of Tools/_r820bmc_close.py (needs treasure_guard prescan + quarantine).",
+ "记账_r2203": "轮报1 + QA1 + results1 + research1 + 脚本1 + 链文件1 + 方法论卡1 + state1 + 心跳1",
+ "下个里程碑_r2203": "共享面回落补 CEO 页小节（ceo_live_usage.py 三面新节 + 冒烟腿），窗 ≤48h"
 }

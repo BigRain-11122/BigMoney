@@ -9,7 +9,7 @@
 
 | # | 判据 | 证据 | 结果 |
 |---|---|---|---|
-| 1 | 面可生成（rc0） | `python scripts\import_git_coverage.py run` → 2,949 文件 / 21,026 import / 3,568 本地边 | PASS |
+| 1 | 面可生成（rc0） | `python scripts\import_git_coverage.py run` → 2,950 文件 / 21,031 import / 3,568 本地边 | PASS |
 | 2 | 自检全绿 | `selftest` → **17/17 PASS** | PASS |
 | 3 | 漂移守卫可用 | `check` → `OK ... 0 missing / chain 0 missing in git` rc0 | PASS |
 | 4 | **负控：它在缺陷存在的那天会红** | `replay aa653c1e61`（r2202 前一提交）→ 点名 `scripts/three_book_wallet_ladder.py` / `scripts/three_book_wallet_target_knob.py` import 的 `scripts/three_book_wallet.py` 不在树里 + 两条链腿引用脚本不在该提交 | PASS |
@@ -27,11 +27,11 @@
 | 字段 | 值 |
 |---|---|
 | headline | `SOME_COMMITTED_FILES_ARE_NOT_PYTHON` |
-| 扫描文件 / import / 本地边 | 2,949 / 21,026 / 3,568 |
+| 扫描文件 / import / 本地边 | 2,950 / 21,031 / 3,568 |
 | import 断链 | 0 |
 | 已提交但不可解析 | 1（`Tools/_r820bmc_close.py`） |
 | 生成器模板（非缺陷） | 1（`_w231bmc_prereg_derive_tpl.py`） |
-| 链上点名脚本 | 340（在盘 340 / 在 git 340） |
+| 链上点名脚本 | 343（在盘 343 / 在 git 343；本轮新接 3 腿） |
 | evidence_cutoff | HEAD commit date（本机 2026-11-27/28） |
 
 ## 未做 / 留给下轮
