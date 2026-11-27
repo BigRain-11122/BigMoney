@@ -1,6 +1,6 @@
 # 哪些链腿永远不会自己好
 
-> 生成 2026-11-27T09:42:48+0800 ｜ 链 `Tools\s6_chain_bmc.py` ｜ 393 腿 / 137 条带写者的腿
+> 生成 2026-11-27T11:01:30+0800 ｜ 链 `Tools\s6_chain_bmc.py` ｜ 394 腿 / 137 条带写者的腿
 
 ## 一句话
 
@@ -34,5 +34,5 @@
 
 - 只查 `s6_chain_bmc.py` 的 LEGS 表；冒烟腿与人工跑的面不在射程。
 
-复现：`python scripts\chain_contract_word_audit.py run`（只跑候选腿，约 25.3s）；`--check` 静态复核 + 摘要门；`--selftest` 离线行为腿。
+复现：`python scripts\chain_contract_word_audit.py run`（只跑候选腿，约 24.1s）；`--check` 静态复核 + 摘要门；`--selftest` 离线行为腿。
 
