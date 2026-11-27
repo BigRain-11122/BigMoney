@@ -1,0 +1,308 @@
+{
+ "generated": "2026-11-27T18:33:32+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "window": {
+  "first": "2020-01-03",
+  "last": "2026-11-26",
+  "months": 83,
+  "monthly_return_rows": 82
+ },
+ "inputs": {
+  "blend_dep": {
+   "w_cb": 0.3,
+   "window_last": "2026-11-26"
+  },
+  "cb_panel": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+   "size": 25433554,
+   "mtime": "2026-11-27T11:34:31"
+  },
+  "etf_panel": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+   "size": 102490,
+   "mtime": "2026-11-27T15:33:57"
+  },
+  "cb_book": "results/cb_dual_low.json",
+  "etf_book": "results/etf_nobond_vt.json"
+ },
+ "cushion": {
+  "n": 32,
+  "mean_cushion": 0.004288017835057105,
+  "improved": 16,
+  "cushioned": 16,
+  "mean_etf": -0.014120556229228864,
+  "mean_cb": 0.00010787625153840102,
+  "mean_blend": -0.00983253839417176
+ },
+ "cushion_from_spread": 0.004268529744230179,
+ "cushion_identity": {
+  "claim": "to first order the cushion is the convertible weight times the month's spread; the exact cushion also carries the intra-month interaction",
+  "first_order_gap": 1.948809082692564e-05,
+  "max_month_gap": 0.0017499428724874304
+ },
+ "bootstrap": {
+  "draws": 4000,
+  "seed": 20261127,
+  "primary_block": 3,
+  "by_block": {
+   "1": {
+    "draws": 4000,
+    "block_length": 1,
+    "blocks_per_sample": 82.0,
+    "too_few_blocks": false,
+    "ci90": [
+     0.001139022843530662,
+     0.00792772451444025
+    ],
+    "p_one_sided_le0": 0.008,
+    "mean_of_means": 0.004336650489161875,
+    "neg_months_per_draw": [
+     16,
+     32.017,
+     48
+    ]
+   },
+   "3": {
+    "draws": 4000,
+    "block_length": 3,
+    "blocks_per_sample": 27.33,
+    "too_few_blocks": false,
+    "ci90": [
+     0.0007455378950129372,
+     0.00822876794417754
+    ],
+    "p_one_sided_le0": 0.01925,
+    "mean_of_means": 0.004287642683073396,
+    "neg_months_per_draw": [
+     13,
+     32.01725,
+     49
+    ]
+   },
+   "6": {
+    "draws": 4000,
+    "block_length": 6,
+    "blocks_per_sample": 13.67,
+    "too_few_blocks": false,
+    "ci90": [
+     0.0006703833263137228,
+     0.008532637590696179
+    ],
+    "p_one_sided_le0": 0.02025,
+    "mean_of_means": 0.004375603124449316,
+    "neg_months_per_draw": [
+     17,
+     32.02775,
+     53
+    ]
+   },
+   "12": {
+    "draws": 4000,
+    "block_length": 12,
+    "blocks_per_sample": 6.83,
+    "too_few_blocks": true,
+    "ci90": [
+     0.0009620125361465128,
+     0.008689186230967939
+    ],
+    "p_one_sided_le0": 0.01375,
+    "mean_of_means": 0.004475126880706216,
+    "neg_months_per_draw": [
+     17,
+     31.98875,
+     49
+    ]
+   }
+  }
+ },
+ "primary_ci90": [
+  0.0007455378950129372,
+  0.00822876794417754
+ ],
+ "verdict": "CUSHION_SEPARABLE_POSITIVE",
+ "parent_reconciliation": {
+  "checks": {
+   "n": {
+    "ours": 32,
+    "parent": 32,
+    "matched": true
+   },
+   "mean_etf": {
+    "ours": -0.014120556229228864,
+    "parent": -0.014120556229228864,
+    "matched": true
+   },
+   "mean_blend": {
+    "ours": -0.00983253839417176,
+    "parent": -0.009832538394171763,
+    "matched": true
+   },
+   "improved": {
+    "ours": 16,
+    "parent": 16,
+    "matched": true
+   }
+  },
+  "matched": true
+ },
+ "parent_window_cushion": {
+  "start": "2021-09-10",
+  "end": "2022-09-27",
+  "etf": -0.06616146897849395,
+  "blend": -0.04972384860517953,
+  "cushion": 0.01643762037331442
+ },
+ "robustness": {
+  "no_hindsight_5050": {
+   "weight": 0.5,
+   "cushion": {
+    "n": 32,
+    "mean_cushion": 0.0071378410602469765,
+    "improved": 16,
+    "cushioned": 16,
+    "mean_etf": -0.014120556229228864,
+    "mean_cb": 0.00010787625153840102,
+    "mean_blend": -0.006982715168981888
+   },
+   "boot": {
+    "1": {
+     "draws": 4000,
+     "block_length": 1,
+     "blocks_per_sample": 82.0,
+     "too_few_blocks": false,
+     "ci90": [
+      0.001860291961498798,
+      0.013241013583361928
+     ],
+     "p_one_sided_le0": 0.00825,
+     "mean_of_means": 0.007219537767412219,
+     "neg_months_per_draw": [
+      16,
+      32.017,
+      48
+     ]
+    },
+    "3": {
+     "draws": 4000,
+     "block_length": 3,
+     "blocks_per_sample": 27.33,
+     "too_few_blocks": false,
+     "ci90": [
+      0.0012043800126985422,
+      0.013753012066815534
+     ],
+     "p_one_sided_le0": 0.01975,
+     "mean_of_means": 0.007136140840232909,
+     "neg_months_per_draw": [
+      13,
+      32.01725,
+      49
+     ]
+    },
+    "6": {
+     "draws": 4000,
+     "block_length": 6,
+     "blocks_per_sample": 13.67,
+     "too_few_blocks": false,
+     "ci90": [
+      0.0010846463355501418,
+      0.014229850105176875
+     ],
+     "p_one_sided_le0": 0.02125,
+     "mean_of_means": 0.007284213026985169,
+     "neg_months_per_draw": [
+      17,
+      32.02775,
+      53
+     ]
+    },
+    "12": {
+     "draws": 4000,
+     "block_length": 12,
+     "blocks_per_sample": 6.83,
+     "too_few_blocks": true,
+     "ci90": [
+      0.0015612775443012384,
+      0.014519273119992033
+     ],
+     "p_one_sided_le0": 0.0145,
+     "mean_of_means": 0.007451215173714336,
+     "neg_months_per_draw": [
+      17,
+      31.98875,
+      49
+     ]
+    }
+   },
+   "verdict": "CUSHION_SEPARABLE_POSITIVE"
+  },
+  "leave_one_month_out": [
+   {
+    "dropped": "2026-11",
+    "etf": -0.031022783866024417,
+    "cb": -0.05120013498469422,
+    "blend": -0.0369950104999488,
+    "mean_cushion": 0.004618993463088766
+   },
+   {
+    "dropped": "2022-04",
+    "etf": -0.033805921027992514,
+    "cb": -0.04026861324024622,
+    "blend": -0.03551211020567313,
+    "mean_cushion": 0.004481379351597032
+   },
+   {
+    "dropped": "2020-09",
+    "etf": -0.033300930474939205,
+    "cb": -0.04097813103558268,
+    "blend": -0.03531588991619927,
+    "mean_cushion": 0.004491339682680239
+   }
+  ],
+  "by_year": {
+   "2020": {
+    "n": 4,
+    "mean_cushion": 0.009561233960551307
+   },
+   "2021": {
+    "n": 3,
+    "mean_cushion": 0.014859909746986477
+   },
+   "2022": {
+    "n": 7,
+    "mean_cushion": 0.0013862135093432512
+   },
+   "2023": {
+    "n": 6,
+    "mean_cushion": 0.0012548462014642474
+   },
+   "2024": {
+    "n": 3,
+    "mean_cushion": 0.019836774882702857
+   },
+   "2025": {
+    "n": 2,
+    "mean_cushion": 0.0054486058045029595
+   },
+   "2026": {
+    "n": 7,
+    "mean_cushion": -0.004749743198948576
+   }
+  }
+ },
+ "trial_count_note": "no strategy was searched here: one published weight, one pre-registered block length; the other arms are robustness readings",
+ "notes": [
+  "the cushion is measured only in months the ETF book ends down; the set of those months moves with each resample, so the negative-month count per draw is printed",
+  "a block length that leaves fewer than 8 blocks carries a too_few_blocks flag",
+  "improved month share sits next to the mean because a mean can be won by one big month while most months are not helped",
+  "blend months are read off the daily-rebalanced blend level, not rebuilt as a weighted sum of monthly returns"
+ ],
+ "sentences": [
+  "In the 32 months the ETF book ends down, the 70/30 split gives back +0.43pp less of the fall on average (-0.98% vs -1.41%), and it is better in 16 of them.",
+  "Resampling those months in blocks of 3 gives a 90% interval of +0.07pp to +0.82pp, so the number is distinguishable from zero.",
+  "That is arithmetic, not skill: to first order every month's cushion is the convertible weight times the month's spread, so this reading never claims the split forecasts anything (the shortcut averages out to 0.2bp of error, though any single month drifts up to 17.5bp -- which is why the blend month is read off its own level).",
+  "The +1.64pp the earlier window reading showed is a rolling 12-month figure (2021-09-10..2022-09-27); the month-by-month average is the smaller +0.43pp, and the smaller number is the one this interval covers.",
+  "Small but signed: the split wins only 16 of 32 losing months, so the average cannot be coming from winning most of them -- it comes from the convertible half holding up in the months it does help."
+ ],
+ "md": "# How sure is the split's cushion? (book_pair_split_ci)\n\ngenerated 2026-11-27T18:33:32+08:00 · bar 2026-11-26 · window 2020-01-03..2026-11-26\n\n## Reading\n\n- In the 32 months the ETF book ends down, the 70/30 split gives back +0.43pp less of the fall on average (-0.98% vs -1.41%), and it is better in 16 of them.\n- Resampling those months in blocks of 3 gives a 90% interval of +0.07pp to +0.82pp, so the number is distinguishable from zero.\n- That is arithmetic, not skill: to first order every month's cushion is the convertible weight times the month's spread, so this reading never claims the split forecasts anything (the shortcut averages out to 0.2bp of error, though any single month drifts up to 17.5bp -- which is why the blend month is read off its own level).\n- The +1.64pp the earlier window reading showed is a rolling 12-month figure (2021-09-10..2022-09-27); the month-by-month average is the smaller +0.43pp, and the smaller number is the one this interval covers.\n- Small but signed: the split wins only 16 of 32 losing months, so the average cannot be coming from winning most of them -- it comes from the convertible half holding up in the months it does help.\n\n## The months the ETF ends down\n\n| measure | value |\n|---|---|\n| months | 32 |\n| mean ETF month | -1.41% |\n| mean convertible month | 0.01% |\n| mean split month | -0.98% |\n| mean cushion | +0.43pp |\n| months improved | 16 of 32 |\n| first-order w x spread | +0.43pp |\n| first-order gap (mean) | 0.2bp |\n| first-order gap (worst single month) | 17.5bp |\n| parent's own negative-month reading | matches |\n\n## Two rulers, one cushion\n\nThe earlier window reading showed +1.64pp across a rolling 12-month window (2021-09-10..2022-09-27): split -4.97% vs ETF -6.62%. The month-by-month average over the 32 losing months is +0.43pp -- averaging months and averaging one window are not the same operation, and this face puts its interval on the smaller number.\n\n## Block bootstrap of the mean cushion\n\n| block (months) | blocks/sample | 90% interval | P(mean<=0) | negative months/draw |\n|---|---|---|---|---|\n| 1 | 82.00 | +0.11pp to +0.79pp | 0.008 | min 16 / mean 32.0 / max 48 |\n| 3 | 27.33 | +0.07pp to +0.82pp | 0.019 | min 13 / mean 32.0 / max 49 |\n| 6 | 13.67 | +0.07pp to +0.85pp | 0.020 | min 17 / mean 32.0 / max 53 |\n| 12 *too few blocks* | 6.83 | +0.10pp to +0.87pp | 0.014 | min 17 / mean 32.0 / max 49 |\n\n## Robustness (never changes the primary verdict)\n\n- no-hindsight 50/50: mean cushion +0.71pp over 32 months, 90% interval +0.12pp to +1.38pp, verdict CUSHION_SEPARABLE_POSITIVE\n- dropping 2026-11 (ETF -3.10%, convertible -5.12%, split -3.70%) leaves the mean at +0.46pp\n- dropping 2022-04 (ETF -3.38%, convertible -4.03%, split -3.55%) leaves the mean at +0.45pp\n- dropping 2020-09 (ETF -3.33%, convertible -4.10%, split -3.53%) leaves the mean at +0.45pp\n\n## By year (only negative ETF months)\n\n| year | months | mean cushion |\n|---|---|---|\n| 2020 | 4 | +0.96pp |\n| 2021 | 3 | +1.49pp |\n| 2022 | 7 | +0.14pp |\n| 2023 | 6 | +0.13pp |\n| 2024 | 3 | +1.98pp |\n| 2025 | 2 | +0.54pp |\n| 2026 | 7 | -0.47pp |\n\n## What this face does not say\n\n- it does not say the split forecasts a bad month (it cannot: to first order the cushion is the weight times the spread)\n- it does not model the cost of moving money between the books (r2176 does)\n- it does not test a different window; it puts an interval on the one the earlier reading published\n"
+}
