@@ -1,0 +1,612 @@
+{
+ "schema": "carry-entry-window-yield/v1",
+ "face": "carry_entry_window_yield",
+ "machine": "bm-c",
+ "evidence_cutoff": "2026-11-26",
+ "question": "随便哪一天上车、拿满一年，carry 三条线各给你什么分布？r2192 的排序是不是日历给的？",
+ "caliber": {
+  "horizon_bars": 244,
+  "entry_lag": 1,
+  "why": "244 根 bar = 一年（本面板两线密度 242.5/242.7 bar/年）；起点收盘决策、下一根 bar 起持有（r1796 可执行口径，与 r2195 同一口径）",
+  "aggregation": "求和（不复利）为头条 = 一手资本的线性 P&L；basis 的复利读数并列印出，禁拿复利数与点数臂排序"
+ },
+ "reproduction": {
+  "basis_own_window": {
+   "window": [
+    "2017-01-18",
+    "2026-11-25"
+   ],
+   "bars": 2390,
+   "fields": {
+    "sharpe": {
+     "recomputed": 2.972,
+     "published": 2.972,
+     "match": true
+    },
+    "cagr_pct": {
+     "recomputed": 10.069,
+     "published": 10.069,
+     "match": true
+    },
+    "ann_vol_pct": {
+     "recomputed": 3.2463,
+     "published": 3.2463,
+     "match": true
+    },
+    "mdd_pct": {
+     "recomputed": -1.8896,
+     "published": -1.8896,
+     "match": true
+    },
+    "days": {
+     "recomputed": 2390,
+     "published": 2390,
+     "match": true
+    }
+   },
+   "verdict": "MATCH",
+   "how": "CS.replay(IC,1.5) 截父面窗口按父面口径（244 天、复利）重算"
+  },
+  "two_arms": {
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "fields": {
+    "excess_hedged": {
+     "recomputed": 1.4162,
+     "published": 1.4162,
+     "match": true
+    },
+    "carry_unhedged": {
+     "recomputed": 0.5057,
+     "published": 0.5057,
+     "match": true
+    }
+   },
+   "verdict": "MATCH",
+   "how": "CP.position_series(IC)+per_lot_daily(years=10)，按父面口径（252 天）重算"
+  },
+  "verdict": "MATCH"
+ },
+ "lines": {
+  "basis_nominal": {
+   "unit": "one-lot capital per day (basis = notional return; arms = points x 200 / 1137862.5)",
+   "window": [
+    "2017-01-18",
+    "2026-11-26"
+   ],
+   "bars": 2391,
+   "bars_per_year": 242.7,
+   "distribution": {
+    "n_start_days": 2147,
+    "return_pct": {
+     "median": 9.64,
+     "p10": 5.49,
+     "p25": 7.53,
+     "p75": 12.24,
+     "p90": 14.76,
+     "min": 3.34,
+     "max": 16.55,
+     "share_negative_pct": 0.0,
+     "spread_p90_minus_p10_pp": 9.27,
+     "spread_over_median_x": 0.96
+    },
+    "path_drawdown_pct": {
+     "median": -1.14,
+     "p10": -1.9,
+     "worst": -1.9
+    },
+    "worst_starts": [
+     {
+      "from": "2023-02-15",
+      "to": "2024-02-19",
+      "return_pct": 3.34,
+      "path_maxdd_pct": -1.9
+     },
+     {
+      "from": "2023-02-14",
+      "to": "2024-02-08",
+      "return_pct": 3.68,
+      "path_maxdd_pct": -1.54
+     },
+     {
+      "from": "2023-02-16",
+      "to": "2024-02-20",
+      "return_pct": 3.71,
+      "path_maxdd_pct": -1.9
+     },
+     {
+      "from": "2023-02-10",
+      "to": "2024-02-06",
+      "return_pct": 3.76,
+      "path_maxdd_pct": -1.52
+     },
+     {
+      "from": "2023-02-17",
+      "to": "2024-02-21",
+      "return_pct": 3.77,
+      "path_maxdd_pct": -1.9
+     }
+    ],
+    "best_starts": [
+     {
+      "from": "2019-08-27",
+      "to": "2020-08-28",
+      "return_pct": 16.55
+     },
+     {
+      "from": "2019-09-03",
+      "to": "2020-09-04",
+      "return_pct": 16.49
+     },
+     {
+      "from": "2019-05-06",
+      "to": "2020-05-06",
+      "return_pct": 16.35
+     }
+    ],
+    "worst_decile_start_months": {
+     "2023-03": 22,
+     "2022-12": 22,
+     "2022-11": 22,
+     "2022-08": 22,
+     "2022-09": 21
+    },
+    "distinct_start_months_in_worst_decile": 13
+   },
+   "independent_blocks": {
+    "n_blocks": 9,
+    "mean_pct": 9.72,
+    "min_pct": 4.92,
+    "max_pct": 15.54,
+    "n_negative": 0,
+    "blocks": [
+     {
+      "from": "2017-01-18",
+      "to": "2018-01-18",
+      "return_pct": 6.1
+     },
+     {
+      "from": "2018-01-18",
+      "to": "2019-01-21",
+      "return_pct": 12.51
+     },
+     {
+      "from": "2019-01-21",
+      "to": "2020-01-21",
+      "return_pct": 12.52
+     },
+     {
+      "from": "2020-01-21",
+      "to": "2021-01-22",
+      "return_pct": 15.54
+     },
+     {
+      "from": "2021-01-22",
+      "to": "2022-01-25",
+      "return_pct": 9.67
+     },
+     {
+      "from": "2022-01-25",
+      "to": "2023-02-02",
+      "return_pct": 7.89
+     },
+     {
+      "from": "2023-02-02",
+      "to": "2024-01-29",
+      "return_pct": 4.92
+     },
+     {
+      "from": "2024-01-29",
+      "to": "2025-02-10",
+      "return_pct": 7.3
+     },
+     {
+      "from": "2025-02-10",
+      "to": "2026-02-04",
+      "return_pct": 11.02
+     }
+    ]
+   },
+   "compounded_reading": {
+    "note": "同一批窗口、同一根 bar 长度，改按复利算（basis 父面的口径）；头条用求和口径以便与两条点数臂同一把尺",
+    "median_pct": 10.06,
+    "p10_pct": 5.61,
+    "p90_pct": 15.81
+   }
+  },
+  "excess_hedged": {
+   "unit": "one-lot capital per day (basis = notional return; arms = points x 200 / 1137862.5)",
+   "window": [
+    "2018-10-23",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "bars_per_year": 242.8,
+   "distribution": {
+    "n_start_days": 1717,
+    "return_pct": {
+     "median": 8.61,
+     "p10": 3.23,
+     "p25": 4.98,
+     "p75": 12.2,
+     "p90": 14.48,
+     "min": -1.31,
+     "max": 17.04,
+     "share_negative_pct": 0.1,
+     "spread_p90_minus_p10_pp": 11.25,
+     "spread_over_median_x": 1.31
+    },
+    "path_drawdown_pct": {
+     "median": -2.32,
+     "p10": -5.74,
+     "worst": -6.4
+    },
+    "worst_starts": [
+     {
+      "from": "2023-01-19",
+      "to": "2024-01-22",
+      "return_pct": -1.31,
+      "path_maxdd_pct": -3.76
+     },
+     {
+      "from": "2023-02-09",
+      "to": "2024-02-05",
+      "return_pct": -0.2,
+      "path_maxdd_pct": -3.76
+     },
+     {
+      "from": "2023-01-17",
+      "to": "2024-01-18",
+      "return_pct": 0.65,
+      "path_maxdd_pct": -2.12
+     },
+     {
+      "from": "2023-01-16",
+      "to": "2024-01-17",
+      "return_pct": 0.78,
+      "path_maxdd_pct": -2.12
+     },
+     {
+      "from": "2023-01-20",
+      "to": "2024-01-23",
+      "return_pct": 0.87,
+      "path_maxdd_pct": -3.76
+     }
+    ],
+    "best_starts": [
+     {
+      "from": "2020-07-28",
+      "to": "2021-07-28",
+      "return_pct": 17.04
+     },
+     {
+      "from": "2020-07-27",
+      "to": "2021-07-27",
+      "return_pct": 16.43
+     },
+     {
+      "from": "2020-08-13",
+      "to": "2021-08-13",
+      "return_pct": 15.95
+     }
+    ],
+    "worst_decile_start_months": {
+     "2022-11": 22,
+     "2022-12": 22,
+     "2023-05": 19,
+     "2023-01": 16,
+     "2023-07": 15
+    },
+    "distinct_start_months_in_worst_decile": 15
+   },
+   "independent_blocks": {
+    "n_blocks": 8,
+    "mean_pct": 8.76,
+    "min_pct": 2.61,
+    "max_pct": 14.95,
+    "n_negative": 0,
+    "blocks": [
+     {
+      "from": "2018-10-23",
+      "to": "2019-10-24",
+      "return_pct": 7.18
+     },
+     {
+      "from": "2019-10-24",
+      "to": "2020-10-27",
+      "return_pct": 10.61
+     },
+     {
+      "from": "2020-10-27",
+      "to": "2021-10-28",
+      "return_pct": 14.95
+     },
+     {
+      "from": "2021-10-28",
+      "to": "2022-10-31",
+      "return_pct": 8.6
+     },
+     {
+      "from": "2022-10-31",
+      "to": "2023-11-01",
+      "return_pct": 2.61
+     },
+     {
+      "from": "2023-11-01",
+      "to": "2024-11-05",
+      "return_pct": 4.07
+     },
+     {
+      "from": "2024-11-05",
+      "to": "2025-11-06",
+      "return_pct": 8.8
+     },
+     {
+      "from": "2025-11-06",
+      "to": "2026-11-10",
+      "return_pct": 13.24
+     }
+    ]
+   },
+   "money_per_lot_cny": {
+    "capital": 1137862.5,
+    "median": 97970,
+    "p10": 36753,
+    "p90": 164762
+   }
+  },
+  "carry_unhedged": {
+   "unit": "one-lot capital per day (basis = notional return; arms = points x 200 / 1137862.5)",
+   "window": [
+    "2018-10-23",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "bars_per_year": 242.8,
+   "distribution": {
+    "n_start_days": 1717,
+    "return_pct": {
+     "median": 16.61,
+     "p10": -11.96,
+     "p25": -1.45,
+     "p75": 32.29,
+     "p90": 41.22,
+     "min": -33.2,
+     "max": 68.97,
+     "share_negative_pct": 27.1,
+     "spread_p90_minus_p10_pp": 53.18,
+     "spread_over_median_x": 3.2
+    },
+    "path_drawdown_pct": {
+     "median": -17.62,
+     "p10": -37.22,
+     "worst": -46.67
+    },
+    "worst_starts": [
+     {
+      "from": "2023-02-09",
+      "to": "2024-02-05",
+      "return_pct": -33.2,
+      "path_maxdd_pct": -35.42
+     },
+     {
+      "from": "2023-02-08",
+      "to": "2024-02-02",
+      "return_pct": -28.56,
+      "path_maxdd_pct": -32.49
+     },
+     {
+      "from": "2023-02-07",
+      "to": "2024-02-01",
+      "return_pct": -26.96,
+      "path_maxdd_pct": -30.43
+     },
+     {
+      "from": "2023-02-06",
+      "to": "2024-01-31",
+      "return_pct": -26.56,
+      "path_maxdd_pct": -30.43
+     },
+     {
+      "from": "2023-01-19",
+      "to": "2024-01-22",
+      "return_pct": -26.08,
+      "path_maxdd_pct": -30.43
+     }
+    ],
+    "best_starts": [
+     {
+      "from": "2025-05-09",
+      "to": "2026-05-13",
+      "return_pct": 68.97
+     },
+     {
+      "from": "2025-06-23",
+      "to": "2026-06-25",
+      "return_pct": 68.01
+     },
+     {
+      "from": "2025-04-30",
+      "to": "2026-05-07",
+      "return_pct": 66.9
+     }
+    ],
+    "worst_decile_start_months": {
+     "2023-08": 23,
+     "2023-07": 21,
+     "2023-02": 20,
+     "2021-12": 16,
+     "2023-01": 14
+    },
+    "distinct_start_months_in_worst_decile": 13
+   },
+   "independent_blocks": {
+    "n_blocks": 8,
+    "mean_pct": 14.29,
+    "min_pct": -11.37,
+    "max_pct": 33.42,
+    "n_negative": 2,
+    "blocks": [
+     {
+      "from": "2018-10-23",
+      "to": "2019-10-24",
+      "return_pct": 19.85
+     },
+     {
+      "from": "2019-10-24",
+      "to": "2020-10-27",
+      "return_pct": 33.42
+     },
+     {
+      "from": "2020-10-27",
+      "to": "2021-10-28",
+      "return_pct": 27.94
+     },
+     {
+      "from": "2021-10-28",
+      "to": "2022-10-31",
+      "return_pct": -11.37
+     },
+     {
+      "from": "2022-10-31",
+      "to": "2023-11-01",
+      "return_pct": -2.56
+     },
+     {
+      "from": "2023-11-01",
+      "to": "2024-11-05",
+      "return_pct": 15.4
+     },
+     {
+      "from": "2024-11-05",
+      "to": "2025-11-06",
+      "return_pct": 30.34
+     },
+     {
+      "from": "2025-11-06",
+      "to": "2026-11-10",
+      "return_pct": 1.32
+     }
+    ]
+   },
+   "money_per_lot_cny": {
+    "capital": 1137862.5,
+    "median": 188999,
+    "p10": -136088,
+    "p90": 469027
+   }
+  }
+ },
+ "ordering": {
+  "money": {
+   "metric": "sum",
+   "common_dates": 1961,
+   "common_first": "2018-10-23",
+   "common_last": "2026-11-20",
+   "n_windows": 1717,
+   "permutations": {
+    "carry_unhedged>basis_nominal>excess_hedged": 597,
+    "carry_unhedged>excess_hedged>basis_nominal": 467,
+    "basis_nominal>excess_hedged>carry_unhedged": 418,
+    "excess_hedged>basis_nominal>carry_unhedged": 205,
+    "basis_nominal>carry_unhedged>excess_hedged": 24,
+    "excess_hedged>carry_unhedged>basis_nominal": 6
+   },
+   "dominant_order": "carry_unhedged>basis_nominal>excess_hedged",
+   "dominant_share_pct": 34.77,
+   "canonical_order": "basis_nominal>excess_hedged>carry_unhedged",
+   "canonical_share_pct": 24.34,
+   "verdict": "THE_LINE_ORDER_DEPENDS_ON_WHEN_YOU_START"
+  },
+  "sharpe": {
+   "metric": "sharpe",
+   "common_dates": 1961,
+   "common_first": "2018-10-23",
+   "common_last": "2026-11-20",
+   "n_windows": 1717,
+   "permutations": {
+    "basis_nominal>excess_hedged>carry_unhedged": 1433,
+    "basis_nominal>carry_unhedged>excess_hedged": 284
+   },
+   "dominant_order": "basis_nominal>excess_hedged>carry_unhedged",
+   "dominant_share_pct": 83.46,
+   "canonical_order": "basis_nominal>excess_hedged>carry_unhedged",
+   "canonical_share_pct": 83.46,
+   "verdict": "THE_LINE_ORDER_MOSTLY_HOLDS_BUT_FLIPS_ON_SOME_STARTS"
+  },
+  "why_two_orderings": "钱由波动放大、Sharpe 不放大；r2192 的排序是 Sharpe 的排序，拿钱的排序去比会得到相反结论（r1313 同族）"
+ },
+ "comparison_etf_book": {
+  "source": "results/etf_book_entry_window_yield.json",
+  "arm": "nobond_vt08",
+  "spread_pp": 32.34,
+  "median_pct": 9.08,
+  "spread_over_median_x": 3.56,
+  "share_negative_pct": 5.6,
+  "note": "只用已发布的 ETF 面读数，不重算、不改它；追高绝对pp跨书不可比（波动不同），可比的是 spread/median 与亏钱起点占比"
+ },
+ "judgement": {
+  "headline": "THE_CARRY_BOOK_CARES_LESS_ABOUT_WHEN_YOU_START_THAN_THE_ETF_BOOK",
+  "headline_sentence": "同一把尺（p90-p10 除中位）: carry 对冲臂 1.31x vs ETF vt08 3.56x；绝对跨度 11.25pp vs 32.34pp （绝对值跨书不可比：两本书的波动不同）",
+  "spread_over_median_x_carry_hedged": 1.31,
+  "spread_over_median_x_etf_vt08": 3.56,
+  "spread_pp_carry_hedged": 11.25,
+  "spread_pp_etf_vt08": 32.34,
+  "ordering_token": "THE_LINE_ORDER_MOSTLY_HOLDS_BUT_FLIPS_ON_SOME_STARTS",
+  "ordering_share_pct": 83.46,
+  "ordering_sentence": "r2192 的排序只在一本日历上验过一次；现在在 1717 个一年窗里按**同一量**（窗内 Sharpe）排：basis>对冲残差>不带对冲 占 83.46%（判词 THE_LINE_ORDER_MOSTLY_HOLDS_BUT_FLIPS_ON_SOME_STARTS）——按**钱**排则是 24.34%（判词 THE_LINE_ORDER_DEPENDS_ON_WHEN_YOU_START），两个量给出相反答案，因为不带对冲那条的波动是另两条的约四倍"
+ },
+ "adoption": {
+  "decided": "HORIZON=244 + entry_lag=1 + 求和口径",
+  "decided_in": "r2196",
+  "because": "三条线只有换算成「一手资本的分数」才可比；换年长、改复利、改起点偏移都会改读数，所以钉死在一处常量，其余各面只读这一处",
+  "not_adopted": [
+   {
+    "road": "改复利做头条",
+    "adopted": false,
+    "why": "点数臂的复利需要「P&L 再买第二手」，一手是不可分割单位；复利只对 basis 有意义，已并列印出"
+   },
+   {
+    "road": "把 HORIZON 拉到 3 年让分布更窄",
+    "adopted": false,
+    "why": "会同时砍掉大半起点样本，且读者问的是「拿满一年」，不是「拿到好看」"
+   }
+  ]
+ },
+ "not_measured": [
+  "重叠窗口不是独立样本（独立块另印）；未做显著性检验、未声称 p 值",
+  "两臂的换仓成本按父面已扣口径沿用，本面不重估",
+  "basis_nominal 不可买（r2190：钱包买不到名义额），它的分布只作参照，不作可执行读数",
+  "IM 腿未同做（本面只回答 IC）"
+ ],
+ "inputs_digest": "2c0abf08f8b3a5d159f2960a90e5136a279b7137f62f459ddfe4497c8901d764",
+ "sources": {
+  "results/idx_fut_carry_kill_rule_economics.json": {
+   "sha256": "3a5740132638f1a5c9f2e9825169790758cd138978514ee0070a1f5ee122050d"
+  },
+  "results/idx_fut_carry_search_rent.json": {
+   "sha256": "50fa862f6803da8c8613fef01a6212c7bffc84ec8bd5d03d47d2756f7a485d66"
+  },
+  "results/carry_three_lines_window.json": {
+   "sha256": "9e2558c23cd995606e2f3ca870ce2fc34946af28b12b767c9cc255cbdce9e6f4"
+  },
+  "results/idx_fut_carry_capacity_lots.json": {
+   "sha256": "920f0274d414bd5de044d827c0da2d1be14b40febc6722d808e276a100b9b143"
+  },
+  "results/idx_fut_carry_one_lot_ruler.json": {
+   "sha256": "3d4702338941cf52b6761e649dd3f0504b39e7ad958901649cbb4da0b0139187"
+  },
+  "results/etf_book_entry_window_yield.json": {
+   "sha256": "74817e4d12042ba3834953228cbea9ecf373d2931ce0423f2350c6fb9d7d7a1f"
+  }
+ },
+ "panel_probe": {
+  "path": "data/daily/sh510300.csv",
+  "tail_date": "2026-11-27"
+ },
+ "generated": "2026-11-28T01:07:48+08:00",
+ "elapsed_sec": 0.8
+}
