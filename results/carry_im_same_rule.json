@@ -1,0 +1,466 @@
+{
+  "schema": "carry-im-same-rule/v1",
+  "face": "carry_im_same_rule",
+  "machine": "bm-c",
+  "evidence_cutoff": "2026-11-26",
+  "question": "r2193 那句「第一手门槛是波动的读数、不是资本门槛」，换成第二腿 IM 还成立吗？",
+  "inputs": {
+    "open_capital": {
+      "face": "results/idx_fut_carry_open_capital.json",
+      "sha256": "b913a28846b84ad52bcae0f142236e66e50646cfd8d4fdd5dc27d294f008c1f4",
+      "generated": "2026-11-27T02:33:48+08:00",
+      "cutoff": "2026-11-26"
+    },
+    "sizing": {
+      "face": "results/idx_fut_carry_paper/SIZING.json",
+      "sha256": "1ebc947730400cbce8199985c14e3de5dfee6d0dd6aabcd0110b5d11bd0bbc74",
+      "generated": "2026-11-27T02:33:05",
+      "cutoff": "2026-11-26"
+    },
+    "ic_ruler": {
+      "face": "results/carry_first_rung_vol_ruler.json",
+      "sha256": "96eae3cd0a4439b94f53982ba2ef1e2378f83cfbd384dc0a6caf752b982e9ebe",
+      "generated": "2026-11-28T00:09:56+08:00",
+      "cutoff": "2026-11-26",
+      "verdict": "THE_FIRST_RUNG_IS_A_VOLATILITY_READ_NOT_A_CAPITAL_THRESHOLD"
+    }
+  },
+  "multiplier": {
+    "cny_per_point": 200.0,
+    "authority": "results/idx_fut_carry_one_lot_ruler.json::rule.precision_tick_basis"
+  },
+  "reproduction": {
+    "IC": {
+      "published_vol_cny": 91029.0,
+      "recomputed_vol_cny": 91029.0,
+      "published_first_rung_cny": 1137862.5,
+      "recomputed_first_rung_cny": 1137862.5,
+      "sizing_face_vol_cny": 91029.0,
+      "sizing_face_rung_cny": 1137862.55,
+      "recomputed_return_window": [
+        "2025-11-27",
+        "2026-11-26"
+      ],
+      "recomputed_bars": 242,
+      "verdict": "MATCH"
+    },
+    "IM": {
+      "published_vol_cny": 93259.93,
+      "recomputed_vol_cny": 93259.93,
+      "published_first_rung_cny": 1165749.12,
+      "recomputed_first_rung_cny": 1165749.12,
+      "sizing_face_vol_cny": 93259.93,
+      "sizing_face_rung_cny": 1165749.12,
+      "recomputed_return_window": [
+        "2025-11-27",
+        "2026-11-26"
+      ],
+      "recomputed_bars": 242,
+      "verdict": "MATCH"
+    }
+  },
+  "legs_own_sample": {
+    "IC": {
+      "bars": 1965,
+      "return_window": [
+        "2018-10-23",
+        "2026-11-26"
+      ],
+      "vol_by_window": [
+        {
+          "window": "one_year_242",
+          "bars": 242,
+          "ann_vol_cny": 91029.0,
+          "ann_mean_cny": 146059.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1137862.5,
+          "is_published_ruler": true
+        },
+        {
+          "window": "two_year_484",
+          "bars": 484,
+          "ann_vol_cny": 75809.61,
+          "ann_mean_cny": 131593.0,
+          "lots_at_capital": 1,
+          "first_rung_cny": 947620.12,
+          "is_published_ruler": false
+        },
+        {
+          "window": "three_year_726",
+          "bars": 726,
+          "ann_vol_cny": 83956.24,
+          "ann_mean_cny": 102989.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1049453.0,
+          "is_published_ruler": false
+        },
+        {
+          "window": "five_year_1210",
+          "bars": 1210,
+          "ann_vol_cny": 72417.59,
+          "ann_mean_cny": 85624.0,
+          "lots_at_capital": 1,
+          "first_rung_cny": 905219.87,
+          "is_published_ruler": false
+        },
+        {
+          "window": "full_sample",
+          "bars": 1965,
+          "ann_vol_cny": 71149.35,
+          "ann_mean_cny": 101147.0,
+          "lots_at_capital": 1,
+          "first_rung_cny": 889366.88,
+          "is_published_ruler": false
+        }
+      ],
+      "rolling_one_year": {
+        "windows": 1724,
+        "min_cny": 32495.45,
+        "p10_cny": 44036.9,
+        "p25_cny": 61424.08,
+        "median_cny": 66999.72,
+        "p75_cny": 76871.37,
+        "p90_cny": 89036.6,
+        "max_cny": 98399.64,
+        "today_cny": 91029.0,
+        "today_percentile": 93.79,
+        "windows_above_today": 107,
+        "share_allowing_one_lot_pct": 78.13,
+        "budget_cny": 80000.0,
+        "windows_at_or_below_budget": 1347,
+        "note": "重叠样本（步长 1 天），本样本上的描述性分布，不是显著性检验"
+      },
+      "cap_breach": {
+        "pairs": 1482,
+        "pairs_where_trailing_said_at_least_one_lot": 1246,
+        "breaches": 346,
+        "breach_rate_pct": 27.77,
+        "lot_flip_rate_pct": 42.24,
+        "forward_over_trailing_p50": 1.0192,
+        "forward_over_trailing_p90": 1.7882
+      },
+      "money": {
+        "lots_today": 0,
+        "first_rung_today_cny": 1137862.5,
+        "first_rung_median_year_cny": 837496.51,
+        "first_rung_calmest_year_cny": 406193.13,
+        "release_vol_cny": 80000.0,
+        "vol_has_to_fall_pct": 12.12
+      },
+      "verdict": "THE_FIRST_RUNG_IS_A_VOLATILITY_READ_NOT_A_CAPITAL_THRESHOLD",
+      "capital_cny": 1000000.0,
+      "target_pct": 8.0,
+      "budget_cny": 80000.0
+    },
+    "IM": {
+      "bars": 1053,
+      "return_window": [
+        "2022-07-25",
+        "2026-11-26"
+      ],
+      "vol_by_window": [
+        {
+          "window": "one_year_242",
+          "bars": 242,
+          "ann_vol_cny": 93259.93,
+          "ann_mean_cny": 188284.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1165749.12,
+          "is_published_ruler": true
+        },
+        {
+          "window": "two_year_484",
+          "bars": 484,
+          "ann_vol_cny": 84928.92,
+          "ann_mean_cny": 174698.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1061611.5,
+          "is_published_ruler": false
+        },
+        {
+          "window": "three_year_726",
+          "bars": 726,
+          "ann_vol_cny": 91780.14,
+          "ann_mean_cny": 145855.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1147251.75,
+          "is_published_ruler": false
+        },
+        {
+          "window": "full_sample",
+          "bars": 1053,
+          "ann_vol_cny": 80886.19,
+          "ann_mean_cny": 123760.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1011077.38,
+          "is_published_ruler": false
+        }
+      ],
+      "rolling_one_year": {
+        "windows": 812,
+        "min_cny": 43145.16,
+        "p10_cny": 48316.84,
+        "p25_cny": 76188.65,
+        "median_cny": 87466.62,
+        "p75_cny": 90527.61,
+        "p90_cny": 96836.06,
+        "max_cny": 104647.22,
+        "today_cny": 93259.93,
+        "today_percentile": 84.61,
+        "windows_above_today": 125,
+        "share_allowing_one_lot_pct": 30.05,
+        "budget_cny": 80000.0,
+        "windows_at_or_below_budget": 244,
+        "note": "重叠样本（步长 1 天），本样本上的描述性分布，不是显著性检验"
+      },
+      "cap_breach": {
+        "pairs": 570,
+        "pairs_where_trailing_said_at_least_one_lot": 209,
+        "breaches": 209,
+        "breach_rate_pct": 100.0,
+        "lot_flip_rate_pct": 55.79,
+        "forward_over_trailing_p50": 1.0501,
+        "forward_over_trailing_p90": 2.213
+      },
+      "money": {
+        "lots_today": 0,
+        "first_rung_today_cny": 1165749.12,
+        "first_rung_median_year_cny": 1093332.72,
+        "first_rung_calmest_year_cny": 539314.48,
+        "release_vol_cny": 80000.0,
+        "vol_has_to_fall_pct": 14.22
+      },
+      "verdict": "THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD",
+      "capital_cny": 1000000.0,
+      "target_pct": 8.0,
+      "budget_cny": 80000.0
+    }
+  },
+  "same_calendar": {
+    "IC": {
+      "bars": 1053,
+      "return_window": [
+        "2022-07-25",
+        "2026-11-26"
+      ],
+      "vol_by_window": [
+        {
+          "window": "one_year_242",
+          "bars": 242,
+          "ann_vol_cny": 91029.0,
+          "ann_mean_cny": 146059.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1137862.5,
+          "is_published_ruler": true
+        },
+        {
+          "window": "two_year_484",
+          "bars": 484,
+          "ann_vol_cny": 75809.61,
+          "ann_mean_cny": 131593.0,
+          "lots_at_capital": 1,
+          "first_rung_cny": 947620.12,
+          "is_published_ruler": false
+        },
+        {
+          "window": "three_year_726",
+          "bars": 726,
+          "ann_vol_cny": 83956.24,
+          "ann_mean_cny": 102989.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1049453.0,
+          "is_published_ruler": false
+        },
+        {
+          "window": "full_sample",
+          "bars": 1053,
+          "ann_vol_cny": 72341.36,
+          "ann_mean_cny": 84732.0,
+          "lots_at_capital": 1,
+          "first_rung_cny": 904267.0,
+          "is_published_ruler": false
+        }
+      ],
+      "rolling_one_year": {
+        "windows": 812,
+        "min_cny": 32495.45,
+        "p10_cny": 34292.45,
+        "p25_cny": 60564.83,
+        "median_cny": 78377.64,
+        "p75_cny": 85452.52,
+        "p90_cny": 94006.91,
+        "max_cny": 98399.64,
+        "today_cny": 91029.0,
+        "today_percentile": 86.82,
+        "windows_above_today": 107,
+        "share_allowing_one_lot_pct": 53.57,
+        "budget_cny": 80000.0,
+        "windows_at_or_below_budget": 435,
+        "note": "重叠样本（步长 1 天），本样本上的描述性分布，不是显著性检验"
+      },
+      "cap_breach": {
+        "pairs": 570,
+        "pairs_where_trailing_said_at_least_one_lot": 334,
+        "breaches": 322,
+        "breach_rate_pct": 96.41,
+        "lot_flip_rate_pct": 79.65,
+        "forward_over_trailing_p50": 1.223,
+        "forward_over_trailing_p90": 2.8563
+      },
+      "money": {
+        "lots_today": 0,
+        "first_rung_today_cny": 1137862.5,
+        "first_rung_median_year_cny": 979720.45,
+        "first_rung_calmest_year_cny": 406193.13,
+        "release_vol_cny": 80000.0,
+        "vol_has_to_fall_pct": 12.12
+      },
+      "verdict": "THE_FIRST_RUNG_IS_PARTLY_A_VOLATILITY_READ",
+      "sample": "IC 剪到 IM 起跑日之后（同一本日历）"
+    },
+    "IM": {
+      "bars": 1053,
+      "return_window": [
+        "2022-07-25",
+        "2026-11-26"
+      ],
+      "vol_by_window": [
+        {
+          "window": "one_year_242",
+          "bars": 242,
+          "ann_vol_cny": 93259.93,
+          "ann_mean_cny": 188284.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1165749.12,
+          "is_published_ruler": true
+        },
+        {
+          "window": "two_year_484",
+          "bars": 484,
+          "ann_vol_cny": 84928.92,
+          "ann_mean_cny": 174698.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1061611.5,
+          "is_published_ruler": false
+        },
+        {
+          "window": "three_year_726",
+          "bars": 726,
+          "ann_vol_cny": 91780.14,
+          "ann_mean_cny": 145855.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1147251.75,
+          "is_published_ruler": false
+        },
+        {
+          "window": "full_sample",
+          "bars": 1053,
+          "ann_vol_cny": 80886.19,
+          "ann_mean_cny": 123760.0,
+          "lots_at_capital": 0,
+          "first_rung_cny": 1011077.38,
+          "is_published_ruler": false
+        }
+      ],
+      "rolling_one_year": {
+        "windows": 812,
+        "min_cny": 43145.16,
+        "p10_cny": 48316.84,
+        "p25_cny": 76188.65,
+        "median_cny": 87466.62,
+        "p75_cny": 90527.61,
+        "p90_cny": 96836.06,
+        "max_cny": 104647.22,
+        "today_cny": 93259.93,
+        "today_percentile": 84.61,
+        "windows_above_today": 125,
+        "share_allowing_one_lot_pct": 30.05,
+        "budget_cny": 80000.0,
+        "windows_at_or_below_budget": 244,
+        "note": "重叠样本（步长 1 天），本样本上的描述性分布，不是显著性检验"
+      },
+      "cap_breach": {
+        "pairs": 570,
+        "pairs_where_trailing_said_at_least_one_lot": 209,
+        "breaches": 209,
+        "breach_rate_pct": 100.0,
+        "lot_flip_rate_pct": 55.79,
+        "forward_over_trailing_p50": 1.0501,
+        "forward_over_trailing_p90": 2.213
+      },
+      "money": {
+        "lots_today": 0,
+        "first_rung_today_cny": 1165749.12,
+        "first_rung_median_year_cny": 1093332.72,
+        "first_rung_calmest_year_cny": 539314.48,
+        "release_vol_cny": 80000.0,
+        "vol_has_to_fall_pct": 14.22
+      },
+      "verdict": "THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD",
+      "sample": "IM 全样本（与上者同一本日历）"
+    },
+    "correlation": {
+      "common_days": 1053,
+      "first": "2022-07-25",
+      "last": "2026-11-26",
+      "corr_daily_excess": 0.816,
+      "why_it_matters": "两腿同向（残差同一个来源），把它们的一手门槛相加当「一本书的资本」是错读"
+    }
+  },
+  "judgement": {
+    "verdict": "THE_SAME_RULE_READS_TWO_DIFFERENT_THINGS",
+    "ic_verdict_own_sample": "THE_FIRST_RUNG_IS_A_VOLATILITY_READ_NOT_A_CAPITAL_THRESHOLD",
+    "im_verdict_own_sample": "THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD",
+    "ic_verdict_same_calendar": "THE_FIRST_RUNG_IS_PARTLY_A_VOLATILITY_READ",
+    "im_verdict_same_calendar": "THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD",
+    "why": "同一把尺（242 收益日）、同一本日历（2022-07-25 起）、同一个判词机：IC 今日波动 91,029 元在 812 个窗的第 86.82 分位、历史 53.57% 的年份买得起 1 手 -> THE_FIRST_RUNG_IS_PARTLY_A_VOLATILITY_READ；IM 今日 93,260 元在第 84.61 分位、历史 30.05% 的年份买得起 -> THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD。差别不是窗长也不是日历，是两条腿自己的波动水平：IC 中位年份第一手 979,720 元，IM 中位年份 1,093,333 元，而同一条解禁线是 80,000 元"
+  },
+  "bet_verdict": "THE_TWO_LEGS_ARE_ONE_BET_IN_TWO_TICKETS",
+  "adoption": {
+    "decided": "「第一手门槛是波动读数」只对 IC 成立；IM 的同名读数在它自己的历史里是资本门槛（同一本日历上 30.05% 的年份买得起，IC 是 53.57%）。因此任何面向读者的句子都必须带产品名与它自己的样本起点，不许把 IC 的判词挂到整本书上。",
+    "decided_in": "bm-c round 2194",
+    "ruler": "trailing 242 returns, per product, on that product's own sample",
+    "because": "两条腿的第一手门槛由同一个公式给出（vol / 8%），但「今天贵不贵」要靠它自己的历史分布回答：IC 的中位年份 67,000 元，IM 的中位年份 87,467 元——同一条解禁线 80,000 元，一个过线一个没过",
+    "what_the_adoption_forbids": [
+      "把 IC 的「78.13% 的年份买得起」印成「这本书多数年份买得起」",
+      "把两条腿的第一手门槛相加成「开这本书要 230 万」——那是两份不同押注的凭证，不是一本书的两页",
+      "用两腿相关性去宣称分散：0.82 的相关意味着它们同向，不构成风险对冲"
+    ],
+    "alternatives_not_adopted": [
+      {
+        "ruler": "只用 IC 的样本给整本书定判词",
+        "adopted": false,
+        "because_not": "IM 的样本史比 IC 短 912 个交易日（合约 2022-07 才上市），用 IC 的长样本替 IM 回答「今天贵不贵」，等于替另一个产品承担它没经历过的历史"
+      },
+      {
+        "ruler": "把两腿波动取平均当作整本书的一把尺",
+        "adopted": false,
+        "because_not": "两条腿的第一手门槛是不同的入场决定（各买各的手数），平均出来的门槛不对应任何可下的单"
+      }
+    ]
+  },
+  "what_this_changes": [
+    "r2193 的判词要在前面加一个产品名：THE_FIRST_RUNG_IS_PARTLY_A_VOLATILITY_READ 是 IC 的判词，IM 在同一天历上是 THE_FIRST_RUNG_IS_A_CAPITAL_THRESHOLD",
+    "IM 的「今天买不到」更接近结构性的：它历史 30.05% 的年份 100 万买得起 1 手，IC 同期是 53.57%；两条腿的解禁线都是 80,000 元，但 IC 的中位年份 979,720 在线上、IM 的 1,093,333 在线下",
+    "两腿共同日 1053 天、日残差相关 0.816 —— 它们是同一次押注的两份凭证（THE_TWO_LEGS_ARE_ONE_BET_IN_TWO_TICKETS），把两条第一手门槛相加成「开这本书的资本」是错读"
+  ],
+  "what_is_still_missing": [
+    "IM 的样本只有 1053 个收益日（合约 2022-07 上市），它的「历史买得起率」比 IC 的少 912 天真相",
+    "前向检验用重叠窗，独立样本远少于对数——频率是描述性的，不是检验",
+    "两腿都用 IF 做对冲代理（SIZING.hedge.cheapest），IM 自己的标的对冲（IM 空头）成本未测",
+    "点数是可加 P&L，不做复利；滚成 CAGR 需要账户与不间断滚仓假设，本面不代读者假定"
+  ],
+  "sources": [
+    "results/idx_fut_carry_open_capital.json",
+    "results/idx_fut_carry_paper/SIZING.json",
+    "results/idx_fut_carry_one_lot_ruler.json",
+    "results/carry_first_rung_vol_ruler.json"
+  ],
+  "inputs_digest": {
+    "results/idx_fut_carry_open_capital.json": "b913a28846b84ad52bcae0f142236e66e50646cfd8d4fdd5dc27d294f008c1f4",
+    "results/idx_fut_carry_paper/SIZING.json": "1ebc947730400cbce8199985c14e3de5dfee6d0dd6aabcd0110b5d11bd0bbc74",
+    "results/idx_fut_carry_one_lot_ruler.json": "3d4702338941cf52b6761e649dd3f0504b39e7ad958901649cbb4da0b0139187",
+    "results/carry_first_rung_vol_ruler.json": "96eae3cd0a4439b94f53982ba2ef1e2378f83cfbd384dc0a6caf752b982e9ebe"
+  },
+  "generated": "2026-11-28T00:32:27+08:00"
+}
