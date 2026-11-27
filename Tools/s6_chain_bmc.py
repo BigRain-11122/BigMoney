@@ -180,6 +180,14 @@ LEGS = [
     ("book_pair_years",
      ["python", "scripts/book_pair_years.py", "check"],
      ["python", "scripts/book_pair_years.py", "run"]),
+    # r2176: the blend face priced the split and its own caliber line admitted the move
+    # between the two books was not modelled ("a reader who moves money between them pays
+    # it"). This leg prices exactly that move on six cadences. Its check reads the two
+    # parent panel stamps plus the blend page's TARGET NUMBER -- not that page's bytes, so
+    # a republish with the same weight does not cost a 60s rebuild (r1935).
+    ("book_pair_rebalance",
+     ["python", "scripts/book_pair_rebalance.py", "check"],
+     ["python", "scripts/book_pair_rebalance.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

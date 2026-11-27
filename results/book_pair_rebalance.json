@@ -1,0 +1,548 @@
+{
+ "face": "book_pair_rebalance",
+ "generated_at": "2026-11-27T15:00:08+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "if I split one wallet across both books, how often must I move money -- and does paying for the move eat the gain?",
+ "window": {
+  "first": "2020-01-03",
+  "last": "2026-11-26",
+  "bars": 1671,
+  "why": "the overlap only -- a wallet split cannot be priced on days one of the books does not exist"
+ },
+ "caliber": {
+  "cost_per_side_bp": 10.0,
+  "why_two_sides": "moving an amount x from one book to the other is a sell of x and a buy of x -- the round trip is 2x the per-side rate, and each parent already pays its own 10bp inside its published series",
+  "when": "the move is charged at the close of the bar the cadence fires, after that day's return; a reader who moves at the next open pays the same 2x on a slightly different price",
+  "ann_days": 244.0,
+  "not_modelled": "tax, bid-ask on the underlying names, the whole-lot grid, and the spread between a fund's NAV and its traded price"
+ },
+ "target": {
+  "face": "results/book_pair_blend.json",
+  "field": "best.w_cb",
+  "value": 0.3,
+  "window_last": "2026-11-26"
+ },
+ "parents": {
+  "cb": {
+   "face": "results/cb_dual_low.json",
+   "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
+   "execution": "signal at close t, filled at close t+1",
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+    "size": 25433554,
+    "mtime": "2026-11-27T11:34:31"
+   }
+  },
+  "etf": {
+   "face": "results/etf_nobond_vt.json",
+   "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+   "execution": "decide at close t, own from the open of t+1",
+   "panel": {
+    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+    "size": 102428,
+    "mtime": "2026-11-26T20:07:21"
+   }
+  }
+ },
+ "rules": [
+  {
+   "rule": "hold",
+   "cost_bp": 10.0,
+   "n_moves": 0,
+   "turnover_one_way": 0.0,
+   "turnover_per_year": 0.0,
+   "max_drift_pp": 8.917,
+   "final_w_cb": 0.254482,
+   "cagr": 0.0887140651,
+   "sharpe": 1.0430957274,
+   "maxdd": -0.0891561868,
+   "vol": 0.0860590894,
+   "worst_year": -0.0568731496,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0887140651,
+    "sharpe": 1.0430957274,
+    "maxdd": -0.0891561868,
+    "vol": 0.0860590894,
+    "worst_year": -0.0568731496
+   },
+   "cost_drag_pp_cagr": 0.0,
+   "cost_drag_sharpe": 0.0
+  },
+  {
+   "rule": "every20",
+   "cost_bp": 10.0,
+   "n_moves": 83,
+   "turnover_one_way": 0.543257,
+   "turnover_per_year": 0.0789,
+   "max_drift_pp": 4.48,
+   "final_w_cb": 0.297696,
+   "cagr": 0.0905609189,
+   "sharpe": 1.0574602137,
+   "maxdd": -0.0932843986,
+   "vol": 0.0865440817,
+   "worst_year": -0.0610753214,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0907329492,
+    "sharpe": 1.0593205021,
+    "maxdd": -0.0932041873,
+    "vol": 0.0865419262,
+    "worst_year": -0.0609816794
+   },
+   "cost_drag_pp_cagr": 0.0172,
+   "cost_drag_sharpe": 0.0019
+  },
+  {
+   "rule": "monthly",
+   "cost_bp": 10.0,
+   "n_moves": 82,
+   "turnover_one_way": 0.538427,
+   "turnover_per_year": 0.0782,
+   "max_drift_pp": 4.777,
+   "final_w_cb": 0.297659,
+   "cagr": 0.0903703609,
+   "sharpe": 1.057950925,
+   "maxdd": -0.0933162274,
+   "vol": 0.0863191974,
+   "worst_year": -0.0611168438,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0905408318,
+    "sharpe": 1.0597022667,
+    "maxdd": -0.0932292351,
+    "vol": 0.0863256702,
+    "worst_year": -0.0610267621
+   },
+   "cost_drag_pp_cagr": 0.017,
+   "cost_drag_sharpe": 0.0018
+  },
+  {
+   "rule": "quarterly",
+   "cost_bp": 10.0,
+   "n_moves": 27,
+   "turnover_one_way": 0.365671,
+   "turnover_per_year": 0.0531,
+   "max_drift_pp": 5.327,
+   "final_w_cb": 0.290003,
+   "cagr": 0.0912202838,
+   "sharpe": 1.0650360479,
+   "maxdd": -0.0925035686,
+   "vol": 0.086496237,
+   "worst_year": -0.0602753247,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0913361471,
+    "sharpe": 1.0661585747,
+    "maxdd": -0.0924310573,
+    "vol": 0.0865062908,
+    "worst_year": -0.0602002384
+   },
+   "cost_drag_pp_cagr": 0.0116,
+   "cost_drag_sharpe": 0.0011
+  },
+  {
+   "rule": "semiannual",
+   "cost_bp": 10.0,
+   "n_moves": 13,
+   "turnover_one_way": 0.288455,
+   "turnover_per_year": 0.0419,
+   "max_drift_pp": 7.515,
+   "final_w_cb": 0.28272,
+   "cagr": 0.0913741442,
+   "sharpe": 1.0601396796,
+   "maxdd": -0.091070085,
+   "vol": 0.0870772556,
+   "worst_year": -0.0587909333,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0914655542,
+    "sharpe": 1.0610851805,
+    "maxdd": -0.0910119176,
+    "vol": 0.0870793528,
+    "worst_year": -0.0587307003
+   },
+   "cost_drag_pp_cagr": 0.0091,
+   "cost_drag_sharpe": 0.0009
+  },
+  {
+   "rule": "annual",
+   "cost_bp": 10.0,
+   "n_moves": 6,
+   "turnover_one_way": 0.177187,
+   "turnover_per_year": 0.0257,
+   "max_drift_pp": 7.239,
+   "final_w_cb": 0.251904,
+   "cagr": 0.0917631025,
+   "sharpe": 1.062201087,
+   "maxdd": -0.0886186946,
+   "vol": 0.0872613465,
+   "worst_year": -0.0562524858,
+   "bars": 1670,
+   "zero_cost": {
+    "cagr": 0.0918192721,
+    "sharpe": 1.0627632306,
+    "maxdd": -0.0886186946,
+    "vol": 0.0872641904,
+    "worst_year": -0.0562524858
+   },
+   "cost_drag_pp_cagr": 0.0056,
+   "cost_drag_sharpe": 0.0006
+  }
+ ],
+ "hold": {
+  "sharpe": 1.0430957274,
+  "cagr": 0.0887140651,
+  "maxdd": -0.0891561868,
+  "final_w_cb": 0.254482
+ },
+ "drift": {
+  "rule": "hold",
+  "start_w_cb": 0.3,
+  "end_w_cb": 0.2545,
+  "max_drift_pp": 8.917,
+  "turnover": 0.0,
+  "sentence": "left alone from 2020-01-03 to 2026-11-26, a 30/70 wallet ends at 25.4/74.6 and at its worst carried 8.9pp away from target -- that drift is what a paid cadence buys back"
+ },
+ "sensitivity": [
+  {
+   "cost_bp": 5.0,
+   "hold_sharpe": 1.0431,
+   "cadence": "quarterly",
+   "cadence_sharpe": 1.0656,
+   "cadence_still_ahead": true
+  },
+  {
+   "cost_bp": 10.0,
+   "hold_sharpe": 1.0431,
+   "cadence": "quarterly",
+   "cadence_sharpe": 1.065,
+   "cadence_still_ahead": true
+  },
+  {
+   "cost_bp": 20.0,
+   "hold_sharpe": 1.0431,
+   "cadence": "quarterly",
+   "cadence_sharpe": 1.0639,
+   "cadence_still_ahead": true
+  }
+ ],
+ "grid": [
+  {
+   "w_cb": 0.1,
+   "cells": {
+    "hold": {
+     "sharpe": 1.0183,
+     "cagr": 0.095442,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 1.0175,
+     "cagr": 0.096252,
+     "n_moves": 83,
+     "turnover_per_year": 0.0338
+    },
+    "quarterly": {
+     "sharpe": 1.0204,
+     "cagr": 0.096542,
+     "n_moves": 27,
+     "turnover_per_year": 0.0228
+    },
+    "annual": {
+     "sharpe": 1.019,
+     "cagr": 0.096749,
+     "n_moves": 6,
+     "turnover_per_year": 0.011
+    }
+   },
+   "best_rule": "quarterly",
+   "best_sharpe": 1.0204
+  },
+  {
+   "w_cb": 0.2,
+   "cells": {
+    "hold": {
+     "sharpe": 1.0467,
+     "cagr": 0.092108,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 1.0506,
+     "cagr": 0.093532,
+     "n_moves": 83,
+     "turnover_per_year": 0.0601
+    },
+    "quarterly": {
+     "sharpe": 1.0562,
+     "cagr": 0.094041,
+     "n_moves": 27,
+     "turnover_per_year": 0.0405
+    },
+    "annual": {
+     "sharpe": 1.0535,
+     "cagr": 0.094431,
+     "n_moves": 6,
+     "turnover_per_year": 0.0196
+    }
+   },
+   "best_rule": "quarterly",
+   "best_sharpe": 1.0562
+  },
+  {
+   "w_cb": 0.3,
+   "cells": {
+    "hold": {
+     "sharpe": 1.0431,
+     "cagr": 0.088714,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 1.0575,
+     "cagr": 0.090561,
+     "n_moves": 83,
+     "turnover_per_year": 0.0789
+    },
+    "quarterly": {
+     "sharpe": 1.065,
+     "cagr": 0.09122,
+     "n_moves": 27,
+     "turnover_per_year": 0.0531
+    },
+    "annual": {
+     "sharpe": 1.0622,
+     "cagr": 0.091763,
+     "n_moves": 6,
+     "turnover_per_year": 0.0257
+    }
+   },
+   "best_rule": "quarterly",
+   "best_sharpe": 1.065
+  },
+  {
+   "w_cb": 0.4,
+   "cells": {
+    "hold": {
+     "sharpe": 1.0037,
+     "cagr": 0.085256,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 1.0304,
+     "cagr": 0.087343,
+     "n_moves": 83,
+     "turnover_per_year": 0.0901
+    },
+    "quarterly": {
+     "sharpe": 1.039,
+     "cagr": 0.088086,
+     "n_moves": 27,
+     "turnover_per_year": 0.0606
+    },
+    "annual": {
+     "sharpe": 1.0377,
+     "cagr": 0.088743,
+     "n_moves": 6,
+     "turnover_per_year": 0.0294
+    }
+   },
+   "best_rule": "quarterly",
+   "best_sharpe": 1.039
+  },
+  {
+   "w_cb": 0.5,
+   "cells": {
+    "hold": {
+     "sharpe": 0.935,
+     "cagr": 0.081732,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 0.9701,
+     "cagr": 0.08388,
+     "n_moves": 83,
+     "turnover_per_year": 0.0939
+    },
+    "quarterly": {
+     "sharpe": 0.9789,
+     "cagr": 0.084644,
+     "n_moves": 27,
+     "turnover_per_year": 0.0631
+    },
+    "annual": {
+     "sharpe": 0.9801,
+     "cagr": 0.085368,
+     "n_moves": 6,
+     "turnover_per_year": 0.0307
+    }
+   },
+   "best_rule": "annual",
+   "best_sharpe": 0.9801
+  },
+  {
+   "w_cb": 0.6,
+   "cells": {
+    "hold": {
+     "sharpe": 0.85,
+     "cagr": 0.078139,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 0.8862,
+     "cagr": 0.080177,
+     "n_moves": 83,
+     "turnover_per_year": 0.0901
+    },
+    "quarterly": {
+     "sharpe": 0.8942,
+     "cagr": 0.0809,
+     "n_moves": 27,
+     "turnover_per_year": 0.0605
+    },
+    "annual": {
+     "sharpe": 0.8979,
+     "cagr": 0.081635,
+     "n_moves": 6,
+     "turnover_per_year": 0.0295
+    }
+   },
+   "best_rule": "annual",
+   "best_sharpe": 0.8979
+  },
+  {
+   "w_cb": 0.7,
+   "cells": {
+    "hold": {
+     "sharpe": 0.7611,
+     "cagr": 0.074474,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 0.7918,
+     "cagr": 0.076235,
+     "n_moves": 83,
+     "turnover_per_year": 0.0789
+    },
+    "quarterly": {
+     "sharpe": 0.7982,
+     "cagr": 0.07686,
+     "n_moves": 27,
+     "turnover_per_year": 0.0529
+    },
+    "annual": {
+     "sharpe": 0.8032,
+     "cagr": 0.07754,
+     "n_moves": 6,
+     "turnover_per_year": 0.0259
+    }
+   },
+   "best_rule": "annual",
+   "best_sharpe": 0.8032
+  },
+  {
+   "w_cb": 0.8,
+   "cells": {
+    "hold": {
+     "sharpe": 0.6764,
+     "cagr": 0.070734,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 0.6977,
+     "cagr": 0.072059,
+     "n_moves": 83,
+     "turnover_per_year": 0.0601
+    },
+    "quarterly": {
+     "sharpe": 0.7021,
+     "cagr": 0.072529,
+     "n_moves": 27,
+     "turnover_per_year": 0.0403
+    },
+    "annual": {
+     "sharpe": 0.7067,
+     "cagr": 0.073076,
+     "n_moves": 6,
+     "turnover_per_year": 0.0199
+    }
+   },
+   "best_rule": "annual",
+   "best_sharpe": 0.7067
+  },
+  {
+   "w_cb": 0.9,
+   "cells": {
+    "hold": {
+     "sharpe": 0.5998,
+     "cagr": 0.066916,
+     "n_moves": 0,
+     "turnover_per_year": 0.0
+    },
+    "every20": {
+     "sharpe": 0.6103,
+     "cagr": 0.067652,
+     "n_moves": 83,
+     "turnover_per_year": 0.0338
+    },
+    "quarterly": {
+     "sharpe": 0.6125,
+     "cagr": 0.067913,
+     "n_moves": 27,
+     "turnover_per_year": 0.0227
+    },
+    "annual": {
+     "sharpe": 0.6154,
+     "cagr": 0.068237,
+     "n_moves": 6,
+     "turnover_per_year": 0.0112
+    }
+   },
+   "best_rule": "annual",
+   "best_sharpe": 0.6154
+  }
+ ],
+ "grid_best": {
+  "w_cb": 0.3,
+  "rule": "quarterly",
+  "sharpe": 1.065,
+  "target_w_cb": 0.3,
+  "moves_the_answer": false
+ },
+ "reconciliation": {
+  "why": "the blend face's 30/70 number is a daily-rebalanced, zero-cost wallet; this face's own daily arm must land on it, or the two pages are not reading the same books",
+  "daily_here_sharpe": 1.0662,
+  "blend_best_sharpe": 1.0662,
+  "diff_sharpe": 0.0,
+  "matches": true
+ },
+ "recovery": {
+  "paper_sharpe": 1.0662,
+  "paid_cadence": "quarterly",
+  "paid_cadence_sharpe": 1.065,
+  "gap_sharpe": 0.0011,
+  "is_just_the_paper_number": true,
+  "sentence": "what the paid cadence buys is the paper number: the blend face's 1.066 assumes the wallet is walked back to 30/70 every day, and the best paid cadence lands at 1.065 -- so the edge is the price of not drifting, not a second source of return"
+ },
+ "verdict": {
+  "word": "REBALANCE_PAYS",
+  "gain_sharpe_vs_holding": 0.0219,
+  "best_paid_rule": "quarterly",
+  "cost_drag_pp_cagr": 0.0116,
+  "recovers_the_paper_number": true,
+  "sentence": "Rebalancing quarterly pays: Sharpe 1.065 against 1.043 for holding, after 0.01pp of cost drag, with 27 moves over the window (0.05 one-way turnover per year); what the paid cadence buys is the paper number: the blend face's 1.066 assumes the wallet is walked back to 30/70 every day, and the best paid cadence lands at 1.065 -- so the edge is the price of not drifting, not a second source of return"
+ },
+ "unverified": [
+  "the cadence is picked on the same window it is scored on (in-sample pick): a reader who adopts it should expect less than the printed edge",
+  "each parent's own unverified list still applies (etf pool survivorship, the cb book's close-fill assumption, its 2026 drawdown being one regime)",
+  "the move is charged at the bar close, not at the open a reader would use",
+  "tax, the underlying bid-ask and the whole-lot grid are not in this cost",
+  "a 2x per-side round trip is the stated floor; a real desk moving size pays more"
+ ]
+}

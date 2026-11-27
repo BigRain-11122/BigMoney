@@ -1328,6 +1328,61 @@ def main() -> int:
     except Exception as _e75:
         check("product: wallet years start together, and the last year says it is a slice (r2175)",
               False, repr(_e75)[:160])
+    # r2176: the blend page's own caliber line admitted that moving money between the two
+    # books was not modelled. This leg re-derives the three properties that make the new
+    # face honest rather than decorative: holding pays nothing, a paid cadence can never
+    # beat its own zero-cost arm, and the verdict cannot call a tie a gain.
+    try:
+        from config import PATHS as _P76
+        _f76 = os.path.join(_P76.results_dir, "book_pair_rebalance.json")
+        _bad76 = []
+        if not os.path.exists(_f76):
+            _bad76.append("results/book_pair_rebalance.json missing")
+        else:
+            with open(_f76, encoding="utf-8") as _fh76:
+                _r76 = json.load(_fh76) or {}
+            _t76 = float((_r76.get("target") or {}).get("value") or -1)
+            _rows76 = _r76.get("rules") or []
+            _by76 = {r["rule"]: r for r in _rows76}
+            if len(_rows76) < 4:
+                _bad76.append("only %d cadence(s) priced" % len(_rows76))
+            _h76 = _by76.get("hold")
+            if not _h76:
+                _bad76.append("no hold arm -- nothing to compare a paid cadence against")
+            else:
+                if _h76.get("n_moves") or _h76.get("turnover_one_way"):
+                    _bad76.append("hold arm claims it moved money")
+                if abs(float(_h76.get("final_w_cb") or 0) - _t76) < 1e-9:
+                    _bad76.append("hold ended exactly on target -- the drift story is empty")
+            for _row76 in _rows76:
+                if _row76["rule"] == "hold":
+                    continue
+                _zero76 = float((_row76.get("zero_cost") or {}).get("cagr") or 0.0)
+                if float(_row76["cagr"]) > _zero76 + 1e-12:
+                    _bad76.append("%s: paying to move raised its own CAGR" % _row76["rule"])
+                if float(_row76.get("cost_drag_pp_cagr") or 0) <= 0 and _row76.get("n_moves"):
+                    _bad76.append("%s: moved %d times and reports no cost"
+                                  % (_row76["rule"], _row76["n_moves"]))
+            _v76 = (_r76.get("verdict") or {})
+            _paid76 = [r for r in _rows76 if r["rule"] != "hold"]
+            _best76 = max(_paid76, key=lambda r: r["sharpe"], default=None)
+            if _best76 and _h76 and _best76["sharpe"] <= _h76["sharpe"] + 5e-3:
+                if _v76.get("word") in ("REBALANCE_PAYS", "REBALANCE_PAYS_A_LITTLE"):
+                    _bad76.append("verdict sells a gain the paid arms do not have")
+            if not (_r76.get("reconciliation") or {}).get("matches"):
+                _bad76.append("this face's daily arm does not land on the blend page")
+            _rp76 = _r76.get("recovery") or {}
+            if _rp76 and abs((float(_rp76.get("paper_sharpe") or 0)
+                              - float(_rp76.get("paid_cadence_sharpe") or 0))
+                             - float(_rp76.get("gap_sharpe") or 0)) > 2e-3:
+                _bad76.append("the paper-vs-paid gap does not follow its two numbers")
+        check("product: moving money between the books is priced, and a tie is not a gain (r2176)",
+              not _bad76, "; ".join(_bad76)[:220]
+              or "holding is free, no paid cadence beats its own zero-cost arm, "
+                 "the daily arm lands on the blend page")
+    except Exception as _e76:
+        check("product: moving money between the books is priced, and a tie is not a gain (r2176)",
+              False, repr(_e76)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than
