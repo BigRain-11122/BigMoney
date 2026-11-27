@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝把「两本书各自值不值得跟」接成「一个钱包分不分散」｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\book_pair_blend.json（2026-11-27 13:0x·selftest 19/19）+ qa/book-pair-blend-r2173.md｜下个里程碑＝(a) 30/70 混合同等风险下逐年分布单独量一次（≤48h）(b) heat 收盘窗首次真接管（≤48h·需 15:30 后）",
+ "CEO 三行": "当前活＝把「组合能不能扛 ETF 的坏年」从没观测变成有数，并把「这不叫对冲叫稀释」写进面｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\book_pair_worst_windows.md（2026-11-27 17:05·selftest 12/12）＋ qa/book-pair-worst-windows-r2179.md｜下个里程碑＝(a) 接链腿＋补冒烟腿（≤24h·需共享面空出）(b) heat 收盘窗首次真接管（≤48h）",
  "active_lane": "lane freshness: who is supposed to move the panel",
  "activity": "product",
- "activity_now": "r2172 cb_book_ticket_floor: the dual-low book priced at the lot level (rung 25,850 CNY; <=2% stranded only at 518,625)",
- "activity_now_round": 2172,
+ "activity_now": "r2179 book_pair_worst_windows: the split cushions the etf's worst 12 months by 1.65pp but wins only 16 of its 32 losing months -- dilution, not a hedge",
+ "activity_now_round": 2179,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -40,10 +40,11 @@
   "workers": 6
  },
  "artifacts": [
-  "scripts/cb_book_ticket_floor.py",
-  "results/cb_book_ticket_floor.json",
-  "research/CB_BOOK_TICKET_FLOOR.md",
-  "qa/cb-book-ticket-floor-r2172.md"
+  "scripts/book_pair_worst_windows.py",
+  "results/book_pair_worst_windows.json",
+  "results/book_pair_worst_windows.md",
+  "research/BOOK_PAIR_WORST_WINDOWS.md",
+  "qa/book-pair-worst-windows-r2179.md"
  ],
  "attrition": "scan CLEAN (4 ledgers, 3 historical shrinks healed)",
  "batch": "none (contended round, no compute batch)",
@@ -1723,7 +1724,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2178,
+ "round_no": 2179,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",

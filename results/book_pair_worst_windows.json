@@ -1,0 +1,292 @@
+{
+ "face": "book_pair_worst_windows",
+ "generated_at": "2026-11-27T17:05:16+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "where does the ETF book actually get hurt, and does the 30/70 split hold on exactly those bars?",
+ "opens": "results/book_pair_years.json unverified[?]: 'etf has no negative year' -- this face is the observed-data attempt to close it",
+ "sleeve": {
+  "w_cb": 0.3,
+  "w_etf": 0.7,
+  "chosen_by": "results/book_pair_blend.json best.w_cb (not re-chosen here)"
+ },
+ "window": {
+  "first": "2020-01-06",
+  "last": "2026-11-26",
+  "bars": 1670,
+  "window_bars": 252,
+  "note": "rolling windows are 252 bars wide, stepped one bar; they overlap heavily, so their spread is not a sample of independent years"
+ },
+ "method": {
+  "a_rolling": "worst 252-bar window per column; the other two columns are read at the same start/end dates so the comparison is on identical bars",
+  "b_months": "every calendar month the ETF book ends down; each column's return over the same month (from month-end to month-end levels)",
+  "no_synthesis": "no return is scaled, shuffled or invented -- if the ETF book never lost 12 months in a row, the face says so instead of manufacturing one"
+ },
+ "inputs": {
+  "cb_panel": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+   "size": 25433554,
+   "mtime": "2026-11-27T11:34:31"
+  },
+  "blend_face": {
+   "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\book_pair_blend.json",
+   "size": 13535,
+   "mtime": "2026-11-27T16:14:48"
+  },
+  "blend_dep": {
+   "w_cb": 0.3,
+   "window_last": "2026-11-26"
+  }
+ },
+ "rolling": {
+  "worst_etf_window": {
+   "start": "2021-09-10",
+   "end": "2022-09-27",
+   "etf": -0.06616146897849395,
+   "blend": -0.04972384860517953,
+   "cb": -0.018343409170040625
+  },
+  "worst_blend_window": {
+   "start": "2025-11-12",
+   "end": "2026-11-26",
+   "blend": -0.062000565176342226,
+   "etf": -0.0012851937741378272,
+   "cb": -0.194332712753156
+  },
+  "worst_cb_window": {
+   "start": "2025-11-12",
+   "end": "2026-11-26",
+   "ret": -0.194332712753156
+  },
+  "n_windows": 1419,
+  "n_negative_etf_windows": 78,
+  "worst_etf_window_beats": "the ETF's worst 252 bars in the sample"
+ },
+ "negative_months": {
+  "n": 32,
+  "cushioned": 16,
+  "mean_etf": -0.014120556229228864,
+  "mean_blend": -0.009832538394171763,
+  "mean_cb": 0.00010787625153841837,
+  "worst_blend_month": {
+   "month": "2026-11",
+   "etf": -0.031022783866024417,
+   "cb": -0.051200134984694334,
+   "blend": -0.03699501049994858
+  },
+  "rows": [
+   {
+    "month": "2020-02",
+    "etf": -0.02060876847822002,
+    "cb": 0.04076071205094678,
+    "blend": -0.0022341151921473346
+   },
+   {
+    "month": "2020-03",
+    "etf": -0.025716839978716877,
+    "cb": 0.07050905732761037,
+    "blend": 0.0032730727900933676
+   },
+   {
+    "month": "2020-09",
+    "etf": -0.033300930474939205,
+    "cb": -0.04097813103558268,
+    "blend": -0.03531588991619927
+   },
+   {
+    "month": "2020-12",
+    "etf": -0.013395117139167856,
+    "cb": -0.03772782957553644,
+    "blend": -0.020499787910585265
+   },
+   {
+    "month": "2021-05",
+    "etf": -0.0017383242709464453,
+    "cb": 0.052794934727378395,
+    "blend": 0.014421361118204246
+   },
+   {
+    "month": "2021-06",
+    "etf": -0.03291078564987837,
+    "cb": 0.005460654802140086,
+    "blend": -0.021432077289533447
+   },
+   {
+    "month": "2021-07",
+    "etf": -0.004822096231291928,
+    "cb": 0.052220007796114576,
+    "blend": 0.012119239260171888
+   },
+   {
+    "month": "2022-01",
+    "etf": -0.018526196381913773,
+    "cb": 0.005979047099734736,
+    "blend": -0.01094416401084386
+   },
+   {
+    "month": "2022-04",
+    "etf": -0.033805921027992514,
+    "cb": -0.04026861324024644,
+    "blend": -0.0355121102056728
+   },
+   {
+    "month": "2022-05",
+    "etf": -0.004865568056271474,
+    "cb": 0.009488293598822306,
+    "blend": -0.0005261597473523727
+   },
+   {
+    "month": "2022-07",
+    "etf": -0.004617168634894697,
+    "cb": 0.014681431881914175,
+    "blend": 0.001188977627127441
+   },
+   {
+    "month": "2022-08",
+    "etf": -0.0032941131658462686,
+    "cb": -0.023436077775503383,
+    "blend": -0.009326426686081524
+   },
+   {
+    "month": "2022-09",
+    "etf": -0.0076386788856267485,
+    "cb": -0.005036229171784368,
+    "blend": -0.006792426428141263
+   },
+   {
+    "month": "2022-10",
+    "etf": -0.004289877675328291,
+    "cb": -0.008314388437509868,
+    "blend": -0.005421719811507186
+   },
+   {
+    "month": "2023-02",
+    "etf": -0.005510296137945181,
+    "cb": -0.014845523062783972,
+    "blend": -0.008240839186158366
+   },
+   {
+    "month": "2023-03",
+    "etf": -0.004565772231480136,
+    "cb": -0.0029898303768545187,
+    "blend": -0.004039025425980891
+   },
+   {
+    "month": "2023-08",
+    "etf": -0.009167882675454653,
+    "cb": -0.009838917985030116,
+    "blend": -0.009172444604432228
+   },
+   {
+    "month": "2023-09",
+    "etf": -0.0211298346940344,
+    "cb": -0.004196474262987859,
+    "blend": -0.016005955476925404
+   },
+   {
+    "month": "2023-10",
+    "etf": -0.015488997670044413,
+    "cb": -0.025735955656537635,
+    "blend": -0.018498439882829176
+   },
+   {
+    "month": "2023-11",
+    "etf": -0.010142692640091155,
+    "cb": 0.015344192330959627,
+    "blend": -0.002519694263937944
+   },
+   {
+    "month": "2024-07",
+    "etf": -0.011980788318491031,
+    "cb": 0.0083709670046761,
+    "blend": -0.005517603608062083
+   },
+   {
+    "month": "2024-08",
+    "etf": -0.020085723176453518,
+    "cb": 0.00027966943003465694,
+    "blend": -0.013768485759629856
+   },
+   {
+    "month": "2024-09",
+    "etf": -0.03125415195607484,
+    "cb": 0.1303453326884041,
+    "blend": 0.015475750564781121
+   },
+   {
+    "month": "2025-05",
+    "etf": -0.010581293520232848,
+    "cb": 0.02744740250709876,
+    "blend": 0.000729367276802062
+   },
+   {
+    "month": "2025-11",
+    "etf": -0.004126195039275138,
+    "cb": -0.005982026056949419,
+    "blend": -0.004539644227304573
+   },
+   {
+    "month": "2026-02",
+    "etf": -0.007587274744370265,
+    "cb": -0.013377108714318964,
+    "blend": -0.00923674659729734
+   },
+   {
+    "month": "2026-03",
+    "etf": -0.02580366547179569,
+    "cb": -0.05329590710655108,
+    "blend": -0.03387792782793331
+   },
+   {
+    "month": "2026-06",
+    "etf": -0.012275499857226535,
+    "cb": -0.026501191376913646,
+    "blend": -0.01647629091339886
+   },
+   {
+    "month": "2026-08",
+    "etf": -0.0027981274105439713,
+    "cb": -0.003179537507029706,
+    "blend": -0.002857053133625498
+   },
+   {
+    "month": "2026-09",
+    "etf": -0.009251670814168445,
+    "cb": -0.02615516018113484,
+    "blend": -0.014321944900359984
+   },
+   {
+    "month": "2026-10",
+    "etf": -0.00955476306058256,
+    "cb": -0.037170626688656005,
+    "blend": -0.017777013744788128
+   },
+   {
+    "month": "2026-11",
+    "etf": -0.031022783866024417,
+    "cb": -0.051200134984694334,
+    "blend": -0.03699501049994858
+   }
+  ],
+  "rows_truncated": false
+ },
+ "reconciliation": {
+  "cagr": {
+   "published": 0.090745109,
+   "mine": 0.09074510899568122,
+   "diff": -4.318781443579667e-12,
+   "matched": true
+  },
+  "sharpe": {
+   "published": 1.0661818364,
+   "mine": 1.0661818364354982,
+   "diff": 3.5498270989364755e-11,
+   "matched": true
+  }
+ },
+ "verdict": "CUSHION_PARTIAL",
+ "unverified": [
+  "a bad month is not a bad year: the month test says how the split behaves on the ETF's losing months, not on a sustained year-long drawdown it has never had",
+  "rolling 252-bar windows overlap (1670 windows over 7 years), so the worst-window quantile is a description of this path, not an estimate of a distribution",
+  "the 30/70 weight is the parent's in-sample optimum, inherited here without re-testing"
+ ]
+}
