@@ -295,11 +295,11 @@
  "last_orders_read_at": "2026-11-27T02:03:24+08:00",
  "last_orders_read_note": "r1645: orders_delta=true (74,283 B, +1,617 B vs watermark 72,666 B); tail rows are the 11-13 21:55 BigStream mv0001 row already consumed at r1642 -> zero BigMoney action; fleet/orders 114 files vs 241 acks, unacked=[]",
  "last_orders_seen": "3fa305a67467413d0c34d2de7458124b0bcec84368fb8983fcd265938d53edc8",
- "last_orders_sha": "fcbd99d7915f9af6d60989f5bc9c61608b72f980867c59981e241d9d66af9303",
+ "last_orders_sha": "9ff2f31c4d38d3926e2a0de4e390c9272d63915f0af264b735992b58b36984b8",
  "last_orders_sha1": "110e2839",
  "last_orders_sha_method": "content-bytes sha256 of git cat-file blob origin/main:docs/orders.md (no 2>&1, no PS string round-trip: r1911/r2048)",
  "last_orders_sha_note": "r1868: orders_delta=true consumed from origin blob (sha256 1838670b703a2e07); the ack set is unchanged and the stem-normalised difference against fleet/orders/*.md is 0 (--bm-x suffix vs timestamp-only ack forms; strict full-name matching would report 100 phantom gaps, all of them older than 2026-10-27).",
- "last_orders_watermark": "fcbd99d7915f9af6@d4e4882/111934",
+ "last_orders_watermark": "9ff2f31c4d38d392@115550B",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d4e48822b93ede592a90ed5188e40521e7a7180a/111934#fcbd9",
  "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "last_pointer": "r1719 cash forward window (next session -> next order)",
@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2204,
+ "round_no": 2205,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2898,5 +2898,6 @@
  "记账_r2203": "轮报1 + QA1 + results1 + research1 + 脚本1 + 链文件1 + 方法论卡1 + state1 + 心跳1",
  "下个里程碑_r2203": "共享面回落补 CEO 页小节（ceo_live_usage.py 三面新节 + 冒烟腿），窗 ≤48h",
  "last_verdict": "A_YEAR_IS_A_RANGE_NOT_A_NUMBER",
- "last_face": "results/three_book_wallet_ride.json"
+ "last_face": "results/three_book_wallet_ride.json",
+ "watermark_note_r2205": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders.md advanced to sha256 9ff2f31c4d38d392 (115,550B): new rows are MacBook 主控 lane rebuild (5 lanes + compute broker) and the T0 net-selfheal broadcast already receipted by bm-c (cph4/fleet/receipts/net-bm-c-20261127.md on origin) -> zero quant rows, zero execution; fleet/orders 119 files vs heartbeat ack -> unacked 0; fleet/inbox empty; contention CLEAN (single host); orphans 0"
 }

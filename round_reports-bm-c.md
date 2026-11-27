@@ -2844,9 +2844,11 @@ ot_claimed 都写死这句）。
 **验证证据**：
 un rc0，四行 identity 全 OK（cagr 0.065078 / sharpe 1.060401 / vol 0.061235 / maxdd -0.067237 与父面 est_inside_gate 逐位相同，容差 5e-6）；check rc0（无上游漂移 + 判词重算一致）；selftest **13/13**（含 4 条行为腿：动上游 stamp→STALE rc3、identity 置红→CHECK FAILED rc2 且文本不含 STALE、改判词→rc2、分位失序→rc2）；S6 新链腿 --only=three_book_wallet_ride **1/1 rc0 0.7s**；冒烟谓词 	hree_book_wallet_ride_problems() = []，负控改 	oday.hole 立刻报 2 条。
 **S0/S0.5 实况**：machine.json=bm-c；
-epo_write_contention --lookback-min 45 = **rc0 CLEAN**（fewer than two codely hosts alive，本宿主 pid 24152）→ 共享面可写；孤儿面 **orphans=0**（py_faces 3 / resident_servers 1）；orders 119 件 vs 心跳 ack 337 → **未回执差集 0**；集团 docs/decisions.md 原生字节 250,586B sha256 79e3083b85c1… == 自持水位（12 位前缀）→ **零新决策零动作**；leet/inbox 无件；saturation_engine status rc0 alive（last_verdict=idle, claimable 0）；watermark 
+epo_write_contention --lookback-min 45 = **rc0 CLEAN**（fewer than two codely hosts alive，本宿主 pid 24152）→ 共享面可写；孤儿面 **orphans=0**（py_faces 3 / resident_servers 1）；orders 119 件 vs 心跳 ack 337 → **未回执差集 0**；集团 docs/decisions.md 原生字节 250,586B sha256 79e3083b85c1… == 自持水位（12 位前缀）→ **零新决策零动作**；
+leet/inbox 无件；saturation_engine status rc0 alive（last_verdict=idle, claimable 0）；watermark 
 ed=false lane=healthy。
 **记账**：轮报告 1 + QA 1 + results 1 + research 1 + 脚本 1 + 链文件 1 + 冒烟腿 1 + 方法论卡 1 + state 1 + 心跳 1。
 **未做 / 不宣称**：全量冒烟（~1000s）未跑，只跑本面的判定函数与负控；S6 全链 388 腿未整跑（只 --only= 一条验接线）——**禁读成已全绿**；本面是 2020-2026 样本内路径形状，不是预测；carry 仍是「已对冲超额、毛口径」，真对冲要第二个账户（父面口径，不重估）。
 
 | 2026-11-28T05:2x+08:00 | 2204 | 钱包「持有一年是什么感觉」：1421 个起点各持 250 bar → 中位 6.44%/中间 80% 1.46~17.69%/4.2% 起点亏钱/最差 -4.67%；今天恰好是整窗最深一格 -6.72%（前高 2026-01-29，301 天前）；跨臂只按自身 sigma 比（2.65σ vs carry 2.14σ） | run rc0 四行 identity 逐位同父面；check rc0；selftest 13/13；S6 新腿 1/1 rc0 0.7s；冒烟谓词 [] + 负控 1 条；竞争 CLEAN；孤儿面 0；未回执 0；decisions 水位零新 | 下一轮：把「今天在最深一格」接进 CEO 一页纸 + 全量冒烟窗口 |
+| 2026-11-28T06:00+08:00 | 2205 | CEO 一页纸新增 ⑩c「这本书拿到手里，一年是什么感觉」：1421 个起点各持一年中位 6.44%、中间 80% 1.46~17.69%、4.2% 起点亏钱、最差 -4.67%；两年中位 13.98% 零亏钱起点；90.8% 的交易日在前高之下、最长一段 207 bar（307 天）、最深 -6.72% 到窗口末未收回；**今天恰好就是整窗最深一格**（前高 2026-01-29·301 天前）；跨臂只按自身 sigma 比 2.65σ vs carry 2.14σ | run rc0；ceo_live_usage selftest ALL PASS（13 条红全部是「面落后一档」：容量面/at-size/premium_leak/premium_choice 重建后归零）；冒烟谓词 ceo_page_wallet_ride_problems=[] 且负控报 31.00%；探针 selftest 5/5、链腿 ceo_page_wallet_ride rc0 0.1s；page_repeat_guard 0 repeated；attrition CLEAN；竞争 CLEAN；孤儿面 0；未回执 0；decisions 水位零新；orders 前进到 9ff2f31c（MacBook 车道重建行，零量化工单） | 下一轮：S6 全链 rc 收口 + 45 条 smoke 红按链结果复判 |

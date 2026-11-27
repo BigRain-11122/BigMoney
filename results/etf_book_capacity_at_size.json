@@ -2,18 +2,18 @@
  "artifact": "etf_book_capacity_at_size",
  "face": "results/etf_book_capacity_at_size.json",
  "script": "scripts/etf_book_capacity_at_size.py",
- "ticket_file": "results/etf_book_order/TICKET-2026-11-26.json",
- "ticket_stem": "2026-11-26",
- "bar": "2026-11-26",
- "panel_bar": "2026-11-26",
- "evidence_cutoff": "2026-11-26",
+ "ticket_file": "results/etf_book_order/TICKET-2026-11-27.json",
+ "ticket_stem": "2026-11-27",
+ "bar": "2026-11-27",
+ "panel_bar": "2026-11-27",
+ "evidence_cutoff": "2026-11-27",
  "book_weight": 0.435003,
- "cash_cny": 565316.0,
+ "cash_cny": 565344.3,
  "published": {
   "lens": "1M",
   "capital_cny": 1000000.0,
   "per_name_cny": 200000.0,
-  "impact_pct_of_adv": 0.924
+  "impact_pct_of_adv": 0.2027
  },
  "criteria": {
   "line_pct": 1.0,
@@ -25,68 +25,70 @@
  "rows": [
   {
    "sym": "510760",
-   "amount_cny": 86927.1,
-   "lots": 719,
+   "amount_cny": 86996.9,
+   "lots": 691,
    "adv_cny": 585475864.33,
-   "share": 0.00014847255932382922
+   "share": 0.00014859177858503547
   },
   {
    "sym": "512040",
-   "amount_cny": 86992.4,
-   "lots": 748,
+   "amount_cny": 86933.8,
+   "lots": 733,
    "adv_cny": 221578063.88,
-   "share": 0.00039260384568898417
+   "share": 0.0003923393790762988
   },
   {
    "sym": "159655",
-   "amount_cny": 86907.2,
-   "lots": 464,
+   "amount_cny": 86862.6,
+   "lots": 451,
    "adv_cny": 199274956.99,
-   "share": 0.0004361170179727548
+   "share": 0.0004358932066084308
   },
   {
    "sym": "513690",
-   "amount_cny": 86991.3,
-   "lots": 783,
+   "amount_cny": 86916.4,
+   "lots": 788,
    "adv_cny": 98585557.15,
-   "share": 0.0008823939582513177
+   "share": 0.0008816342120758607
   },
   {
    "sym": "159519",
-   "amount_cny": 86866.0,
-   "lots": 514,
+   "amount_cny": 86946.0,
+   "lots": 516,
    "adv_cny": 25214482.9,
-   "share": 0.0034450835396668002
+   "share": 0.0034482563193869824
   }
  ],
  "summary": {
   "n_names": 5,
   "n_measurable": 5,
   "line_pct": 1.0,
-  "spent_cny": 434684.0,
-  "reading_pct": 0.3445,
+  "spent_cny": 434655.7,
+  "reading_pct": 0.3448,
   "binding": "159519",
-  "headroom_cny_at_line": 1261751.7,
+  "headroom_cny_at_line": 1260508.67,
   "verdict": "ADMIT_AT_THIS_SIZE",
-  "binding_amount_cny": 86866.0,
-  "headroom_multiple": 2.9026872309073743,
+  "binding_amount_cny": 86946.0,
+  "headroom_multiple": 2.900016435488694,
   "unmeasurable": [],
   "rejected_amounts": []
  },
  "name_set": {
   "same_book": false,
-  "n_overlap": 1,
+  "n_overlap": 0,
   "only_in_ticket": [
    "159519",
    "159655",
    "510760",
-   "512040"
+   "512040",
+   "513690"
   ],
   "only_in_published": [
-   "159207",
-   "159549",
-   "515300",
-   "562060"
+   "159887",
+   "512820",
+   "515020",
+   "515290",
+   "515300"
   ]
  },
  "pricing": {
@@ -95,32 +97,32 @@
   "cost_per_side_bp": 13.041,
   "sell_side_bp": 13.041,
   "money": {
-   "spent_cny": 434684.0,
-   "entry_cost_cny": 566.87,
-   "exit_cost_cny": 566.87,
-   "round_trip_cost_cny": 1133.74,
+   "spent_cny": 434655.7,
+   "entry_cost_cny": 566.83,
+   "exit_cost_cny": 566.83,
+   "round_trip_cost_cny": 1133.67,
    "round_trip_cost_pct_of_order": 0.2608
   }
  },
- "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3445%，闸线 1.00% → **过线**。注意：准入面印的 0.9240% 是**另一组名字**量的（只有 1 个重合，它量的是 159207、159549、515300、562060），两个数不是同一把尺子上的同一件事。",
+ "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3448%，闸线 1.00% → **过线**。注意：准入面印的 0.2027% 是**另一组名字**量的（只有 0 个重合，它量的是 159887、512820、515020、515290、515300），两个数不是同一把尺子上的同一件事。",
  "caveats": [
   "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
   "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
   "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
   "「装得下」不等于「免费」：pricing.money 一行给出这张单自己的双边成本（费率单源 knowledge.cost_spec，禁手抄）",
-  "放大倍数 x2.9027 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
+  "放大倍数 x2.9000 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
  ],
  "inputs": {
   "signature": {
    "daily_files": 1725,
-   "daily_bytes": 93446959,
-   "daily_newest_mtime_ns": 1795695470149589700,
+   "daily_bytes": 93545070,
+   "daily_newest_mtime_ns": 1795781735498100100,
    "daily_names_sha": "469d156b7e2bda77",
-   "ticket": "TICKET-2026-11-26.json",
-   "ticket_sha": "0c845612b2f55850ab1ebd6aa6f85d3e5535f9a7a75257f95158205f7974a8b1",
+   "ticket": "TICKET-2026-11-27.json",
+   "ticket_sha": "11e241ad7e07d680d7c5efb81af755254f3ed2441e39ed071ff47aad254df71b",
    "status_sha": "faf88fd57a83c8bac12ee8877ee8147d1369ba2e5eadeca807e5eb04c77c6315",
    "script_sha": "e4f175619c4030d1ced347e74936fa3c5fc7db47adc78334446e699ce34e83e0"
   },
-  "key": "31b0cf0138916abe63a426ad7f6e5f75efc0d217a5363b9629f2e039c530ff18"
+  "key": "cff60872daed5b77456b65df4347b9e26d5d9f6177f18558ddac148607c4c07b"
  }
 }

@@ -16714,6 +16714,134 @@ def _legs_supply_and_book():
         check("product: the wallet's ride is measured, printed, and still the parent's book",
               False, repr(e)[:180])
 
+    # r2205: r2204 measured the ride and printed it in research/, but the page a reader
+    # actually opens still answered "what does holding this feel like?" with nothing.
+    # The section exists now; the questions from the files: does the CEO page carry the
+    # section at all, does every number in it come from the ride face (not a hand
+    # transcription), and does the section name the generation of the face it quoted.
+    try:
+        _bad104 = ceo_page_wallet_ride_problems()
+        check("product: the CEO page prints what a year of holding the wallet feels like",
+              not _bad104, "; ".join(_bad104)[:240]
+              or "section carries the ride face's hole, hold bands, underwater path and its own generation")
+        _neg104 = ceo_page_wallet_ride_problems(
+            face_override={"today": {"hole": -0.31, "last_bar": "2026-11-26",
+                                     "peak_on": "2026-01-29", "days_since_peak": 301,
+                                     "at_the_deepest_point": True}})
+        check("product: the ride-on-the-page predicate speaks when the numbers drift",
+              len(_neg104) >= 1, "negative control: %r" % (_neg104,))
+    except Exception as e:
+        check("product: the CEO page prints what a year of holding the wallet feels like",
+              False, repr(e)[:180])
+
+
+def ceo_page_wallet_ride_problems(face_override=None, root=None):
+    """Does the reader's page carry the ride, with the ride face's own numbers? (r2205)
+
+    The section is quoted, not recomputed, so the question is a transcription question:
+    every number printed in ⑩c must equal the number the face publishes for that field,
+    the section must stamp the face's own `generated` (r1781: a section fed by another
+    script prints its source's clock, or it silently shows the previous trip), and it
+    must say which bar "today" is.  When the page carries an older generation -- the
+    ride leg runs after the page leg, so a fresh face exists before the page is rebuilt
+    -- the predicate verifies the stamp the section prints is the one the page JSON
+    holds, instead of comparing it against the newer face.
+    """
+    root = root or os.path.dirname(os.path.abspath(__file__))
+    problems = []
+    fp = os.path.join(root, "results", "three_book_wallet_ride.json")
+    mp = os.path.join(root, "docs", "live_usage", "LIVE-latest.md")
+    jp = os.path.join(root, "docs", "live_usage", "LIVE-latest.json")
+    for p, name in ((fp, "results/three_book_wallet_ride.json"),
+                    (mp, "docs/live_usage/LIVE-latest.md"),
+                    (jp, "docs/live_usage/LIVE-latest.json")):
+        if not os.path.exists(p):
+            problems.append("%s missing" % name)
+    if problems:
+        return problems
+    with open(fp, encoding="utf-8") as fh:
+        face = json.load(fh) or {}
+    with open(jp, encoding="utf-8") as fh:
+        page = json.load(fh) or {}
+    with open(mp, encoding="utf-8") as fh:
+        md = fh.read()
+    if face_override:
+        face = json.loads(json.dumps(face))
+        for k, v in (face_override or {}).items():
+            if isinstance(v, dict) and isinstance(face.get(k), dict):
+                face[k].update(v)
+            else:
+                face[k] = v
+
+    head = md.find("⑩c")
+    tail = md.find("⑪ 诚实免责")
+    if head < 0 or tail < 0 or tail <= head:
+        return ["page carries no ⑩c section before ⑪"]
+    sec = md[head:tail]
+
+    wallet = ((face.get("arms") or {}).get("wallet") or {})
+    today = face.get("today") or {}
+    uw = wallet.get("underwater") or {}
+    y1 = ((wallet.get("hold") or {}).get("1y") or {})
+    y2 = ((wallet.get("hold") or {}).get("2y") or {})
+
+    # 1. the page's own payload must have quoted a ride face at all
+    pw = page.get("wallet_ride") or {}
+    if not pw.get("present"):
+        problems.append("page payload carries no wallet_ride block")
+    # 2. numbers: the page may legitimately lag one generation (the ride leg runs after
+    #    the page leg), so compare only when the page quoted the same generation; when it
+    #    quoted an older one, the one thing still verifiable is that it names that stamp.
+    if pw.get("generated") and face.get("generated") and pw["generated"] != face["generated"]:
+        if pw["generated"] not in sec:
+            problems.append("section does not stamp the generation it quoted (%r)"
+                            % (pw.get("generated"),))
+        return problems
+    src_today, src_uw, src_1y = today, uw, y1
+    if face.get("generated") and face["generated"] not in sec:
+        problems.append("section does not stamp the face's own generated %r"
+                        % (face.get("generated"),))
+
+    hole = src_today.get("hole")
+    if hole is None:
+        problems.append("face publishes no today.hole")
+    else:
+        want = "%.2f%%" % (abs(hole) * 100.0)
+        if want not in sec:
+            problems.append("section does not print today's hole %s" % want)
+        if not src_today.get("last_bar") or src_today["last_bar"] not in sec:
+            problems.append("section does not name the bar 'today' is")
+
+    if src_1y.get("median") is not None:
+        for field in ("median", "p10", "p90"):
+            want = "%.2f%%" % (float(src_1y[field]) * 100.0)
+            if want not in sec:
+                problems.append("section does not print 1y %s %s" % (field, want))
+        want = "%.1f%%" % (float(src_1y.get("pct_losing") or 0.0) * 100.0)
+        if want not in sec:
+            problems.append("section does not print the share of losing starts %s" % want)
+    else:
+        problems.append("face publishes no 1y hold block")
+
+    if src_uw.get("pct_days_below_peak") is not None:
+        want = "%.1f%%" % (float(src_uw["pct_days_below_peak"]) * 100.0)
+        if want not in sec:
+            problems.append("section does not print the underwater share %s" % want)
+        bars = src_uw.get("longest_spell_bars")
+        if bars and str(bars) not in sec:
+            problems.append("section does not print the %s-bar longest underwater spell" % bars)
+    else:
+        problems.append("face publishes no underwater path")
+
+    if y2.get("median") is not None:
+        want = "%.2f%%" % (float(y2["median"]) * 100.0)
+        if want not in sec:
+            problems.append("section does not print the 2y median %s" % want)
+
+    if (face.get("path") or "results/three_book_wallet_ride.json") not in sec:
+        problems.append("section does not point at the face it quotes")
+    return problems
+
 
 def three_book_wallet_ride_problems(face_override=None, root=None):
     """Does the ride face still describe the parent's book, and does its page say so? (r2204)

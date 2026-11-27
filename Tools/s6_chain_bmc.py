@@ -2934,6 +2934,15 @@ LEGS = [
     ("three_book_wallet_ride",
      ["python", "scripts/three_book_wallet_ride.py", "check"],
      ["python", "scripts/three_book_wallet_ride.py", "run"]),
+    # r2205: the CEO page now prints section ⑩c from the ride face, but the page leg runs
+    # ~950 legs earlier in this table, so the rebuild above leaves the reader's page one
+    # generation behind and only its stamp says so (r1781). This probe closes the loop with
+    # one cheap question -- is the ride face newer than the page that quotes it? -- and pays
+    # for the rebuild the same round it happens. Its check speaks STALE (rc3) on drift, so
+    # run_leg heals; a page that is already current costs a stat() and nothing else.
+    ("ceo_page_wallet_ride",
+     ["python", "Tools/probe_ceo_page_wallet_ride.py", "check"],
+     ["python", "Tools/probe_ceo_page_wallet_ride.py", "run"]),
     # r2203: three faces that were published and never wired. The first two are exactly the
     # pair the carrier debt kept listing round after round (r2197 / r2199); the third is the
     # gate that would have caught r2202 by itself instead of by accident. import_git_coverage

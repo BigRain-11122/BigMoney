@@ -251,6 +251,17 @@ CUSHION_REL = "results/book_pair_cushion_regime.json"
 SLEEVE_RULER_JSON = os.path.join(ROOT, "results", "book_pair_sleeve_premium.json")
 SLEEVE_RULER_REL = "results/book_pair_sleeve_premium.json"
 
+# r2205: ⑥/⑧/⑨/⑩ price the books and how to split the money, and every one of them
+# answers with a rate -- nothing on this page said what HOLDING the wallet feels like.
+# results/three_book_wallet_ride.json measures exactly that on the parent's own window
+# (hold-period bands, the underwater path) and, on 2026-11-26, it found the published
+# book sitting in the deepest hole of the whole window.  That sentence lived only in
+# research/ until now (r1782: a reading that is not on the reader's page is not a
+# product).  Quoted, never re-derived; the section stamps the face's own generation
+# because the ride leg runs AFTER this one in the chain (r1781 ordering law).
+WALLET_RIDE_JSON = os.path.join(ROOT, "results", "three_book_wallet_ride.json")
+WALLET_RIDE_REL = "results/three_book_wallet_ride.json"
+
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
 # zero lots" lived in a research file.  The reader needs the funding line that
@@ -2697,6 +2708,57 @@ def _sleeve_ruler_second_opinion_face():
     return out
 
 
+def _wallet_ride_face():
+    """r2205: what a year of holding the recommended wallet feels like (quoted).
+
+    Every other wallet block on this page answers with a rate.  A reader funding the
+    book asks a different question -- "what will I sit through?" -- and the answer is a
+    range plus a path, not a number.  `results/three_book_wallet_ride.json` measures
+    three things on the parent wallet's own window: the distribution of returns over
+    fixed hold periods from every start date, the underwater path (how often below the
+    previous high, the longest spell, the deepest hole and whether it recovered), and
+    today's position inside that path.  This function quotes it; the page prints it and
+    stamps the face's own generated/cutoff (r1781), because the ride leg runs after the
+    page leg in the chain and an unstamped section would silently show the last trip.
+    """
+    d = _read_json(WALLET_RIDE_JSON)
+    if not d:
+        return {"present": False, "path": WALLET_RIDE_REL,
+                "note": "钱包持有期面未产出（缺面不读 0）"}
+    arms = d.get("arms") or {}
+    wallet = arms.get("wallet") or {}
+    hold = wallet.get("hold") or {}
+
+    def _block(key):
+        b = hold.get(key) or {}
+        return {} if b.get("status") == "short" else b
+
+    uw = wallet.get("underwater") or {}
+    today = d.get("today") or {}
+    ident = d.get("identity_vs_parent") or {}
+    return {
+        "present": True,
+        "path": WALLET_RIDE_REL,
+        "generated": d.get("generated"),
+        "cutoff": d.get("evidence_cutoff"),
+        "window": d.get("window") or {},
+        "today": {k: today.get(k) for k in
+                  ("last_bar", "equity", "peak", "hole", "peak_on",
+                   "bars_since_peak", "days_since_peak", "at_the_deepest_point")},
+        "hold_6m": _block("6m"),
+        "hold_1y": _block("1y"),
+        "hold_2y": _block("2y"),
+        "underwater": {k: uw.get(k) for k in
+                       ("pct_days_below_peak", "longest_spell_bars",
+                        "longest_spell_days", "longest_spell_from",
+                        "longest_spell_to", "deepest", "deepest_on", "recovered")},
+        "band": d.get("band_in_own_sigmas_1y") or {},
+        "identity_ok": (all(bool(v.get("ok")) for v in ident.values())
+                        if ident else None),
+        "not_claimed_n": len(d.get("not_claimed") or []),
+    }
+
+
 # ---------------------------------------------------------------- v2.1 ----
 # Freshness (r1281).  Every section already prints its own asof, but nothing on
 # the page said HOW OLD those numbers are relative to the market the reader is
@@ -3183,6 +3245,10 @@ def build_payload(day: str) -> dict:
         # 20 cheapest bonds, so the same rule priced on its own premium is a second
         # opinion the reader must see beside the first, not instead of it.
         "sleeve_ruler_second_opinion": _sleeve_ruler_second_opinion_face(),
+        # r2205: every wallet block above answers with a rate.  What a person funding
+        # it asks is what a year of holding FEELS like -- a range and a path, and on
+        # 2026-11-26 the book sat in the deepest hole of its published life.
+        "wallet_ride": _wallet_ride_face(),
         # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
         # rulers, never averaged) -- the seam between the two money candidates.
         "capital_substitution": _capital_substitution_face(),
@@ -5406,6 +5472,83 @@ def render_md(p: dict) -> str:
             L.append(f"- 诚实 {_nv} 条（面自带）：袖成员是按父面选券公式重建的、"
                      "袖读数在换手日会跳、单窗口——**它读的是「这把尺不撑这条结论」，"
                      "不是「规则必错」**")
+    L.append("")
+    L.append("## ⑩c 这本书拿到手里，一年是什么感觉（纯读出）")
+    L.append("")
+    wr = p.get("wallet_ride") or {}
+    if not wr.get("present"):
+        L.append(f"- {wr.get('note') or '钱包持有期面未产出'}（指针 "
+                 f"`{wr.get('path')}`）——**今天读不到「持有一年是什么感受」；"
+                 "别把「没读到」当成「一直涨」**")
+    else:
+        def _wr_n(v, nd=2):
+            return "?" if v is None else f"{v:.{nd}f}"
+
+        _t = wr.get("today") or {}
+        _u = wr.get("underwater") or {}
+        _y1 = wr.get("hold_1y") or {}
+        _y2 = wr.get("hold_2y") or {}
+        _w = wr.get("window") or {}
+        if _t.get("hole") is not None:
+            _hole = _wr_n(abs(_t.get("hole") or 0) * 100)
+            if _t.get("at_the_deepest_point"):
+                L.append(f"- **今天先看这一格**：最后一根 bar（{_t.get('last_bar')}）"
+                         f"这本书比自己的历史最高点低 **{_hole}%**"
+                         f"（前高 {_wr_n(_t.get('peak'), 4)} 出现在 "
+                         f"{_t.get('peak_on')}，{_t.get('days_since_peak')} 天前）—— "
+                         "而这正好是**整窗最深的一次**：这本书公布以来"
+                         "最难受的一天就是今天")
+            else:
+                L.append(f"- **今天的位置**：最后一根 bar（{_t.get('last_bar')}）"
+                         f"比自己的历史最高点低 **{_hole}%**；整窗最深的一次是 "
+                         f"**{_wr_n(abs(_u.get('deepest') or 0) * 100)}%**"
+                         f"（{_u.get('deepest_on')}）")
+        if _y1:
+            L.append(f"- **从任意一天买入、持有一年**（{_y1.get('starts')} 个起点）："
+                     f"中位 **{_wr_n((_y1.get('median') or 0) * 100)}%**，"
+                     f"中间 80% 落在 **{_wr_n((_y1.get('p10') or 0) * 100)}% ~ "
+                     f"{_wr_n((_y1.get('p90') or 0) * 100)}%** —— 换成 100 万本金就是 "
+                     f"{(_y1.get('median_cny_on_seed') or 0):+,.0f} / "
+                     f"{(_y1.get('p10_cny_on_seed') or 0):+,.0f} / "
+                     f"{(_y1.get('p90_cny_on_seed') or 0):+,.0f} 元")
+            L.append(f"  - **{_wr_n((_y1.get('pct_losing') or 0) * 100, 1)}% 的起点"
+                     f"一年后低于自己的起点**，最差一个起点 "
+                     f"{_wr_n((_y1.get('min') or 0) * 100)}%；最好一个 "
+                     f"{_wr_n((_y1.get('max') or 0) * 100)}% —— "
+                     "「持有一年」不是「一年赚 6.44%」，是这一整片区间")
+        if _y2:
+            _y2_min = _y2.get("min")
+            L.append(f"  - 拉长到**两年**：中位 **"
+                     f"{_wr_n((_y2.get('median') or 0) * 100)}%**，"
+                     f"**{_wr_n((_y2.get('pct_losing') or 0) * 100, 1)}%** 的起点亏钱，"
+                     + (f"最差的一个仍有 **{(_y2_min or 0) * 100:+.2f}%**"
+                        if _y2_min is not None and _y2_min > 0 else
+                        f"最差 {_wr_n((_y2_min or 0) * 100)}%")
+                     + " —— 时间越长越像正数，但这句话本身就是这一段历史说的")
+        if _u.get("pct_days_below_peak") is not None:
+            L.append(f"- **路径比平均数难熬**：**"
+                     f"{_wr_n(_u.get('pct_days_below_peak') * 100, 1)}%** 的交易日"
+                     f"这本书都在自己的前高之下；最长的一段连续 "
+                     f"**{_u.get('longest_spell_bars')} 根 bar"
+                     f"（{_u.get('longest_spell_days')} 天，"
+                     f"{_u.get('longest_spell_from')} → "
+                     f"{_u.get('longest_spell_to')}）**；最深那 "
+                     f"**{_wr_n((_u.get('deepest') or 0) * 100)}%** 到窗口结束"
+                     + ("都**没有收回**" if not _u.get("recovered") else "已经收回"))
+        _band = wr.get("band") or {}
+        if _band.get("wallet") is not None:
+            L.append(f"- **跨书只按各自的波动比**（三本书实现波动不同，"
+                     f"绝对区间不可横比）：同一把「中间 80% 有多宽」的尺子，"
+                     f"这本书 **{_wr_n(_band.get('wallet'))}σ**、"
+                     f"纯 carry **{_wr_n(_band.get('carry_alone'))}σ**、"
+                     f"ETF+转债等权 **{_wr_n(_band.get('etf_cb_equal'))}σ**")
+        _nv = wr.get("not_claimed_n") or 0
+        L.append(f"- 诚实两条：这是 {_w.get('first')}~{_w.get('last')} 一个窗口的"
+                 "**形状，不是预测**；三本书全部从父面 import，本页不重算任何策略"
+                 + (f"（面自带 {_nv} 条 not_claimed 逐条可查）" if _nv else ""))
+        L.append(f"- 出处：`{wr.get('path')}`｜cutoff {wr.get('cutoff')}"
+                 f"｜generated {wr.get('generated')}｜窗口 "
+                 f"{_w.get('first')}~{_w.get('last')}（{_w.get('bars')} bar）")
     L.append("")
     L.append("## ⑪ 诚实免责")
     L.append("")

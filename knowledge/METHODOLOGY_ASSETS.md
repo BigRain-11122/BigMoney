@@ -18132,3 +18132,25 @@ How：正身=scripts/three_book_wallet_ride.py（run/check/selftest 13 腿）、
 results/three_book_wallet_ride.json、research/THREE_BOOK_WALLET_RIDE.md、
 qa/three-book-wallet-ride-r2204.md、Tools/s6_chain_bmc.py 腿 three_book_wallet_ride（check 0.7s）、
 smoke_test.py 谓词 three_book_wallet_ride_problems（含负控）。
+
+## E-20261128-r2205 · 把研究面的那句话搬上读者那一页，得配一条「谁更新」的探针腿（2026-11-28 r2205 bm-c）
+
+r2204 把「持有一年是什么感觉」量准了，却只写在 research/ 里——CEO 打开的那一页 ⑩c 一个字都没有
+（r1782 家族第三次）。本节把它接上页，同时暴露两个可复用的判据。
+
+**判据三条**：①**引用别脚本产物的一节必须自印来源的 generated/cutoff**（r1781）——本页链腿排在钱包族
+之前约 950 腿，正文必然比面老一趟，读者只靠这行字能看出是哪一趟写的；②**顺序改不动就配 mtime 探针腿**：
+`Tools/probe_ceo_page_wallet_ride.py check` 只问一句「面是否新于引用它的那页」，STALE rc3 → run_leg
+付一次页面重生成，已新鲜时只花一个 stat()。没有这条腿，页面就永久落后一趟而只有戳记说得出来（r1907 同族）；
+③**自检必须知道渲染器的同代闸**：本轮 ceo_live_usage selftest 13 条红全部不是代码错——容量面停在 11-26、
+票面在 11-27，渲染器按同代闸诚实地「今天不印这个数」，而自检硬编码了「必须印出读数」这一条分支，
+于是每根新 bar 都红一次（r1850/r1861 家族）。正法=先看面是否落后（生产者 check 的 STALE 字样），
+再决定是修面还是改自检；本轮是三个生产者落在旧票面/旧盘口上，重建即 13/13 全绿。
+
+**行为腿**：冒烟谓词 `ceo_page_wallet_ride_problems` 从面与页 JSON 双读、逐数比对（1y 中位/p10/p90/
+亏钱起点占比、水下占比与最长一段、2y 中位、今日坑位）并核 generated 戳；负控把 hole 改成 -0.31 立刻报
+「section does not print today's hole 31.00%」。探针 selftest 5/5（含 missing page / missing face 两向）。
+
+How：正身=scripts/ceo_live_usage.py ⑩c + `_wallet_ride_face()`、Tools/probe_ceo_page_wallet_ride.py、
+Tools/s6_chain_bmc.py 腿 ceo_page_wallet_ride（新鲜时 0.1s）、smoke_test.py 谓词
+ceo_page_wallet_ride_problems（含负控）、qa/ceo-page-wallet-ride-r2205.md。

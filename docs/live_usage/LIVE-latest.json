@@ -1,8 +1,8 @@
 {
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
- "day": "2026-11-27",
- "generated": "2026-11-27T21:06:10",
+ "day": "2026-11-28",
+ "generated": "2026-11-28T05:52:23",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -415,13 +415,13 @@
   "positions_cny": 2227428.16,
   "pnl_cny": -65256.01,
   "return_pct": -1.0876,
-  "day_prior": "2026-11-26",
-  "day_prior_equity_cny": 5908548.84,
-  "day_pnl_cny": 26195.15,
-  "day_pct": 0.4433,
+  "day_prior": "2026-11-27",
+  "day_prior_equity_cny": 5934743.99,
+  "day_pnl_cny": 0.0,
+  "day_pct": 0.0,
   "face_total_equity_cny": 5934743.99,
   "face_agrees": true,
-  "source": "results/paper_export/export-2026-11-27.json"
+  "source": "results/paper_export/latest.json"
  },
  "paper_cash": {
   "present": true,
@@ -442,7 +442,7 @@
  },
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
-  "today": "2026-11-27",
+  "today": "2026-11-28",
   "asof": null,
   "n_held_with_feed": 2,
   "n_live": 0,
@@ -578,7 +578,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 74144.4
+    "last_append_age_min": 74670.6
    },
    {
     "family": "FUND-VALUE-P1",
@@ -586,7 +586,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 74988.9
+    "last_append_age_min": 75515.1
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -594,7 +594,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 71782.2
+    "last_append_age_min": 72308.4
    }
   ]
  },
@@ -725,7 +725,7 @@
   "file": "TICKET-2026-11-27.json",
   "bar": "2026-11-27",
   "decision_bar": "2026-11-27",
-  "generated": "2026-11-27T20:54:23+08:00",
+  "generated": "2026-11-27T21:37:17+08:00",
   "rows": [
    {
     "symbol": "510760",
@@ -779,14 +779,14 @@
   "next_decision_face": {
    "present": true,
    "date": "2026-12-09",
-   "bars_away": 9,
+   "bars_away": 8,
    "rebal": 20,
    "anchor_bar": "2026-11-11",
    "anchor_source": "results/etf_book_production/latest.json#sheet.last_decision_bar",
    "calendar_source": "data/exchange_calendar.csv",
    "calendar_last": "2026-12-31",
    "verdict": "AGREE",
-   "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-26 9 根）。票面上三个面都这么说。",
+   "sentence": "下一根决策 bar = 2026-12-09（锚点 2026-11-11 起每 20 根，距 2026-11-27 8 根）。票面上三个面都这么说。",
    "n_claims": 3,
    "wrong_claims": [],
    "off_grid_claims": [],
@@ -1002,7 +1002,7 @@
    "declaration_status": "UNEXPLAINED_TARGET_WITHOUT_TRADES",
    "declaration_bar": "2026-11-27",
    "declaration_actions": 0,
-   "positions_source": "ticket_embedded"
+   "positions_source": "face@2026-11-27"
   },
   "admission": {
    "present": true,
@@ -1214,11 +1214,56 @@
    "pairs_compared": 2
   },
   "cash_roll": {
-   "present": false,
+   "present": true,
    "verdict": "ROLL_GC007_TODAY",
    "as_of": "2026-11-26",
+   "decision_date": "2026-12-09",
+   "window_days": 13,
+   "cash_cny": 565344.0,
+   "contract": "GC007",
+   "tenor_days": 7,
+   "net_ann_pct": 1.1593,
+   "quoted_pct": 1.42,
+   "matures": "2026-12-03",
+   "placeable": {
+    "sh_cny": 500000.0,
+    "sz_cny": 65000.0,
+    "leftover_cny": 344.0,
+    "placed_cny": 565000.0,
+    "cash_cny": 565344.0
+   },
+   "worth_year_cny": 783.79,
+   "worth_window_cny": 28.12,
+   "locked_out": [
+    {
+     "contract": "GC182",
+     "quoted_pct": 1.355,
+     "tenor_days": 182,
+     "matures": "2027-05-27",
+     "late_days": 169
+    },
+    {
+     "contract": "GC091",
+     "quoted_pct": 1.355,
+     "tenor_days": 91,
+     "matures": "2027-02-25",
+     "late_days": 78
+    },
+    {
+     "contract": "GC014",
+     "quoted_pct": 1.395,
+     "tenor_days": 14,
+     "matures": "2026-12-10",
+     "late_days": 1
+    }
+   ],
+   "sentence": "GC007 pays 1.16%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 783.79 CNY a year (28.12 CNY over the 13 days to the next decision)",
+   "source_rel": "results/etf_book_cash_roll_today.json",
    "ticket_bar": "2026-11-27",
-   "note": "滚仓面读的是 2026-11-26，这张票面读的是 2026-11-27——不是同一趟，今天不印这个数"
+   "quote_lag": {
+    "quote_bar": "2026-11-26",
+    "ticket_bar": "2026-11-27"
+   }
   }
  },
  "etf_entry_price": {
@@ -1312,62 +1357,62 @@
  },
  "etf_premium": {
   "present": true,
-  "verdict": "ENTRY_PREMIUM_WARN",
-  "verdict_reason": "the ticket pays 1.26% of its own amount above IOPV (CNY 5487)",
-  "ticket": "TICKET-2026-11-26.json",
-  "ticket_session": "2026-11-26",
-  "iopv_session": "2026-11-26",
+  "verdict": "ENTRY_PREMIUM_SMALL",
+  "verdict_reason": "the ticket pays -0.09% above IOPV (below the 1.0% warn line); 2 name(s) (159655,159519) priced against another session's NAV and are excluded, not counted as a premium",
+  "ticket": "TICKET-2026-11-27.json",
+  "ticket_session": "2026-11-27",
+  "iopv_session": "2026-11-27",
   "session_match": true,
-  "premium_paid_cny": 5487.31,
-  "premium_share_of_order_pct": 1.2624,
-  "premium_share_of_nav_pct": 0.5487,
-  "verified_amount_cny": 434684.0,
-  "n_verified": 5,
+  "premium_paid_cny": -375.76,
+  "premium_share_of_order_pct": -0.0865,
+  "premium_share_of_nav_pct": -0.0376,
+  "verified_amount_cny": 260847.1,
+  "n_verified": 3,
   "n_unverifiable": 0,
-  "book_cagr_pct": 11.76,
-  "years_of_backtest_return_paid": 0.11,
+  "book_cagr_pct": 12.03,
+  "years_of_backtest_return_paid": -0.01,
   "rows": [
    {
     "symbol": "510760",
-    "premium_pct": -0.1816,
-    "premium_paid_cny": -158.18,
-    "market_pctile": 49.58,
+    "premium_pct": 0.3107,
+    "premium_paid_cny": 269.49,
+    "market_pctile": 66.99,
     "status": "OK"
    },
    {
     "symbol": "512040",
-    "premium_pct": -0.2402,
-    "premium_paid_cny": -209.44,
-    "market_pctile": 38.31,
+    "premium_pct": 0.2282,
+    "premium_paid_cny": 197.91,
+    "market_pctile": 61.85,
     "status": "OK"
    },
    {
     "symbol": "159655",
-    "premium_pct": 7.3229,
-    "premium_paid_cny": 5929.92,
-    "market_pctile": 98.83,
-    "status": "OK"
+    "premium_pct": 10.3598,
+    "premium_paid_cny": null,
+    "market_pctile": null,
+    "status": "CROSS_SESSION_NAV"
    },
    {
     "symbol": "513690",
-    "premium_pct": 0.3523,
-    "premium_paid_cny": 305.37,
-    "market_pctile": 93.49,
+    "premium_pct": -0.9608,
+    "premium_paid_cny": -843.16,
+    "market_pctile": 7.68,
     "status": "OK"
    },
    {
     "symbol": "159519",
-    "premium_pct": -0.436,
-    "premium_paid_cny": -380.36,
-    "market_pctile": 11.27,
-    "status": "OK"
+    "premium_pct": -0.7305,
+    "premium_paid_cny": null,
+    "market_pctile": null,
+    "status": "CROSS_SESSION_NAV"
    }
   ],
   "stress": {
-   "if_premium_reverts_to_zero_cny": -5487.31,
-   "if_premium_reverts_to_zero_pct_of_nav": -0.5487,
-   "if_premium_reverts_to_own_median_cny": -4450.7,
-   "if_premium_reverts_to_own_median_pct_of_nav": -0.4451,
+   "if_premium_reverts_to_zero_cny": 375.76,
+   "if_premium_reverts_to_zero_pct_of_nav": 0.0376,
+   "if_premium_reverts_to_own_median_cny": 286.9,
+   "if_premium_reverts_to_own_median_pct_of_nav": 0.0287,
    "note": "reversion is a stress, not a forecast: the gap can persist while the sleeve stays hard to buy. Zero is the outer bound; each fund's own median is the realistic one -- these funds normally live above NAV."
   },
   "own_top_decile_pctile": 90.0,
@@ -1375,61 +1420,61 @@
    "159655"
   ],
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
-  "own_revert_cny": 4450.7,
+  "own_revert_cny": -286.9,
   "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
  },
  "etf_premium_choice": {
   "present": true,
-  "verdict": "RULERS_DISAGREE_SWAP_AT_HORIZON",
-  "ticket": "results/etf_book_order/TICKET-2026-11-26.json",
-  "as_of": "2026-11-26",
+  "verdict": "RULERS_AGREE_SWAP",
+  "ticket": "results/etf_book_order/TICKET-2026-11-27.json",
+  "as_of": "2026-11-27",
   "threshold_pp": 3.0,
   "annual_giveup_cap_pp": 2.0,
   "stretched": [
    {
     "symbol": "159655",
-    "premium_pct": 7.322943,
-    "premium_cny": 6364.16,
-    "leg_score": 0.509486,
+    "premium_pct": 10.359844,
+    "premium_cny": 8998.83,
+    "leg_score": 0.420166,
     "verdict": "SWAP_AT_BOOK_HORIZON",
-    "twin": "159529",
-    "twin_premium_pct": 0.3087581896227043,
-    "twin_score_gap": 0.21293788296594995,
-    "saving_cny_once": 6095.83,
-    "giveup_cny_per_window": 198.75,
-    "giveup_pp_per_year": 2.8814,
-    "breakeven_convergence_p": 0.032603,
-    "breakeven_tenure_windows": 30.672,
-    "breakeven_tenure_years": 2.4343,
-    "drop_to_cash_saving_cny": 6364.16
+    "twin": "159502",
+    "twin_premium_pct": 2.2763706316126786,
+    "twin_score_gap": 0.07711489517773512,
+    "saving_cny_once": 7021.52,
+    "giveup_cny_per_window": 71.94,
+    "giveup_pp_per_year": 1.0435,
+    "breakeven_convergence_p": 0.010245,
+    "breakeven_tenure_windows": 97.605,
+    "breakeven_tenure_years": 7.7464,
+    "drop_to_cash_saving_cny": 8998.83
    }
   ],
   "n_stretched": 1,
   "mean_tenure_windows": 1.573,
   "median_tenure_windows": 1.0,
   "share_one_window": 0.794,
-  "best_saving_cny": 6364.16,
-  "best_giveup_cny_per_window": 198.75
+  "best_saving_cny": 8998.83,
+  "best_giveup_cny_per_window": 71.94
  },
  "etf_capacity": {
   "present": true,
-  "session": "2026-11-26",
-  "evidence_cutoff": "2026-11-26",
-  "verdict": "BELOW_LINE_MOST_SESSIONS",
+  "session": "2026-11-27",
+  "evidence_cutoff": "2026-11-27",
+  "verdict": "ABOVE_LINE_EVERY_SESSION",
   "line_pct": 1.0,
   "lens_cny": 1000000.0,
   "lens_tag": "1M",
   "per_name_cny": 200000.0,
-  "reading_today_pct": 0.924,
-  "binding_today": "159549",
+  "reading_today_pct": 0.2027,
+  "binding_today": "159887",
   "n_sessions": 60,
-  "n_passes": 6,
+  "n_passes": 60,
   "n_unmeasurable": 0,
-  "capital_at_line_cny": 1082283.94,
-  "capital_median_cny": 496475.93,
-  "capital_min_cny": 340837.76,
-  "gap_to_lens_cny": -82283.94,
-  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 6 天过线、54 天不过线。今天这一行是 0.9240%（最弱的是 159549），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 1,082,284 元，离 1,000,000 元差 -82,284 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 496,476 元；按最差的一天算，只有 340,838 元——「装不下 100 万」这句要换成「平常装得下多少」。",
+  "capital_at_line_cny": 4934481.85,
+  "capital_median_cny": 4323294.06,
+  "capital_min_cny": 3602528.38,
+  "gap_to_lens_cny": -3934481.85,
+  "sentence": "同一笔单子（1,000,000 元、5 个名字等权），最近 60 个交易日里有 60 天过线、0 天不过线。今天这一行是 0.2027%（最弱的是 159887），闸线 1.00%；把这把尺子倒过来读，在今天的成交额上能过的资本上限是 4,934,482 元，离 1,000,000 元差 -3,934,482 元。今天还是这段窗里最好的一天（读数最低），所以这个 DENY 不是当天的运气。按这段窗的中位算，上限是 4,323,294 元；按最差的一天算，只有 3,602,528 元——「装不下 100 万」这句要换成「平常装得下多少」。",
   "caveats": [
    "这笔单子固定成今天的选票、等权：量的是尺子的余量，不是「重新选票后那些天会填成什么样」",
    "成交额用的是闸自己的口径（收盘价×成交量、中位再取中位），不是成交明细：它是估计值而且是阶梯状的，所以读数一格一格跳",
@@ -1441,41 +1486,43 @@
  "etf_capacity_at_size": {
   "present": true,
   "verdict": "ADMIT_AT_THIS_SIZE",
-  "reading_pct": 0.3445,
+  "reading_pct": 0.3448,
   "binding": "159519",
   "line_pct": 1.0,
-  "spent_cny": 434684.0,
-  "headroom_cny": 1261751.7,
-  "headroom_multiple": 2.9026872309073743,
+  "spent_cny": 434655.7,
+  "headroom_cny": 1260508.67,
+  "headroom_multiple": 2.900016435488694,
   "n_names": 5,
   "n_measurable": 5,
   "unmeasurable": [],
-  "bar": "2026-11-26",
-  "panel_bar": "2026-11-26",
-  "ticket_file": "results/etf_book_order/TICKET-2026-11-26.json",
+  "bar": "2026-11-27",
+  "panel_bar": "2026-11-27",
+  "ticket_file": "results/etf_book_order/TICKET-2026-11-27.json",
   "name_set": {
    "same_book": false,
-   "n_overlap": 1,
+   "n_overlap": 0,
    "only_in_ticket": [
     "159519",
     "159655",
     "510760",
-    "512040"
+    "512040",
+    "513690"
    ],
    "only_in_published": [
-    "159207",
-    "159549",
-    "515300",
-    "562060"
+    "159887",
+    "512820",
+    "515020",
+    "515290",
+    "515300"
    ]
   },
-  "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3445%，闸线 1.00% → **过线**。注意：准入面印的 0.9240% 是**另一组名字**量的（只有 1 个重合，它量的是 159207、159549、515300、562060），两个数不是同一把尺子上的同一件事。",
+  "sentence": "按今天这张单自己的五个名字、自己的金额量：最紧的一席 159519 占它自己成交额的 0.3448%，闸线 1.00% → **过线**。注意：准入面印的 0.2027% 是**另一组名字**量的（只有 0 个重合，它量的是 159887、512820、515020、515290、515300），两个数不是同一把尺子上的同一件事。",
   "caveats": [
    "成交额用的是闸自己的口径（收盘价×成交量，中位再取中位），是估计值而且是阶梯状的",
    "「1% ADV」是闸选的线，不是量出来的线；换线，每个数按同一比例移动",
    "这里量的是「这张单能不能从这个市场的成交额里过」，不是「下单后价格会被推到哪」：冲击成本是另一条腿（既有回测里按 8bp/边记）",
    "「装得下」不等于「免费」：pricing.money 一行给出这张单自己的双边成本（费率单源 knowledge.cost_spec，禁手抄）",
-   "放大倍数 x2.9027 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
+   "放大倍数 x2.9000 是一个资本比例，不是一张能下的单：整数手与波动目标都可能把它压得更低"
   ]
  },
  "etf_punctuality": {
@@ -2562,6 +2609,85 @@
    "the rule is priced on monthly switches only; intra-month runs are not modelled",
    "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them"
   ]
+ },
+ "wallet_ride": {
+  "present": true,
+  "path": "results/three_book_wallet_ride.json",
+  "generated": "2026-11-28T05:27:28+08:00",
+  "cutoff": "2026-11-26",
+  "window": {
+   "first": "2020-01-06",
+   "last": "2026-11-26",
+   "bars": 1670,
+   "why": "the parent wallet face's own window, truncated at its evidence_cutoff -- a bar the parent has not gated yet cannot be described by this face"
+  },
+  "today": {
+   "last_bar": "2026-11-26",
+   "equity": 1.539591,
+   "peak": 1.650571,
+   "hole": -0.067237,
+   "peak_on": "2026-01-29",
+   "bars_since_peak": 198,
+   "days_since_peak": 301,
+   "at_the_deepest_point": true
+  },
+  "hold_6m": {
+   "starts": 1551,
+   "median": 0.035727,
+   "p10": -0.0133,
+   "p90": 0.092825,
+   "min": -0.050006,
+   "max": 0.161176,
+   "pct_losing": 0.226306,
+   "median_cny_on_seed": 35727.0,
+   "p10_cny_on_seed": -13300.0,
+   "p90_cny_on_seed": 92825.0,
+   "range_in_own_sigmas": 1.7331
+  },
+  "hold_1y": {
+   "starts": 1421,
+   "median": 0.064387,
+   "p10": 0.01456,
+   "p90": 0.176866,
+   "min": -0.046676,
+   "max": 0.292468,
+   "pct_losing": 0.04152,
+   "median_cny_on_seed": 64387.0,
+   "p10_cny_on_seed": 14560.0,
+   "p90_cny_on_seed": 176866.0,
+   "range_in_own_sigmas": 2.6505
+  },
+  "hold_2y": {
+   "starts": 1171,
+   "median": 0.139805,
+   "p10": 0.049405,
+   "p90": 0.324993,
+   "min": 0.000732,
+   "max": 0.410968,
+   "pct_losing": 0.0,
+   "median_cny_on_seed": 139805.0,
+   "p10_cny_on_seed": 49405.0,
+   "p90_cny_on_seed": 324993.0,
+   "range_in_own_sigmas": 4.5005
+  },
+  "underwater": {
+   "pct_days_below_peak": 0.907784,
+   "longest_spell_bars": 207,
+   "longest_spell_days": 307,
+   "longest_spell_from": "2022-03-10",
+   "longest_spell_to": "2023-01-11",
+   "deepest": -0.067237,
+   "deepest_on": "2026-11-26",
+   "recovered": false
+  },
+  "band": {
+   "wallet": 2.6505,
+   "carry_alone": 2.1429,
+   "etf_cb_equal": 2.4889,
+   "ungated": 2.6473
+  },
+  "identity_ok": true,
+  "not_claimed_n": 5
  },
  "capital_substitution": {
   "present": true,
