@@ -10,8 +10,8 @@
   "delta_pp": 0.0,
   "note": "phase 0 is the published window, so it must reproduce the published arm",
   "passes": true,
-  "published_cagr": 0.0892,
-  "recomputed_cagr": 0.0892,
+  "published_cagr": 0.0894,
+  "recomputed_cagr": 0.0894,
   "tolerance_pp": 0.5
  },
  "criteria": {
@@ -26,19 +26,19 @@
  "engine": "etf_book_passive_mix.price_window -- the exact function that produced the published premium; no re-implementation",
  "phases": [
   {
-   "book_cagr": 0.0892,
+   "book_cagr": 0.0894,
    "book_maxdd": -0.1177,
-   "book_sharpe": 0.922,
+   "book_sharpe": 0.925,
    "book_turnover_per_decision": 0.9382,
    "decisions": 84,
    "first_decision": "2020-01-02",
    "last_decision": "2026-11-11",
    "phase": 0,
-   "premium_pp": 6.48,
+   "premium_pp": 6.14,
    "start": "2020-01-02",
-   "static_cagr": 0.0244,
+   "static_cagr": 0.028,
    "static_maxdd": -0.2296,
-   "static_sharpe": 0.315,
+   "static_sharpe": 0.353,
    "static_turnover_per_decision": 0.0884,
    "static_weights": {
     "commodity": 0.252381,
@@ -47,24 +47,24 @@
    },
    "vol_delivered": {
     "book": 0.1021,
-    "static_mix": 0.0935,
-    "static_mix_no_overlay": 0.1712
+    "static_mix": 0.0939,
+    "static_mix_no_overlay": 0.1728
    }
   },
   {
-   "book_cagr": 0.0912,
+   "book_cagr": 0.0915,
    "book_maxdd": -0.154,
-   "book_sharpe": 0.9,
+   "book_sharpe": 0.902,
    "book_turnover_per_decision": 0.9694,
    "decisions": 84,
    "first_decision": "2020-01-09",
    "last_decision": "2026-11-18",
    "phase": 1,
-   "premium_pp": 6.81,
+   "premium_pp": 6.47,
    "start": "2020-01-09",
-   "static_cagr": 0.0231,
+   "static_cagr": 0.0268,
    "static_maxdd": -0.2257,
-   "static_sharpe": 0.301,
+   "static_sharpe": 0.34,
    "static_turnover_per_decision": 0.0907,
    "static_weights": {
     "commodity": 0.271429,
@@ -73,24 +73,24 @@
    },
    "vol_delivered": {
     "book": 0.1074,
-    "static_mix": 0.0933,
-    "static_mix_no_overlay": 0.1694
+    "static_mix": 0.0938,
+    "static_mix_no_overlay": 0.1711
    }
   },
   {
-   "book_cagr": 0.0829,
+   "book_cagr": 0.0832,
    "book_maxdd": -0.1619,
-   "book_sharpe": 0.835,
+   "book_sharpe": 0.838,
    "book_turnover_per_decision": 1.0039,
    "decisions": 84,
    "first_decision": "2020-01-16",
    "last_decision": "2026-11-25",
    "phase": 2,
-   "premium_pp": 5.43,
+   "premium_pp": 5.11,
    "start": "2020-01-16",
-   "static_cagr": 0.0286,
+   "static_cagr": 0.0321,
    "static_maxdd": -0.2334,
-   "static_sharpe": 0.362,
+   "static_sharpe": 0.399,
    "static_turnover_per_decision": 0.0873,
    "static_weights": {
     "commodity": 0.245238,
@@ -98,25 +98,25 @@
     "equity": 0.688095
    },
    "vol_delivered": {
-    "book": 0.1061,
-    "static_mix": 0.0931,
-    "static_mix_no_overlay": 0.1741
+    "book": 0.106,
+    "static_mix": 0.0936,
+    "static_mix_no_overlay": 0.1758
    }
   },
   {
-   "book_cagr": 0.1083,
+   "book_cagr": 0.1088,
    "book_maxdd": -0.1448,
-   "book_sharpe": 1.129,
+   "book_sharpe": 1.134,
    "book_turnover_per_decision": 0.9679,
    "decisions": 83,
    "first_decision": "2020-01-23",
    "last_decision": "2026-11-04",
    "phase": 3,
-   "premium_pp": 7.74,
+   "premium_pp": 7.42,
    "start": "2020-01-23",
-   "static_cagr": 0.0309,
+   "static_cagr": 0.0346,
    "static_maxdd": -0.2311,
-   "static_sharpe": 0.388,
+   "static_sharpe": 0.426,
    "static_turnover_per_decision": 0.0891,
    "static_weights": {
     "commodity": 0.228916,
@@ -124,41 +124,41 @@
     "equity": 0.693976
    },
    "vol_delivered": {
-    "book": 0.0988,
-    "static_mix": 0.0927,
-    "static_mix_no_overlay": 0.1722
+    "book": 0.0987,
+    "static_mix": 0.0931,
+    "static_mix_no_overlay": 0.1739
    }
   }
  ],
- "question": "the card's headline is +6.48pp/yr of selection premium on one decision calendar -- does that premium survive four phases of that calendar?",
+ "question": "the card's headline is +6.14pp/yr of selection premium on one decision calendar -- does that premium survive four phases of that calendar?",
  "ranges": {
   "book_cagr": {
-   "max": 0.1083,
-   "min": 0.0829,
-   "spread": 0.0254
+   "max": 0.1088,
+   "min": 0.0832,
+   "spread": 0.0256
   },
   "book_sharpe": {
-   "max": 1.129,
-   "min": 0.835,
-   "spread": 0.294
+   "max": 1.134,
+   "min": 0.838,
+   "spread": 0.296
   },
   "premium_pp": {
-   "max": 7.74,
-   "min": 5.43,
+   "max": 7.42,
+   "min": 5.11,
    "spread": 2.31
   },
   "static_cagr": {
-   "max": 0.0309,
-   "min": 0.0231,
+   "max": 0.0346,
+   "min": 0.0268,
    "spread": 0.0078
   }
  },
  "schema": "etf_book_premium_phases/v1",
  "summary": {
   "floor_pp": 2.0,
-  "max_pp": 7.74,
-  "median_pp": 6.64,
-  "min_pp": 5.43,
+  "max_pp": 7.42,
+  "median_pp": 6.3,
+  "min_pp": 5.11,
   "n_phases": 4,
   "n_priced": 4,
   "positive_phases": 4,
@@ -168,10 +168,10 @@
  },
  "upstream": {
   "artifact": "results/etf_book_production/latest.json",
-  "evidence_cutoff": "2026-11-26",
-  "published_cagr": 0.0892,
-  "ts": "2026-11-27 02:58:33"
+  "evidence_cutoff": "2026-11-27",
+  "published_cagr": 0.0894,
+  "ts": "2026-11-27 21:35:05"
  },
- "verdict": "level: the premium is positive on 4/4 phases (median +6.64pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence",
+ "verdict": "level: the premium is positive on 4/4 phases (median +6.30pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence",
  "window": "2020-01-01..panel end (every phase)"
 }

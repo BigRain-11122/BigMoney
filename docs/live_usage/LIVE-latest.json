@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T05:52:23",
+ "generated": "2026-11-28T07:38:34",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -15,9 +15,9 @@
   "bench_close": 4.162,
   "bench_ma200": 4.6219,
   "clock_cell": "RED_COOL",
-  "clock_asof": "2026-11-25",
+  "clock_asof": "2026-11-26",
   "heat": "COOL",
-  "heat_basis": "LHB 当日 77 行 · 净买 0.80 亿 vs 250日 p80=96.0 行（温度计=COOL）"
+  "heat_basis": "LHB 当日 88 行 · 净买 11.39 亿 vs 250日 p80=96.0 行（温度计=COOL）"
  },
  "national_team": {
   "status": "存量高控·近期无已验证增持动作",
@@ -54,26 +54,26 @@
    "zt": {
     "label": "涨停池",
     "status": "ok",
-    "count": 65,
-    "cutoff": "2026-11-26",
-    "prev_count": 51,
-    "prev_cutoff": "2026-11-25",
-    "asked_through": "2026-11-26",
+    "count": 417,
+    "cutoff": "2026-11-27",
+    "prev_count": 65,
+    "prev_cutoff": "2026-11-26",
+    "asked_through": "2026-11-27",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": 14
+    "delta": 352
    },
    "zbgc": {
     "label": "炸板池",
     "status": "ok",
-    "count": 29,
-    "cutoff": "2026-11-26",
-    "prev_count": 30,
-    "prev_cutoff": "2026-11-25",
-    "asked_through": "2026-11-26",
+    "count": 42,
+    "cutoff": "2026-11-27",
+    "prev_count": 29,
+    "prev_cutoff": "2026-11-26",
+    "asked_through": "2026-11-27",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": -1
+    "delta": 13
    },
    "dtgc": {
     "label": "跌停池",
@@ -82,62 +82,65 @@
     "cutoff": "2026-11-26",
     "prev_count": 43,
     "prev_cutoff": "2026-11-25",
-    "asked_through": "2026-11-26",
+    "asked_through": "2026-11-27",
     "empty_days": [
      "2026-11-05",
      "2026-11-10",
-     "2026-11-11"
+     "2026-11-11",
+     "2026-11-27"
     ],
-    "empty_days_count": 3,
+    "empty_days_count": 4,
     "delta": -38
    },
    "strong": {
     "label": "强势池",
     "status": "ok",
-    "count": 78,
-    "cutoff": "2026-11-26",
-    "prev_count": 80,
-    "prev_cutoff": "2026-11-25",
-    "asked_through": "2026-11-26",
+    "count": 99,
+    "cutoff": "2026-11-27",
+    "prev_count": 78,
+    "prev_cutoff": "2026-11-26",
+    "asked_through": "2026-11-27",
     "empty_days": [],
     "empty_days_count": 0,
-    "delta": -2
+    "delta": 21
    }
   },
   "status": "ok",
-  "cutoff": "2026-11-26",
+  "cutoff": "2026-11-27",
   "cutoffs": [
-   "2026-11-26"
+   "2026-11-26",
+   "2026-11-27"
   ],
-  "aligned": true,
-  "seal_rate": 0.6915,
+  "aligned": false,
+  "seal_rate": 0.9085,
   "ladder": {
-   "1": 51,
-   "2": 8,
-   "3": 4,
-   "4": 1,
-   "5": 1
+   "1": 388,
+   "2": 22,
+   "3": 3,
+   "4": 3,
+   "6": 1
   },
   "top_streak": {
-   "streak": 5,
+   "streak": 6,
    "n": 1,
    "names": [
     "克来机电"
    ]
   },
-  "down_over_up": 0.077,
-  "kill_day": false,
-  "kill_day_unavailable": null,
+  "down_over_up": null,
+  "kill_day": null,
+  "kill_day_unavailable": {
+   "zt_cutoff": "2026-11-27",
+   "dtgc_cutoff": "2026-11-26",
+   "note": "两池不在同一交易日（涨停池 2026-11-27、跌停池 2026-11-26）——杀跌日读法今日不判"
+  },
   "freshness": {
-   "status": "stale",
+   "status": "current",
    "expected_last_bar_day": "2026-11-27",
-   "behind_days": 1,
-   "behind": [
-    "2026-11-27"
-   ],
+   "behind_days": 0,
+   "behind": [],
    "lane_owner": "bm-c",
-   "read_on": "bm-c",
-   "note": "读到的是 2026-11-26 的副本：最后采集日 2026-11-26，比应有最新 bar 日 2026-11-27 落后 1 个交易日（车道宿主 bm-c）"
+   "read_on": "bm-c"
   }
  },
  "ladder": {
@@ -561,10 +564,10 @@
    "cutoff": "2026-11-26",
    "sessions": 28,
    "n_measured": 20,
-   "ret_pct": -6.211,
-   "bench_n": 3339,
-   "bench_ret_pct": -16.5144,
-   "excess_pp": 10.3034
+   "ret_pct": -6.3126,
+   "bench_n": 5190,
+   "bench_ret_pct": -16.7093,
+   "excess_pp": 10.3967
   }
  },
  "judgment_burns": {
@@ -578,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 74670.6
+    "last_append_age_min": 74776.8
    },
    {
     "family": "FUND-VALUE-P1",
@@ -586,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75515.1
+    "last_append_age_min": 75621.3
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -594,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72308.4
+    "last_append_age_min": 72414.6
    }
   ]
  },
@@ -603,13 +606,13 @@
   "path": "results/etf_book_forward/LEDGER.json",
   "status": "live",
   "first_bar": "2026-10-23",
-  "last_bar": "2026-11-26",
-  "n_bars": 25,
-  "book_nav": 0.973747,
-  "book_ret_pct": -2.625,
-  "bench_nav": 0.940337,
-  "bench_ret_pct": -5.966,
-  "excess_bp": 334.1,
+  "last_bar": "2026-11-27",
+  "n_bars": 26,
+  "book_nav": 0.988623,
+  "book_ret_pct": -1.138,
+  "bench_nav": 0.961748,
+  "bench_ret_pct": -3.825,
+  "excess_bp": 268.7,
   "book_max_dd_pct": -4.581,
   "bench_max_dd_pct": -7.184,
   "n_refills": 1,
@@ -617,25 +620,25 @@
   "n_hold": 12,
   "vol_target_pct": 8.0,
   "cost_bp_per_side": 10.0,
-  "published_bars": 25,
+  "published_bars": 26,
   "noise_band_pp": {
-   "1m": 4.742,
-   "3m": 8.214,
-   "1y": 16.563,
-   "3y": 28.689
+   "1m": 4.743,
+   "3m": 8.216,
+   "1y": 16.568,
+   "3y": 28.696
   },
   "min_detectable_edge_pp": {
-   "6m": 33.487,
-   "1y": 23.679,
-   "2y": 16.744,
-   "3y": 13.671
+   "6m": 33.496,
+   "1y": 23.685,
+   "2y": 16.748,
+   "3y": 13.674
   },
   "years_for_80pct_power": 17.3,
   "provisional_bars": [
    "2026-11-26"
   ],
   "drift_gate": "settled_bars_only",
-  "panel_last_bar": "2026-11-26",
+  "panel_last_bar": "2026-11-27",
   "cash_leg_note": "cash leg earns 0 in the ledger (disclosed, not modelled away)",
   "seed_capital_cny": 1000000.0,
   "seed_bar": "2026-10-23"
@@ -682,30 +685,30 @@
  "etf_permission": {
   "present": true,
   "path": "results/etf_book_permission_vs_size.json",
-  "generated": "2026-11-27T05:30:06",
-  "cutoff": "2026-11-26",
+  "generated": "2026-11-28T07:06:23",
+  "cutoff": "2026-11-27",
   "verdict": "SIZE_IS_THE_ONLY_KNOB",
   "permission": "ADMIT",
   "permission_book": "ticket_construction_plain_plus_overlay",
   "failing": [],
-  "permission_generated": "2026-11-26T23:28:56+0800",
-  "permission_cutoff": "2026-11-26",
+  "permission_generated": "2026-11-27T21:27:47+0800",
+  "permission_cutoff": "2026-11-27",
   "lot": "TRADABLE_AT_1000000",
-  "lot_bar": "2026-11-26",
-  "lot_residual_pct": 0.1266,
-  "share_pct": 73.78,
+  "lot_bar": "2026-11-27",
+  "lot_residual_pct": 0.075,
+  "share_pct": 73.45,
   "line_pct": 70.0,
-  "delta_pp": -9.843319,
-  "delta_cny": -139012.76,
+  "delta_pp": -9.022048,
+  "delta_cny": -127414.32,
   "best_year": "2025",
   "lo_cny": 250000.0,
   "hi_cny": 4000000.0,
-  "delta_cny_lo": -34753.19,
-  "delta_cny_hi": -556051.06,
+  "delta_cny_lo": -31853.58,
+  "delta_cny_hi": -509657.27,
   "share_identical": true,
   "money_linear": true,
   "authority_name": "etf_book_wrapper_year_gate",
-  "authority_cutoff": "2026-11-26",
+  "authority_cutoff": "2026-11-27",
   "rejected": [
    {
     "name": "etf_book_partial_year_caliber",
@@ -714,10 +717,10 @@
    }
   ],
   "sentences": [
-   "在 2026-11-26 这一档，同一张 ¥1,000,000 的单有两个词：整手面读 **TRADABLE_AT_1000000**（5 名各至少 1 手、残差 0.1266% NAV），供给闸读 **ADMIT**（唯一没过的是 （闸没写哪条））——前者数的是 100 份一手，后者才是「这本书准不准持有」。",
-   "本条要回答的是「改尺寸能不能换来许可」：从 250,000 到 4,000,000，两年份额恒为 73.78%（线 70.00%），到线的距离恒为 -9.84pp——换成本金只是同一段距离值不同的钱（-34,753 → -556,051），所以**缩放这张单不会让判词翻面**。",
-   "要翻面，改的是**年形状**不是本金：2025 那一年少 9.84pp，换成当时 100 万本金上就是 -139,013 元，top-2 才回到线下——这与「等几年再说」是两件事，也与「买小一点」是两件事。",
-   "哪张回执说话：**etf_book_wrapper_year_gate**（cutoff 2026-11-26），因为它读的是这张单所在的那一档；etf_book_partial_year_caliber 也留着，但它回答的是另一个问题（换口径会不会换词）——在三种口径下这本书都读 ADMIT，所以它没有资格把词改回 ADMIT。"
+   "在 2026-11-27 这一档，同一张 ¥1,000,000 的单有两个词：整手面读 **TRADABLE_AT_1000000**（5 名各至少 1 手、残差 0.0750% NAV），供给闸读 **ADMIT**（唯一没过的是 （闸没写哪条））——前者数的是 100 份一手，后者才是「这本书准不准持有」。",
+   "本条要回答的是「改尺寸能不能换来许可」：从 250,000 到 4,000,000，两年份额恒为 73.45%（线 70.00%），到线的距离恒为 -9.02pp——换成本金只是同一段距离值不同的钱（-31,854 → -509,657），所以**缩放这张单不会让判词翻面**。",
+   "要翻面，改的是**年形状**不是本金：2025 那一年少 9.02pp，换成当时 100 万本金上就是 -127,414 元，top-2 才回到线下——这与「等几年再说」是两件事，也与「买小一点」是两件事。",
+   "哪张回执说话：**etf_book_wrapper_year_gate**（cutoff 2026-11-27），因为它读的是这张单所在的那一档；etf_book_partial_year_caliber 也留着，但它回答的是另一个问题（换口径会不会换词）——在三种口径下这本书都读 ADMIT，所以它没有资格把词改回 ADMIT。"
   ]
  },
  "etf_order": {
@@ -1216,15 +1219,15 @@
   "cash_roll": {
    "present": true,
    "verdict": "ROLL_GC007_TODAY",
-   "as_of": "2026-11-26",
+   "as_of": "2026-11-27",
    "decision_date": "2026-12-09",
-   "window_days": 13,
+   "window_days": 12,
    "cash_cny": 565344.0,
    "contract": "GC007",
    "tenor_days": 7,
-   "net_ann_pct": 1.1593,
-   "quoted_pct": 1.42,
-   "matures": "2026-12-03",
+   "net_ann_pct": 1.1693,
+   "quoted_pct": 1.43,
+   "matures": "2026-12-04",
    "placeable": {
     "sh_cny": 500000.0,
     "sz_cny": 65000.0,
@@ -1232,44 +1235,39 @@
     "placed_cny": 565000.0,
     "cash_cny": 565344.0
    },
-   "worth_year_cny": 783.79,
-   "worth_window_cny": 28.12,
+   "worth_year_cny": 363.3,
+   "worth_window_cny": 11.86,
    "locked_out": [
     {
      "contract": "GC182",
-     "quoted_pct": 1.355,
+     "quoted_pct": 1.34,
      "tenor_days": 182,
-     "matures": "2027-05-27",
-     "late_days": 169
+     "matures": "2027-05-28",
+     "late_days": 170
     },
     {
      "contract": "GC091",
-     "quoted_pct": 1.355,
+     "quoted_pct": 1.36,
      "tenor_days": 91,
-     "matures": "2027-02-25",
-     "late_days": 78
+     "matures": "2027-02-26",
+     "late_days": 79
     },
     {
      "contract": "GC014",
-     "quoted_pct": 1.395,
+     "quoted_pct": 1.41,
      "tenor_days": 14,
-     "matures": "2026-12-10",
-     "late_days": 1
+     "matures": "2026-12-11",
+     "late_days": 2
     }
    ],
-   "sentence": "GC007 pays 1.16%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 783.79 CNY a year (28.12 CNY over the 13 days to the next decision)",
-   "source_rel": "results/etf_book_cash_roll_today.json",
-   "ticket_bar": "2026-11-27",
-   "quote_lag": {
-    "quote_bar": "2026-11-26",
-    "ticket_bar": "2026-11-27"
-   }
+   "sentence": "GC007 pays 1.17%/yr net and still matures by 2026-12-09; versus rolling 1-day every session it is worth 363.30 CNY a year (11.86 CNY over the 12 days to the next decision)",
+   "source_rel": "results/etf_book_cash_roll_today.json"
   }
  },
  "etf_entry_price": {
   "present": true,
   "verdict": "ENTRY_PRICE_IS_THE_COMMISSION_FLOOR",
-  "lot_floor_cny": 14465.7,
+  "lot_floor_cny": 14412.93,
   "lot_floor_binding_symbol": "511180",
   "clean_entry_cny": 263852.24,
   "clean_entry_binding_symbol": "510760",
@@ -1277,64 +1275,64 @@
   "model_side_bp": 13.041,
   "rows": [
    {
-    "capital_cny": 14465.7,
-    "side_cost_bp": 58.816,
-    "annual_pct": 12.7346,
-    "legs_paying_floor": 12,
+    "capital_cny": 14412.93,
+    "side_cost_bp": 59.2644,
+    "annual_pct": 11.6968,
+    "legs_paying_floor": 11,
     "legs_total": 12
    },
    {
     "capital_cny": 20000.0,
-    "side_cost_bp": 45.614,
-    "annual_pct": 9.8321,
+    "side_cost_bp": 46.6067,
+    "annual_pct": 9.7696,
     "legs_paying_floor": 12,
     "legs_total": 12
    },
    {
     "capital_cny": 50000.0,
-    "side_cost_bp": 24.0233,
-    "annual_pct": 5.3883,
+    "side_cost_bp": 24.1609,
+    "annual_pct": 5.3644,
     "legs_paying_floor": 12,
     "legs_total": 12
    },
    {
     "capital_cny": 100000.0,
-    "side_cost_bp": 17.2688,
-    "annual_pct": 3.881,
+    "side_cost_bp": 17.2677,
+    "annual_pct": 3.8814,
     "legs_paying_floor": 12,
     "legs_total": 12
    },
    {
     "capital_cny": 200000.0,
-    "side_cost_bp": 13.8745,
-    "annual_pct": 3.1466,
+    "side_cost_bp": 13.8637,
+    "annual_pct": 3.1544,
     "legs_paying_floor": 12,
     "legs_total": 12
    },
    {
     "capital_cny": 300000.0,
     "side_cost_bp": 13.041,
-    "annual_pct": 2.971,
+    "annual_pct": 2.9802,
     "legs_paying_floor": 0,
     "legs_total": 12
    },
    {
     "capital_cny": 500000.0,
     "side_cost_bp": 13.041,
-    "annual_pct": 2.9809,
+    "annual_pct": 2.9802,
     "legs_paying_floor": 0,
     "legs_total": 12
    },
    {
     "capital_cny": 1000000.0,
     "side_cost_bp": 13.041,
-    "annual_pct": 2.9851,
+    "annual_pct": 2.9868,
     "legs_paying_floor": 0,
     "legs_total": 12
    }
   ],
-  "cutoff": "2026-11-26",
-  "generated": "2026-11-26T21:55:58+08:00",
+  "cutoff": "2026-11-27",
+  "generated": "2026-11-28T07:04:38+08:00",
   "path": "results/etf_book_entry_price.json",
   "producer": "scripts/etf_book_entry_price.py"
  },
@@ -1814,21 +1812,21 @@
   "present": true,
   "path": "results/etf_book_idle_cash.json",
   "verdict": "ADMIT",
-  "cagr_without_pct": 10.89,
-  "cagr_with_pct": 11.46,
-  "cagr_gain_pp": 0.57,
-  "sharpe_without": 1.076,
-  "sharpe_with": 1.127,
+  "cagr_without_pct": 10.94,
+  "cagr_with_pct": 11.52,
+  "cagr_gain_pp": 0.58,
+  "sharpe_without": 1.08,
+  "sharpe_with": 1.132,
   "maxdd_without_pct": -10.56,
   "maxdd_with_pct": -10.47,
   "idle_share_median": 0.2922,
-  "bars_with_cash": 1411,
-  "bars": 1671,
-  "cny_per_year_on_1m": 5700.0,
-  "cash_vehicle_net_pct": 1.7696,
+  "bars_with_cash": 1412,
+  "bars": 1672,
+  "cny_per_year_on_1m": 5800.0,
+  "cash_vehicle_net_pct": 1.7693,
   "gap_bp": 0.0049,
-  "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:33:02"
+  "evidence_cutoff": "2026-11-27",
+  "source_generated": "2026-11-28T06:11:22"
  },
  "book_identity": {
   "path_ledger": "results/etf_book_forward/LEDGER.json",
@@ -1931,8 +1929,8 @@
   "scope": "the executable ticket only. The forward paper series is an append-only evidence line: it is re-labelled FUNDED_BY_A_LARGER_CAPITAL, never rewritten, truncated or deleted",
   "reversal": "fund the account to the first rung and re-run: the same rule hands the ticket back one lot and this file prints it -- the withdrawal is conditional on capital, not a judgement about the sleeve",
   "sentence": "To open this book at all needs 1,137,862 CNY of capital (IC account). IC is 137,862 CNY short of its first lot (capital 1,000,000, gap 13.79%). IM is 165,749 CNY short of its first lot (capital 1,000,000, gap 16.57%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.",
-  "source_generated": "2026-11-27T02:33:48+08:00",
-  "evidence_cutoff": "2026-11-26",
+  "source_generated": "2026-11-28T06:11:58+08:00",
+  "evidence_cutoff": "2026-11-27",
   "source_face": "results/idx_fut_carry_sizing_spec.json",
   "ladder_face": "results/idx_fut_carry_capital_ladder.json"
  },
@@ -2017,7 +2015,7 @@
    }
   },
   "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:30:07+08:00"
+  "source_generated": "2026-11-28T06:07:28+08:00"
  },
  "carry_membership": {
   "present": true,
@@ -2033,7 +2031,7 @@
    },
    "IF": {
     "verdict": "REFUSE",
-    "why": "at 8.0% vol the sleeve earns 6.43% against the book's 10.97%",
+    "why": "at 8.0% vol the sleeve earns 6.43% against the book's 11.03%",
     "carry_at_target_pct": 6.428,
     "corr_with_book": 0.051,
     "blend_gain_sharpe": 0.132,
@@ -2041,7 +2039,7 @@
    },
    "IH": {
     "verdict": "REFUSE",
-    "why": "at 8.0% vol the sleeve earns 4.21% against the book's 10.97%",
+    "why": "at 8.0% vol the sleeve earns 4.21% against the book's 11.03%",
     "carry_at_target_pct": 4.21,
     "corr_with_book": 0.054,
     "blend_gain_sharpe": 0.084,
@@ -2060,48 +2058,48 @@
    "IC",
    "IM"
   ],
-  "book_ann_pct": 10.952,
-  "book_ann_compound_pct": 10.975,
+  "book_ann_pct": 10.997,
+  "book_ann_compound_pct": 11.025,
   "vol_target_pct": 8.0,
-  "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:30:15"
+  "evidence_cutoff": "2026-11-27",
+  "source_generated": "2026-11-28T06:08:19"
  },
  "carry_margin": {
   "present": true,
   "path": "results/idx_fut_carry_margin.json",
   "verdict": "VOL_RULER_IS_THE_GATE",
-  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 98.3%、106.6%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
+  "sentence": "保证金不是门槛：保证金臂要追平波动臂首档，需要初始保证金率到 89.9%、97.8%（IC/IM 各自的临界值），而现实中券商收 12-15%。所以开仓资金线仍由 8% 波动尺决定；保证金只吃掉其中一部分现金，不改变 1 手首档。反过来说——若改用保证金口径，账户能开的杠杆是波动预算的若干倍，风险会失控，这正是不能拿保证金当尺子的原因。",
   "gates": {
    "IC": "VOL_RULER",
    "IM": "VOL_RULER"
   },
   "breakeven_rate_pct": {
-   "IC": 98.261,
-   "IM": 106.5779
+   "IC": 89.9468,
+   "IM": 97.8142
   },
   "ruler_gap": {
-   "IC": 4.289,
-   "IM": 4.545
+   "IC": 3.926,
+   "IM": 4.171
   },
   "accounts": {
    "IC": {
-    "notional_cny": 1158000.0,
+    "notional_cny": 1265040.0,
     "vol_rung_cny": 1137862.5,
-    "margin_rung_cny": 265297.8,
-    "initial_margin_cny": 162120.0,
-    "call_trigger_pct": 72.3558,
-    "breakeven_rate_pct": 98.261,
+    "margin_rung_cny": 289820.66,
+    "initial_margin_cny": 177105.6,
+    "call_trigger_pct": 65.0489,
+    "breakeven_rate_pct": 89.9468,
     "worst_intraday_pct": -8.91,
     "worst_intraday_date": "2018-06-19",
     "gate": "VOL_RULER"
    },
    "IM": {
-    "notional_cny": 1093800.0,
+    "notional_cny": 1191800.0,
     "vol_rung_cny": 1165749.12,
-    "margin_rung_cny": 256512.51,
-    "initial_margin_cny": 153132.0,
-    "call_trigger_pct": 77.4244,
-    "breakeven_rate_pct": 106.5779,
+    "margin_rung_cny": 279494.98,
+    "initial_margin_cny": 166852.0,
+    "call_trigger_pct": 69.9067,
+    "breakeven_rate_pct": 97.8142,
     "worst_intraday_pct": -9.4515,
     "worst_intraday_date": "2024-02-05",
     "gate": "VOL_RULER"
@@ -2113,8 +2111,8 @@
    14.000000000000002,
    15.0
   ],
-  "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:33:48+0800"
+  "evidence_cutoff": "2026-11-27",
+  "source_generated": "2026-11-28T06:11:58+0800"
  },
  "futures_panel": {
   "present": true,
@@ -2131,12 +2129,12 @@
    "over_365_days": 283
   },
   "newest_dead": {
-   "calendar_days_old": 41,
+   "calendar_days_old": 42,
    "last_bar": "2026-10-16",
    "symbol": "IC2610"
   },
   "oldest_dead": {
-   "calendar_days_old": 2813,
+   "calendar_days_old": 2814,
    "last_bar": "2019-03-15",
    "symbol": "IH1903"
   },
@@ -2161,13 +2159,13 @@
    "IM2612"
   ],
   "live_agree": true,
-  "panel_date": "2026-11-26",
-  "window_cut": "2026-11-17",
+  "panel_date": "2026-11-27",
+  "window_cut": "2026-11-18",
   "writer_script": "scripts/update_futures_contracts.py",
-  "writer_verdict": "ALREADY_CURRENT",
-  "writer_generated": "2026-11-27T02:33:05+0800",
-  "source_generated": "2026-11-27T02:33:47+08:00",
-  "evidence_cutoff": "2026-11-26"
+  "writer_verdict": "ADVANCED",
+  "writer_generated": "2026-11-28T06:11:38+0800",
+  "source_generated": "2026-11-28T06:11:57+08:00",
+  "evidence_cutoff": "2026-11-27"
  },
  "futures_gaps": {
   "present": true,
@@ -2206,8 +2204,8 @@
    ]
   ],
   "control_held": true,
-  "carried_from": "2026-11-27T01:21:28+0800",
-  "source_generated": "2026-11-27T02:33:47+0800",
+  "carried_from": "2026-11-27T02:33:47+0800",
+  "source_generated": "2026-11-28T06:11:57+0800",
   "evidence_cutoff": "2026-09-21"
  },
  "carry_roll_cost": {
@@ -2251,8 +2249,8 @@
     "gap_measured_pp": 7.413
    }
   },
-  "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:30:15"
+  "evidence_cutoff": "2026-11-27",
+  "source_generated": "2026-11-28T06:08:19"
  },
  "carry_marks": {
   "present": true,
@@ -2263,7 +2261,7 @@
     "state": "backed",
     "contract": "IC2612",
     "last": "2026-11-26",
-    "panel_last": "2026-11-26",
+    "panel_last": "2026-11-27",
     "unbacked": [],
     "unbacked_n": 0
    },
@@ -2271,7 +2269,7 @@
     "state": "backed",
     "contract": "IM2612",
     "last": "2026-11-26",
-    "panel_last": "2026-11-26",
+    "panel_last": "2026-11-27",
     "unbacked": [],
     "unbacked_n": 0
    }
@@ -2282,74 +2280,74 @@
    "unbacked_abs_pnl_cny": 0.0
   },
   "evidence_cutoff": "2026-11-26",
-  "source_generated": "2026-11-27T02:33:48"
+  "source_generated": "2026-11-28T06:11:57"
  },
  "cb_book": {
   "present": true,
   "book_path": "results/cb_dual_low.json",
   "floor_path": "results/cb_book_ticket_floor.json",
-  "generated": "2026-11-27T11:47:04",
-  "cutoff": "2026-11-26",
+  "generated": "2026-11-28T05:56:09",
+  "cutoff": "2026-11-27",
   "panel_first_bar": "2007-07-12",
-  "panel_last_bar": "2026-11-26",
-  "panel_rows": 791209,
+  "panel_last_bar": "2026-11-27",
+  "panel_rows": 791526,
   "panel_codes": 1051,
-  "ann_pct": 7.354814635438323,
-  "sharpe": 0.7581240490932696,
+  "ann_pct": 7.420217603337487,
+  "sharpe": 0.7639846764940392,
   "maxdd_pct": -22.588481873937415,
-  "bench_ann_pct": 6.4358623253516045,
-  "bench_sharpe": 0.7005287652496887,
+  "bench_ann_pct": 6.654841800340483,
+  "bench_sharpe": 0.719166936850749,
   "bench_maxdd_pct": -23.694214630933065,
   "bench_n_hold": 20,
   "bench_rebal": 20,
-  "bench_years": 19.37577002053388,
+  "bench_years": 19.378507871321013,
   "cost_bp": 10.0,
   "floor": {
-   "generated": "2026-11-27T11:57:09+08:00",
-   "cutoff": "2026-11-26",
-   "panel_last_bar": "2026-11-26",
-   "panel_expected_bar": "2026-11-26",
+   "generated": "2026-11-28T05:56:12+08:00",
+   "cutoff": "2026-11-27",
+   "panel_last_bar": "2026-11-27",
+   "panel_expected_bar": "2026-11-27",
    "panel_lags_calendar": false,
    "names_on_last_bar": 317,
    "n_hold": 20,
    "rebal": 20,
    "strand_cap_pct": 2.0,
-   "rung_cny": 25850.2,
-   "clean_cny": 518625,
+   "rung_cny": 25875.8,
+   "clean_cny": 538811,
    "ladder": [
     {
      "capital": 50000.0,
      "held": 20,
-     "stranded_pct": 13.388900000000001,
-     "dev_pp": 2.415,
+     "stranded_pct": 13.8372,
+     "dev_pp": 2.412,
      "verdict": "BUYABLE_WITH_STRAND"
     },
     {
      "capital": 100000.0,
      "held": 20,
-     "stranded_pct": 9.2319,
-     "dev_pp": 1.122,
+     "stranded_pct": 9.768799999999999,
+     "dev_pp": 1.119,
      "verdict": "BUYABLE_WITH_STRAND"
     },
     {
      "capital": 200000.0,
      "held": 20,
-     "stranded_pct": 3.8004000000000002,
-     "dev_pp": 0.52,
+     "stranded_pct": 4.9124,
+     "dev_pp": 0.543,
      "verdict": "BUYABLE_WITH_STRAND"
     },
     {
      "capital": 500000.0,
      "held": 20,
-     "stranded_pct": 1.9588999999999999,
-     "dev_pp": 0.204,
+     "stranded_pct": 1.5737,
+     "dev_pp": 0.165,
      "verdict": "BUYABLE"
     },
     {
      "capital": 1000000.0,
      "held": 20,
-     "stranded_pct": 0.8947,
-     "dev_pp": 0.095,
+     "stranded_pct": 0.9733999999999999,
+     "dev_pp": 0.102,
      "verdict": "BUYABLE"
     }
    ],
@@ -2364,54 +2362,54 @@
  "pair_rebalance": {
   "present": true,
   "path": "results/book_pair_rebalance.json",
-  "generated": "2026-11-27T16:16:40+08:00",
-  "cutoff": "2026-11-26",
+  "generated": "2026-11-28T05:58:25+08:00",
+  "cutoff": "2026-11-27",
   "bar_first": "2020-01-03",
-  "bar_last": "2026-11-26",
-  "bars": 1671,
+  "bar_last": "2026-11-27",
+  "bars": 1672,
   "w_cb": 0.3,
   "cost_bp": 10.0,
-  "hold_sharpe": 1.0430957274,
-  "hold_cagr_pct": 8.87140651,
+  "hold_sharpe": 1.0522063159,
+  "hold_cagr_pct": 8.95793559,
   "hold_maxdd_pct": -8.91561868,
-  "hold_final_w_cb": 0.254482,
+  "hold_final_w_cb": 0.256088,
   "drift_start_w_cb": 0.3,
-  "drift_end_w_cb": 0.2545,
+  "drift_end_w_cb": 0.2561,
   "drift_max_pp": 8.917,
-  "drift_sentence": "left alone from 2020-01-03 to 2026-11-26, a 30/70 wallet ends at 25.4/74.6 and at its worst carried 8.9pp away from target -- that drift is what a paid cadence buys back",
+  "drift_sentence": "left alone from 2020-01-03 to 2026-11-27, a 30/70 wallet ends at 25.6/74.4 and at its worst carried 8.9pp away from target -- that drift is what a paid cadence buys back",
   "verdict": "REBALANCE_PAYS",
-  "gain_sharpe": 0.0219,
+  "gain_sharpe": 0.0224,
   "best_paid_rule": "quarterly",
   "cost_drag_pp": 0.0116,
-  "paid_sharpe": 1.0650360479,
-  "paid_cagr_pct": 9.12202838,
+  "paid_sharpe": 1.0745646849,
+  "paid_cagr_pct": 9.21341989,
   "paid_maxdd_pct": -9.25035686,
   "paid_moves": 27,
   "paid_turnover_per_year": 0.0531,
-  "recovery_gap_sharpe": 0.0011,
-  "recovery_paper_sharpe": 1.0662,
+  "recovery_gap_sharpe": 0.0013,
+  "recovery_paper_sharpe": 1.0759,
   "recovery_is_paper_only": true,
-  "recovery_sentence": "what the paid cadence buys is the paper number: the blend face's 1.066 assumes the wallet is walked back to 30/70 every day, and the best paid cadence lands at 1.065 -- so the edge is the price of not drifting, not a second source of return",
+  "recovery_sentence": "what the paid cadence buys is the paper number: the blend face's 1.076 assumes the wallet is walked back to 30/70 every day, and the best paid cadence lands at 1.075 -- so the edge is the price of not drifting, not a second source of return",
   "sensitivity": [
    {
     "cost_bp": 5.0,
-    "hold_sharpe": 1.0431,
+    "hold_sharpe": 1.0522,
     "cadence": "quarterly",
-    "cadence_sharpe": 1.0656,
+    "cadence_sharpe": 1.0751,
     "cadence_still_ahead": true
    },
    {
     "cost_bp": 10.0,
-    "hold_sharpe": 1.0431,
+    "hold_sharpe": 1.0522,
     "cadence": "quarterly",
-    "cadence_sharpe": 1.065,
+    "cadence_sharpe": 1.0746,
     "cadence_still_ahead": true
    },
    {
     "cost_bp": 20.0,
-    "hold_sharpe": 1.0431,
+    "hold_sharpe": 1.0522,
     "cadence": "quarterly",
-    "cadence_sharpe": 1.0639,
+    "cadence_sharpe": 1.0734,
     "cadence_still_ahead": true
    }
   ],
@@ -2426,11 +2424,11 @@
  "cb_sleeve_today": {
   "present": true,
   "path": "results/book_pair_cushion_regime.json",
-  "generated": "2026-11-27T19:36:59+08:00",
-  "cutoff": "2026-11-26",
+  "generated": "2026-11-28T06:01:42+08:00",
+  "cutoff": "2026-11-27",
   "w_cb": 0.3,
   "window_first": "2020-02-29",
-  "window_last_bar": "2026-11-26",
+  "window_last_bar": "2026-11-27",
   "labelled_months": 81,
   "label_in_force": "rich",
   "decided_at": "2026-10-31",
@@ -2439,31 +2437,31 @@
   "sleeve_share_pct": 0.0,
   "next_decision_day": "2026-11-30",
   "rule_sentence": "cash in the cb sleeve while the label reads rich; back into the sleeve as soon as the label leaves rich",
-  "premium_pct": 70.345,
-  "premium_percentile_pct": 98.17,
-  "premium_asof": "2026-11-26",
+  "premium_pct": 65.611,
+  "premium_percentile_pct": 97.72999999999999,
+  "premium_asof": "2026-11-27",
   "rule_verdict": "THE_RULE_BEATS_ITS_OWN_EXPOSURE",
-  "rule_edge_sharpe": 0.1172,
+  "rule_edge_sharpe": 0.1099,
   "arms": [
    {
     "arm": "rule",
-    "cagr_pct": 9.9694,
-    "sharpe": 1.383456,
+    "cagr_pct": 10.009500000000001,
+    "sharpe": 1.391404,
     "maxdd_pct": -4.3718,
     "months": 81
    },
    {
     "arm": "always_on",
-    "cagr_pct": 9.287099999999999,
-    "sharpe": 1.21465,
-    "maxdd_pct": -8.9574,
+    "cagr_pct": 9.385200000000001,
+    "sharpe": 1.234035,
+    "maxdd_pct": -8.404499999999999,
     "months": 81
    },
    {
     "arm": "matched_exposure",
-    "cagr_pct": 8.1515,
-    "sharpe": 1.266249,
-    "maxdd_pct": -5.1633,
+    "cagr_pct": 8.2157,
+    "sharpe": 1.281467,
+    "maxdd_pct": -4.7828,
     "months": 81
    }
   ],
@@ -2471,16 +2469,16 @@
   "cost_paid_pp": 0.33,
   "months_in_cash": 46,
   "avg_cb_exposure": 0.4321,
-  "edge_pp": 0.144,
-  "edge_lo_pp": 0.018,
-  "edge_hi_pp": 0.275,
-  "edge_total_pp": 11.64,
+  "edge_pp": 0.142,
+  "edge_lo_pp": 0.017,
+  "edge_hi_pp": 0.271,
+  "edge_total_pp": 11.492,
   "edge_top_k": 5,
   "edge_top_k_pp": 7.529,
-  "edge_top_k_share_pct": 64.68,
+  "edge_top_k_share_pct": 65.52,
   "cushion_verdict": "CUSHION_DIFFERENCE_NOT_SEPARABLE",
-  "cushion_diff_pp": -0.455,
-  "cushion_diff_lo_pp": -1.365,
+  "cushion_diff_pp": -0.444,
+  "cushion_diff_lo_pp": -1.337,
   "cushion_diff_hi_pp": 0.653,
   "regimes": {
    "cheap": {
@@ -2503,9 +2501,9 @@
    },
    "rich": {
     "months": 46,
-    "mean_month_pct": 0.269,
+    "mean_month_pct": 0.281,
     "down_months": 22,
-    "cushion_pp": 0.251,
+    "cushion_pp": 0.262,
     "down_improved": 10,
     "up_months": 24,
     "give_pp": -0.702
@@ -2515,20 +2513,20 @@
    "the premium regime is a market-wide median; the sleeve holds 20 bonds, so a market-rich month need not be a sleeve-rich month",
    "the rule is priced on monthly switches only; intra-month runs are not modelled",
    "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them",
-   "there is one window: 2020-02-29..2026-11-26. The CB market was rich in 46 of 81 labelled months and in cash in 46 of them, so the rule reads mostly as 'be out of the sleeve when it is expensive' over a single premium cycle -- a repeated reading is what would make its 0.144 pp a month edge durable",
+   "there is one window: 2020-02-29..2026-11-27. The CB market was rich in 46 of 81 labelled months and in cash in 46 of them, so the rule reads mostly as 'be out of the sleeve when it is expensive' over a single premium cycle -- a repeated reading is what would make its 0.142 pp a month edge durable",
    "the cheap side holds only 3 falling months -- the cheap-vs-rich split is printed for the record and is not evidence of anything"
   ]
  },
  "sleeve_ruler_second_opinion": {
   "present": true,
   "path": "results/book_pair_sleeve_premium.json",
-  "generated": "2026-11-27T20:51:42+08:00",
-  "cutoff": "2026-11-26",
+  "generated": "2026-11-28T06:02:32+08:00",
+  "cutoff": "2026-11-27",
   "panels": {
    "etf": "2026-11-27",
-   "cb_arm": "2026-11-26",
-   "sleeve_premium": "2026-11-26",
-   "premium_day_used": "2026-11-26"
+   "cb_arm": "2026-11-27",
+   "sleeve_premium": "2026-11-27",
+   "premium_day_used": "2026-11-27"
   },
   "verdict": "THE_ANSWER_DEPENDS_ON_WHICH_RULER",
   "arms": [
@@ -2537,11 +2535,11 @@
     "ruler_label": "全市场中位溢价",
     "cash_months": 46,
     "label_months": 81,
-    "rule_sharpe": 1.383456,
-    "always_on_sharpe": 1.21465,
-    "edge_pp": 0.144,
-    "edge_lo_pp": 0.018,
-    "edge_hi_pp": 0.275,
+    "rule_sharpe": 1.391404,
+    "always_on_sharpe": 1.234035,
+    "edge_pp": 0.142,
+    "edge_lo_pp": 0.017,
+    "edge_hi_pp": 0.271,
     "rule_verdict": "THE_RULE_BEATS_ITS_OWN_EXPOSURE"
    },
    {
@@ -2549,11 +2547,11 @@
     "ruler_label": "袖自己 20 只（全史分档）",
     "cash_months": 3,
     "label_months": 81,
-    "rule_sharpe": 1.245422,
-    "always_on_sharpe": 1.21465,
-    "edge_pp": 0.011,
+    "rule_sharpe": 1.252589,
+    "always_on_sharpe": 1.234035,
+    "edge_pp": 0.006,
     "edge_lo_pp": -0.026,
-    "edge_hi_pp": 0.057,
+    "edge_hi_pp": 0.044,
     "rule_verdict": "RULE_EDGE_NOT_SEPARABLE_FROM_NOISE"
    },
    {
@@ -2561,11 +2559,11 @@
     "ruler_label": "袖自己 20 只（近三年分档）",
     "cash_months": 28,
     "label_months": 81,
-    "rule_sharpe": 1.254881,
-    "always_on_sharpe": 1.21465,
-    "edge_pp": 0.054,
-    "edge_lo_pp": -0.056,
-    "edge_hi_pp": 0.166,
+    "rule_sharpe": 1.262235,
+    "always_on_sharpe": 1.234035,
+    "edge_pp": 0.051,
+    "edge_lo_pp": -0.059,
+    "edge_hi_pp": 0.164,
     "rule_verdict": "RULE_EDGE_NOT_SEPARABLE_FROM_NOISE"
    }
   ],
@@ -2576,23 +2574,23 @@
    "label_in_force": "rich",
    "read_at": "2026-10-31",
    "side": "cash",
-   "reading_pct": 70.345,
-   "rich_above_pct": 32.642,
+   "reading_pct": 65.611,
+   "rich_above_pct": 32.656,
    "is_rich_now": true
   },
   "sleeve_today": {
    "label_in_force": "rich",
    "read_at": "2026-10-31",
    "side": "cash",
-   "reading_pct": 8.769,
-   "rich_above_pct": 15.233,
+   "reading_pct": 11.42,
+   "rich_above_pct": 15.231,
    "is_rich_now": false
   },
   "sleeve_recent_today": {
    "label_in_force": "rich",
    "read_at": "2026-10-31",
    "side": "cash",
-   "reading_pct": 8.769,
+   "reading_pct": 11.42,
    "rich_above_pct": 12.283,
    "is_rich_now": false
   },
@@ -2795,16 +2793,16 @@
    {
     "face": "etf_book",
     "label": "⑥ ETF 复合书",
-    "cutoff": "2026-11-26",
-    "owed_sessions": 1,
-    "state": "behind"
+    "cutoff": "2026-11-27",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "risk_tape",
     "label": "③ 风险带（zt 四面板）",
-    "cutoff": "2026-11-26",
-    "owed_sessions": 1,
-    "state": "behind"
+    "cutoff": "2026-11-27",
+    "owed_sessions": 0,
+    "state": "current"
    },
    {
     "face": "market",
@@ -2826,20 +2824,20 @@
     "state": "behind"
    }
   ],
-  "worst_face": "⑥ ETF 复合书",
-  "worst_owed_sessions": 1,
+  "worst_face": null,
+  "worst_owed_sessions": 0,
   "unreadable": [],
-  "book_panel_last_bar": "2026-11-26"
+  "book_panel_last_bar": "2026-11-27"
  },
  "data_lanes": {
   "status": "ok",
-  "as_of": "2026-11-27T15:46:50",
+  "as_of": "2026-11-28T05:53:12",
   "verdict": "attention",
   "counts": {
    "retired": 1,
    "stalled": 1,
-   "in_sync": 2,
-   "today_pending": 11,
+   "in_sync": 3,
+   "behind_1d": 10,
    "absent": 1
   },
   "n_lanes": 16,
@@ -2850,7 +2848,7 @@
     "lane": "heat",
     "host": "bm-a",
     "host_alive": false,
-    "host_age_h": 211.9,
+    "host_age_h": 226.0,
     "state": "stalled",
     "tail": "2026-11-19",
     "expected": "2026-11-27",
@@ -2864,11 +2862,151 @@
     ],
     "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
     "takeover_capable": true
+   },
+   {
+    "lane": "astock_daily",
+    "host": "bm-b",
+    "host_alive": false,
+    "host_age_h": 689.17,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "cb_panel",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.48,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": "vendor re-serves each bond's full history by code, so a missed day is recoverable; the failure mode here is silent staleness -- fetch used to skip every bond whose file existed, so the panel could not move without --tail-after",
+    "takeover_capable": false
+   },
+   {
+    "lane": "futures",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 226.0,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "lhb",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 226.0,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "lhb_inst",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.48,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": "vendor re-serves the range on later pulls, so a missed month is recoverable by moving FIRST_DATE; the panel is append-only by key",
+    "takeover_capable": false
+   },
+   {
+    "lane": "marks",
+    "host": "bm-b",
+    "host_alive": false,
+    "host_age_h": 689.17,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": "an intraday tick capture: a day with no marks file cannot be rebuilt by any machine -- the file is append-only and the ticks it would have held are gone",
+    "takeover_capable": true
+   },
+   {
+    "lane": "minute_feed",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.48,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": "a minute bar outside the source's rolling window is gone",
+    "takeover_capable": false
+   },
+   {
+    "lane": "repo",
+    "host": "bm-a",
+    "host_alive": false,
+    "host_age_h": 226.0,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": null,
+    "takeover_capable": true
+   },
+   {
+    "lane": "ths_panel",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.48,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": null,
+    "takeover_capable": false
+   },
+   {
+    "lane": "zt_pool",
+    "host": "bm-c",
+    "host_alive": true,
+    "host_age_h": 0.48,
+    "state": "behind_1d",
+    "tail": "2026-11-26",
+    "expected": "2026-11-27",
+    "missing_days": [
+     "2026-11-27"
+    ],
+    "loss_mode": "pool day slices are terminal at the close; no superset arrives later",
+    "takeover_capable": true
    }
   ],
   "hosts": {
    "bm-a": {
-    "age_h": 211.9,
+    "age_h": 226.0,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {
@@ -2879,7 +3017,7 @@
     }
    },
    "bm-b": {
-    "age_h": 675.06,
+    "age_h": 689.17,
     "alive": false,
     "silent_waiting": [],
     "silent_taken_over": {

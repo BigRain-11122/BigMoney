@@ -1,19 +1,19 @@
 # ETF book -- selection premium across decision phases
 
-Question: the card's headline is +6.48pp/yr of selection premium on one decision calendar -- does that premium survive four phases of that calendar?
+Question: the card's headline is +6.14pp/yr of selection premium on one decision calendar -- does that premium survive four phases of that calendar?
 
-**Verdict**: level: the premium is positive on 4/4 phases (median +6.64pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence
+**Verdict**: level: the premium is positive on 4/4 phases (median +6.30pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence
 
 | phase | start | decisions | book CAGR | static CAGR | premium pp | book Sharpe |
 |---|---|---|---|---|---|---|
-| 0 | 2020-01-02 | 84 | 8.92% | 2.44% | +6.48 | 0.92 |
-| 1 | 2020-01-09 | 84 | 9.12% | 2.31% | +6.81 | 0.90 |
-| 2 | 2020-01-16 | 84 | 8.29% | 2.86% | +5.43 | 0.83 |
-| 3 | 2020-01-23 | 83 | 10.83% | 3.09% | +7.74 | 1.13 |
+| 0 | 2020-01-02 | 84 | 8.94% | 2.80% | +6.14 | 0.93 |
+| 1 | 2020-01-09 | 84 | 9.15% | 2.68% | +6.47 | 0.90 |
+| 2 | 2020-01-16 | 84 | 8.32% | 3.21% | +5.11 | 0.84 |
+| 3 | 2020-01-23 | 83 | 10.88% | 3.46% | +7.42 | 1.13 |
 
-Premium: positive on 4/4 phases, median +6.64 pp/yr, range +5.43..+7.74 (+2.31 pp spread).
+Premium: positive on 4/4 phases, median +6.30 pp/yr, range +5.11..+7.42 (+2.31 pp spread).
 
-Ruler: the book's own CAGR spans 8.29%..10.83% across these phases (2.54 pp) -- compare the premium's spread against that before quoting any single number.
+Ruler: the book's own CAGR spans 8.32%..10.88% across these phases (2.56 pp) -- compare the premium's spread against that before quoting any single number.
 
 Control: phase 0 is the published window, so it must reproduce the published arm
 
