@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝给「这道防守是不是噪声」一个区间，并把 1.64pp 与 0.43pp 两把尺子分开写｜最近实物=results/book_pair_split_ci.md（2026-11-27 18:32·bar 11-26·selftest 22/22）＋ qa/book-pair-split-ci-r2181.md｜下个里程碑＝(a) 共享面空出即接链腿+冒烟腿（≤24h）(b) 集团仓恢复回执件与 bm-b relay 回读（≤48h）",
+ "CEO 三行": "当前活＝给「袖读数今天翻了面」找出处：不是市场变的，是 11-16 那次换手换掉了 20 只里的 4-5 只｜最近实物=results/book_pair_sleeve_turnover.md（2026-11-27 22:05·cutoff 2026-11-26·selftest 14/14）＋ qa/book-pair-sleeve-turnover-r2186.md｜下个里程碑＝(a) 共享面空出即接链腿+冒烟腿+CEO 页「距闸线 < 换手台阶=不确定」一条（≤24h）(b) 换手窗口内/外读数分开报（≤48h）",
  "active_lane": "lane freshness: who is supposed to move the panel",
  "activity": "product",
- "activity_now": "r2181 book_pair_split_ci: the 0.43pp monthly cushion is distinguishable from zero (90% CI +0.07..+0.82pp, P<=0 1.9%) but it is the convertible weight times the spread, and 2026 is the only negative year (-0.47pp)",
- "activity_now_round": 2181,
+ "activity_now": "r2186 book_pair_sleeve_turnover: a re-pick moves the sleeve's own premium reading by 2.30pp (median) / 5.98pp (p90) with the market held fixed on the same date -- 2.95x an ordinary day -- and 16 of 81 month-end labels would have been a different bucket had the last swap not happened; today's 8.769% sits 0.48pp from the cheap edge, inside that step",
+ "activity_now_round": 2186,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -40,11 +40,11 @@
   "workers": 6
  },
  "artifacts": [
-  "scripts/book_pair_worst_windows.py",
-  "results/book_pair_worst_windows.json",
-  "results/book_pair_worst_windows.md",
-  "research/BOOK_PAIR_WORST_WINDOWS.md",
-  "qa/book-pair-worst-windows-r2179.md"
+  "scripts/book_pair_sleeve_turnover.py",
+  "results/book_pair_sleeve_turnover.json",
+  "results/book_pair_sleeve_turnover.md",
+  "research/BOOK_PAIR_SLEEVE_TURNOVER.md",
+  "qa/book-pair-sleeve-turnover-r2186.md"
  ],
  "attrition": "scan CLEAN (4 ledgers, 3 historical shrinks healed)",
  "batch": "none (contended round, no compute batch)",
@@ -347,11 +347,11 @@
  "methodology_card_lock_r2068": "新方法=读者与写者必须共享同一张词表（同一份事实两个拼写：一行永久红 / 一个空转标签看起来像断供）；knowledge/METHODOLOGY_ASSETS.md 是共享面，竞争窗内不改，锁存待无竞争轮",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
  "new_files_only_round": true,
- "next": "(a) land the de-dup rule in the UPSTREAM shared face once the contention window closes: etf_book_cadence_regime_split.channels() should collapse cells within 1e-9 and print n_independent beside every per-quarter spread; (b) wire etf_book_cadence_cell_independence into the S6 chain + two smoke legs; (c) nothing else in the cadence family is open",
+ "next": "(a) once contention clears: chain leg + two smoke legs for book_pair_sleeve_turnover (check/run pair with an external anchor), and one CEO-page sentence: a reading closer to an edge than the swap step is not a decision; (b) report the reading inside the post-swap window separately from the rest, so the reader sees which months carry the step",
  "next_action": "price the borrow rate you can actually be quoted (券商融券费率序列) -- until then only the ceiling is measurable",
  "next_milestone": "(a) 上游 channels() 去重 + n_independent 印进逐季表（≤48h，需无竞争窗）；(b) 本面接 S6 链 + 两条冒烟腿（≤48h）",
  "next_pick": {
-  "candidate": "wire smoke_red_triage into the chain so the red roster stops going stale, then re-run each CONTRADICTION leg before assigning it",
+  "candidate": "wire book_pair_sleeve_turnover into the chain and give the page the 'inside the swap step' flag (blocked: shared faces under contention)",
   "status": "open"
  },
  "next_pointer": "(a) pick the fix in section 2 of BENCH-SIGNAL-SCALE-INVARIANCE.md, patch the shared code face, rerun the three cards; (b) wire the perturbation probe as a smoke leg; (c) S6 chain still not run for 12 rounds",
@@ -1726,7 +1726,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2185,
+ "round_no": 2186,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",

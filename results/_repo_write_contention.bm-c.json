@@ -1,26 +1,70 @@
 {
  "schema": "repo-write-contention/v1",
  "machine_id": "bm-c",
- "probed_at": "2026-11-27T20:21:33",
+ "probed_at": "2026-11-27T21:55:37",
  "lookback_min": 45.0,
- "verdict": "CLEAN",
- "why": "fewer than two codely hosts alive",
+ "verdict": "CONTENTION",
+ "why": "4 hosts alive; 1 shared face(s) written before this round started (strictly another host), 0 written inside the overlap (unattributable)",
  "hosts": [
   {
-   "pid": 130056,
+   "pid": 17788,
+   "kind": "interactive",
+   "started_epoch": 1795787614.4696348,
+   "started": "2026-11-27T21:53:34",
+   "age_min": 2.1,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 12408,
+   "kind": "interactive",
+   "started_epoch": 1795787622.0142715,
+   "started": "2026-11-27T21:53:42",
+   "age_min": 1.9,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 30500,
+   "kind": "interactive",
+   "started_epoch": 1795787681.333959,
+   "started": "2026-11-27T21:54:41",
+   "age_min": 0.9,
+   "exempt_from_cloud_cap": true,
+   "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe --experimental-acp --experimental-skills --path-polic"
+  },
+  {
+   "pid": 17936,
    "kind": "other",
-   "started_epoch": 1795782005.243274,
-   "started": "2026-11-27T20:20:05",
-   "age_min": 1.5,
+   "started_epoch": 1795787702.72965,
+   "started": "2026-11-27T21:55:02",
+   "age_min": 0.6,
    "exempt_from_cloud_cap": false,
    "cmd_head": "K:\\tuanjieAI\\Tuanjie Cowork\\cli\\bin\\win32-x64\\codely.exe -y -p 无人值守执行 Bigmoney 量化公司 10 分钟自迭代一轮（2026-09-23 CEO "
   }
  ],
- "my_host_pid": 130056,
- "my_host_started": "2026-11-27T20:20:05",
+ "my_host_pid": 17936,
+ "my_host_started": "2026-11-27T21:55:02",
  "host_probe_error": null,
- "overlap_windows": [],
- "peer_only_writes": [],
+ "overlap_windows": [
+  {
+   "pair": [
+    17788,
+    12408
+   ],
+   "kinds": [
+    "interactive",
+    "interactive"
+   ],
+   "from": "2026-11-27T21:53:42",
+   "to": "2026-11-27T21:55:37",
+   "minutes": 1.9,
+   "lo": 1795787622.0142715
+  }
+ ],
+ "peer_only_writes": [
+  "fleet/machines/bm-c.json"
+ ],
  "ambiguous_writes": [],
  "ignored_patterns": [
   "results/saturation_engine/",
@@ -35,249 +79,249 @@
  "declared_own_patterns": [],
  "declared_own_write_count": 0,
  "declared_own_writes": [],
- "writes_scanned_files": 35572,
+ "writes_scanned_files": 35596,
  "recent_writes": [
   {
-   "path": "results/quant_block_board.json",
-   "mtime": "2026-11-27T20:21:13",
-   "mtime_epoch": 1795782073.920305,
-   "bytes": 11261
-  },
-  {
-   "path": "research/QUANT-BLOCK-BOARD.md",
-   "mtime": "2026-11-27T20:21:13",
-   "mtime_epoch": 1795782073.920305,
-   "bytes": 5916
-  },
-  {
    "path": "fleet/machines/bm-c.json",
-   "mtime": "2026-11-27T20:20:03",
-   "mtime_epoch": 1795782003.8043566,
-   "bytes": 267177
+   "mtime": "2026-11-27T21:55:02",
+   "mtime_epoch": 1795787702.0702703,
+   "bytes": 267179
   },
   {
    "path": "results/cpu_fill/STATE.json",
-   "mtime": "2026-11-27T20:17:43",
-   "mtime_epoch": 1795781863.5142863,
+   "mtime": "2026-11-27T21:52:44",
+   "mtime_epoch": 1795787564.0418406,
    "bytes": 665
   },
   {
    "path": "research/ARBITER-BOARD.md",
-   "mtime": "2026-11-27T20:11:45",
-   "mtime_epoch": 1795781505.464796,
-   "bytes": 1531
+   "mtime": "2026-11-27T21:51:39",
+   "mtime_epoch": 1795787499.5014017,
+   "bytes": 1414
   },
   {
    "path": "results/arbiter/STATE.json",
-   "mtime": "2026-11-27T20:11:45",
-   "mtime_epoch": 1795781505.4442794,
-   "bytes": 1187
+   "mtime": "2026-11-27T21:51:39",
+   "mtime_epoch": 1795787499.4858882,
+   "bytes": 1041
   },
   {
-   "path": "results/etf_book_year_line_reach.json",
-   "mtime": "2026-11-27T20:11:07",
-   "mtime_epoch": 1795781467.589187,
-   "bytes": 12988
-  },
-  {
-   "path": "research/ETF_BOOK_YEAR_LINE_REACH.md",
-   "mtime": "2026-11-27T20:11:07",
-   "mtime_epoch": 1795781467.589187,
-   "bytes": 3218
+   "path": "scripts/smoke_red_recheck.py",
+   "mtime": "2026-11-27T21:50:59",
+   "mtime_epoch": 1795787459.6580756,
+   "bytes": 22710
   },
   {
    "path": "results/_s6chain_progress.bm-c.jsonl",
-   "mtime": "2026-11-27T20:09:53",
-   "mtime_epoch": 1795781393.5147557,
-   "bytes": 1112347
+   "mtime": "2026-11-27T21:38:33",
+   "mtime_epoch": 1795786713.987918,
+   "bytes": 1123974
   },
   {
-   "path": "results/_r2184bmc_s6_chain.only-derisk_rule-derisk_rule_write-late_she+8-f0ccb5e0.json",
-   "mtime": "2026-11-27T20:09:53",
-   "mtime_epoch": 1795781393.5137577,
-   "bytes": 2331
+   "path": "results/_r1483bmc_t29_unpriced_bar.json",
+   "mtime": "2026-11-27T21:38:32",
+   "mtime_epoch": 1795786712.7934847,
+   "bytes": 2878
   },
   {
-   "path": "results/etf_book_late_sheet_price.json",
-   "mtime": "2026-11-27T20:09:52",
-   "mtime_epoch": 1795781392.1155925,
-   "bytes": 9132
+   "path": "results/_r2186bmc_s6_chain.only-cash_roll_today-cut_order_gap-cut_orde+7-0587d1ff.json",
+   "mtime": "2026-11-27T21:38:21",
+   "mtime_epoch": 1795786701.2761555,
+   "bytes": 853
   },
   {
-   "path": "results/etf_book_derisk_rule/DERISK-RULE.json",
-   "mtime": "2026-11-27T20:08:48",
-   "mtime_epoch": 1795781328.1502385,
-   "bytes": 24521
+   "path": "results/etf_book_open_gap.json",
+   "mtime": "2026-11-27T21:37:36",
+   "mtime_epoch": 1795786656.4172385,
+   "bytes": 6752
   },
   {
-   "path": "results/etf_book_liquidity_era.md",
-   "mtime": "2026-11-27T20:07:30",
-   "mtime_epoch": 1795781250.2096212,
-   "bytes": 2965
+   "path": "results/etf_book_open_gap.md",
+   "mtime": "2026-11-27T21:37:36",
+   "mtime_epoch": 1795786656.4172385,
+   "bytes": 1513
   },
   {
-   "path": "results/etf_book_liquidity_era.json",
-   "mtime": "2026-11-27T20:07:30",
-   "mtime_epoch": 1795781250.2086215,
-   "bytes": 41261
+   "path": "results/etf_book_cut_order_gap.json",
+   "mtime": "2026-11-27T21:37:31",
+   "mtime_epoch": 1795786651.0766106,
+   "bytes": 2897
   },
   {
-   "path": "results/etf_book_liquidity_select.json",
-   "mtime": "2026-11-27T20:06:36",
-   "mtime_epoch": 1795781196.5956304,
-   "bytes": 26750
+   "path": "research/ETF_BOOK_CUT_ORDER_GAP.md",
+   "mtime": "2026-11-27T21:37:31",
+   "mtime_epoch": 1795786651.0766106,
+   "bytes": 1743
   },
   {
-   "path": "results/etf_book_liquidity_select.md",
-   "mtime": "2026-11-27T20:06:36",
-   "mtime_epoch": 1795781196.5956304,
-   "bytes": 1843
+   "path": "results/_r2186bmc_s6_chain.only-etf_book_order-etf_book_order_card.json",
+   "mtime": "2026-11-27T21:37:19",
+   "mtime_epoch": 1795786639.7528298,
+   "bytes": 421
   },
   {
-   "path": "results/etf_book_year_concentration_money.json",
-   "mtime": "2026-11-27T20:05:46",
-   "mtime_epoch": 1795781146.201213,
-   "bytes": 13869
+   "path": "results/etf_book_order/ORDER-2026-11-27-card.md",
+   "mtime": "2026-11-27T21:37:19",
+   "mtime_epoch": 1795786639.6404908,
+   "bytes": 23328
   },
   {
-   "path": "research/ETF_BOOK_YEAR_CONCENTRATION_MONEY.md",
-   "mtime": "2026-11-27T20:05:46",
-   "mtime_epoch": 1795781146.201213,
-   "bytes": 4688
+   "path": "results/etf_book_order/TICKET-2026-11-27-card.json",
+   "mtime": "2026-11-27T21:37:19",
+   "mtime_epoch": 1795786639.6159694,
+   "bytes": 23987
   },
   {
-   "path": "results/etf_book_year_gate/YEAR-GATE.json",
-   "mtime": "2026-11-27T20:05:44",
-   "mtime_epoch": 1795781144.4521637,
-   "bytes": 10374
+   "path": "results/etf_book_order/LOTCURVE-2026-11-27-card.json",
+   "mtime": "2026-11-27T21:37:19",
+   "mtime_epoch": 1795786639.593452,
+   "bytes": 26961
   },
   {
-   "path": "results/post_review/REPORT-20261127.md",
-   "mtime": "2026-11-27T20:02:33",
-   "mtime_epoch": 1795780953.2126749,
-   "bytes": 7333
+   "path": "results/etf_book_order/ORDER-2026-11-27.md",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.9749172,
+   "bytes": 56467
   },
   {
-   "path": "results/post_review.jsonl",
-   "mtime": "2026-11-27T20:02:33",
-   "mtime_epoch": 1795780953.117096,
-   "bytes": 22255888
+   "path": "results/etf_book_order/latest.json",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.968912,
+   "bytes": 482
   },
   {
-   "path": "results/paper_equity_recheck.json",
-   "mtime": "2026-11-27T20:00:09",
-   "mtime_epoch": 1795780809.7157128,
-   "bytes": 5432
+   "path": "results/etf_book_order/TICKET-2026-11-27.json",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.9679122,
+   "bytes": 96247
   },
   {
-   "path": "results/allocation/alloc_backtest.log",
-   "mtime": "2026-11-27T19:59:47",
-   "mtime_epoch": 1795780787.3350613,
-   "bytes": 527470
+   "path": "results/etf_book_order/WIDTH-ESCAPE-2026-11-27.md",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.9639132,
+   "bytes": 1715
   },
   {
-   "path": "fleet/machine-health.json",
-   "mtime": "2026-11-27T19:59:08",
-   "mtime_epoch": 1795780748.8793793,
-   "bytes": 673
+   "path": "results/etf_book_order/WIDTH-ESCAPE-2026-11-27.json",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.9629116,
+   "bytes": 5935
+  },
+  {
+   "path": "results/etf_book_order/state.json",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.882787,
+   "bytes": 159
+  },
+  {
+   "path": "results/etf_book_order/reinstatements.json",
+   "mtime": "2026-11-27T21:37:17",
+   "mtime_epoch": 1795786637.6958642,
+   "bytes": 715
+  },
+  {
+   "path": "results/etf_book_production/CARD.md",
+   "mtime": "2026-11-27T21:35:05",
+   "mtime_epoch": 1795786505.1210918,
+   "bytes": 22204
+  },
+  {
+   "path": "results/etf_book_production/latest.json",
+   "mtime": "2026-11-27T21:35:05",
+   "mtime_epoch": 1795786505.1210918,
+   "bytes": 43308
+  },
+  {
+   "path": "results/etf_book_production/PRODUCTION-2026-11-27.json",
+   "mtime": "2026-11-27T21:35:05",
+   "mtime_epoch": 1795786505.1180835,
+   "bytes": 43308
   },
   {
    "path": "results/zh_page_prose_census.json",
-   "mtime": "2026-11-27T19:59:01",
-   "mtime_epoch": 1795780741.9389596,
-   "bytes": 2648
+   "mtime": "2026-11-27T21:31:06",
+   "mtime_epoch": 1795786266.9658656,
+   "bytes": 2019
   },
   {
-   "path": "research/BOOK_PAIR_CUSHION_REGIME.md",
-   "mtime": "2026-11-27T19:58:05",
-   "mtime_epoch": 1795780685.2696693,
-   "bytes": 3020
+   "path": "results/_r2186bmc_s6_chain.only-do_or_wait-late_sheet_price-positions+4-0485504d.json",
+   "mtime": "2026-11-27T21:29:53",
+   "mtime_epoch": 1795786193.4553702,
+   "bytes": 722
   },
   {
-   "path": "results/_attrition_guard_scan.json",
-   "mtime": "2026-11-27T19:44:30",
-   "mtime_epoch": 1795779870.451677,
-   "bytes": 2154
+   "path": "results/etf_book_do_or_wait.json",
+   "mtime": "2026-11-27T21:29:51",
+   "mtime_epoch": 1795786191.9922628,
+   "bytes": 11561
   },
   {
-   "path": "results/_r2184bmc_s6_chain.only-chain_contract_word_audit-chain_writer+3-9846805a.json",
-   "mtime": "2026-11-27T19:41:05",
-   "mtime_epoch": 1795779665.0928998,
-   "bytes": 704
+   "path": "results/_r2186bmc_s6_chain.only-permission_persistence-sibling_gap-swa+5-cbad14af.json",
+   "mtime": "2026-11-27T21:28:33",
+   "mtime_epoch": 1795786113.6280394,
+   "bytes": 1067
   },
   {
-   "path": "research/CHAIN_CONTRACT_WORD_AUDIT.md",
-   "mtime": "2026-11-27T19:41:04",
-   "mtime_epoch": 1795779664.8180695,
-   "bytes": 3583
+   "path": "results/etf_book_year_gate/WRAPPER-GATE.json",
+   "mtime": "2026-11-27T21:27:47",
+   "mtime_epoch": 1795786067.2031643,
+   "bytes": 9113
   },
   {
-   "path": "results/chain_contract_word_audit.json",
-   "mtime": "2026-11-27T19:41:04",
-   "mtime_epoch": 1795779664.8170698,
-   "bytes": 6948
+   "path": "results/_r2186bmc_s6_chain.only-cash_roll_today-cut_order_gap-cut_orde+6-a030e88b.json",
+   "mtime": "2026-11-27T21:26:51",
+   "mtime_epoch": 1795786011.8151472,
+   "bytes": 1001
   },
   {
-   "path": "results/etf_book_k_gap.json",
-   "mtime": "2026-11-27T19:41:03",
-   "mtime_epoch": 1795779663.7294486,
-   "bytes": 1713
+   "path": "results/etf_book_cash_roll_today.json",
+   "mtime": "2026-11-27T21:26:48",
+   "mtime_epoch": 1795786008.4475505,
+   "bytes": 5976
   },
   {
-   "path": "results/etf_book_k_gap.md",
-   "mtime": "2026-11-27T19:41:03",
-   "mtime_epoch": 1795779663.7294486,
-   "bytes": 1063
+   "path": "results/etf_book_order/ORDER-2026-11-26-card.md",
+   "mtime": "2026-11-27T21:26:28",
+   "mtime_epoch": 1795785988.034188,
+   "bytes": 23264
   },
   {
-   "path": "results/chain_writer_audit.json",
-   "mtime": "2026-11-27T19:40:40",
-   "mtime_epoch": 1795779640.698928,
-   "bytes": 2389
+   "path": "results/etf_book_order/TICKET-2026-11-26-card.json",
+   "mtime": "2026-11-27T21:26:28",
+   "mtime_epoch": 1795785988.0101545,
+   "bytes": 23902
   },
   {
-   "path": "results/book_pair_split_ci.json",
-   "mtime": "2026-11-27T19:40:22",
-   "mtime_epoch": 1795779622.9004836,
-   "bytes": 11446
+   "path": "results/etf_book_order/LOTCURVE-2026-11-26-card.json",
+   "mtime": "2026-11-27T21:26:27",
+   "mtime_epoch": 1795785987.9886365,
+   "bytes": 26918
   },
   {
-   "path": "results/_r2184bmc_s6_chain.only-book_pair_cushion_regime-book_pair_split_ci.json",
-   "mtime": "2026-11-27T19:40:14",
-   "mtime_epoch": 1795779614.2906299,
-   "bytes": 419
+   "path": "results/quant_block_board.json",
+   "mtime": "2026-11-27T21:21:10",
+   "mtime_epoch": 1795785670.1478472,
+   "bytes": 11260
   },
   {
-   "path": "Tools/s6_chain_bmc.py",
-   "mtime": "2026-11-27T19:39:59",
-   "mtime_epoch": 1795779599.3201163,
-   "bytes": 249861
+   "path": "research/QUANT-BLOCK-BOARD.md",
+   "mtime": "2026-11-27T21:21:10",
+   "mtime_epoch": 1795785670.1478472,
+   "bytes": 5915
   },
   {
-   "path": "docs/live_usage/LIVE-latest.json",
-   "mtime": "2026-11-27T19:39:18",
-   "mtime_epoch": 1795779558.1157227,
-   "bytes": 77706
+   "path": "results/_r2185bmc_s6_chain.only-book_pair_sleeve_premium-dualrun.json",
+   "mtime": "2026-11-27T21:17:18",
+   "mtime_epoch": 1795785438.7617974,
+   "bytes": 454
   },
   {
-   "path": "docs/live_usage/LIVE-2026-11-27.json",
-   "mtime": "2026-11-27T19:39:18",
-   "mtime_epoch": 1795779558.1117225,
-   "bytes": 77706
-  },
-  {
-   "path": "docs/live_usage/LIVE-latest.md",
-   "mtime": "2026-11-27T19:39:18",
-   "mtime_epoch": 1795779558.1117225,
-   "bytes": 50367
-  },
-  {
-   "path": "docs/live_usage/LIVE-2026-11-27.md",
-   "mtime": "2026-11-27T19:39:18",
-   "mtime_epoch": 1795779558.107723,
-   "bytes": 50367
+   "path": "results/pool_dualrun.bm-c.jsonl",
+   "mtime": "2026-11-27T21:17:18",
+   "mtime_epoch": 1795785438.5879798,
+   "bytes": 15881
   }
  ],
- "recent_write_count": 43,
+ "recent_write_count": 46,
  "advisory": "Probe only: it never blocks, kills or defers production. A round that reads CONTENTION must land new files only, never re-derive shared faces or re-run the chain (r1907)."
 }
