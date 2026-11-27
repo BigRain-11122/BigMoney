@@ -1,0 +1,160 @@
+{
+ "face": "cb_union_lens",
+ "wallet_cny": 1000000.0,
+ "books": {
+  "etf_book": {
+   "book": "etf_book",
+   "readable": true,
+   "invested_cny": 750475.3,
+   "fees_cny": 225.15,
+   "cash_left_cny": 249299.55,
+   "utilisation": 0.750475,
+   "cash_weight_declared": 0.249275497247,
+   "target_vol": 0.08,
+   "scale": 0.750724502753,
+   "verdict": "FITS",
+   "all_legs_fit": true,
+   "n_names": 5,
+   "generated": "2026-11-27T13:34:47+08:00",
+   "cutoff": "2026-11-26",
+   "one_lot_every_name_cny": 945.75
+  },
+  "cb_book": {
+   "book": "cb_book",
+   "readable": true,
+   "invested_cny": 991053.2,
+   "fees_cny": null,
+   "stranded_cny": 8946.8,
+   "cash_left_cny": 8946.8,
+   "utilisation": 0.991053,
+   "verdict": "BUYABLE",
+   "n_names": 20,
+   "max_weight_dev_pp": 0.095,
+   "generated": "2026-11-27T11:57:09+08:00",
+   "cutoff": "2026-11-26",
+   "one_lot_every_name_cny": 25850.2,
+   "clean_capital_cny": 518625
+  },
+  "carry_book": {
+   "book": "carry_book",
+   "readable": true,
+   "invested_cny": 0.0,
+   "fees_cny": 0.0,
+   "cash_left_cny": 1000000.0,
+   "utilisation": 0.0,
+   "verdict": "WITHDRAW_FROM_TICKET",
+   "executable_lots_total": 0,
+   "open_needs_cny": 1137862.5,
+   "short_cny": 137862.5,
+   "short_pct": 0.1378625,
+   "cheapest_product": "IC",
+   "openable": false,
+   "generated": "2026-11-26T23:13:29+08:00",
+   "generated_source": "file-mtime (parent does not print one)",
+   "cutoff": "2026-11-26"
+  }
+ },
+ "openable": {
+  "etf_book": true,
+  "cb_book": true,
+  "carry_book": false
+ },
+ "combos": [
+  {
+   "books": [
+    "etf_book"
+   ],
+   "capital_used_cny": 750475.3,
+   "capital_left_cny": 249524.7,
+   "fits": true,
+   "why_not": null
+  },
+  {
+   "books": [
+    "cb_book"
+   ],
+   "capital_used_cny": 991053.2,
+   "capital_left_cny": 8946.8,
+   "fits": true,
+   "why_not": null
+  },
+  {
+   "books": [
+    "etf_book",
+    "cb_book"
+   ],
+   "capital_used_cny": 1741528.5,
+   "capital_left_cny": -741528.5,
+   "fits": false,
+   "why_not": "the set needs more than the wallet"
+  },
+  {
+   "books": [
+    "carry_book"
+   ],
+   "capital_used_cny": 0.0,
+   "capital_left_cny": 1000000.0,
+   "fits": false,
+   "why_not": "a book in this set cannot be opened at all"
+  },
+  {
+   "books": [
+    "etf_book",
+    "carry_book"
+   ],
+   "capital_used_cny": 750475.3,
+   "capital_left_cny": 249524.7,
+   "fits": false,
+   "why_not": "a book in this set cannot be opened at all"
+  },
+  {
+   "books": [
+    "cb_book",
+    "carry_book"
+   ],
+   "capital_used_cny": 991053.2,
+   "capital_left_cny": 8946.8,
+   "fits": false,
+   "why_not": "a book in this set cannot be opened at all"
+  },
+  {
+   "books": [
+    "etf_book",
+    "cb_book",
+    "carry_book"
+   ],
+   "capital_used_cny": 1741528.5,
+   "capital_left_cny": -741528.5,
+   "fits": false,
+   "why_not": "a book in this set cannot be opened at all"
+  }
+ ],
+ "best_combo": {
+  "books": [
+   "etf_book"
+  ],
+  "capital_used_cny": 750475.3,
+  "capital_left_cny": 249524.7,
+  "fits": true,
+  "why_not": null
+ },
+ "contending_books": [
+  "etf_book",
+  "cb_book"
+ ],
+ "contend_together_capital_cny": 1741528.5,
+ "verdict": "TWO_BOOKS_CONTEND_FOR_THE_SAME_WALLET",
+ "adopted_constant": {
+  "decided": "OPEN_THE_ONE_THAT_INVESTS_MORE_OF_THE_WALLET",
+  "decided_in": "cb_union_lens v1.0 (2026-11-27)",
+  "because": "在同一个钱包里，两本开得动的书互相排斥；两本都会把已有结论持有到下一次调仓，所以先开的这本决定当期的钱去哪。口径取「占用资本 / 钱包」高者，因为它把该钱包的现金利用率抬到位、且两本各自的回撤包络不相加。这是资本分配，不是对收益的预测。"
+ },
+ "adopted_book_today": "cb_book",
+ "question": "三本各自说开得动的书，抢同一只钱包时到底能开几本；开不动的那本缺多少钱",
+ "check": {
+  "ok": true,
+  "legs": 22,
+  "failed": []
+ },
+ "generated": "2026-11-27T22:14:14+08:00"
+}

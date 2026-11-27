@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝给「袖读数今天翻了面」找出处：不是市场变的，是 11-16 那次换手换掉了 20 只里的 4-5 只｜最近实物=results/book_pair_sleeve_turnover.md（2026-11-27 22:05·cutoff 2026-11-26·selftest 14/14）＋ qa/book-pair-sleeve-turnover-r2186.md｜下个里程碑＝(a) 共享面空出即接链腿+冒烟腿+CEO 页「距闸线 < 换手台阶=不确定」一条（≤24h）(b) 换手窗口内/外读数分开报（≤48h）",
+ "CEO 三行": "当前活＝三本各自说开得动的书抢同一只 100 万钱包，两本合开差 74 万｜最近实物=research/CB_UNION_LENS.md + results/cb_union_lens.json（2026-11-27 22:14·cutoff 2026-11-26·selftest 5/5·check 22/22）＋ qa/cb-union-lens-r2187.md｜下个里程碑＝共享面空出即补 S6 链腿+冒烟腿（≤24h）并让 CEO 页印这条「两本争一笔钱」",
  "active_lane": "lane freshness: who is supposed to move the panel",
  "activity": "product",
- "activity_now": "r2186 book_pair_sleeve_turnover: a re-pick moves the sleeve's own premium reading by 2.30pp (median) / 5.98pp (p90) with the market held fixed on the same date -- 2.95x an ordinary day -- and 16 of 81 month-end labels would have been a different bucket had the last swap not happened; today's 8.769% sits 0.48pp from the cheap edge, inside that step",
- "activity_now_round": 2186,
+ "activity_now": "r2187 cb_union_lens: three books each say they can open; two of them (ETF book 750,475 / convertible sleeve 991,053) contend for the same 1,000,000 wallet -- together 1,741,528 is 741,528 more than it holds, so today only one opens, and the older 'ETF is the only one' verdict no longer holds",
+ "activity_now_round": 2187,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -326,7 +326,7 @@
  "last_round_utc": "2026-11-24T07:28:27+08:00",
  "last_run": "2026-11-24 10:41:49",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-27T09:24:38+08:00",
+ "last_seen": "2026-11-27T22:14:48+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task": "r2088 red-leg recovery: six faces re-derived to green, 29-leg recheck 14 GREEN, s6 4/4 rc0",
  "last_task_at": "2026-11-25T12:42+08:00",
@@ -1726,7 +1726,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2186,
+ "round_no": 2187,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2779,5 +2779,6 @@
  "通过_r2182": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=8784）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 336 → 未回执 0（O-20261127-1735-bm-c 锚点令已按 fleet-anchor-bmc.ps1 -Status 回执：relay_port=41641 / static_endpoints 空 / VERDICT not advertising）· 主产出：风控块 C5_paper_recon 从 BREACH 翻绿——R3 判据改三态（生成时刻 ≥ bar 日 15:30 才字面比对；早于收盘须自证等于上一根 bar 重算 ≤1e-4；老于收盘又对不上上一根 bar 仍判死；缺时间戳回严格比对），selftest 19/19、run verdict=PASS problems=0 reader_stale=4、block_board green 23 / red 3 · 同时收口 r2181 遗留链腿（--only=book_pair_worst_windows 1/1 rc0）· pool_dualrun ZERO-DRIFT streak 51 · attrition CLEAN（4 账本 3 历史缩行 healed）· 饱和引擎 rc0 · 未跑全量冒烟（如实）",
  "通过_r2183": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid=132592 interactive 18:56:09 起；6 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 336 → 未回执 43 全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · 主产出 book_pair_cushion_regime：把「30/70 的防守是不是只在转债便宜时才成立」问回去——rich 月防守 +0.25pp 与 rest +0.26/0.93pp 同量级，rich−rest = −0.46pp 区间 [−1.36,+0.65] 跨零 → CUSHION_DIFFERENCE_NOT_SEPARABLE；样本单边（46/81 月 rich，cheap 侧仅 3 个下跌月）；规则臂（贵时转债袖换现金）Sharpe 1.383 vs 同暴露对照 1.266，边缘 +0.144pp/月 区间 +0.018~+0.275，但 5 个月吃掉 64.7% 的总边缘=回撤故事 · selftest 22/22 · check OK · 父面对账 True · 六处自捕（verdict 元组比较/两处测试值/百分号崩溃/evidence_cutoff 用了月末标签/硬写 73-of-81 数/跨零仍宣称 holds） · 未跑全量冒烟与 S6 链（竞争窗）",
  "通过_r2184": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=129220）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md origin 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders.md 111,934B sha256 fcbd99d7 == 本轮新水位（新增 1 行=T0 机队网络自愈令，本机回执已在 origin cph4/fleet/receipts/net-bm-c-20261127.md）· 主产出：current.today 六字段+页面 ⑩ 节（今天袖子在现金·ETF 100%/转债 0%）+ 两枚孤儿面接链（2/2 rc0）· selftest 页面 ALL PASS / cushion 24/24 / split_ci 22 腿 · page_repeat_guard 0 repeated · 链自审 3/3 rc0",
- "记账_r2184": "轮报告 1 + QA 1 + state 1 + 心跳 1 + 页面/面/脚本（产品件，不计）= 4"
+ "记账_r2184": "轮报告 1 + QA 1 + state 1 + 心跳 1 + 页面/面/脚本（产品件，不计）= 4",
+ "carrier_debt_r2187": "待共享面回落补：①smoke_test.py 一腿（check 漂移须自称 STALE）；②Tools/s6_chain_bmc.py 一腿；③CEO 页一条「两本争同一笔钱」句；④capital_union_decision 补印 generated（本面已按 file-mtime 诚实标注）"
 }
