@@ -1,0 +1,333 @@
+{
+ "schema": "carry-three-lines-common-window/v1",
+ "face": "carry_three_lines_common_window",
+ "machine": "bm-c",
+ "evidence_cutoff": "2026-11-25",
+ "question": "把 basis 剪到另两条的日历（2018-10-22..2026-11-20）上，2.972 还剩多少？排序会不会翻？",
+ "reproduction": {
+  "basis_own_window": {
+   "window": [
+    "2017-01-18",
+    "2026-11-25"
+   ],
+   "bars_recomputed": 2390,
+   "bars_published": 2390,
+   "fields": {
+    "sharpe": {
+     "recomputed": 2.972,
+     "published": 2.972,
+     "match": true
+    },
+    "cagr_pct": {
+     "recomputed": 10.069,
+     "published": 10.069,
+     "match": true
+    },
+    "ann_vol_pct": {
+     "recomputed": 3.2463,
+     "published": 3.2463,
+     "match": true
+    },
+    "mdd_pct": {
+     "recomputed": -1.8896,
+     "published": -1.8896,
+     "match": true
+    },
+    "days": {
+     "recomputed": 2390,
+     "published": 2390,
+     "match": true
+    }
+   },
+   "verdict": "MATCH",
+   "how": "CS.replay(IC, 1.5) 截父面窗口后按父面口径（244 天、复利）重算"
+  },
+  "two_arms_common_window": {
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "excess_hedged": {
+    "recomputed": 1.4162,
+    "published": 1.4162,
+    "match": true
+   },
+   "carry_unhedged": {
+    "recomputed": 0.5057,
+    "published": 0.5057,
+    "match": true
+   },
+   "verdict": "MATCH",
+   "how": "CP.position_series(IC) 截 2026-11-20 + per_lot_daily(years=10)，按父面口径（252 天）重算"
+  }
+ },
+ "common_window": {
+  "first": "2018-10-22",
+  "last": "2026-11-20",
+  "basis_bars_including_anchor_day": 1962,
+  "basis_bars_dropping_anchor_day": 1961,
+  "arms_bars": 1961,
+  "note": "两臂的序列从锚日的下一 bar 起算，所以 basis 在窗内多出锚日一天；两个切片都印，读者不必信一个挑过的数"
+ },
+ "lines": [
+  {
+   "line": "basis_nominal",
+   "unit": "compounded %",
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1962,
+   "sharpe_at_244": 3.0202,
+   "sharpe_at_252": 3.0693,
+   "cagr_pct": 10.3116,
+   "ann_vol_pct": 3.2677,
+   "mdd_pct": -1.8896,
+   "source": "this face (recomputed from CS.replay)",
+   "same_ruler_as_published": true
+  },
+  {
+   "line": "excess_hedged",
+   "unit": "index points per lot",
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "sharpe_at_252": 1.4162,
+   "sharpe_at_244": 1.3936,
+   "ann_mean_points": 503.05,
+   "ann_vol_points": 355.2,
+   "mdd_points": -364.16,
+   "mdd_cny": -72833.0,
+   "mdd_pct_of_capital": -6.4,
+   "source": "this face (recomputed from CP.per_lot_daily)",
+   "same_ruler_as_published": true
+  },
+  {
+   "line": "carry_unhedged",
+   "unit": "index points per lot",
+   "window": [
+    "2018-10-22",
+    "2026-11-20"
+   ],
+   "bars": 1961,
+   "sharpe_at_252": 0.5057,
+   "sharpe_at_244": 0.4976,
+   "ann_mean_points": 735.72,
+   "ann_vol_points": 1454.81,
+   "mdd_points": -2655.0,
+   "mdd_cny": -531000.0,
+   "mdd_pct_of_capital": -46.67,
+   "source": "this face (recomputed from CP.per_lot_daily)",
+   "same_ruler_as_published": true
+  }
+ ],
+ "basis_common_window": {
+  "days": 1962,
+  "years": 8.041,
+  "cagr_pct": 10.3116,
+  "ann_mean_pct": 9.8691,
+  "ann_vol_pct": 3.2677,
+  "sharpe": 3.0202,
+  "mdd_pct": -1.8896,
+  "first": "2018-10-22",
+  "last": "2026-11-20"
+ },
+ "basis_common_window_dropping_anchor": {
+  "days": 1961,
+  "years": 8.037,
+  "cagr_pct": 10.2417,
+  "ann_mean_pct": 9.8056,
+  "ann_vol_pct": 3.2636,
+  "sharpe": 3.0045,
+  "mdd_pct": -1.8896
+ },
+ "basis_published_own_window": {
+  "days": 2390,
+  "years": 9.795,
+  "cagr_pct": 10.069,
+  "ann_mean_pct": 9.6482,
+  "ann_vol_pct": 3.2463,
+  "sharpe": 2.972,
+  "mdd_pct": -1.8896
+ },
+ "basis_excluded_prefix": {
+  "days": 425,
+  "years": [
+   "2017",
+   "2018"
+  ],
+  "cagr_pct": 9.0802,
+  "ann_mean_pct": 8.7412,
+  "ann_vol_pct": 3.1138,
+  "sharpe": 2.8072,
+  "mdd_pct": -1.201,
+  "window": [
+   "2017-01-18",
+   "2018-10-19"
+  ]
+ },
+ "yearly_basis": {
+  "2017": {
+   "days": 232,
+   "years": 0.951,
+   "cagr_pct": 6.5677,
+   "ann_mean_pct": 6.3777,
+   "ann_vol_pct": 1.7844,
+   "sharpe": 3.5742,
+   "mdd_pct": -0.5012
+  },
+  "2018": {
+   "days": 243,
+   "years": 0.996,
+   "cagr_pct": 11.8723,
+   "ann_mean_pct": 11.3021,
+   "ann_vol_pct": 4.0293,
+   "sharpe": 2.8049,
+   "mdd_pct": -1.201
+  },
+  "2019": {
+   "days": 244,
+   "years": 1.0,
+   "cagr_pct": 14.5772,
+   "ann_mean_pct": 13.6843,
+   "ann_vol_pct": 3.8204,
+   "sharpe": 3.5819,
+   "mdd_pct": -1.2618
+  },
+  "2020": {
+   "days": 243,
+   "years": 0.996,
+   "cagr_pct": 16.7593,
+   "ann_mean_pct": 15.5785,
+   "ann_vol_pct": 3.995,
+   "sharpe": 3.8995,
+   "mdd_pct": -0.8498
+  },
+  "2021": {
+   "days": 243,
+   "years": 0.996,
+   "cagr_pct": 10.3241,
+   "ann_mean_pct": 9.8651,
+   "ann_vol_pct": 2.7611,
+   "sharpe": 3.5728,
+   "mdd_pct": -0.6346
+  },
+  "2022": {
+   "days": 242,
+   "years": 0.992,
+   "cagr_pct": 8.0179,
+   "ann_mean_pct": 7.7577,
+   "ann_vol_pct": 2.9691,
+   "sharpe": 2.6128,
+   "mdd_pct": -0.7063
+  },
+  "2023": {
+   "days": 242,
+   "years": 0.992,
+   "cagr_pct": 5.2026,
+   "ann_mean_pct": 5.0839,
+   "ann_vol_pct": 1.5249,
+   "sharpe": 3.334,
+   "mdd_pct": -0.6188
+  },
+  "2024": {
+   "days": 242,
+   "years": 0.992,
+   "cagr_pct": 6.2394,
+   "ann_mean_pct": 6.1008,
+   "ann_vol_pct": 3.0903,
+   "sharpe": 1.9742,
+   "mdd_pct": -1.8896
+  },
+  "2025": {
+   "days": 243,
+   "years": 0.996,
+   "cagr_pct": 12.4357,
+   "ann_mean_pct": 11.79,
+   "ann_vol_pct": 3.6448,
+   "sharpe": 3.2348,
+   "mdd_pct": -1.2237
+  },
+  "2026": {
+   "days": 217,
+   "years": 0.889,
+   "cagr_pct": 9.8864,
+   "ann_mean_pct": 9.5008,
+   "ann_vol_pct": 3.7878,
+   "sharpe": 2.5082,
+   "mdd_pct": -1.6569
+  }
+ },
+ "annualisation": {
+  "basis_days_per_year": 244.0,
+  "arms_days_per_year": 252.0,
+  "ratio_of_sharpes": 1.0163,
+  "note": "同一个 Sharpe 在 252 口径下比 244 口径高 1.6%；两臂的 1.4162 / 0.5057 与 basis 的 2.972 原来不是同一天数，这里两套都印"
+ },
+ "money_basis": {
+  "multiplier_cny_per_point": 200,
+  "capital_per_lot_cny": 1137862.5,
+  "sources": [
+   "results/idx_fut_carry_one_lot_ruler.json",
+   "results/idx_fut_carry_capacity_lots.json"
+  ]
+ },
+ "conflicting_faces": [
+  {
+   "quantity": "hedged arm annual vol, per lot, CNY",
+   "this_face": 71040.0,
+   "other_face": 91029.0,
+   "other_source": "results/idx_fut_carry_open_capital.json",
+   "verdict": "NOT_THE_SAME_MEASUREMENT",
+   "why": "两张面用的窗口不同（本面=两臂父面的十年回放窗，另一面=它自己的窗口）；两个都能真，读者不该拿一个去改另一个"
+  }
+ ],
+ "judgement": {
+  "verdict": "ORDERING_HOLDS_ON_ONE_CALENDAR",
+  "order": [
+   "basis_nominal",
+   "excess_hedged",
+   "carry_unhedged"
+  ],
+  "sharpe_at_252": {
+   "basis_nominal": 3.0693,
+   "excess_hedged": 1.4162,
+   "carry_unhedged": 0.5057
+  },
+  "sentence": "同一天历（2018-10-22..2026-11-20）上名次=basis_nominal > excess_hedged > carry_unhedged，所以 r2190 那张表的名次不是日历给的"
+ },
+ "delta_verdict": "THE_EXTRA_DAYS_DO_NOT_BUY_THE_SHARPE",
+ "what_can_now_be_said": [
+  "剪到共同窗后 basis 的 Sharpe = 3.0202（252 口径 3.0693），父面印的 2.972 不是在多出的 647 天上挣的",
+  "三条读数现在用的是同一段日历（2018-10-22..2026-11-20），可以并排，仍不能跨单位相加",
+  "多出的 425 个 bar 自己的 Sharpe 也不低：剪掉它既没抬高也没压低结论，r2191 的混窗是呈现缺陷，不是数字缺陷"
+ ],
+ "what_is_still_missing": [
+  "两臂的点数换成 % 借的是「一手资本」这条面：一手是一个不可分割的单位，资本更小或更大时 % 会变，点数是唯一不随账户变的读数",
+  "对冲残差与点位收益没有 CAGR —— 点数序列可以算复合增长，但那要求一个账户与一次不中断的滚仓，这不是本面能替读者假定的"
+ ],
+ "inputs_digest": "0f1b25b6340788cdac1a601344114572e6ccd48741411eea62f444138a4262b3",
+ "sources": {
+  "results/idx_fut_carry_kill_rule_economics.json": {
+   "generated": "2026-11-26T15:29:49+08:00",
+   "evidence_cutoff": "2026-11-25"
+  },
+  "results/idx_fut_carry_search_rent.json": {
+   "generated": "2026-11-23T03:11:13+08:00",
+   "evidence_cutoff": "2026-11-20"
+  },
+  "results/carry_three_lines_window.json": {
+   "generated": "2026-11-27T23:32:45+08:00"
+  },
+  "results/idx_fut_carry_capacity_lots.json": {
+   "generated": "2026-11-27T02:33:50+0800"
+  },
+  "results/idx_fut_carry_one_lot_ruler.json": {
+   "generated": "2026-11-26T06:50:47+08:00"
+  }
+ },
+ "generated": "2026-11-27T23:47:55+08:00"
+}
