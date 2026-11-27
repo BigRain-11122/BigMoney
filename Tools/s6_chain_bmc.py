@@ -155,6 +155,16 @@ LEGS = [
     ("update_cb_dual_low",
      ["python", "scripts/cb_dual_low.py", "check"],
      ["python", "scripts/cb_dual_low.py", "update"]),
+    # r2172: the dual-low book could be followed, but nobody had printed whether the
+    # twenty names it names can actually be held at a given capital -- one board lot is
+    # `close*10` CNY, so the dearest name (lot 1,293) needs a 25,850 CNY book before it
+    # gets any weight at 1/20, and the whole-lot grid only stops stranding more than 2%
+    # at 518,625. The face imports the book's own screen (no rule drift) and prices the
+    # grid on the last bar. check is a stat against the recorded panel stamp (~0.03s);
+    # run re-prices on the same panel (~3s, zero network).
+    ("cb_book_ticket_floor",
+     ["python", "scripts/cb_book_ticket_floor.py", "--check"],
+     ["python", "scripts/cb_book_ticket_floor.py"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

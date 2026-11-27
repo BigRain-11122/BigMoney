@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝把「落后几天」拆成「谁本该动它」（车道归因面，6 条点名）｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\lane_lag_attribution.json（2026-11-27 09:5x，selftest 9/9）｜下个里程碑＝(a) lhb_inst 接链腿自愈（≤48h）(b) cb_panel 先定宿主再接腿（≤48h）",
+ "CEO 三行": "当前活＝把「这本书能不能真的买到」变成数字（双低转债一手门槛/搁浅现金/权重偏斜）｜最近实物=K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney\\\\results\\\\cb_book_ticket_floor.json（2026-11-27 11:5x·selftest 17/17）｜下个里程碑＝(a) 改后全量冒烟在分离进程跑通给出套件总数（≤48h）(b) heat 收盘窗首次真接管（≤48h·需 15:30 后）",
  "active_lane": "lane freshness: who is supposed to move the panel",
  "activity": "product",
- "activity_now": "r2169 lane_lag_attribution: 6 late lanes attributed to a driver source (1 no_driver, 1 declared_host_without_driver, 3 host_dead_takeover, 1 gate_blocked)",
- "activity_now_round": 2169,
+ "activity_now": "r2172 cb_book_ticket_floor: the dual-low book priced at the lot level (rung 25,850 CNY; <=2% stranded only at 518,625)",
+ "activity_now_round": 2172,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -40,10 +40,10 @@
   "workers": 6
  },
  "artifacts": [
-  "scripts/lane_lag_attribution.py",
-  "results/lane_lag_attribution.json",
-  "research/LANE-LAG-ATTRIBUTION.md",
-  "qa/lane-lag-attribution-r2169.md"
+  "scripts/cb_book_ticket_floor.py",
+  "results/cb_book_ticket_floor.json",
+  "research/CB_BOOK_TICKET_FLOOR.md",
+  "qa/cb-book-ticket-floor-r2172.md"
  ],
  "attrition": "scan CLEAN (4 ledgers, 3 historical shrinks healed)",
  "batch": "none (contended round, no compute batch)",
@@ -1694,7 +1694,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2171,
+ "round_no": 2172,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2414,7 +2414,7 @@
  "ts_epoch": 1794812499,
  "unverified": "full suite not run on new code this round (needs its own window)",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-26T23:58:04+08:00",
+ "updated": "2026-11-27T11:59:52+08:00",
  "updated_at": "2026-11-25T11:43:52+08:00",
  "vcpu": 32,
  "verdict": "lane healthy: r2114 -- the equal-risk re-budget has no capital at which it can be held (floor 2,789,167 vs equity ADV ceiling 1,043,801)",
@@ -2763,5 +2763,6 @@
   "unverified": "fleet: a panel tail read by sample is certified against a full scan -- data_lane_freshness.json/FRESHNESS.md rewritten mid-run",
   "how": "detached Start-Process python -m smoke_test (r2167 host lesson: the CLI host cancels a suite after 5 min of silence)"
  },
- "通过_r2170": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=123656）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 ack 332 -> 未回执 0（余为 2026-10-26 前他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：把归因面里两条「声明不是驱动」的车道补上驱动 —— ①update_lhb_inst 接成链腿（此前三源驱动全空、面板停 11-20 四日；现 no-op 门秒级，cutoff 11-26）②update_lhb 链腿补 --takeover（新鲜度面早已印 taken_over=lhb<-bm-c，链腿却每轮印 refused；实测 +88 行、cutoff 11-25->11-26）· 新鲜度面重 derive：lhb_inst stalled->in_sync、repo behind_1d->in_sync；余 heat(stalled·盘中不可补)/cb_panel(no_driver·研究线需先写 no-op 门)/ah_panel(absent·源失败) 如实留 · 三腿 3/3 rc0 + update_lhb 腿 1/1 rc0 + dualrun ZERO-DRIFT streak 51 + attrition CLEAN(4 账本·3 历史缩行 healed) + 饱和引擎 status rc0 + loop pin=0 no-op + watchdog S4U 翻转被拒(提权面如实注记)"
+ "通过_r2170": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=123656）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 ack 332 -> 未回执 0（余为 2026-10-26 前他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：把归因面里两条「声明不是驱动」的车道补上驱动 —— ①update_lhb_inst 接成链腿（此前三源驱动全空、面板停 11-20 四日；现 no-op 门秒级，cutoff 11-26）②update_lhb 链腿补 --takeover（新鲜度面早已印 taken_over=lhb<-bm-c，链腿却每轮印 refused；实测 +88 行、cutoff 11-25->11-26）· 新鲜度面重 derive：lhb_inst stalled->in_sync、repo behind_1d->in_sync；余 heat(stalled·盘中不可补)/cb_panel(no_driver·研究线需先写 no-op 门)/ah_panel(absent·源失败) 如实留 · 三腿 3/3 rc0 + update_lhb 腿 1/1 rc0 + dualrun ZERO-DRIFT streak 51 + attrition CLEAN(4 账本·3 历史缩行 healed) + 饱和引擎 status rc0 + loop pin=0 no-op + watchdog S4U 翻转被拒(提权面如实注记)",
+ "pool_dualrun": "ZERO-DRIFT (747 entries, streak 51, cutoff 2026-11-26T10:24:50+0800)"
 }
