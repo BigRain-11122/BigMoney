@@ -713,6 +713,9 @@ def cmd_run(args) -> int:
     out = {
         "face": "cb_dual_low",
         "generated_at": datetime.now().isoformat(timespec="seconds"),
+        # science_gates.cutoff_meta / C2 read this key; a face that republishes on a chain leg
+        # without it is a monthly VIOLATION by the letter of the law (T-02 §C2).
+        "evidence_cutoff": str(panel["date"].max().date()),
         "data": {"rows": int(len(panel)), "codes": int(n_codes),
                  "first_bar": str(panel["date"].min().date()),
                  "last_bar": str(panel["date"].max().date())},
