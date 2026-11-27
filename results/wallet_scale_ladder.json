@@ -1,0 +1,589 @@
+{
+  "face": "wallet_scale_ladder",
+  "question": "同一笔钱在 50 万到 230 万之间能开哪本书，多出来的钱该去哪",
+  "verdict": "AT_1000000_CNY_THE_ETF_BOOK_PAYS_MORE_THAN_THE_CONVERTIBLE_BOOK_AND_THE_REST_ROLLS_AT_THE_CASH_LEG",
+  "scale_verdict": "ETF_BOOK_SCALE_CEILING_IS_1082284_CNY_ON_THE_CAPACITY_RULER",
+  "sentence": "100 万时开 ETF 书 年赚 84620 元（收益率 8.46%，其中现金腿 2893 元）；改开 转债书 是 72994 元（7.30%），差 11626 元/年。两本同开要 1741528 元——到那一档年赚 154617 元（8.88%），也就是多掏 741528 元换来每年多 69997 元，收益率只抬 0.42 个百分点，因为新钱全进了年化 7.35% 的转债书。ETF 书今天按容量尺只能撑到 1082284 元（60 个交易日 6 天过线），所以钱包再大也不该往它里面加钱，多出来的部分只能进转债书或现金腿（今天 1.1593% 净年化）。",
+  "evidence_cutoff": "2026-11-26",
+  "cutoffs": [
+    "2026-11-26"
+  ],
+  "inputs": {
+    "cb_union_lens": {
+      "path": "results/cb_union_lens.json",
+      "generated": "2026-11-27T22:14:14+08:00",
+      "cutoff": null
+    },
+    "etf_nobond_vt": {
+      "path": "results/etf_nobond_vt.json",
+      "generated": null,
+      "cutoff": "2026-11-26"
+    },
+    "cb_dual_low": {
+      "path": "results/cb_dual_low.json",
+      "generated": "2026-11-27T11:47:04",
+      "cutoff": "2026-11-26"
+    },
+    "capital_union_decision": {
+      "path": "results/capital_union_decision.json",
+      "generated": null,
+      "cutoff": null
+    },
+    "etf_book_cash_roll_today": {
+      "path": "results/etf_book_cash_roll_today.json",
+      "generated": "2026-11-27T21:26:48+0800",
+      "cutoff": "2026-11-26"
+    }
+  },
+  "readings": {
+    "etf_book": {
+      "label": "ETF 复合书（去债档 + 8 个点波动目标，nobond_vt08）",
+      "need_cny": 750475.3,
+      "cagr": 0.1089,
+      "vol": 0.1051,
+      "sharpe": 1.076,
+      "maxdd": -0.1056,
+      "years": 6.9,
+      "scale_ceiling_cny": 1082283.94,
+      "sessions_passing": 6,
+      "sessions_measured": 60,
+      "warn_stale": "FITS"
+    },
+    "cb_book": {
+      "label": "转债双低袖（20 名等权 / 20 日 / 10bp）",
+      "need_cny": 991053.2,
+      "cagr": 0.07354814635438323,
+      "vol": 0.10067485694980836,
+      "sharpe": 0.7581240490932696,
+      "maxdd": -0.22588481873937416,
+      "years": 19.37577002053388,
+      "bars": 4710
+    },
+    "cash_leg": {
+      "contract": "GC007",
+      "net_ann_pct": 1.1593,
+      "rate": 0.011593,
+      "quoted_pct": 1.42,
+      "window_days": 13
+    }
+  },
+  "ladder": [
+    {
+      "wallet_cny": 500000.0,
+      "chosen": {
+        "books": [],
+        "invested_cny": 0.0,
+        "cash_cny": 500000.0,
+        "cash_weight": 1.0,
+        "year_cny": 5796.5,
+        "year_pct": 0.011593,
+        "year_from": {
+          "etf_book": 0.0,
+          "cb_book": 0.0,
+          "cash": 5796.5
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "etf_book"
+          ],
+          "invested_cny": 750475.3,
+          "cash_cny": -250475.3,
+          "cash_weight": 0.0,
+          "year_cny": 81726.76,
+          "year_pct": 0.163454,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 0.0,
+            "cash": 0.0
+          },
+          "fits": false
+        },
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": -491053.2,
+          "cash_weight": 0.0,
+          "year_cny": 72890.13,
+          "year_pct": 0.14578,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 0.0
+          },
+          "fits": false
+        },
+        {
+          "books": [
+            "etf_book",
+            "cb_book"
+          ],
+          "invested_cny": 1741528.5,
+          "cash_cny": -1241528.5,
+          "cash_weight": 0.0,
+          "year_cny": 154616.89,
+          "year_pct": 0.309234,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 72890.13,
+            "cash": 0.0
+          },
+          "fits": false,
+          "why_not": "needs 1241528.50 more than the wallet"
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 1241528.5,
+      "etf_scale_ok": true
+    },
+    {
+      "wallet_cny": 1000000.0,
+      "chosen": {
+        "books": [
+          "etf_book"
+        ],
+        "invested_cny": 750475.3,
+        "cash_cny": 249524.7,
+        "cash_weight": 0.249525,
+        "year_cny": 84619.5,
+        "year_pct": 0.08462,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 0.0,
+          "cash": 2892.74
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 8946.8,
+          "cash_weight": 0.008947,
+          "year_cny": 72993.85,
+          "year_pct": 0.072994,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 103.72
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "etf_book",
+            "cb_book"
+          ],
+          "invested_cny": 1741528.5,
+          "cash_cny": -741528.5,
+          "cash_weight": 0.0,
+          "year_cny": 154616.89,
+          "year_pct": 0.154617,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 72890.13,
+            "cash": 0.0
+          },
+          "fits": false,
+          "why_not": "needs 741528.50 more than the wallet"
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 1000000.0,
+          "cash_weight": 1.0,
+          "year_cny": 11593.0,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 11593.0
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 741528.5,
+      "etf_scale_ok": true
+    },
+    {
+      "wallet_cny": 1200000.0,
+      "chosen": {
+        "books": [
+          "etf_book"
+        ],
+        "invested_cny": 750475.3,
+        "cash_cny": 449524.7,
+        "cash_weight": 0.374604,
+        "year_cny": 86938.1,
+        "year_pct": 0.072448,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 0.0,
+          "cash": 5211.34
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 208946.8,
+          "cash_weight": 0.174122,
+          "year_cny": 75312.45,
+          "year_pct": 0.06276,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 2422.32
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "etf_book",
+            "cb_book"
+          ],
+          "invested_cny": 1741528.5,
+          "cash_cny": -541528.5,
+          "cash_weight": 0.0,
+          "year_cny": 154616.89,
+          "year_pct": 0.128847,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 72890.13,
+            "cash": 0.0
+          },
+          "fits": false,
+          "why_not": "needs 541528.50 more than the wallet"
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 1200000.0,
+          "cash_weight": 1.0,
+          "year_cny": 13911.6,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 13911.6
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 541528.5,
+      "etf_scale_ok": false
+    },
+    {
+      "wallet_cny": 1500000.0,
+      "chosen": {
+        "books": [
+          "etf_book"
+        ],
+        "invested_cny": 750475.3,
+        "cash_cny": 749524.7,
+        "cash_weight": 0.499683,
+        "year_cny": 90416.0,
+        "year_pct": 0.060277,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 0.0,
+          "cash": 8689.24
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 508946.8,
+          "cash_weight": 0.339298,
+          "year_cny": 78790.35,
+          "year_pct": 0.052527,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 5900.22
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "etf_book",
+            "cb_book"
+          ],
+          "invested_cny": 1741528.5,
+          "cash_cny": -241528.5,
+          "cash_weight": 0.0,
+          "year_cny": 154616.89,
+          "year_pct": 0.103078,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 72890.13,
+            "cash": 0.0
+          },
+          "fits": false,
+          "why_not": "needs 241528.50 more than the wallet"
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 1500000.0,
+          "cash_weight": 1.0,
+          "year_cny": 17389.5,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 17389.5
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 241528.5,
+      "etf_scale_ok": false
+    },
+    {
+      "wallet_cny": 1741529.0,
+      "chosen": {
+        "books": [
+          "etf_book",
+          "cb_book"
+        ],
+        "invested_cny": 1741528.5,
+        "cash_cny": 0.5,
+        "cash_weight": 0.0,
+        "year_cny": 154616.89,
+        "year_pct": 0.088782,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 72890.13,
+          "cash": 0.01
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "etf_book"
+          ],
+          "invested_cny": 750475.3,
+          "cash_cny": 991053.7,
+          "cash_weight": 0.569071,
+          "year_cny": 93216.05,
+          "year_pct": 0.053525,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 0.0,
+            "cash": 11489.29
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 750475.8,
+          "cash_weight": 0.430929,
+          "year_cny": 81590.39,
+          "year_pct": 0.04685,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 8700.27
+          },
+          "fits": true
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 1741529.0,
+          "cash_weight": 1.0,
+          "year_cny": 20189.55,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 20189.55
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 0.0,
+      "etf_scale_ok": false
+    },
+    {
+      "wallet_cny": 2000000.0,
+      "chosen": {
+        "books": [
+          "etf_book",
+          "cb_book"
+        ],
+        "invested_cny": 1741528.5,
+        "cash_cny": 258471.5,
+        "cash_weight": 0.129236,
+        "year_cny": 157613.35,
+        "year_pct": 0.078807,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 72890.13,
+          "cash": 2996.46
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "etf_book"
+          ],
+          "invested_cny": 750475.3,
+          "cash_cny": 1249524.7,
+          "cash_weight": 0.624762,
+          "year_cny": 96212.5,
+          "year_pct": 0.048106,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 0.0,
+            "cash": 14485.74
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 1008946.8,
+          "cash_weight": 0.504473,
+          "year_cny": 84586.85,
+          "year_pct": 0.042293,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 11696.72
+          },
+          "fits": true
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 2000000.0,
+          "cash_weight": 1.0,
+          "year_cny": 23186.0,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 23186.0
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 0.0,
+      "etf_scale_ok": false
+    },
+    {
+      "wallet_cny": 2300000.0,
+      "chosen": {
+        "books": [
+          "etf_book",
+          "cb_book"
+        ],
+        "invested_cny": 1741528.5,
+        "cash_cny": 558471.5,
+        "cash_weight": 0.242814,
+        "year_cny": 161091.25,
+        "year_pct": 0.07004,
+        "year_from": {
+          "etf_book": 81726.76,
+          "cb_book": 72890.13,
+          "cash": 6474.36
+        },
+        "fits": true
+      },
+      "rejected": [
+        {
+          "books": [
+            "etf_book"
+          ],
+          "invested_cny": 750475.3,
+          "cash_cny": 1549524.7,
+          "cash_weight": 0.673706,
+          "year_cny": 99690.4,
+          "year_pct": 0.043344,
+          "year_from": {
+            "etf_book": 81726.76,
+            "cb_book": 0.0,
+            "cash": 17963.64
+          },
+          "fits": true
+        },
+        {
+          "books": [
+            "cb_book"
+          ],
+          "invested_cny": 991053.2,
+          "cash_cny": 1308946.8,
+          "cash_weight": 0.569107,
+          "year_cny": 88064.75,
+          "year_pct": 0.038289,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 72890.13,
+            "cash": 15174.62
+          },
+          "fits": true
+        },
+        {
+          "books": [],
+          "invested_cny": 0.0,
+          "cash_cny": 2300000.0,
+          "cash_weight": 1.0,
+          "year_cny": 26663.9,
+          "year_pct": 0.011593,
+          "year_from": {
+            "etf_book": 0.0,
+            "cb_book": 0.0,
+            "cash": 26663.9
+          },
+          "fits": true
+        }
+      ],
+      "both_need_cny": 1741528.5,
+      "short_for_both_cny": 0.0,
+      "etf_scale_ok": false
+    }
+  ],
+  "ruler": {
+    "deployed_per_book": "each book's own invested amount on the 1M book, never scaled up with the wallet",
+    "cash": "the rest earns the cash leg's net annual rate taken from today's roll face",
+    "not_priced": [
+      "joint drawdown / correlation between the two books",
+      "two books competing for the same underlying on the same rebalance day",
+      "the cost of pushing the ETF book past its capacity line (so it is never pushed)"
+    ]
+  },
+  "caveats": [
+    "两本书的收益读数来自不同窗口（ETF 6.9 年 / 转债 19.4 年）与不同成本模型，本面没有做同窗对账——它比的是「已发布的这两张票面各自说能赚多少」，不是同一段历史的重赛。",
+    "组合年化是各臂年收益之和除以钱包，不是组合回测：共动、撞车成本、以及同时短缺时的处置都没定价。",
+    "转债书的容量上限本面没有测（没有已发布面），所以「钱包更大就多进转债」只是算术上可行，不是已验证可执行。",
+    "现金拖累区间：钱包在 100 万到 1741528 元之间时，多出来的钱只能躺现金（1.1593%），收益率一路下滑（到 1500000 元那档只剩 6.03%），跨过这个门槛才回到 8.88%——所以「190 万比 174 万更差」不是笔误，是阶梯的形状。"
+  ],
+  "generated": "2026-11-27T22:24:21+08:00"
+}
