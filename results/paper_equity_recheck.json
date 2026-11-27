@@ -134,18 +134,68 @@
    "summary": 5934743.99
   },
   "strategy_scorecard": {
-   "n_cards_checked": 6
+   "n_cards_checked": 6,
+   "generated": "2026-11-27T02:29:56",
+   "latest_cutoff": "2026-11-27",
+   "bar_close_local": "15:30",
+   "state": "STALE_BY_GENERATION",
+   "n_stale": 4,
+   "stale": [
+    {
+     "trader": "COMPOSITE-CE-01",
+     "scorecard_cny": 975414.18,
+     "ledger_cny": 982830.47,
+     "delta_vs_ledger_cny": -7416.29,
+     "prior_bar_equity_cny": 975414.18,
+     "delta_vs_prior_bar_cny": 0.0,
+     "rel_vs_prior_bar": 1.9e-09,
+     "scorecard_generated": "2026-11-27T02:29:56",
+     "ledger_cutoff": "2026-11-27",
+     "state": "STALE_BY_GENERATION"
+    },
+    {
+     "trader": "COMPOSITE-CE-02",
+     "scorecard_cny": 970377.7,
+     "ledger_cny": 977953.38,
+     "delta_vs_ledger_cny": -7575.68,
+     "prior_bar_equity_cny": 970391.47,
+     "delta_vs_prior_bar_cny": -13.77,
+     "rel_vs_prior_bar": 1.41893e-05,
+     "scorecard_generated": "2026-11-27T02:29:56",
+     "ledger_cutoff": "2026-11-27",
+     "state": "STALE_BY_GENERATION"
+    },
+    {
+     "trader": "ENGULF-CE-01",
+     "scorecard_cny": 980892.81,
+     "ledger_cny": 988834.31,
+     "delta_vs_ledger_cny": -7941.5,
+     "prior_bar_equity_cny": 980892.8,
+     "delta_vs_prior_bar_cny": 0.01,
+     "rel_vs_prior_bar": 8.2e-09,
+     "scorecard_generated": "2026-11-27T02:29:56",
+     "ledger_cutoff": "2026-11-27",
+     "state": "STALE_BY_GENERATION"
+    },
+    {
+     "trader": "VOLATILITY-CE-01",
+     "scorecard_cny": 987413.72,
+     "ledger_cny": 990675.4,
+     "delta_vs_ledger_cny": -3261.68,
+     "prior_bar_equity_cny": 987413.71,
+     "delta_vs_prior_bar_cny": 0.01,
+     "rel_vs_prior_bar": 1.08e-08,
+     "scorecard_generated": "2026-11-27T02:29:56",
+     "ledger_cutoff": "2026-11-27",
+     "state": "STALE_BY_GENERATION"
+    }
+   ]
   }
  },
  "price_lags": [],
  "prices_unverified": [],
- "problems": [
-  "R3 COMPOSITE-CE-01 scorecard equity: 975414.18 vs ledger 982830.47 (d -7416.29)",
-  "R3 COMPOSITE-CE-02 scorecard equity: 970377.70 vs ledger 977953.38 (d -7575.68)",
-  "R3 ENGULF-CE-01 scorecard equity: 980892.81 vs ledger 988834.31 (d -7941.50)",
-  "R3 VOLATILITY-CE-01 scorecard equity: 987413.72 vs ledger 990675.40 (d -3261.68)"
- ],
- "verdict": "BREACH",
+ "problems": [],
+ "verdict": "PASS",
  "zeros": {
   "engine_runs": 0,
   "ledger_trials_added": 0,

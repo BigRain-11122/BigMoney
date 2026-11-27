@@ -1438,6 +1438,74 @@ def main() -> int:
     except Exception as _e80:
         check("product: the split's weight is asked back without hindsight (r2180)",
               False, repr(_e80)[:160])
+    # r2181: r2179 answered "can the split carry the ETF's bad year" with a partial yes and
+    # two numbers that read contradictory unless you redo the arithmetic: the split is
+    # better in exactly HALF of the ETF's losing months, and the mean of those months is
+    # 0.7 x ETF + 0.3 x CB -- a weighted average, not a skill. This leg re-derives both
+    # from the published rows, so a face that starts calling the mix a cushion reads red.
+    try:
+        from config import PATHS as _P81
+        _f81 = os.path.join(_P81.results_dir, "book_pair_worst_windows.json")
+        _bad81 = []
+        if not os.path.exists(_f81):
+            _bad81.append("results/book_pair_worst_windows.json missing")
+        else:
+            with open(_f81, encoding="utf-8") as _fh81:
+                _r81 = json.load(_fh81) or {}
+            _wcb81 = float((_r81.get("sleeve") or {}).get("w_cb") or -1.0)
+            if not (0.0 < _wcb81 < 1.0):
+                _bad81.append("sleeve weight out of range: %s" % _wcb81)
+            _wf81 = (_r81.get("rolling") or {}).get("worst_etf_window") or {}
+            _e81 = float(_wf81.get("etf") or 0.0)
+            _b81 = float(_wf81.get("blend") or 0.0)
+            if _e81 >= 0:
+                _bad81.append("the ETF's worst 252 bars is not a losing window (%s)" % _e81)
+            elif not (_b81 > _e81):
+                _bad81.append("the split does not lose less than the ETF in its own worst window")
+            _nm81 = _r81.get("negative_months") or {}
+            _n81 = int(_nm81.get("n") or 0)
+            _c81 = int(_nm81.get("cushioned") or 0)
+            if _n81 <= 0:
+                _bad81.append("the ETF is printed with no losing month at all")
+            elif _c81 > _n81:
+                _bad81.append("cushioned %d > losing months %d" % (_c81, _n81))
+            _me81 = float(_nm81.get("mean_etf") or 0.0)
+            _mc81 = float(_nm81.get("mean_cb") or 0.0)
+            _mb81 = float(_nm81.get("mean_blend") or 0.0)
+            _mix81 = (1.0 - _wcb81) * _me81 + _wcb81 * _mc81
+            # within-month compounding keeps the mix from being exact (measured 1.9e-5 on
+            # the 2026-11-27 face); 5e-5 is 0.5bp, four orders under a monthly move.
+            if abs(_mb81 - _mix81) > 5e-5:
+                _bad81.append("the cushioned mean %.5f is not the sleeve mix %.5f -- a "
+                              "weighted average must not be sold as skill" % (_mb81, _mix81))
+            _rows81 = _nm81.get("rows") or []
+            if len(_rows81) != _n81:
+                _bad81.append("printed %d losing months but carries %d rows" % (_n81, len(_rows81)))
+            _wb81 = _nm81.get("worst_blend_month") or {}
+            if not _wb81:
+                _bad81.append("the split's worst month is not printed")
+            else:
+                _we81 = float(_wb81.get("etf") or 0.0)
+                _wc81 = float(_wb81.get("cb") or 0.0)
+                _wbl81 = float(_wb81.get("blend") or 0.0)
+                if _we81 < 0 and _wc81 < 0 and not (
+                        min(_we81, _wc81) - 1e-12 <= _wbl81 <= max(_we81, _wc81) + 1e-12):
+                    _bad81.append("in the split's worst month the blend sits outside both books")
+            _rec81 = _r81.get("reconciliation") or {}
+            for _k81 in ("cagr", "sharpe"):
+                if not (_rec81.get(_k81) or {}).get("matched"):
+                    _bad81.append("this face no longer lands on the blend page (%s)" % _k81)
+            _vd81 = str(_r81.get("verdict") or "")
+            if _n81 and _c81 * 2 == _n81 and _vd81 != "CUSHION_PARTIAL":
+                _bad81.append("better in exactly half of %d months but the verdict says %s"
+                              % (_n81, _vd81))
+        check("product: the split's cushion is half the losing months, and it is arithmetic (r2181)",
+              not _bad81, "; ".join(_bad81)[:220]
+              or "losing months counted, cushioned mean reproduces the sleeve mix, "
+                 "worst-month blend sits between its two books, verdict follows the count")
+    except Exception as _e81:
+        check("product: the split's cushion is half the losing months, and it is arithmetic (r2181)",
+              False, repr(_e81)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than

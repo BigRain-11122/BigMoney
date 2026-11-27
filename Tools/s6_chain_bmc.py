@@ -197,6 +197,14 @@ LEGS = [
     ("book_pair_weight_rule",
      ["python", "scripts/book_pair_weight_rule.py", "check"],
      ["python", "scripts/book_pair_weight_rule.py", "run"]),
+    # r2181: r2179 asked whether the split can carry the ETF's bad year and got a partial
+    # answer (78 losing rolling years, better in exactly half of the 32 losing months). It
+    # stayed an orphan face -- published, read by nobody -- until this leg. Its check leans
+    # on the parent's sleeve weight and window end plus the cb panel stamp (~0.15s); the
+    # run walks 1,419 rolling windows plus the month table (~13s).
+    ("book_pair_worst_windows",
+     ["python", "scripts/book_pair_worst_windows.py", "check"],
+     ["python", "scripts/book_pair_worst_windows.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

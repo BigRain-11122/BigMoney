@@ -21,6 +21,9 @@ Reader reconciliation:
   R1  results/paper_export equity/positions_value == the ledger
   R2  export summary.total_equity_cny == sum of its own per-trader equity
   R3  strategy_scorecard trader_cards[*].live_paper.capital.equity_cny == the ledger
+      -- unless the scorecard was generated before the ledger bar's close (15:30):
+      then the copy cannot carry that bar, and it is accepted only if it reproduces
+      the PREVIOUS bar (else it matches neither bar, and that is still a breach).
 
 Subcommands:
   run       -> results/paper_equity_recheck.json + one-line verdict
@@ -30,6 +33,7 @@ exit 0 = every identity holds / 1 = at least one breach / 2 = a face cannot be r
 """
 from __future__ import annotations
 
+import datetime as _dt
 import glob
 import json
 import os
@@ -44,6 +48,17 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AMOUNT_TOL = 0.02
 PRICE_REL_TOL = 1e-4
 PRICE_ABS_TOL = 1e-6
+
+# The repo's own completeness convention: a bar dated D is only complete (hence
+# only copyable by a reader face) after 15:30 on D. A scorecard written before
+# that moment cannot carry D's marks, so one bar's move is not a breach (R3).
+BAR_CLOSE_HOUR = 15
+BAR_CLOSE_MINUTE = 30
+
+# How close a stale copy must sit to the *previous* bar's marks to be accepted as
+# "one bar behind". A bar's move is 1e-3..1e-2 of equity, so 1e-4 separates "same
+# bar" from "a different number" without pretending to explain the residual.
+STALE_COPY_REL_TOL = 1e-4
 
 
 def _tol(value: float) -> float:
@@ -96,6 +111,84 @@ def resolve_mark(panel: dict):
         return None, None, None, "two families, same bar, different close"
     newest = max(panel.items(), key=lambda kv: kv[1]["date"])
     return newest[1]["date"], newest[1]["close"], newest[0], None
+
+
+def _parse_iso(value):
+    """datetime for an ISO-ish stamp, or None. Tolerates a trailing timezone/offset."""
+    if not isinstance(value, str) or len(value) < 10:
+        return None
+    text = value.strip().replace("Z", "").replace("T", " ")
+    text = text.split("+")[0].strip()
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+        try:
+            return _dt.datetime.strptime(text[:19], fmt)
+        except ValueError:
+            continue
+    return None
+
+
+def bar_copyable(generated, cutoff):
+    """True/False/None: could a face written at `generated` have copied the bar `cutoff`?
+
+    None means the question cannot be asked (a stamp or a cutoff is missing), and the
+    caller keeps the strict reading rather than inventing staleness.
+    """
+    gen = _parse_iso(generated)
+    cut = _parse_iso(cutoff)
+    if gen is None or cut is None:
+        return None
+    return gen >= cut.replace(hour=BAR_CLOSE_HOUR, minute=BAR_CLOSE_MINUTE)
+
+
+def prior_bar_close(root: str, code: str):
+    """Close of the bar before the one that priced the ledger's mark, or None.
+
+    The family is the one whose newest bar is the latest (the same family
+    resolve_mark() would price today), so the prior row is that family's own
+    previous bar -- mixing families would compare two different series.
+    """
+    tails = {}
+    for name in (f"{code}.csv", f"sh{code}.csv", f"sz{code}.csv"):
+        path = os.path.join(root, "data", "daily", name)
+        if not os.path.exists(path):
+            continue
+        tail = []
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line or line.lower().startswith("date"):
+                    continue
+                parts = line.split(",")
+                if len(parts) < 5:
+                    continue
+                tail.append(parts)
+                tail = tail[-2:]
+        if tail:
+            tails[name] = tail
+    if not tails:
+        return None
+    _, tail = max(tails.items(), key=lambda kv: kv[1][-1][0])
+    if len(tail) < 2:
+        return None
+    try:
+        return float(tail[0][4])
+    except ValueError:
+        return None
+
+
+def prior_bar_equity(root: str, book: dict):
+    """Equity rebuilt from the previous bar's closes and the ledger's own cash, or None."""
+    try:
+        cash = float((book.get("capital") or {})["cash_cny"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    total = 0.0
+    for row in book.get("open_positions") or []:
+        close = prior_bar_close(root, str(row.get("symbol")))
+        if close is None:
+            return None
+        total += float(row.get("quantity") or 0.0) * close
+    return total + cash
 
 
 def check_trader(root: str, ledger: dict) -> dict:
@@ -247,6 +340,8 @@ def check_readers(root: str, books: dict) -> tuple[dict, list]:
         sc = _load(sc_path)
         cards = sc.get("trader_cards") or {}
         seen = 0
+        stale_rows = []
+        fresh_mismatch = 0
         for tid, card in cards.items():
             book = books.get(tid)
             if not book:
@@ -259,11 +354,47 @@ def check_readers(root: str, books: dict) -> tuple[dict, list]:
                 problems.append(f"R3 scorecard capital unreadable: {tid}")
                 continue
             seen += 1
-            if abs(stated - actual) > _tol(actual):
-                problems.append(
-                    "R3 %s scorecard equity: %.2f vs ledger %.2f (d %+.2f)"
-                    % (tid, stated, actual, stated - actual))
-        readers["strategy_scorecard"] = {"n_cards_checked": seen}
+            if abs(stated - actual) <= _tol(actual):
+                continue
+            # A copy written before this bar's close cannot carry it. Ask the cheap
+            # question first: is the copy simply yesterday's marks?
+            if bar_copyable(sc.get("generated"), book.get("cutoff")) is False:
+                prev_eq = prior_bar_equity(root, book)
+                if prev_eq is not None:
+                    rel = abs(stated - prev_eq) / max(1.0, abs(prev_eq))
+                    row = {"trader": tid, "scorecard_cny": round(stated, 2),
+                           "ledger_cny": round(actual, 2),
+                           "delta_vs_ledger_cny": round(stated - actual, 2),
+                           "prior_bar_equity_cny": round(prev_eq, 2),
+                           "delta_vs_prior_bar_cny": round(stated - prev_eq, 2),
+                           "rel_vs_prior_bar": round(rel, 10),
+                           "scorecard_generated": sc.get("generated"),
+                           "ledger_cutoff": book.get("cutoff")}
+                    if rel <= STALE_COPY_REL_TOL:
+                        row["state"] = "STALE_BY_GENERATION"
+                        stale_rows.append(row)
+                        continue
+                    problems.append(
+                        "R3 %s is older than the bar (%s < cutoff %s %02d:%02d) but does "
+                        "not reproduce the prior bar either: %.2f vs %.2f (rel %.2e)"
+                        % (tid, sc.get("generated"), book.get("cutoff"), BAR_CLOSE_HOUR,
+                           BAR_CLOSE_MINUTE, stated, prev_eq, rel))
+                    continue
+            fresh_mismatch += 1
+            problems.append(
+                "R3 %s scorecard equity: %.2f vs ledger %.2f (d %+.2f)"
+                % (tid, stated, actual, stated - actual))
+        latest = max((b.get("cutoff") or "" for b in books.values()), default="")
+        readers["strategy_scorecard"] = {
+            "n_cards_checked": seen,
+            "generated": sc.get("generated"),
+            "latest_cutoff": latest,
+            "bar_close_local": "%02d:%02d" % (BAR_CLOSE_HOUR, BAR_CLOSE_MINUTE),
+            "state": ("STALE_BY_GENERATION" if stale_rows and not fresh_mismatch
+                      else "BREACH" if fresh_mismatch else "AGREES"),
+            "n_stale": len(stale_rows),
+            "stale": stale_rows,
+        }
     else:
         problems.append("R0 results/strategy_scorecard.json missing")
 
@@ -338,9 +469,14 @@ def main(argv: list) -> int:
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     print("paper_equity_recheck: verdict=%s traders=%d total_equity=%.2f problems=%d "
-          "price_lags=%d unverified=%d -> results/paper_equity_recheck.json"
+          "price_lags=%d unverified=%d reader_stale=%d -> results/paper_equity_recheck.json"
           % (out["verdict"], out["n_traders"], out["total_equity_cny"],
-             len(out["problems"]), len(out["price_lags"]), len(out["prices_unverified"])))
+             len(out["problems"]), len(out["price_lags"]), len(out["prices_unverified"]),
+             int((out["readers"].get("strategy_scorecard") or {}).get("n_stale") or 0)))
+    for row in (out["readers"].get("strategy_scorecard") or {}).get("stale") or []:
+        print("  STALE-COPY %s: scorecard %.2f = prior bar %.2f (ledger %.2f, d %+.2f)"
+              % (row["trader"], row["scorecard_cny"], row["prior_bar_equity_cny"],
+                 row["ledger_cny"], row["delta_vs_ledger_cny"]))
     for p in out["problems"][:10]:
         print("  PROBLEM", p)
     return 0 if out["verdict"] == "PASS" else 1
@@ -536,6 +672,34 @@ def selftest() -> int:
     out = case(scorecard_drift)
     leg("R3 a scorecard card that drifted from the ledger is caught",
         any(p.startswith("R3 FIX-01") for p in out["problems"]), out["problems"][:1])
+
+    def _sc(tmp, generated, equity):
+        sc = _load(os.path.join(tmp, "results", "strategy_scorecard.json"))
+        if generated is not None:
+            sc["generated"] = generated
+        sc["trader_cards"]["FIX-01"]["live_paper"]["capital"]["equity_cny"] = equity
+        _rewrite_json(tmp, os.path.join("results", "strategy_scorecard.json"), sc)
+
+    # The fixture's prior bar prices both codes at 1.0: 1000 x 1.0 + 10 x 1.0 + cash.
+    prior_eq = 1000.0 * 1.0 + 10.0 * 1.0 + (1000000.0 - 1368.0 - 1412.0)
+
+    out = case(lambda t: _sc(t, "2026-11-16T02:00:00", prior_eq))
+    leg("R3b a scorecard written before the bar's 15:30 close is disclosed as one bar "
+        "behind, not called a breach",
+        out["verdict"] == "PASS"
+        and (out["readers"].get("strategy_scorecard") or {}).get("state") == "STALE_BY_GENERATION"
+        and (out["readers"]["strategy_scorecard"]["stale"] or [{}])[0].get("trader") == "FIX-01",
+        out["problems"][:1])
+
+    out = case(lambda t: _sc(t, "2026-11-16T02:00:00", prior_eq + 270.0))
+    leg("R3c a copy that is older than the bar but matches neither bar is still a breach",
+        any("does not reproduce the prior bar" in p for p in out["problems"]),
+        out["problems"][:1])
+
+    out = case(lambda t: _sc(t, "2026-11-16T16:00:00", prior_eq))
+    leg("R3d a copy written after the close is held to the current bar",
+        any(p.startswith("R3 FIX-01 scorecard equity") for p in out["problems"]),
+        out["problems"][:1])
 
     def rounding_ok(tmp):
         led = _load(os.path.join(tmp, "results", "paper", "FIX-01_paper.json"))

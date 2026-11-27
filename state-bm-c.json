@@ -639,10 +639,12 @@
   "O-20261026-0400-bm-c",
   "O-20261025-1530-bm-c",
   "O-20261122-2230-bm-c.md",
-  "O-20261124-2300-bm-c.md"
+  "O-20261124-2300-bm-c.md",
+  "O-20261127-1735-bm-c.md",
+  "O-20261127-1650-bm-c.md"
  ],
  "orders_ack_count": 241,
- "orders_ack_last": "O-20261124-2300-bm-c.md",
+ "orders_ack_last": "O-20261127-1650-bm-c.md",
  "orders_ack_note_r1825": "fleet/orders 115 files vs ack set; after stem normalisation 0 unacked; heartbeat carries 271 acks (29 more than the state face -- kept, not deleted).",
  "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
  "orders_ack_ts": "2026-10-31T00:35:20+08:00",
@@ -1724,7 +1726,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2181,
+ "round_no": 2182,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2773,5 +2775,6 @@
  "通过_r2170": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=123656）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 ack 332 -> 未回执 0（余为 2026-10-26 前他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：把归因面里两条「声明不是驱动」的车道补上驱动 —— ①update_lhb_inst 接成链腿（此前三源驱动全空、面板停 11-20 四日；现 no-op 门秒级，cutoff 11-26）②update_lhb 链腿补 --takeover（新鲜度面早已印 taken_over=lhb<-bm-c，链腿却每轮印 refused；实测 +88 行、cutoff 11-25->11-26）· 新鲜度面重 derive：lhb_inst stalled->in_sync、repo behind_1d->in_sync；余 heat(stalled·盘中不可补)/cb_panel(no_driver·研究线需先写 no-op 门)/ah_panel(absent·源失败) 如实留 · 三腿 3/3 rc0 + update_lhb 腿 1/1 rc0 + dualrun ZERO-DRIFT streak 51 + attrition CLEAN(4 账本·3 历史缩行 healed) + 饱和引擎 status rc0 + loop pin=0 no-op + watchdog S4U 翻转被拒(提权面如实注记)",
  "通过_r2177": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=117420）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md origin blob 原字节 250,586B sha256 79e3083b… == 自持水位 -> 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 -> 未回执 0（余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · 主产出：CEO 一页纸新增 ⑨「一笔钱分两本书」把 r2176 book_pair_rebalance 送上游页面（REBALANCE_PAYS +0.022 Sharpe·按季搬 9.12%/1.065/-9.25% vs 不搬 8.87%/1.043/-8.92%·诚实半句=搬钱买回纸面数非第二收益源）+ 4 条行为自检腿（207/207 ALL PASS）· page_repeat_guard 0 repeated · 自捕两处自造数（期末权重/零成本夏普）已改读面自身字段 · 全量冒烟 796 腿 11 红（detached 1142.3s）：6 条已重派生修绿（year_gate/chain audit/CEO 页 rollup/dashboard×2/scorecard）+ 工单重生补等待句，余 3 条 swap 族同根（当日快照 NAV 约 22:00 才可得）+ 1 条 live-quote 判据待复现，如实留账 （qa/ceo-page-pair-rebalance-r2177.md）· 数据面 4 腿 rc0 + 纸盘链 7 腿 rc0 + t35 PASS(matched 1) + attrition CLEAN",
  "竞争_r2181": "rc=3 CONTENTION（results/_repo_write_contention.bm-c.json：peer interactive pid=129772 自 18:14:09；本轮只落新增文件面）",
- "记账_r2181": "轮报告 1 处 + QA 1 件 + research 1 件 + state 1 处 + 心跳 1 处 = 5"
+ "记账_r2181": "轮报告 1 处 + QA 1 件 + research 1 件 + state 1 处 + 心跳 1 处 = 5",
+ "通过_r2182": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=8784）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 336 → 未回执 0（O-20261127-1735-bm-c 锚点令已按 fleet-anchor-bmc.ps1 -Status 回执：relay_port=41641 / static_endpoints 空 / VERDICT not advertising）· 主产出：风控块 C5_paper_recon 从 BREACH 翻绿——R3 判据改三态（生成时刻 ≥ bar 日 15:30 才字面比对；早于收盘须自证等于上一根 bar 重算 ≤1e-4；老于收盘又对不上上一根 bar 仍判死；缺时间戳回严格比对），selftest 19/19、run verdict=PASS problems=0 reader_stale=4、block_board green 23 / red 3 · 同时收口 r2181 遗留链腿（--only=book_pair_worst_windows 1/1 rc0）· pool_dualrun ZERO-DRIFT streak 51 · attrition CLEAN（4 账本 3 历史缩行 healed）· 饱和引擎 rc0 · 未跑全量冒烟（如实）"
 }
