@@ -1237,6 +1237,97 @@ def main() -> int:
     except Exception as _e13:
         check("product: the wait fee lands on the ticket's own size (r1913)",
               False, repr(_e13)[:160])
+    # r2173: the dual-low convertible book's return and the money that can hold it are the
+    # two numbers a person needs before funding that book, and both lived only in results/.
+    # The leg re-derives every token from the two producers and then looks for it on the CEO
+    # page: a page that drops the section, or prints a number its face does not carry, reads
+    # red (r1782: product is judged on the paper the reader opens).
+    try:
+        from config import PATHS as _P73
+        _bd73 = os.path.join(_P73.results_dir, "cb_dual_low.json")
+        _fl73 = os.path.join(_P73.results_dir, "cb_book_ticket_floor.json")
+        _pg73 = os.path.join(_P73.root, "docs", "live_usage", "LIVE-latest.md")
+        _bad73 = []
+        if not os.path.exists(_pg73):
+            _bad73.append("docs/live_usage/LIVE-latest.md missing")
+        elif not (os.path.exists(_bd73) and os.path.exists(_fl73)):
+            _bad73.append("a convertible face is missing from results/")
+        else:
+            with open(_bd73, encoding="utf-8") as _fh73:
+                _b73 = json.load(_fh73) or {}
+            with open(_fl73, encoding="utf-8") as _fh73:
+                _f73 = json.load(_fh73) or {}
+            with open(_pg73, encoding="utf-8") as _fh73:
+                _md73 = _fh73.read()
+            _ph73 = [p for p in (_b73.get("phases") or []) if p.get("phase") == 0]
+            _bm73 = _b73.get("bench") or {}
+            _tok73 = []
+            if _ph73:
+                _m73 = _ph73[0]
+                _tok73 += ["%.2f%%" % (float(_m73["cagr"]) * 100.0),
+                           "%.3f" % float(_m73["sharpe"])]
+            if _bm73.get("cagr") is not None:
+                _tok73.append("%.2f%%" % (float(_bm73["cagr"]) * 100.0))
+            _one73 = _f73.get("one_lot_floor") or {}
+            if _one73.get("rung_cny") is not None:
+                _tok73.append("{:,.0f}".format(float(_one73["rung_cny"])))
+            if _one73.get("clean_capital_cny") is not None:
+                _tok73.append("{:,.0f}".format(float(_one73["clean_capital_cny"])))
+            _lad73 = [r for r in (_f73.get("ladder") or [])
+                      if abs(float(r.get("capital") or 0) - 50000.0) < 1.0]
+            if _lad73 and _lad73[0].get("stranded_pct") is not None:
+                _tok73.append("%.1f%%" % (float(_lad73[0]["stranded_pct"]) * 100.0))
+            if len(_tok73) != 6:
+                _bad73.append("faces do not carry all six readings (%d/6)" % len(_tok73))
+            if "⑧ 可转债双低书" not in _md73:
+                _bad73.append("page has no convertible-book section")
+            for _t73 in _tok73:
+                if _t73 not in _md73:
+                    _bad73.append("page lacks %s" % _t73)
+            if "cb_book_ticket_floor.json" not in _md73:
+                _bad73.append("page does not name the lot-grid face")
+        check("product: the cheapest book a person can hold is on the CEO page (r2173)",
+              not _bad73, "; ".join(_bad73)[:220]
+              or "page prints the book's return, its benchmark, the one-lot rung and the ladder")
+    except Exception as _e73:
+        check("product: the cheapest book a person can hold is on the CEO page (r2173)",
+              False, repr(_e73)[:160])
+    # r2175: the year table exists to answer a question the blend face's own yearly field
+    # cannot -- and it is only useful if the three columns start the same day and the last
+    # column is flagged as a slice. This leg re-derives those two properties from the
+    # published face instead of trusting its markdown.
+    try:
+        from config import PATHS as _P75
+        _f75 = os.path.join(_P75.results_dir, "book_pair_years.json")
+        _bad75 = []
+        if not os.path.exists(_f75):
+            _bad75.append("results/book_pair_years.json missing")
+        else:
+            with open(_f75, encoding="utf-8") as _fh75:
+                _y75 = json.load(_fh75) or {}
+            _rows75 = _y75.get("years") or []
+            if len(_rows75) < 5:
+                _bad75.append("only %d year(s) published" % len(_rows75))
+            _part75 = [r for r in _rows75 if r.get("partial")]
+            if not _part75:
+                _bad75.append("no year is flagged partial -- 2026 is a 10.7-month slice")
+            for _r75 in _rows75:
+                if abs((_r75["ret_blend"] - _r75["ret_cb"]) * 100.0
+                       - _r75["cushion_vs_cb_pp"]) > 1e-6:
+                    _bad75.append("%s: cushion does not follow its own columns" % _r75["year"])
+                if _r75.get("partial") and _r75.get("ann_equiv_blend") is None:
+                    _bad75.append("%s: partial year carries no annualised equivalent"
+                                  % _r75["year"])
+            if not (_y75.get("verdict") or {}).get("etf_down_years_untested"):
+                _bad75.append("verdict does not name the half of the claim that is open")
+            if (_y75.get("reconciliation") or {}).get("n_mismatch") != 0:
+                _bad75.append("raw columns disagree with the parent faces")
+        check("product: wallet years start together, and the last year says it is a slice (r2175)",
+              not _bad75, "; ".join(_bad75)[:220]
+              or "common-start table, partial year flagged, open half of the claim named")
+    except Exception as _e75:
+        check("product: wallet years start together, and the last year says it is a slice (r2175)",
+              False, repr(_e75)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than
