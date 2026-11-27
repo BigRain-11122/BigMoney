@@ -2852,3 +2852,8 @@ ed=false lane=healthy。
 
 | 2026-11-28T05:2x+08:00 | 2204 | 钱包「持有一年是什么感觉」：1421 个起点各持 250 bar → 中位 6.44%/中间 80% 1.46~17.69%/4.2% 起点亏钱/最差 -4.67%；今天恰好是整窗最深一格 -6.72%（前高 2026-01-29，301 天前）；跨臂只按自身 sigma 比（2.65σ vs carry 2.14σ） | run rc0 四行 identity 逐位同父面；check rc0；selftest 13/13；S6 新腿 1/1 rc0 0.7s；冒烟谓词 [] + 负控 1 条；竞争 CLEAN；孤儿面 0；未回执 0；decisions 水位零新 | 下一轮：把「今天在最深一格」接进 CEO 一页纸 + 全量冒烟窗口 |
 | 2026-11-28T06:00+08:00 | 2205 | CEO 一页纸新增 ⑩c「这本书拿到手里，一年是什么感觉」：1421 个起点各持一年中位 6.44%、中间 80% 1.46~17.69%、4.2% 起点亏钱、最差 -4.67%；两年中位 13.98% 零亏钱起点；90.8% 的交易日在前高之下、最长一段 207 bar（307 天）、最深 -6.72% 到窗口末未收回；**今天恰好就是整窗最深一格**（前高 2026-01-29·301 天前）；跨臂只按自身 sigma 比 2.65σ vs carry 2.14σ | run rc0；ceo_live_usage selftest ALL PASS（13 条红全部是「面落后一档」：容量面/at-size/premium_leak/premium_choice 重建后归零）；冒烟谓词 ceo_page_wallet_ride_problems=[] 且负控报 31.00%；探针 selftest 5/5、链腿 ceo_page_wallet_ride rc0 0.1s；page_repeat_guard 0 repeated；attrition CLEAN；竞争 CLEAN；孤儿面 0；未回执 0；decisions 水位零新；orders 前进到 9ff2f31c（MacBook 车道重建行，零量化工单） | 下一轮：S6 全链 rc 收口 + 45 条 smoke 红按链结果复判 |
+
+**实况三行（r2205）**
+- 当前活：S6 全链自愈在跑（28/388 腿完成·全 rc0·逐腿把停在 11-26 的面推到 11-27）
+- 最近实物：docs/live_usage/LIVE-2026-11-28.md §⑩c「这本书拿到手里，一年是什么感觉」+ Tools/probe_ceo_page_wallet_ride.py（2026-11-28T06:0x，已推 origin a72078fc43）
+- 下个里程碑：链跑完后按实际 rc 复判那 45 条 smoke 红并出结论文档（窗 ≤48h）
