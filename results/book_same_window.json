@@ -1,0 +1,308 @@
+{
+ "face": "book_same_window",
+ "generated_at": "2026-11-27T22:48:44+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "两本书「谁更值得开」这个差，有多少是窗口不同造成的？把两本放到同一段日历、同一把时钟、同一种成交口径上，差还在不在？",
+ "caliber": {
+  "series": "book_pair_blend.load_cb() / load_etf() -- the same two parent legs the book family uses",
+  "cb_execution": "signal at close t, filled at close t+1",
+  "etf_execution": "decide at close t, own from the open of t+1 (entry_lag=1)",
+  "ann_days_same_window": 244.0,
+  "ann_days_full_history": "cb 244 / etf 252 (each face's own clock, as published)",
+  "same_window_base": "the first shared bar's level is the entry level (no return before you could own it)",
+  "yearly": "year = previous year-end level -> this year-end level; first year starts at the first shared bar",
+  "wallet": "single book at a time; the rest of the 1,000,000 rolls at the cash leg; deployment caps come from results/cb_union_lens.json",
+  "what_this_face_does_not_do": "it does not re-run either book's rules and it does not re-price anything; it slices two published daily series and restates them on one ruler"
+ },
+ "shared_window": {
+  "first": "2020-01-03",
+  "last": "2026-11-26",
+  "bars": 1671,
+  "years": 6.897,
+  "cb_bars_total": 4710,
+  "etf_bars_total": 1672,
+  "why_not_the_full_cb_history": "the etf book only has a level from 2020-01-03; before that there is no second book to compare"
+ },
+ "books": {
+  "cb": {
+   "label": "转债双低袖（20 名等权 / 20 日 / 10bp）",
+   "full_history": {
+    "cagr": 0.07354814635438345,
+    "sharpe": 0.7581240490932705,
+    "maxdd": -0.22588481873937383,
+    "vol": 0.10067485694980834,
+    "bars": 4710,
+    "first": "2007-07-12",
+    "last": "2026-11-26",
+    "ann_days": 244.0
+   },
+   "same_window": {
+    "bars": 1671,
+    "years": 6.897,
+    "cagr": 0.06293758401851623,
+    "sharpe": 0.5402413275969475,
+    "maxdd": -0.22588481873937383,
+    "vol": 0.1292947496254203,
+    "first": "2020-01-03",
+    "last": "2026-11-26"
+   },
+   "same_window_drawdown": {
+    "worst_dd": -0.22588481873937383,
+    "trough": "2026-11-26",
+    "peak": "2024-12-12",
+    "now_pct": -0.22588481873937383,
+    "now_is_the_trough": true
+   },
+   "now_drawdown": {
+    "now_pct": -0.22588481873937383,
+    "high_bar": "2024-12-12",
+    "last_bar": "2026-11-26",
+    "at_high": false
+   }
+  },
+  "etf": {
+   "label": "ETF 复合书（去债档 + 8 个点波动目标 / 5 名 / 20 日 / 10bp）",
+   "full_history": {
+    "cagr": 0.0991,
+    "sharpe": 0.978,
+    "maxdd": -0.1011,
+    "vol": 0.1064,
+    "bars": 1672,
+    "first": "2020-01-03",
+    "last": "2026-11-27",
+    "ann_days": 252.0
+   },
+   "same_window": {
+    "bars": 1671,
+    "years": 6.897,
+    "cagr": 0.09859346379373268,
+    "sharpe": 0.957817379173659,
+    "maxdd": -0.10108547282064384,
+    "vol": 0.1046752945404551,
+    "first": "2020-01-03",
+    "last": "2026-11-26"
+   },
+   "same_window_drawdown": {
+    "worst_dd": -0.10108547282064384,
+    "trough": "2024-09-12",
+    "peak": "2024-07-11",
+    "now_pct": -0.05691704085255045,
+    "now_is_the_trough": false
+   },
+   "now_drawdown": {
+    "now_pct": -0.05691704085255045,
+    "high_bar": "2026-08-04",
+    "last_bar": "2026-11-26",
+    "at_high": false
+   }
+  }
+ },
+ "published_etf_arm": {
+  "face": "results/etf_nobond_vt.json",
+  "arm": "nobond_vt08",
+  "cagr": 0.1089,
+  "sharpe": 1.076,
+  "maxdd": -0.1056,
+  "cutoff": "2026-11-26",
+  "generated": null,
+  "note": "close-to-close, entry_lag not recorded by the face"
+ },
+ "rulers": {
+  "A": {
+   "ruler": "A_published_each_on_own_history",
+   "cb_cagr": 0.07354814635438345,
+   "etf_cagr": 0.1089,
+   "cb_sharpe": 0.7581240490932705,
+   "etf_sharpe": 1.076,
+   "cb_maxdd": -0.22588481873937383,
+   "etf_maxdd": -0.1056,
+   "gap_pp": 3.535185364561655
+  },
+  "B": {
+   "ruler": "B_same_window_t_plus_1",
+   "cb_cagr": 0.06293758401851623,
+   "etf_cagr": 0.09859346379373268,
+   "cb_sharpe": 0.5402413275969475,
+   "etf_sharpe": 0.957817379173659,
+   "cb_maxdd": -0.22588481873937383,
+   "etf_maxdd": -0.10108547282064384,
+   "gap_pp": 3.565587977521645
+  },
+  "C": {
+   "ruler": "C_same_window_with_the_published_etf_caliber",
+   "cb_cagr": 0.06293758401851623,
+   "etf_cagr": 0.1089,
+   "cb_sharpe": 0.5402413275969475,
+   "etf_sharpe": 1.076,
+   "cb_maxdd": -0.22588481873937383,
+   "etf_maxdd": -0.1056,
+   "gap_pp": 4.596241598148376
+  }
+ },
+ "decomposition": {
+  "window_effect_on_cb_pp": -1.0610562335867213,
+  "execution_effect_on_etf_pp": -1.0306536206267314,
+  "gap_a_pp": 3.535185364561655,
+  "gap_b_pp": 3.565587977521645,
+  "identity": "gap_b - gap_a == execution_effect_on_etf - window_effect_on_cb (the two biases are subtracted from the same gap)",
+  "reading": "two published numbers were each about a point too generous, for two different reasons: the convertible book was quoted on 19.3 years it alone had, the etf book was quoted close-to-close instead of next-open. The two effects nearly cancel in the gap, so the ranking published earlier was right -- but neither absolute number was"
+ },
+ "wallet": {
+  "size_cny": 1000000.0,
+  "cash_contract": "GC007",
+  "cash_rate": 0.011593,
+  "by_ruler": {
+   "A": {
+    "etf_book": {
+     "invested_cny": 750475.3,
+     "cash_cny": 249524.7,
+     "year_cny": 84619.5,
+     "year_pct": 0.08462
+    },
+    "cb_book": {
+     "invested_cny": 991053.2,
+     "cash_cny": 8946.8,
+     "year_cny": 72993.85,
+     "year_pct": 0.072994
+    },
+    "gap_cny": 11625.65
+   },
+   "B": {
+    "etf_book": {
+     "invested_cny": 750475.3,
+     "cash_cny": 249524.7,
+     "year_cny": 76884.7,
+     "year_pct": 0.076885
+    },
+    "cb_book": {
+     "invested_cny": 991053.2,
+     "cash_cny": 8946.8,
+     "year_cny": 62478.21,
+     "year_pct": 0.062478
+    },
+    "gap_cny": 14406.49
+   },
+   "C": {
+    "etf_book": {
+     "invested_cny": 750475.3,
+     "cash_cny": 249524.7,
+     "year_cny": 84619.5,
+     "year_pct": 0.08462
+    },
+    "cb_book": {
+     "invested_cny": 991053.2,
+     "cash_cny": 8946.8,
+     "year_cny": 62478.21,
+     "year_pct": 0.062478
+    },
+    "gap_cny": 22141.29
+   }
+  },
+  "bridge": {
+   "A": {
+    "ruler": "A",
+    "term_etf_advantage_cny": 26530.69,
+    "term_idle_cash_cny": -14905.04,
+    "total_cny": 11625.65,
+    "why_two_terms": "the etf book only asks for 750475 of the 1,000,000; the other 240578 would have been in the convertible book had you picked that one, so it sits in the cash leg instead"
+   },
+   "B": {
+    "ruler": "B",
+    "term_etf_advantage_cny": 26758.86,
+    "term_idle_cash_cny": -12352.37,
+    "total_cny": 14406.48,
+    "why_two_terms": "the etf book only asks for 750475 of the 1,000,000; the other 240578 would have been in the convertible book had you picked that one, so it sits in the cash leg instead"
+   }
+  }
+ },
+ "correlation": {
+  "daily": 0.08986244854304468,
+  "monthly": 0.14348480387226586,
+  "on": "same window",
+  "reading": "two books that barely move together -- but a 1M wallet can only open one"
+ },
+ "yearly": {
+  "2020": {
+   "cb": 10.7609,
+   "etf": 4.7517,
+   "diff_pp": -6.0092
+  },
+  "2021": {
+   "cb": 34.8299,
+   "etf": 6.1494,
+   "diff_pp": -28.6805
+  },
+  "2022": {
+   "cb": -3.0052,
+   "etf": 3.152,
+   "diff_pp": 6.1572
+  },
+  "2023": {
+   "cb": -1.447,
+   "etf": 2.7792,
+   "diff_pp": 4.2263
+  },
+  "2024": {
+   "cb": 28.8806,
+   "etf": 12.4377,
+   "diff_pp": -16.4429
+  },
+  "2025": {
+   "cb": 3.868,
+   "etf": 42.4239,
+   "diff_pp": 38.5559
+  },
+  "2026": {
+   "cb": -20.2823,
+   "etf": 1.317,
+   "diff_pp": 21.5993
+  }
+ },
+ "years_etf_ahead": 4,
+ "years_cb_ahead": 3,
+ "verdict": "SAME_WINDOW_GAP_IS_UNCHANGED_AND_THE_RISK_COLUMNS_AGREE_AND_THE_WALLET_GAP_IS_LARGER_14406_VS_11626_CNY",
+ "sentence": "按各自整段历史（转债 2007-07-12 起、ETF 2020-01-03 起），ETF 年化 10.89%、转债 7.35%，差 +3.54 个百分点；把两本放到同一段日历（2020-01-03..2026-11-26）、同一把 244 天时钟、同一种次日成交，ETF 9.86%、转债 6.29%，差 +3.57 个百分点（比面世尺 +0.03）；100 万钱包里单开 ETF 年 76885 元、单开转债年 62478 元，差 14406 元（面世尺是 11626 元）。",
+ "inputs": {
+  "cb_panel": {
+   "path": "data/cb_panel.csv.gz",
+   "size": 25433554,
+   "mtime": "2026-11-27T11:34:31"
+  },
+  "etf_panel": {
+   "path": "data/daily/510300.csv",
+   "size": 102490,
+   "mtime": "2026-11-27T15:33:57"
+  },
+  "etf_nobond_vt": {
+   "path": "results/etf_nobond_vt.json",
+   "size": 3374,
+   "mtime": "2026-11-27T13:38:43"
+  },
+  "cb_dual_low": {
+   "path": "results/cb_dual_low.json",
+   "size": 17068,
+   "mtime": "2026-11-27T11:47:04"
+  },
+  "cb_union_lens": {
+   "path": "results/cb_union_lens.json",
+   "size": 4046,
+   "mtime": "2026-11-27T22:14:14"
+  },
+  "cash_roll": {
+   "path": "results/etf_book_cash_roll_today.json",
+   "size": 5976,
+   "mtime": "2026-11-27T21:26:48"
+  }
+ },
+ "parent_cutoffs": {
+  "cb": "2026-11-26",
+  "etf": "2026-11-27",
+  "etf_published_arm": "2026-11-26",
+  "cash": "2026-11-26"
+ },
+ "known_gaps": [
+  "the two books carry different universes, different cost models and different turnover; this face aligns dates and clocks, not mechanics",
+  "the etf book runs a volatility target (it de-levers), the cb book does not -- the gap in raw CAGR therefore mixes return with risk budget; the sharpe/maxdd columns are there to read it both ways",
+  "the cb book is quoted on 244 days and the etf face on 252; the full-history rows keep each face's own clock and are therefore not directly subtractable from each other"
+ ]
+}
