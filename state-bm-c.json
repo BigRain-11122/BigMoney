@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝三条 carry 读数挪到同一本日历上重算，顺带第一次给「对冲买的是什么」算出回撤｜最近实物=results/carry_three_lines_common_window.json + research/CARRY_THREE_LINES_COMMON_WINDOW.md（2026-11-27T23:50·cutoff 2026-11-25·selftest 22/22·check OK）+ qa/carry-three-lines-common-window-r2192.md｜下个里程碑＝(a) 竞争窗关闭即补链腿+冒烟腿（≤24h）(b) 把「不带对冲 -46.67% 一手资本 / 对冲后 -6.40%」接进 CEO 一页纸（≤48h）",
+ "CEO 三行": "当前活＝把「100 万开不了 carry 这本书」拆成两半：那枚 1,137,862.5 是「最近 242 天每手波动 91,029 ÷ 8%」的今日读数（8 年来第 108 热的 12 个月），中位年份只要 837,497 ｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\carry_first_rung_vol_ruler.md（2026-11-28 00:1x·cutoff 2026-11-26·selftest 26/26·check OK）+ qa/carry-first-rung-vol-ruler-r2193.md｜下个里程碑＝(a) 竞争窗关闭即补链腿+冒烟腿，并把「门槛是波动读数」这句印进 open_capital 与 CEO 一页纸（≤24h）(b) 量「8% 上限要乘 1.7882 才成硬墙」对三本书的统一后果（≤48h）",
  "active_lane": "carry ruler census: which of the family's printed Sharpes is the same money",
  "activity": "product",
- "activity_now": "r2192 carry_three_lines_common_window: 把 basis 剪到另两条的日历（2018-10-22..2026-11-20）上重算，并先用两条复现腿证明尺一样（basis 2.972/10.069/3.2463/-1.8896 与两臂 1.4162/0.5057 逐位 MATCH）；共同窗 basis Sharpe 3.0202（去掉锚日 3.0045），被剪掉的 425 bar 自己 2.8072 -> 混窗是呈现缺陷不是数字缺陷；两臂第一次有回撤：不带对冲 -2655 点=-46.67% 一手资本，对冲后 -364 点=-6.40%（年化均值 735.7->503.1 点）",
- "activity_now_round": 2192,
+ "activity_now": "r2193 carry_first_rung_vol_ruler: 裁掉 r2192 明写「未仲裁」的两个每手波动读数——已发布 91,029 出自 SIZING 的 242 天窗（复现逐位 MATCH），十年窗是 71,149；今日读数在 1,724 个滚动一年窗的第 93.79 分位，历史上 78.13% 的年份 100 万买得起 1 手，中位年份第一手门槛 837,497；票面收回不要新钱（波动 -12.12% 即还回 1 手）；8% 硬上限前向越限 346/1246=27.77%，手数年年翻转 42.24%，要 p90 上限尺乘 1.7882",
+ "activity_now_round": 2193,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -40,11 +40,11 @@
   "workers": 6
  },
  "artifacts": [
-  "scripts/book_pair_sleeve_turnover.py",
-  "results/book_pair_sleeve_turnover.json",
-  "results/book_pair_sleeve_turnover.md",
-  "research/BOOK_PAIR_SLEEVE_TURNOVER.md",
-  "qa/book-pair-sleeve-turnover-r2186.md"
+  "scripts/carry_first_rung_vol_ruler.py",
+  "results/carry_first_rung_vol_ruler.json",
+  "results/carry_first_rung_vol_ruler.md",
+  "research/CARRY_FIRST_RUNG_VOL_RULER.md",
+  "qa/carry-first-rung-vol-ruler-r2193.md"
  ],
  "attrition": "scan 本轮未跑（competition rc=3，会写共享面 results/_attrition_guard_scan.json）",
  "batch": "none (contended round, no compute batch)",
@@ -72,7 +72,7 @@
   "n_candidates": 14,
   "verdict": "STRUCTURAL_RISK_ONLY"
  },
- "chain_note": "r2192: 竞争窗 rc=3 -> S6 链未跑（连续第 9 轮）；本面为新增文件面，无共享面改动",
+ "chain_note": "r2193: 竞争窗 rc=3 -> S6 链未跑（连续第 10 轮）；本面为新增文件面，无共享面改动",
  "chain_verdict": "点名单腿 6/6 rc0（liquidity_select_write 含 +refresh 55.1s、liquidity_era_write、data_lane x2、etf_book_ceo_page、etf_book_day_delta 含 +refresh）+ 全量冒烟 794/794；未跑完整 392 腿链",
  "chain_writer_audit": {
   "known_baseline": 29,
@@ -88,7 +88,7 @@
   "task": "HQ-ProductionClaim"
  },
  "cli_read": "2026-11-24T17:15:38+08:00",
- "clock_read": "2026-11-27T23:50:44+08:00",
+ "clock_read": "2026-11-28T00:12:25+08:00",
  "clock_read_source": "local system clock (Win32, Asia/Shanghai)",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2192,
+ "round_no": 2193,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2788,5 +2788,6 @@
  "通过_r2182": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=8784）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 336 → 未回执 0（O-20261127-1735-bm-c 锚点令已按 fleet-anchor-bmc.ps1 -Status 回执：relay_port=41641 / static_endpoints 空 / VERDICT not advertising）· 主产出：风控块 C5_paper_recon 从 BREACH 翻绿——R3 判据改三态（生成时刻 ≥ bar 日 15:30 才字面比对；早于收盘须自证等于上一根 bar 重算 ≤1e-4；老于收盘又对不上上一根 bar 仍判死；缺时间戳回严格比对），selftest 19/19、run verdict=PASS problems=0 reader_stale=4、block_board green 23 / red 3 · 同时收口 r2181 遗留链腿（--only=book_pair_worst_windows 1/1 rc0）· pool_dualrun ZERO-DRIFT streak 51 · attrition CLEAN（4 账本 3 历史缩行 healed）· 饱和引擎 rc0 · 未跑全量冒烟（如实）",
  "通过_r2183": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（对端 pid=132592 interactive 18:56:09 起；6 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 336 → 未回执 43 全为 2026-10-26 前他机 lane 广播（r2066 判例）· fleet/inbox 空 · 主产出 book_pair_cushion_regime：把「30/70 的防守是不是只在转债便宜时才成立」问回去——rich 月防守 +0.25pp 与 rest +0.26/0.93pp 同量级，rich−rest = −0.46pp 区间 [−1.36,+0.65] 跨零 → CUSHION_DIFFERENCE_NOT_SEPARABLE；样本单边（46/81 月 rich，cheap 侧仅 3 个下跌月）；规则臂（贵时转债袖换现金）Sharpe 1.383 vs 同暴露对照 1.266，边缘 +0.144pp/月 区间 +0.018~+0.275，但 5 个月吃掉 64.7% 的总边缘=回撤故事 · selftest 22/22 · check OK · 父面对账 True · 六处自捕（verdict 元组比较/两处测试值/百分号崩溃/evidence_cutoff 用了月末标签/硬写 73-of-81 数/跨零仍宣称 holds） · 未跑全量冒烟与 S6 链（竞争窗）",
  "通过_r2184": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=129220）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md origin 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders.md 111,934B sha256 fcbd99d7 == 本轮新水位（新增 1 行=T0 机队网络自愈令，本机回执已在 origin cph4/fleet/receipts/net-bm-c-20261127.md）· 主产出：current.today 六字段+页面 ⑩ 节（今天袖子在现金·ETF 100%/转债 0%）+ 两枚孤儿面接链（2/2 rc0）· selftest 页面 ALL PASS / cushion 24/24 / split_ci 22 腿 · page_repeat_guard 0 repeated · 链自审 3/3 rc0",
- "通过_r2190": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（3 宿主：pid 30500 21:54 / pid 4176 22:17 交互；23 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 337 → 未回执差集 0 · fleet/inbox 空 · 主产出 three_book_rulers：同一窗同一钟（2020-01-03..2026-11-26·1671 bars·244 天）三本书 ETF 9.94%/SR0.950 / 转债 6.34%/SR0.491 / carry basis 10.22%/SR3.189，判词 THE_SMOOTH_LINE_IS_THE_ONE_NOBODY_CAN_HOLD——赢的那行是按名义额的 basis 臂，家族自己的对冲臂 Sharpe 只有 1.416（同腿另两读 2.972 basis / 0.506 unhedged）；8% 硬帽下 1 手 IC 要 1,137,862 元 vs 钱包 1,000,000 → 可执行 0 手，账面决定 WITHDRAW_FROM_TICKET；资本收益恒等式 8%×1.416=11.33%（对冲臂）/ 8%×2.972=23.78%（basis 臂）如实标注非预测 · selftest 18/18（含 3 条行为腿：改判词=CHECK FAILED 且不带 STALE / 动输入 sha=STALE / 三条负控）· 三处自捕：①level 面未归一（转债印成 22.25%/+295%）②check 找面路径少 results/ ③三条自检期望值写错 · 未做（如实）：链腿/冒烟腿/CEO 页小节仍卡共享面（第 7 轮留账）；attrition 扫与钩子自愈本轮未跑（写共享面）"
+ "通过_r2190": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（3 宿主：pid 30500 21:54 / pid 4176 22:17 交互；23 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 337 → 未回执差集 0 · fleet/inbox 空 · 主产出 three_book_rulers：同一窗同一钟（2020-01-03..2026-11-26·1671 bars·244 天）三本书 ETF 9.94%/SR0.950 / 转债 6.34%/SR0.491 / carry basis 10.22%/SR3.189，判词 THE_SMOOTH_LINE_IS_THE_ONE_NOBODY_CAN_HOLD——赢的那行是按名义额的 basis 臂，家族自己的对冲臂 Sharpe 只有 1.416（同腿另两读 2.972 basis / 0.506 unhedged）；8% 硬帽下 1 手 IC 要 1,137,862 元 vs 钱包 1,000,000 → 可执行 0 手，账面决定 WITHDRAW_FROM_TICKET；资本收益恒等式 8%×1.416=11.33%（对冲臂）/ 8%×2.972=23.78%（basis 臂）如实标注非预测 · selftest 18/18（含 3 条行为腿：改判词=CHECK FAILED 且不带 STALE / 动输入 sha=STALE / 三条负控）· 三处自捕：①level 面未归一（转债印成 22.25%/+295%）②check 找面路径少 results/ ③三条自检期望值写错 · 未做（如实）：链腿/冒烟腿/CEO 页小节仍卡共享面（第 7 轮留账）；attrition 扫与钩子自愈本轮未跑（写共享面）",
+ "carrier_debt_r2193": "待共享面回落补：①smoke_test.py 一条腿（selftest+check 组成 (check,run) 对，漂移文案含 STALE）；②Tools/s6_chain_bmc.py 一条链腿（排在 carry_three_lines_common_window 之后，check ~3s / run ~3s）；③CODELY.md 一条判例（「已发布的绝对数要连它自己的量尺窗口一起印，否则读者会把读数当结构事实」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡（同判例 + 前向越限率的语义=按上年波动买 k 手持一年）；⑤idx_fut_carry_open_capital 的 \"needs 1,137,862 CNY of capital\" 措辞改成「今天的第一手门槛」；⑥IM 账户同做法未做"
 }

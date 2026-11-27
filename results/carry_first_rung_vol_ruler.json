@@ -1,0 +1,229 @@
+{
+ "schema": "carry-first-rung-vol-ruler/v1",
+ "face": "carry_first_rung_vol_ruler",
+ "machine": "bm-c",
+ "product": "IC",
+ "evidence_cutoff": "2026-11-26",
+ "question": "「100 万开不了这本书」是资本事实，还是「用最近 12 个月量波动」这个选择的产物？",
+ "inputs": {
+  "open_capital": {
+   "face": "results/idx_fut_carry_open_capital.json",
+   "sha256": "b913a28846b84ad52bcae0f142236e66e50646cfd8d4fdd5dc27d294f008c1f4",
+   "generated": "2026-11-27T02:33:48+08:00",
+   "cutoff": "2026-11-26"
+  },
+  "sizing": {
+   "face": "results/idx_fut_carry_paper/SIZING.json",
+   "sha256": "1ebc947730400cbce8199985c14e3de5dfee6d0dd6aabcd0110b5d11bd0bbc74",
+   "generated": "2026-11-27T02:33:05",
+   "cutoff": "2026-11-26"
+  }
+ },
+ "multiplier": {
+  "cny_per_point": 200.0,
+  "authority": "results/idx_fut_carry_one_lot_ruler.json::rule.precision_tick_basis",
+  "precision_tick_basis": "multiplier x price quantum: 200 x 0.0001 = 0.02 CNY; a sub-tick difference is the same measurement summed in another order, so it is PRECISION_ONLY and neither a rebuild nor a defect"
+ },
+ "panel": {
+  "first_return": "2018-10-23",
+  "last_return": "2026-11-26",
+  "return_bars": 1965
+ },
+ "reproduction": {
+  "published_vol_cny": 91029.0,
+  "recomputed_vol_cny": 91029.0,
+  "published_window": [
+   "2025-11-26",
+   "2026-11-26"
+  ],
+  "published_days": 242,
+  "recomputed_return_window": [
+   "2025-11-27",
+   "2026-11-26"
+  ],
+  "recomputed_bars": 242,
+  "note": "父面的 window 起点是锚日（无收益），242 个收益落在 recomputed_return_window",
+  "verdict": "MATCH",
+  "published_first_rung_cny": 1137862.5,
+  "recomputed_first_rung_cny": 1137862.5,
+  "first_rung_verdict": "MATCH"
+ },
+ "vol_by_window": [
+  {
+   "window": "one_year_242",
+   "bars": 242,
+   "return_window": [
+    "2025-11-27",
+    "2026-11-26"
+   ],
+   "ann_vol_cny": 91029.0,
+   "ann_mean_cny": 146059.0,
+   "sharpe": 1.6045,
+   "lots_at_capital": 0,
+   "first_rung_cny": 1137862.5,
+   "is_published_ruler": true
+  },
+  {
+   "window": "two_year_484",
+   "bars": 484,
+   "return_window": [
+    "2024-11-28",
+    "2026-11-26"
+   ],
+   "ann_vol_cny": 75809.61,
+   "ann_mean_cny": 131593.0,
+   "sharpe": 1.7358,
+   "lots_at_capital": 1,
+   "first_rung_cny": 947620.12,
+   "is_published_ruler": false
+  },
+  {
+   "window": "three_year_726",
+   "bars": 726,
+   "return_window": [
+    "2023-11-28",
+    "2026-11-26"
+   ],
+   "ann_vol_cny": 83956.24,
+   "ann_mean_cny": 102989.0,
+   "sharpe": 1.2267,
+   "lots_at_capital": 0,
+   "first_rung_cny": 1049453.0,
+   "is_published_ruler": false
+  },
+  {
+   "window": "five_year_1210",
+   "bars": 1210,
+   "return_window": [
+    "2021-11-30",
+    "2026-11-26"
+   ],
+   "ann_vol_cny": 72417.59,
+   "ann_mean_cny": 85624.0,
+   "sharpe": 1.1824,
+   "lots_at_capital": 1,
+   "first_rung_cny": 905219.87,
+   "is_published_ruler": false
+  },
+  {
+   "window": "full_sample",
+   "bars": 1965,
+   "return_window": [
+    "2018-10-23",
+    "2026-11-26"
+   ],
+   "ann_vol_cny": 71149.35,
+   "ann_mean_cny": 101147.0,
+   "sharpe": 1.4216,
+   "lots_at_capital": 1,
+   "first_rung_cny": 889366.88,
+   "is_published_ruler": false
+  }
+ ],
+ "rolling_one_year": {
+  "bars_in_window": 242,
+  "windows": 1724,
+  "min_cny": 32495.45,
+  "p10_cny": 44036.9,
+  "p25_cny": 61424.08,
+  "median_cny": 66999.72,
+  "p75_cny": 76871.37,
+  "p90_cny": 89036.6,
+  "max_cny": 98399.64,
+  "today_cny": 91029.0,
+  "today_percentile": 93.79,
+  "windows_above_today": 107,
+  "share_allowing_one_lot_pct": 78.13,
+  "share_at_or_below_budget_pct": 78.13,
+  "note": "重叠样本（步长 1 天），是本样本上的描述性分布，不是显著性检验"
+ },
+ "cap_breach": {
+  "pairs": 1482,
+  "pairs_where_trailing_said_at_least_one_lot": 1246,
+  "breaches": 346,
+  "breach_rate_pct": 27.77,
+  "lot_flip_rate_pct": 42.24,
+  "forward_over_trailing_p50": 1.0192,
+  "forward_over_trailing_p90": 1.7882,
+  "forward_over_trailing_p95": 2.5818,
+  "forward_over_trailing_max": 3.0279,
+  "ruler_multiplier_for_a_p90_cap": 1.7882,
+  "share_of_next_years_above_todays_vol_pct": 7.22,
+  "share_of_next_years_above_ten_year_vol_pct": 37.72,
+  "note": "重叠前向样本；越限率的语义是「按上年波动买 k 手、持有一年，实现波动把 k x vol 顶过 8% 预算」"
+ },
+ "money": {
+  "capital_cny": 1000000.0,
+  "target_pct": 8.0,
+  "budget_cny": 80000.0,
+  "lots_today": 0,
+  "first_rung_today_cny": 1137862.5,
+  "first_rung_ten_year_cny": 889366.88,
+  "first_rung_median_year_cny": 837496.51,
+  "first_rung_calmest_year_cny": 406193.13,
+  "range_of_the_first_rung_cny": [
+   837496.51,
+   1137862.5
+  ],
+  "release_vol_cny": 80000.0,
+  "vol_has_to_fall_pct": 12.12,
+  "desk_lots": 4,
+  "capital_for_desk_lots_today_cny": 4551450.0,
+  "capital_for_desk_lots_ten_year_cny": 3557467.52,
+  "annual_mean_cny_ten_year": 101147.0
+ },
+ "adoption": {
+  "decided": "保留最近 242 个收益日当尺，但从此不许把它的输出叫「这本书要的资本」，只能叫「今天的第一手门槛」",
+  "decided_in": "bm-c round 2193",
+  "ruler": "trailing 242 returns (SIZING.json 自己的窗口)",
+  "because": "风险上限是对下一年的一句承诺，所以尺必须看最近这一段；十年平均看不见正在发烧的当期。但用它算出来的数会动：它是「今天的第一手门槛」，不是「这本书的资本要求」——任何把后者写进页面的读数，大多数年份都会是错的",
+  "what_the_adoption_forbids": [
+   "把 1,137,862.5 印成「开这本书要的资本」而不带它的窗口与它在滚动分布里的分位",
+   "因为最近 12 个月正处在自己历史的 p94，就把尺换成最平静的那把（十年）来把仓位放大"
+  ],
+  "alternatives_not_adopted": [
+   {
+    "ruler": "十年回放窗（1961-1965 bar）",
+    "adopted": false,
+    "because_not": "它是所有已发布读数里最平静的一枚（71,149 对 91,029），照它买手等于拿一段包含更多平静期的十年去放大今天的仓位；同一套算术说，那样 8% 上限会在大约四分之一的年份被顶破"
+   },
+   {
+    "ruler": "滚动 242 日窗的中位数",
+    "adopted": false,
+    "because_not": "八年的中位数不是关于未来十二个月的一句话"
+   }
+  ]
+ },
+ "judgement": {
+  "verdict": "THE_FIRST_RUNG_IS_A_VOLATILITY_READ_NOT_A_CAPITAL_THRESHOLD",
+  "today_percentile": 93.79,
+  "share_allowing_one_lot_pct": 78.13,
+  "why": "今日的每手年化波动 91,029 元落在 1724 个滚动一年窗的第 93.79 分位；同一本规则在历史上 78.13% 的年份会在 100 万上买至少一手，第一手门槛在中位年份是 837,497 元、今天才是 1,137,862.5 元"
+ },
+ "cap_verdict": "THE_EIGHT_PERCENT_CAP_IS_BREACHED_ABOUT_ONE_YEAR_IN_FOUR",
+ "what_this_changes": [
+  "1,137,862.50 不是这本书的资本门槛，是「最近 242 天波动 91,029、按 8.0% 目标折算」的今日读数：同一条算术在中位年份给 837,497 元",
+  "100 万今天买 0 手这件事仍然对（尺是最近一年，上限是对下一年的承诺）；但同一条规则在历史上 78.13% 的年份会在 100 万上买 1 手",
+  "票面收回不需要新钱：波动从 91,029 降到 80,000（-12.12%）规则自己就还回 1 手",
+  "8.0% 上限不是硬墙：按上年波动定手数，下一年实现波动把它顶出去的比例是 27.77%；要让它成为 p90 意义上的上限，波动尺要乘 1.7882"
+ ],
+ "what_is_still_missing": [
+  "前向检验用重叠窗，独立样本远少于 1482 对——频率是描述性的，不是检验",
+  "没有对「下一年的波动」建模（EWMA/GARCH 都没做）；本面只量「用哪段历史」的后果",
+  "IM 账户（第二腿）未同做：它的每手波动 93,259.93 同样出自 242 天窗，但腿长与主力不同",
+  "点数是可加 P&L，不做复利；把一条 carry 腿滚成 CAGR 需要账户与不间断滚仓假设，本面不代读者假定"
+ ],
+ "sources": [
+  "results/idx_fut_carry_open_capital.json",
+  "results/idx_fut_carry_paper/SIZING.json",
+  "results/idx_fut_carry_one_lot_ruler.json",
+  "results/idx_fut_carry_capacity_lots.json"
+ ],
+ "inputs_digest": {
+  "results/idx_fut_carry_open_capital.json": "b913a28846b84ad52bcae0f142236e66e50646cfd8d4fdd5dc27d294f008c1f4",
+  "results/idx_fut_carry_paper/SIZING.json": "1ebc947730400cbce8199985c14e3de5dfee6d0dd6aabcd0110b5d11bd0bbc74",
+  "results/idx_fut_carry_one_lot_ruler.json": "3d4702338941cf52b6761e649dd3f0504b39e7ad958901649cbb4da0b0139187",
+  "results/idx_fut_carry_capacity_lots.json": "920f0274d414bd5de044d827c0da2d1be14b40febc6722d808e276a100b9b143"
+ },
+ "generated": "2026-11-28T00:09:56+08:00"
+}
