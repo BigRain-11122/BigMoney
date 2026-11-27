@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2199,
+ "round_no": 2200,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2790,7 +2790,7 @@
  "通过_r2184": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=129220）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md origin 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders.md 111,934B sha256 fcbd99d7 == 本轮新水位（新增 1 行=T0 机队网络自愈令，本机回执已在 origin cph4/fleet/receipts/net-bm-c-20261127.md）· 主产出：current.today 六字段+页面 ⑩ 节（今天袖子在现金·ETF 100%/转债 0%）+ 两枚孤儿面接链（2/2 rc0）· selftest 页面 ALL PASS / cushion 24/24 / split_ci 22 腿 · page_repeat_guard 0 repeated · 链自审 3/3 rc0",
  "通过_r2190": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（3 宿主：pid 30500 21:54 / pid 4176 22:17 交互；23 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 337 → 未回执差集 0 · fleet/inbox 空 · 主产出 three_book_rulers：同一窗同一钟（2020-01-03..2026-11-26·1671 bars·244 天）三本书 ETF 9.94%/SR0.950 / 转债 6.34%/SR0.491 / carry basis 10.22%/SR3.189，判词 THE_SMOOTH_LINE_IS_THE_ONE_NOBODY_CAN_HOLD——赢的那行是按名义额的 basis 臂，家族自己的对冲臂 Sharpe 只有 1.416（同腿另两读 2.972 basis / 0.506 unhedged）；8% 硬帽下 1 手 IC 要 1,137,862 元 vs 钱包 1,000,000 → 可执行 0 手，账面决定 WITHDRAW_FROM_TICKET；资本收益恒等式 8%×1.416=11.33%（对冲臂）/ 8%×2.972=23.78%（basis 臂）如实标注非预测 · selftest 18/18（含 3 条行为腿：改判词=CHECK FAILED 且不带 STALE / 动输入 sha=STALE / 三条负控）· 三处自捕：①level 面未归一（转债印成 22.25%/+295%）②check 找面路径少 results/ ③三条自检期望值写错 · 未做（如实）：链腿/冒烟腿/CEO 页小节仍卡共享面（第 7 轮留账）；attrition 扫与钩子自愈本轮未跑（写共享面）",
  "carrier_debt_r2193": "待共享面回落补：①smoke_test.py 一条腿（selftest+check 组成 (check,run) 对，漂移文案含 STALE）；②Tools/s6_chain_bmc.py 一条链腿（排在 carry_three_lines_common_window 之后，check ~3s / run ~3s）；③CODELY.md 一条判例（「已发布的绝对数要连它自己的量尺窗口一起印，否则读者会把读数当结构事实」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡（同判例 + 前向越限率的语义=按上年波动买 k 手持一年）；⑤idx_fut_carry_open_capital 的 \"needs 1,137,862 CNY of capital\" 措辞改成「今天的第一手门槛」；⑥IM 账户同做法未做",
- "last_round_face": "etf_book_leverage_budget",
+ "last_round_face": "three_book_wallet_ladder",
  "contention_r2194": {
   "probe": "Tools/repo_write_contention.py --lookback-min 45",
   "rc": 3,
@@ -2867,5 +2867,22 @@
  "记账_r2199": "轮报告1 + QA1 + results1 + research1 + 脚本1 + state1 + 心跳1 = 5 处（记账律内）",
  "s6_note_r2199": "S6 chain / attrition_ledger_guard / py_watermark / compute_audit / pool_dualrun NOT run: every one writes shared faces and the contention probe forbids it",
  "smoke_note_r2199": "full smoke_test NOT run (shared faces + ~1000s; peer host live in the tree)",
- "下个里程碑_r2199": "共享面回落补 r2193-r2199 载体欠账（链腿/冒烟腿/CEO 页小节），窗 <=48h"
+ "下个里程碑_r2199": "共享面回落补 r2193-r2199 载体欠账（链腿/冒烟腿/CEO 页小节），窗 <=48h",
+ "通过_r2200": "machine.json=bm-c · contention rc=3 CONTENTION (peer interactive pid 30500 alive since 2026-11-27T21:54:41, 13 peer-only shared writes, 0 in overlap) -> new-file faces only. PRODUCT: three_book_wallet_ladder -- the parent read the gate at one wallet; read at a ladder of capitals and the gate is a cliff: one IC lot needs 1,137,862.5 CNY of capital at the 8% budget, so the affordable carry weights at W form [1137862.5/W, 1]; at the first rung that band is the single point {1.00} and the best the wallet can do is hold carry ALONE (Sharpe 1.445 = carry's own), a +0.384 jump that captures 49% of the gate's whole 0.784 for 137,862 CNY (13.79% more capital, 2.79 marginal Sharpe per million, then 0.87/0.62/0.36/0.29/0.11/0). The weight the grid wants (50%) needs 2,275,725 CNY = 2.00x the first rung, where the gate closes and Sharpe is 1.844 with mdd -4.12%. Honest: first rung runs 8.00% vol vs 6.12% at 1,000,000, so part of the jump is a shift in risk; and the rungs are the 8% dial's arithmetic -- at a 9.10% target the 1,000,000 wallet fits one lot exactly. Evidence: selftest 18/18, check rc0 (15 rungs, first lot 1,137,862, gate closes 2,275,725), 1,000,000 rung equals parent best_inside_gate bit for bit ([0.65,0.35,0.0], Sharpe 1.060401), rerun numerically idempotent (stable hash without generated). decisions.md origin blob 250,586B sha256 79e3083b85c1 == watermark (zero new) · orders 119 / ack 337 -> 43 unacked are all -bm-a/-bm-b lane broadcasts dated <= 2026-10-23 (r2066 precedent), none addressed to bm-c · fleet/inbox empty · board open=0 · orphan_face_probe py_faces=5 orphans=0 resident_servers=1 · S6 chain / attrition guard / py_watermark / compute_audit / dualrun / full smoke NOT run (all write shared faces; contention forbids).",
+ "contention_r2200": {
+  "probe": "Tools/repo_write_contention.py --lookback-min 45",
+  "rc": 3,
+  "verdict": "CONTENTION",
+  "peer": "interactive pid 30500 since 2026-11-27T21:54:41 (age 285.8m, cap_exempt)",
+  "peer_only_shared_writes": 13,
+  "overlap": 0,
+  "policy": "new files only; s6_chain_bmc.py / smoke_test.py / ceo_live_usage.py / CODELY.md / boards untouched",
+  "evidence": "results/_repo_write_contention.bm-c.json"
+ },
+ "carrier_debt_r2200": "r2200 adds: (a) s6 chain leg for three_book_wallet_ladder (check ~1s / run ~60s, pay only on STALE); (b) smoke leg = (selftest, check) pair; (c) CEO page section 'the third book arrives at a capital, not at a date'; (d) CODELY card: 'a gate that is a function of capital is a ladder, and the first rung is not the rung you want'; (e) METHODOLOGY card; (f) carry hedge-leg cost inside the ladder (still gross). All are shared faces -> blocked by CONTENTION (16th consecutive round for the chain/smoke pair).",
+ "s6_note_r2200": "S6 chain / attrition_ledger_guard / py_watermark / compute_audit / pool_dualrun NOT run: every one writes shared faces and the contention probe forbids it",
+ "smoke_note_r2200": "full smoke_test NOT run (shared faces + ~1000s; peer host live in the tree)",
+ "watermark_note_r2200": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders 119 / ack 337 -> 43 unacked all pre-2026-10-26 other-machine lane broadcasts, none @bm-c; fleet/inbox empty; board open=0",
+ "记账_r2200": "轮报告1 + QA1 + results2 + research1 + 脚本1 + state1 + 心跳1 = 5 处（记账律内）",
+ "下个里程碑_r2200": "共享面回落补 r2193-r2200 载体欠账（链腿/冒烟腿/CEO 页小节），窗 <=48h"
 }

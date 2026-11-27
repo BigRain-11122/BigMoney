@@ -1,0 +1,809 @@
+{
+ "schema": "three-book-wallet-ladder/v1",
+ "face": "three_book_wallet_ladder",
+ "generated": "2026-11-28T03:00:06+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "the parent read the gate at 1,000,000 CNY; at what capital does the third book get in, and what does the gate still cost after it does",
+ "window": {
+  "first": "2020-01-06",
+  "last": "2026-11-26",
+  "bars": 1670,
+  "why": "the parent's own common window; this face re-prices no book"
+ },
+ "caliber": {
+  "ann_days": 244.0,
+  "target_vol_pct": 8.0,
+  "parent_wallet_cny": 1000000.0,
+  "weights_are": "share of the 8% volatility budget after each book is scaled to it",
+  "grid_step": 0.05,
+  "carry_gross_of_hedge_cost": true,
+  "execution": {
+   "etf": "decide at close t, own from the open of t+1",
+   "cb": "signal at close t, filled at close t+1",
+   "carry": "close-to-close; gross of cost on the hedge leg"
+  },
+  "vol_scale_factors": {
+   "etf": 0.764268,
+   "cb": 0.618741,
+   "carry": 0.000227
+  }
+ },
+ "floors": {
+  "etf": 0.0,
+  "cb": 25850.2,
+  "carry": 1137862.5
+ },
+ "single_books": {
+  "etf": {
+   "sharpe": 0.957817,
+   "cagr": 0.076171,
+   "vol": 0.08,
+   "maxdd": -0.078022
+  },
+  "cb": {
+   "sharpe": 0.540241,
+   "cagr": 0.040833,
+   "vol": 0.08,
+   "maxdd": -0.145038
+  },
+  "carry": {
+   "sharpe": 1.444612,
+   "cagr": 0.118898,
+   "vol": 0.08,
+   "maxdd": -0.073451
+  }
+ },
+ "entry": {
+  "parent_wallet_cny": 1000000.0,
+  "parent_best_sharpe": 1.060401,
+  "ungated_best": {
+   "w": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "sharpe": 1.844477,
+   "cagr": 0.09401,
+   "vol": 0.049383,
+   "maxdd": -0.041218,
+   "wallet_needed_cny": 2275725.0
+  },
+  "total_gate_price_sharpe": 0.784076,
+  "first_capital_where_carry_fits_any_weight_cny": 1137862.5,
+  "weight_forced_at_that_rung_pct": 100.0,
+  "carry_sharpe_at_that_rung": 1.444612,
+  "sharpe_one_cny_below_that_rung": 1.060401,
+  "jump_in_sharpe_at_that_rung": 0.384211,
+  "share_of_total_gate_price_captured_by_the_jump": 0.490018,
+  "capital_paid_for_the_jump_cny": 137862.5,
+  "capital_paid_for_the_jump_pct_of_wallet": 13.7862,
+  "first_capital_where_a_two_book_mix_exists_cny": 1197750.0,
+  "capital_the_mix_wants_cny": 2275725.0,
+  "wanted_carry_weight_pct": 50.0,
+  "wanted_over_first_rung_x": 2.0,
+  "one_lot_capital_cny": 1137862.5,
+  "one_lot_vol_budget_cny": 91029.0,
+  "grid_step": 0.05,
+  "why_this_is_not_a_smooth_curve": "one IC lot is indivisible: the affordable carry weights at W form the half-line [1137862.50 / W, 1]. At W = 1137862 that half-line is the single point {1.00}, so the best the wallet can do is hold the carry book ALONE; the diversifiers come back only as W grows and the band's left edge falls.",
+  "what_this_is_not": "not a second opinion on any book's Sharpe: the rungs only re-read which cells of the parent's grid a wallet can afford",
+  "target_vol_where_parent_wallet_fits_one_lot_pct": 9.103,
+  "target_sensitivity": [
+   {
+    "target_vol_pct": 5.0,
+    "first_lot_capital_cny": 1820580.0,
+    "wanted_weight_capital_cny": 3641160.0
+   },
+   {
+    "target_vol_pct": 6.0,
+    "first_lot_capital_cny": 1517150.0,
+    "wanted_weight_capital_cny": 3034300.0
+   },
+   {
+    "target_vol_pct": 8.0,
+    "first_lot_capital_cny": 1137862.0,
+    "wanted_weight_capital_cny": 2275725.0
+   },
+   {
+    "target_vol_pct": 10.0,
+    "first_lot_capital_cny": 910290.0,
+    "wanted_weight_capital_cny": 1820580.0
+   },
+   {
+    "target_vol_pct": 12.0,
+    "first_lot_capital_cny": 758575.0,
+    "wanted_weight_capital_cny": 1517150.0
+   }
+  ]
+ },
+ "ladder": [
+  {
+   "wallet_cny": 400000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "cagr": 0.065078,
+    "sharpe": 1.060401,
+    "vol": 0.061235,
+    "maxdd": -0.067237,
+    "worst_year": -0.040297
+   },
+   "band": {
+    "min_positive_carry_weight": null,
+    "min_positive_carry_weight_on_grid": null,
+    "band_is_empty": true,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 20,
+   "carry_weight_pct": 0.0,
+   "carry_lots_at_this_weight": 0.0,
+   "carry_money_at_this_weight_cny": 0.0,
+   "gate_price_sharpe": 0.784076,
+   "capital_gap_from_parent_wallet_cny": -600000.0,
+   "sharpe_gain_from_parent_wallet": 0.0,
+   "marginal_sharpe_per_million_cny": null,
+   "money_cny_per_year": 26031.0,
+   "return_at_8pct_identity_pct": 8.483,
+   "leverage_to_8pct": 1.3064
+  },
+  {
+   "wallet_cny": 750000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "cagr": 0.065078,
+    "sharpe": 1.060401,
+    "vol": 0.061235,
+    "maxdd": -0.067237,
+    "worst_year": -0.040297
+   },
+   "band": {
+    "min_positive_carry_weight": null,
+    "min_positive_carry_weight_on_grid": null,
+    "band_is_empty": true,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 21,
+   "carry_weight_pct": 0.0,
+   "carry_lots_at_this_weight": 0.0,
+   "carry_money_at_this_weight_cny": 0.0,
+   "gate_price_sharpe": 0.784076,
+   "capital_gap_from_parent_wallet_cny": -250000.0,
+   "sharpe_gain_from_parent_wallet": 0.0,
+   "marginal_sharpe_per_million_cny": null,
+   "money_cny_per_year": 48808.0,
+   "return_at_8pct_identity_pct": 8.483,
+   "leverage_to_8pct": 1.3064,
+   "step": {
+    "from_wallet_cny": 400000.0,
+    "extra_capital_cny": 350000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 1000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "cagr": 0.065078,
+    "sharpe": 1.060401,
+    "vol": 0.061235,
+    "maxdd": -0.067237,
+    "worst_year": -0.040297
+   },
+   "band": {
+    "min_positive_carry_weight": null,
+    "min_positive_carry_weight_on_grid": null,
+    "band_is_empty": true,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 21,
+   "carry_weight_pct": 0.0,
+   "carry_lots_at_this_weight": 0.0,
+   "carry_money_at_this_weight_cny": 0.0,
+   "gate_price_sharpe": 0.784076,
+   "capital_gap_from_parent_wallet_cny": 0.0,
+   "sharpe_gain_from_parent_wallet": 0.0,
+   "marginal_sharpe_per_million_cny": null,
+   "money_cny_per_year": 65078.0,
+   "return_at_8pct_identity_pct": 8.483,
+   "leverage_to_8pct": 1.3064,
+   "step": {
+    "from_wallet_cny": 750000.0,
+    "extra_capital_cny": 250000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 1137862.5,
+   "why": "first lot: ONE IC contract is 100% of this wallet's 8% budget",
+   "best": {
+    "w": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cagr": 0.118898,
+    "sharpe": 1.444612,
+    "vol": 0.08,
+    "maxdd": -0.073451,
+    "worst_year": 0.034627
+   },
+   "band": {
+    "min_positive_carry_weight": 1.0,
+    "min_positive_carry_weight_on_grid": 1.0,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 22,
+   "carry_weight_pct": 100.0,
+   "carry_lots_at_this_weight": 1.0,
+   "carry_money_at_this_weight_cny": 1137862.0,
+   "gate_price_sharpe": 0.399865,
+   "capital_gap_from_parent_wallet_cny": 137862.5,
+   "sharpe_gain_from_parent_wallet": 0.384211,
+   "marginal_sharpe_per_million_cny": 2.787,
+   "money_cny_per_year": 135290.0,
+   "return_at_8pct_identity_pct": 11.557,
+   "leverage_to_8pct": 1.0,
+   "step": {
+    "from_wallet_cny": 1000000.0,
+    "extra_capital_cny": 137862.5,
+    "sharpe_gain": 0.384211,
+    "sharpe_per_million_cny": 2.787
+   }
+  },
+  {
+   "wallet_cny": 1197750.0,
+   "why": "first two-book mix: 95% carry still leaves room for one other book",
+   "best": {
+    "w": [
+     0.05,
+     0.0,
+     0.95
+    ],
+    "cagr": 0.117077,
+    "sharpe": 1.496547,
+    "vol": 0.075923,
+    "maxdd": -0.069907,
+    "worst_year": 0.034125
+   },
+   "band": {
+    "min_positive_carry_weight": 0.95,
+    "min_positive_carry_weight_on_grid": 0.95,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 24,
+   "carry_weight_pct": 95.0,
+   "carry_lots_at_this_weight": 1.0,
+   "carry_money_at_this_weight_cny": 1137862.0,
+   "gate_price_sharpe": 0.34793,
+   "capital_gap_from_parent_wallet_cny": 197750.0,
+   "sharpe_gain_from_parent_wallet": 0.436146,
+   "marginal_sharpe_per_million_cny": 2.206,
+   "money_cny_per_year": 140229.0,
+   "return_at_8pct_identity_pct": 11.972,
+   "leverage_to_8pct": 1.0537,
+   "step": {
+    "from_wallet_cny": 1137862.5,
+    "extra_capital_cny": 59887.5,
+    "sharpe_gain": 0.051935,
+    "sharpe_per_million_cny": 0.867
+   }
+  },
+  {
+   "wallet_cny": 1250000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.05,
+     0.0,
+     0.95
+    ],
+    "cagr": 0.117077,
+    "sharpe": 1.496547,
+    "vol": 0.075923,
+    "maxdd": -0.069907,
+    "worst_year": 0.034125
+   },
+   "band": {
+    "min_positive_carry_weight": 0.91029,
+    "min_positive_carry_weight_on_grid": 0.95,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 24,
+   "carry_weight_pct": 95.0,
+   "carry_lots_at_this_weight": 1.043623,
+   "carry_money_at_this_weight_cny": 1187500.0,
+   "gate_price_sharpe": 0.34793,
+   "capital_gap_from_parent_wallet_cny": 250000.0,
+   "sharpe_gain_from_parent_wallet": 0.436146,
+   "marginal_sharpe_per_million_cny": 1.745,
+   "money_cny_per_year": 146346.0,
+   "return_at_8pct_identity_pct": 11.972,
+   "leverage_to_8pct": 1.0537,
+   "step": {
+    "from_wallet_cny": 1197750.0,
+    "extra_capital_cny": 52250.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 1500000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.2,
+     0.0,
+     0.8
+    ],
+    "cagr": 0.111408,
+    "sharpe": 1.651619,
+    "vol": 0.065257,
+    "maxdd": -0.059809,
+    "worst_year": 0.032531
+   },
+   "band": {
+    "min_positive_carry_weight": 0.758575,
+    "min_positive_carry_weight_on_grid": 0.8,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 36,
+   "carry_weight_pct": 80.0,
+   "carry_lots_at_this_weight": 1.054609,
+   "carry_money_at_this_weight_cny": 1200000.0,
+   "gate_price_sharpe": 0.192858,
+   "capital_gap_from_parent_wallet_cny": 500000.0,
+   "sharpe_gain_from_parent_wallet": 0.591218,
+   "marginal_sharpe_per_million_cny": 1.182,
+   "money_cny_per_year": 167112.0,
+   "return_at_8pct_identity_pct": 13.213,
+   "leverage_to_8pct": 1.2259,
+   "step": {
+    "from_wallet_cny": 1250000.0,
+    "extra_capital_cny": 250000.0,
+    "sharpe_gain": 0.155072,
+    "sharpe_per_million_cny": 0.62
+   }
+  },
+  {
+   "wallet_cny": 1750000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.25,
+     0.05,
+     0.7
+    ],
+    "cagr": 0.105695,
+    "sharpe": 1.742256,
+    "vol": 0.058669,
+    "maxdd": -0.048991,
+    "worst_year": 0.029841
+   },
+   "band": {
+    "min_positive_carry_weight": 0.650207,
+    "min_positive_carry_weight_on_grid": 0.7,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 49,
+   "carry_weight_pct": 70.0,
+   "carry_lots_at_this_weight": 1.07658,
+   "carry_money_at_this_weight_cny": 1225000.0,
+   "gate_price_sharpe": 0.102221,
+   "capital_gap_from_parent_wallet_cny": 750000.0,
+   "sharpe_gain_from_parent_wallet": 0.681855,
+   "marginal_sharpe_per_million_cny": 0.909,
+   "money_cny_per_year": 184966.0,
+   "return_at_8pct_identity_pct": 13.938,
+   "leverage_to_8pct": 1.3636,
+   "step": {
+    "from_wallet_cny": 1500000.0,
+    "extra_capital_cny": 250000.0,
+    "sharpe_gain": 0.090637,
+    "sharpe_per_million_cny": 0.363
+   }
+  },
+  {
+   "wallet_cny": 2000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.3,
+     0.1,
+     0.6
+    ],
+    "cagr": 0.099895,
+    "sharpe": 1.815096,
+    "vol": 0.053248,
+    "maxdd": -0.039035,
+    "worst_year": 0.027126
+   },
+   "band": {
+    "min_positive_carry_weight": 0.568931,
+    "min_positive_carry_weight_on_grid": 0.6,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 66,
+   "carry_weight_pct": 60.0,
+   "carry_lots_at_this_weight": 1.054609,
+   "carry_money_at_this_weight_cny": 1200000.0,
+   "gate_price_sharpe": 0.029381,
+   "capital_gap_from_parent_wallet_cny": 1000000.0,
+   "sharpe_gain_from_parent_wallet": 0.754695,
+   "marginal_sharpe_per_million_cny": 0.755,
+   "money_cny_per_year": 199790.0,
+   "return_at_8pct_identity_pct": 14.521,
+   "leverage_to_8pct": 1.5024,
+   "step": {
+    "from_wallet_cny": 1750000.0,
+    "extra_capital_cny": 250000.0,
+    "sharpe_gain": 0.07284,
+    "sharpe_per_million_cny": 0.291
+   }
+  },
+  {
+   "wallet_cny": 2275725.0,
+   "why": "wanted weight: carry can finally sit at the weight the ungated grid picks (50%)",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.5,
+    "min_positive_carry_weight_on_grid": 0.5,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 87,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 1.0,
+   "carry_money_at_this_weight_cny": 1137862.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 1275725.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.615,
+   "money_cny_per_year": 213941.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 2000000.0,
+    "extra_capital_cny": 275725.0,
+    "sharpe_gain": 0.029381,
+    "sharpe_per_million_cny": 0.107
+   }
+  },
+  {
+   "wallet_cny": 2500000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.455145,
+    "min_positive_carry_weight_on_grid": 0.5,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 87,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 1.098551,
+   "carry_money_at_this_weight_cny": 1250000.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 1500000.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.523,
+   "money_cny_per_year": 235025.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 2275725.0,
+    "extra_capital_cny": 224275.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 3000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.379287,
+    "min_positive_carry_weight_on_grid": 0.4,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 112,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 1.318261,
+   "carry_money_at_this_weight_cny": 1500000.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 2000000.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.392,
+   "money_cny_per_year": 282030.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 2500000.0,
+    "extra_capital_cny": 500000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 5000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.227573,
+    "min_positive_carry_weight_on_grid": 0.25,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 157,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 2.197102,
+   "carry_money_at_this_weight_cny": 2500000.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 4000000.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.196,
+   "money_cny_per_year": 470050.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 3000000.0,
+    "extra_capital_cny": 2000000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 10000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.113786,
+    "min_positive_carry_weight_on_grid": 0.15,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 192,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 4.394204,
+   "carry_money_at_this_weight_cny": 5000000.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 9000000.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.087,
+   "money_cny_per_year": 940100.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 5000000.0,
+    "extra_capital_cny": 5000000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  },
+  {
+   "wallet_cny": 20000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.35,
+     0.15,
+     0.5
+    ],
+    "cagr": 0.09401,
+    "sharpe": 1.844477,
+    "vol": 0.049383,
+    "maxdd": -0.041218,
+    "worst_year": 0.024385
+   },
+   "band": {
+    "min_positive_carry_weight": 0.056893,
+    "min_positive_carry_weight_on_grid": 0.1,
+    "band_is_empty": false,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 211,
+   "carry_weight_pct": 50.0,
+   "carry_lots_at_this_weight": 8.788408,
+   "carry_money_at_this_weight_cny": 10000000.0,
+   "gate_price_sharpe": 0.0,
+   "capital_gap_from_parent_wallet_cny": 19000000.0,
+   "sharpe_gain_from_parent_wallet": 0.784076,
+   "marginal_sharpe_per_million_cny": 0.041,
+   "money_cny_per_year": 1880200.0,
+   "return_at_8pct_identity_pct": 14.756,
+   "leverage_to_8pct": 1.62,
+   "step": {
+    "from_wallet_cny": 10000000.0,
+    "extra_capital_cny": 10000000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  }
+ ],
+ "grid": {
+  "step": 0.05,
+  "n_cells": 231,
+  "ungated_best": {
+   "w": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "sharpe": 1.844477
+  }
+ },
+ "anchor_parent": {
+  "face": "results/three_book_wallet.json",
+  "parent_wallet_cny": 1000000.0,
+  "parent_best_inside_gate": [
+   [
+    0.65,
+    0.35,
+    0.0
+   ],
+   1.060401
+  ],
+  "this_face_at_that_wallet": {
+   "wallet_cny": 1000000.0,
+   "why": "round rung",
+   "best": {
+    "w": [
+     0.65,
+     0.35,
+     0.0
+    ],
+    "cagr": 0.065078,
+    "sharpe": 1.060401,
+    "vol": 0.061235,
+    "maxdd": -0.067237,
+    "worst_year": -0.040297
+   },
+   "band": {
+    "min_positive_carry_weight": null,
+    "min_positive_carry_weight_on_grid": null,
+    "band_is_empty": true,
+    "why": "W * w >= one lot's capital (1137862.50 CNY at the 8% budget); below that the only legal carry weight is 0"
+   },
+   "n_feasible_cells": 21,
+   "carry_weight_pct": 0.0,
+   "carry_lots_at_this_weight": 0.0,
+   "carry_money_at_this_weight_cny": 0.0,
+   "gate_price_sharpe": 0.784076,
+   "capital_gap_from_parent_wallet_cny": 0.0,
+   "sharpe_gain_from_parent_wallet": 0.0,
+   "marginal_sharpe_per_million_cny": null,
+   "money_cny_per_year": 65078.0,
+   "return_at_8pct_identity_pct": 8.483,
+   "leverage_to_8pct": 1.3064,
+   "step": {
+    "from_wallet_cny": 750000.0,
+    "extra_capital_cny": 250000.0,
+    "sharpe_gain": 0.0,
+    "sharpe_per_million_cny": 0.0
+   }
+  }
+ },
+ "verdict": "THE_THIRD_BOOK_ENTERS_AS_ONE_CONTRACT_NOT_AS_A_WEIGHT",
+ "sentence": "The wallet the parent priced holds no carry and earns Sharpe 1.060. The first IC lot becomes affordable 137,862 CNY later (13.79% more capital), and at that size the lot is 100% of the 8% budget -- so the best a 1,137,862 wallet can do is hold the carry book ALONE: Sharpe 1.445, a jump of 0.384 that captures 49% of the gate's whole 0.784. The weight the grid actually wants is 50%, and that weight only fits at 2,275,725 CNY, 2.00x the first rung. Between those two numbers the ladder is not a slope: each rung buys back the right to diversify.",
+ "sentence_zh": "父面那只 100 万的钱包拿不到 carry，Sharpe 1.060。第一手 IC 合约要多掏 137,862 元才买得起（多 13.79% 资本），可到了那一档，一手合约正好吃掉整个 8% 预算——所以 1,137,862 元的钱包能拿到的最好答案是把整本书压在 carry 一本上：Sharpe 1.445，跳升 0.384，一口气吃掉门总价 0.784 里的 49%。网格真正想要的权重是 50%，那个权重要到 2,275,725 元才装得下，是第一档的 2.00x。这两档之间不是斜坡而是台阶：每一级台阶买回来的是重新分散的权利。",
+ "caveats": [
+  "weights are quantised at 0.05, so a band edge is reported as the grid weight it can actually reach, never as the exact real number",
+  "carry is the hedged EXCESS, gross of the hedge leg's cost; a real hedge needs a second account (parent's caliber, not re-estimated)",
+  "the mix's realised vol is usually below 8%, so this is a Sharpe ladder, not a money ladder: money_cny_per_year is printed at each rung's own realised vol, and leverage_to_8pct is printed beside it with r2199's measured financing price (-0.217 Sharpe for the ETF book's last 1.88pp of vol) named rather than amortised",
+  "within-sample statement on the three books' own published series, 2020-2026; the Sharpe ordering is not a forecast",
+  "the 1,000,000 rung is asserted equal to the parent's own best_inside_gate: if it is not, this face is quoting a different ruler and goes red",
+  "Sharpe is compared ACROSS rungs, but every rung also prints its own vol: the first rung sits at 8.00% against 6.12% at 1,000,000, so part of the jump is a shift in the risk taken, not only in the odds",
+  "the rungs are the 8%% target's arithmetic, not a law: moving the target moves every rung in proportion (see entry.target_sensitivity, and section 5b of the page)"
+ ],
+ "provenance": {
+  "inputs": {
+   "parent_wallet": {
+    "path": "results/three_book_wallet.json",
+    "size": 69484,
+    "mtime": "2026-11-28T02:04:03+08:00"
+   },
+   "etf": {
+    "path": "results/etf_nobond_vt.json",
+    "size": 3374,
+    "mtime": "2026-11-27T13:38:43+08:00"
+   },
+   "cb": {
+    "path": "results/cb_dual_low.json",
+    "size": 17068,
+    "mtime": "2026-11-27T11:47:04+08:00"
+   },
+   "carry_panel": {
+    "path": "data/futures_daily/IC.csv",
+    "size": 118062,
+    "mtime": "2026-11-26T20:31:23+08:00"
+   },
+   "index_panel": {
+    "path": "data/index_daily/sh000905.csv",
+    "size": 110845,
+    "mtime": "2026-11-26T20:35:27+08:00"
+   },
+   "sizing_spec": {
+    "path": "results/idx_fut_carry_sizing_spec.json",
+    "size": 4402,
+    "mtime": "2026-11-27T02:33:48+08:00"
+   }
+  },
+  "script": "scripts/three_book_wallet_ladder.py"
+ }
+}
