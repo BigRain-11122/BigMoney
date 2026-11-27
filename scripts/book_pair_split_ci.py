@@ -488,11 +488,18 @@ def _md(face):
     return "\n".join(lines)
 
 
+def _dump_face(obj, path=None):
+    """One writer for the face file: the selftest's poison-and-restore goes through this so a
+    self-test run cannot leave the committed bytes changed (a dropped trailing newline was
+    exactly that defect)."""
+    with open(path or FACE, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(obj, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+
+
 def _write(face):
     os.makedirs(RESULTS, exist_ok=True)
-    with open(FACE, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(face, fh, ensure_ascii=False, indent=1)
-        fh.write("\n")
+    _dump_face(face)
     with open(MD, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(face["md"])
     return FACE
@@ -694,15 +701,13 @@ def selftest():
         try:
             poison = json.loads(json.dumps(tmp))
             poison["inputs"]["blend_dep"]["w_cb"] = 0.99
-            with open(FACE, "w", encoding="utf-8", newline="\n") as fh:
-                json.dump(poison, fh, ensure_ascii=False, indent=1)
+            _dump_face(poison)
             rc, out = check()
             leg("L22 stale parent says STALE",
                 rc == 3 and any("STALE" in p for p in out["problems"])
                 and not any("CHECK FAILED" in p for p in out["problems"]))
         finally:
-            with open(FACE, "w", encoding="utf-8", newline="\n") as fh:
-                json.dump(tmp, fh, ensure_ascii=False, indent=1)
+            _dump_face(tmp)
     else:
         leg("L22 stale parent says STALE (face absent: skipped)", True)
 
