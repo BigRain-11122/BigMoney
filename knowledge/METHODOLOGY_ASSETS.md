@@ -17982,3 +17982,29 @@ scripts/etf_book_liquidity_era.py（复用 LS.drift，selftest 16/16）、
 results/_r2167bmc_liquidity_drift_probe.py（10/10，真面毒化→rc3 STALE→按字节复原）、
 qa/liquidity-drift-contract-r2167.md；链自愈实证 `liquidity_select_write` 印 `+refresh(rc=0,55.1s)`；
 契约词审计候选 16→14。
+
+## E-20261127-r2171 · 写者词表也是判据：链正在写它，审计说没人写
+
+`scripts/cb_dual_low.py update` 是本轮新接的写者腿，同一条链上它的 `check` 就在上一格。
+`Tools/chain_writer_audit.py` 的配对键是 `(script, scope)`，`scope` 会把
+`WRITER_MODES={run,write,refresh,rebuild,snapshot,certify,fetch,build}` 里的词丢掉，
+而 `update` 不在那张表里 —— 于是 reader key `('scripts/cb_dual_low.py', ())` 与
+writer key `('scripts/cb_dual_low.py', ('update',))` 永不相交，审计如实报告
+「这张面没有任何腿重新生成它」，全量冒烟按基线判红，**而链每个过期窗都在重新生成它**。
+
+两条可复用：
+
+①**分类器的词表会漂移，方向恒为「它看不懂的新词 = 风险」**。遇到「链明明在写、审计说没人写」，
+先问分类器认不认那个动词，再去改链。加词前先用模块内自检量影响面：本轮 findings 5→4，
+没有任何面从 disclosed 翻成 red（剩余四条全是 `NO_WRITER_MODE` = 派生面）。
+
+②**过期有两种，门的锚要能看见两种**。只比日期会漏掉「面板被重建、定价它的面没重跑」；
+把构建产物的字节指纹（`size`+`mtime`）记进状态面，check 才有第二把尺。代价是每次 0.05s
+（一个 JSON + 一次 stat），收益是把 r1935 的「只重算自己」挪到读者这一侧。
+
+判据：任何「有写者 ≠ 有人在写」的争论，先让写者自带一个能说出 STALE 的门，再让审计看得懂写者的动词。
+
+How：正身=scripts/cb_dual_low.py（check(预期/发布/字节锚/记录锚) + update 零网络 no-op + selftest 10/10）、
+Tools/chain_writer_audit.py WRITER_MODES、Tools/s6_chain_bmc.py 腿 update_cb_dual_low、
+qa/cb-panel-driver-r2171.md、research/CB_PANEL_DRIVER.md；真面实证 = 面板 mtime 毒化 → check rc3 STALE
+→ 链 `+refresh(rc=0,54.2s)` → 复 check rc0。

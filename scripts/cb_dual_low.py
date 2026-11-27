@@ -22,6 +22,17 @@
     python scripts/cb_dual_low.py build          # 拼面板
     python scripts/cb_dual_low.py run            # 回测 + 出报告
     python scripts/cb_dual_low.py run --quick    # 只跑主配置（出结论用）
+    python scripts/cb_dual_low.py check          # 只读：面 vs 官方日历 vs 面板字节
+    python scripts/cb_dual_low.py update         # 车道写者：已覆盖即零网络 no-op
+    python scripts/cb_dual_low.py status | selftest
+
+为什么有 check/update（r2171）：
+    这条线的面板此前没有任何驱动 —— 链里没有腿、计划任务里没有名、也没有 register
+    脚本，于是 data/cb_panel.csv.gz 停在 2026-11-20，而 results/cb_dual_low.json 一直
+    照印那一天的结论；r2169 的归因面把这种状态叫 no_driver（「声明不是驱动」）。
+    直接把 fetch+build+run 塞进链里会每轮重拉全宇宙，所以写者必须自带
+    「已覆盖预期完整 bar 日就零网络」的门，读侧必须先问「我是不是过期了」——
+    问的对象是官方日历的 expected bar day 与这张面自己发布的那一天，不是它自己。
 """
 from __future__ import annotations
 
@@ -47,6 +58,11 @@ EM_URL = "https://datacenter-web.eastmoney.com/api/data/get"
 EM_TOKEN = "894050c76af8597a853f5b408b759f5d"
 COLS = ["date", "code", "close", "conv_value", "pure_bond_value",
         "conv_premium", "pure_bond_premium", "swap_price", "name"]
+
+LANE_NAME = "cb_dual_low"
+LANE_DEFAULT = "bm-c"
+MACHINE_PATH = os.path.join(ROOT, "fleet", "machine.json")
+STATUS_PATH = os.path.join(ROOT, "results", "cb_dual_low_update_status.json")
 
 
 # ---------------------------------------------------------------- fetch
@@ -234,6 +250,252 @@ def cmd_build(args) -> int:
                     n_rows += 1
     print(f"[build] files={len(files)} rows={n_rows} -> {PANEL_PATH}", flush=True)
     return 0
+
+
+# ---------------------------------------------------------------- gate
+
+def machine_id() -> str:
+    try:
+        with open(MACHINE_PATH, "r", encoding="utf-8") as fh:
+            return str(json.load(fh).get("machine_id") or "?")
+    except Exception:
+        return "?"
+
+
+def lane_host_of() -> str:
+    """One resolver of record for lane ownership (config/lane_hosts.json)."""
+    try:
+        if ROOT not in sys.path:
+            sys.path.insert(0, ROOT)
+        from config.lane_io import lane_host
+        return lane_host(LANE_NAME, LANE_DEFAULT)
+    except Exception:
+        return LANE_DEFAULT
+
+
+def expected_bar_day(now=None) -> str | None:
+    """Last official session whose bar must exist by `now` (update_daily's boundary)."""
+    try:
+        here = os.path.dirname(os.path.abspath(__file__))
+        if here not in sys.path:
+            sys.path.insert(0, here)
+        import exchange_calendar_audit as CAL
+        exp, _past = CAL.expected_last_day(CAL.load_calendar(), now or datetime.now())
+        return exp
+    except Exception:
+        return None
+
+
+def source_tail() -> tuple[str | None, int]:
+    """(max last date over data/cb_daily/*.csv, n_files) -- what a build would materialise.
+
+    Only the writer pays this (~15s for 1,051 files on this box); the reader never does.
+    """
+    try:
+        files = [f for f in os.listdir(CB_DIR) if f.endswith(".csv")]
+    except OSError:
+        return None, 0
+    mx = None
+    for fn in files:
+        d = _tail_date(os.path.join(CB_DIR, fn))
+        if d and (mx is None or d > mx):
+            mx = d
+    return mx, len(files)
+
+
+def published_bar() -> str | None:
+    try:
+        with open(RESULT_JSON, "r", encoding="utf-8") as fh:
+            return ((json.load(fh).get("data") or {}).get("last_bar")) or None
+    except Exception:
+        return None
+
+
+def panel_stamp() -> dict | None:
+    """Byte identity of the built panel (size + mtime) -- cheap, no 60MB decompress."""
+    try:
+        st = os.stat(PANEL_PATH)
+        return {"size": int(st.st_size),
+                "mtime": datetime.fromtimestamp(st.st_mtime).isoformat(timespec="seconds")}
+    except OSError:
+        return None
+
+
+def read_status() -> dict:
+    try:
+        with open(STATUS_PATH, "r", encoding="utf-8") as fh:
+            d = json.load(fh)
+            return d if isinstance(d, dict) else {}
+    except Exception:
+        return {}
+
+
+def write_status(st: dict) -> None:
+    os.makedirs(os.path.dirname(STATUS_PATH), exist_ok=True)
+    st = dict(st)
+    st.setdefault("lane", LANE_NAME)
+    st["generated_at"] = datetime.now().isoformat(timespec="seconds")
+    tmp = STATUS_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(st, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, STATUS_PATH)
+
+
+def check(expected, pub, stamp, recorded):
+    """Judge the face against the world -- never against itself (r1935/r1934).
+
+    rc0 = fresh. rc3 whose text says STALE = the chain may pay exactly one refresh.
+    rc1/rc2 never say STALE: a rebuild cannot fix a calendar it cannot read or a face
+    that claims a session the calendar has not reached yet.
+    """
+    if not expected:
+        return 2, "check INCOMPLETE: the official calendar gave no expected bar day (a rebuild cannot fix that)"
+    if not pub:
+        return 3, "check STALE: face missing -- results/cb_dual_low.json carries no data.last_bar"
+    if pub < expected:
+        return 3, f"check STALE: published face prices the panel at {pub}, expected {expected}"
+    if pub > expected:
+        return 1, f"check INCONSISTENT: published face prices {pub}, the calendar has only reached {expected}"
+    if recorded is None:
+        return 3, "check STALE: no status face records which panel bytes this verdict priced"
+    if recorded != stamp:
+        return 3, f"check STALE: the built panel changed since the status face was written ({recorded} -> {stamp})"
+    return 0, f"check OK: published bar == expected {expected}, panel stamp {stamp.get('size')}B/{stamp.get('mtime')}"
+
+
+def cmd_check(args) -> int:
+    rc, msg = check(expected_bar_day(), published_bar(), panel_stamp(),
+                    read_status().get("panel"))
+    print(msg, flush=True)
+    return rc
+
+
+def cmd_update(args) -> int:
+    me = machine_id()
+    host = lane_host_of()
+    if host != me:
+        print(f"cb_dual_low: lane host is {host}, this machine is {me} -> honest no-op", flush=True)
+        return 0
+    exp = expected_bar_day()
+    src, n_bonds = source_tail()
+    pub = published_bar()
+    stamp = panel_stamp()
+    rec = read_status().get("panel")
+    base = {"expected_bar": exp, "source_tail": src, "published_bar": pub,
+            "panel": stamp, "n_bond_files": n_bonds}
+    if not args.force and exp and src and src >= exp and pub == src and rec == stamp:
+        write_status(dict(base, verdict="no_op",
+                          no_op_reason="panel covers the expected complete bar day"))
+        print(f"cb_dual_low: no-op (panel {src} == expected {exp}, priced and stamped)", flush=True)
+        return 0
+    t0 = time.time()
+    tail_after = src or pub
+    print(f"cb_dual_low: refresh (panel {src} / published {pub} / expected {exp}, "
+          f"tail_after={tail_after})", flush=True)
+    # A panel that already carries the expected day does not need the network: the CSVs
+    # are what a build materialises, so the only thing left to do is rebuild and reprice.
+    need_fetch = (src is None) or (not exp) or (src < exp)
+    if need_fetch:
+        rc = cmd_fetch(argparse.Namespace(workers=args.workers, force=False, tail_after=tail_after))
+        if rc != 0:
+            write_status(dict(base, verdict="source_failure", fetch_rc=rc))
+            print("cb_dual_low: fetch returned rc=%s -> source_failure" % rc, flush=True)
+            return 2
+    else:
+        print(f"cb_dual_low: panel source already covers {exp} -> no network, reprice only", flush=True)
+    rc = cmd_build(argparse.Namespace())
+    if rc != 0:
+        write_status(dict(base, verdict="build_failure", build_rc=rc))
+        print("cb_dual_low: build returned rc=%s" % rc, flush=True)
+        return 2
+    rc = cmd_run(argparse.Namespace(quick=args.quick, phases=args.phases))
+    if rc != 0:
+        write_status(dict(base, verdict="run_failure", run_rc=rc))
+        print("cb_dual_low: run returned rc=%s" % rc, flush=True)
+        return 2
+    new_pub = published_bar()
+    new_stamp = panel_stamp()
+    elapsed = round(time.time() - t0, 1)
+    if not new_pub or (exp and new_pub < exp):
+        write_status(dict(base, verdict="still_stale", published_bar=new_pub,
+                          panel=new_stamp, elapsed_sec=elapsed))
+        print(f"cb_dual_low: STALE after refresh -- published {new_pub}, expected {exp}", flush=True)
+        return 3
+    write_status(dict(base, verdict="updated", published_bar=new_pub,
+                      panel=new_stamp, expected_bar=exp, elapsed_sec=elapsed))
+    print(f"cb_dual_low: updated (published {new_pub}, expected {exp}) in {elapsed}s", flush=True)
+    return 0
+
+
+def cmd_status(args) -> int:
+    st = read_status()
+    print(json.dumps(st or {"verdict": "no_status_face"}, ensure_ascii=False, indent=1), flush=True)
+    return 0
+
+
+def selftest() -> int:
+    ok = fail = 0
+
+    def leg(name, cond, detail=""):
+        nonlocal ok, fail
+        if cond:
+            ok += 1
+            print(f"  PASS {name}", flush=True)
+        else:
+            fail += 1
+            print(f"  FAIL {name} {detail}", flush=True)
+
+    bench = {"size": 123, "mtime": "2026-11-27T11:00:00"}
+    exp, pub = "2026-11-26", "2026-11-26"
+
+    rc, msg = check(exp, pub, bench, dict(bench))
+    leg("L1 aligned face is rc0 and says OK", rc == 0 and "OK" in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(None, pub, bench, bench)
+    leg("L2 unreadable calendar is rc2 without the refund word",
+        rc == 2 and "STALE" not in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(exp, None, bench, bench)
+    leg("L3 missing face says face missing (r1581 repair word)",
+        rc == 3 and "face missing" in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(exp, "2026-11-20", bench, bench)
+    leg("L4 an old bar is STALE and names both dates",
+        rc == 3 and "STALE" in msg and "2026-11-20" in msg and exp in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(exp, "2026-11-27", bench, bench)
+    leg("L5 a bar the calendar has not reached is rc1 and never STALE",
+        rc == 1 and "STALE" not in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(exp, pub, bench, None)
+    leg("L6 no recorded anchor is STALE (not knowing whom to compare with is not health)",
+        rc == 3 and "STALE" in msg, f"rc={rc} {msg}")
+
+    rc, msg = check(exp, pub, {"size": 999, "mtime": bench["mtime"]}, bench)
+    leg("L7 a rebuilt panel the face never repriced is STALE",
+        rc == 3 and "STALE" in msg, f"rc={rc} {msg}")
+
+    e = expected_bar_day()
+    leg("L8 the official calendar yields an ISO expected bar day",
+        isinstance(e, str) and len(e) == 10 and e[4] == "-", f"got {e!r}")
+
+    import tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False,
+                                     encoding="utf-8", newline="") as fh:
+        fh.write("date,code,close\n2026-01-05,110073,101.0\n2026-01-06,110073,101.5\n")
+        tmp = fh.name
+    try:
+        leg("L9 the per-bond tail reader returns the last dated row",
+            _tail_date(tmp) == "2026-01-06", f"got {_tail_date(tmp)!r}")
+    finally:
+        os.unlink(tmp)
+
+    live = published_bar()
+    leg("L10 the live face is either a date or honestly absent",
+        live is None or (len(live) == 10 and live[4] == "-"), f"got {live!r}")
+
+    print(f"cb_dual_low selftest {ok}/{ok + fail}", flush=True)
+    return 0 if fail == 0 else 1
 
 
 # ---------------------------------------------------------------- run
@@ -527,8 +789,18 @@ def main(argv=None) -> int:
     p3 = sub.add_parser("run")
     p3.add_argument("--quick", action="store_true")
     p3.add_argument("--phases", type=int, default=4)
+    sub.add_parser("check")
+    p4 = sub.add_parser("update")
+    p4.add_argument("--force", action="store_true")
+    p4.add_argument("--quick", action="store_true")
+    p4.add_argument("--phases", type=int, default=4)
+    p4.add_argument("--workers", type=int, default=4)
+    sub.add_parser("status")
+    sub.add_parser("selftest")
     args = ap.parse_args(argv)
-    return {"fetch": cmd_fetch, "build": cmd_build, "run": cmd_run}[args.cmd](args)
+    return {"fetch": cmd_fetch, "build": cmd_build, "run": cmd_run,
+            "check": cmd_check, "update": cmd_update, "status": cmd_status,
+            "selftest": lambda _a: selftest()}[args.cmd](args)
 
 
 if __name__ == "__main__":

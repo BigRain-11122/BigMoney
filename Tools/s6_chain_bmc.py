@@ -141,6 +141,20 @@ LEGS = [
     # already carries the expected complete bar day. It goes right after update_lhb
     # because it accumulates the same vendor's seat columns for the same 上榜 days.
     ("update_lhb_inst", ["python", "scripts/update_lhb_inst.py", "run"]),
+    # r2171: the convertible-bond double-low book is the desk's SECOND return line, and it was
+    # the last lane r2169 could only call `no_driver`: the writer (scripts/cb_dual_low.py) and
+    # its panel were on disk, the panel stopped at 2026-11-20, and nothing in any of the four
+    # sources the attribution reads ever asked it to run -- while results/cb_dual_low.json kept
+    # printing that day's CAGR/SR as if it were today's. The writer now carries a gate of the
+    # family's shape: `check` asks the official calendar for the expected complete bar day and
+    # says STALE (naming both dates) when the face it published is behind, or when the built
+    # panel's bytes moved without a reprice; `update` is the only thing that pays a fetch, and
+    # it returns zero-network no-op the moment the panel covers that day. check is ~0.05s
+    # (JSON + one stat); update is ~3-5min on a real bar (334 bonds incremental + rebuild +
+    # 16 backtests) and is paid exactly once per stale window.
+    ("update_cb_dual_low",
+     ["python", "scripts/cb_dual_low.py", "check"],
+     ["python", "scripts/cb_dual_low.py", "update"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

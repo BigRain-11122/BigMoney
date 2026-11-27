@@ -48,7 +48,14 @@ READER_TOKENS = {"check", "selftest", "status", "explain", "probe", "show", "ver
 # a new "-check" flag does not need a new rule.
 CHECK_SUFFIXES = ("-check",)
 
-WRITER_MODES = {"run", "write", "refresh", "rebuild", "snapshot", "certify", "fetch", "build"}
+# r2171: `update` joins the list. The collector family spells its writer subcommand `update`
+# (scripts/cb_dual_low.py update -- fetch when the panel is behind the expected bar, rebuild,
+# reprice) and the audit read that word as part of the SCOPE, so the writer leg
+# `... cb_dual_low.py update` sat in a different key than its own `... check` and the face was
+# reported as "nobody regenerates it" while the chain was regenerating it every stale window.
+# The distinction the audit asks about is reader-vs-writer, not which verb the writer uses.
+WRITER_MODES = {"run", "write", "refresh", "rebuild", "snapshot", "certify", "fetch", "build",
+                "update"}
 
 JSON_LITERAL = re.compile(r"['\"]([A-Za-z0-9_\-\.]+\.json)['\"]")
 SUB_CMD = re.compile(r"argv\[1\]\s*==\s*['\"]([A-Za-z0-9_\-]+)['\"]")

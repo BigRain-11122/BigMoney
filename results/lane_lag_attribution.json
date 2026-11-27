@@ -2,24 +2,22 @@
   "schema": "lane-lag-attribution/v1",
   "source": {
     "face": "results/data_lane_freshness.json",
-    "as_of": "2026-11-27T09:43:59",
+    "as_of": "2026-11-27T11:36:16",
     "expected_last_official_day": "2026-11-26",
     "verdict": "attention"
   },
   "drivers": {
-    "chain_scripts": 324,
+    "chain_scripts": 326,
     "tasks": 368,
     "register_scripts": 11
   },
   "counts": {
     "retired_by_design": 1,
-    "host_dead_takeover_available": 3,
-    "no_driver": 1,
-    "declared_host_without_driver": 1,
-    "in_sync": 9,
+    "host_dead_takeover_available": 1,
+    "in_sync": 13,
     "gate_blocked": 1
   },
-  "n_rows": 7,
+  "n_rows": 3,
   "rows": [
     {
       "lane": "ah_panel",
@@ -38,22 +36,6 @@
       "can_fix_here": true
     },
     {
-      "lane": "cb_panel",
-      "verdict": "stalled",
-      "tail": "2026-11-20",
-      "expected": "2026-11-26",
-      "n_missing": 4,
-      "writer": "cb_dual_low",
-      "declared_host": null,
-      "owner": "bm-c",
-      "lane_host": "bm-c",
-      "host_alive": true,
-      "cause": "no_driver",
-      "detail": "drivers: chain=False task=0 register=0 declared_host=None; nothing refreshes this lane and no machine claims it",
-      "fix_owner": "bm-c",
-      "can_fix_here": true
-    },
-    {
       "lane": "heat",
       "verdict": "stalled",
       "tail": "2026-11-19",
@@ -65,55 +47,7 @@
       "lane_host": "bm-a",
       "host_alive": false,
       "cause": "host_dead_takeover_available",
-      "detail": "drivers: chain=True task=0 register=0 declared_host=bm-a; owner bm-a silent 205.8h, takeover allowed",
-      "fix_owner": "bm-c",
-      "can_fix_here": true
-    },
-    {
-      "lane": "lhb",
-      "verdict": "behind_1d",
-      "tail": "2026-11-25",
-      "expected": "2026-11-26",
-      "n_missing": 1,
-      "writer": "update_lhb",
-      "declared_host": null,
-      "owner": "bm-a",
-      "lane_host": "bm-a",
-      "host_alive": false,
-      "cause": "host_dead_takeover_available",
-      "detail": "drivers: chain=True task=0 register=0 declared_host=None; owner bm-a silent 205.8h, takeover allowed",
-      "fix_owner": "bm-c",
-      "can_fix_here": true
-    },
-    {
-      "lane": "lhb_inst",
-      "verdict": "stalled",
-      "tail": "2026-11-20",
-      "expected": "2026-11-26",
-      "n_missing": 4,
-      "writer": "update_lhb_inst",
-      "declared_host": "bm-c",
-      "owner": "bm-c",
-      "lane_host": "bm-c",
-      "host_alive": true,
-      "cause": "declared_host_without_driver",
-      "detail": "drivers: chain=False task=0 register=0 declared_host=bm-c; bm-c was assigned this lane but nothing runs it",
-      "fix_owner": "bm-c",
-      "can_fix_here": true
-    },
-    {
-      "lane": "repo",
-      "verdict": "behind_1d",
-      "tail": "2026-11-25",
-      "expected": "2026-11-26",
-      "n_missing": 1,
-      "writer": "update_repo",
-      "declared_host": "bm-a",
-      "owner": "bm-a",
-      "lane_host": "bm-a",
-      "host_alive": false,
-      "cause": "host_dead_takeover_available",
-      "detail": "drivers: chain=True task=10 register=0 declared_host=bm-a; owner bm-a silent 205.8h, takeover allowed",
+      "detail": "drivers: chain=True task=0 register=0 declared_host=bm-a; owner bm-a silent 207.7h, takeover allowed",
       "fix_owner": "bm-c",
       "can_fix_here": true
     },
