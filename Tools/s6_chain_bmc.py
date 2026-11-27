@@ -2925,6 +2925,15 @@ LEGS = [
     ("three_book_wallet_target_knob",
      ["python", "scripts/three_book_wallet_target_knob.py", "check"],
      ["python", "scripts/three_book_wallet_target_knob.py", "run"]),
+    # r2204: the ride. The family printed a point estimate (6.51%/yr, Sharpe 1.060) and no
+    # path; this leg keeps the path from going stale behind it. Its check speaks STALE on a
+    # moved upstream *and* refuses to publish unless the wallet arm reproduces the parent's
+    # own best_inside_gate to 5e-6 -- so a parent rebuilt on a new bar turns this red until
+    # it is re-read, which is the point. Distinct name from `three_book_wallet` because the
+    # chain matches legs by name prefix.
+    ("three_book_wallet_ride",
+     ["python", "scripts/three_book_wallet_ride.py", "check"],
+     ["python", "scripts/three_book_wallet_ride.py", "run"]),
     # r2203: three faces that were published and never wired. The first two are exactly the
     # pair the carrier debt kept listing round after round (r2197 / r2199); the third is the
     # gate that would have caught r2202 by itself instead of by accident. import_git_coverage

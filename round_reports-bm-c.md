@@ -2829,3 +2829,24 @@ leet/inbox\ 空｜S6/S7：链分批 6 腿 rc0；双跑对账 **ZERO-DRIFT**（74
 
 | 记账：轮报 1 + QA 1 + results 1 + research 1 + 脚本 1 + 链文件 1 + 方法论卡 1 + state 1 + 心跳 1
 | 2026-11-28T05:1x+08:00 | 2203补 | bm-c | 本地未达 origin commit 数=**0**（commit **7e687c4cc9** 已推 origin/main：`b1e4bf0017..7e687c4cc9`；`rev-list --left-right --count HEAD...origin/main` = **0/0**；5 files changed）· `git ls-tree -r origin/main` 逐件自证：scripts/import_git_coverage.py / research/IMPORT_GIT_COVERAGE.md / qa/import-git-coverage-r2203.md / Tools/s6_chain_bmc.py / knowledge/METHODOLOGY_ASSETS.md · **提交后重生成面**：扫描 2,950 文件 / 21,031 import / 3,568 本地边 → import 断链 **0**；链上点名 **343** 个脚本（本轮 +3）→ 在盘 343 / 在 git 343 = **0 缺**；`check` → `OK ... 0 missing / chain 0 missing in git` rc0；headline 仍=`SOME_COMMITTED_FILES_ARE_NOT_PYTHON`（唯一红项=已提交却不可解析的 `Tools/_r820bmc_close.py`，如实留账待下轮修/退役）· S7：`Bigmoney-IterationLoop` / `Bigmoney-LoopWatchdog` 本轮未改动（沿用既有注册，S4U 翻转仍需一次管理员提权=物理件）· `attrition_ledger_guard scan` = **CLEAN**（4 账本，3 处历史缩行 healed）· `compute_audit` rc0 但 **verdict=FLAG:pool_starvation,supply_floor**（supply floor ready 0/3·breach=true·cause=calendar：4 个候选全部被年闸判 CONDITIONAL/UNADJUDICABLE，「即使有一个候选过闸，已定价最高上限 13,794,151 也只有地板 20,000,000 的 69.0%」）——原样上报不掩盖 · `idle_trigger` green_idle=**false**（inflight=s6_chain_running=1，backlog 可领 0，agenda_starved=false）→ 未领单 · `saturation_engine status` rc0 alive（last_verdict=idle，claimable 0）· 心跳经 `Tools/heartbeat_write.py apply` 写入（merge-only；GPU 面统一按实测 2% / 14354 MiB 重述，未用 --no-verify）· 本行=收口补记，面/状态/心跳随之入下一提交 | 
+
+## 2026-11-28T05:2x+08:00 ｜ r2204 ｜ PRODUCT：钱包印了「一年赚 6.51%」，这一轮补上「这一年你得坐什么车」
+**当前活**：	hree_book_wallet_ride —— 把父面那三条已发布序列按 65/35/0 重读成「路径」：每个起点持 3m/6m/1y/2y 的收益分布、水下时间与最深坑、以及**今天那一格**。不重算任何一本书。
+**最近实物**：
+esults/three_book_wallet_ride.json + 
+esearch/THREE_BOOK_WALLET_RIDE.md（2026-11-28T05:2x+08:00）。
+**下个里程碑（≤48h）**：把「今天站在整窗最深一格」这句接进 CEO 一页纸（ceo_live_usage.py 钱包小节 + 冒烟腿），读者不必翻到研究页才知道。
+
+**判词**：A_YEAR_IS_A_RANGE_NOT_A_NUMBER —— 1421 个起点各持 250 根 bar：中位 **6.44%**、中间 80% 落在 **1.46%~17.69%**（100 万本金 → **+14,560 / +64,387 / +176,866 元**），**4.2%** 的起点一年后是亏的、最差 **-4.67%**；p90/p10=**12.15**。两年期中位 **13.98%**、亏钱起点 **0.0%**。
+**今天（2026-11-26）**：净值 1.5396，前高 1.6506（2026-01-29，301 天前），**-6.72%** —— 这恰好是整窗最深的一格：这本书自发布以来最大的回撤就是它今天的样子，t_the_deepest_point=true（另起一段脚本独立算 q/peak-1 复核，与父面 maxdd 逐位相同）。
+**跨臂读数（只许按自身 sigma 比）**：wallet 1 年区间宽 **2.65σ** / carry_alone **2.14σ** / etf_cb_equal **2.49σ** / ungated **2.65σ** —— 分散买的是更低的波动（6.12% vs 8.00%），不是更窄的带子；四条臂波动不同，绝对区间**不可相减**（页面正文与 
+ot_claimed 都写死这句）。
+**验证证据**：
+un rc0，四行 identity 全 OK（cagr 0.065078 / sharpe 1.060401 / vol 0.061235 / maxdd -0.067237 与父面 est_inside_gate 逐位相同，容差 5e-6）；check rc0（无上游漂移 + 判词重算一致）；selftest **13/13**（含 4 条行为腿：动上游 stamp→STALE rc3、identity 置红→CHECK FAILED rc2 且文本不含 STALE、改判词→rc2、分位失序→rc2）；S6 新链腿 --only=three_book_wallet_ride **1/1 rc0 0.7s**；冒烟谓词 	hree_book_wallet_ride_problems() = []，负控改 	oday.hole 立刻报 2 条。
+**S0/S0.5 实况**：machine.json=bm-c；
+epo_write_contention --lookback-min 45 = **rc0 CLEAN**（fewer than two codely hosts alive，本宿主 pid 24152）→ 共享面可写；孤儿面 **orphans=0**（py_faces 3 / resident_servers 1）；orders 119 件 vs 心跳 ack 337 → **未回执差集 0**；集团 docs/decisions.md 原生字节 250,586B sha256 79e3083b85c1… == 自持水位（12 位前缀）→ **零新决策零动作**；leet/inbox 无件；saturation_engine status rc0 alive（last_verdict=idle, claimable 0）；watermark 
+ed=false lane=healthy。
+**记账**：轮报告 1 + QA 1 + results 1 + research 1 + 脚本 1 + 链文件 1 + 冒烟腿 1 + 方法论卡 1 + state 1 + 心跳 1。
+**未做 / 不宣称**：全量冒烟（~1000s）未跑，只跑本面的判定函数与负控；S6 全链 388 腿未整跑（只 --only= 一条验接线）——**禁读成已全绿**；本面是 2020-2026 样本内路径形状，不是预测；carry 仍是「已对冲超额、毛口径」，真对冲要第二个账户（父面口径，不重估）。
+
+| 2026-11-28T05:2x+08:00 | 2204 | 钱包「持有一年是什么感觉」：1421 个起点各持 250 bar → 中位 6.44%/中间 80% 1.46~17.69%/4.2% 起点亏钱/最差 -4.67%；今天恰好是整窗最深一格 -6.72%（前高 2026-01-29，301 天前）；跨臂只按自身 sigma 比（2.65σ vs carry 2.14σ） | run rc0 四行 identity 逐位同父面；check rc0；selftest 13/13；S6 新腿 1/1 rc0 0.7s；冒烟谓词 [] + 负控 1 条；竞争 CLEAN；孤儿面 0；未回执 0；decisions 水位零新 | 下一轮：把「今天在最深一格」接进 CEO 一页纸 + 全量冒烟窗口 |

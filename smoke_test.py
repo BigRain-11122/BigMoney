@@ -2559,14 +2559,27 @@ def main() -> int:
     # r1782 family: a published number that never reaches the page the CEO opens is not
     # a product, and the face's own selftest cannot vouch for a section it never renders.
     try:
-        _pg3 = os.path.join(PATHS.root, "docs", "live_usage",
-                            "LIVE-%s.md" % dt.datetime.now().strftime("%Y-%m-%d"))
+        _bad3 = []
+        _day3 = os.path.join(PATHS.root, "docs", "live_usage",
+                             "LIVE-%s.md" % dt.datetime.now().strftime("%Y-%m-%d"))
+        _late3 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+        # r2202: the writer runs a few times a day, so today's file does not exist until
+        # its first run -- reading it made this leg red every morning for a fact about the
+        # writer's clock, not about the block (r1789: a permanent red is where a real
+        # defect hides). Today's page when there is one, the newest published page
+        # otherwise; a page that is genuinely missing the block still reads red.
+        _pg3 = _day3 if os.path.exists(_day3) else _late3
         _txt3 = open(_pg3, encoding="utf-8").read() if os.path.exists(_pg3) else ""
-        _ok3 = ("一手期货替掉多少 ETF 底仓" in _txt3
-                and "三把尺子各自成一个数" in _txt3
-                and "BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL" in _txt3)
+        if not _txt3:
+            _bad3.append("no CEO live_usage page on disk")
+        elif "一手期货替掉多少 ETF 底仓" not in _txt3:
+            _bad3.append("the CEO page has no substitution block")
+        elif not ("三把尺子各自成一个数" in _txt3
+                  and "BETTER_PER_YUAN_BUT_NOT_BUYABLE_AT_THIS_CAPITAL" in _txt3):
+            _bad3.append("the substitution block is on the page without the three rulers "
+                         "it names")
         check("product: the substitution rulers reach the CEO page (r1933)",
-              _ok3, "the CEO page has no substitution block" if not _ok3 else "")
+              not _bad3, "; ".join(_bad3)[:220])
     except Exception as e:
         check("product: the substitution rulers reach the CEO page (r1933)",
               False, str(e))
@@ -16662,6 +16675,144 @@ def _legs_supply_and_book():
     except Exception as e:
         check("product: the third book's gate is money and the holdout holds the published mix",
               False, repr(e)[:180])
+
+    # r2202 (same family): the ladder and the knob were committed with no leg and no smoke
+    # test, so the only way to run either was to already know its name. Their own self-tests
+    # answer their contracts; the pages must print the verdict they derive.
+    try:
+        _ld102 = capture_pinned([sys.executable,
+                                 os.path.join("scripts", "three_book_wallet_ladder.py"),
+                                 "selftest"], 180)
+        _kn102 = capture_pinned([sys.executable,
+                                 os.path.join("scripts", "three_book_wallet_target_knob.py"),
+                                 "selftest"], 300)
+        _bad102 = three_book_wallet_knob_page_problems()
+        check("product: the wallet's ladder and knob answer their contracts and print their verdicts",
+              _ld102.returncode == 0 and "18/18" in _ld102.stdout
+              and _kn102.returncode == 0 and "253/253" in _kn102.stdout
+              and not _bad102,
+              "; ".join(_bad102)[:200] or
+              "ladder 18/18, knob 253/253, both pages print the verdict they derive")
+    except Exception as e:
+        check("product: the wallet's ladder and knob answer their contracts and print their verdicts",
+              False, repr(e)[:180])
+
+    # r2204: the ride. The family printed a point estimate and never a path, so the page a
+    # reader opens said "6.51% a year" and nothing about the year they would have to sit
+    # through. Three questions from the files: does the wallet arm still reproduce the
+    # parent's published numbers, does the page print today's hole as the deepest one when
+    # it is, and does it name the verdict its own numbers derive.
+    try:
+        _bad103 = three_book_wallet_ride_problems()
+        check("product: the wallet's ride is measured, printed, and still the parent's book",
+              not _bad103, "; ".join(_bad103)[:240]
+              or "wallet arm reproduces best_inside_gate; page prints today's hole and the derived verdict")
+        _neg103 = three_book_wallet_ride_problems(face_override={"today": {"hole": -0.5, "last_bar": "1999-01-01"}})
+        check("product: the ride predicate speaks when the page and the face disagree",
+              len(_neg103) >= 1, "negative control: %r" % (_neg103,))
+    except Exception as e:
+        check("product: the wallet's ride is measured, printed, and still the parent's book",
+              False, repr(e)[:180])
+
+
+def three_book_wallet_ride_problems(face_override=None, root=None):
+    """Does the ride face still describe the parent's book, and does its page say so? (r2204)
+
+    Four questions, all answerable from the two published files without re-running the
+    measurement: the wallet arm must reproduce the parent's own published numbers, the
+    page must print the verdict the face derives, the page must print today's hole when the
+    face says today is the deepest point, and the hold-period counts must agree with a
+    window that has `bars - hold + 1` starts.
+    """
+    root = root or os.path.dirname(os.path.abspath(__file__))
+    problems = []
+    fp = os.path.join(root, "results", "three_book_wallet_ride.json")
+    dp = os.path.join(root, "research", "THREE_BOOK_WALLET_RIDE.md")
+    pp = os.path.join(root, "results", "three_book_wallet.json")
+    for p, name in ((fp, "results/three_book_wallet_ride.json"),
+                    (dp, "research/THREE_BOOK_WALLET_RIDE.md"),
+                    (pp, "results/three_book_wallet.json")):
+        if not os.path.exists(p):
+            problems.append("%s missing" % name)
+    if problems:
+        return problems
+    with open(fp, encoding="utf-8") as fh:
+        face = json.load(fh) or {}
+    with open(pp, encoding="utf-8") as fh:
+        parent = json.load(fh) or {}
+    with open(dp, encoding="utf-8") as fh:
+        page = fh.read()
+    if face_override:
+        face.update(face_override)
+
+    # 1. the wallet arm is the parent's own printed book
+    for k, row in (face.get("identity_vs_parent") or {}).items():
+        if not row.get("ok"):
+            problems.append("wallet %s no longer reproduces the parent (%r vs %r)"
+                            % (k, row.get("mine"), row.get("published")))
+    if not face.get("identity_bars_match"):
+        problems.append("window bars differ from the parent's window")
+
+    # 2. today's hole is the parent's own max drawdown, and the page prints it
+    today = face.get("today") or {}
+    hole = today.get("hole")
+    pmdd = ((parent.get("best_inside_gate") or {}).get("maxdd"))
+    if hole is None or pmdd is None:
+        problems.append("today.hole or the parent's maxdd is missing")
+    elif abs(hole - pmdd) > 5e-6:
+        problems.append("today's hole %.6f is not the parent's maxdd %.6f" % (hole, pmdd))
+    if today.get("at_the_deepest_point"):
+        if "%.2f%%" % (abs(hole or 0.0) * 100.0) not in page:
+            problems.append("page does not print today's hole %.2f%%" % (abs(hole or 0.0) * 100.0))
+        if not today.get("last_bar"):
+            problems.append("face does not say which bar 'today' is")
+    elif today.get("last_bar") not in page:
+        problems.append("page does not name the last bar %r" % (today.get("last_bar"),))
+
+    # 3. the page prints the verdict, and the hold counts are the window's arithmetic
+    verdict = face.get("verdict")
+    if not verdict:
+        problems.append("face publishes no verdict")
+    elif verdict not in page:
+        problems.append("page does not print %s" % verdict)
+    bars = int((face.get("window") or {}).get("bars") or 0)
+    for hand, hold in (("3m", 60), ("6m", 120), ("1y", 250), ("2y", 500)):
+        b = ((face.get("arms") or {}).get("wallet", {}).get("hold", {}) or {}).get(hand) or {}
+        if not b or b.get("status") == "short":
+            problems.append("wallet/%s missing" % hand)
+        elif b.get("starts") != bars - hold + 1:
+            problems.append("wallet/%s has %r starts, a %d-bar window has %d"
+                            % (hand, b.get("starts"), bars, bars - hold + 1))
+    return problems
+
+
+def three_book_wallet_knob_page_problems(root=None):
+    """Do the ladder and knob pages print the verdict their own faces derive? (r2202)"""
+    root = root or os.path.dirname(os.path.abspath(__file__))
+    problems = []
+    pairs = (("results/three_book_wallet_ladder.json",
+              "research/THREE_BOOK_WALLET_LADDER.md"),
+             ("results/three_book_wallet_target_knob.json",
+              "research/THREE_BOOK_WALLET_TARGET_KNOB.md"))
+    for face_rel, doc_rel in pairs:
+        fp = os.path.join(root, face_rel)
+        dp = os.path.join(root, doc_rel)
+        if not os.path.exists(fp):
+            problems.append("%s missing" % face_rel)
+            continue
+        if not os.path.exists(dp):
+            problems.append("%s missing" % doc_rel)
+            continue
+        with open(fp, encoding="utf-8") as fh:
+            face = json.load(fh) or {}
+        verdict = face.get("verdict")
+        with open(dp, encoding="utf-8") as fh:
+            page = fh.read()
+        if not verdict:
+            problems.append("%s publishes no verdict" % face_rel)
+        elif verdict not in page:
+            problems.append("%s does not print %s" % (doc_rel, verdict))
+    return problems
 
 
 def three_book_wallet_problems(frozen_override=None, root=None):

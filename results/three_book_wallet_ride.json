@@ -1,0 +1,495 @@
+{
+ "schema": "three-book-wallet-ride/v1",
+ "face": "results/three_book_wallet_ride.json",
+ "generated": "2026-11-28T05:27:28+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "window": {
+  "first": "2020-01-06",
+  "last": "2026-11-26",
+  "bars": 1670,
+  "why": "the parent wallet face's own window, truncated at its evidence_cutoff -- a bar the parent has not gated yet cannot be described by this face"
+ },
+ "caliber": {
+  "seed_cny": 1000000.0,
+  "holds": {
+   "3m": 60,
+   "6m": 120,
+   "1y": 250,
+   "2y": 500
+  },
+  "scaled_to_8pct_vol_factor": {
+   "etf": 0.764268,
+   "cb": 0.618741,
+   "carry": 0.000227
+  },
+  "books_are_imported_not_recomputed": true,
+  "parent": "results/three_book_wallet.json",
+  "ann_days": 244.0
+ },
+ "arms": {
+  "wallet": {
+   "w": [
+    0.65,
+    0.35,
+    0.0
+   ],
+   "label": "the published recommendation",
+   "bars": 1670,
+   "cagr": 0.065078,
+   "vol": 0.061235,
+   "sharpe": 1.060401,
+   "maxdd": -0.067237,
+   "worst_year": -0.040297,
+   "neg_years": 1,
+   "pos_months_pct": 0.590361,
+   "hold": {
+    "3m": {
+     "starts": 1611,
+     "median": 0.014914,
+     "p10": -0.017982,
+     "p90": 0.056724,
+     "min": -0.046387,
+     "max": 0.132854,
+     "pct_losing": 0.281192,
+     "median_cny_on_seed": 14914.0,
+     "p10_cny_on_seed": -17982.0,
+     "p90_cny_on_seed": 56724.0,
+     "range_in_own_sigmas": 1.22
+    },
+    "6m": {
+     "starts": 1551,
+     "median": 0.035727,
+     "p10": -0.0133,
+     "p90": 0.092825,
+     "min": -0.050006,
+     "max": 0.161176,
+     "pct_losing": 0.226306,
+     "median_cny_on_seed": 35727.0,
+     "p10_cny_on_seed": -13300.0,
+     "p90_cny_on_seed": 92825.0,
+     "range_in_own_sigmas": 1.7331
+    },
+    "1y": {
+     "starts": 1421,
+     "median": 0.064387,
+     "p10": 0.01456,
+     "p90": 0.176866,
+     "min": -0.046676,
+     "max": 0.292468,
+     "pct_losing": 0.04152,
+     "median_cny_on_seed": 64387.0,
+     "p10_cny_on_seed": 14560.0,
+     "p90_cny_on_seed": 176866.0,
+     "range_in_own_sigmas": 2.6505
+    },
+    "2y": {
+     "starts": 1171,
+     "median": 0.139805,
+     "p10": 0.049405,
+     "p90": 0.324993,
+     "min": 0.000732,
+     "max": 0.410968,
+     "pct_losing": 0.0,
+     "median_cny_on_seed": 139805.0,
+     "p10_cny_on_seed": 49405.0,
+     "p90_cny_on_seed": 324993.0,
+     "range_in_own_sigmas": 4.5005
+    }
+   },
+   "underwater": {
+    "bars": 1670,
+    "pct_days_below_peak": 0.907784,
+    "longest_spell_bars": 207,
+    "longest_spell_days": 307,
+    "longest_spell_from": "2022-03-10",
+    "longest_spell_to": "2023-01-11",
+    "deepest": -0.067237,
+    "deepest_on": "2026-11-26",
+    "bars_to_recover": null,
+    "days_to_recover": null,
+    "recovered": false
+   },
+   "now": {
+    "last_bar": "2026-11-26",
+    "equity": 1.539591,
+    "peak": 1.650571,
+    "hole": -0.067237,
+    "peak_on": "2026-01-29",
+    "bars_since_peak": 198,
+    "days_since_peak": 301,
+    "at_the_deepest_point": true
+   }
+  },
+  "carry_alone": {
+   "w": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "label": "the best single Sharpe of the three",
+   "bars": 1670,
+   "cagr": 0.118898,
+   "vol": 0.08,
+   "sharpe": 1.444612,
+   "maxdd": -0.073451,
+   "worst_year": 0.034627,
+   "neg_years": 0,
+   "pos_months_pct": 0.795181,
+   "hold": {
+    "3m": {
+     "starts": 1611,
+     "median": 0.029985,
+     "p10": 0.003243,
+     "p90": 0.056316,
+     "min": -0.049477,
+     "max": 0.087218,
+     "pct_losing": 0.05959,
+     "median_cny_on_seed": 29985.0,
+     "p10_cny_on_seed": 3243.0,
+     "p90_cny_on_seed": 56316.0,
+     "range_in_own_sigmas": 0.6634
+    },
+    "6m": {
+     "starts": 1551,
+     "median": 0.057078,
+     "p10": 0.015993,
+     "p90": 0.101703,
+     "min": -0.042048,
+     "max": 0.125313,
+     "pct_losing": 0.01225,
+     "median_cny_on_seed": 57078.0,
+     "p10_cny_on_seed": 15993.0,
+     "p90_cny_on_seed": 101703.0,
+     "range_in_own_sigmas": 1.0714
+    },
+    "1y": {
+     "starts": 1421,
+     "median": 0.117334,
+     "p10": 0.039113,
+     "p90": 0.210546,
+     "min": -0.011222,
+     "max": 0.235183,
+     "pct_losing": 0.001407,
+     "median_cny_on_seed": 117334.0,
+     "p10_cny_on_seed": 39113.0,
+     "p90_cny_on_seed": 210546.0,
+     "range_in_own_sigmas": 2.1429
+    },
+    "2y": {
+     "starts": 1171,
+     "median": 0.220584,
+     "p10": 0.093888,
+     "p90": 0.394231,
+     "min": 0.068695,
+     "max": 0.456004,
+     "pct_losing": 0.0,
+     "median_cny_on_seed": 220584.0,
+     "p10_cny_on_seed": 93888.0,
+     "p90_cny_on_seed": 394231.0,
+     "range_in_own_sigmas": 3.7543
+    }
+   },
+   "underwater": {
+    "bars": 1670,
+    "pct_days_below_peak": 0.831138,
+    "longest_spell_bars": 174,
+    "longest_spell_days": 266,
+    "longest_spell_from": "2024-09-30",
+    "longest_spell_to": "2025-06-23",
+    "deepest": -0.073451,
+    "deepest_on": "2024-11-11",
+    "bars_to_recover": 149,
+    "days_to_recover": 225,
+    "recovered": true
+   },
+   "now": {
+    "last_bar": "2026-11-26",
+    "equity": 2.157419,
+    "peak": 2.180356,
+    "hole": -0.01052,
+    "peak_on": "2026-11-05",
+    "bars_since_peak": 15,
+    "days_since_peak": 21,
+    "at_the_deepest_point": false
+   }
+  },
+  "etf_cb_equal": {
+   "w": [
+    0.5,
+    0.5,
+    0.0
+   ],
+   "label": "two books at equal risk inside the gate",
+   "bars": 1670,
+   "cagr": 0.059896,
+   "vol": 0.059056,
+   "sharpe": 1.014677,
+   "maxdd": -0.085121,
+   "worst_year": -0.061598,
+   "neg_years": 1,
+   "pos_months_pct": 0.578313,
+   "hold": {
+    "3m": {
+     "starts": 1611,
+     "median": 0.014479,
+     "p10": -0.020962,
+     "p90": 0.059606,
+     "min": -0.051603,
+     "max": 0.136446,
+     "pct_losing": 0.310987,
+     "median_cny_on_seed": 14479.0,
+     "p10_cny_on_seed": -20962.0,
+     "p90_cny_on_seed": 59606.0,
+     "range_in_own_sigmas": 1.3643
+    },
+    "6m": {
+     "starts": 1551,
+     "median": 0.034186,
+     "p10": -0.016749,
+     "p90": 0.094315,
+     "min": -0.055407,
+     "max": 0.148286,
+     "pct_losing": 0.262411,
+     "median_cny_on_seed": 34186.0,
+     "p10_cny_on_seed": -16749.0,
+     "p90_cny_on_seed": 94315.0,
+     "range_in_own_sigmas": 1.8807
+    },
+    "1y": {
+     "starts": 1421,
+     "median": 0.065669,
+     "p10": 0.009984,
+     "p90": 0.156966,
+     "min": -0.065484,
+     "max": 0.275153,
+     "pct_losing": 0.063336,
+     "median_cny_on_seed": 65669.0,
+     "p10_cny_on_seed": 9984.0,
+     "p90_cny_on_seed": 156966.0,
+     "range_in_own_sigmas": 2.4889
+    },
+    "2y": {
+     "starts": 1171,
+     "median": 0.14849,
+     "p10": 0.034381,
+     "p90": 0.289419,
+     "min": -0.009153,
+     "max": 0.366106,
+     "pct_losing": 0.009394,
+     "median_cny_on_seed": 148490.0,
+     "p10_cny_on_seed": 34381.0,
+     "p90_cny_on_seed": 289419.0,
+     "range_in_own_sigmas": 4.3186
+    }
+   },
+   "underwater": {
+    "bars": 1670,
+    "pct_days_below_peak": 0.900599,
+    "longest_spell_bars": 237,
+    "longest_spell_days": 356,
+    "longest_spell_from": "2022-01-21",
+    "longest_spell_to": "2023-01-12",
+    "deepest": -0.085121,
+    "deepest_on": "2026-11-26",
+    "bars_to_recover": null,
+    "days_to_recover": null,
+    "recovered": false
+   },
+   "now": {
+    "last_bar": "2026-11-26",
+    "equity": 1.489043,
+    "peak": 1.627584,
+    "hole": -0.085121,
+    "peak_on": "2026-01-29",
+    "bars_since_peak": 198,
+    "days_since_peak": 301,
+    "at_the_deepest_point": true
+   }
+  },
+  "ungated": {
+   "w": [
+    0.35,
+    0.15,
+    0.5
+   ],
+   "label": "what the gate blocks (parent best_ignoring_gate)",
+   "bars": 1670,
+   "cagr": 0.09401,
+   "vol": 0.049383,
+   "sharpe": 1.844477,
+   "maxdd": -0.041218,
+   "worst_year": 0.024385,
+   "neg_years": 0,
+   "pos_months_pct": 0.783133,
+   "hold": {
+    "3m": {
+     "starts": 1611,
+     "median": 0.023434,
+     "p10": -0.00077,
+     "p90": 0.04894,
+     "min": -0.023725,
+     "max": 0.087771,
+     "pct_losing": 0.104283,
+     "median_cny_on_seed": 23434.0,
+     "p10_cny_on_seed": -770.0,
+     "p90_cny_on_seed": 48940.0,
+     "range_in_own_sigmas": 1.0066
+    },
+    "6m": {
+     "starts": 1551,
+     "median": 0.046851,
+     "p10": 0.014419,
+     "p90": 0.084959,
+     "min": -0.033192,
+     "max": 0.135019,
+     "pct_losing": 0.041264,
+     "median_cny_on_seed": 46851.0,
+     "p10_cny_on_seed": 14419.0,
+     "p90_cny_on_seed": 84959.0,
+     "range_in_own_sigmas": 1.4284
+    },
+    "1y": {
+     "starts": 1421,
+     "median": 0.095758,
+     "p10": 0.039349,
+     "p90": 0.17008,
+     "min": -0.006391,
+     "max": 0.227554,
+     "pct_losing": 0.002111,
+     "median_cny_on_seed": 95758.0,
+     "p10_cny_on_seed": 39349.0,
+     "p90_cny_on_seed": 170080.0,
+     "range_in_own_sigmas": 2.6473
+    },
+    "2y": {
+     "starts": 1171,
+     "median": 0.195202,
+     "p10": 0.09951,
+     "p90": 0.291388,
+     "min": 0.048819,
+     "max": 0.352324,
+     "pct_losing": 0.0,
+     "median_cny_on_seed": 195202.0,
+     "p10_cny_on_seed": 99510.0,
+     "p90_cny_on_seed": 291388.0,
+     "range_in_own_sigmas": 3.8855
+    }
+   },
+   "underwater": {
+    "bars": 1670,
+    "pct_days_below_peak": 0.807186,
+    "longest_spell_bars": 115,
+    "longest_spell_days": 177,
+    "longest_spell_from": "2023-08-29",
+    "longest_spell_to": "2024-02-22",
+    "deepest": -0.041218,
+    "deepest_on": "2020-02-03",
+    "bars_to_recover": 14,
+    "days_to_recover": 18,
+    "recovered": true
+   },
+   "now": {
+    "last_bar": "2026-11-26",
+    "equity": 1.849577,
+    "peak": 1.888943,
+    "hole": -0.02084,
+    "peak_on": "2026-11-05",
+    "bars_since_peak": 15,
+    "days_since_peak": 21,
+    "at_the_deepest_point": false
+   }
+  }
+ },
+ "identity_vs_parent": {
+  "cagr": {
+   "mine": 0.065078,
+   "published": 0.065078,
+   "diff": 0.0,
+   "ok": true
+  },
+  "sharpe": {
+   "mine": 1.060401,
+   "published": 1.060401,
+   "diff": 0.0,
+   "ok": true
+  },
+  "vol": {
+   "mine": 0.061235,
+   "published": 0.061235,
+   "diff": 0.0,
+   "ok": true
+  },
+  "maxdd": {
+   "mine": -0.067237,
+   "published": -0.067237,
+   "diff": 0.0,
+   "ok": true
+  }
+ },
+ "identity_bars_match": true,
+ "today": {
+  "last_bar": "2026-11-26",
+  "equity": 1.539591,
+  "peak": 1.650571,
+  "hole": -0.067237,
+  "peak_on": "2026-01-29",
+  "bars_since_peak": 198,
+  "days_since_peak": 301,
+  "at_the_deepest_point": true
+ },
+ "band_in_own_sigmas_1y": {
+  "wallet": 2.6505,
+  "carry_alone": 2.1429,
+  "etf_cb_equal": 2.4889,
+  "ungated": 2.6473
+ },
+ "carry_alone_minus_wallet_sigmas": -0.5076,
+ "verdict": "A_YEAR_IS_A_RANGE_NOT_A_NUMBER",
+ "verdict_detail": {
+  "p90_over_p10_1y": 12.1474,
+  "pct_losing_1y": 0.04152,
+  "why": "losing starts exist and the middle 80% is wider than 3x"
+ },
+ "sentence": "On the last bar (2026-11-26) the book stands -6.72% below its own high of 1.6506 set on 2026-01-29 (301 days ago) -- which is the deepest hole in the whole window, so the worst day of this book's published life is today. Held for a year from every one of 1421 start dates on the parent's own window, the recommended wallet returns a median 6.44% and a middle 80% between 1.46% and 17.69% on a 1000000 seed (+64387 / +14560 / +176866 CNY); 4.2% of starts end below their own start, the worst ends at -4.67%. The path matters more than the average: the book sits below its previous high on 91% of days, its longest such spell runs 207 bars (307 calendar days, 2022-03-10 to 2023-01-11), and the deepest hole is -6.72% on 2026-11-26, never fully recovered inside this window. Over two years the median is 13.98% with 0.0% of starts losing.",
+ "provenance": {
+  "inputs": {
+   "results/three_book_wallet.json": {
+    "path": "results/three_book_wallet.json",
+    "size": 69484,
+    "mtime": "2026-11-28T02:04:03+08:00"
+   },
+   "results/etf_nobond_vt.json": {
+    "path": "results/etf_nobond_vt.json",
+    "size": 3374,
+    "mtime": "2026-11-27T13:38:43+08:00"
+   },
+   "results/cb_dual_low.json": {
+    "path": "results/cb_dual_low.json",
+    "size": 17068,
+    "mtime": "2026-11-27T11:47:04+08:00"
+   },
+   "results/idx_fut_carry_search_rent.json": {
+    "path": "results/idx_fut_carry_search_rent.json",
+    "size": 7925,
+    "mtime": "2026-11-23T03:11:13+08:00"
+   },
+   "results/idx_fut_carry_sizing_spec.json": {
+    "path": "results/idx_fut_carry_sizing_spec.json",
+    "size": 4402,
+    "mtime": "2026-11-27T02:33:48+08:00"
+   },
+   "data/daily/sh510300.csv": {
+    "path": "data/daily/sh510300.csv",
+    "size": 210679,
+    "mtime": "2026-11-27T20:15:01+08:00"
+   }
+  }
+ },
+ "not_claimed": [
+  "the distribution of a past window is not a forecast: this is the shape a person would have sat through, 2020-2026",
+  "no strategy is recomputed here -- all three books come from three_book_wallet.load_books(), same primitives the parent uses",
+  "the arms carry different realised vol, so their absolute ranges are not comparable; range_in_own_sigmas is the only cross-arm reading printed",
+  "carry is the hedged excess, gross of the hedge leg's cost; a real hedge needs a second account (parent caliber, not re-estimated)",
+  "no rebalancing cost beyond what each book already books; the wallet's weights are held, not traded"
+ ]
+}

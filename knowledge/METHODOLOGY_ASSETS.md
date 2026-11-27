@@ -18109,3 +18109,26 @@ How：正身=scripts/import_git_coverage.py（selftest 17/17 · run/check ~41s �
 / chain missing / unparseable_broken+templates）、results/import_git_coverage.json、
 research/IMPORT_GIT_COVERAGE.md、qa/import-git-coverage-r2203.md、Tools/s6_chain_bmc.py 腿
 import_git_coverage（顺带补 etf_book_bond_bear_stress / etf_book_leverage_budget 两条挂了 ≥4 轮的腿）。
+
+
+### E-20261128-r2204 · 点估计的面必须再按路径读一遍，而且必须印出「今天」（2026-11-28 r2204 bm-c）
+
+父面印 6.51%/年、夏普 1.060、最差年 -4.03% —— 三个都是全窗平均的函数，读者打开页面时问的却是
+另一句：**我从今天拿，一年后最可能看到多少，最差呢，中间熬不熬得住。** 同一个序列、不重算任何策略，
+再读三个量就答得上：①每个起点持 H 根 bar 的收益分布（中位/p10/p90/亏钱起点占比），H 取 3m/6m/1y/2y；
+②水下：处于前高之下的日子占比、最长一段水下的 bar 与日历天、最深坑与爬回来的 bar 数；③**今天那一格**。
+
+**判据三条**：①**跨臂只能比「区间宽度 ÷ 自身年化波动」**，绝对区间不可相减——四条臂波动 4.94%~8.00%
+不同，直接相减就是拿尺子比书（r2128 姊妹面）；②「今天」必须印，因为那是读者唯一能动手的那一格——
+本窗实测今天就是整窗最深一格（-6.72% @2026-11-26，峰值 1.6506 @2026-01-29，301 天前），
+这句话若只写在历史统计里，读者会以为自己还有时间；③**新面必须先复现父面**：钱包臂的
+cagr/sharpe/vol/maxdd 与父面 est_inside_gate 逐位相同（容差 5e-6）才算同一把尺，不等就是引用了
+另一把尺子，报 CHECK FAILED 而不是发布。
+
+**行为腿（证明它会响）**：改上游 stamp → STALE rc3；把 identity 置红 → CHECK FAILED rc2 且文本不含
+STALE 字样（r1934 合同词律）；改判词 → rc2；分位失序 → rc2。自检 13/13。
+
+How：正身=scripts/three_book_wallet_ride.py（run/check/selftest 13 腿）、
+results/three_book_wallet_ride.json、research/THREE_BOOK_WALLET_RIDE.md、
+qa/three-book-wallet-ride-r2204.md、Tools/s6_chain_bmc.py 腿 three_book_wallet_ride（check 0.7s）、
+smoke_test.py 谓词 three_book_wallet_ride_problems（含负控）。
