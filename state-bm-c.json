@@ -1730,7 +1730,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2196,
+ "round_no": 2197,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2790,7 +2790,7 @@
  "通过_r2184": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=129220）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md origin 原字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders.md 111,934B sha256 fcbd99d7 == 本轮新水位（新增 1 行=T0 机队网络自愈令，本机回执已在 origin cph4/fleet/receipts/net-bm-c-20261127.md）· 主产出：current.today 六字段+页面 ⑩ 节（今天袖子在现金·ETF 100%/转债 0%）+ 两枚孤儿面接链（2/2 rc0）· selftest 页面 ALL PASS / cushion 24/24 / split_ci 22 腿 · page_repeat_guard 0 repeated · 链自审 3/3 rc0",
  "通过_r2190": "machine.json=bm-c · 竞争探针 rc=3 CONTENTION（3 宿主：pid 30500 21:54 / pid 4176 22:17 交互；23 张共享面别宿主先写过、重叠窗 0）→ 本轮只落新增文件面 · 孤儿面 orphans=0 py_faces=4 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 119 件 / 心跳 ack 337 → 未回执差集 0 · fleet/inbox 空 · 主产出 three_book_rulers：同一窗同一钟（2020-01-03..2026-11-26·1671 bars·244 天）三本书 ETF 9.94%/SR0.950 / 转债 6.34%/SR0.491 / carry basis 10.22%/SR3.189，判词 THE_SMOOTH_LINE_IS_THE_ONE_NOBODY_CAN_HOLD——赢的那行是按名义额的 basis 臂，家族自己的对冲臂 Sharpe 只有 1.416（同腿另两读 2.972 basis / 0.506 unhedged）；8% 硬帽下 1 手 IC 要 1,137,862 元 vs 钱包 1,000,000 → 可执行 0 手，账面决定 WITHDRAW_FROM_TICKET；资本收益恒等式 8%×1.416=11.33%（对冲臂）/ 8%×2.972=23.78%（basis 臂）如实标注非预测 · selftest 18/18（含 3 条行为腿：改判词=CHECK FAILED 且不带 STALE / 动输入 sha=STALE / 三条负控）· 三处自捕：①level 面未归一（转债印成 22.25%/+295%）②check 找面路径少 results/ ③三条自检期望值写错 · 未做（如实）：链腿/冒烟腿/CEO 页小节仍卡共享面（第 7 轮留账）；attrition 扫与钩子自愈本轮未跑（写共享面）",
  "carrier_debt_r2193": "待共享面回落补：①smoke_test.py 一条腿（selftest+check 组成 (check,run) 对，漂移文案含 STALE）；②Tools/s6_chain_bmc.py 一条链腿（排在 carry_three_lines_common_window 之后，check ~3s / run ~3s）；③CODELY.md 一条判例（「已发布的绝对数要连它自己的量尺窗口一起印，否则读者会把读数当结构事实」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡（同判例 + 前向越限率的语义=按上年波动买 k 手持一年）；⑤idx_fut_carry_open_capital 的 \"needs 1,137,862 CNY of capital\" 措辞改成「今天的第一手门槛」；⑥IM 账户同做法未做",
- "last_round_face": "etf_book_entry_window_yield",
+ "last_round_face": "etf_book_bond_bear_stress",
  "contention_r2194": {
   "probe": "Tools/repo_write_contention.py --lookback-min 45",
   "rc": 3,
@@ -2824,5 +2824,18 @@
   "spread_pp_hedged": 11.25,
   "spread_over_median_x_hedged": 1.31
  },
- "竞争_r2196": "CONTENTION rc=3（对端 interactive pid 30500 自 2026-11-27T21:54:41 存活；peer 先写 32 张共享面；证据 results/_repo_write_contention.bm-c.json）→ 本轮只落新增文件，未改 s6_chain_bmc.py / smoke_test.py / ceo_live_usage.py / 既有 results 面"
+ "竞争_r2196": "CONTENTION rc=3（对端 interactive pid 30500 自 2026-11-27T21:54:41 存活；peer 先写 32 张共享面；证据 results/_repo_write_contention.bm-c.json）→ 本轮只落新增文件，未改 s6_chain_bmc.py / smoke_test.py / ceo_live_usage.py / 既有 results 面",
+ "通过_r2197": "machine.json=bm-c · contention rc=3 CONTENTION (peer pid 30500 alive since 2026-11-27T21:54:41, 22 peer-only shared writes, 0 in overlap) -> new-file faces only · bond bear stress on the all-class book: the bond+money sleeve holds over half the book on 73.7% of bars but carries only 13.08% of its net log return; zeroing it costs 1.23pp/yr (8.95%->7.72%) and 0.11 Sharpe, -300bp costs to 5.53%, -600bp to 3.38% and still never turns the book negative · evidence: scripts/etf_book_bond_bear_stress.py: selftest 11/11, check ok (4 arms, gate max|dev|=0.0), parent anchor all_classes 8.95/0.913/-12.54 MATCH within rounding; face results/etf_book_bond_bear_stress.json + page research/ETF_BOOK_BOND_STRESS.md + qa/etf-book-bond-bear-stress-r2197.md · decisions.md blob 250,586B sha 79e3083b85c1 == watermark (zero new) · orders 119 / ack 337 (only pre-10-26 lane broadcasts unacked) · inbox empty · board open=0 claimed=47 · orphan_face_probe py_faces=7 orphans=0 resident_servers=1 · S6 chain / attrition guard / watermark probe / compute audit / dualrun not run (shared faces)",
+ "contention_r2197": {
+  "probe": "Tools/repo_write_contention.py --lookback-min 45",
+  "rc": 3,
+  "verdict": "CONTENTION",
+  "peer": "interactive pid 30500 since 2026-11-27T21:54:41",
+  "policy": "new files only; s6_chain_bmc.py / smoke_test.py / ceo_live_usage.py / CODELY.md / boards untouched",
+  "evidence": "results/_repo_write_contention.bm-c.json"
+ },
+ "s6_note_r2197": "S6 chain / attrition_ledger_guard / py_watermark / compute_audit / pool_dualrun NOT run this round: every one of them writes shared faces, and the contention probe forbids it",
+ "smoke_note_r2197": "full smoke_test NOT run (shared faces + ~1000s; peer host live in the tree)",
+ "watermark_note_r2197": "watermark red=false lane=healthy (results/watermark_red.json 01:31:03); group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; fleet/orders 119 files vs heartbeat orders_ack 337 -> the only unacked are the pre-2026-10-26 lane broadcasts (r2066 precedent); fleet/inbox empty; board open=0 claimed=47 -> nothing claimable",
+ "carrier_debt_r2197": "chain leg + smoke leg + CEO page section + CODELY card + knowledge card: all shared faces, blocked by CONTENTION (carried from r2196)"
 }

@@ -1,0 +1,229 @@
+{
+ "schema": "etf-book-bond-bear-stress/v1",
+ "evidence_cutoff": "2026-11-27",
+ "cell": "N5_R20_10bp",
+ "execution": "decision at close t, execute at open t+1 (entry_lag=0, the printed caliber)",
+ "vol_target": null,
+ "headline": {
+  "verdict": "THE_DEFENSIVE_HALF_SURVIVES_WITHOUT_BOND_CARRY",
+  "second": "BONDS_DID_LOSE_ROLLING_YEARS_IN_THIS_PANEL",
+  "third": "THE_SLEEVE_IS_DRY_POWDER_NOT_AN_ENGINE"
+ },
+ "arms": [
+  {
+   "label": "base",
+   "years": 6.9,
+   "start_level": 1.0106,
+   "cagr": 0.0895,
+   "vol": 0.1037,
+   "sharpe": 0.912,
+   "maxdd": -0.1254,
+   "worst_year": -0.0117,
+   "neg_years": 1,
+   "worst_month": -0.0496,
+   "pos_months_pct": 0.659,
+   "cagr_is": 0.0508,
+   "sharpe_is": 0.534,
+   "maxdd_is": -0.1254,
+   "cagr_oos": 0.1455,
+   "sharpe_oos": 1.484,
+   "maxdd_oos": -0.0913,
+   "final_cny": 1825345.0,
+   "delta_cagr_pp_vs_base": 0.0,
+   "delta_sharpe_vs_base": 0.0
+  },
+  {
+   "label": "bond_flat",
+   "years": 6.9,
+   "start_level": 1.0106,
+   "cagr": 0.0772,
+   "vol": 0.1031,
+   "sharpe": 0.802,
+   "maxdd": -0.1254,
+   "worst_year": -0.0185,
+   "neg_years": 2,
+   "worst_month": -0.0501,
+   "pos_months_pct": 0.463,
+   "cagr_is": 0.0437,
+   "sharpe_is": 0.469,
+   "maxdd_is": -0.1254,
+   "cagr_oos": 0.1252,
+   "sharpe_oos": 1.312,
+   "maxdd_oos": -0.0913,
+   "final_cny": 1687912.0,
+   "delta_cagr_pp_vs_base": -1.23,
+   "delta_sharpe_vs_base": -0.11
+  },
+  {
+   "label": "bond_bear_300bp",
+   "years": 6.9,
+   "start_level": 1.0106,
+   "cagr": 0.0553,
+   "vol": 0.1032,
+   "sharpe": 0.594,
+   "maxdd": -0.1254,
+   "worst_year": -0.0428,
+   "neg_years": 3,
+   "worst_month": -0.0508,
+   "pos_months_pct": 0.415,
+   "cagr_is": 0.0222,
+   "sharpe_is": 0.266,
+   "maxdd_is": -0.1254,
+   "cagr_oos": 0.1027,
+   "sharpe_oos": 1.095,
+   "maxdd_oos": -0.1116,
+   "final_cny": 1464619.0,
+   "delta_cagr_pp_vs_base": -3.42,
+   "delta_sharpe_vs_base": -0.318
+  },
+  {
+   "label": "bond_bear_600bp",
+   "years": 6.9,
+   "start_level": 1.0106,
+   "cagr": 0.0338,
+   "vol": 0.1032,
+   "sharpe": 0.387,
+   "maxdd": -0.1494,
+   "worst_year": -0.0664,
+   "neg_years": 4,
+   "worst_month": -0.0515,
+   "pos_months_pct": 0.354,
+   "cagr_is": 0.001,
+   "sharpe_is": 0.064,
+   "maxdd_is": -0.1379,
+   "cagr_oos": 0.0807,
+   "sharpe_oos": 0.878,
+   "maxdd_oos": -0.1354,
+   "final_cny": 1270847.0,
+   "delta_cagr_pp_vs_base": -5.57,
+   "delta_sharpe_vs_base": -0.525
+  }
+ ],
+ "equivalence_gate": {
+  "max_abs_deviation": 0.0,
+  "meaning": "base arm rebuilt from per-bar class P&L equals the published curve, so every stress arm is priced on the same picks"
+ },
+ "parent_anchor": {
+  "face": "results/etf_equity_alpha.json",
+  "run": "all_classes",
+  "parent": {
+   "cagr": 0.0895,
+   "sharpe": 0.913,
+   "maxdd": -0.1254
+  },
+  "ours": {
+   "cagr": 0.0895,
+   "sharpe": 0.912,
+   "maxdd": -0.1254
+  },
+  "same": true,
+  "tolerance": "cagr 1e-4 / sharpe 2e-3 / maxdd 2e-3",
+  "note": "the parent face carries no evidence_cutoff, so a one-bar difference shows up in the fourth digit; it is printed, not gated"
+ },
+ "dependency": {
+  "bars": 1672,
+  "defensive_bars": 912,
+  "defensive_pct": 54.5,
+  "bond_money_weight_median": 0.8,
+  "bars_with_sleeve_over_half": 73.7,
+  "sleeve_log_total": 0.0787,
+  "book_log_total_net": 0.6018,
+  "book_log_total_gross": 0.7076,
+  "sleeve_share_of_net_log_pct": 13.08,
+  "share_note": "the sleeve's own log P&L over the book's net log return (net of the 20bp one-way trading cost, which the sleeve does not pay)",
+  "ticket_cny": 1000000.0,
+  "sleeve_log_cny": 78706.0
+ },
+ "bond_market_census": {
+  "proxy": "equal-weight of the bond + money classes, daily open-to-open, hist>=120 bars and 20d turnover >= 20m, from the panel's first bar",
+  "first_active_bar": "2013-10-10",
+  "names_eligible_today": 69,
+  "why": "windows before first_active_bar have no eligible bond/money name at all, so they are excluded instead of being printed as flat years",
+  "years_covered": "2013-2026",
+  "rolling_1y": {
+   "bars": 3195,
+   "window": 252,
+   "windows": 2943,
+   "worst": -0.01,
+   "worst_window_start": "2025-11-11",
+   "best": 0.0464,
+   "p05": -0.0016,
+   "median": 0.0082,
+   "pct_negative": 14.7
+  },
+  "rolling_60bar": {
+   "bars": 3195,
+   "window": 60,
+   "windows": 3135,
+   "worst": -0.0261,
+   "worst_window_start": "2026-03-11",
+   "best": 0.034,
+   "p05": -0.0054,
+   "median": 0.0015,
+   "pct_negative": 25.5
+  },
+  "calendar_years": {
+   "2013": -0.0086,
+   "2014": 0.0152,
+   "2015": 0.0179,
+   "2016": 0.0025,
+   "2017": -0.0005,
+   "2018": 0.0048,
+   "2019": 0.0028,
+   "2020": -0.0,
+   "2021": 0.0107,
+   "2022": 0.0031,
+   "2023": 0.0179,
+   "2024": 0.0439,
+   "2025": 0.0054,
+   "2026": -0.0088
+  },
+  "negative_calendar_years": [
+   2013,
+   2017,
+   2026
+  ],
+  "book_window_rolling_1y": {
+   "bars": 1672,
+   "window": 252,
+   "windows": 1420,
+   "worst": -0.01,
+   "worst_window_start": "2025-11-11",
+   "best": 0.0464,
+   "p05": -0.0021,
+   "median": 0.0117,
+   "pct_negative": 7.7
+  }
+ },
+ "rule_aware_reading": {
+  "face": "results/etf_nobond_vt.json",
+  "meaning": "the same score with the bond universe refused outright -- the reading available to an investor who believes the bear is coming",
+  "with_vol_target": {
+   "arm": "nobond_vt08",
+   "face": "results/etf_nobond_vt.json",
+   "cagr_pct": 10.89,
+   "sharpe": 1.076,
+   "maxdd_pct": -10.56
+  },
+  "no_vol_target": {
+   "arm": "no_bond_equity_mix",
+   "face": "results/etf_equity_alpha.json",
+   "cagr_pct": 14.84,
+   "sharpe": 0.962,
+   "maxdd_pct": -16.04
+  },
+  "caveat": "both are different books, not stress arms of this one; the pair differs by the vol target as well as by the refused universe, so neither number is 'what refusing bonds is worth'"
+ },
+ "today": {
+  "bar": "2026-11-27",
+  "bond_money_weight": 1.0,
+  "equity_weight": 0.0,
+  "in_defense": true,
+  "sleeve_share_of_bars": 73.7
+ },
+ "provenance": {
+  "engine": "etf_equity_alpha.run_with_attribution (no fill maths of its own)",
+  "spells": "etf_book_defense_spells.mix_timeline",
+  "note": "level shock: picks are fixed before the shock, so the score cannot dodge it"
+ }
+}
