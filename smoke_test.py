@@ -29,12 +29,62 @@ _LAST_T = [None]
 LEG_CEILING_S = 180.0
 
 
+# r2166: a run that dies before _finish() leaves no record at all -- the three
+# windows before this one each ended with "no summary, no error, no process", which
+# is the same shape as "someone killed the child" and as "never started". The legs
+# already carry their own clock (r1598), so the record only has to keep up with
+# them: every leg republishes logs/smoke_progress.json (throttled, always on a
+# red) with state=running and the leg in flight, so a later window can say which
+# leg was running when the host closed the shell, and which reds it had already
+# seen. logs/smoke_legs.json keeps its own meaning -- the published verdict.
+PROGRESS_EVERY_S = 3.0
+PROGRESS_PATH = os.path.join("logs", "smoke_progress.json")
+_PROGRESS_AT = [None]
+_PROGRESS_T0 = [None]
+
+
+def _progress_write(force: bool = False, state: str = "running"):
+    """Republish the run so far; throttled unless forced or red."""
+    _now = time.monotonic()
+    if _PROGRESS_T0[0] is None:
+        _PROGRESS_T0[0] = _now
+    if not force and _PROGRESS_AT[0] is not None \
+            and _now - _PROGRESS_AT[0] < PROGRESS_EVERY_S:
+        return None
+    _PROGRESS_AT[0] = _now
+    failed = [n for n, ok, _ in RESULTS if not ok]
+    last = RESULTS[-1] if RESULTS else ("", True, "")
+    rec = {
+        "ts": dt.datetime.now().isoformat(timespec="seconds"),
+        "pid": os.getpid(),
+        "state": state,
+        "legs": len(RESULTS),
+        "pass": len(RESULTS) - len(failed),
+        "fail": len(failed),
+        "failed": failed,
+        "last_leg": last[0],
+        "last_detail": (last[2] or "")[:400],
+        "elapsed_s": round(_now - _PROGRESS_T0[0], 1),
+    }
+    try:
+        _d = os.path.dirname(PROGRESS_PATH)
+        if _d:
+            os.makedirs(_d, exist_ok=True)
+        with open(PROGRESS_PATH + ".tmp", "w", encoding="utf-8") as fh:
+            json.dump(rec, fh, ensure_ascii=False, indent=1)
+        os.replace(PROGRESS_PATH + ".tmp", PROGRESS_PATH)
+    except Exception:
+        return None
+    return rec
+
+
 def check(name: str, ok: bool, detail: str = ""):
     _now = time.monotonic()
     if _LAST_T[0] is not None:
         PERF.append((name, _now - _LAST_T[0]))
     _LAST_T[0] = _now
     RESULTS.append((name, bool(ok), detail))
+    _progress_write(force=not ok)
     print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""),
           flush=True)
 
@@ -866,6 +916,7 @@ def main() -> int:
     # the suite is still running. Stamp the start so those legs can tell "the
     # faces disagree" from "the faces moved under me".
     SUITE_T0.append(time.time())
+    _progress_write(force=True, state="started")
     try:
         import numpy
         import pandas
@@ -5109,8 +5160,20 @@ def main() -> int:
         import data_lane_freshness as _dlf3
         _board3 = {r["lane"]: r for r in (json.load(open(
             "results/data_lane_freshness.json", encoding="utf-8")).get("lanes") or [])}
-        _want_lanes = sorted(s["lane"] for s in _dlf3.board_lanes()
-                             if s.get("panel_csv"))
+        # r2167: a row that publishes NO tail is not making a sampled claim, so it is not
+        # "a tail with no record behind it". ah_panel sat red under this leg while its own
+        # status face said `complete: false / cutoff: null` -- the board was printing
+        # "absent", which is the honest reading, and the leg still demanded a backing
+        # scan for a tail the page never printed. Rows that DO print a tail are unchanged.
+        _want_lanes = []
+        for _spec3 in _dlf3.board_lanes():
+            if not _spec3.get("panel_csv"):
+                continue
+            _row3 = _board3.get(_spec3["lane"])
+            if _row3 is not None and not str(_row3.get("tail") or "").strip():
+                continue
+            _want_lanes.append(_spec3["lane"])
+        _want_lanes = sorted(_want_lanes)
         _md3 = open("docs/data_lanes/FRESHNESS.md", encoding="utf-8").read()
         _sec3 = (_md3.split("Tails read from a sample")[1].split("\n## ")[0]
                  if "Tails read from a sample" in _md3 else "")
@@ -16586,6 +16649,7 @@ def _finish() -> int:
     _n_unv = len(UNSETTLED) + len(KILLED)
     _tail = (" , %d UNVERIFIED" % _n_unv) if _n_unv else ""
     print(f"\nSummary: {n_pass}/{len(RESULTS)} PASS, {n_fail} FAIL{_tail}")
+    _progress_write(force=True, state="finished")
     if UNSETTLED:
         print("unverified: a face these legs compare was rewritten mid-run -- "
               + " | ".join("%s [%s]" % (u["name"][:70], ",".join(u["moved"]))
