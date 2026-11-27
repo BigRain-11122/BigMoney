@@ -308,7 +308,7 @@
  },
  "last_push_at": "2026-11-11T08:31:06+08:00",
  "last_round": 2176,
- "last_round_at": "2026-11-27T15:14:51+08:00",
+ "last_round_at": "2026-11-27T17:35:23+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
  "last_round_closed_at": "2026-11-22T19:21:00+08:00",
@@ -1724,7 +1724,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2179,
+ "round_no": 2180,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2567,10 +2567,8 @@
  "why_not_bookkeeping": "本轮主产出是一条把「等待」定价成「保留多少对冲就付多少波动」的阶梯（脚本 + JSON + 页面 + 负控），不是一个数",
  "work": "r2043 · 新增文件面（竞争窗）：把 r2041 的容量读数翻译成「要几个交易日」与「分批本身多少钱」。尺子冻结：一天上限 = 坏日子成交额 1%（读 r2041，不重打）；成交均价 = 每天等额买入的调和平均（不是算术平均，否则把成本说大）；偏移 = 调和均价 ÷ 首日价 − 1，面板每个重叠窗都算，所以公布的是真的发生过什么。读数一：票面 565,246 元，511380 要 2 天、511180 3 天、511360 5 天，511880/511010 一天装完。读数二（本面的要点）：最慢的 511360 分批 95 分位只花 265 元 = 它一年超额的 8.6%；只要 2 天的 511380 一次分批就花 2,787 元 = 2.4 年超额。读数三：511180 根本不该买——它比回购少赚 2,041 元/年，把它和「一年超额」比是拿负数当分母。读数四：511360 的 05 分位是 −0.79bp，在 114.19 元的票面上是 9 个最小报价单位，属于报价粒度而非方向赌（一个报价单位只有 0.0876bp）。",
  "yield_note": {
-  "did": "closed the r1900 smoke red (reader face re-derived after the ledger gained its 24th bar) and proved the five orphan chain legs sitting uncommitted in Tools/s6_chain_bmc.py",
-  "next": "detached full-suite run with a total, then a full chain generation once the in-flight 1,963-file generation is ready to publish",
-  "round": 2115,
-  "why": "the chain has not closed a generation for many rounds under contention while the ledger grows one bar per session, so every reader face drifts one bar and the leg reads a clock race as a content mismatch"
+  "did": "2026-11-27 17:1x-17:4x r2180: (a) INFRA: group repo origin/main had lost 8,047 files (commit 867558ab1, via bm-a 16:35) -- rebuilt the full tree from local HEAD plus the 10 surviving files and pushed it as ed8263181; (b) PRODUCT: finished book_pair_weight_rule (run/check/selftest 19/19, chain leg 1/1 rc0, smoke leg added, the doubled 50/50 sentence removed) -- verdict THE_RULE_LOSES_TO_HOLDING_THE_SPLIT: a past-only weight rule earns 1.103, holding the published 30/70 pays 1.224, a no-hindsight 50/50 pays 1.161",
+  "next": "(a) confirm the group-repo push landed (ls-tree origin/main must read 8,057 paths) and leave a receipt in cph4/fleet/receipts/; (b) full smoke run (~1142s, needs a window longer than 10 min) to prove the new r2180 leg goes green on live data; (c) heat close-window first real takeover (<=48h)"
  },
  "ˮλ": "healthy",
  "下个里程碑": "下个里程碑＝(a) 按本件第 2 节选定修法后改共享代码面并重跑三张卡（≤48h，需无竞争窗）；(b) 把「信号族必须过单位扰动」做成冒烟腿（≤48h）；(c) 无竞争窗补跑 S6 链（连续第 12 轮欠账）",

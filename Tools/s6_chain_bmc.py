@@ -188,6 +188,15 @@ LEGS = [
     ("book_pair_rebalance",
      ["python", "scripts/book_pair_rebalance.py", "check"],
      ["python", "scripts/book_pair_rebalance.py", "run"]),
+    # r2179: every face in this family that prints 30/70 inherits the same admission -- it
+    # is the weight that maximised Sharpe on the whole overlap, i.e. a weight found by
+    # looking at the answer. This leg asks the only question left: what would a reader who
+    # only knew the past have held, and what would that rule have paid? It picks the weight
+    # from trailing Sharpe at each decision and charges the same 2x10bp move. check is two
+    # panel stats plus the blend page's target number (~0.13s); run walks six arms (~66s).
+    ("book_pair_weight_rule",
+     ["python", "scripts/book_pair_weight_rule.py", "check"],
+     ["python", "scripts/book_pair_weight_rule.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

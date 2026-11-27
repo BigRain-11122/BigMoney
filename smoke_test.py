@@ -1383,6 +1383,61 @@ def main() -> int:
     except Exception as _e76:
         check("product: moving money between the books is priced, and a tie is not a gain (r2176)",
               False, repr(_e76)[:160])
+    # r2180: the 30/70 split was picked by looking at the whole overlap. This leg
+    # re-derives the only answer that does not need hindsight -- every past-only arm's
+    # Sharpe, the hold arm on the same window, the neutral 50/50 -- and it fails if the
+    # verdict names a winner the printed numbers do not support.
+    try:
+        from config import PATHS as _P80
+        _f80 = os.path.join(_P80.results_dir, "book_pair_weight_rule.json")
+        _bad80 = []
+        if not os.path.exists(_f80):
+            _bad80.append("results/book_pair_weight_rule.json missing")
+        else:
+            with open(_f80, encoding="utf-8") as _fh80:
+                _r80 = json.load(_fh80) or {}
+            _arms80 = _r80.get("arms") or []
+            if len(_arms80) < 4:
+                _bad80.append("only %d past-only arm(s) walked" % len(_arms80))
+            _best80 = _r80.get("best_rule") or {}
+            _w80 = float(_best80.get("sharpe") or 0.0)
+            if _arms80:
+                _top80 = max(float(a.get("sharpe") or 0.0) for a in _arms80)
+                if abs(_top80 - _w80) > 5e-3:
+                    _bad80.append("best_rule.sharpe %.3f is not the best arm's %.3f"
+                                  % (_w80, _top80))
+            _fx80 = _r80.get("fixed_arms") or {}
+            _hold80 = float((_fx80.get("published_split_paid_quarterly") or {})
+                            .get("sharpe") or 0.0)
+            if _hold80 <= 0:
+                _bad80.append("the published split was never scored on the same window")
+            _v80 = _r80.get("verdict") or {}
+            _gap80 = float(_v80.get("gap_vs_holding") or 0.0)
+            if abs(_gap80 - (_w80 - _hold80)) > 5e-3:
+                _bad80.append("gap_vs_holding does not follow its own two Sharpes")
+            if _gap80 < -0.02 and _v80.get("word") != "THE_RULE_LOSES_TO_HOLDING_THE_SPLIT":
+                _bad80.append("rule loses %.3f but the verdict does not say so" % _gap80)
+            if _gap80 > 0.02 and _v80.get("word") != "THE_RULE_BEATS_HOLDING_THE_SPLIT":
+                _bad80.append("rule wins %.3f but the verdict does not say so" % _gap80)
+            _nv80 = _r80.get("naive_arm") or {}
+            if not _nv80.get("sentence"):
+                _bad80.append("the no-hindsight arm is not printed")
+            elif abs(float(_nv80.get("half_half_paid_sharpe") or 0.0)
+                     - float((_fx80.get("half_half_paid_quarterly") or {})
+                             .get("sharpe") or 0.0)) > 5e-3:
+                _bad80.append("the 50/50 sentence quotes a Sharpe its own table does not hold")
+            _rc80 = _r80.get("reconciliation") or {}
+            if not _rc80.get("matches_published"):
+                _bad80.append("this face does not land on the blend page")
+            if len(_r80.get("unverified") or []) < 3:
+                _bad80.append("the unverified list shrank below the parents' known gaps")
+        check("product: the split's weight is asked back without hindsight (r2180)",
+              not _bad80, "; ".join(_bad80)[:220]
+              or "past-only arms walked, hold scored on the same window, 50/50 printed, "
+                 "verdict follows the numbers")
+    except Exception as _e80:
+        check("product: the split's weight is asked back without hindsight (r2180)",
+              False, repr(_e80)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than
