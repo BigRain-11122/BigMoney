@@ -1,0 +1,399 @@
+{
+ "schema": "three-book-wallet-holdout/v1",
+ "face": "three_book_wallet_holdout",
+ "generated": "2026-11-28T03:45:57+08:00",
+ "evidence_cutoff": "2026-11-26",
+ "question": "the wallet face recommends a mix; would a reader who only ever used the rows already on disk have got the same book, and what did the two look-ahead shortcuts (full-window weights, full-window risk scale) actually pay?",
+ "window": {
+  "first": "2020-01-06",
+  "last": "2026-11-26",
+  "bars": 1670,
+  "eval_first": "2022-01-26",
+  "eval_last": "2026-11-26",
+  "eval_bars": 1170,
+  "train_min": 500,
+  "refit_every": 250,
+  "roll_train": 500
+ },
+ "caliber": {
+  "bothered_to_refit_because": "weights and risk scale are both fitted numbers",
+  "train_min_bars": 500,
+  "refit_every_bars": 250,
+  "rolling_train_bars": 500,
+  "weights_are": "share of the 8% risk budget, chosen on the training rows only",
+  "execution": "each book keeps its own published lag; the walk only changes WHO decides and WHAT they were allowed to see",
+  "costs": "inherited from each parent book, not re-charged here",
+  "what_the_frozen_arm_does_and_does_not_prove": "frozen_parent's 65/35 was itself picked on the full window, so this face does not prove that mix was knowable in 2022. What it does prove is narrower and still useful: re-optimising year by year destroyed value against holding a fixed mix -- and it lost to a dumb equal-risk split too, which needed no hindsight in its weights at all"
+ },
+ "frozen_weights": [
+  0.65,
+  0.35,
+  0.0
+ ],
+ "equal_weights": [
+  0.5,
+  0.5,
+  0.0
+ ],
+ "arms": {
+  "walk_expanding": {
+   "bars": 1170,
+   "years": 4.7951,
+   "cagr": 0.040154,
+   "vol": 0.050778,
+   "sharpe": 0.800742,
+   "maxdd": -0.073055,
+   "total": 0.207772,
+   "worst_year": -0.051481,
+   "neg_years": 2,
+   "years_covered": 5,
+   "pos_months_pct": 0.525424,
+   "by_year": {
+    "2022": -0.016186,
+    "2023": 6.7e-05,
+    "2024": 0.140144,
+    "2025": 0.135107,
+    "2026": -0.051481
+   }
+  },
+  "walk_rolling": {
+   "bars": 1170,
+   "years": 4.7951,
+   "cagr": 0.047504,
+   "vol": 0.06051,
+   "sharpe": 0.797286,
+   "maxdd": -0.091523,
+   "total": 0.249245,
+   "worst_year": -0.039512,
+   "neg_years": 3,
+   "years_covered": 5,
+   "pos_months_pct": 0.542373,
+   "by_year": {
+    "2022": -0.016186,
+    "2023": -0.008095,
+    "2024": 0.090261,
+    "2025": 0.222481,
+    "2026": -0.039512
+   }
+  },
+  "frozen_parent": {
+   "bars": 1170,
+   "years": 4.7951,
+   "cagr": 0.063472,
+   "vol": 0.054315,
+   "sharpe": 1.160265,
+   "maxdd": -0.065436,
+   "total": 0.343238,
+   "worst_year": -0.038171,
+   "neg_years": 1,
+   "years_covered": 5,
+   "pos_months_pct": 0.576271,
+   "by_year": {
+    "2022": 0.01648,
+    "2023": 0.010215,
+    "2024": 0.123545,
+    "2025": 0.210464,
+    "2026": -0.038171
+   }
+  },
+  "equal_inside": {
+   "bars": 1170,
+   "years": 4.7951,
+   "cagr": 0.049545,
+   "vol": 0.049825,
+   "sharpe": 0.995513,
+   "maxdd": -0.082458,
+   "total": 0.260959,
+   "worst_year": -0.058936,
+   "neg_years": 1,
+   "years_covered": 5,
+   "pos_months_pct": 0.576271,
+   "by_year": {
+    "2022": 0.007657,
+    "2023": 0.005834,
+    "2024": 0.13501,
+    "2025": 0.164776,
+    "2026": -0.058936
+   }
+  },
+  "parent_window": {
+   "bars": 1170,
+   "years": 4.7951,
+   "cagr": 0.062503,
+   "vol": 0.05527,
+   "sharpe": 1.124678,
+   "maxdd": -0.067237,
+   "total": 0.337383,
+   "worst_year": -0.040297,
+   "neg_years": 1,
+   "years_covered": 5,
+   "pos_months_pct": 0.59322,
+   "by_year": {
+    "2022": 0.01678,
+    "2023": 0.01179,
+    "2024": 0.124096,
+    "2025": 0.205031,
+    "2026": -0.040297
+   }
+  }
+ },
+ "refits": [
+  {
+   "block": [
+    "2022-01-26",
+    "2023-02-10"
+   ],
+   "bars": 250,
+   "train_bars": 500,
+   "w_expanding": [
+    0.1,
+    0.9,
+    0.0
+   ],
+   "w_rolling": [
+    0.1,
+    0.9,
+    0.0
+   ],
+   "train_sharpe_expanding": 1.343312,
+   "train_sharpe_rolling": 1.343312,
+   "carry_entered_expanding": false,
+   "carry_entered_rolling": false,
+   "delivered_vol_expanding_pct": 4.6991,
+   "delivered_vol_frozen_pct": 4.3577
+  },
+  {
+   "block": [
+    "2023-02-13",
+    "2024-02-22"
+   ],
+   "bars": 250,
+   "train_bars": 750,
+   "w_expanding": [
+    0.3,
+    0.7,
+    0.0
+   ],
+   "w_rolling": [
+    0.2,
+    0.8,
+    0.0
+   ],
+   "train_sharpe_expanding": 1.054226,
+   "train_sharpe_rolling": 1.524012,
+   "carry_entered_expanding": false,
+   "carry_entered_rolling": false,
+   "delivered_vol_expanding_pct": 3.4767,
+   "delivered_vol_frozen_pct": 4.6431
+  },
+  {
+   "block": [
+    "2024-02-23",
+    "2025-03-06"
+   ],
+   "bars": 250,
+   "train_bars": 1000,
+   "w_expanding": [
+    0.4,
+    0.6,
+    0.0
+   ],
+   "w_rolling": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "train_sharpe_expanding": 0.822608,
+   "train_sharpe_rolling": 0.616395,
+   "carry_entered_expanding": false,
+   "carry_entered_rolling": false,
+   "delivered_vol_expanding_pct": 6.8882,
+   "delivered_vol_frozen_pct": 5.9807
+  },
+  {
+   "block": [
+    "2025-03-07",
+    "2026-03-18"
+   ],
+   "bars": 250,
+   "train_bars": 1250,
+   "w_expanding": [
+    0.4,
+    0.6,
+    0.0
+   ],
+   "w_rolling": [
+    0.55,
+    0.45,
+    0.0
+   ],
+   "train_sharpe_expanding": 1.085706,
+   "train_sharpe_rolling": 1.227193,
+   "carry_entered_expanding": false,
+   "carry_entered_rolling": false,
+   "delivered_vol_expanding_pct": 5.0189,
+   "delivered_vol_frozen_pct": 6.8228
+  },
+  {
+   "block": [
+    "2026-03-19",
+    "2026-11-26"
+   ],
+   "bars": 170,
+   "train_bars": 1500,
+   "w_expanding": [
+    0.6,
+    0.4,
+    0.0
+   ],
+   "w_rolling": [
+    0.65,
+    0.35,
+    0.0
+   ],
+   "train_sharpe_expanding": 1.289734,
+   "train_sharpe_rolling": 2.34094,
+   "carry_entered_expanding": false,
+   "carry_entered_rolling": false,
+   "delivered_vol_expanding_pct": 4.3904,
+   "delivered_vol_frozen_pct": 4.592
+  }
+ ],
+ "weight_stability": {
+  "n_refits": 5,
+  "distinct_expanding_weights": [
+   [
+    0.1,
+    0.9,
+    0.0
+   ],
+   [
+    0.3,
+    0.7,
+    0.0
+   ],
+   [
+    0.4,
+    0.6,
+    0.0
+   ],
+   [
+    0.6,
+    0.4,
+    0.0
+   ]
+  ],
+  "carry_entered_expanding": 0,
+  "carry_entered_rolling": 0,
+  "same_weights_every_refit": false,
+  "delivered_vol_off_dial_pp": {
+   "min": -4.5233,
+   "max": -1.1118,
+   "mean": -3.1053
+  }
+ },
+ "verdict": "REFITTING_HURTS",
+ "verdict_detail": {
+  "word": "REFITTING_HURTS",
+  "walk_sharpe": 0.800742,
+  "frozen_sharpe": 1.160265,
+  "refit_gap_sharpe": 0.359523,
+  "rolling_sharpe": 0.797286,
+  "equal_inside_sharpe": 0.995513,
+  "walk_minus_equal_sharpe": -0.194771,
+  "also_loses_to_equal_inside": true,
+  "parent_window_sharpe": 1.124678,
+  "lookahead_worth_sharpe": -0.035587
+ },
+ "sentence": "Refit the wallet once a year on the rows that had already happened and the recommended mix delivers 4.015% a year with Sharpe 0.801 and drawdown -7.305% against 1.160 / 6.347% / -6.544% for the same weights held frozen -- the refit costs 0.360 of Sharpe over 5 decisions (0 of which let the carry book in, from 4 distinct weight vectors), while the parent's full-window scale alone was worth -0.036. Equal risk across the two books a 1,000,000 wallet can open returns 4.954% annually, so -- refitting hurts (parent-window arm Sharpe 1.125).",
+ "provenance": {
+  "inputs": {
+   "parent_face": {
+    "path": "results/three_book_wallet.json",
+    "size": 69484,
+    "mtime": "2026-11-28T02:04:03+08:00"
+   },
+   "etf_face": {
+    "path": "results/etf_nobond_vt.json",
+    "size": 3374,
+    "mtime": "2026-11-27T13:38:43+08:00"
+   },
+   "cb_face": {
+    "path": "results/cb_dual_low.json",
+    "size": 17068,
+    "mtime": "2026-11-27T11:47:04+08:00"
+   },
+   "ic_panel": {
+    "path": "data/futures_daily/IC.csv",
+    "size": 118062,
+    "mtime": "2026-11-26T20:31:23+08:00"
+   }
+  },
+  "parents": {
+   "etf": {
+    "face": "results/etf_nobond_vt.json",
+    "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+    "execution": "decide at close t, own from the open of t+1",
+    "full_history": {
+     "cagr": 0.0991,
+     "sharpe": 0.978,
+     "maxdd": -0.1011,
+     "vol": 0.1064,
+     "bars": 1672,
+     "first": "2020-01-03",
+     "last": "2026-11-27",
+     "turnover": 1.08
+    },
+    "universe": 1539,
+    "flips_repaired": 169,
+    "panel": {
+     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
+     "size": 102490,
+     "mtime": "2026-11-27T15:33:57"
+    }
+   },
+   "cb": {
+    "face": "results/cb_dual_low.json",
+    "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
+    "execution": "signal at close t, filled at close t+1",
+    "full_history": {
+     "cagr": 0.07354814635438345,
+     "sharpe": 0.7581240490932705,
+     "maxdd": -0.22588481873937383,
+     "vol": 0.10067485694980834,
+     "bars": 4710,
+     "first": "2007-07-12",
+     "last": "2026-11-26",
+     "annual_turnover": 4.59756866900356
+    },
+    "panel": {
+     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
+     "size": 25433554,
+     "mtime": "2026-11-27T11:34:31"
+    }
+   },
+   "carry": {
+    "face": "results/idx_fut_carry_search_rent.json",
+    "arm": "IC main contract, hedged excess (futures minus index), roll days zeroed",
+    "execution": "close-to-close; gross of cost on the hedge leg",
+    "units": "index points per lot per day (scale-free; every book is scaled to 8% vol before mixing)",
+    "roll_days_booked_zero": 3,
+    "gross_of_cost": true,
+    "panels": [
+     {
+      "path": "data/futures_daily/IC.csv",
+      "size": 118062,
+      "mtime": "2026-11-26T20:31:23+08:00"
+     },
+     {
+      "path": "data/index_daily/sh000905.csv",
+      "size": 110845,
+      "mtime": "2026-11-26T20:35:27+08:00"
+     }
+    ]
+   }
+  },
+  "script": "scripts/three_book_wallet_holdout.py",
+  "reuses": "scripts/three_book_wallet.py (loaders, grid, gate, stats)"
+ }
+}
