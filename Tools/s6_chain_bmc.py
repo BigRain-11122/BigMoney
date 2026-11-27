@@ -218,6 +218,14 @@ LEGS = [
     ("book_pair_cushion_regime",
      ["python", "scripts/book_pair_cushion_regime.py", "check"],
      ["python", "scripts/book_pair_cushion_regime.py", "run"]),
+    # r2185: cushion_regime prices the cash rule on the whole CB market's median premium,
+    # and that label now drives a live decision.  This face prices the same rule on the
+    # premium of the 20 bonds the sleeve actually holds (expanding and trailing windows)
+    # and prints today's reading on each -- the second ruler has to be rebuilt with the
+    # parents it reads, not left as a snapshot of the day it was written.
+    ("book_pair_sleeve_premium",
+     ["python", "scripts/book_pair_sleeve_premium.py", "check"],
+     ["python", "scripts/book_pair_sleeve_premium.py", "run"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --
