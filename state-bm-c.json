@@ -60,7 +60,7 @@
  "cash_yardstick_r2157_debt_paid": "bench_census_arm_contradiction was an r1282 orphan (no chain leg, no smoke leg) and had already gone STALE; now a check/run leg at position 390",
  "chain": "peer chain none; this round --only=liquidity_select_write (59.8s incl +refresh 55.1s) and --only=liquidity_era_write (1.5s) both rc0",
  "chain_note": "r2145: competitor host still live (contention rc=3) -> new-file faces only; S6 chain not run for the 14th consecutive round (honest debt)",
- "chain_verdict": "本轮未跑完整 S6 链（392 腿）：只跑点名单腿 2/2 rc0 + 对账/审计/水位/账本四个固定腿；契约词审计候选 16→14",
+ "chain_verdict": "点名单腿 6/6 rc0（liquidity_select_write 含 +refresh 55.1s、liquidity_era_write、data_lane x2、etf_book_ceo_page、etf_book_day_delta 含 +refresh）+ 全量冒烟 794/794；未跑完整 392 腿链",
  "chain_writer_audit": {
   "known_baseline": 29,
   "note": "not re-enumerated this round: the face fixed here never appeared in that enumeration (it had no leg at all)",
@@ -75,7 +75,7 @@
   "task": "HQ-ProductionClaim"
  },
  "cli_read": "2026-11-24T17:15:38+08:00",
- "clock_read": "2026-11-27T08:28:57+08:00",
+ "clock_read": "2026-11-27T09:24:38+08:00",
  "clock_read_source": "local system clock (Win32, Asia/Shanghai)",
  "clock_tz": "+08:00",
  "codely_live_count": 2,
@@ -96,8 +96,8 @@
  "cpus": 32,
  "cur_task": "r2047 total-return audit of the five cash shelves",
  "current": "r2009: the production candidate's order ticket -- 73.5% invested, 26.5% cash, three capital sizes in whole lots",
- "current_task": "r2167: the liquidity pair learns to say STALE (contract-word fix, audit 16->14)",
- "current_task_at": "2026-11-27T08:28:57+08:00",
+ "current_task": "r2167: liquidity pair drift contract + first fully green suite (794/794)",
+ "current_task_at": "2026-11-27T09:24:38+08:00",
  "current_task_short": "r2009 nobond ticket",
  "current_task_ts": "2026-11-22T15:03:59+08:00",
  "d19_watermark_guard": {
@@ -294,7 +294,7 @@
  "last_round_utc": "2026-11-24T07:28:27+08:00",
  "last_run": "2026-11-24 10:41:49",
  "last_run_at": "2026-10-26T21:20:55+08:00",
- "last_seen": "2026-11-27T08:28:57+08:00",
+ "last_seen": "2026-11-27T09:24:38+08:00",
  "last_seen_at": "2026-11-14T11:36:52+08:00",
  "last_task": "r2088 red-leg recovery: six faces re-derived to green, 29-leg recheck 14 GREEN, s6 4/4 rc0",
  "last_task_at": "2026-11-25T12:42+08:00",
@@ -2737,5 +2737,15 @@
   "n_candidates": 14,
   "verdict": "STRUCTURAL_RISK_ONLY",
   "moved": "16 -> 14 (liquidity_select / liquidity_era left the list)"
- }
+ },
+ "full_smoke": {
+  "suite": "794/794 PASS, 0 FAIL",
+  "wall_sec": 986.6,
+  "legs_judged": 792,
+  "reused": 61,
+  "round": 2167,
+  "how": "detached Start-Process python -m smoke_test"
+ },
+ "full_smoke_note": "三轮：792/794 -> 793/794 (day_delta STALE from this round's page rebuild, writer re-priced in 1.6s) -> 794/794. Host lesson: the CLI host cancels the suite after 5 min without output; a detached process does not (r2167).",
+ "contention_r2167_note": "probe rc=0 CLEAN counts codely hosts only; Bigmoney-IterationLoop was Running and non-author scripts (bench_core.py, block_red_triage.py, etf_book_premium_phases.py) were dirty in the tree -- planned-task executors are the probe's known blind spot (r2164 family), so every commit this round was path-limited"
 }
