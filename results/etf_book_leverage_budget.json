@@ -1,0 +1,331 @@
+{
+ "schema": "etf-book-leverage-budget/v1",
+ "generated": "2026-11-28T02:31:17+08:00",
+ "evidence_cutoff": "2026-11-27",
+ "headline": {
+  "verdict": "THE_BOOK_ALREADY_RUNS_ABOVE_ITS_TARGET",
+  "sentence": "the published book delivers 10.47% vol against an 8% target (2.47 pp over) with the sizing rule capped at 1.00x -- there is no gap for leverage to close, only an overshoot for it to deepen",
+  "vol_gap_pp": -2.4651,
+  "best_net_arm": "cap_1.25",
+  "reaches_target": true,
+  "beats_published_net": false,
+  "base_sharpe": 0.962432,
+  "best_net_sharpe": 0.954546,
+  "base_cagr": 0.099892,
+  "best_net_cagr": 0.101038,
+  "reconcile_diff": 0.0,
+  "target_vol": 0.08,
+  "borrow_rate": 0.06,
+  "caps_tested": [
+   1.0,
+   1.25,
+   1.5,
+   2.0
+  ],
+  "published_rule_cap": 1.0,
+  "the_1_31x_line": "r2198 printed 'reaching 8% would take 1.31x leverage'. Two things are worth separating: the 1.31x belongs to the MIXED wallet (its 6.12% vol), not to this book, which runs at 10.47% vol on its own; and the production sizing rule is cap=1.0, so it can only lever down. This face prices both: what the rule could do at a higher cap, and what the mixed wallet's 1.31x costs to fund."
+ },
+ "mix_leverage_131x": {
+  "status": "ok",
+  "face": "results/three_book_wallet.json",
+  "generated": "2026-11-28T02:04:03+08:00",
+  "evidence_cutoff": "2026-11-26",
+  "mix_weights": [
+   0.65,
+   0.35,
+   0.0
+  ],
+  "mix_cagr": 0.065078,
+  "mix_vol": 0.061235,
+  "mix_sharpe": 1.060401,
+  "leverage_k": 1.3065,
+  "cagr_at_8pct_gross": 0.08585599999999999,
+  "borrow_pp": 1.839,
+  "net_cagr_at_8pct": 0.067466,
+  "net_sharpe_at_8pct": 0.843325,
+  "sharpe_change": -0.217076,
+  "verdict": "LEVERAGE_TO_THE_TARGET_COSTS_MORE_SHARPE_THAN_IT_BUYS_VOL",
+  "assumption": "annualised rates are added linearly: a 1.3065x book pays 0.3065 of a 6% rate on its borrowed share; a real margin account has haircuts and roll rules this does not model"
+ },
+ "arms": {
+  "cap_1.00": {
+   "cap": 1.0,
+   "gross": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.099892,
+    "vol": 0.104651,
+    "sharpe": 0.962432,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061494,
+     "2022": 0.03152,
+     "2023": 0.027792,
+     "2024": 0.124377,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "net": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.099892,
+    "vol": 0.104651,
+    "sharpe": 0.962432,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061494,
+     "2022": 0.03152,
+     "2023": 0.027792,
+     "2024": 0.124377,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "financing_cost_pp": 0.0,
+   "vol_gap_pp_vs_target": -2.4651,
+   "turnover": 1.0825,
+   "reconcile_max_abs_diff": 0.0
+  },
+  "cap_1.25": {
+   "cap": 1.25,
+   "gross": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.102438,
+    "vol": 0.106851,
+    "sharpe": 0.966429,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061912,
+     "2022": 0.02723,
+     "2023": 0.02575,
+     "2024": 0.148919,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "net": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.101038,
+    "vol": 0.106849,
+    "sharpe": 0.954546,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.06146,
+     "2022": 0.023747,
+     "2023": 0.022721,
+     "2024": 0.146712,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "financing_cost_pp": 0.14,
+   "vol_gap_pp_vs_target": -2.6849,
+   "turnover": 1.1209,
+   "reconcile_max_abs_diff": null
+  },
+  "cap_1.50": {
+   "cap": 1.5,
+   "gross": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.102844,
+    "vol": 0.107915,
+    "sharpe": 0.961364,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061954,
+     "2022": 0.026516,
+     "2023": 0.023293,
+     "2024": 0.155348,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "net": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.101012,
+    "vol": 0.107915,
+    "sharpe": 0.945955,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061448,
+     "2022": 0.022836,
+     "2023": 0.018166,
+     "2024": 0.152696,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "financing_cost_pp": 0.1832,
+   "vol_gap_pp_vs_target": -2.7915,
+   "turnover": 1.1339,
+   "reconcile_max_abs_diff": null
+  },
+  "cap_2.00": {
+   "cap": 2.0,
+   "gross": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.102844,
+    "vol": 0.107915,
+    "sharpe": 0.961364,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061954,
+     "2022": 0.026516,
+     "2023": 0.023293,
+     "2024": 0.155348,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "net": {
+    "bars": 1671,
+    "years": 6.8484,
+    "cagr": 0.101012,
+    "vol": 0.107915,
+    "sharpe": 0.945955,
+    "maxdd": -0.101085,
+    "worst_year": 0.016775,
+    "neg_years": 0,
+    "pos_months_pct": 0.614458,
+    "by_year": {
+     "2020": 0.047517,
+     "2021": 0.061448,
+     "2022": 0.022836,
+     "2023": 0.018166,
+     "2024": 0.152696,
+     "2025": 0.424239,
+     "2026": 0.016775
+    }
+   },
+   "financing_cost_pp": 0.1832,
+   "vol_gap_pp_vs_target": -2.7915,
+   "turnover": 1.1339,
+   "reconcile_max_abs_diff": null
+  }
+ },
+ "leverage_profiles": {
+  "cap_1.00": {
+   "cap": 1.0,
+   "decisions": 1671,
+   "median_scale": 0.707818,
+   "p90_scale": 1.0,
+   "max_scale": 1.0,
+   "pct_days_levered": 0.0,
+   "pct_days_at_cap": 0.155595,
+   "avg_scale": 0.697638,
+   "max_scale_never_exceeds_cap": true
+  },
+  "cap_1.25": {
+   "cap": 1.25,
+   "decisions": 1671,
+   "median_scale": 0.707818,
+   "p90_scale": 1.060481,
+   "max_scale": 1.25,
+   "pct_days_levered": 0.155595,
+   "pct_days_at_cap": 0.059844,
+   "avg_scale": 0.718829,
+   "max_scale_never_exceeds_cap": true
+  },
+  "cap_1.50": {
+   "cap": 1.5,
+   "decisions": 1671,
+   "median_scale": 0.707818,
+   "p90_scale": 1.060481,
+   "max_scale": 1.497555,
+   "pct_days_levered": 0.155595,
+   "pct_days_at_cap": 0.0,
+   "avg_scale": 0.725366,
+   "max_scale_never_exceeds_cap": true
+  },
+  "cap_2.00": {
+   "cap": 2.0,
+   "decisions": 1671,
+   "median_scale": 0.707818,
+   "p90_scale": 1.060481,
+   "max_scale": 1.497555,
+   "pct_days_levered": 0.155595,
+   "pct_days_at_cap": 0.0,
+   "avg_scale": 0.725366,
+   "max_scale_never_exceeds_cap": true
+  }
+ },
+ "inputs": {
+  "panel": [
+   {
+    "path": "data/daily/510300.csv",
+    "size": 102490,
+    "mtime": "2026-11-27T15:33:57+08:00"
+   },
+   {
+    "path": "data/daily/510500.csv",
+    "size": 101756,
+    "mtime": "2026-11-27T15:33:57+08:00"
+   }
+  ],
+  "parent_face": {
+   "path": "results/etf_nobond_vt.json",
+   "size": 3374,
+   "mtime": "2026-11-27T13:38:43+08:00"
+  },
+  "parent_arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
+  "parent_full_history": {
+   "cagr": 0.0991,
+   "sharpe": 0.978,
+   "maxdd": -0.1011,
+   "vol": 0.1064,
+   "bars": 1672,
+   "first": "2020-01-03",
+   "last": "2026-11-27",
+   "turnover": 1.08
+  },
+  "panel_meta": {
+   "universe": 1539,
+   "flips_repaired": 169
+  },
+  "cost_bp_per_side": 10.0,
+  "rebalance_days": 20,
+  "n_hold": 5,
+  "entry_lag": 1,
+  "vol_window": 60
+ },
+ "caliber": {
+  "execution": "decide at close t, own from the open of t+1 (entry_lag=1)",
+  "financing": "charged as (scale-1) * 6%/244 per levered day, with the decision's scale carried forward to the bars it covers; a real margin account has haircuts and roll rules this does not model",
+  "survivorship": "inherited from the parent panel: ETFs alive today, so the 2020-2023 leg is optimistic in the same way the parent is",
+  "leverage_is_not_information": "every arm is the same signal on the same panel; leverage scales return and risk"
+ }
+}
