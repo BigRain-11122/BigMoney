@@ -18086,3 +18086,26 @@ I1 每日免费臂≡静态 blend 对账腿）、results/book_pair_rebalance.jso
 research/BOOK_PAIR_REBALANCE.md、qa/book-pair-rebalance-r2176.md、
 Tools/s6_chain_bmc.py 腿 book_pair_rebalance（check 0.1s / run 约 65s）。
 
+
+### E-20261128-r2203 · 提交进 git 的 .py 若不能解析，提交的就不是跑过的那个（2026-11-28 r2203 bm-c）
+
+承 r1783/r2202（同一个缺口被**偶然**发现两次：被多个已提交脚本 import 的模块本身没进 git）。本面对
+2,949 个 .py 逐条 `ast.parse` 并取 `git ls-tree` 判定：本仓当前 import 断链 0、链上点名 340 个脚本
+全部在盘且在 git —— 但揪出 **1 个已提交却根本无法解析** 的文件（`Tools/_r820bmc_close.py` line 130
+字符串内裸换行），它从提交那天起就不可能被运行或被 import，链条若哪天点名它就是永红腿。
+
+**判据三条**：①「在我机器上能跑」不是判据，`git ls-tree <ref>` 才是（r1783）；②**模板按内容认，不按
+文件名认** —— 提交里那种带 `@@SLOT@@` 占位符的生成器模板确实不是 Python，但豁免若写在文件名匹配上，
+就会连真正的断裂一起放过（r1789 名≠实）；③scan 的代价必须便宜到能被每轮付，否则闸会被跳过 —— 首版
+20k 裸 import × 2.9k 文件全表扫描 = 152s/次，加一层 basename 索引后 41s，余下全是 ast.parse
+（2.9k 文件）。
+
+**负控（证明它会响）**：`replay aa653c1e61`（r2202 的前一个提交）→ 立刻点名
+`three_book_wallet_ladder.py` / `three_book_wallet_target_knob.py` 两个已提交脚本 import 的
+`scripts/three_book_wallet.py` 不在树里，并点名两条链腿引用的脚本不在该提交 —— 正是 r2202 手工发现
+的那件事。判据：任何「我加了个守卫」的宣称，必须拿真实历史重放一次证明它在缺陷存在的那天会红。
+
+How：正身=scripts/import_git_coverage.py（selftest 17/17 · run/check ~41s · 三桶=imports_missing_in_git
+/ chain missing / unparseable_broken+templates）、results/import_git_coverage.json、
+research/IMPORT_GIT_COVERAGE.md、qa/import-git-coverage-r2203.md、Tools/s6_chain_bmc.py 腿
+import_git_coverage（顺带补 etf_book_bond_bear_stress / etf_book_leverage_budget 两条挂了 ≥4 轮的腿）。

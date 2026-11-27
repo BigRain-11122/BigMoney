@@ -2913,6 +2913,32 @@ LEGS = [
     ("three_book_wallet_holdout",
      ["python", "scripts/three_book_wallet_holdout.py", "check"],
      ["python", "scripts/three_book_wallet_holdout.py"]),
+    # r2202 (same family, second half): the ladder and the knob had legs neither -- they
+    # were committed but reachable only by a person who already knew their names. Both
+    # checks speak STALE for a moved parent; the knob's did not until this round (its
+    # drift loop was `for rel, stamp in ...: pass`, so a knob left behind by a rebuilt
+    # parent answered green forever -- the r1850 "a check that only recomputes itself"
+    # shape). Knob goes after the parent because its 8% arm reconciles against it.
+    ("three_book_wallet_ladder",
+     ["python", "scripts/three_book_wallet_ladder.py", "check"],
+     ["python", "scripts/three_book_wallet_ladder.py", "run"]),
+    ("three_book_wallet_target_knob",
+     ["python", "scripts/three_book_wallet_target_knob.py", "check"],
+     ["python", "scripts/three_book_wallet_target_knob.py", "run"]),
+    # r2203: three faces that were published and never wired. The first two are exactly the
+    # pair the carrier debt kept listing round after round (r2197 / r2199); the third is the
+    # gate that would have caught r2202 by itself instead of by accident. import_git_coverage
+    # reads only git + disk (check/run ~40s, dominated by ast.parse of 2.9k files; no panel,
+    # no network), so unlike the two before it, its leg never waits on an upstream face.
+    ("etf_book_bond_bear_stress",
+     ["python", "scripts/etf_book_bond_bear_stress.py", "check"],
+     ["python", "scripts/etf_book_bond_bear_stress.py"]),
+    ("etf_book_leverage_budget",
+     ["python", "scripts/etf_book_leverage_budget.py", "check"],
+     ["python", "scripts/etf_book_leverage_budget.py"]),
+    ("import_git_coverage",
+     ["python", "scripts/import_git_coverage.py", "check"],
+     ["python", "scripts/import_git_coverage.py", "run"]),
 ]
 
 
