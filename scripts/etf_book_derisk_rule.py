@@ -472,6 +472,7 @@ def run(quick: bool = False) -> dict:
             "positive_years_share_min": G.POSITIVE_YEARS_SHARE,
         },
         "data": meta,
+        "inputs": {"panel_last_bar": F.panel_last_bar()},
         "panel": {"digest": bundle.get("stamp"), "bars": bundle["bars"],
                   "columns": len(bundle["cols"]),
                   "note": ("r1649: which panel this verdict priced. An empty digest means "
@@ -510,7 +511,15 @@ def check() -> int:
     # which is exactly why a green check could not tell a reader which world was priced.
     # rc 2 = "stale: rebuild me", rc 0 = "this face priced the panel I just read (or the
     # live panel could not be stamped because it is being rewritten -- not verifiable)".
-    if F.check_panel_stamp(d, label="derisk rule"):
+    # r2166: the cheap half of the same gate. A face that has recorded the bar it priced
+    # answers "has the panel moved" in 0.3s; only when it cannot answer does this check pay
+    # panel_stamp()'s ~47s. Without this the face had to choose between a 51s check (too
+    # expensive to run every round, so the chain leg was never wired) and a check that only
+    # re-derived its own rows (green on any world, r1935).
+    _bar_rc = F.check_panel_bar(d, label="derisk rule")
+    if _bar_rc:
+        return 2
+    if _bar_rc is None and F.check_panel_stamp(d, label="derisk rule"):
         return 2
     errs = []
     rows = d.get("rules") or []
@@ -771,6 +780,27 @@ def selftest() -> int:
         "a spread that stays above the line is a resolvable fail")
     chk(instrument_read({}, ctrl, [ctrl])["available"] is False,
         "no phase table means resolvability is unknown, not green")
+
+    # L14 the cheap freshness gate answers in three states (r2166): the bar it priced (0),
+    # a moved panel (2, and the word `stale` the chain pays on), and "I never recorded one"
+    # (None -> the caller pays the digest gate rather than reading silence as clean).
+    import contextlib as _cl
+    import io as _io2
+    _live = F.panel_last_bar()
+    if _live:
+        _buf = _io2.StringIO()
+        with _cl.redirect_stdout(_buf):
+            _rc_same = F.check_panel_bar({"inputs": {"panel_last_bar": _live}},
+                                        label="t")
+            _rc_moved = F.check_panel_bar({"inputs": {"panel_last_bar": "1999-01-01"}},
+                                         label="t")
+            _rc_missing = F.check_panel_bar({}, label="t")
+        _out = _buf.getvalue().lower()
+        chk(_rc_same == 0, "the bar the face priced reads as up to date")
+        chk(_rc_moved == 2 and "stale" in _out,
+            "a moved panel reads STALE (the chain's repair word), not as a defect")
+        chk(_rc_missing is None,
+            "a face with no recorded bar hands back 'cannot tell', never 'fine'")
 
     print("selftest %d/%d" % (ok, tot))
     for e in errs:

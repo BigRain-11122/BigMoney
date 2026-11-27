@@ -276,6 +276,63 @@ def panel_stamp(load=True):
             "bars_named": blk.get("dates"), "first_bar": blk.get("first")}
 
 
+def panel_last_bar():
+    """The bar the frozen core48 panel is on right now, read off its own CSVs (r2166).
+
+    `panel_stamp()` costs ~47s because it rebuilds the panel. A check that called it every
+    round would be too slow to run, so faces gave up on the outside question and re-derived
+    only their own rows -- a face is then green on any panel (r1935). This is the cheap
+    question: read the tail line of each core48 file, take the newest date (0.3s here).
+    """
+    try:
+        import live.paper as _LP
+        core = sorted(_LP.load_core())
+    except Exception:                                          # noqa: BLE001
+        return None
+    daily = PATHS.daily_dir
+    last = None
+    for sym in core:
+        path = os.path.join(daily, "%s.csv" % sym)
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "rb") as f:
+                f.seek(0, 2)
+                f.seek(max(0, f.tell() - 400))
+                tail = f.read().decode("utf-8", "replace")
+        except Exception:                                      # noqa: BLE001
+            continue
+        body = [x for x in tail.splitlines() if x.strip()]
+        if not body:
+            continue
+        day = body[-1].split(",")[0].strip()[:10]
+        if last is None or day > last:
+            last = day
+    return last
+
+
+def check_panel_bar(doc, label=""):
+    """rc 0 = this face priced the live bar; rc 2 = the panel moved (r2166).
+
+    The cheap half of `check_panel_stamp`. `stored` in the face must be the bar the writer
+    saw; `stored` absent means the face never recorded one, which is NOT "fine" -- it says
+    the reader cannot tell, so the caller falls back to the expensive digest gate.
+    """
+    stored = ((doc or {}).get("inputs") or {}).get("panel_last_bar")
+    cur = panel_last_bar()
+    who = (label + ": ") if label else ""
+    if not cur:
+        print("%sCHECK OK (panel bar not verifiable: live panel unreadable)" % who)
+        return 0
+    if not stored:
+        return None
+    if str(stored) != str(cur):
+        print("%sCHECK FAIL: the panel moved under this face -- stale: it priced %s, the "
+              "live panel is %s (rebuild it)" % (who, stored, cur))
+        return 2
+    return 0
+
+
 def check_panel_stamp(doc, stamp=None, label=""):
     """rc 0 = this face priced the panel it says it priced; rc 2 = the panel moved.
 

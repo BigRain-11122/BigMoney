@@ -17926,3 +17926,30 @@ rc3+STALE（上游动了）与 rc1 无 STALE（我错了）；再补真面探针
 How：正身=scripts/etf_book_dividend_credit.py（selftest 9/9、panel_bar 0.004 s）、
 results/_r2165bmc_dividend_stale_probe.py（4/4）、qa/dividend-credit-staleness-r2165.md；
 审计面 17→16。
+
+
+## E-20261127-r2166 · 「没有任何链腿重跑它」是一句断言，先问判据能不能看见
+
+`results/live_book_section_bars.json` 连着三轮把 `bets` / `derisk` 两节印成
+`provenance = no_writer`，冒烟腿照抄这句红成「页面落后且没人重跑」。实际是：
+
+①**生产者在链条里一直都在**——`etf_book_bets_face` 在 `LEGS` 的 L760，`derisk_rule` /
+`derisk_rule_write` 是 r1917 接的。红的那句话对世界的描述是错的。
+
+②**看不见的原因是判据自己的门槛**。`guarded_by()` 拿节名去比腿名，但只认长度
+≥ `MIN_NAME_FOR_MATCH`(8) 的探针：`bets`(4)、`derisk`(6) 双双被过滤，两节又没有 `artifact` 字段，
+于是 `probes_for()` 返回 `[]`，判据把「我的探针看不见」印成了「没人重跑」。这与 r1623 是同一条律的
+另一面：`guarded_by == []` 是一个**断言**，不是一次**观测**；断言为假时，红的是判据不是世界。
+
+③**同一个面里另一半是真的**：`etf_book_derisk_rule.check` 开头就付 `panel_stamp()` 的 46.9 s
+（重建面板），所以它只能被当成「太贵、别接每轮」的腿，或者根本不接。贵不是它的错，
+错在没有便宜的问题可问（r1935）——加 `inputs.panel_last_bar`（读 48 个 CSV 尾行，0.28 s）
+之后，check 51.4 s → **1.5 s**，且能在花钱之前先说「面板动了」。
+
+判据：凡「没有任何 X 重跑它」的结论，先问三件事——X 的表里到底有没有；我的匹配器能不能看见它的名字；
+看见之后说不说得起话（成本）。三问缺一条就会把判据的盲区记成世界的缺陷。
+
+How：正身=scripts/live_book_section_bars.py（LEG_ALIASES 两条 + L21 按活腿表校验）、
+scripts/etf_book_forward.py（panel_last_bar / check_panel_bar）、
+scripts/etf_book_derisk_rule.py（selftest 48/48）、results/_r2166bmc_derisk_bar_probe.py（5/5）、
+qa/section-bars-writer-guards-r2166.md；节面 n_no_writer 2→0。

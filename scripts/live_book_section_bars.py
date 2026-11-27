@@ -414,7 +414,16 @@ LEG_ALIASES = {"leg_split": ["etf_book_leg_attribution"],
                # key is `k_gap` -- five characters, below MIN_NAME_FOR_MATCH, so the name
                # probe could never see it and the section read "no chain leg re-runs it"
                # about a face the chain now re-runs every pass.
-               "k_gap": ["etf_book_k_gap"]}
+               "k_gap": ["etf_book_k_gap"],
+               # r2166: `bets` and `derisk` are the two sections the smoke leg has been
+               # naming as "behind the page and no chain leg re-runs it". Both faces have
+               # producers on the chain already (`etf_book_bets_face`, `derisk_rule`), but
+               # their section keys are 4 and 6 characters -- below MIN_NAME_FOR_MATCH --
+               # so the name probe could never see either. The match is a name, so the
+               # names are written down here and the selftest holds every alias against the
+               # live leg list (L21).
+               "bets": ["etf_book_bets_face"],
+               "derisk": ["derisk_rule"]}
 
 
 def probes_for(key, section):

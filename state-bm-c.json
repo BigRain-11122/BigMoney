@@ -1,9 +1,9 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝把 r2048 那条「接任何 ETF 面板先量单日 |r| 分布」的正法施加到全部 7 条价格面板上，并机械点出有多少脚本读了脏面却没修｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\PANEL-PRICE-FLIP-CENSUS.md（2026-11-26 19:2x·1,939 万 bar / 910 格 ≥35% 跳变 / ETF 188 格里 181 格落在 2020 年后 / 4 只 ETF 各有一段 3-4 年整段价格错 10 倍 / 期货·指数·分钟线 0 格 / 读 ETF 的 500 个脚本只有 1 个实现了修复）｜下个里程碑＝(a) 把 repair_flips 从个案升为库级面板读取契约（≤48h，需无竞争窗）；(b) 核 cb_daily 404xxx 四文件是否根本不是可转债（≤48h）；(c) 无竞争窗补跑 S6 链（连续第 15 轮欠账）",
- "active_lane": "研究面消费：回测臂自审计（信号输入单位 / 修法一致性）",
+ "CEO 三行": "当前活＝把「没人重跑」和「名字没对上」分开——CEO 页最后两节其实一直有链腿，是判据的 8 字下限看不见 4/6 字的节名；顺手把其中一条生产者的 check 从 51.4s 降到 1.5s｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\qa\\section-bars-writer-guards-r2166.md（2026-11-27 08:0x）｜下个里程碑＝(a) 同配方收余下两条红（CEO 页 declared starting book、ah_panel 采样尾）（≤48h）(b) 把「空 guarded_by 是断言不是事实」写进链契约审计面（≤48h）",
+ "active_lane": "面新鲜度契约：廉价外部锚 + 名字守卫的假红",
  "activity": "product",
- "activity_now": "r2158 bench_cash_yardstick: 59 published arms vs rolling GC001",
+ "activity_now": "r2166 section_bars: bets/derisk 两节从假 no_writer 变成 chain_leg；derisk check 51.4s->1.5s",
  "activity_now_round": 2158,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
@@ -1689,7 +1689,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2165,
+ "round_no": 2166,
  "round_no_label": "r2028",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2728,5 +2728,8 @@
  "通过_r2159": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（本宿主独活）· 全量冒烟 778/787（9 红）→ 按 r1934 契约词分类：5 条已修（ticket_band/cash_roll_today/k_grid/year_gate_vote/premium_swap+premium_choice 容差），4 条记欠账（rebal_adoption 控制臂 10.89 vs 发布 11.49、CEO 页 declared-start、ah_panel 采样尾、bets/derisk 两节无链腿）· 新面 scripts/chain_contract_word_audit.py（390 腿/134 带写者/22 条不会说 STALE）",
  "通过_r2160": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主 pid=94128）· 孤儿面 py_faces=5 orphans=0 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 orders_ack 332 → 未回执 0（余为他机 lane 广播 r2066 判例）· fleet/inbox 空 · attrition_ledger_guard CLEAN（4 账本·3 处历史缩行 healed）· Bigmoney-IterationLoop 正在运行 + Bigmoney-LoopWatchdog 就绪 · register_loop_task phase ok（pin=0 no-op）· 主产出：rebal_adoption 控制臂「未复现」真因=链序（本面 2075 行读在 etf_nobond_vt 2658 行之前，两本差一根 bar），修法=compare_faces/book_moved 外部锚 + 链腿移到写者之后；selftest 25/25 + check OK + 三腿链 3/3 rc0（65.5s）+ 四步自愈实证（FACE_LAG rc1 拒白跑 → 上游 54.0s → REFRESH_RAN 74.6s → 绿）· 未跑全量冒烟（如实）",
  "通过_r2162": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主）· 孤儿面 orphans=0 py_faces=4 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / ack 332 → 未回执差集 0（余为他机 lane 广播 r2066 判例）· 主产出：etf_book_width_fit 的 check 学会说 STALE（drift 双外部锚=票面 decision_bar + 闸面 data.last；bar_moved 时不再重复报同一事件；三态 CHECK_FAIL/CHECK_STALE/CHECK_OK）· selftest 26/26 · 真 check 四态行为腿 4/4 · 审计面 n_candidates 22→21 · 链 3/3 rc0 · 全量冒烟未跑完（后台 05:18 起），观测 4 红中 2 条已清、2 条为 r2159 旧欠账",
- "通过_r2164": "本轮产品：swap_trigger/swap_toll 学会说过期（19→17 候选）；详见 qa/swap-watch-clock-r2164.md"
+ "通过_r2164": "本轮产品：swap_trigger/swap_toll 学会说过期（19→17 候选）；详见 qa/swap-watch-clock-r2164.md",
+ "通过_r2166": "machine.json=bm-c · 竞争探针 rc=0 CLEAN（单宿主）· 孤儿面 orphans=0 py_faces=3 resident_servers=1 · 集团 decisions.md 原生字节 250,586B sha256 79e3083b… == 自持水位 → 零新决策零动作 · orders 117 件 / 心跳 ack 332 → 未回执差集 0（余为 2026-10-26 前他机 lane 广播 r2066）· fleet/inbox 空 · 主产出：bets/derisk 两节的 no_writer 是判据假红（链腿 L760 etf_book_bets_face 与 r1917 derisk_rule/derisk_rule_write 一直在链条里，MIN_NAME_FOR_MATCH=8 看不见 4/6 字节名）→ LEG_ALIASES 写死两条名 + L21 按活腿表校验；derisk check 新增廉价面板锚（F.panel_last_bar 0.28s）51.4s→1.5s，run 写 inputs.panel_last_bar · 证据：derisk selftest 48/48、真面探针 5/5、链两腿 2/2 rc0 90.8s、section_bars selftest 58/58、n_no_writer 2→0、契约词审计 ok:true n_current 16 · 自捕：先给 derisk 加了重复链腿（r1877 同族），同轮删回 · 未跑全量冒烟（CLI 宿主 5 分钟无输出会被取消，另 Web 计划任务宿主在跑）",
+ "orphans_last": 0,
+ "py_faces_last": 3
 }
