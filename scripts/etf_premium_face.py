@@ -210,29 +210,77 @@ def normalize_spot(df: pd.DataFrame) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
-def normalize_nav_board(df: pd.DataFrame, session: str) -> set:
-    """Fund NAV board -> the codes that published a unit NAV ON `session`.
+class NavBoard:
+    """The second source: which funds published a unit NAV on `session` -- and the values.
+
+    Membership answers one question ('can this session's NAV check the IOPV').  The VALUES
+    answer a different one: a row whose own denominator belongs to an older session can be
+    re-priced onto the session's published NAV instead of being printed as a cross-date gap
+    (r2211: 159519 priced 11-27 against NAV(11-26) and labelled `iopv+same-day-nav` while
+    the board had already published 11-27 = 1.7010).
+    """
+
+    def __init__(self, session: str, codes, nav=None):
+        self.session = session
+        self.codes = frozenset(codes)
+        self.nav = dict(nav or {})
+
+    def __contains__(self, code) -> bool:
+        return str(code).zfill(6) in self.codes
+
+    def __iter__(self):
+        return iter(self.codes)
+
+    def __len__(self) -> int:
+        return len(self.codes)
+
+    def value(self, code):
+        """The session's published unit NAV for `code`, or None when the board has none."""
+        v = self.nav.get(str(code).zfill(6))
+        try:
+            return float(v) if v and float(v) > 0 else None
+        except (TypeError, ValueError):
+            return None
+
+
+def _nav_value(nav_ok, code):
+    """A same-day published NAV from the second source, or None.
+
+    A plain code set (the shape older callers pass, and the shape the selftest L16 uses)
+    carries no values -- there is nothing to rebase onto and the caller must fall back to
+    naming the leg instead of pricing it.
+    """
+    getter = getattr(nav_ok, "value", None)
+    return getter(code) if callable(getter) else None
+
+
+def normalize_nav_board(df: pd.DataFrame, session: str) -> NavBoard:
+    """Fund NAV board -> the codes (and values) that published a unit NAV ON `session`.
 
     The board's columns are dated ('2026-11-06-单位净值'); a QDII fund prints
-    '---' because its NAV arrives at T+n.  Membership in this set is exactly
-    'the IOPV can be checked against a published NAV for this session'.
+    '---' because its NAV arrives at T+n.  Membership is exactly 'the IOPV can be
+    checked against a published NAV for this session'.
     """
     code_col = df.columns[0]
     date_cols = [c for c in df.columns if str(c).startswith(session) and "单位净值" in str(c)]
     if not date_cols:
-        return set()
+        return NavBoard(session, set())
     col = date_cols[0]
     ok = set()
+    nav = {}
     for _, r in df.iterrows():
         v = str(r.get(col, "")).strip()
         if v in ("", "---", "nan", "None", "--"):
             continue
         try:
-            float(v)
+            f = float(v)
         except ValueError:
             continue
-        ok.add(str(r[code_col]).strip().zfill(6))
-    return ok
+        code = str(r[code_col]).strip().zfill(6)
+        ok.add(code)
+        if f > 0:
+            nav[code] = f
+    return NavBoard(session, ok, nav)
 
 
 def band(premium_pct: float) -> str:
@@ -246,16 +294,29 @@ def band(premium_pct: float) -> str:
     return "stretched"
 
 
-def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
+def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> list[dict]:
     """One row per ordered leg.  A leg the board does not carry is MISSING:
     its premium is None, and the face prints it as unknown rather than free.
 
-    nav_ok = the set of funds that published a SAME-DAY unit NAV.  A QDII /
+    nav_ok = the second source (a NavBoard, or a bare set of codes).  A QDII /
     cross-border fund publishes its NAV at T+n, so its IOPV is the only number
     on the board and that number is built from a basket whose home market has
     not printed yet -- such a leg is 'unverified', never priced.  Passing None
     disables the distinction (there is then no second source to appeal to).
+
+    r2211: membership alone was not enough.  A leg can be ON the board's same-day
+    list (so `unverified` was False) while the DENOMINATOR this row actually carries
+    is an older session's NAV -- the row then printed a cross-date gap as a
+    same-day premium AND a CNY figure ("trust: iopv+same-day-nav" next to
+    "nav_session: 2026-11-26").  Two shapes, and the leg has to say which it is:
+      * the board published this session's NAV -> re-price on it (`nav-rebased-same-day`,
+        the board's own reading kept in `board_reading` so nothing is hidden);
+      * the board published nothing -> `nav-cross-date`: keep the percentage as the
+        board printed it, but it is not this session's premium and it carries no CNY.
     """
+    if session is None and "session" in spot.columns:
+        seen = sorted(set(spot["session"].dropna()))
+        session = seen[-1] if seen else None
     by_code = spot.set_index("code")
     rows = []
     for leg in ticket.get("order", []):
@@ -266,24 +327,50 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
             if isinstance(r, pd.DataFrame):
                 r = r.iloc[0]
             prem = float(r["premium_pct"]) if np.isfinite(r["premium_pct"]) else None
-            unverified = nav_ok is not None and code not in nav_ok
+            den_date = _cell_str(r.get("nav_session")) if "nav_session" in by_code.columns else None
+            in_board = nav_ok is not None and code in nav_ok
+            unverified = nav_ok is not None and not in_board
+            # Is the DENOMINATOR this row is priced on from the face's own session?
+            same_day = den_date is None or session is None or den_date == session
+            price = float(r["price"]) if np.isfinite(r["price"]) else None
+            rebased_nav = None if same_day else _nav_value(nav_ok, code)
+            board_reading = None
+            if same_day or unverified:
+                prem_used, trust = prem, ("iopv+same-day-nav" if not unverified else "iopv-only")
+                band_used = "unverified" if unverified else band(prem)
+            elif rebased_nav is not None and price and price > 0:
+                prem_used = (price / rebased_nav - 1.0) * 100.0
+                trust = "nav-rebased-same-day"
+                band_used = band(prem_used)
+                board_reading = {"raw_premium_pct": None if prem is None else round(prem, 4),
+                                 "raw_nav": round(float(r["iopv"]), 4) if np.isfinite(r["iopv"]) else None,
+                                 "raw_nav_session": den_date}
+            else:
+                prem_used, trust, band_used = prem, "nav-cross-date", "unverified"
+            priced = prem_used is not None and band_used != "unverified"
             rows.append({
                 "symbol": code,
                 "name": str(r["name"]),
                 "class": leg.get("class", ""),
                 "amount_cny": round(amount, 2),
-                "premium_pct": None if prem is None else round(prem, 4),
-                "band": "unverified" if unverified else band(prem),
-                "trust": "iopv-only" if unverified else "iopv+same-day-nav",
-                "over_nav_cny": None if (prem is None or unverified) else round(amount * prem / 100.0, 2),
+                "premium_pct": None if prem_used is None else round(prem_used, 4),
+                "band": band_used,
+                "trust": trust,
+                "over_nav_cny": round(amount * prem_used / 100.0, 2) if priced else None,
                 "iopv": None if not np.isfinite(r["iopv"]) else round(float(r["iopv"]), 4),
-                "price": None if not np.isfinite(r["price"]) else round(float(r["price"]), 4),
+                "price": price,
                 # r1600: which reader priced THIS leg -- a mixed file has to be resolvable
                 # leg by leg, not only as a file-level average.
                 "source": (_src_one(r.get("source")) if "source" in by_code.columns else READER_IOPV),
                 # r1604: the date the DENOMINATOR belongs to. Not the same question as
                 # `trust` (a published NAV can be yesterday's and still be published).
-                "nav_session": _cell_str(r.get("nav_session")) if "nav_session" in by_code.columns else None,
+                # r2211: it is the date of the denominator this row is PRICED on, so a
+                # rebased leg carries the session (the board's own date lives in
+                # `board_reading`).
+                "nav_session": (session if trust == "nav-rebased-same-day" else den_date),
+                "denominator_nav": (round(rebased_nav, 4) if trust == "nav-rebased-same-day"
+                                    else (round(float(r["iopv"]), 4) if np.isfinite(r["iopv"]) else None)),
+                "board_reading": board_reading,
             })
         else:
             rows.append({
@@ -299,6 +386,8 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None) -> list[dict]:
                 "price": None,
                 "source": "no-quote",
                 "nav_session": None,
+                "denominator_nav": None,
+                "board_reading": None,
             })
     return rows
 
@@ -329,7 +418,9 @@ def dispersion(spot: pd.DataFrame, min_amount: float = MIN_AMOUNT, nav_ok=None,
         spot = spot[keep]
     liq = spot[(spot["amount"] >= min_amount) & spot["premium_pct"].notna()]
     if nav_ok is not None:
-        liq = liq[liq["code"].isin(nav_ok)]
+        # explicit membership map: the second source is a NavBoard, not a plain set, and
+        # pandas' isin() would take an arbitrary iterable for a scalar.
+        liq = liq[liq["code"].map(lambda c: c in nav_ok)]
     if liq.empty:
         return {"n": 0, "note": "no liquid ETF carries a premium reading today"}
     p = liq["premium_pct"]
@@ -390,8 +481,14 @@ def render_md(face: dict) -> str:
             over = "—" if r["over_nav_cny"] is None else format(r["over_nav_cny"], "+,.0f")
             # r1604: the reader cell carries the denominator's date, so a leg priced off
             # an older NAV says which day it is priced off -- the percentage cannot.
+            # r2211: a re-priced leg says so in the same cell, with both NAVs.
             reader_cell = _reader_short(r.get("source") or "")
-            if r.get("nav_session"):
+            if r.get("trust") == "nav-rebased-same-day":
+                br = r.get("board_reading") or {}
+                reader_cell += " %s（换基：板面 %s %s → 同日 %s）" % (
+                    r.get("nav_session"), br.get("raw_nav_session"),
+                    br.get("raw_nav"), r.get("denominator_nav"))
+            elif r.get("nav_session"):
                 reader_cell += " " + r["nav_session"]
             L.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 r["symbol"], r["name"] or "(板面未列)", r["class"],
@@ -407,6 +504,12 @@ def render_md(face: dict) -> str:
             L.append("")
             L.append("未定价腿：%s（板面没有它的读数，或它没有当日公布净值可对——按「不知道」记，不按 0 记）。"
                      % "、".join(unk))
+        cd = [r["symbol"] for r in legs if r.get("trust") == "nav-cross-date"]
+        if cd:
+            L.append("")
+            L.append("分母不在本场：%s（板面分母属于另一场的净值，而本场没有已公布净值可换基——"
+                     "它们的百分比是跨日缺口，不是本场溢价，也不进上面的 CNY 合计）。"
+                     % "、".join(cd))
         L.append("")
         oh = face.get("over_hurdle") or {}
         if oh:
@@ -567,7 +670,17 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
     # The book's ticket nests its legs under "ticket"; a bare order list is also
     # accepted so this face can be pointed at any ticket-shaped file.
     inner = ticket.get("ticket") if isinstance(ticket.get("ticket"), dict) else ticket
-    legs = leg_face(inner, spot, nav_ok)
+    legs = leg_face(inner, spot, nav_ok, session=session)
+    # r2211: a leg whose own denominator belonged to another session is either re-priced
+    # onto this session's published NAV (and the board's reading kept beside it) or named
+    # as cross-date. Both are counted here so the face says what it did, and a reader can
+    # see the difference between "no gap" and "a gap we could not re-price".
+    rebased = [{"symbol": r["symbol"], "board_nav": (r.get("board_reading") or {}).get("raw_nav"),
+                "board_nav_session": (r.get("board_reading") or {}).get("raw_nav_session"),
+                "premium_board_pct": (r.get("board_reading") or {}).get("raw_premium_pct"),
+                "same_day_nav": r.get("denominator_nav"), "premium_same_day_pct": r["premium_pct"]}
+               for r in legs if r["trust"] == "nav-rebased-same-day"]
+    cross = [r["symbol"] for r in legs if r["trust"] == "nav-cross-date"]
     # The hurdle is summed over PRICED legs only: an unverified leg has no CNY figure
     # and is excluded rather than counted as zero, so a ticket made mostly of unverified
     # cross-border legs cannot look cheap.
@@ -598,6 +711,16 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         "priced_legs": sum(1 for r in legs if r["over_nav_cny"] is not None),
         "unverified_legs": sum(1 for r in legs if r["band"] == "unverified"),
         "over_hurdle": over_hurdle,
+        "denominator_rebasis": {
+            "n": len(rebased),
+            "legs": rebased,
+            "cross_date_unpriced": cross,
+            "basis": ("a leg whose own denominator date is not this session is re-priced on the "
+                      "session's published unit NAV when the NAV board carries one; the board's "
+                      "own reading stays in board_reading. With no same-day NAV the leg is "
+                      "nav-cross-date: it keeps the percentage the board printed, carries no CNY, "
+                      "and never claims to be this session's premium."),
+        },
         "dispersion": dispersion(spot, nav_ok=nav_ok, session=session),
         "denominator": denominator_block(spot, session, legs),
         "caveats": [
@@ -1022,8 +1145,14 @@ def _nav_ok_path(session: str) -> str:
 
 
 def _save_nav_ok(session: str, ok) -> None:
+    """Persist membership AND the values: `render` runs with no network, so a rebase that
+    was possible at fetch time has to still be possible on a re-render."""
+    payload = {"session": session, "codes": None, "nav": None}
+    if ok is not None:
+        payload["codes"] = sorted(ok)
+        payload["nav"] = {k: ok.nav[k] for k in sorted(ok.nav)} if getattr(ok, "nav", None) else None
     with open(_nav_ok_path(session), "w", encoding="utf-8") as f:
-        json.dump({"session": session, "codes": sorted(ok) if ok else None}, f, ensure_ascii=False)
+        json.dump(payload, f, ensure_ascii=False)
 
 
 def _cached_nav_ok(session: str):
@@ -1032,10 +1161,15 @@ def _cached_nav_ok(session: str):
         return None
     try:
         with open(p, encoding="utf-8") as f:
-            codes = json.load(f).get("codes")
+            blob = json.load(f)
     except (OSError, ValueError):
         return None
-    return set(codes) if codes else None
+    codes = blob.get("codes")
+    if not codes:
+        return None
+    # Caches written before r2211 carry codes only: membership still works, there is just
+    # nothing to re-price onto, which is the honest state for an older snapshot.
+    return NavBoard(session, set(codes), blob.get("nav"))
 
 
 def _load_snapshot() -> pd.DataFrame | None:
@@ -1202,7 +1336,39 @@ def selftest() -> int:
                       columns=["基金代码", "基金简称", "2026-11-06-单位净值", "2026-11-05-单位净值"])
     ok_set = normalize_nav_board(nb, "2026-11-06")
     leg("L15 NAV board: a fund that printed '---' is not 'has a NAV'",
-        ok_set == {"510300"} and normalize_nav_board(nb, "2026-11-07") == set())
+        ok_set.codes == frozenset({"510300"}) and not len(normalize_nav_board(nb, "2026-11-07")))
+
+    # L15b (r2211) the board keeps the VALUE, not just the name: membership alone let a
+    # leg claim `iopv+same-day-nav` while its own denominator was a day older.
+    leg("L15b NAV board carries the published value (the rebase source)",
+        ok_set.value("510300") == 4.1312 and ok_set.value("513100") is None
+        and ok_set.value("510300") and len(normalize_nav_board(nb, "2026-11-07").nav) == 0)
+
+    # L15c (r2211) THE defect, re-created: price 1.685 against the board's 11-26 NAV
+    # 1.6974 (-0.73%) while the session's own NAV 1.7010 was already published. Printed
+    # as same-day it overstated the leg; re-priced it reads -0.94%, and the board's
+    # reading stays visible instead of being overwritten.
+    b_fgn = board([["159519", "港股国企", 1.685, 1.6974, 2e8, "2026-11-27"]])
+    b_fgn["净值日期"] = ["2026-11-26"]   # the board's own denominator date column
+    s_fgn = normalize_spot(b_fgn)
+    nb_fgn = NavBoard("2026-11-27", {"159519"}, {"159519": 1.7010})
+    r_rebased = leg_face({"order": [{"symbol": "159519", "amount": 86946.0, "class": "crossborder"}]},
+                         s_fgn, nb_fgn, session="2026-11-27")[0]
+    leg("L15c foreign denominator + a same-day NAV on the board -> re-priced, not claimed",
+        r_rebased["trust"] == "nav-rebased-same-day"
+        and r_rebased["nav_session"] == "2026-11-27"
+        and abs(r_rebased["premium_pct"] + 0.9406) < 1e-3
+        and abs(r_rebased["over_nav_cny"] + 817.8) < 0.1
+        and r_rebased["board_reading"]["raw_nav"] == 1.6974
+        and r_rebased["board_reading"]["raw_nav_session"] == "2026-11-26")
+
+    # L15d the same leg with NO published same-day NAV (a T+n QDII) must not be priced
+    # at all: it keeps the board's cross-date percentage and carries no CNY figure.
+    r_cross = leg_face({"order": [{"symbol": "159519", "amount": 86946.0, "class": "crossborder"}]},
+                       s_fgn, NavBoard("2026-11-27", {"159519"}), session="2026-11-27")[0]
+    leg("L15d foreign denominator, no same-day NAV -> named cross-date, no money",
+        r_cross["trust"] == "nav-cross-date" and r_cross["band"] == "unverified"
+        and r_cross["over_nav_cny"] is None and abs(r_cross["premium_pct"] + 0.7305) < 1e-3)
 
     # L16 with the second source in hand, an uncheckable leg is UNVERIFIED:
     # it keeps its raw IOPV reading but must not be priced in CNY.

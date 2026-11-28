@@ -43,7 +43,9 @@
    "iopv": 1.2551,
    "price": 1.259,
    "source": "sina_nav_not_iopv",
-   "nav_session": "2026-11-27"
+   "nav_session": "2026-11-27",
+   "denominator_nav": 1.2551,
+   "board_reading": null
   },
   {
    "symbol": "512040",
@@ -57,7 +59,9 @@
    "iopv": 1.1833,
    "price": 1.186,
    "source": "sina_nav_not_iopv",
-   "nav_session": "2026-11-27"
+   "nav_session": "2026-11-27",
+   "denominator_nav": 1.1833,
+   "board_reading": null
   },
   {
    "symbol": "159655",
@@ -71,7 +75,9 @@
    "iopv": 1.7452,
    "price": 1.926,
    "source": "sina_nav_not_iopv",
-   "nav_session": "2026-11-26"
+   "nav_session": "2026-11-26",
+   "denominator_nav": 1.7452,
+   "board_reading": null
   },
   {
    "symbol": "513690",
@@ -85,41 +91,64 @@
    "iopv": 1.1137,
    "price": 1.103,
    "source": "sina_nav_not_iopv",
-   "nav_session": "2026-11-27"
+   "nav_session": "2026-11-27",
+   "denominator_nav": 1.1137,
+   "board_reading": null
   },
   {
    "symbol": "159519",
    "name": "港股国企",
    "class": "crossborder",
    "amount_cny": 86946.0,
-   "premium_pct": -0.7305,
+   "premium_pct": -0.9406,
    "band": "watch",
-   "trust": "iopv+same-day-nav",
-   "over_nav_cny": -635.17,
+   "trust": "nav-rebased-same-day",
+   "over_nav_cny": -817.83,
    "iopv": 1.6974,
    "price": 1.685,
    "source": "sina_nav_not_iopv",
-   "nav_session": "2026-11-26"
+   "nav_session": "2026-11-27",
+   "denominator_nav": 1.701,
+   "board_reading": {
+    "raw_premium_pct": -0.7305,
+    "raw_nav": 1.6974,
+    "raw_nav_session": "2026-11-26"
+   }
   }
  ],
  "priced_legs": 4,
  "unverified_legs": 1,
  "over_hurdle": {
   "hurdle_cny": 500.0,
-  "total_over_nav_cny": -1001.54,
+  "total_over_nav_cny": -1184.2,
   "priced_amount_cny": 347793.1,
-  "share_of_plan_pct": -0.288,
+  "share_of_plan_pct": -0.3405,
   "breached": false,
   "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero"
  },
+ "denominator_rebasis": {
+  "n": 1,
+  "legs": [
+   {
+    "symbol": "159519",
+    "board_nav": 1.6974,
+    "board_nav_session": "2026-11-26",
+    "premium_board_pct": -0.7305,
+    "same_day_nav": 1.701,
+    "premium_same_day_pct": -0.9406
+   }
+  ],
+  "cross_date_unpriced": [],
+  "basis": "a leg whose own denominator date is not this session is re-priced on the session's published unit NAV when the NAV board carries one; the board's own reading stays in board_reading. With no same-day NAV the leg is nav-cross-date: it keeps the percentage the board printed, carries no CNY, and never claims to be this session's premium."
+ },
  "dispersion": {
-  "n": 608,
+  "n": 631,
   "amount_floor_cny": 20000000.0,
-  "median_pct": 0.198,
-  "p10_pct": -0.8957,
-  "p90_pct": 2.0626,
-  "share_at_par": 0.4095,
-  "share_stretched": 0.3026,
+  "median_pct": 0.2024,
+  "p10_pct": -0.912,
+  "p90_pct": 2.0647,
+  "share_at_par": 0.401,
+  "share_stretched": 0.3122,
   "top_premium": [
    {
     "symbol": "588840",
@@ -195,8 +224,7 @@
   "rows_same_session": 1447,
   "legs_dated": 5,
   "legs_lagging": [
-   "159655",
-   "159519"
+   "159655"
   ],
   "verdict": "mixed"
  },

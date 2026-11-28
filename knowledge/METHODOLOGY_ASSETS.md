@@ -18168,3 +18168,35 @@ ceo_page_wallet_ride_problems（含负控）、qa/ceo-page-wallet-ride-r2205.md�
 **行为腿**：L75 本身即负控（absent / no_control 两种 status 各渲染一次，断言切片内既无 bp 数也无判词词根）。
 
 How：正身=scripts/etf_book_ceo_page.py `_ct_section()` + 自检腿 L75；实锚=qa/ceo-page-one-ruler-r2208.md。
+
+
+## E-20261128-r2211 · 「有没有第二个源」与「这个数是用哪天的分母算的」是两个问题
+
+（2026-11-28 r2211 bm-c）
+
+**症状**：`results/etf_premium/PREMIUM-2026-11-27.json` 的 159519 一腿同时写着
+`trust: iopv+same-day-nav` 与 `nav_session: 2026-11-26`，并按 11-26 的分母印出 -0.73% / -635.17 元。
+同一文件的 159655（分母同为 11-26）却正确地降级成 `unverified` + 无金额——差别只在
+「净值板这一场有没有它的净值」。于是「板上有当日净值」被读成「这一腿的价格是对当日净值算的」，
+而**分母是哪一天的，只有行自己带的 `nav_session` 说得出来**（r1604 已把它记下，却没人拿它做判据）。
+
+**判据三条**：
+①**信任标签必须与被定价的分母同日**：`unverified` 只看成员资格不够，必须再问
+「这一行实际用的分母日期 == 本场吗」。不同日则只有两种合法形态——
+（a）净值板有本场公布值 → **换基**（price/当日NAV 重算溢价与金额，板面原读数原样留在
+`board_reading{raw_premium_pct,raw_nav,raw_nav_session}`，`nav_session` 改成本场）；
+（b）净值板没有（QDII T+n）→ `nav-cross-date`：保留板面百分比但标 unverified、**不印金额**。
+沉默的第三种（照印成 same-day）本轮即此病的正身。
+②**换基源要落盘**：`render` 是无网络路径，所以净值板缓存必须存 **值**（`{"codes":..., "nav":{...}}`），
+只存代码集等于「fetch 时能换基、重渲染时不能」——同一个面两种语义（r1850 面代差族）。
+③**来源块不能长得像一腿**：`board_reading` 首版用了 `premium_pct`/`nav_session` 两个键名，
+`Tools/premium_leg_session_audit.py` 立刻把它当成一个 premium 站点并判 RED（FOREIGN_NAV_UNDISCLOSED）——
+判据工具按**键名**认站点，所以溯源字段必须换个名字（`raw_*`），否则修好一处的代价是凭空多出一处红。
+
+**行为腿**：L15b（净值板带值）、L15c（跨日 + 板上有当日净值 → re-priced，含旧读数保留）、
+L15d（跨日 + 无当日净值 → nav-cross-date 无金额），三腿锁死两条分支；验收 = `selftest 49/49`
+＋ `Tools/premium_leg_session_audit.py --check` 由 1 RED（MONEY_ON_FOREIGN_NAV）转为 **rc0 / 146 腿零红**。
+
+How：正身=scripts/etf_premium_face.py（`NavBoard`、`leg_face`、`_save_nav_ok`/`_cached_nav_ok`、
+`denominator_rebasis`）+ 面 results/etf_premium/PREMIUM-2026-11-27.{json,md}
+（159519：-0.7305%/-635.17 元 → -0.9406%/-817.83 元，分母 11-27 官方净值 1.7010）。
