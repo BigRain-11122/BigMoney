@@ -1727,7 +1727,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2212,
+ "round_no": 2213,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2894,8 +2894,8 @@
  "carrier_debt_r2203": "paid: chain legs for etf_book_bond_bear_stress and etf_book_leverage_budget (carried >=4 rounds), chain leg for import_git_coverage. still owed: CEO page section (ceo_live_usage.py) for those three faces, smoke_test legs for them, CODELY card, and repair-or-retire of Tools/_r820bmc_close.py (needs treasure_guard prescan + quarantine).",
  "记账_r2203": "轮报1 + QA1 + results1 + research1 + 脚本1 + 链文件1 + 方法论卡1 + state1 + 心跳1",
  "下个里程碑_r2203": "共享面回落补 CEO 页小节（ceo_live_usage.py 三面新节 + 冒烟腿），窗 ≤48h",
- "last_verdict": "A_FILE_THAT_NEVER_PARSED_IS_NOW_PARSEABLE",
- "last_face": "results/import_git_coverage.json",
+ "last_verdict": "A_BATCH_STAMP_IS_NOT_A_DATE",
+ "last_face": "results/etf_nav/source_dating.json",
  "watermark_note_r2205": "watermark red=false lane=healthy; group decisions.md origin blob 250,586B sha256 79e3083b85c1 == own watermark -> zero new decisions, zero action; orders.md advanced to sha256 9ff2f31c4d38d392 (115,550B): new rows are MacBook 主控 lane rebuild (5 lanes + compute broker) and the T0 net-selfheal broadcast already receipted by bm-c (cph4/fleet/receipts/net-bm-c-20261127.md on origin) -> zero quant rows, zero execution; fleet/orders 119 files vs heartbeat ack -> unacked 0; fleet/inbox empty; contention CLEAN (single host); orphans 0",
  "通过_r2206": "machine.json=bm-c · contention rc=0 CLEAN (fewer than two codely hosts alive) -> shared faces writable · S1 RED FIX: 46 smoke reds, largest same-family cluster = faces still priced on TICKET-2026-11-26 while disk already holds TICKET-2026-11-27-card.json (landed 11-27 21:37:19). Ran python Tools/s6_chain_bmc.py 2206 --only=entry_price_write,etf_book_size_rulers_write,decision_line_write,ticket_band,ticket_floor_write,capacity_ticket,cash_roll_today,rebalance_permission_write,permission_vs_size_write,year_concentration_money,capital_union_decision -> 11/11 rc0, 7 real refreshes. Verified on disk: ticket_band / ticket_floor / capacity_ticket evidence_cutoff=2026-11-27 with ticket=results/etf_book_order/TICKET-2026-11-27-card.json; capital_union 2026-11-27; decision_line and cash_roll generated 2026-11-28T07:06. 13 of the 46 reds name the refreshed faces. NOT claimed cleared: full smoke not re-run (~960s > round budget), so the red count is unchanged as far as this round measured. Still red and untouched this round: etf_book_phase_admission, etf_book_start_grid (exit 3, year-gate bytes moved), etf_book_premium_* three faces (PREMIUM-2026-11-27.json landed, readers on 11-26), astock_resid_veto_layer (panel at 11-27, face at 11-26), config control-character (knowledge/METHODOLOGY_ASSETS.md:18125 has 0x08), config 159519 MONEY_ON_FOREIGN_NAV. decisions.md origin blob 250,586B sha 79e3083b85c1 == watermark (zero new) · orders.md 115,550B sha 9ff2f31c4d38 (unchanged) · fleet/orders 119 · fleet/inbox empty · watermark_red red=false lane=healthy · idle_trigger green_idle=true but claimable_pool_lines=0 and board open=0 · attrition_ledger_guard scan CLEAN (4 ledgers, 3 historical shrinks healed) · orphan_face_probe py_faces=4 orphans=0 · S6 full chain NOT run (r2205 died at 102/415 with no chain_done).",
  "contention_r2206": {
@@ -2953,5 +2953,19 @@
  "s7_logon_r2211": "Bigmoney-IterationLoop + Bigmoney-LoopWatchdog re-registered this round but both sit at LogonType=Interactive: the S4U XML flip was refused (拒绝访问 = needs elevation), so the r2026-10-15 law 'every lane task is S4U' is still unmet on this machine. Logged as debt, not silently dropped; the visible-window half of that hazard is already covered by the HKCU\\Console\\%%Startup delegation fix (r2026-10-25).",
  "carrier_debt_r2212": "待共享面回落补：①smoke_test.py 两腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（漂移文案须含 STALE）；③CODELY.md 一条（判例=「批量贴上日期的面不是可定日的面」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
  "s6_note_r2212": "chain 2209 in flight (pid 33880, 184/415 at 10:53, child = etf_book_atlas_arms_rebuild refresh --budget=1100 running 26-way parallel) -> did not start a second chain and did not touch the shared faces; new-file-only round per r1907",
- "竞争_r2212": "CLEAN (repo_write_contention --lookback-min 45: fewer than two codely hosts alive)"
+ "竞争_r2212": "CLEAN (repo_write_contention --lookback-min 45: fewer than two codely hosts alive)",
+ "通过_r2213": "machine.json=bm-c · contention rc=0 CLEAN (single host pid 30668) · orphans=0 (py_faces 6 / resident 2) · PRODUCT: a NAV's day is judged by the instrument's own price path, not by its date field. 1,439 of 1,673 rows moved >=1% and can be dated: board 1,371 same session / 8 prev / 59 beyond (21 capped, 23 agreed-beyond, 15 sources-disagree); dated sina 1,157 same / 115 prev. So r2212's proposal (denominator only from the dated source) is NOT adopted -- it would import 115 stale denominators. Money face: of the 8 board rows on yesterday's close, 5 are cross-border/commodity names whose sina value sits 1-2 sessions back (premium differs 2.16-4.76pp), and 513630 is ON the 2026-11-27 ticket (t=0.33 vs PREV_LINE 0.35 -- 0.02 from the cut). Same round repaired the face's self-contradiction: verdict printed 511/512 while its own table printed 489/398 because OVERSHOOT was added to 'on today's path'; per-row t and the 43 rows within 0.05 of a decision line are now printed. Wiring: chain leg #416 (probe=check, writer=run) verified --only rc0 0.2s; smoke leg registered (verify() rc0). decisions.md 250,586B sha 79e3083b85c1 == watermark (zero new) · orders.md unchanged · 119 orders vs 337 acks -> 0 unacked · fleet/inbox empty · attrition CLEAN · hooks MATCH · 本地未达 origin=0",
+ "contention_r2213": {
+  "probe": "Tools/repo_write_contention.py --lookback-min 45",
+  "rc": 0,
+  "verdict": "CLEAN",
+  "why": "fewer than two codely hosts alive",
+  "policy": "shared faces writable by probe; the in-flight chain 2209 still owns the panel faces, so this round wrote only new faces plus this face's own files",
+  "evidence": "results/_repo_write_contention.bm-c.json"
+ },
+ "s6_note_r2213": "S6: the 2026-11-28 09:04 chain (pid 33880, round 2209) is still in flight -- 348/415 legs at 11:45 -- so no second full chain was started. Instead the new leg was exercised alone: `python Tools/s6_chain_bmc.py 2213 --only=etf_nav_source_dating` = 1/1 rc0 in 0.2s (results/_r2213bmc_s6_chain.only-etf_nav_source_dating.json). The running chain holds the OLD 415-leg table; the new 416th leg fires on the next full run.",
+ "smoke_note_r2213": "full smoke not run (~950-1100s, and the in-flight chain rewrites shared faces mid-run = r1861 UNVERIFIED family). The new leg was exercised through the same call smoke makes (_nav_source_dating().verify() -> rc0). r2210's 33 reds are NOT claimed improved.",
+ "carrier_debt_r2213": "paid: r2212's uncommitted face (source_dating) is now committed, chained and smoking; the verdict contradiction it shipped is repaired. still owed: METHODOLOGY card for 'a batch stamp is not a date' (blocked -- knowledge/METHODOLOGY_ASSETS.md L18125 holds 0x08 and treasure_guard prescan hard-rejects the file, rc3); CODELY.md card; full smoke; the board's 3 ticket legs with no NAV row (159655/513650/513500) are a coverage question, not a dating one.",
+ "记账_r2213": "轮报告 1 + QA 1 + research 1 + scripts 1 + results(面)1 + 链文件 1 + 冒烟腿 1 + state 1 + 心跳 1 = 9 处（轮报/QA/research/state/心跳 5 处记账，其余产品产出；记账律内）",
+ "下个里程碑_r2213": "①把跨境 8 行的定日语义接进溢价面披露（与 r2211 的 159519 修法同族）；②查板面为何缺 159655/513650/513500 三只票面腿的净值行；③链 2209 收口后复跑全量冒烟。窗 ≤48h"
 }

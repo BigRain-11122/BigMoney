@@ -2957,6 +2957,14 @@ LEGS = [
     ("import_git_coverage",
      ["python", "scripts/import_git_coverage.py", "check"],
      ["python", "scripts/import_git_coverage.py", "run"]),
+    # r2213: the premium book's NAV board is one batch stamp for 1,676 rows with no per-row
+    # date, so "which day is this number from" used to be answered by trusting a label. This
+    # face asks each instrument's own price path instead. The probe is local (~2s, re-derives
+    # every printed label); the writer costs one network sweep (~90s, 42 throttled requests, no
+    # panel touch). It reads data/etf_premium/snap/, not a face another leg writes.
+    ("etf_nav_source_dating",
+     ["python", "scripts/etf_nav_source_dating.py", "check"],
+     ["python", "scripts/etf_nav_source_dating.py", "run", "--sample", "0"]),
 ]
 
 

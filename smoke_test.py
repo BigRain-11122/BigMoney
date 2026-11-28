@@ -9684,6 +9684,21 @@ def main() -> int:
         check("config: no premium is priced in CNY against another session's NAV",
               False, repr(e)[:160])
 
+    # r2213: the premium book's NAV board carries one batch-level session stamp for 1,676
+    # rows and no per-row date, so "which day is this number from" was answered by trusting
+    # a label. scripts/etf_nav_source_dating.py asks the instrument's own price path instead
+    # and re-derives every label it prints. Two things are checked here: the face's numbers
+    # still follow from its rows (arithmetic), and -- with the same call -- the leg reports
+    # STALE when the board has moved on, which is what the chain writer pays to fix.
+    try:
+        _nsd = _nav_source_dating()
+        _nrc, _ntext = _nsd.verify()
+        check("config: every NAV date is re-derived from that instrument's own price path",
+              _nrc == 0, _ntext[:220])
+    except Exception as e:
+        check("config: every NAV date is re-derived from that instrument's own price path",
+              False, repr(e)[:160])
+
     # r1619: the two legs above catch a face that cannot be dated or a leg priced against
     # another session's NAV. They cannot catch the r1471 shape -- a face the chain only CHECKS.
     # That one has been found by eye twice (the execution ledger in r1471, the subscription face
@@ -14681,6 +14696,20 @@ _SMOKE_JFG = None
 _SMOKE_PSG = None
 _SMOKE_PLA = None
 _SMOKE_CWA = None
+_SMOKE_NSD = None
+
+
+def _nav_source_dating():
+    """scripts/etf_nav_source_dating.py as a module (r2213): dates each NAV by its price path."""
+    global _SMOKE_NSD
+    if _SMOKE_NSD is None:
+        import importlib.util as _ilu
+        _p = os.path.join("scripts", "etf_nav_source_dating.py")
+        _s = _ilu.spec_from_file_location("_smoke_etf_nav_source_dating", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_NSD = _m
+    return _SMOKE_NSD
 
 
 def _premium_session_guard():
