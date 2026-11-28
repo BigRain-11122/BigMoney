@@ -2805,6 +2805,13 @@ def main() -> int:
             # manual, and a stamp-less face is never read as "old".
             ("product: face_merge_triage classifies and resolves by face kind (E1405)",
              "Tools/face_merge_triage.py", ["selftest"]),
+            # r2222: the commodity TSMOM pair was the one live conclusion whose size the
+            # answer book could only print as "未测". Its legs pin the two ways a capacity
+            # number lies: a contract multiplier off by 100x, and an open-interest column
+            # that went missing -- then the 5% rule silently becomes a no-op while the table
+            # still claims it took the smaller of two rules.
+            ("product: commodity TSMOM capacity (exit-code contract)",
+             "scripts/bench_cmdty_capacity.py", ["--selftest"]),
             # r1386: six rounds of gates had produced no candidate family, so this
             # probe is the first measurement of one since r1379. Its own two ruler
             # legs pin the exposure-share null in both directions (buy-and-hold must
@@ -17592,7 +17599,8 @@ def _finish() -> int:
              [sys.executable, "scripts/block_red_triage.py", "--selftest"])):
         try:
             _p220 = subprocess.run(_c220, cwd=os.path.dirname(os.path.abspath(__file__)),
-                                   capture_output=True, text=True, timeout=180,
+                                   capture_output=True, text=True, encoding="utf-8",
+                                   errors="replace", timeout=180,
                                    creationflags=0x08000000)
             _tail220 = (_p220.stdout or "").strip().splitlines()
             check("product: " + _n220, _p220.returncode == 0,

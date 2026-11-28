@@ -93,8 +93,11 @@ TO_ORDER_FACES = {
         "capacity": "results/bench_basis_capacity.json",
         "accounts": ("IC", "IM"),
     },
-    "census_commodity": {"capital": None, "capacity": None, "accounts": ()},
-    "robust_tsmom_commodity": {"capital": None, "capacity": None, "accounts": ()},
+    # r2222: the commodity pair's size was the one line this page could only fill with
+    # "未测". scripts/bench_cmdty_capacity.py now prices it from the contracts' own volume
+    # and open interest, on the card's own vol-target notional (not the raw book).
+    "census_commodity": {"capital": None, "capacity": "results/bench_cmdty_capacity.json", "accounts": ()},
+    "robust_tsmom_commodity": {"capital": None, "capacity": "results/bench_cmdty_capacity.json", "accounts": ()},
 }
 
 # the two words this book treats as "still alive"
@@ -479,7 +482,83 @@ def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None)
             })
     elif card_id and not spec.get("capacity"):
         out.append({"what": "容量", "text": "没有任何面量过这本书的容量（未测，不是零）", "source": None})
+    cond = order_condition(out)
+    if cond:
+        out.append(cond)
     return out
+
+
+def order_condition(rows):
+    """Fold the lines above into the one sentence a reader can act on.
+
+    A GO row plus four obstacle lines still leaves the reader to combine them by hand,
+    and two readers combine them differently (r1779: a decision must live in one place).
+    So the same rows -- never a new judgement -- are read back as conditions:
+    "下得去" requires every one of them, and the sentence names the ones standing in
+    the way today. Unknown stays unknown: an unmeasured line is not a passing line.
+    """
+    if not rows:
+        return None
+    parts, blocked, unknown = [], [], []
+
+    def add(label, ok, note="", scope=""):
+        parts.append((label, ok, note, scope))
+
+    for r in rows:
+        what = r.get("what") or ""
+        text = r.get("text") or ""
+        if what == "脸级判词":
+            add("面认这个结论", False, "面自己判的是另一个词")
+            blocked.append("面判词")
+        elif what == "成本":
+            add("成本按声明的 bp 计", True, text.split("；")[0])
+        elif what.startswith("资本线"):
+            acct = what.split(" ", 1)[1] if " " in what else ""
+            if "面不在盘上" in text:
+                add("首档 1 手买得起", None, "资本面没读到", acct)
+                unknown.append("资本线")
+            else:
+                ok = "WITHDRAW" not in text.upper()
+                add("首档 1 手买得起", ok, text.split("；")[-1] if "；" in text else text, acct)
+                if not ok:
+                    blocked.append(f"资本线 {acct}".strip())
+        elif what == "容量":
+            if "面不在盘上" in text or "没有任何面量过" in text:
+                add("容量至少 1 倍本书", None, "未测")
+                unknown.append("容量")
+            else:
+                ok = "CAPACITY_OK" in text.upper() or ("BOOK_TOO_BIG" not in text.upper()
+                                                       and "CAPACITY_TIGHT" not in text.upper())
+                add("容量至少 1 倍本书", ok, text)
+                if not ok:
+                    blocked.append("容量")
+    if not parts:
+        return None
+    # One condition may be quoted once per account (IC and IM share "1 手买得起"); putting it
+    # on the page twice reads as two separate obstacles.
+    grouped, order = {}, []
+    for label, ok, note, scope in parts:
+        key = (label, ok)
+        if key not in grouped:
+            grouped[key] = {"notes": [], "scopes": []}
+            order.append(key)
+        if note and note not in grouped[key]["notes"]:
+            grouped[key]["notes"].append(note)
+        if scope and scope not in grouped[key]["scopes"]:
+            grouped[key]["scopes"].append(scope)
+    shapes = []
+    for key in order:
+        label, ok = key
+        g = grouped[key]
+        head = (("/".join(g["scopes"]) + " ") if g["scopes"] else "") + label
+        word = "" if ok is True else ("（未测）" if ok is None else "（未过）")
+        shapes.append(head + word)
+    tail = (f"今天卡在：{'、'.join(blocked)}" if blocked
+            else ("今天错在：没有面回答 " + "、".join(unknown) if unknown
+                  else "今天每个条件都过——剩下的只是下单动作本身"))
+    if blocked and unknown:
+        tail += "；另有未测：" + "、".join(unknown)
+    return {"what": "可下单条件", "text": " 且 ".join(shapes) + "。" + tail, "source": None}
 
 
 def _num(head, key, suffix=""):
@@ -732,6 +811,41 @@ def selftest():
     moved_o["to_order"]["x"][0]["stamp"] = "f#aaaa"
     checks.append(("a face behind the to-order block moving speaks STALE",
                    classify_drift(base_o, moved_o) == "STALE"))
+
+    # r2222: four obstacle lines still leave the reader to combine them by hand, and two
+    # readers combine them differently. The same lines fold into one condition sentence;
+    # an unmeasured line must read as 未测, never as a passing one.
+    cond_bas = [b for b in b_bas if b["what"] == "可下单条件"]
+    checks.append(("the obstacles fold into one condition sentence", len(cond_bas) == 1))
+    checks.append(("a capital face that is not on disk reads 未测 in that sentence",
+                   bool(cond_bas) and "未测" in cond_bas[0]["text"]))
+    b_withdrawn = to_order_blockers("basis_timing_size", "GO",
+                                    {"verdict": "CENSUS_LEANS_POSITIVE"}, loader=_cap_loader)
+    cond_w = [b for b in b_withdrawn if b["what"] == "可下单条件"]
+    checks.append(("a withdrawn ticket and a withdrawn face are both named as blockers",
+                   bool(cond_w) and "面判词" in cond_w[0]["text"].split("今天卡在")[-1]
+                   and "资本线" in cond_w[0]["text"].split("今天卡在")[-1]))
+    all_pass = order_condition([
+        {"what": "成本", "text": "按 3 bp/边计；无冲击曲线", "source": "f"},
+        {"what": "资本线 IC", "text": "首档 1 手要 ￥100，本金 ￥200，差 ￥-100（-50.00%）；可执行票状态 FUNDED",
+         "source": "f"},
+        {"what": "容量", "text": "CAPACITY_OK_FOR_THIS_BOOK·总容量 4,293.7× 本书", "source": "f"},
+    ])
+    checks.append(("a card whose every line passes says the conditions are met, not 'blocked'",
+                   all_pass is not None and "都过" in all_pass["text"]
+                   and "未过" not in all_pass["text"] and "未测" not in all_pass["text"]))
+    unknown_only = order_condition([{"what": "容量", "text": "面不在盘上（未测，不是零）", "source": "f"}])
+    checks.append(("'no face answered' is its own outcome, not a pass and not a failure",
+                   unknown_only is not None and "未测" in unknown_only["text"]
+                   and "都过" not in unknown_only["text"]))
+    two_accounts = order_condition([
+        {"what": "资本线 IC", "text": "首档 1 手要 ￥1，本金 ￥0，差 ￥1（100.00%）；可执行票状态 WITHDRAWN",
+         "source": "f"},
+        {"what": "资本线 IM", "text": "首档 1 手要 ￥2，本金 ￥0，差 ￥2（100.00%）；可执行票状态 WITHDRAWN",
+         "source": "f"},
+    ])
+    checks.append(("one condition quoted per account prints once, not twice",
+                   two_accounts is not None and two_accounts["text"].count("首档 1 手买得起") == 1))
 
     bad = [n for n, ok in checks if not ok]
     for n, ok in checks:

@@ -2990,6 +2990,14 @@ LEGS = [
     ("bench_verdict_book",
      ["python", "scripts/bench_verdict_book.py", "--verify"],
      ["python", "scripts/bench_verdict_book.py"]),
+    # r2222: the size of the commodity TSMOM pair -- the one line the answer book could only
+    # print as "未测". Prices it from the contracts' own volume and open interest against the
+    # card's own vol-target notional. Same contract as every face: --check speaks
+    # OK/STALE/CHECK FAILED, so a moved contract panel pays for the rebuild (~1s) and a
+    # broken arithmetic does not hide behind the word STALE.
+    ("bench_cmdty_capacity",
+     ["python", "scripts/bench_cmdty_capacity.py", "--check"],
+     ["python", "scripts/bench_cmdty_capacity.py"]),
 ]
 
 

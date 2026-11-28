@@ -1,0 +1,109 @@
+{
+ "cell": "cmdty_capacity",
+ "generated": "2026-11-28T17:51:53+08:00",
+ "evidence_cutoff": "2026-11-27",
+ "rules": {
+  "adv_share": 0.01,
+  "oi_share": 0.05,
+  "book_cny": 1000000.0,
+  "min_multiple": 10.0,
+  "lookback_bars": 120,
+  "vol_window": 60,
+  "max_weight": 2.0
+ },
+ "card": {
+  "products": [
+   "AU",
+   "RB",
+   "SC"
+  ],
+  "lookback": 250,
+  "skip": 21,
+  "target_vol": 0.08,
+  "cost_bp_side": 3.0,
+  "source": "results/bench_robust_tsmom_commodity.json config"
+ },
+ "sizing_proxy": {
+  "date": "2026-11-27",
+  "gross_multiple_of_book": 0.7054,
+  "rule": "bench_core.vol_weighted_positions(target_vol from the card config, equal risk 1/sqrt(N live), weekly re-strike)",
+  "note": "gross notional is recomputed here, not read from a runtime book"
+ },
+ "products": {
+  "AU": {
+   "state": "OK",
+   "last_bar": "2026-11-27",
+   "price_median_cny": 901.75,
+   "unit": "元/克 x 1000 克",
+   "multiplier_cny_per_point": 1000.0,
+   "notional_cny_per_lot": 901750.0,
+   "median_daily_volume_lots": 225952,
+   "median_open_interest_lots": 171276,
+   "open_interest_bars_in_window": 120,
+   "cap_1pct_adv_cny": 2037526669.0,
+   "cap_5pct_oi_cny": 7722406650.0,
+   "capacity_cny": 2037526669.0,
+   "binding_side": "adv",
+   "live_abs_weight": 0.2026,
+   "notional_needed_cny": 202605.0,
+   "capacity_multiple_vs_needed": 10056.7
+  },
+  "RB": {
+   "state": "OK",
+   "last_bar": "2026-11-27",
+   "price_median_cny": 3076.0,
+   "unit": "元/吨 x 10 吨",
+   "multiplier_cny_per_point": 10.0,
+   "notional_cny_per_lot": 30760.0,
+   "median_daily_volume_lots": 704573,
+   "median_open_interest_lots": 1742068,
+   "open_interest_bars_in_window": 120,
+   "cap_1pct_adv_cny": 216726809.0,
+   "cap_5pct_oi_cny": 2679301353.0,
+   "capacity_cny": 216726809.0,
+   "binding_side": "adv",
+   "live_abs_weight": 0.4278,
+   "notional_needed_cny": 427837.0,
+   "capacity_multiple_vs_needed": 506.6
+  },
+  "SC": {
+   "state": "OK",
+   "last_bar": "2026-11-27",
+   "price_median_cny": 585.95,
+   "unit": "元/桶 x 1000 桶",
+   "multiplier_cny_per_point": 1000.0,
+   "notional_cny_per_lot": 585950.0,
+   "median_daily_volume_lots": 132176,
+   "median_open_interest_lots": 35721,
+   "open_interest_bars_in_window": 120,
+   "cap_1pct_adv_cny": 774488202.0,
+   "cap_5pct_oi_cny": 1046550646.0,
+   "capacity_cny": 774488202.0,
+   "binding_side": "adv",
+   "live_abs_weight": 0.075,
+   "notional_needed_cny": 74955.0,
+   "capacity_multiple_vs_needed": 10332.6
+  }
+ },
+ "total_capacity_cny": 3028741680.0,
+ "notional_needed_cny": 705400.0,
+ "total_capacity_multiple_of_book": 4293.7,
+ "worst_product_multiple": 506.6,
+ "inputs": {
+  "robust_face_sha": "e0b474690ec9",
+  "census_face_sha": "439853fc21b0"
+ },
+ "checks": {
+  "C1_all_products_have_contract_data": true,
+  "C2_every_product_absorbs_at_least_one_book": true,
+  "C3_total_absorbs_at_least_10x": true,
+  "C4_open_interest_available": true
+ },
+ "verdict": "CAPACITY_OK_FOR_THIS_BOOK",
+ "limits": [
+  "impact is a fixed share of median volume, not a market-impact curve",
+  "margin funding cost is not charged; the 8% vol target ignores the lot-size floor",
+  "the commodity sleeve trades one continuous series per product, so roll slippage beyond the 1% ADV rule is not separately modelled",
+  "median volume/OI over 120 bars hides crowded days; a squeezed session is smaller"
+ ]
+}

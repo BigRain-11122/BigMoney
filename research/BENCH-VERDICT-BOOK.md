@@ -1,4 +1,4 @@
-generated 2026-11-28T17:25:52+08:00
+generated 2026-11-28T17:53:42+08:00
 evidence_cutoff 2026-11-28
 
 门票面 33 张 → 判词行 96 行
@@ -29,22 +29,26 @@ evidence_cutoff 2026-11-28
 - 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
 - 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
 - 容量：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
+- 可下单条件：成本按声明的 bp 计 且 IC/IM 首档 1 手买得起（未过） 且 容量至少 1 倍本书。今天卡在：资本线 IC、资本线 IM
 
 **basis_timing_size**
 - 成本：按 1.5 bp/边计；无冲击曲线、无保证金资金成本（results/bench_basis_timing_size.json）
 - 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
 - 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
 - 容量：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
+- 可下单条件：成本按声明的 bp 计 且 IC/IM 首档 1 手买得起（未过） 且 容量至少 1 倍本书。今天卡在：资本线 IC、资本线 IM
 
 **census_commodity**
 - 脸级判词：这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO（results/bench_census_commodity.json）
 - 成本：按 3 bp/边计；无冲击曲线、无保证金资金成本（results/bench_census_commodity.json）
-- 容量：没有任何面量过这本书的容量（未测，不是零）
+- 容量：CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书（results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00）
+- 可下单条件：面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词
 
 **robust_tsmom_commodity**
 - 脸级判词：这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO（results/bench_robust_tsmom_commodity.json）
 - 成本：按 3 bp/边计；无冲击曲线、无保证金资金成本（results/bench_robust_tsmom_commodity.json）
-- 容量：没有任何面量过这本书的容量（未测，不是零）
+- 容量：CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书（results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00）
+- 可下单条件：面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词
 
 读法：这些行不是新的判词，是把「还差什么」从各自的面上取过来——写着「未测」的地方是没有人量过，不是量出来是零。
 
