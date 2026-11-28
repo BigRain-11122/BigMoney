@@ -1,0 +1,160 @@
+{
+  "arms": {
+    "base_book": {
+      "bars": 1672,
+      "cagr_pct": 12.759,
+      "down": {
+        "bars": 758,
+        "basket_sum": -3.692745715998261,
+        "book_sum": -3.603346069371251,
+        "capture": 0.9758,
+        "log_excess": 0.067429,
+        "mean_basket_bar_bp": -48.72,
+        "pp_per_year": 0.984
+      },
+      "excess_pp_per_year": 3.085,
+      "flat_bars": 0,
+      "label": "same selection, full size, no vol overlay",
+      "log_excess_total": 0.211417,
+      "mean_cash": 0.0006,
+      "risk": {
+        "cagr_pct": 12.759,
+        "maxdd_pct": -16.29,
+        "sharpe": 0.873,
+        "vol_pct": 15.07
+      },
+      "split_check_abs": 0.0,
+      "up": {
+        "bars": 914,
+        "basket_sum": 4.342700223705018,
+        "book_sum": 4.504623380651752,
+        "capture": 1.0373,
+        "log_excess": 0.143988,
+        "mean_basket_bar_bp": 47.51,
+        "pp_per_year": 2.101
+      }
+    },
+    "basket": {
+      "bars": 1672,
+      "cagr_pct": 9.333,
+      "label": "four-exposure equal-weight basket (F.bench_block)",
+      "risk": {
+        "cagr_pct": 9.333,
+        "maxdd_pct": -14.03,
+        "sharpe": 0.897,
+        "vol_pct": 10.58
+      },
+      "total_return_pct": 84.307
+    },
+    "overlay_wedge": {
+      "excess_pp_per_year": -3.639,
+      "label": "production minus base_book (the vol target's doing)",
+      "note": "a cash-drag wedge, not selection and not the basket's doing"
+    },
+    "production": {
+      "bars": 1672,
+      "cagr_pct": 8.729,
+      "down": {
+        "bars": 758,
+        "basket_sum": -3.692745715998261,
+        "book_sum": -2.3189474614459678,
+        "capture": 0.628,
+        "log_excess": 1.376054,
+        "mean_basket_bar_bp": -48.72,
+        "pp_per_year": 20.081
+      },
+      "excess_pp_per_year": -0.554,
+      "flat_bars": 0,
+      "label": "card config: 12 names, 8% vol target, toll",
+      "log_excess_total": -0.037985,
+      "mean_cash": 0.2913,
+      "risk": {
+        "cagr_pct": 8.729,
+        "maxdd_pct": -13.26,
+        "sharpe": 0.893,
+        "vol_pct": 9.93
+      },
+      "split_check_abs": 0.0,
+      "up": {
+        "bars": 914,
+        "basket_sum": 4.342700223705018,
+        "book_sum": 2.9263771619518746,
+        "capture": 0.6739,
+        "log_excess": -1.414039,
+        "mean_basket_bar_bp": 47.51,
+        "pp_per_year": -20.635
+      }
+    }
+  },
+  "by_year_base_book": {
+    "2020": {
+      "bars": 242,
+      "log_excess": -0.007493,
+      "sign": "negative"
+    },
+    "2021": {
+      "bars": 243,
+      "log_excess": 0.04607,
+      "sign": "positive"
+    },
+    "2022": {
+      "bars": 242,
+      "log_excess": 0.053756,
+      "sign": "positive"
+    },
+    "2023": {
+      "bars": 242,
+      "log_excess": -0.116601,
+      "sign": "negative"
+    },
+    "2024": {
+      "bars": 242,
+      "log_excess": -0.100137,
+      "sign": "negative"
+    },
+    "2025": {
+      "bars": 243,
+      "log_excess": 0.213711,
+      "sign": "positive"
+    },
+    "2026": {
+      "bars": 218,
+      "log_excess": 0.122111,
+      "sign": "positive"
+    }
+  },
+  "caveats": [
+    "Capture ratios are sums over a half, not means: a half with a few violent bars is not averaged against the other half's many quiet bars.",
+    "The basket is the four-exposure equal-weight one the book itself is measured against (F.bench_block) -- the same ruler r2229 printed +2.79pp on.",
+    "The production arm holds 29.1% mean cash because of its 8% vol target; its capture ratios are structurally below 1 in up-bars. Reading that as bad selection is the error this face exists to prevent -- base_book is the selection arm.",
+    "The pool is today's listed ETFs, so the equity sleeve still carries survivorship inherited from the backtest, not introduced here."
+  ],
+  "concentration": {
+    "bars": 1672,
+    "excess_pp_per_year_without_top": -26.322,
+    "positive_bars": 878,
+    "share_of_total": 9.5315,
+    "top_bars": 167,
+    "top_share": 0.1
+  },
+  "config": {
+    "bars_per_year": 244.0,
+    "carry": "on for both arms (ladder3 (GC007/GC014/GC028) commission charged)",
+    "cost_per_side": 0.001,
+    "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+    "n_hold": 12,
+    "panels": {
+      "bars": 1673,
+      "first_bar": "2020-01-02",
+      "flips_repaired": 169,
+      "symbols": 1539,
+      "years": 6.8525
+    },
+    "rebal": 20,
+    "vol_target_production": 0.08
+  },
+  "evidence_cutoff": "2026-11-27",
+  "generated_ts": "2026-11-29T00:07:20+0800",
+  "schema": "etf_book_excess_capture/v1",
+  "verdict": "NEAR_PARITY_BOTH_SIDES_BUT_CARRIED_BY_FEW_BARS"
+}
