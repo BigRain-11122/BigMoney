@@ -381,6 +381,7 @@ def build(supply_report, loader=_load, digester=digest_of):
         if c["disposition"] != CANDIDATE:
             continue
         first_by_id.setdefault(c["id"], c)
+    cost_index = face_cost_index()
     for cid in sorted(first_by_id):
         c = first_by_id[cid]
         payload = None
@@ -390,7 +391,8 @@ def build(supply_report, loader=_load, digester=digest_of):
                 payload = loader(p)
             except (OSError, ValueError):
                 payload = None
-        rows = to_order_blockers(cid, c.get("verdict"), payload, loader, face_rel=c.get("result"))
+        rows = to_order_blockers(cid, c.get("verdict"), payload, loader, face_rel=c.get("result"),
+                                 cost_index=cost_index)
         if rows:
             to_order[cid] = rows
 
@@ -411,7 +413,31 @@ def build(supply_report, loader=_load, digester=digest_of):
     }
 
 
-def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None):
+def face_cost_index(path=None):
+    """cell -> price_line, from the face that asks "is this obstacle worth a burn?"
+
+    Missing face means the index is empty and no price is printed: an unpriced
+    obstacle must not read as "free to clear" (r1850: a check that only re-derives
+    itself never says it is out of date -- so the price comes from another face).
+    """
+    p = path or os.path.join(ROOT, "results", "bench_face_verdict_cost.json")
+    try:
+        d = _load(p)
+    except (OSError, ValueError):
+        return {}
+    out = {}
+    for r in d.get("faces") or []:
+        if isinstance(r, dict) and r.get("cell") and r.get("price_line"):
+            out[r["cell"]] = {
+                "line": r["price_line"],
+                "verdict_cost": r.get("verdict_cost"),
+                "worth": r.get("reverify_worth_it"),
+                "rel": "results/bench_face_verdict_cost.json",
+            }
+    return out
+
+
+def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None, cost_index=None):
     """What stands between a live verdict and a ticket, quoted from the faces that own it.
 
     Nothing here judges the strategy: each line either quotes the card's own evidence
@@ -425,11 +451,15 @@ def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None)
     fv = payload.get("verdict") if isinstance(payload, dict) else None
     if isinstance(fv, str) and fv.upper() not in ALIVE_WORDS:
         gap = face_verdict_gap(payload)
+        cost = (cost_index or {}).get(card_id) or {}
+        line = (". 复验的价：" + cost["line"]) if cost.get("line") else ""
         out.append({
             "what": "脸级判词",
             "text": f"这张卡自己的证据面判 **{fv}**，行上的 {row_verdict or '-'} 是单臂/单相读数——面自己没认这个 GO"
-                    + (f"。差在哪：{gap}" if gap else ""),
-            "source": face_rel,
+                    + (f"。差在哪：{gap}" if gap else "") + line,
+            "source": face_rel if not cost.get("rel") else f"{face_rel}；价取自 {cost['rel']}",
+            "stamp": f"{cost['rel']}#{digest_of(os.path.join(ROOT, cost['rel']))}"
+                     if cost.get("rel") and os.path.exists(os.path.join(ROOT, cost["rel"])) else None,
         })
 
     cost = None
@@ -880,6 +910,28 @@ def selftest():
     b_bas = to_order_blockers("basis_timing_size", "GO", {"verdict": "GO"}, loader=_missing)
     checks.append(("a capital face that is not on disk is named, never a zero",
                    any(b["what"] == "资本线" and "面不在盘上" in b["text"] for b in b_bas)))
+
+    # r2224: the page already says "the face did not say GO". The reader's next question
+    # is what clearing it would cost, and that price lives on another face -- so it is
+    # carried as a separate stamp, and its absence prints nothing rather than "free".
+    priced = to_order_blockers(
+        "robust_tsmom_commodity", "GO",
+        {"verdict": "UNSTABLE_ACROSS_PARAMS", "criteria": {"cost_bp_side": 3.0}},
+        loader=_missing,
+        cost_index={"robust_tsmom_commodity": {
+            "line": "不值得再烧——分辨率 3.86pp 已细于目标 5pp，读出 1.52%",
+            "verdict_cost": "FACE_WORD_IS_THE_OBSTACLE_AND_ALREADY_MEASURED",
+            "worth": False, "rel": "results/bench_face_verdict_cost.json"}})
+    checks.append(("a priced face word carries the price and names the face it came from",
+                   any(b["what"] == "脸级判词" and "复验的价" in b["text"]
+                       and "bench_face_verdict_cost.json" in (b.get("source") or "")
+                       for b in priced)))
+    unpriced = to_order_blockers(
+        "robust_tsmom_commodity", "GO",
+        {"verdict": "UNSTABLE_ACROSS_PARAMS", "criteria": {"cost_bp_side": 3.0}},
+        loader=_missing, cost_index={})
+    checks.append(("an unpriced obstacle prints no price (silence is not 'free to clear')",
+                   not any("复验的价" in b["text"] for b in unpriced)))
     cap_fake = {"generated": "2026-11-28T09:13:00+08:00",
                 "accounts": {"IC": {"capital_cny": 1000000.0,
                                     "funding": {"first_rung_cny": 1159598.62, "gap_cny": 159598.62,

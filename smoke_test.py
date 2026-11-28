@@ -2812,6 +2812,14 @@ def main() -> int:
             # still claims it took the smaller of two rules.
             ("product: commodity TSMOM capacity (exit-code contract)",
              "scripts/bench_cmdty_capacity.py", ["--selftest"]),
+            # r2224: the answer book names "脸级判词" as an obstacle; this face prices it
+            # (mde vs target edge, the arms that passed, the contradiction face) so the
+            # page can say whether clearing it is worth another burn. Its own selftest
+            # pins both directions -- an already-measured cell must read "not worth it"
+            # even when more data would help, and a missing contradiction face must
+            # leave the question open rather than read as backed.
+            ("product: face-verdict cost (exit-code contract)",
+             "scripts/bench_face_verdict_cost.py", ["--check"]),
             # r1386: six rounds of gates had produced no candidate family, so this
             # probe is the first measurement of one since r1379. Its own two ruler
             # legs pin the exposure-share null in both directions (buy-and-hold must
@@ -16896,6 +16904,16 @@ def _legs_supply_and_book():
                  "text": "成本按声明的 bp 计。今天卡在：券商专线没通"}]}})
         check("product: the answer-book predicate speaks when a blocker moves",
               len(_neg105) >= 1, "negative control: %r" % (_neg105,))
+        # r2224: the price of clearing a face word travels inside the same line. A page
+        # that quotes the obstacle but drops the price leaves the reader deciding again.
+        _neg105b = ceo_page_answer_book_problems(face_override={
+            "to_order": {"census_commodity": [
+                {"what": "脸级判词",
+                 "text": "这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**。"
+                         "复验的价：要 5 年数据才拉进目标分辨率→在计划窗内，值得一次复验"}]}})
+        check("product: the answer-book predicate speaks when a price is dropped from the page",
+              any("drops its price" in p for p in _neg105b),
+              "negative control: %r" % (_neg105b,))
     except Exception as e:
         check("product: the CEO page says which conclusions can be ordered and what blocks them",
               False, repr(e)[:180])
@@ -16988,6 +17006,20 @@ def ceo_page_answer_book_problems(face_override=None, root=None):
             elif arm and arm.group(1) not in sec:
                 problems.append("section does not name the arm in the way for %s (%r)"
                                 % (cid, arm.group(1)))
+
+        # r2224: naming the obstacle is only half the question -- the reader's next one is
+        # what clearing it would cost. The price comes from another face
+        # (bench_face_verdict_cost) and travels inside the same line, so if the book
+        # carries a price the page must carry its verdict word, not just the obstacle.
+        price = re.search(r"复验的价：(.+)", ftext)
+        if price:
+            pw_word = next((w for w in ("不值得再烧", "值得一次复验", "不是计划", "本面定不了价")
+                            if w in price.group(1)), None)
+            if pw_word is None:
+                problems.append("book prices %s's face word but names no verdict this test knows" % cid)
+            elif pw_word not in sec:
+                problems.append("section quotes the obstacle for %s but drops its price (%r)"
+                                % (cid, pw_word))
 
     blocked = sum(1 for items in to_order.values()
                   if any("今天卡在：" in (i.get("text") or "") for i in items))

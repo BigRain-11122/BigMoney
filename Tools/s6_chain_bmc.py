@@ -2980,6 +2980,15 @@ LEGS = [
     ("etf_nav_source_dating",
      ["python", "scripts/etf_nav_source_dating.py", "check"],
      ["python", "scripts/etf_nav_source_dating.py", "run", "--sample=0"]),
+    # r2224: the one obstacle the answer book keeps naming. r2221 taught it to print
+    # "脸级判词" and r2223 put that line on the CEO page; the reader's next question is
+    # what clearing it would cost. This face prices it from numbers the evidence faces
+    # already publish (mde_pp vs target_edge_pp, arms that passed, the contradiction
+    # face), so the answer book can quote a price instead of leaving the reader to
+    # decide whether to burn again. Runs BEFORE the book: the book reads it.
+    ("bench_face_verdict_cost",
+     ["python", "scripts/bench_face_verdict_cost.py", "--verify"],
+     ["python", "scripts/bench_face_verdict_cost.py"]),
     # r2220: the answer book. 31 cards (18 bank + 13 off-bank) already had verdicts in
     # results/bench_*.json, but nothing put them on one page -- so every later round had
     # to open them one by one to find out what had already been paid for, and the supply

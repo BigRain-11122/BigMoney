@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T19:33:13",
+ "generated": "2026-11-28T20:07:57",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -581,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75491.4
+    "last_append_age_min": 75526.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -589,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 76335.9
+    "last_append_age_min": 76370.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -597,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 73129.2
+    "last_append_age_min": 73164.0
    }
   ]
  },
@@ -2798,7 +2798,7 @@
  "answer_book": {
   "present": true,
   "path": "results/bench_verdict_book.json",
-  "generated": "2026-11-28T19:13:12+08:00",
+  "generated": "2026-11-28T20:07:32+08:00",
   "cutoff": "2026-11-28",
   "n_rows": 96,
   "n_questions": 4,
@@ -2854,7 +2854,7 @@
     "mdd_pct": -21.74,
     "capacity": "CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书",
     "capacity_source": "results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00",
-    "face_verdict": "这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%",
+    "face_verdict": "这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%. 复验的价：不值得再烧——面的话由自家 2/14 臂 GO 支撑，缺的是票不是证据",
     "condition": "面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词",
     "blocked_on": "面判词"
    },
@@ -2872,7 +2872,7 @@
     "mdd_pct": -21.74,
     "capacity": "CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书",
     "capacity_source": "results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00",
-    "face_verdict": "这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45",
+    "face_verdict": "这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45. 复验的价：不值得再烧——分辨率 3.86pp 已细于目标 5pp，读出 1.52%：测得够，却没有 edge",
     "condition": "面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词",
     "blocked_on": "面判词"
    }

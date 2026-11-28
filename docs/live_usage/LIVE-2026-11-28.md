@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-28
 
-> 自动生成 2026-11-28T19:33:13 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-28T20:07:57 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -394,12 +394,12 @@
   - 容量这一关：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
 - **今天卡在「面判词」的 2 张**：
   - `census_commodity`（census）：判词 **GO** · 年化 +4.99% · 回撤 -21.74%
-    - 这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%
+    - 这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%. 复验的价：不值得再烧——面的话由自家 2/14 臂 GO 支撑，缺的是票不是证据
   - `robust_tsmom_commodity`（robust）：判词 **GO** · 年化 +4.99% · 回撤 -21.74%
-    - 这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45
+    - 这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45. 复验的价：不值得再烧——分辨率 3.86pp 已细于目标 5pp，读出 1.52%：测得够，却没有 edge
   - 这一关怎么算过（答案簿原句）：面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词
   - 容量这一关：CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书（results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00）
-- 出处：`results/bench_verdict_book.json`｜cutoff 2026-11-28｜generated 2026-11-28T19:13:12+08:00——**答案簿在链尾重建，这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿会把这一页重画一遍
+- 出处：`results/bench_verdict_book.json`｜cutoff 2026-11-28｜generated 2026-11-28T20:07:32+08:00——**答案簿在链尾重建，这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿会把这一页重画一遍
 
 ## ⑫ 诚实免责
 
