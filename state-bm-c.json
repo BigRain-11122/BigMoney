@@ -1,10 +1,10 @@
 {
  "?λ": "healthy",
- "CEO 三行": "当前活＝溢价面分母语义已修（159519 换基，板面读数保留在 board_reading）｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_premium\\PREMIUM-2026-11-27.md（10:2x 重渲染·-0.9406%/-818 元）｜下个里程碑＝在飞链收口后全量冒烟复跑（≤24h）",
- "active_lane": "product: premium face denominator semantics (r2210 P0) fixed and re-rendered",
- "activity": "product",
- "activity_now": "r2211 fixed the premium face's denominator lie (the r2210 P0): leg 159519 printed trust=iopv+same-day-nav beside nav_session=2026-11-26 and a CNY figure computed on 11-26's NAV while the NAV board had already published 11-27 = 1.7010. leg_face now asks whether the row's own denominator is this session's, and then either re-prices on the published same-day NAV (board reading kept in board_reading) or names the leg nav-cross-date with no money. The NAV board cache now stores values, so a no-network render can still rebase. Face re-rendered: 159519 -0.7305%/-635.17 -> -0.9406%/-817.83; 159655 unchanged (no same-day NAV). Acceptance: selftest 49/49, premium_leg_session_audit --check went from 1 MONEY_ON_FOREIGN_NAV to rc0 over 146 legs. NOT done: full smoke not re-run (own s6 chain 2209 in flight since 09:04, 133/415 legs at 10:09); results/etf_book_premium_choice.json still prints the old -635.17 and will pick up the corrected face when the chain reaches its leg (~207).",
- "activity_now_round": 2211,
+ "CEO 三行": "当前活＝净值分母的来源可证性（新面已出，未碰共享面）｜最近实物=K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_nav\\TWO-SOURCE.md（11:2x·502 对比·173 行差≥0.10%·最差 14.4%）｜下个里程碑＝在飞链 2209 收口后把该规则接进溢价面（≤48h）",
+ "active_lane": "product: NAV denominator provenance (two-source audit face)",
+ "activity": "r2212 product: the premium face's denominator file (snap/<session>.navok.json) stamps a whole batch with one session and stores values only - no per-row date, no per-row origin. sina fu_ prints its own date in field 7. New face scripts/etf_nav_two_source_audit.py compares them per ticker: 502 compared on 2026-11-27, median gap 0.0335%, but 173 (34%) differ by >= 0.10% and 12 rows are dated T-1 by the source that can name its day (159519 among them = r2211's leg). So the board's session label is a fetch label, not a NAV date, and cannot be used as a per-row denominator claim.",
+ "activity_now": "r2212 product: the premium face's denominator file (snap/<session>.navok.json) stamps a whole batch with one session and stores values only - no per-row date, no per-row origin. sina fu_ prints its own date in field 7. New face scripts/etf_nav_two_source_audit.py compares them per ticker: 502 compared on 2026-11-27, median gap 0.0335%, but 173 (34%) differ by >= 0.10% and 12 rows are dated T-1 by the source that can name its day (159519 among them = r2211's leg). So the board's session label is a fetch label, not a NAV date, and cannot be used as a per-row denominator claim.",
+ "activity_now_round": 2212,
  "agenda_starved": false,
  "ah_note": "r1680 LANDED: refresh closed itself at 21:17 -- cutoff 2026-11-12 -> 2026-11-13, complete=True, exit 0, pulled_rows 46; data_lane_freshness in_sync 13 / behind_1d 1 (worst now marks, intraday-only, not rebuildable). Fix that made it possible: stall watchdog over every network leg (300s, names stage/pair, exit 2, checkpoint kept) + save_progress stamps write time + -u on the detached spawn + progress line every 10 pairs. NOT yet proven: the 300s stall path has never fired on a real hang (this round the suspected freeze finished by itself).",
  "ahead_origin": 0,
@@ -47,7 +47,7 @@
   "script": "scripts/carry_entry_window_yield.py"
  },
  "attrition": "scan 本轮未跑（competition rc=3，会写共享面 results/_attrition_guard_scan.json）",
- "batch": "none (contended round, no compute batch)",
+ "batch": "none (chain 2209 owns the shared tree; new-file-only round)",
  "behind_origin": 0,
  "busy": false,
  "carrier_debt_r1958": "待共享面回落补：①smoke_test.py 两条腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（run_leg 漂移文案含 STALE）；③CODELY.md 一条（判例=「随机对照要按尺寸配对，否则 92% 的差会被读成规则差」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
@@ -303,7 +303,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d4e48822b93ede592a90ed5188e40521e7a7180a/111934#fcbd9",
  "last_physical": "docs/live_book/LIVE-BOOK-20261114.md（9 行日词全自带日期·0 undated）+ scripts/live_book_day_words.py（自检 24/24）+ scripts/etf_book_ceo_page.py（自检 342/342）",
  "last_pointer": "r1719 cash forward window (next session -> next order)",
- "last_product": "research/CARRY_THREE_LINES_COMMON_WINDOW.md",
+ "last_product": "results/etf_nav/TWO-SOURCE.md + scripts/etf_nav_two_source_audit.py",
  "last_pulled_at": "2026-11-07T07:44:42+08:00",
  "last_push": {
   "at": "2026-11-12T20:08:42+08:00",
@@ -320,7 +320,7 @@
  "last_round_contention": "rc=3 CONTENTION (peer pid 51252, 25 shared faces written before round start, 0 in overlap)",
  "last_round_heal": "round_no/activity_now_round/did_round were 1707/1702/1705 -> set to 1710 (one number, one round)",
  "last_round_label": "r2176",
- "last_round_no": 2209,
+ "last_round_no": 2212,
  "last_round_note": "book_pair_rebalance（新面）：父面 book_pair_blend 的 caliber 行承认两书之间搬钱成本没建模，本轮把它定价——六种日历节拍（从不/每20bar/月/季/半年/年）× 每边 5/10/20bp × 0.1-0.9 权重网格。从不搬 8.87%/SR1.043/MDD-8.9%（6.9 年后 30/70 漂成 25.4/74.6，最大偏离 8.9pp）；最优付费节拍=季频 9.12%/SR1.065/MDD-9.3%，27 次搬运、单边换手 0.05/年、成本拖累 0.01pp；本面每日零成本臂 SR 1.0662 == 父面 1.0662（差 0.0000）→ 再平衡买回的是纸面数，不是第二个收益来源。判词 REBALANCE_PAYS（对持有 +0.022 Sharpe）；权重网格加成本后最优仍是 0.30。",
  "last_round_report": "fleet/round_reports-bm-c.md",
  "last_round_summary": "r2209: repaired two faces that named their own defect -- Tools/_r820bmc_close.py never parsed (L130 open string) and the r2208 round-report row was an unformatted template. import_git_coverage re-derived: 0 broken (was 1). Full S6 chain was already flying on this tree (pid 33880, leg 106/415), so no shared face was re-run and no red-count reduction is claimed.",
@@ -351,8 +351,8 @@
  "methodology_card_lock_r2068": "新方法=读者与写者必须共享同一张词表（同一份事实两个拼写：一行永久红 / 一个空转标签看起来像断供）；knowledge/METHODOLOGY_ASSETS.md 是共享面，竞争窗内不改，锁存待无竞争轮",
  "mistake": "`python -m smoke_test --list` is not a supported flag -- it started a SECOND full suite (pid 45308), killed on discovery; to check which legs the suite runs, grep the output file, never probe with an undocumented flag",
  "new_files_only_round": true,
- "next": "(a) once contention clears: chain leg + two smoke legs for book_pair_sleeve_turnover (check/run pair with an external anchor), and one CEO-page sentence: a reading closer to an edge than the swap step is not a decision; (b) report the reading inside the post-swap window separately from the rest, so the reader sees which months carry the step",
- "next_action": "price the borrow rate you can actually be quoted (券商融券费率序列) -- until then only the ceiling is measurable",
+ "next": "(a) wire the two-source rule into etf_premium_face.leg_face once the in-flight chain 2209 releases the shared face; (b) add the chain leg + smoke legs for this new face (new-file-only, deferred while 2209 holds the shared tree); (c) explain the 159xxx 8-14% cluster (share conversion vs stale board value) before anyone calls those legs 'wrong'",
+ "next_action": "the audit proves the board file cannot date its own rows; next is to make the premium face take its denominator only from a source that prints a date (sina fu_ field 7), and to print 'cross-date, no money' for rows whose dated source is not the session - the rule r2211 already applies to one leg, generalised to the whole board",
  "next_milestone": "(a) 上游 channels() 去重 + n_independent 印进逐季表（≤48h，需无竞争窗）；(b) 本面接 S6 链 + 两条冒烟腿（≤48h）",
  "next_pick": {
   "candidate": "wire book_pair_sleeve_turnover into the chain and give the page the 'inside the swap step' flag (blocked: shared faces under contention)",
@@ -653,10 +653,7 @@
  "orders_ack_receipt": "r1374: orders 190,253 B (+1,185 B) -> one new row 2026-10-31 00:1x (CEO: make the Mac the fleet master, bm-m-pulse-v1, @bm-m lane) -> acked, zero BigMoney action. decisions unchanged 97fe122f (215,420 B).",
  "orders_ack_ts": "2026-10-31T00:35:20+08:00",
  "orphan_face": 0,
- "orphan_face_probe": {
-  "orphans": 1,
-  "py_faces": 6
- },
+ "orphan_face_probe": "py_faces=33 orphans=0 killed=0",
  "orphan_faces": 0,
  "orphan_note": "orphan face probe: py_faces 8, orphans 0",
  "orphan_probe_r2055": "orphans=0 (py_faces=6, resident_servers=0) 零杀",
@@ -1730,7 +1727,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2211,
+ "round_no": 2212,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2953,5 +2950,8 @@
  "smoke_note_r2211": "full smoke not re-run: an in-flight chain rewrites shared faces mid-run (r1861 UNVERIFIED family) and r2210 left 33 reds open; targeted legs run instead (etf_premium_face selftest 49/49, premium_session_guard 0 undatable, premium_leg_session_audit --check rc0).",
  "竞争_r2211": "Tools/repo_write_contention.py --lookback-min 45 = rc0 CLEAN (single host pid 35456)",
  "记账_r2211": "轮报告 1 + state 1 + 心跳 1 = 3（脚本/面/QA/资产卡属产品产出不计记账）",
- "s7_logon_r2211": "Bigmoney-IterationLoop + Bigmoney-LoopWatchdog re-registered this round but both sit at LogonType=Interactive: the S4U XML flip was refused (拒绝访问 = needs elevation), so the r2026-10-15 law 'every lane task is S4U' is still unmet on this machine. Logged as debt, not silently dropped; the visible-window half of that hazard is already covered by the HKCU\\Console\\%%Startup delegation fix (r2026-10-25)."
+ "s7_logon_r2211": "Bigmoney-IterationLoop + Bigmoney-LoopWatchdog re-registered this round but both sit at LogonType=Interactive: the S4U XML flip was refused (拒绝访问 = needs elevation), so the r2026-10-15 law 'every lane task is S4U' is still unmet on this machine. Logged as debt, not silently dropped; the visible-window half of that hazard is already covered by the HKCU\\Console\\%%Startup delegation fix (r2026-10-25).",
+ "carrier_debt_r2212": "待共享面回落补：①smoke_test.py 两腿（selftest+check）；②Tools/s6_chain_bmc.py 一条腿（漂移文案须含 STALE）；③CODELY.md 一条（判例=「批量贴上日期的面不是可定日的面」）；④knowledge/METHODOLOGY_ASSETS.md 资产卡",
+ "s6_note_r2212": "chain 2209 in flight (pid 33880, 184/415 at 10:53, child = etf_book_atlas_arms_rebuild refresh --budget=1100 running 26-way parallel) -> did not start a second chain and did not touch the shared faces; new-file-only round per r1907",
+ "竞争_r2212": "CLEAN (repo_write_contention --lookback-min 45: fewer than two codely hosts alive)"
 }
