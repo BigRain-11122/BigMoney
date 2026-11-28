@@ -648,13 +648,46 @@ def render_md(face: dict) -> str:
         L.append("")
         oh = face.get("over_hurdle") or {}
         if oh:
-            if oh.get("breached"):
+            # r2216: the gate prints what it actually knows. A plain money line is only
+            # honest when every leg's day is proven; where a leg's denominator day is a
+            # label, the number carries that leg's own move as a bound, and the page says
+            # whether the saving survives the bound or rests on an unproven date.
+            unpr = oh.get("unproven") or []
+            names = "、".join(u["symbol"] for u in unpr)
+            gv = oh.get("verdict") or ("breached" if oh.get("breached") else "clean")
+            if gv == "breached":
                 L.append("**执行闸：本单可核对腿合计多付 %s 元 > 阈值 %s 元"
                          "（占可核对计划金额的 %.4f%%）——买进即先把这笔交给溢价；"
                          "可等溢价回落、或换贴水腿。**"
                          % (format(oh["total_over_nav_cny"], ",.0f"),
                             format(oh["hurdle_cny"], ",.0f"),
                             oh.get("share_of_plan_pct") or 0.0))
+                if unpr:
+                    L.append("")
+                    L.append("另有 %d 腿（%s）的分母日期只算标签、未计入上面的数字——闸已被已核对的部分击穿，"
+                             "这个结论不依赖它们。" % (len(unpr), names))
+            elif gv == "clean-even-worst-case":
+                L.append("执行闸：可核对腿合计多付 %s 元；另有 %d 腿（%s）的分母日期只能算标签，"
+                         "按各自当日价动最多再偏 %s 元——把最坏情况算进来 %s 元，仍低于阈值 %s 元，不提示。"
+                         % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"), len(unpr), names,
+                            format(oh.get("exposure_cny") or 0.0, ",.0f"),
+                            format(oh.get("bounded_total_cny") or 0.0, ",.0f"),
+                            format(oh.get("hurdle_cny") or 0.0, ",.0f")))
+            elif gv == "unproven":
+                if oh.get("bounded_total_cny") is None:
+                    L.append("**执行闸：可核对腿合计多付 %s 元，低于阈值 %s 元——但其中 %d 腿（%s）的分母日期"
+                             "没有任何证据可定（定日面缺件、属另一场，或路径判不了日），这笔合计的误差连上限都算不出来："
+                             "「没超线」是一个没有证明的结论，先别把它当省下来的钱。**"
+                             % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"),
+                                format(oh.get("hurdle_cny") or 0.0, ",.0f"), len(unpr), names))
+                else:
+                    L.append("**执行闸：可核对腿合计多付 %s 元，低于阈值 %s 元——但其中 %d 腿（%s）的分母日期"
+                             "只能算标签，按各自当日价动最多再偏 %s 元，最坏情况 %s 元已越过阈值："
+                             "省不省到线，取决于一个本面没有证明的日期。**"
+                             % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"),
+                                format(oh.get("hurdle_cny") or 0.0, ",.0f"), len(unpr), names,
+                                format(oh.get("exposure_cny") or 0.0, ",.0f"),
+                                format(oh.get("bounded_total_cny") or 0.0, ",.0f")))
             else:
                 L.append("执行闸：可核对腿合计多付 %s 元，未超阈值 %s 元，不提示。"
                          % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"),
@@ -834,13 +867,50 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
     priced = [r for r in legs if r["over_nav_cny"] is not None]
     tot = sum(r["over_nav_cny"] for r in priced)
     known = sum(r["amount_cny"] for r in priced)
+    # r2216: the sum above is a POINT estimate. A leg whose denominator day is only a
+    # label is priced as if the label were true, and the dating face refused to pin that
+    # day precisely because this instrument's own move was small enough to fit either day
+    # -- so that same move is the largest difference the two candidate NAVs can carry.
+    # The gate therefore carries a bound, and it certifies a saving only when the worst
+    # case is under the threshold too; otherwise the answer depends on a day this face
+    # has not proven, and "under the line" would be a claim with no evidence behind it.
+    unproven = []
+    for r in priced:
+        dp = r.get("date_proof")
+        if dp not in ("label-only", "no-evidence-face", "evidence-face-other-session"):
+            continue
+        mv = r.get("date_move_pct")
+        exp = None if mv is None else round(abs(float(mv)) * r["amount_cny"] / 100.0, 2)
+        unproven.append({"symbol": r["symbol"], "date_proof": dp, "move_pct": mv,
+                         "amount_cny": r["amount_cny"], "exposure_cny": exp})
+    exposure = (None if (not unproven) or any(u["exposure_cny"] is None for u in unproven)
+                else round(sum(u["exposure_cny"] for u in unproven), 2))
+    bounded = None if exposure is None else round(tot + exposure, 2)
+    breached = bool(tot > OVER_HURDLE_CNY)
+    if breached:
+        gate_verdict = "breached"
+    elif not unproven:
+        gate_verdict = "clean"
+    elif bounded is None:
+        gate_verdict = "unproven"
+    elif bounded <= OVER_HURDLE_CNY:
+        gate_verdict = "clean-even-worst-case"
+    else:
+        gate_verdict = "unproven"
     over_hurdle = {
         "hurdle_cny": OVER_HURDLE_CNY,
         "total_over_nav_cny": round(tot, 2),
         "priced_amount_cny": round(known, 2),
         "share_of_plan_pct": round(100.0 * tot / known, 4) if known else None,
-        "breached": bool(tot > OVER_HURDLE_CNY),
-        "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero",
+        "breached": breached,
+        "verdict": gate_verdict,
+        "unproven": unproven,
+        "exposure_cny": exposure,
+        "bounded_total_cny": bounded,
+        "basis": ("sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero. "
+                  "A priced leg whose date is only a label adds at most |its own move| x amount to the sum -- that move is "
+                  "the largest difference the two candidate NAV days can carry -- so the gate certifies a saving only when "
+                  "even that worst case stays under the threshold."),
     }
     date_evidence = {
         "available": bool((dating or {}).get("available")),
@@ -1623,6 +1693,54 @@ def selftest() -> int:
         "分母日期证据" in md_ev and "标签与路径不一致 1 腿" in md_ev
         and f_ev["date_evidence"]["overrules_label"] == ["513630"])
 
+    # L48-L51 (r2216) the execution gate is a BOUND, not a point estimate. A leg whose
+    # denominator day is only a label can be off by its own move, so a saving that only
+    # survives the point estimate is not a saving at all.
+    b_gate = board([["513690", "恒生红利ETF", 1.1170, 1.1158, 3e8, "2026-11-27"]])
+    b_gate["净值日期"] = ["2026-11-27"] * len(b_gate)
+    s_gate = normalize_spot(b_gate)
+    t_gate = {"order": [{"symbol": "513690", "amount": 400_000.0, "class": "crossborder"}]}
+    d_big = _dating([("513690", "UNDECIDABLE", -0.90, 1.1137, "2026-11-27", False)])
+    d_tiny = _dating([("513690", "UNDECIDABLE", -0.01, 1.1137, "2026-11-27", False)])
+
+    # L48 a 0.11% premium on 400k is 430 CNY -- under the 500 line, but the same leg's
+    # 0.90% move admits +3,600 CNY of error: the page has to stop calling that a saving.
+    f_big = build_face(s_gate, t_gate, "t:0", None, dating=d_big)
+    oh_big = f_big["over_hurdle"]
+    md_big = render_md(f_big)
+    leg("L48 a label-only leg widens the gate by its own move, and the page says so",
+        oh_big["verdict"] == "unproven" and oh_big["breached"] is False
+        and abs(oh_big["exposure_cny"] - 3600.0) < 1e-6
+        and abs(oh_big["bounded_total_cny"] - (oh_big["total_over_nav_cny"] + 3600.0)) < 1e-6
+        and "本面没有证明的日期" in md_big and "513690" in md_big)
+
+    # L49 the same ticket with a move too small to matter: the worst case still fits
+    # under the line, so the gate may say "不提示" -- but only after saying why it could.
+    f_tiny = build_face(s_gate, t_gate, "t:0", None, dating=d_tiny)
+    oh_tiny = f_tiny["over_hurdle"]
+    md_tiny = render_md(f_tiny)
+    leg("L49 a bound that stays under the line is printed, and only then does it say 不提示",
+        oh_tiny["verdict"] == "clean-even-worst-case"
+        and abs(oh_tiny["exposure_cny"] - 40.0) < 1e-6
+        and "不提示" in md_tiny and "最坏情况" in md_tiny)
+
+    # L50 no dating face at all: every priced leg is unproven and the bound is absent --
+    # absent, not zero (a gate that reads a missing measurement as "no error" is r1311).
+    f_nod = build_face(s_gate, t_gate, "t:0", None, dating={"available": False, "why": "x"})
+    oh_nod = f_nod["over_hurdle"]
+    leg("L50 with no dating face the gate reports an unproven saving and no bound",
+        oh_nod["verdict"] == "unproven" and oh_nod["exposure_cny"] is None
+        and oh_nod["bounded_total_cny"] is None
+        and "没有证明的结论" in render_md(f_nod))
+
+    # L51 and a proven day leaves the gate exactly as it was: proof must not add noise.
+    d_ok = _dating([("513690", "SAME_SESSION", 0.72, 1.1137, "2026-11-27", False)])
+    f_ok = build_face(s_gate, t_gate, "t:0", None, dating=d_ok)
+    oh_ok = f_ok["over_hurdle"]
+    leg("L51 a path-proven day leaves the gate a plain money reading",
+        oh_ok["verdict"] == "clean" and oh_ok["unproven"] == []
+        and oh_ok["exposure_cny"] is None and "不提示" in render_md(f_ok))
+
     # ---- the daily-chain gate (r1398). This face moved from a hand-run to an S6
     # leg, so the gate is now load-bearing: a wrong branch either photographs an
     # intraday board as the close, or re-pulls a captured session every cycle.
@@ -1719,11 +1837,17 @@ def selftest() -> int:
 
     # L24 a small premium on a small ticket is under the hurdle and says so, in the
     # renderer, not only in the JSON (the operator reads the page, not the file).
+    # r2216: the plain money line is only honest when the day is proven, so this fixture
+    # carries a dating face that pins the leg to the session (L48-L51 cover the other side).
+    d_plain = _dating([("510300", "SAME_SESSION", 0.125, None, None, False)])
+    d_plain["board_session"] = "2026-11-06"
     f_low = build_face(normalize_spot(board([["510300", "x", 4.005, 4.00, 9e8, "2026-11-06"]])),
-                       {"order": [{"symbol": "510300", "amount": 10_000.0, "class": "equity"}]}, "t:0")
+                       {"order": [{"symbol": "510300", "amount": 10_000.0, "class": "equity"}]},
+                       "t:0", dating=d_plain)
     md = render_md(f_low)
     leg("L24 under the hurdle the page prints the figure instead of a warning",
         f_low["over_hurdle"]["breached"] is False and abs(f_low["over_hurdle"]["total_over_nav_cny"] - 12.5) < 1e-6
+        and f_low["over_hurdle"]["verdict"] == "clean"
         and "执行闸" in md and "不提示" in md)
 
     # ---- board gaps (r1505). This board is the one face in the chain whose holes

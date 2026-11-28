@@ -139,7 +139,26 @@
   "priced_amount_cny": 347793.1,
   "share_of_plan_pct": -0.3405,
   "breached": false,
-  "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero"
+  "verdict": "clean-even-worst-case",
+  "unproven": [
+   {
+    "symbol": "513690",
+    "date_proof": "label-only",
+    "move_pct": -0.7201,
+    "amount_cny": 86916.4,
+    "exposure_cny": 625.88
+   },
+   {
+    "symbol": "159519",
+    "date_proof": "label-only",
+    "move_pct": -0.2959,
+    "amount_cny": 86946.0,
+    "exposure_cny": 257.27
+   }
+  ],
+  "exposure_cny": 883.15,
+  "bounded_total_cny": -301.05,
+  "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero. A priced leg whose date is only a label adds at most |its own move| x amount to the sum -- that move is the largest difference the two candidate NAV days can carry -- so the gate certifies a saving only when even that worst case stays under the threshold."
  },
  "denominator_rebasis": {
   "n": 1,
