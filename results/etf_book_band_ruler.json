@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-28T07:35:48+0800",
+ "generated": "2026-11-28T07:54:15+0800",
  "script": "scripts/etf_book_band_ruler.py",
  "criteria": {
   "tol_pp_per_year": 0.25,
@@ -393,25 +393,25 @@
  },
  "identity": {
   "ticket 12.78% reproduced on its own ruler": {
-   "measured_pp": 11.76,
-   "published_pp": 11.76,
+   "measured_pp": 12.03,
+   "published_pp": 12.03,
    "delta_pp": 0.0,
    "pass": true,
-   "priced_bar": "2026-11-26"
+   "priced_bar": "2026-11-27"
   },
   "card 9.60% reproduced on its own ruler": {
-   "measured_pp": 8.92,
-   "published_pp": 8.92,
+   "measured_pp": 8.94,
+   "published_pp": 8.94,
    "delta_pp": 0.0,
    "pass": true,
-   "priced_bar": "2026-11-26"
+   "priced_bar": "2026-11-27"
   },
   "card 18.35% (2024+) reproduced on its own ruler": {
-   "measured_pp": 16.39,
-   "published_pp": 16.39,
+   "measured_pp": 16.44,
+   "published_pp": 16.44,
    "delta_pp": 0.0,
    "pass": true,
-   "priced_bar": "2026-11-26"
+   "priced_bar": "2026-11-27"
   }
  },
  "panel": {
@@ -432,43 +432,43 @@
   "reading": "a series labelled a bar early peaks at +1, not at 0; an overlay fitted to it sees a beta that is not the book's beta"
  },
  "identity_scope": {
-  "page_priced_bar": "2026-11-26",
-  "page_source": "docs/live_book/LIVE-BOOK-20261126.json",
+  "page_priced_bar": "2026-11-27",
+  "page_source": "docs/live_book/LIVE-BOOK-20261128.json",
   "ruler_bar": "2026-11-27",
   "priced_on": {
-   "card": "2026-11-26",
-   "ticket": "2026-11-26"
+   "card": "2026-11-27",
+   "ticket": "2026-11-27"
   },
   "note": "The control arms are re-priced on the bar the operator page priced; the dial cells are untouched and stay on this face's own panel. Comparing a face priced on today's bar against one priced on the feed's last complete bar measures the feed's lag, not the arm. Consequence, and it is a real limit: while the two bars differ, the dial prices explain this face's own three rows, not the three rows printed on the page that day."
  },
  "published_faces": {
-  "source": "docs/live_book/LIVE-BOOK-20261126.json",
-  "priced_bar": "2026-11-26",
-  "evidence_cutoff": "2026-11-26",
+  "source": "docs/live_book/LIVE-BOOK-20261128.json",
+  "priced_bar": "2026-11-27",
+  "evidence_cutoff": "2026-11-27",
   "rows": [
    {
     "label": "5 名·可执行单口径（本单这份账）",
-    "full": 7.32,
+    "full": 7.44,
     "is": 3.71,
-    "oos": 11.76
+    "oos": 12.03
    },
    {
     "label": "5 名·beta 覆盖",
-    "full": 14.84,
+    "full": 14.9,
     "is": 10.22,
-    "oos": 21.56
+    "oos": 21.72
    },
    {
     "label": "12 名·8% 波动目标（生产卡片口径）",
-    "full": 8.92,
+    "full": 8.94,
     "is": 3.84,
-    "oos": 16.39
+    "oos": 16.44
    }
   ],
-  "ticket": 7.32,
-  "ticket_oos": 11.76,
-  "card_full": 8.92,
-  "card_oos": 16.39,
+  "ticket": 7.44,
+  "ticket_oos": 12.03,
+  "card_full": 8.94,
+  "card_oos": 16.44,
   "row_labels": [
    "5 名·可执行单口径（本单这份账）",
    "5 名·beta 覆盖",
@@ -511,5 +511,5 @@
   "why": "the table's rows are not one ruler: window +4.56pp、universe +0.43pp、ordering -0.26pp per year on the book the operator actually holds. The gap between the top row and the card row is the sum of these dials, not a property of the strategy.",
   "criteria": "ROWS_NOT_COMPARABLE iff at least one dial moves the held config by >= tol_pp_per_year on at least one window; SAME_RULER if none does. The published gap between row 1 and row 3 is decomposed into these dials, and no dial's price is inferred from another."
  },
- "elapsed_sec": 124.2
+ "elapsed_sec": 88.5
 }

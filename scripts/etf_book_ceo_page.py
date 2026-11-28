@@ -12967,11 +12967,25 @@ def selftest():
     _md_ct_gone = _render_ct({"status": "absent", "artifact": COST_JSON, "sentence": None})
     _md_ct_bad = _render_ct({"status": "no_control", "artifact": COST_JSON,
                              "sentence": None})
+    def _ct_section(md):
+        """Only the cost-tape block. A page-wide substring test answers a different
+        question: this page also prints 5-year +5.9 bp on the repo ladder, so the
+        honesty leg was red for a number that belongs to another face (r2208)."""
+        head = "## 「每一分钱按 10bp 扣」"
+        i = md.find(head)
+        if i < 0:
+            return ""
+        j = md.find("\n## ", i + len(head))
+        return md[i:] if j < 0 else md[i:j]
+
+    _sec_gone = _ct_section(_md_ct_gone)
+    _sec_bad = _ct_section(_md_ct_bad)
     chk("L75 cost tape: absent or a failed control arm reads 'cannot verify' and prints "
         "no arithmetic",
-        "无法核验" in _md_ct_gone and "无法核验" in _md_ct_bad
-        and "5.9 bp" not in _md_ct_gone and "5.9 bp" not in _md_ct_bad
-        and "CONSERVATIVE" not in _md_ct_gone and "CONSERVATIVE" not in _md_ct_bad, "")
+        "无法核验" in _sec_gone and "无法核验" in _sec_bad
+        and "5.9 bp" not in _sec_gone and "5.9 bp" not in _sec_bad
+        and "CONSERVATIVE" not in _sec_gone and "CONSERVATIVE" not in _sec_bad,
+        "section-scoped: the page-wide 5.9 bp on the repo ladder is a different face")
 
     # r1203 / E321: the 60-day vol window was never tested across decision calendars ----
     def _render_vw(vw):

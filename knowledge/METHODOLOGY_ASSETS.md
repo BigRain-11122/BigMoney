@@ -18154,3 +18154,17 @@ r2204 把「持有一年是什么感觉」量准了，却只写在 research/ 里
 How：正身=scripts/ceo_live_usage.py ⑩c + `_wallet_ride_face()`、Tools/probe_ceo_page_wallet_ride.py、
 Tools/s6_chain_bmc.py 腿 ceo_page_wallet_ride（新鲜时 0.1s）、smoke_test.py 谓词
 ceo_page_wallet_ride_problems（含负控）、qa/ceo-page-wallet-ride-r2205.md。
+
+## E-20261128-r2208 · 判据切到它要判的那一节，别切整页
+
+**症状**：CEO 页自检腿 L75（「缺面或控制臂失败必须写无法核验、不许印算数」）长期红，而缺面分支其实只印了两行、
+没有任何算数。真正命中的是**同一页另一处的数字**：回购期限梯上写着「5 年 +5.9 bp」，成本带要禁的也是「5.9 bp」。
+
+**判据**：一条渲染/诚实断言，作用域必须是**它要判的那一节**（标题到下一个同级标题），不是整页、更不是整份 JSON。
+整页子串把「同名不同面」当成自证——这与 r1788/E685「日期判据要对到产出那个数的那张面」是同一根：**先问这个数是谁印的**。
+
+**fail-closed 检查**：切片标题被改名时切片为空，正断言（「无法核验」 in 切片）立刻红——空切片不是通过。
+
+**行为腿**：L75 本身即负控（absent / no_control 两种 status 各渲染一次，断言切片内既无 bp 数也无判词词根）。
+
+How：正身=scripts/etf_book_ceo_page.py `_ct_section()` + 自检腿 L75；实锚=qa/ceo-page-one-ruler-r2208.md。
