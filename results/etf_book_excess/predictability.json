@@ -1,0 +1,144 @@
+{
+  "caveats": [
+    "这里的高 AUC 是**本样本这些 bar** 的陈述，不是对下一段的承诺；族门是读者与「八个特征试到看起来好」之间唯一的防线。",
+    "票池是今天上市的 ETF，标签和每一个篮子状态变量都继承同一个幸存者偏差——本面没有新增偏差，也没有消除它。",
+    "标签是日对数超额的前十分位切分，与 r2230 印 953% 用的是同一把尺；它本身不是可交易信号。",
+    "没过门的状态变量照样带数字印出，不删：没测到与测到零是两个答案。"
+  ],
+  "config": {
+    "auc_min": 0.6,
+    "bars_per_year": 244.0,
+    "cost_per_side": 0.001,
+    "family_alpha": 0.05,
+    "features": [
+      "basket_dd200_pct",
+      "basket_dow",
+      "basket_down_share20_pct",
+      "basket_ma200_gap_pct",
+      "basket_ret20_pct",
+      "basket_vol60_pct",
+      "book_basket_corr60",
+      "book_cash_share_pct"
+    ],
+    "label": "top 10% of daily log excess of the selection arm (base_book, no vol target)",
+    "label_threshold_log_excess": 0.00747956,
+    "n_hold": 12,
+    "permutations": 1000,
+    "rebal": 20,
+    "seed": 20261129,
+    "shift": "every feature is shifted by one bar (state at close of t-1 prices bar t)",
+    "top_share": 0.1
+  },
+  "evidence_cutoff": "2026-11-27",
+  "family": {
+    "beats_auc_floor": false,
+    "beats_block_family_gate": false,
+    "beats_family_gate": false,
+    "beats_iid_family_gate": false,
+    "best_auc": 0.5574,
+    "best_feature": "basket_dow",
+    "block20_family_p": 0.3467,
+    "block20_null_p95": 0.5939,
+    "family_p": 0.0579,
+    "features_tried": 8,
+    "null_family_mean": 0.5325,
+    "null_family_p95": 0.5584
+  },
+  "features": {
+    "basket_dd200_pct": {
+      "auc": 0.5154,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": -1.7674,
+      "median_on_other_bars": -2.0275,
+      "null_p95": 0.5394,
+      "p_single": 0.2757
+    },
+    "basket_dow": {
+      "auc": 0.5574,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 2.0,
+      "median_on_other_bars": 2.0,
+      "null_p95": 0.5392,
+      "p_single": 0.011
+    },
+    "basket_down_share20_pct": {
+      "auc": 0.4917,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 45.0,
+      "median_on_other_bars": 45.0,
+      "null_p95": 0.54,
+      "p_single": 0.6424
+    },
+    "basket_ma200_gap_pct": {
+      "auc": 0.553,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 5.4537,
+      "median_on_other_bars": 4.1671,
+      "null_p95": 0.5409,
+      "p_single": 0.016
+    },
+    "basket_ret20_pct": {
+      "auc": 0.538,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 1.131,
+      "median_on_other_bars": 0.8029,
+      "null_p95": 0.5385,
+      "p_single": 0.0559
+    },
+    "basket_vol60_pct": {
+      "auc": 0.5466,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 9.6739,
+      "median_on_other_bars": 9.1299,
+      "null_p95": 0.5397,
+      "p_single": 0.03
+    },
+    "book_basket_corr60": {
+      "auc": 0.5342,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 0.6955,
+      "median_on_other_bars": 0.6752,
+      "null_p95": 0.5379,
+      "p_single": 0.0689
+    },
+    "book_cash_share_pct": {
+      "auc": 0.538,
+      "bars": 1572,
+      "clears_auc_floor": false,
+      "median_on_excess_bars": 20.7301,
+      "median_on_other_bars": 20.1185,
+      "null_p95": 0.5381,
+      "p_single": 0.0519
+    }
+  },
+  "generated_ts": "2026-11-29T00:51:14+0800",
+  "hindsight": {
+    "drop_worst_10pct_bars_pp_per_year": 39.386,
+    "keep_only_best_10pct_bars_pp_per_year": 29.839,
+    "years": 6.4426
+  },
+  "label": {
+    "bars_judged": 1572,
+    "bars_total": 1672,
+    "clustering": {
+      "bars": 1572,
+      "expected_gap": 9.825,
+      "mean_gap": 9.792,
+      "positive_bars": 160,
+      "ratio": 0.9967
+    },
+    "excess_pp_per_year_full_sample": 3.085,
+    "excess_pp_per_year_total": 4.802,
+    "positive_bars": 160,
+    "share_of_total_excess_carried": 6.214
+  },
+  "schema": "etf_book_excess_predictability/v1",
+  "verdict": "NOT_PREDICTABLE_USE_AS_LUCK"
+}
