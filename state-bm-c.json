@@ -2945,7 +2945,8 @@
  },
  "s6_note_r2209": "S6 NOT run by this round: a detached full chain (pid 33880) started 09:04:54 and owns the shared faces. Progress: results/_s6chain_progress.bm-c.jsonl round=2209, leg_done=106/415, only non-zero leg = capital_marginal_road rc=3. Current leg etf_book_pre2020.py refresh alive (CPU +7.98s per 8s sample).",
  "smoke_note_r2209": "full smoke NOT run (~950s) and the chain is still writing shared faces; previous snapshot (07:18) is not evidence of the current red count -- no reduction claimed.",
- "carrier_debt_r2209": "paid: repair-or-retire of Tools/_r820bmc_close.py (carried since r2200/r2203) and the unformatted r2208 report row. still owed: live_book_section_bars 36-section drift (waits for the flying chain to land), full smoke, and the S4U re-register of Bigmoney-LoopWatchdog (physical item, needs elevation).",
+ "carrier_debt_r2209": "paid: repair-or-retire of Tools/_r820bmc_close.py (carried since r2200/r2203), the unformatted r2208 report row, and the 36 other rows the same writer leaked. still owed: live_book_section_bars 36-section drift (waits for the flying chain to land), full smoke, and the S4U re-register of Bigmoney-LoopWatchdog (physical item, needs elevation).",
  "记账_r2209": "轮报告1 + QA1 + results(修复脚本2)2 + state1 + 心跳1 = 5 处（记账律内·S6 产物不计）",
- "下个里程碑_r2209": "等 pid 33880 全链落地后：复核 36 节代差是否闭合（live_book_section_bars 应回到 off≈0）+ 复跑全量冒烟拿真实红数，窗 ≤48h"
+ "下个里程碑_r2209": "等 pid 33880 全链落地后：复核 36 节代差是否闭合（live_book_section_bars 应回到 off≈0）+ 复跑全量冒烟拿真实红数，窗 ≤48h",
+ "report_sweep_r2209": "The r2208 row was one instance, not the defect: a file-wide sweep of round_reports-bm-c.md found 13 table rows with literal %s/%d slots (8 of them heads), 55 double-percent escapes, and 7 rows that had also lost their leading pipe. Repaired mechanically without inventing values: lost timestamp -> '(ts-lost · 行由 <sha> 落盘)' with the sha from git blame HEAD (working-tree blame returns 0000000), lost round -> '(round-lost)' (line 1905 names the bracketing rounds r1682/r1683b instead of guessing 1683), other slots -> '(值丢失)', '%%' -> '%'. Final check: zero placeholders in the file. 8 scripts results/_r2209bmc_fix_*.py, all committed."
 }

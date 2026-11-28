@@ -61,3 +61,37 @@ chain named scripts 345: missing on disk 0 / missing in git 0
 
 `A_FILE_THAT_NEVER_PARSED_IS_NOW_PARSEABLE`——两处修复都是「面说自己错，而不是我猜它错」，
 证据在产物里（`results/import_git_coverage.json`、`round_reports-bm-c.md` L2895）。
+
+## 4. 同一缺陷的其余 36 行：一个写者漏了 `%` 一遍
+
+第 2 节只修了最新那行。全文件复查（`grep "%s" / "%d" / "%%"`）发现同一个写者还漏了：
+**13 张表行**（8 个表头是 `| %s |`、1 个轮号列是 `%d`、其余是正文里的槽位）、**55 处 `%%`**（
+读者看到的是 `8%% vol`、`13.53%%/yr` 这种多一个百分号）、以及 **7 行连行首竖线也丢了**。
+
+修法与第 2 节同一纪律——**不编数字**：
+
+| 缺失项 | 落成什么 | 依据 |
+|---|---|---|
+| 时间戳 | `(ts-lost · 行由 <sha7> 落盘)` | `git blame --porcelain HEAD` 对该**已提交行**取 commit；工作树版本 blame 会给 `0000000`，故必须对 HEAD 取 |
+| 轮号 | `(round-lost)`
+ | 无法还原就不猜；1905 行的 `(round-lost · 位于 r1682 与 r1683b 之间)` 把推断依据印出来，不当作结论 |
+| 正文里的槽位 | `(值丢失)` | 原文没有可还原的值 |
+| `%%` | `%` | 格式串转义泄漏，不是数据 |
+
+脚本链（都在 `results/`，已入 git）：`_r2209bmc_fix_close.py` → `_r2209bmc_fix_report_row.py` →
+`_r2209bmc_fix_own_row.py` → `_r2209bmc_fix_all_templates.py` → `_r2209bmc_fix_templates_sweep.py` →
+`_r2209bmc_fix_wording.py` → `_r2209bmc_fix_templates_global.py` → `_r2209bmc_fix_heads.py`。
+
+**验证（终态，全文件）**：
+
+```
+file lines still carrying a placeholder: []          # %s / %d / %% 全无
+表格行以占位符开头的行:                []          # 无 "| %s" 残头
+竖线丢失的残头:                        []          # 无 "(值丢失) |" 起头
+进度：36 行被改（55 处 %% 还原 + 15 处槽位标记丢失）+ 8 行补回行首竖线与来源
+```
+
+**为什么值得做**：这份文件是机队读轮次进展的地方（`round_reports-<id>.md`），
+破行没有任何守卫会红——`smoke_test` 不读它，`import_git_coverage` 也不读它。
+它坏着，只能靠人一眼看见。这正是 r1609「面只有检查腿没有写者就会永远绿」的反面：
+**没有检查腿的面，坏了也没人知道**。
