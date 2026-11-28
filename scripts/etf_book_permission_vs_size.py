@@ -157,6 +157,52 @@ def _cny(x):
     return "{:,.0f}".format(x)
 
 
+def check_phrase(checks):
+    """Name the gate's own checks instead of a placeholder.
+
+    r2226.  The published sentence read "供给闸读 ADMIT（唯一没过的是 （闸没写哪条））":
+    the verdict and the clause contradicted each other, because the construction
+    the ticket accrues passed every check and the fallback string still spoke as
+    if something had failed.  A reader cannot act on a sentence that says
+    "already permitted, and the one thing that did not pass is (unnamed)".
+    """
+    if not checks:
+        return "检查表未公布"
+    bad = [k for k, v in checks.items() if v is False]
+    if bad:
+        return "没过的是 " + "、".join(bad)
+    return "五项全过：" + "、".join(checks.keys())
+
+
+def two_books_sentence(permission, ticket_book, checks, judged):
+    """One word per book, said out loud.
+
+    Two receipts print two permission words about the same ticket on the same
+    close because they read two different books: the construction the ticket
+    actually accrues, and the book a judge ruled on.  Printing them as one
+    sentence makes the reader choose which one is "the" answer (r1788 family:
+    two papers that may legitimately differ by a day must not be blended).
+    """
+    jw = (judged or {}).get("word")
+    jn = (judged or {}).get("book")
+    head = ("许可词有两个，各属一本不同的书：这张票实际记的构造 **%s** 读 **%s**（%s）"
+            % (ticket_book, permission, check_phrase(checks)))
+    if not jn or not jw:
+        return head + "；被判的那本书这一趟没有在册判词（缺面不读 ADMIT）。"
+    jf = "、".join(judged.get("failing_checks") or []) or "它这一趟没有点名的检查"
+    share = judged.get("top2_share_pct")
+    line = judged.get("line_pct")
+    if share is not None and line is not None:
+        jf = "%s（两年集中度 %.2f%% vs 线 %.2f%%）" % (jf, share, line)
+    tail = "；被判的那本书 **%s** 读 **%s**，没过的是 %s" % (jn, jw, jf) \
+        if (judged.get("failing_checks") or []) else \
+        "；被判的那本书 **%s** 读 **%s**，%s" % (jn, jw, jf)
+    if str(jw).upper() != str(permission or "").upper():
+        tail += ("——两个词不是同一个测量的两种读法，票的词说「这张票能记」，"
+                 "书的词说「这本书的年份形状过不过线」")
+    return head + tail + "。"
+
+
 # --------------------------------------------------------------------------- #
 # build
 # --------------------------------------------------------------------------- #
@@ -171,7 +217,21 @@ def build():
     books = (wrapper.get("books") or [])
     ex = next((b for b in books if b.get("book") == EXECUTED), None)
     permission = (ex or {}).get("verdict")
-    failing = [k for k, v in ((ex or {}).get("checks") or {}).items() if v is False]
+    permission_checks = (ex or {}).get("checks") or {}
+    failing = [k for k, v in permission_checks.items() if v is False]
+
+    # the OTHER book: the one a judge ruled on, as the desk names it.  Its word is
+    # read from the decision receipt (which owns the name), never re-derived here.
+    _ex_b = desk.get("executed_book") or {}
+    judged = {
+        "book": _ex_b.get("candidate"),
+        "word": _ex_b.get("calendar_state")
+                or ",".join(sorted({str(w) for w in (_ex_b.get("words") or {}).values()})) or None,
+        "failing_checks": _ex_b.get("failing_checks") or [],
+        "top2_share_pct": _ex_b.get("top2_share_pct_A"),
+        "words_by_caliber": _ex_b.get("words") or {},
+        "line_pct": None,   # filled below, from the money face's own line
+    }
 
     # the two receipts, each with its own question and its own cutoff
     candidates = []
@@ -263,13 +323,18 @@ def build():
     sentences = []
     line_txt = ("%.2f%%" % line_pct) if line_pct is not None else "线未读到"
     res_txt = ("%.4f" % lot["residual_pct_nav"]) if lot.get("residual_pct_nav") is not None else "—"
+    judged["line_pct"] = line_pct
+    # count the distinct words actually on this ticket: the lot word, and one
+    # permission word per book that names one (a book without a word is not a word)
+    n_words = 1 + (1 if permission else 0) + (
+        1 if judged.get("word") and str(judged["word"]).upper() != str(permission or "").upper() else 0)
     sentences.append(
-        "在 {cut} 这一档，同一张 ¥{cap} 的单有两个词：整手面读 **{lotw}**（5 名各至少 1 手、"
-        "残差 {res}% NAV），供给闸读 **{perm}**（唯一没过的是 {fail}）——前者数的是 100 份一手，"
-        "后者才是「这本书准不准持有」。".format(
-            cut=floor.get("asof_bar"), cap=_cny(1_000_000),
-            lotw=lot["word"], res=res_txt, perm=permission,
-            fail="、".join(failing) or "（闸没写哪条）"))
+        "在 {cut} 这一档，同一张 ¥{cap} 的单上挂着 {n} 个词，别把它们读成一件事："
+        "整手面在 {cut} 读 **{lotw}**（5 名各至少 1 手、残差 {res}% NAV）——它数的是 100 份一手，"
+        "不是许可；许可词见下一条，两本不同的书各说各的。".format(
+            cut=floor.get("asof_bar"), cap=_cny(1_000_000), n=n_words,
+            lotw=lot["word"], res=res_txt))
+    sentences.append(two_books_sentence(permission, EXECUTED, permission_checks, judged))
     if gap and share_pct is not None:
         sentences.append(
             "本条要回答的是「改尺寸能不能换来许可」：从 {lo} 到 {hi}，两年份额恒为 {sp:.2f}%（线 "
@@ -332,6 +397,8 @@ def build():
             "word": permission,
             "book": EXECUTED,
             "failing_checks": failing,
+            "checks": permission_checks,
+            "check_phrase": check_phrase(permission_checks),
             "source": candidates[0]["path"] if candidates else None,
             "source_generated": wrapper.get("asof"),
             "source_cutoff": wrapper.get("evidence_cutoff"),
@@ -339,6 +406,8 @@ def build():
             "slot_reading": tp.get("reading"),
             "slot_word": tp.get("permission_word"),
         },
+        "judged_book": judged,
+        "words_on_the_ticket": n_words,
         "authority": authority,
         "lot_word": lot,
         "line": {"top2_share_max_pct": line_pct,
@@ -368,7 +437,7 @@ def build():
 # --------------------------------------------------------------------------- #
 def render_md(o):
     L = []
-    L.append("# 这张单的两个词：整手可下 vs 许不准持有（%s）" % o["face"])
+    L.append("# 这张单上的词：哪个数手、哪本书准不准持有（%s）" % o["face"])
     L.append("")
     L.append("证据截止 **%s**；判词 **%s**。题：同一档上，改尺寸能不能把年份检验买回来。"
              % (o.get("evidence_cutoff"), o.get("verdict")))
@@ -472,6 +541,10 @@ def cmd_check(_args):
     if (old.get("lot_word") or {}).get("word") != (new.get("lot_word") or {}).get("word"):
         problems.append("lot word %s != %s" % ((old.get("lot_word") or {}).get("word"),
                                                (new.get("lot_word") or {}).get("word")))
+    # a published sentence may not speak as if something failed while naming nothing
+    for s in (old.get("sentences") or []):
+        if "闸没写哪条" in s or "唯一没过的是 （" in s:
+            problems.append("published sentence carries a placeholder instead of a check name")
     for a, b in zip(old.get("size_table") or [], new.get("size_table") or []):
         if a.get("top2_share") is None or b.get("top2_share") is None:
             continue
@@ -541,6 +614,29 @@ def selftest():
         leg("published face's chosen authority is the wrapper",
             ((o.get("authority") or {}).get("chosen") or {}).get("name")
             == "etf_book_wrapper_year_gate")
+
+    # 5 (r2226) a sentence that says ADMIT may not also say "the only thing that did
+    # not pass is <nothing>" -- the gate's own check names, or a plain "all passed"
+    all_pass = {"Y1_positive_years_share": True, "Y2_median_positive": True,
+                "Y3_worst_year": True, "Y4_top2_share": True, "C1_capacity": True}
+    leg("all checks pass -> no failing clause is invented",
+        "五项全过" in check_phrase(all_pass) and "没过的是" not in check_phrase(all_pass))
+    leg("a failing check is named, not summarised",
+        check_phrase(dict(all_pass, Y4_top2_share=False)).endswith("Y4_top2_share"))
+    leg("no check table never reads as 'all passed'",
+        check_phrase({}) == "检查表未公布" and "全过" not in check_phrase({}))
+    leg("the placeholder is gone from every sentence this face can write",
+        all("闸没写哪条" not in s for s in
+            [check_phrase(all_pass), check_phrase({}), check_phrase(dict(all_pass, C1_capacity=False))]))
+    judged = {"book": "nobond_vt08_adopted", "word": "CONDITIONAL",
+              "failing_checks": ["Y4_top2_share"], "top2_share_pct": 73.45, "line_pct": 70.0}
+    s2 = two_books_sentence("ADMIT", "ticket_construction_plain_plus_overlay", all_pass, judged)
+    leg("both books are named when their words differ",
+        "ticket_construction_plain_plus_overlay" in s2 and "nobond_vt08_adopted" in s2)
+    leg("the judged book's number travels with its word",
+        "73.45" in s2 and "70.00" in s2 and "Y4_top2_share" in s2)
+    leg("a missing judged book is said out loud, not read as ADMIT", "缺面" in
+        two_books_sentence("ADMIT", "x", all_pass, {"book": None, "word": None}))
     ok = sum(1 for _n, c in legs if c)
     for n, c in legs:
         print("[%s] %s" % ("PASS" if c else "FAIL", n))

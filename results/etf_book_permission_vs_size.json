@@ -1,6 +1,6 @@
 {
  "face": "etf_book_permission_vs_size",
- "generated": "2026-11-28T14:23:05",
+ "generated": "2026-11-28T21:30:48",
  "evidence_cutoff": "2026-11-27",
  "question": "same close, two words: does changing the size buy the year test back?",
  "verdict": "SIZE_IS_THE_ONLY_KNOB",
@@ -8,6 +8,14 @@
   "word": "ADMIT",
   "book": "ticket_construction_plain_plus_overlay",
   "failing_checks": [],
+  "checks": {
+   "Y1_positive_years_share": true,
+   "Y2_median_positive": true,
+   "Y3_worst_year": true,
+   "Y4_top2_share": true,
+   "C1_capacity": true
+  },
+  "check_phrase": "五项全过：Y1_positive_years_share、Y2_median_positive、Y3_worst_year、Y4_top2_share、C1_capacity",
   "source": "results/etf_book_year_gate/WRAPPER-GATE.json",
   "source_generated": "2026-11-27T21:27:47+0800",
   "source_cutoff": "2026-11-27",
@@ -15,6 +23,21 @@
   "slot_reading": "TICKET_PERMISSION_MATCH",
   "slot_word": "ADMIT"
  },
+ "judged_book": {
+  "book": "nobond_vt08_adopted",
+  "word": "CONDITIONAL",
+  "failing_checks": [
+   "Y4_top2_share"
+  ],
+  "top2_share_pct": 73.45,
+  "words_by_caliber": {
+   "A": "CONDITIONAL",
+   "B": "CONDITIONAL",
+   "P": "CONDITIONAL"
+  },
+  "line_pct": 70.0
+ },
+ "words_on_the_ticket": 3,
  "authority": {
   "chosen": {
    "name": "etf_book_wrapper_year_gate",
@@ -58,7 +81,7 @@
    "delta_cny": -31853.58,
    "best_year": "2025",
    "best_year_pct": 43.062682,
-   "source_generated": "2026-11-28T14:23:04+0800",
+   "source_generated": "2026-11-28T21:30:48+0800",
    "source_cutoff": "2026-11-27"
   },
   {
@@ -68,7 +91,7 @@
    "delta_cny": -63707.16,
    "best_year": "2025",
    "best_year_pct": 43.062682,
-   "source_generated": "2026-11-28T14:23:04+0800",
+   "source_generated": "2026-11-28T21:30:48+0800",
    "source_cutoff": "2026-11-27"
   },
   {
@@ -78,7 +101,7 @@
    "delta_cny": -127414.32,
    "best_year": "2025",
    "best_year_pct": 43.062682,
-   "source_generated": "2026-11-28T14:23:04+0800",
+   "source_generated": "2026-11-28T21:30:48+0800",
    "source_cutoff": "2026-11-27"
   },
   {
@@ -88,7 +111,7 @@
    "delta_cny": -254828.64,
    "best_year": "2025",
    "best_year_pct": 43.062682,
-   "source_generated": "2026-11-28T14:23:04+0800",
+   "source_generated": "2026-11-28T21:30:48+0800",
    "source_cutoff": "2026-11-27"
   },
   {
@@ -98,7 +121,7 @@
    "delta_cny": -509657.27,
    "best_year": "2025",
    "best_year_pct": 43.062682,
-   "source_generated": "2026-11-28T14:23:04+0800",
+   "source_generated": "2026-11-28T21:30:48+0800",
    "source_cutoff": "2026-11-27"
   }
  ],
@@ -142,7 +165,8 @@
   }
  ],
  "sentences": [
-  "在 2026-11-27 这一档，同一张 ¥1,000,000 的单有两个词：整手面读 **TRADABLE_AT_1000000**（5 名各至少 1 手、残差 0.0750% NAV），供给闸读 **ADMIT**（唯一没过的是 （闸没写哪条））——前者数的是 100 份一手，后者才是「这本书准不准持有」。",
+  "在 2026-11-27 这一档，同一张 ¥1,000,000 的单上挂着 3 个词，别把它们读成一件事：整手面在 2026-11-27 读 **TRADABLE_AT_1000000**（5 名各至少 1 手、残差 0.0750% NAV）——它数的是 100 份一手，不是许可；许可词见下一条，两本不同的书各说各的。",
+  "许可词有两个，各属一本不同的书：这张票实际记的构造 **ticket_construction_plain_plus_overlay** 读 **ADMIT**（五项全过：Y1_positive_years_share、Y2_median_positive、Y3_worst_year、Y4_top2_share、C1_capacity）；被判的那本书 **nobond_vt08_adopted** 读 **CONDITIONAL**，没过的是 Y4_top2_share（两年集中度 73.45% vs 线 70.00%）——两个词不是同一个测量的两种读法，票的词说「这张票能记」，书的词说「这本书的年份形状过不过线」。",
   "本条要回答的是「改尺寸能不能换来许可」：从 250,000 到 4,000,000，两年份额恒为 73.45%（线 70.00%），到线的距离恒为 -9.02pp——换成本金只是同一段距离值不同的钱（-31,854 → -509,657），所以**缩放这张单不会让判词翻面**。",
   "要翻面，改的是**年形状**不是本金：2025 那一年少 9.02pp，换成当时 100 万本金上就是 -127,414 元，top-2 才回到线下——这与「等几年再说」是两件事，也与「买小一点」是两件事。",
   "哪张回执说话：**etf_book_wrapper_year_gate**（cutoff 2026-11-27），因为它读的是这张单所在的那一档；etf_book_partial_year_caliber 也留着，但它回答的是另一个问题（换口径会不会换词）——在三种口径下这本书都读 ADMIT，所以它没有资格把词改回 ADMIT。"

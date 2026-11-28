@@ -1016,7 +1016,11 @@ def _etf_permission_face():
         "verdict": d.get("verdict"),
         "permission": perm.get("word"),
         "permission_book": perm.get("book"),
+        "permission_checks": perm.get("checks") or {},
+        "permission_check_phrase": perm.get("check_phrase"),
         "failing": perm.get("failing_checks") or [],
+        "judged": d.get("judged_book") or {},
+        "words_on_the_ticket": d.get("words_on_the_ticket"),
         "permission_generated": perm.get("source_generated"),
         "permission_cutoff": perm.get("source_cutoff"),
         "lot": lot.get("word"),
@@ -4013,13 +4017,34 @@ def render_md(p: dict) -> str:
     if not _ep.get("present"):
         L.append(f"- 这张单的许可：{_ep.get('note') or '缺件（缺面不读 0）'}")
     else:
-        _fail = "、".join(_ep.get("failing") or []) or "（闸没写哪条）"
+        # r2226: the lot word and the permission words belong to different objects.
+        # Printing "ADMIT (the only thing that did not pass is <nothing>)" was a
+        # sentence that contradicted itself; name each book and its own checks.
+        _fail = "、".join(_ep.get("failing") or [])
+        _checks = _ep.get("permission_checks") or {}
+        _phrase = _ep.get("permission_check_phrase") or (
+            ("五项全过：" + "、".join(_checks.keys())) if _checks and not _fail else
+            (("没过的是 " + _fail) if _fail else "检查表未公布"))
         L.append(
-            f"- **「下得进」和「许不准持有」是同一档上的两个词**：整手面在 "
+            f"- **「下得进」和「许不准持有」是两个词，属于两本不同的书**：整手面在 "
             f"{_ep.get('lot_bar')} 读 **{_ep.get('lot')}**（100 份一手、残差 "
-            f"{_ep.get('lot_residual_pct')}% NAV），同一天供给闸读 "
-            f"**{_ep.get('permission')}**（唯一没过的是 {_fail}）。"
-            "前者数的是手，后者才是这本书准不准持有——别把前者当后者。")
+            f"{_ep.get('lot_residual_pct')}% NAV）——它数的是手，不是许可。")
+        L.append(
+            f"  - 许可词一·**这张票实际记的构造** `{_ep.get('permission_book')}` 读 "
+            f"**{_ep.get('permission')}**（{_phrase}）——问的是「这张票能不能记」。")
+        _jb = _ep.get("judged") or {}
+        if _jb.get("word"):
+            _jf = "、".join(_jb.get("failing_checks") or [])
+            if _jb.get("top2_share_pct") is not None and _jb.get("line_pct") is not None:
+                _jf = (f"{_jf}（两年集中度 {_jb['top2_share_pct']:.2f}% vs 线 "
+                       f"{_jb['line_pct']:.2f}%）") if _jf else \
+                      (f"两年集中度 {_jb['top2_share_pct']:.2f}% vs 线 {_jb['line_pct']:.2f}%")
+            L.append(
+                f"  - 许可词二·**被判的那本书** `{_jb.get('book')}` 读 **{_jb.get('word')}**，"
+                f"{'没过的是 ' + _jf if _jf else '它这一趟没有点名的检查'}"
+                "——问的是「这本书的年份形状准不准持有」。两个词不是同一个测量的两种读法。")
+        else:
+            L.append("  - 许可词二·被判的那本书这一趟没有在册判词（缺面不读 ADMIT）。")
         if _ep.get("share_pct") is not None:
             _dd = _ep.get("delta_pp")
             L.append(
@@ -7811,6 +7836,34 @@ def selftest() -> int:
               ("资金线面没有采纳任何一条" in _sec_nor)
               if any(q.get("capital") for q in (_p_nor["answer_book"]["questions"] or []))
               else True)
+    # ---- r2226: the ticket carries three words owned by three objects.  The page used
+    # to print "供给闸读 ADMIT（唯一没过的是 （闸没写哪条））" -- a verdict that says
+    # "already permitted" followed by a clause speaking as if something failed, because
+    # the construction the ticket accrues passed every check and the fallback string
+    # still spoke.  Name each book, and never print a failing clause with no name.
+    _perm = p1.get("etf_permission") or {}
+    if _perm.get("present"):
+        _perm_md = render_md(p1)
+        _blk, _on = [], False
+        for _ln in _perm_md.splitlines():
+            if "「下得进」和「许不准持有」" in _ln:
+                _on = True
+            elif _on and _ln.startswith("- "):
+                break
+            if _on:
+                _blk.append(_ln)
+        _blk_txt = "\n".join(_blk)
+        check("permission: each word names the book that owns it (r2226)",
+              (_perm.get("permission_book") or "\0") in _blk_txt
+              and ((_perm.get("judged") or {}).get("book") or "\0") in _blk_txt)
+        check("permission: no failing clause without a name (r2226)",
+              "闸没写哪条" not in _perm_md and "唯一没过的是 （" not in _perm_md
+              and "唯一没过的是 (（" not in _perm_md)
+        _p_pj = json.loads(json.dumps(p1))
+        _p_pj["etf_permission"]["judged"] = {}
+        _pj_txt = render_md(_p_pj)
+        check("permission: a missing judged book says so, never reads as ADMIT (r2226)",
+              "没有在册判词" in _pj_txt)
     _p_abm = json.loads(json.dumps(p1))
     _p_abm["answer_book"] = {"present": False, "path": ANSWER_BOOK_REL,
                              "note": "答案簿未产出（缺面不读 0）"}

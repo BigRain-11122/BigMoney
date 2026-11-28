@@ -7,7 +7,7 @@
  "printed": {
   "state": "ok",
   "n_lines": 24,
-  "n_all_lines": 369,
+  "n_all_lines": 375,
   "n_headings": 16,
   "n_honest": 4,
   "n_self_dated": 12,
@@ -76,7 +76,7 @@
    },
    {
     "heading": "(页首)",
-    "line": "> 自动生成 2026-11-28T18:30:13 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "line": "> 自动生成 2026-11-28T21:37:20 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
     "self_dated": true
    },
    {
@@ -701,8 +701,18 @@
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- **「下得进」和「许不准持有」是同一档上的两个词**：整手面在 2026-11-27 读 **TRADABLE_AT_1000000**（100 份一手、残差 0.075% NAV），同一天供给闸读 **ADMIT**（唯一没过的是 （闸没写哪条））。前者数的是手，后者才是这本书准不准持有——别把前者当后者。",
+    "line": "- **「下得进」和「许不准持有」是两个词，属于两本不同的书**：整手面在 2026-11-27 读 **TRADABLE_AT_1000000**（100 份一手、残差 0.075% NAV）——它数的是手，不是许可。",
     "self_dated": true
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 许可词一·**这张票实际记的构造** `ticket_construction_plain_plus_overlay` 读 **ADMIT**（五项全过：Y1_positive_years_share、Y2_median_positive、Y3_worst_year、Y4_top2_share、C1_capacity）——问的是「这张票能不能记」。",
+    "self_dated": false
+   },
+   {
+    "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
+    "line": "- 许可词二·**被判的那本书** `nobond_vt08_adopted` 读 **CONDITIONAL**，没过的是 Y4_top2_share（两年集中度 73.45% vs 线 70.00%）——问的是「这本书的年份形状准不准持有」。两个词不是同一个测量的两种读法。",
+    "self_dated": false
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
@@ -721,7 +731,7 @@
    },
    {
     "heading": "⑥ ETF 复合书 · 前向实绩（生产候选·纯读出）",
-    "line": "- 出处：`results/etf_book_permission_vs_size.json`（generated 2026-11-28T14:23:05·cutoff 2026-11-27·判词 SIZE_IS_THE_ONLY_KNOB）",
+    "line": "- 出处：`results/etf_book_permission_vs_size.json`（generated 2026-11-28T21:30:48·cutoff 2026-11-27·判词 SIZE_IS_THE_ONLY_KNOB）",
     "self_dated": true
    },
    {
@@ -1841,6 +1851,26 @@
    },
    {
     "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
+    "line": "- 这一关要多少钱（答案簿逐账户原句）：",
+    "self_dated": false
+   },
+   {
+    "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
+    "line": "- 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN",
+    "self_dated": false
+   },
+   {
+    "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
+    "line": "- 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN",
+    "self_dated": false
+   },
+   {
+    "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
+    "line": "- 回到能下单的那条路（`results/idx_fut_carry_open_capital.json` 自己采纳的）：补到首档 ￥1,159,599 → 拿回 1 lot (and one more lot per further rung)；出处 generated 2026-11-28T09:13:00+08:00｜cutoff 2026-11-27",
+    "self_dated": true
+   },
+   {
+    "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
     "line": "- **今天卡在「面判词」的 2 张**：",
     "self_dated": false
    },
@@ -1851,7 +1881,7 @@
    },
    {
     "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
-    "line": "- 这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO",
+    "line": "- 这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%. 复验的价：不值得再烧——面的话由自家 2/14 臂 GO 支撑，缺的是票不是证据",
     "self_dated": false
    },
    {
@@ -1861,7 +1891,7 @@
    },
    {
     "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
-    "line": "- 这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO",
+    "line": "- 这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45. 复验的价：不值得再烧——分辨率 3.86pp 已细于目标 5pp，读出 1.52%：测得够，却没有 edge",
     "self_dated": false
    },
    {
@@ -1876,7 +1906,7 @@
    },
    {
     "heading": "⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）",
-    "line": "- 出处：`results/bench_verdict_book.json`｜cutoff 2026-11-28｜generated 2026-11-28T17:53:42+08:00——**答案簿在链尾重建，这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿会把这一页重画一遍",
+    "line": "- 出处：`results/bench_verdict_book.json`｜cutoff 2026-11-28｜generated 2026-11-28T20:07:32+08:00——**答案簿在链尾重建，这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿会把这一页重画一遍",
     "self_dated": true
    },
    {
@@ -1937,7 +1967,7 @@
     "date": "2026-11-28",
     "field": "generated",
     "expected": "2026-11-28",
-    "line": "> 自动生成 2026-11-28T18:30:13 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
+    "line": "> 自动生成 2026-11-28T21:37:20 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)",
     "reading": "ok"
    },
    {
@@ -2455,5 +2485,5 @@
   ]
  },
  "script": "live_usage_day_words",
- "ts": "2026-11-28T18:41:53"
+ "ts": "2026-11-28T21:37:21"
 }
