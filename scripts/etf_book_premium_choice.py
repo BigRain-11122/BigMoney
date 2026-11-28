@@ -114,6 +114,9 @@ def inputs_sig(ticket_path=None, snap_path=None):
         "snapshot_sha": _sha_file(snap_path),
         "script_sha": _sha_file(os.path.abspath(__file__)),
         "swap_script_sha": _sha_file(SWAP_SCRIPT),
+        # r2219: the denominator-date evidence is an input, not a comment -- if it moves,
+        # a face priced without it is stale (r1311 class)
+        "nav_evidence_sha": _sha_file(NAV_EVIDENCE),
     }
 
 
@@ -135,6 +138,82 @@ def gate_decision(prev, key):
     if stored != key:
         return False, "INPUTS_CHANGED"
     return True, "SAME_INPUTS"
+
+
+# --- which day is the premium's denominator from? (r2219) -------------------------------
+# A premium is price / NAV - 1. r2213 proved the DENOMINATOR's own date is not the batch
+# stamp: on the 2026-11-27 session 1,371 board rows and 1,157 dated sina rows sat on that
+# day's path, 8 and 115 on the previous close. This face multiplies that premium by CNY and
+# turns it into "swap this leg" advice, so it has to ask the same question -- otherwise the
+# swap on 159655 (premium 10.36%, 8,999 CNY) is priced off a NAV published 2026-11-28, a
+# number that did not exist when the 2026-11-27 decision was taken.
+NAV_EVIDENCE = os.path.join(RESULTS, "etf_nav", "source_dating.json")
+
+
+def load_nav_evidence(asof):
+    """Per-code proof of which day a premium's denominator is from (r2213's face, reused).
+
+    The evidence face must name the session this ticket was priced on, else it is another
+    session's proof and proves nothing here (r2215's `evidence-face-other-session`).
+    """
+    if not NAV_EVIDENCE or not os.path.exists(NAV_EVIDENCE):
+        return {"status": "face missing", "by_symbol": {}}
+    try:
+        with open(NAV_EVIDENCE, "r", encoding="utf-8") as f:
+            face = json.load(f)
+    except (OSError, ValueError) as exc:
+        return {"status": "unreadable: %s" % exc, "by_symbol": {}}
+    session = face.get("board_session")
+    want = str(asof)[:10] if asof else None
+    if want and session != want:
+        return {"status": "other session", "session": session, "by_symbol": {}}
+    by = {}
+    for r in face.get("rows") or []:
+        code = str(r.get("code") or "")
+        if not code:
+            continue
+        b, s = r.get("board_position"), r.get("sina_position")
+        if b == "SAME_SESSION" and s == "SAME_SESSION":
+            word = "same-session"
+        elif "PREV_SESSION" in (b, s):
+            word = "prev-session"
+        else:
+            word = "unproven"
+        beyond = None
+        d = r.get("sina_nav_date")
+        if d and session and d > session:
+            try:
+                beyond = int((pd.Timestamp(d) - pd.Timestamp(session)).days)
+            except (TypeError, ValueError):
+                beyond = None
+        by[code] = {"status": word, "board_position": b, "sina_position": s,
+                    "sina_nav_date": d, "board_nav": r.get("board_nav"),
+                    "sina_nav": r.get("sina_nav"), "days_beyond_session": beyond}
+    return {"status": "ok", "session": session, "by_symbol": by}
+
+
+def face_verdict(legs):
+    """The face word follows from the legs, and a swap needs a PROVEN denominator.
+
+    Pure, so check() can re-derive it and a selftest can drive it with fixtures.
+    """
+    words = [r.get("verdict") for r in legs]
+    unproven = [r for r in legs if r.get("verdict") == "STRETCHED_ON_UNPROVEN_NAV"]
+    if "SWAP_AT_BOOK_HORIZON" in words:
+        return ("RULERS_DISAGREE_SWAP_AT_HORIZON"
+                if any(r.get("rulers_disagree") for r in legs) else "RULERS_AGREE_SWAP")
+    if unproven:
+        # every stretched leg on this sheet rests on a denominator this face cannot place on
+        # its own session: the arithmetic still prints, the advice does not
+        return "NO_PROVEN_SWAP_LEG"
+    if "HOLD_AT_BOOK_HORIZON" in words:
+        return "RULERS_AGREE_HOLD"
+    if "NOT_PRICED" in words:
+        return "NOT_PRICED"
+    if words and all(w == "NOT_STRETCHED" for w in words):
+        return "NO_STRETCHED_LEG"
+    return "UNPRICED"
+
 
 # --- frozen before the first run, echoed into the payload -------------------------------
 REBAL = 20                  # the book's own decision grid (bars between decisions)
@@ -250,8 +329,13 @@ def price_road(label, amount_cny, saving_cny, giveup_cny_per_window, giveup_pp_p
 
 
 def decide_leg(leg, amount_cny, prem_pct, candidate, slope_per_window, tenure, cash_annual_pct,
-               leg_score=None):
-    """One stretched leg -> three roads plus the two rulers' words. Pure (used by check too)."""
+               leg_score=None, nav=None):
+    """One stretched leg -> three roads plus the two rulers' words. Pure (used by check too).
+
+    `nav` is this leg's denominator-date evidence (r2219): a dict with `status` one of
+    same-session / prev-session / unproven, or None when nothing proves it. Only a
+    same-session denominator may produce a SWAP word -- the arithmetic prints either way.
+    """
     out = {
         "symbol": P._sym(leg["symbol"]),
         "class": leg.get("class"),
@@ -260,6 +344,8 @@ def decide_leg(leg, amount_cny, prem_pct, candidate, slope_per_window, tenure, c
         "premium_cny": None if prem_pct is None else round(float(amount_cny) * float(prem_pct) / 100.0, 2),
         "stretched": None if prem_pct is None else bool(float(prem_pct) > P.PREMIUM_SWAP_PP),
         "leg_score": None if leg_score is None else round(float(leg_score), 6),
+        "nav_evidence": nav,
+        "premium_is_session_native": (None if nav is None else nav.get("status") == "same-session"),
         "roads": [],
         "verdict": None,
         "annual_ruler": None,
@@ -314,7 +400,25 @@ def decide_leg(leg, amount_cny, prem_pct, candidate, slope_per_window, tenure, c
             giveup_annual = r["giveup_pp_per_year"]
     out["annual_ruler"] = None if giveup_annual is None else (
         "HOLD" if giveup_annual > P.MAX_GIVEUP_PP_YR else "SWAP")
-    if any_swap:
+    proven = nav is not None and nav.get("status") == "same-session"
+    if any_swap and not proven:
+        # the roads still price, but they price a denominator this face cannot put on its own
+        # session -- a number published the next calendar day cannot decide today's swap
+        out["verdict"] = "STRETCHED_ON_UNPROVEN_NAV"
+        out["rulers_disagree"] = bool(out["annual_ruler"] == "HOLD")
+        why = ("nothing proves this leg's denominator is the %s NAV" % ((nav or {}).get("session")
+                                                                       or "session's"))
+        d = (nav or {}).get("sina_nav_date")
+        if d and (nav or {}).get("days_beyond_session"):
+            why = ("its NAV is dated %s, %d day(s) after the session this ticket was priced on"
+                   % (d, nav["days_beyond_session"]))
+        elif (nav or {}).get("status") == "prev-session":
+            why = "its NAV sits on the previous close, not on this session's path"
+        out["note"] = ("%s -- so the %.0f CNY premium and the %.0f%% convergence below are "
+                       "arithmetic on an unproven denominator, and this face does not swap on "
+                       "them" % (why, out["premium_cny"] or 0.0,
+                                 100.0 * min(r["breakeven_convergence_p"] for r in any_swap)))
+    elif any_swap:
         out["verdict"] = "SWAP_AT_BOOK_HORIZON"
         out["rulers_disagree"] = bool(out["annual_ruler"] == "HOLD")
         out["note"] = ("over the book's own %.2f-window hold, the substitution pays for itself "
@@ -357,6 +461,8 @@ def paths(sig=None, key=None):
         cash_annual = float(carry["rate_today_pct"])
 
     # the twin search is r1773's frozen rule, imported rather than re-implemented
+    nav_face = load_nav_evidence(asof)
+    by_symbol = nav_face.get("by_symbol") or {}
     legs_out = []
     leg_syms = set(P._sym(r["symbol"]) for r in order)
     for r in order:
@@ -365,20 +471,10 @@ def paths(sig=None, key=None):
                            slope_win if slope_win is not None else 0.0)
         legs_out.append(decide_leg(r, float(r.get("amount") or 0.0), prem.get(sym),
                                    row.get("candidate"), slope_win, tenure.get("mean_tenure_decisions"),
-                                   cash_annual, leg_score=ranked.get(sym)))
+                                   cash_annual, leg_score=ranked.get(sym),
+                                   nav=by_symbol.get(sym)))
 
-    words = [r["verdict"] for r in legs_out]
-    if any(w == "SWAP_AT_BOOK_HORIZON" for w in words):
-        verdict = ("RULERS_DISAGREE_SWAP_AT_HORIZON"
-                   if any(r.get("rulers_disagree") for r in legs_out) else "RULERS_AGREE_SWAP")
-    elif any(w == "HOLD_AT_BOOK_HORIZON" for w in words):
-        verdict = "RULERS_AGREE_HOLD"
-    elif any(w == "NOT_PRICED" for w in words):
-        verdict = "NOT_PRICED"
-    elif all(w == "NOT_STRETCHED" for w in words):
-        verdict = "NO_STRETCHED_LEG"
-    else:
-        verdict = "UNPRICED"
+    verdict = face_verdict(legs_out)
 
     payload = {
         "face": "etf_book_premium_choice",
@@ -388,6 +484,8 @@ def paths(sig=None, key=None):
         "decision_bar": str(pd.Timestamp(last).date()),
         "snapshot": os.path.relpath(snap_path, ROOT).replace("\\", "/"),
         "snapshot_symbols": len(prem),
+        "nav_evidence": {"status": nav_face.get("status"), "session": nav_face.get("session"),
+                         "face": os.path.relpath(NAV_EVIDENCE, ROOT).replace("\\", "/")},
         "criteria": {
             "premium_swap_pp": P.PREMIUM_SWAP_PP,
             "min_saving_pp": P.MIN_SAVING_PP,
@@ -502,6 +600,21 @@ def write_md(p, tpath):
     A("")
     A("**本轮判决：%s**" % p["verdict"])
     A("")
+    nev = p.get("nav_evidence") or {}
+    unproven = [r for r in p["legs"] if r.get("verdict") == "STRETCHED_ON_UNPROVEN_NAV"]
+    if unproven:
+        A("**为什么这个词不是 SWAP**：溢价 = 价格 ÷ 净值 − 1，而下面这几条腿的**分母日期**不是这一场：")
+        A("")
+        for r in unproven:
+            nv = r.get("nav_evidence") or {}
+            A("* **%s**：净值日期 %s（%s 发布的），本场是 %s；证据面 %s" % (
+                r["symbol"], nv.get("sina_nav_date") or "—",
+                ("晚 %d 天" % nv["days_beyond_session"]) if nv.get("days_beyond_session") else "同场/未知",
+                p.get("as_of"), nev.get("face") or "—"))
+        A("")
+        A("算术照印，建议不成立：一张票在 %s 做决定时看不到 %s 才发布的数。" %
+          (p.get("as_of"), unproven[0].get("nav_evidence", {}).get("sina_nav_date") or "下一交易日"))
+        A("")
     A("## 逐腿三条路")
     A("")
     for r in p["legs"]:
@@ -591,6 +704,12 @@ def check():
     prem, _names, snap = P.load_premium_snapshot(asof)
     if not prem:
         problems.append("snapshot missing for %s (%s)" % (asof, snap))
+    nav_face = load_nav_evidence(asof)
+    if nav_face.get("status") != "ok":
+        # r1850: a missing/foreign evidence face must say STALE so the chain buys a rebuild,
+        # and it must never read as "clean" (r1311: silence read as passing)
+        problems.append("STALE nav evidence is %s (%s)"
+                        % (nav_face.get("status"), os.path.basename(NAV_EVIDENCE)))
     order = {P._sym(r["symbol"]): r for r in (ticket.get("ticket") or {}).get("order") or []}
     slope = (pub.get("score_slope") or {}).get("slope_median_per_horizon")
     tenure = (pub.get("seat_tenure") or {}).get("mean_tenure_decisions")
@@ -654,20 +773,23 @@ def check():
                 want_word = "HOLD" if b[0]["giveup_pp_per_year"] > P.MAX_GIVEUP_PP_YR else "SWAP"
                 if row["annual_ruler"] != want_word:
                     problems.append("%s annual ruler %r vs re-derived %r" % (sym, row["annual_ruler"], want_word))
-    words = [r["verdict"] for r in pub.get("legs") or []]
-    if "SWAP_AT_BOOK_HORIZON" in words:
-        want = ("RULERS_DISAGREE_SWAP_AT_HORIZON" if any(r.get("rulers_disagree") for r in pub["legs"])
-                else "RULERS_AGREE_SWAP")
-    elif "HOLD_AT_BOOK_HORIZON" in words:
-        want = "RULERS_AGREE_HOLD"
-    elif "NOT_PRICED" in words:
-        want = "NOT_PRICED"
-    elif all(w == "NOT_STRETCHED" for w in words) and words:
-        want = "NO_STRETCHED_LEG"
-    else:
-        want = "UNPRICED"
+        # r2219: the denominator-date evidence is re-derived from the face on disk, and a
+        # SWAP word on an unproven denominator is a defect rather than a stale number
+        want_nav = (nav_face.get("by_symbol") or {}).get(sym)
+        if (want_nav or {}).get("status") != (row.get("nav_evidence") or {}).get("status"):
+            problems.append("%s nav evidence %r vs %r in %s"
+                            % (sym, (row.get("nav_evidence") or {}).get("status"),
+                               (want_nav or {}).get("status"), os.path.basename(NAV_EVIDENCE)))
+        if row.get("premium_is_session_native") != ((want_nav or {}).get("status") == "same-session"):
+            problems.append("%s premium_is_session_native %r disagrees with the evidence face"
+                            % (sym, row.get("premium_is_session_native")))
+        if row.get("verdict") == "SWAP_AT_BOOK_HORIZON" and (want_nav or {}).get("status") != "same-session":
+            problems.append("%s recommends a swap on a denominator the evidence face does not place "
+                            "on this session" % sym)
+    want = face_verdict(pub.get("legs") or [])
     if pub.get("verdict") != want:
-        problems.append("face verdict %r does not follow from the legs %r" % (pub.get("verdict"), words))
+        problems.append("face verdict %r does not follow from the legs (re-derived %r)"
+                        % (pub.get("verdict"), want))
     if moved and problems:
         problems = ["STALE " + m for m in moved] + [
             "these followed the ticket: " + p for p in problems]
@@ -676,7 +798,8 @@ def check():
            "tenure_windows": tenure,
            "re_derived_from_inputs": ["premium_pct", "premium_cny", "stretched", "saving CNY",
                                       "per-window give-up", "break-even windows/years", "p*",
-                                      "window-ruler word", "annual-ruler word", "face word"],
+                                      "window-ruler word", "annual-ruler word",
+                                      "denominator-date evidence (status per leg)", "face word"],
            "not_re_derived": ["ranking scores (panel build ~60s)", "measured seat tenure (same build)"]}
     print(json.dumps(out, ensure_ascii=False))
     return 0 if not problems else 2
@@ -802,6 +925,63 @@ def selftest():
             for f in ("ticket_sha", "snapshot_sha", "script_sha", "swap_script_sha", "panel_files")),
         "L14 every named input is part of the key (an edit cannot ride a face it did not rebuild)")
     leg(input_key(base) == k0, "L14b the key is a function of the inputs, not of the clock")
+
+    # L15 r2219: a swap needs a denominator this face can place on its own session.
+    #   Same numbers, three evidence states -- only the proven one may say SWAP.
+    fx = {"symbol": "159655", "class": "crossborder", "amount": 86286.0}
+    twin = {"symbol": "159502", "market": "sh", "score": 0.49, "score_gap": 0.07,
+            "premium_pct": 2.4, "premium_saving_cny": 7000.0, "giveup_pp_per_year": 1.0}
+    args = (86286.0, 10.36, twin, 0.010739587458382917, 1.05, 1.265)
+    same = {"status": "same-session", "sina_nav_date": "2026-11-27", "days_beyond_session": None}
+    prev = {"status": "prev-session", "sina_nav_date": "2026-11-26", "days_beyond_session": None}
+    ahead = {"status": "prev-session", "sina_nav_date": "2026-11-28", "days_beyond_session": 1}
+    out_ok = decide_leg(fx, *args, nav=same)
+    leg(out_ok["verdict"] == "SWAP_AT_BOOK_HORIZON" and out_ok["premium_is_session_native"] is True,
+        "L15 a proven same-session denominator still swaps (arbitrary time by itself is not enough)")
+    out_prev = decide_leg(fx, *args, nav=prev)
+    leg(out_prev["verdict"] == "STRETCHED_ON_UNPROVEN_NAV"
+        and out_prev["premium_cny"] is not None and out_prev["roads"],
+        "L15b a leg on the previous close keeps its arithmetic but loses the swap word")
+    out_ahead = decide_leg(fx, *args, nav=ahead)
+    leg(out_ahead["verdict"] == "STRETCHED_ON_UNPROVEN_NAV"
+        and "2026-11-28" in (out_ahead.get("note") or ""),
+        "L15c a NAV dated after the session is named in the note, not silently trusted")
+    out_none = decide_leg(fx, *args, nav=None)
+    leg(out_none["verdict"] == "STRETCHED_ON_UNPROVEN_NAV",
+        "L15d no evidence is not evidence of being native (silence never reads as clean)")
+    leg(face_verdict([out_ok]) == "RULERS_AGREE_SWAP"
+        and face_verdict([out_prev]) == "NO_PROVEN_SWAP_LEG"
+        and face_verdict([out_prev, out_ok]) == "RULERS_AGREE_SWAP",
+        "L15e the face word follows the legs, and one proven leg is enough to print a swap")
+
+    # L15f-L15g the evidence reader refuses another session's proof and reads three buckets
+    import tempfile
+    keep = NAV_EVIDENCE
+    globals()["NAV_EVIDENCE"] = os.path.join(tempfile.gettempdir(), "premium_choice_nav_fixture.json")
+    try:
+        with open(NAV_EVIDENCE, "w", encoding="utf-8") as f:
+            json.dump({"board_session": "2026-11-27", "rows": [
+                {"code": "AAA", "board_position": "SAME_SESSION", "sina_position": "SAME_SESSION",
+                 "sina_nav_date": "2026-11-27"},
+                {"code": "BBB", "board_position": "NO_DATA", "sina_position": "PREV_SESSION",
+                 "sina_nav_date": "2026-11-28"},
+                {"code": "CCC", "board_position": "UNDECIDABLE", "sina_position": "UNDECIDABLE",
+                 "sina_nav_date": "2026-11-26"},
+            ]}, f)
+        e = load_nav_evidence("2026-11-27")
+        by = e["by_symbol"]
+        leg(e["status"] == "ok" and by["AAA"]["status"] == "same-session"
+            and by["BBB"]["status"] == "prev-session" and by["BBB"]["days_beyond_session"] == 1
+            and by["CCC"]["status"] == "unproven",
+            "L15f evidence reads three buckets and counts the days a NAV runs past the session")
+        leg(load_nav_evidence("2026-11-26")["status"] == "other session",
+            "L15g another session's proof proves nothing here")
+    finally:
+        globals()["NAV_EVIDENCE"] = keep
+        try:
+            os.remove(os.path.join(tempfile.gettempdir(), "premium_choice_nav_fixture.json"))
+        except OSError:
+            pass
 
     print("premium-choice selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

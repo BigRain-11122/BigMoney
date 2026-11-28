@@ -6,6 +6,11 @@
  "decision_bar": "2026-11-27",
  "snapshot": "data/etf_premium/snap/2026-11-27.csv",
  "snapshot_symbols": 1536,
+ "nav_evidence": {
+  "status": "ok",
+  "session": "2026-11-27",
+  "face": "results/etf_nav/source_dating.json"
+ },
  "criteria": {
   "premium_swap_pp": 3.0,
   "min_saving_pp": 1.0,
@@ -53,6 +58,16 @@
    "premium_cny": 270.33,
    "stretched": false,
    "leg_score": 0.499268,
+   "nav_evidence": {
+    "status": "same-session",
+    "board_position": "SAME_SESSION",
+    "sina_position": "SAME_SESSION",
+    "sina_nav_date": "2026-11-27",
+    "board_nav": 1.2554,
+    "sina_nav": 1.2551,
+    "days_beyond_session": null
+   },
+   "premium_is_session_native": true,
    "roads": [],
    "verdict": "NOT_STRETCHED",
    "annual_ruler": null,
@@ -67,6 +82,16 @@
    "premium_cny": 198.36,
    "stretched": false,
    "leg_score": 0.560411,
+   "nav_evidence": {
+    "status": "same-session",
+    "board_position": "SAME_SESSION",
+    "sina_position": "SAME_SESSION",
+    "sina_nav_date": "2026-11-27",
+    "board_nav": 1.1835,
+    "sina_nav": 1.1833,
+    "days_beyond_session": null
+   },
+   "premium_is_session_native": true,
    "roads": [],
    "verdict": "NOT_STRETCHED",
    "annual_ruler": null,
@@ -81,6 +106,16 @@
    "premium_cny": 8998.83,
    "stretched": true,
    "leg_score": 0.420166,
+   "nav_evidence": {
+    "status": "prev-session",
+    "board_position": "NO_DATA",
+    "sina_position": "PREV_SESSION",
+    "sina_nav_date": "2026-11-28",
+    "board_nav": null,
+    "sina_nav": 1.7413,
+    "days_beyond_session": 1
+   },
+   "premium_is_session_native": false,
    "roads": [
     {
      "road": "A_buy_as_printed",
@@ -131,10 +166,10 @@
      "note": "the swap pays for itself if the premium gap closes by more than 3.2% before exit; it takes 31.0 windows of give-up to eat the whole saving"
     }
    ],
-   "verdict": "SWAP_AT_BOOK_HORIZON",
+   "verdict": "STRETCHED_ON_UNPROVEN_NAV",
    "annual_ruler": "SWAP",
    "rulers_disagree": false,
-   "note": "over the book's own 1.57-window hold, the substitution pays for itself at a 1.0% convergence probability; the annual ruler read the same numbers as 1.04 pp/yr against a 2.00 cap"
+   "note": "its NAV is dated 2026-11-28, 1 day(s) after the session this ticket was priced on -- so the 8999 CNY premium and the 1% convergence below are arithmetic on an unproven denominator, and this face does not swap on them"
   },
   {
    "symbol": "513690",
@@ -144,6 +179,16 @@
    "premium_cny": -835.06,
    "stretched": false,
    "leg_score": 0.46536,
+   "nav_evidence": {
+    "status": "unproven",
+    "board_position": "UNDECIDABLE",
+    "sina_position": "UNDECIDABLE",
+    "sina_nav_date": "2026-11-27",
+    "board_nav": 1.1161,
+    "sina_nav": 1.1137,
+    "days_beyond_session": null
+   },
+   "premium_is_session_native": false,
    "roads": [],
    "verdict": "NOT_STRETCHED",
    "annual_ruler": null,
@@ -158,6 +203,16 @@
    "premium_cny": -635.17,
    "stretched": false,
    "leg_score": 0.452604,
+   "nav_evidence": {
+    "status": "unproven",
+    "board_position": "UNDECIDABLE",
+    "sina_position": "UNDECIDABLE",
+    "sina_nav_date": "2026-11-26",
+    "board_nav": 1.701,
+    "sina_nav": 1.6974,
+    "days_beyond_session": null
+   },
+   "premium_is_session_native": false,
    "roads": [],
    "verdict": "NOT_STRETCHED",
    "annual_ruler": null,
@@ -165,7 +220,7 @@
    "note": "inside the 3.0 pp threshold"
   }
  ],
- "verdict": "RULERS_AGREE_SWAP",
+ "verdict": "NO_PROVEN_SWAP_LEG",
  "totals": {
   "legs": 5,
   "stretched_legs": 1,
@@ -175,7 +230,7 @@
   "rulers_disagreeing_legs": 0
  },
  "inputs": {
-  "key": "89130904b37c4aacd833e58955df1f09469d8ed5fd678ae049e0ab2eacc956a6",
+  "key": "d2dc0ae274b2e666a88bbf9b02110a2935f840b692b130ccb0f3862a21b60861",
   "sig": {
    "panel_files": 1725,
    "panel_bytes": 93545070,
@@ -185,8 +240,9 @@
    "ticket_sha": "7439523525833a11",
    "snapshot": "2026-11-27.csv",
    "snapshot_sha": "c2e621da5a543627",
-   "script_sha": "225be4ac73bbe47a",
-   "swap_script_sha": "d0241298ce7c26c3"
+   "script_sha": "9d411a4da5839309",
+   "swap_script_sha": "d0241298ce7c26c3",
+   "nav_evidence_sha": "dad95e87ff120a0f"
   }
  }
 }

@@ -29,7 +29,13 @@
 
 两者不矛盾，只是回答不同的问题：年化尺子在问「值不值得长期持有这只更贵的腿」，持有窗尺子在问「这一窗换不换」。这本书的实际持有窗是前者假设的 1/12，所以两者的答案会分开——今天确实分开了（见下表）。
 
-**本轮判决：RULERS_AGREE_SWAP**
+**本轮判决：NO_PROVEN_SWAP_LEG**
+
+**为什么这个词不是 SWAP**：溢价 = 价格 ÷ 净值 − 1，而下面这几条腿的**分母日期**不是这一场：
+
+* **159655**：净值日期 2026-11-28（晚 1 天 发布的），本场是 2026-11-27；证据面 results/etf_nav/source_dating.json
+
+算术照印，建议不成立：一张票在 2026-11-27 做决定时看不到 2026-11-28 才发布的数。
 
 ## 逐腿三条路
 
@@ -37,7 +43,7 @@
 * **512040**（equity，金额 86934）：溢价 +0.228%（+198 元），在 3.0 pp 门槛内 —— 不参与本面的选择。
 ### 159655（crossborder，金额 86863，溢价 10.360%）
 
-溢价金额 **8998.83 元**；stretched=True；年化尺子读作 SWAP；本窗尺子读作 **SWAP_AT_BOOK_HORIZON**
+溢价金额 **8998.83 元**；stretched=True；年化尺子读作 SWAP；本窗尺子读作 **STRETCHED_ON_UNPROVEN_NAV**
 
 | 路 | 一次性省 | 每窗放弃 | 回本窗数（年） | 回本所需收敛概率 p* | 本窗尺子 |
 |---|---|---|---|---|---|
@@ -45,7 +51,7 @@
 | B_same_market_twin | 7022 | 72 | 97.6 (7.75 年) | 1.0% | 划算 |
 | C_drop_to_cash | 8999 | 291 | 31.0 (2.46 年) | 3.2% | 划算 |
 
-> over the book's own 1.57-window hold, the substitution pays for itself at a 1.0% convergence probability; the annual ruler read the same numbers as 1.04 pp/yr against a 2.00 cap
+> its NAV is dated 2026-11-28, 1 day(s) after the session this ticket was priced on -- so the 8999 CNY premium and the 1% convergence below are arithmetic on an unproven denominator, and this face does not swap on them
 
 * **513690**（crossborder，金额 86916）：溢价 -0.961%（-835 元），在 3.0 pp 门槛内 —— 不参与本面的选择。
 * **159519**（crossborder，金额 86946）：溢价 -0.731%（-635 元），在 3.0 pp 门槛内 —— 不参与本面的选择。

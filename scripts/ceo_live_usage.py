@@ -1910,6 +1910,8 @@ def _etf_premium_choice_face():
             "premium_cny": leg.get("premium_cny"),
             "leg_score": leg.get("leg_score"),
             "verdict": leg.get("verdict"),
+            "premium_is_session_native": leg.get("premium_is_session_native"),
+            "nav_evidence": leg.get("nav_evidence"),
             "twin": twin.get("symbol"),
             "twin_premium_pct": twin.get("premium_pct"),
             "twin_score_gap": twin.get("score_gap"),
@@ -1932,6 +1934,7 @@ def _etf_premium_choice_face():
         "as_of": d.get("as_of"),
         "threshold_pp": crit.get("premium_swap_pp"),
         "annual_giveup_cap_pp": crit.get("max_giveup_pp_per_year_annual_ruler"),
+        "nav_evidence": d.get("nav_evidence"),
         "stretched": stretched,
         "n_stretched": len(stretched),
         "mean_tenure_windows": tenure.get("mean_tenure_decisions"),
@@ -4725,6 +4728,19 @@ def render_md(p: dict) -> str:
                     _fmt_cny(abs(_cny)) if _cny is not None else "?",
                     "{:.1f}".format(_pc.get("threshold_pp"))
                     if _pc.get("threshold_pp") is not None else "?"))
+            if _lg.get("premium_is_session_native") is not True:
+                # r2219: a premium is price / NAV - 1, and this leg's NAV is not provably
+                # this session's -- a number published the next calendar day cannot decide
+                # today's swap, so the arithmetic is printed and the advice is withheld
+                _nv = _lg.get("nav_evidence") or {}
+                _dd = _nv.get("sina_nav_date")
+                _bd = _nv.get("days_beyond_session")
+                L.append(
+                    "      - **这句话的分母不是本场的净值**：净值日期 {}（本场 {}）{}，"
+                    "所以上面的「多付 ¥{}」是算术，不是今天能下的决心".format(
+                        _dd or "无法定日", _pc.get("as_of") or "—",
+                        "，晚 {} 天".format(_bd) if _bd else "",
+                        _fmt_cny(abs(_cny)) if _cny is not None else "?"))
             if _lg.get("twin"):
                 _twpp = _lg.get("twin_premium_pct")
                 L.append(
@@ -4768,10 +4784,16 @@ def render_md(p: dict) -> str:
                     "      - 第三条路（先不买、拿现金）：省 ¥{}，但放弃整段敞口"
                     "——它比孪生那条省得多，也把这本书的仓位改小了".format(
                         _fmt_cny(_lg.get("drop_to_cash_saving_cny"))))
-        L.append(
-            "    - 换腿面的判词是 **{}**：两把尺子在这张单上给相反答案，"
-            "页面按预注册把两个都印、不合并、不替你选".format(
-                _pc.get("verdict") or "未印"))
+        if (_pc.get("verdict") or "") == "NO_PROVEN_SWAP_LEG":
+            L.append(
+                "    - 换腿面的判词是 **NO_PROVEN_SWAP_LEG**：这单上唯一被判定「太贵」的腿，"
+                "它的溢价分母不能证明是本场的净值——所以本面不印换腿建议，"
+                "等到本场有可定日的净值再判")
+        else:
+            L.append(
+                "    - 换腿面的判词是 **{}**：两把尺子在这张单上给相反答案，"
+                "页面按预注册把两个都印、不合并、不替你选".format(
+                    _pc.get("verdict") or "未印"))
         L.append(
             "    - 出处：`{}`（票面 {}·as_of {}·换腿门槛与年化上限都是冻结常量）".format(
                 ETF_PREMIUM_CHOICE_REL, _pc.get("ticket"), _pc.get("as_of")))
@@ -7331,9 +7353,24 @@ def selftest() -> int:
               and bool((_pc1.get("stretched") or [{}])[0].get("twin")))
         _mdpc = render_md(p1)
         _leg0 = (_pc1.get("stretched") or [{}])[0]
-        check("both rulers are printed, side by side (r1835)",
-              "尺子一（年化）" in _mdpc and "尺子二（这本实测只持" in _mdpc
-              and "不合并、不替你选" in _mdpc)
+        if _leg0.get("premium_is_session_native") is True:
+            check("both rulers are printed, side by side (r1835)",
+                  "尺子一（年化）" in _mdpc and "尺子二（这本实测只持" in _mdpc
+                  and "不合并、不替你选" in _mdpc)
+        else:
+            # r2219: premium = price / NAV - 1, and this leg's NAV is not provably the
+            # session's -- the page must say the arithmetic is not a decision
+            check("a swap priced on an unproven NAV withholds the advice (r2219)",
+                  "分母不是本场的净值" in _mdpc and "不印换腿建议" in _mdpc
+                  and "不合并、不替你选" not in _mdpc)
+            _pcz = json.loads(json.dumps(p1))
+            _lz = (_pcz["etf_premium_choice"]["stretched"] or [{}])[0]
+            _lz["premium_is_session_native"] = True
+            _lz["verdict"] = "SWAP_AT_BOOK_HORIZON"
+            _pcz["etf_premium_choice"]["verdict"] = "RULERS_AGREE_SWAP"
+            _mdz = render_md(_pcz)
+            check("proven evidence puts the swap advice back (r2219)",
+                  "不印换腿建议" not in _mdz and "不合并、不替你选" in _mdz)
         check("the premium is printed as a percent, never rescaled (r1835)",
               "{} 这一腿换不换".format(_leg0.get("symbol")) in _mdpc
               and "{:+.2f}%".format(_leg0.get("premium_pct")) in _mdpc
