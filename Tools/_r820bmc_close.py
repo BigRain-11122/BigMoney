@@ -127,8 +127,8 @@ REPORT = (NOW_ISO + " | r820 | dept:工程/舰队（W17 波根因修复+SLA 失�
           "key','entry_source',...无 faces]·w16_grammar.json faces=77〕——修法=state 换装"
           "w16 face grammar（face_grammar 别名·主进程 tl1.GRAMMAR 同源）+judge 面同窗补 "
           "state['grammar'] 字段（w16 cmd_judge L3710 先例·防 judge 被 autofill 领走后"
-          "再炸一次）·验证=py_compile+selftest 21/21+1384 cells 59 mks 全解析
-          （results/_r820bmc_mkcheck.py）·fuse 按 hash-change 自清律下个领取周期自愈"
+          "再炸一次）·验证=py_compile+selftest 21/21+1384 cells 59 mks 全解析"
+"          （results/_r820bmc_mkcheck.py）·fuse 按 hash-change 自清律下个领取周期自愈"
           "〔shards 0/1 的 143 拒投随新 hash 失效〕；第二病灶=RAM 门（runner 4GB 三采样"
           "门·当前空闲 %.1fGB 低于线·shard-2 20:56→21:37 40min 等待后诚实 park 实锚"
           "〔r491 park law·非 crash〕·CEO 桌面 Doubao ~4GB 不可动+ComfyUI 2.9GB idle "
