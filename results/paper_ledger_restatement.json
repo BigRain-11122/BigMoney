@@ -1,0 +1,2007 @@
+{
+  "face": "paper_ledger_restatement_audit",
+  "why": "the risk board says the book cannot be trusted; this face says which pocket of which bar moved after it was printed, and which reader is still holding the earlier printing",
+  "generated": "2026-11-29T00:23:49+08:00",
+  "evidence_cutoff": "2026-11-27",
+  "verdict": "LEDGER_RESTATES_SAME_BAR",
+  "statement": "5 of 6 paper traders restated a bar they had already printed (9 events, -51395.05 CNY of equity rewritten). 5 reader/trader gaps are open and 5 of them close against the restatement arithmetic to the cent -- the gap is the restatement, not an arithmetic error.",
+  "summary": {
+    "n_traders": 6,
+    "n_traders_restated": 5,
+    "n_restatement_events": 9,
+    "total_restated_equity_cny": -51395.05,
+    "pockets": {
+      "POSITIONS_AND_CASH": 7,
+      "CASH_ONLY": 2
+    },
+    "readers_behind": [
+      "strategy_scorecard"
+    ],
+    "n_reader_trader_gaps": 5,
+    "n_gaps_closed_by_restatement": 5,
+    "cutoff": "2026-11-27"
+  },
+  "traders": [
+    {
+      "trader": "COMPOSITE-CE-01",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:04",
+      "n_printings_scanned": 22,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:00",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 984270.26,
+            "positions": 941331.39,
+            "cash": 42938.87
+          }
+        },
+        {
+          "commit": "a9b5ad833b",
+          "updated": "2026-10-27 21:26:16",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 992438.77,
+            "positions": 668241.23,
+            "cash": 324197.54
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:49",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 991712.49,
+            "positions": 762638.85,
+            "cash": 229073.64
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:44",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 994659.77,
+            "positions": 765586.14,
+            "cash": 229073.63
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:49",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 991712.49,
+            "positions": 762638.85,
+            "cash": 229073.64
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:10",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 993366.72,
+            "positions": 764293.09,
+            "cash": 229073.63
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:25",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 987555.99,
+            "positions": 758482.35,
+            "cash": 229073.64
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:52",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 988431.25,
+            "positions": 759357.6,
+            "cash": 229073.65
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:05",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 986067.42,
+            "positions": 756993.79,
+            "cash": 229073.63
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:38",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 984885.58,
+            "positions": 181093.02,
+            "cash": 803792.56
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:36",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 988417.56,
+            "positions": 851660.64,
+            "cash": 136756.92
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:31:57",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 988427.96,
+            "positions": 758575.68,
+            "cash": 229852.28
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:12",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 989733.56,
+            "positions": 950129.05,
+            "cash": 39604.51
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:19",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 983628.17,
+            "positions": 944023.66,
+            "cash": 39604.51
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:15",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 985626.24,
+            "positions": 946021.72,
+            "cash": 39604.52
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:52",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 984926.25,
+            "positions": 945321.75,
+            "cash": 39604.5
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:04:52",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 987572.43,
+            "positions": 947967.91,
+            "cash": 39604.52
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:01",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 976152.58,
+            "positions": 936548.07,
+            "cash": 39604.51
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:13",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 983136.21,
+            "positions": 943531.7,
+            "cash": 39604.51
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:06",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 974675.54,
+            "positions": 935071.04,
+            "cash": 39604.5
+          }
+        },
+        {
+          "commit": "ea8bb06e0b",
+          "updated": "2026-11-27 15:35:24",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 982830.47,
+            "positions": 943225.96,
+            "cash": 39604.51
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:04",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 979634.08,
+            "positions": 943225.96,
+            "cash": 36408.12
+          }
+        }
+      ],
+      "restatements": [
+        {
+          "cutoff": "2026-10-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "a9b5ad833b",
+            "updated": "2026-10-27 21:26:16",
+            "capital": {
+              "equity": 992438.77,
+              "positions": 668241.23,
+              "cash": 324197.54
+            }
+          },
+          "last": {
+            "commit": "c528fe34f2",
+            "updated": "2026-10-28 08:57:49",
+            "capital": {
+              "equity": 991712.49,
+              "positions": 762638.85,
+              "cash": 229073.64
+            }
+          },
+          "delta": {
+            "equity": -726.28,
+            "positions": 94397.62,
+            "cash": -95123.9
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": -0.0
+        },
+        {
+          "cutoff": "2026-11-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "ea8bb06e0b",
+            "updated": "2026-11-27 15:35:24",
+            "capital": {
+              "equity": 982830.47,
+              "positions": 943225.96,
+              "cash": 39604.51
+            }
+          },
+          "last": {
+            "commit": "worktree",
+            "updated": "2026-11-28 22:20:04",
+            "capital": {
+              "equity": 979634.08,
+              "positions": 943225.96,
+              "cash": 36408.12
+            }
+          },
+          "delta": {
+            "equity": -3196.39,
+            "positions": 0.0,
+            "cash": -3196.39
+          },
+          "pocket": "CASH_ONLY",
+          "identity_residual_cny": 0.0
+        }
+      ]
+    },
+    {
+      "trader": "COMPOSITE-CE-02",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:06",
+      "n_printings_scanned": 22,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:01",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 979874.88,
+            "positions": 880725.27,
+            "cash": 99149.61
+          }
+        },
+        {
+          "commit": "a9b5ad833b",
+          "updated": "2026-10-27 21:26:17",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 986712.79,
+            "positions": 537638.57,
+            "cash": 449074.22
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:50",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 984656.32,
+            "positions": 654436.92,
+            "cash": 330219.4
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:45",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 989313.68,
+            "positions": 659094.24,
+            "cash": 330219.44
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:50",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 984656.32,
+            "positions": 654436.92,
+            "cash": 330219.4
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:11",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 989142.52,
+            "positions": 658923.09,
+            "cash": 330219.43
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:26",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 984228.08,
+            "positions": 654008.64,
+            "cash": 330219.44
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:52",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 983990.07,
+            "positions": 653770.65,
+            "cash": 330219.42
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:06",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 974418.6,
+            "positions": 645628.07,
+            "cash": 328790.53
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:39",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 974569.61,
+            "positions": 171262.83,
+            "cash": 803306.78
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:37",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 978557.88,
+            "positions": 769526.06,
+            "cash": 209031.82
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:31:59",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 978872.35,
+            "positions": 532899.35,
+            "cash": 445973.0
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:13",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 979029.69,
+            "positions": 889621.06,
+            "cash": 89408.63
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:20",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 979618.58,
+            "positions": 890209.96,
+            "cash": 89408.62
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:16",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 980018.77,
+            "positions": 890610.14,
+            "cash": 89408.63
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:53",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 977968.12,
+            "positions": 888559.5,
+            "cash": 89408.62
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:04:54",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 977401.84,
+            "positions": 887993.2,
+            "cash": 89408.64
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:02",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 972600.27,
+            "positions": 828557.96,
+            "cash": 144042.31
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:15",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 974837.9,
+            "positions": 828124.68,
+            "cash": 146713.22
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:08",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 968280.54,
+            "positions": 821567.32,
+            "cash": 146713.22
+          }
+        },
+        {
+          "commit": "ea8bb06e0b",
+          "updated": "2026-11-27 15:35:25",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 977953.38,
+            "positions": 780577.8,
+            "cash": 197375.58
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:06",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 966466.47,
+            "positions": 902629.42,
+            "cash": 63837.05
+          }
+        }
+      ],
+      "restatements": [
+        {
+          "cutoff": "2026-10-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "a9b5ad833b",
+            "updated": "2026-10-27 21:26:17",
+            "capital": {
+              "equity": 986712.79,
+              "positions": 537638.57,
+              "cash": 449074.22
+            }
+          },
+          "last": {
+            "commit": "c528fe34f2",
+            "updated": "2026-10-28 08:57:50",
+            "capital": {
+              "equity": 984656.32,
+              "positions": 654436.92,
+              "cash": 330219.4
+            }
+          },
+          "delta": {
+            "equity": -2056.47,
+            "positions": 116798.35,
+            "cash": -118854.82
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        },
+        {
+          "cutoff": "2026-11-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "ea8bb06e0b",
+            "updated": "2026-11-27 15:35:25",
+            "capital": {
+              "equity": 977953.38,
+              "positions": 780577.8,
+              "cash": 197375.58
+            }
+          },
+          "last": {
+            "commit": "worktree",
+            "updated": "2026-11-28 22:20:06",
+            "capital": {
+              "equity": 966466.47,
+              "positions": 902629.42,
+              "cash": 63837.05
+            }
+          },
+          "delta": {
+            "equity": -11486.91,
+            "positions": 122051.62,
+            "cash": -133538.53
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        }
+      ]
+    },
+    {
+      "trader": "DROUGHT-CE-01",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:08",
+      "n_printings_scanned": 22,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:02",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 987969.65,
+            "positions": 95520.42,
+            "cash": 892449.23
+          }
+        },
+        {
+          "commit": "a9b5ad833b",
+          "updated": "2026-10-27 21:26:17",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 993853.07,
+            "positions": 47628.46,
+            "cash": 946224.61
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:52",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 987706.14,
+            "positions": 95256.91,
+            "cash": 892449.23
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:47",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 994149.51,
+            "positions": 47924.91,
+            "cash": 946224.6
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:52",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 987706.14,
+            "positions": 95256.91,
+            "cash": 892449.23
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:12",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 993095.5,
+            "positions": 46870.89,
+            "cash": 946224.61
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:27",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 992173.23,
+            "positions": 45948.62,
+            "cash": 946224.61
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:53",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 992179.1,
+            "positions": 0.0,
+            "cash": 992179.1
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:07",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:39",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:40",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:32:01",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:16",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:21",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:17",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:54",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:04:56",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:05",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:16",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:10",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "ea8bb06e0b",
+          "updated": "2026-11-27 15:35:28",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 994450.43,
+            "positions": 0.0,
+            "cash": 994450.43
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:08",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 988900.87,
+            "positions": 0.0,
+            "cash": 988900.87
+          }
+        }
+      ],
+      "restatements": [
+        {
+          "cutoff": "2026-10-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "a9b5ad833b",
+            "updated": "2026-10-27 21:26:17",
+            "capital": {
+              "equity": 993853.07,
+              "positions": 47628.46,
+              "cash": 946224.61
+            }
+          },
+          "last": {
+            "commit": "c528fe34f2",
+            "updated": "2026-10-28 08:57:52",
+            "capital": {
+              "equity": 987706.14,
+              "positions": 95256.91,
+              "cash": 892449.23
+            }
+          },
+          "delta": {
+            "equity": -6146.93,
+            "positions": 47628.45,
+            "cash": -53775.38
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        },
+        {
+          "cutoff": "2026-11-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "ea8bb06e0b",
+            "updated": "2026-11-27 15:35:28",
+            "capital": {
+              "equity": 994450.43,
+              "positions": 0.0,
+              "cash": 994450.43
+            }
+          },
+          "last": {
+            "commit": "worktree",
+            "updated": "2026-11-28 22:20:08",
+            "capital": {
+              "equity": 988900.87,
+              "positions": 0.0,
+              "cash": 988900.87
+            }
+          },
+          "delta": {
+            "equity": -5549.56,
+            "positions": 0.0,
+            "cash": -5549.56
+          },
+          "pocket": "CASH_ONLY",
+          "identity_residual_cny": 0.0
+        }
+      ]
+    },
+    {
+      "trader": "ENGULF-CE-01",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:10",
+      "n_printings_scanned": 22,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:04",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 991157.24,
+            "positions": 191418.05,
+            "cash": 799739.19
+          }
+        },
+        {
+          "commit": "a9b5ad833b",
+          "updated": "2026-10-27 21:26:18",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 991773.45,
+            "positions": 91903.85,
+            "cash": 899869.6
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:53",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 983546.9,
+            "positions": 183807.72,
+            "cash": 799739.18
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:49",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 994573.51,
+            "positions": 48106.06,
+            "cash": 946467.45
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:53",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 983546.9,
+            "positions": 183807.72,
+            "cash": 799739.18
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:13",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 990154.06,
+            "positions": 93751.81,
+            "cash": 896402.25
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:28",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 986511.45,
+            "positions": 45801.53,
+            "cash": 940709.92
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:54",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 987120.1,
+            "positions": 50161.81,
+            "cash": 936958.29
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:09",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 989278.76,
+            "positions": 63217.43,
+            "cash": 926061.33
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:40",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 989224.83,
+            "positions": 63163.5,
+            "cash": 926061.33
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:42",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 992398.42,
+            "positions": 66337.09,
+            "cash": 926061.33
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:32:03",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 991877.67,
+            "positions": 51941.75,
+            "cash": 939935.92
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:18",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 990205.61,
+            "positions": 50269.68,
+            "cash": 939935.93
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:23",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 987616.61,
+            "positions": 47680.69,
+            "cash": 939935.92
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:19",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 986854.16,
+            "positions": 0.0,
+            "cash": 986854.16
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:55",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 987466.92,
+            "positions": 50677.97,
+            "cash": 936788.95
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:04:58",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 987749.41,
+            "positions": 50960.46,
+            "cash": 936788.95
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:07",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 985715.51,
+            "positions": 48926.56,
+            "cash": 936788.95
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:18",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 985442.6,
+            "positions": 98718.85,
+            "cash": 886723.75
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:12",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 981744.25,
+            "positions": 95020.51,
+            "cash": 886723.74
+          }
+        },
+        {
+          "commit": "ea8bb06e0b",
+          "updated": "2026-11-27 15:35:30",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 988834.31,
+            "positions": 102110.57,
+            "cash": 886723.74
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:10",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 977668.61,
+            "positions": 204221.11,
+            "cash": 773447.5
+          }
+        }
+      ],
+      "restatements": [
+        {
+          "cutoff": "2026-10-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "a9b5ad833b",
+            "updated": "2026-10-27 21:26:18",
+            "capital": {
+              "equity": 991773.45,
+              "positions": 91903.85,
+              "cash": 899869.6
+            }
+          },
+          "last": {
+            "commit": "c528fe34f2",
+            "updated": "2026-10-28 08:57:53",
+            "capital": {
+              "equity": 983546.9,
+              "positions": 183807.72,
+              "cash": 799739.18
+            }
+          },
+          "delta": {
+            "equity": -8226.55,
+            "positions": 91903.87,
+            "cash": -100130.42
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        },
+        {
+          "cutoff": "2026-11-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "ea8bb06e0b",
+            "updated": "2026-11-27 15:35:30",
+            "capital": {
+              "equity": 988834.31,
+              "positions": 102110.57,
+              "cash": 886723.74
+            }
+          },
+          "last": {
+            "commit": "worktree",
+            "updated": "2026-11-28 22:20:10",
+            "capital": {
+              "equity": 977668.61,
+              "positions": 204221.11,
+              "cash": 773447.5
+            }
+          },
+          "delta": {
+            "equity": -11165.7,
+            "positions": 102110.54,
+            "cash": -113276.24
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        }
+      ]
+    },
+    {
+      "trader": "NEEDLE-DE-01",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:13",
+      "n_printings_scanned": 20,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:05",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:54",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:51",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:54",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:14",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:29",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:55",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:11",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:41",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:44",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:32:05",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:20",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:24",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:20",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:56",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:05:01",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:09",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:20",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:14",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:13",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 1000000.0,
+            "positions": 0.0,
+            "cash": 1000000.0
+          }
+        }
+      ],
+      "restatements": []
+    },
+    {
+      "trader": "VOLATILITY-CE-01",
+      "cutoff": "2026-11-27",
+      "updated": "2026-11-28 22:20:14",
+      "n_printings_scanned": 21,
+      "version_tape": [
+        {
+          "commit": "89b38b9f5e",
+          "updated": "2026-10-27 06:34:06",
+          "cutoff": "2026-10-26",
+          "capital": {
+            "equity": 994151.11,
+            "positions": 494803.74,
+            "cash": 499347.37
+          }
+        },
+        {
+          "commit": "c528fe34f2",
+          "updated": "2026-10-28 08:57:55",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 995040.32,
+            "positions": 302023.54,
+            "cash": 693016.78
+          }
+        },
+        {
+          "commit": "91efbbd937",
+          "updated": "2026-10-28 21:19:53",
+          "cutoff": "2026-10-28",
+          "capital": {
+            "equity": 994417.07,
+            "positions": 401530.69,
+            "cash": 592886.38
+          }
+        },
+        {
+          "commit": "9f8010c78f",
+          "updated": "2026-10-28 08:57:55",
+          "cutoff": "2026-10-27",
+          "capital": {
+            "equity": 995040.32,
+            "positions": 302023.54,
+            "cash": 693016.78
+          }
+        },
+        {
+          "commit": "268bb48ad5",
+          "updated": "2026-10-29 22:26:14",
+          "cutoff": "2026-10-29",
+          "capital": {
+            "equity": 994301.38,
+            "positions": 401415.0,
+            "cash": 592886.38
+          }
+        },
+        {
+          "commit": "2c2983dbc5",
+          "updated": "2026-10-30 20:46:29",
+          "cutoff": "2026-10-30",
+          "capital": {
+            "equity": 992310.08,
+            "positions": 399423.7,
+            "cash": 592886.38
+          }
+        },
+        {
+          "commit": "fb9794a3ce",
+          "updated": "2026-11-02 23:29:55",
+          "cutoff": "2026-11-02",
+          "capital": {
+            "equity": 992732.31,
+            "positions": 399845.93,
+            "cash": 592886.38
+          }
+        },
+        {
+          "commit": "590ec1cd8e",
+          "updated": "2026-11-07 01:10:12",
+          "cutoff": "2026-11-06",
+          "capital": {
+            "equity": 993865.38,
+            "positions": 400979.01,
+            "cash": 592886.37
+          }
+        },
+        {
+          "commit": "9ba41152de",
+          "updated": "2026-11-09 22:17:42",
+          "cutoff": "2026-11-09",
+          "capital": {
+            "equity": 993813.52,
+            "positions": 98442.91,
+            "cash": 895370.61
+          }
+        },
+        {
+          "commit": "dd4e4b930a",
+          "updated": "2026-11-11 15:40:45",
+          "cutoff": "2026-11-11",
+          "capital": {
+            "equity": 992063.59,
+            "positions": 397083.31,
+            "cash": 594980.28
+          }
+        },
+        {
+          "commit": "8d11824a48",
+          "updated": "2026-11-12 15:32:06",
+          "cutoff": "2026-11-12",
+          "capital": {
+            "equity": 991885.02,
+            "positions": 396904.74,
+            "cash": 594980.28
+          }
+        },
+        {
+          "commit": "aba3562353",
+          "updated": "2026-11-16 13:52:21",
+          "cutoff": "2026-11-13",
+          "capital": {
+            "equity": 991557.25,
+            "positions": 396576.98,
+            "cash": 594980.27
+          }
+        },
+        {
+          "commit": "46988238ad",
+          "updated": "2026-11-17 12:59:25",
+          "cutoff": "2026-11-16",
+          "capital": {
+            "equity": 989465.31,
+            "positions": 394485.03,
+            "cash": 594980.28
+          }
+        },
+        {
+          "commit": "afe1581043",
+          "updated": "2026-11-17 15:53:21",
+          "cutoff": "2026-11-17",
+          "capital": {
+            "equity": 990598.43,
+            "positions": 395618.17,
+            "cash": 594980.26
+          }
+        },
+        {
+          "commit": "470e778571",
+          "updated": "2026-11-18 16:16:57",
+          "cutoff": "2026-11-18",
+          "capital": {
+            "equity": 989776.32,
+            "positions": 394796.04,
+            "cash": 594980.28
+          }
+        },
+        {
+          "commit": "338948729d",
+          "updated": "2026-11-19 16:05:02",
+          "cutoff": "2026-11-19",
+          "capital": {
+            "equity": 989700.35,
+            "positions": 349584.45,
+            "cash": 640115.9
+          }
+        },
+        {
+          "commit": "a8cf2b71c6",
+          "updated": "2026-11-20 15:43:11",
+          "cutoff": "2026-11-20",
+          "capital": {
+            "equity": 989017.01,
+            "positions": 349790.2,
+            "cash": 639226.81
+          }
+        },
+        {
+          "commit": "23431212f7",
+          "updated": "2026-11-24 16:08:21",
+          "cutoff": "2026-11-24",
+          "capital": {
+            "equity": 989194.59,
+            "positions": 400033.0,
+            "cash": 589161.59
+          }
+        },
+        {
+          "commit": "89e675cfdd",
+          "updated": "2026-11-25 16:04:15",
+          "cutoff": "2026-11-25",
+          "capital": {
+            "equity": 987294.19,
+            "positions": 398132.6,
+            "cash": 589161.59
+          }
+        },
+        {
+          "commit": "ea8bb06e0b",
+          "updated": "2026-11-27 15:35:33",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 990675.4,
+            "positions": 401513.83,
+            "cash": 589161.57
+          }
+        },
+        {
+          "commit": "worktree",
+          "updated": "2026-11-28 22:20:14",
+          "cutoff": "2026-11-27",
+          "capital": {
+            "equity": 987835.14,
+            "positions": 504622.62,
+            "cash": 483212.52
+          }
+        }
+      ],
+      "restatements": [
+        {
+          "cutoff": "2026-11-27",
+          "n_printings": 2,
+          "first": {
+            "commit": "ea8bb06e0b",
+            "updated": "2026-11-27 15:35:33",
+            "capital": {
+              "equity": 990675.4,
+              "positions": 401513.83,
+              "cash": 589161.57
+            }
+          },
+          "last": {
+            "commit": "worktree",
+            "updated": "2026-11-28 22:20:14",
+            "capital": {
+              "equity": 987835.14,
+              "positions": 504622.62,
+              "cash": 483212.52
+            }
+          },
+          "delta": {
+            "equity": -2840.26,
+            "positions": 103108.79,
+            "cash": -105949.05
+          },
+          "pocket": "POSITIONS_AND_CASH",
+          "identity_residual_cny": 0.0
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "trader": "COMPOSITE-CE-01",
+      "cutoff": "2026-10-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "a9b5ad833b",
+        "updated": "2026-10-27 21:26:16",
+        "capital": {
+          "equity": 992438.77,
+          "positions": 668241.23,
+          "cash": 324197.54
+        }
+      },
+      "last": {
+        "commit": "c528fe34f2",
+        "updated": "2026-10-28 08:57:49",
+        "capital": {
+          "equity": 991712.49,
+          "positions": 762638.85,
+          "cash": 229073.64
+        }
+      },
+      "delta": {
+        "equity": -726.28,
+        "positions": 94397.62,
+        "cash": -95123.9
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": -0.0
+    },
+    {
+      "trader": "COMPOSITE-CE-01",
+      "cutoff": "2026-11-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "ea8bb06e0b",
+        "updated": "2026-11-27 15:35:24",
+        "capital": {
+          "equity": 982830.47,
+          "positions": 943225.96,
+          "cash": 39604.51
+        }
+      },
+      "last": {
+        "commit": "worktree",
+        "updated": "2026-11-28 22:20:04",
+        "capital": {
+          "equity": 979634.08,
+          "positions": 943225.96,
+          "cash": 36408.12
+        }
+      },
+      "delta": {
+        "equity": -3196.39,
+        "positions": 0.0,
+        "cash": -3196.39
+      },
+      "pocket": "CASH_ONLY",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "COMPOSITE-CE-02",
+      "cutoff": "2026-10-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "a9b5ad833b",
+        "updated": "2026-10-27 21:26:17",
+        "capital": {
+          "equity": 986712.79,
+          "positions": 537638.57,
+          "cash": 449074.22
+        }
+      },
+      "last": {
+        "commit": "c528fe34f2",
+        "updated": "2026-10-28 08:57:50",
+        "capital": {
+          "equity": 984656.32,
+          "positions": 654436.92,
+          "cash": 330219.4
+        }
+      },
+      "delta": {
+        "equity": -2056.47,
+        "positions": 116798.35,
+        "cash": -118854.82
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "COMPOSITE-CE-02",
+      "cutoff": "2026-11-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "ea8bb06e0b",
+        "updated": "2026-11-27 15:35:25",
+        "capital": {
+          "equity": 977953.38,
+          "positions": 780577.8,
+          "cash": 197375.58
+        }
+      },
+      "last": {
+        "commit": "worktree",
+        "updated": "2026-11-28 22:20:06",
+        "capital": {
+          "equity": 966466.47,
+          "positions": 902629.42,
+          "cash": 63837.05
+        }
+      },
+      "delta": {
+        "equity": -11486.91,
+        "positions": 122051.62,
+        "cash": -133538.53
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "DROUGHT-CE-01",
+      "cutoff": "2026-10-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "a9b5ad833b",
+        "updated": "2026-10-27 21:26:17",
+        "capital": {
+          "equity": 993853.07,
+          "positions": 47628.46,
+          "cash": 946224.61
+        }
+      },
+      "last": {
+        "commit": "c528fe34f2",
+        "updated": "2026-10-28 08:57:52",
+        "capital": {
+          "equity": 987706.14,
+          "positions": 95256.91,
+          "cash": 892449.23
+        }
+      },
+      "delta": {
+        "equity": -6146.93,
+        "positions": 47628.45,
+        "cash": -53775.38
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "DROUGHT-CE-01",
+      "cutoff": "2026-11-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "ea8bb06e0b",
+        "updated": "2026-11-27 15:35:28",
+        "capital": {
+          "equity": 994450.43,
+          "positions": 0.0,
+          "cash": 994450.43
+        }
+      },
+      "last": {
+        "commit": "worktree",
+        "updated": "2026-11-28 22:20:08",
+        "capital": {
+          "equity": 988900.87,
+          "positions": 0.0,
+          "cash": 988900.87
+        }
+      },
+      "delta": {
+        "equity": -5549.56,
+        "positions": 0.0,
+        "cash": -5549.56
+      },
+      "pocket": "CASH_ONLY",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "ENGULF-CE-01",
+      "cutoff": "2026-10-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "a9b5ad833b",
+        "updated": "2026-10-27 21:26:18",
+        "capital": {
+          "equity": 991773.45,
+          "positions": 91903.85,
+          "cash": 899869.6
+        }
+      },
+      "last": {
+        "commit": "c528fe34f2",
+        "updated": "2026-10-28 08:57:53",
+        "capital": {
+          "equity": 983546.9,
+          "positions": 183807.72,
+          "cash": 799739.18
+        }
+      },
+      "delta": {
+        "equity": -8226.55,
+        "positions": 91903.87,
+        "cash": -100130.42
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "ENGULF-CE-01",
+      "cutoff": "2026-11-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "ea8bb06e0b",
+        "updated": "2026-11-27 15:35:30",
+        "capital": {
+          "equity": 988834.31,
+          "positions": 102110.57,
+          "cash": 886723.74
+        }
+      },
+      "last": {
+        "commit": "worktree",
+        "updated": "2026-11-28 22:20:10",
+        "capital": {
+          "equity": 977668.61,
+          "positions": 204221.11,
+          "cash": 773447.5
+        }
+      },
+      "delta": {
+        "equity": -11165.7,
+        "positions": 102110.54,
+        "cash": -113276.24
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    },
+    {
+      "trader": "VOLATILITY-CE-01",
+      "cutoff": "2026-11-27",
+      "n_printings": 2,
+      "first": {
+        "commit": "ea8bb06e0b",
+        "updated": "2026-11-27 15:35:33",
+        "capital": {
+          "equity": 990675.4,
+          "positions": 401513.83,
+          "cash": 589161.57
+        }
+      },
+      "last": {
+        "commit": "worktree",
+        "updated": "2026-11-28 22:20:14",
+        "capital": {
+          "equity": 987835.14,
+          "positions": 504622.62,
+          "cash": 483212.52
+        }
+      },
+      "delta": {
+        "equity": -2840.26,
+        "positions": 103108.79,
+        "cash": -105949.05
+      },
+      "pocket": "POSITIONS_AND_CASH",
+      "identity_residual_cny": 0.0
+    }
+  ],
+  "readers": [
+    {
+      "reader": "strategy_scorecard",
+      "path": "results/strategy_scorecard.json",
+      "status": "OK",
+      "stamp": "2026-11-28T22:18:07",
+      "stamp_parsed": true,
+      "ledger_stamp_max": "2026-11-28T22:20:14",
+      "ledger_stamp_minus_reader_sec": 127.0,
+      "equity_tol_cny": 0.01,
+      "n_traders_compared": 6,
+      "n_behind": 5,
+      "n_gap_closed_by_restatement": 5,
+      "behind": [
+        {
+          "trader": "COMPOSITE-CE-01",
+          "reader_equity": 982830.47,
+          "ledger_equity": 979634.08,
+          "gap_cny": 3196.39,
+          "restatement_delta_cny": 3196.39,
+          "tol_cny": 0.01,
+          "gap_equals_restatement": true
+        },
+        {
+          "trader": "COMPOSITE-CE-02",
+          "reader_equity": 977953.38,
+          "ledger_equity": 966466.47,
+          "gap_cny": 11486.91,
+          "restatement_delta_cny": 11486.91,
+          "tol_cny": 0.01,
+          "gap_equals_restatement": true
+        },
+        {
+          "trader": "DROUGHT-CE-01",
+          "reader_equity": 994450.43,
+          "ledger_equity": 988900.87,
+          "gap_cny": 5549.56,
+          "restatement_delta_cny": 5549.56,
+          "tol_cny": 0.01,
+          "gap_equals_restatement": true
+        },
+        {
+          "trader": "ENGULF-CE-01",
+          "reader_equity": 988834.31,
+          "ledger_equity": 977668.61,
+          "gap_cny": 11165.7,
+          "restatement_delta_cny": 11165.7,
+          "tol_cny": 0.01,
+          "gap_equals_restatement": true
+        },
+        {
+          "trader": "VOLATILITY-CE-01",
+          "reader_equity": 990675.4,
+          "ledger_equity": 987835.14,
+          "gap_cny": 2840.26,
+          "restatement_delta_cny": 2840.26,
+          "tol_cny": 0.01,
+          "gap_equals_restatement": true
+        }
+      ],
+      "checked_at": "2026-11-29T00:23:49+08:00"
+    },
+    {
+      "reader": "paper_export",
+      "path": "results/paper_export/latest.json",
+      "status": "OK",
+      "stamp": "2026-11-28 22:20:14",
+      "stamp_parsed": true,
+      "ledger_stamp_max": "2026-11-28T22:20:14",
+      "ledger_stamp_minus_reader_sec": 0.0,
+      "equity_tol_cny": 0.01,
+      "n_traders_compared": 6,
+      "n_behind": 0,
+      "n_gap_closed_by_restatement": 0,
+      "behind": [],
+      "checked_at": "2026-11-29T00:23:49+08:00"
+    },
+    {
+      "reader": "ceo_live_page",
+      "path": "docs/live_usage/LIVE-latest.json",
+      "status": "OK",
+      "stamp": "2026-11-28T22:26:08",
+      "stamp_parsed": true,
+      "ledger_stamp_max": "2026-11-28T22:20:14",
+      "ledger_stamp_minus_reader_sec": -354.0,
+      "equity_tol_cny": 0.5,
+      "n_traders_compared": 6,
+      "n_behind": 0,
+      "n_gap_closed_by_restatement": 0,
+      "behind": [],
+      "checked_at": "2026-11-29T00:23:49+08:00"
+    }
+  ],
+  "notes": [
+    "Only (trader, cutoff) pairs printed with more than one capital signature count as a restatement; a normal bar advance is a new cutoff.",
+    "POSITIONS_AND_CASH means marks stayed put while quantities moved -- the shape of a fill booked after the bar was published. CASH_ONLY moves the equity line without touching holdings.",
+    "Cause is not determinable from the ledger alone: the paper books carry no trade tape, so this face reports the pocket, never the reason.",
+    "A reader whose gap equals the restatement to the cent was reading the pre-restatement printing; one whose gap does not is a separate defect."
+  ]
+}
