@@ -2,13 +2,13 @@
  "cash_face": {
   "first_bar": "2011-05-13",
   "instrument": "GC001 rolled overnight, natural-day accrual",
-  "last_bar": "2026-11-25",
+  "last_bar": "2026-11-27",
   "rate_convention": "annualised percent close, /365 per natural day, prior-bar rate (causal)",
   "tape": "data/repo_daily/GC001.csv"
  },
  "cutoff_rule": "max of the audited faces' own evidence_cutoff fields",
  "decision": "SOME_ARMS_BEAT_CASH",
- "decision_after_multiplicity": "NO_ARM_SURVIVES_MULTIPLICITY",
+ "decision_after_multiplicity": "AN_ARM_SURVIVES_MULTIPLICITY",
  "decision_rule": "an arm beats cash only when the paired daily difference (arm - cash) has positive annualised mean AND t >= 1.96",
  "evidence_cutoff": "2026-11-26",
  "faces": [
@@ -17,79 +17,79 @@
    "evidence_cutoff": "2026-11-26",
    "face": "census_bond_futures",
    "n_arm_specs": 5,
-   "n_bars": 2392,
+   "n_bars": 2393,
    "n_reproduced": 5,
    "n_rows": 5,
    "rows": [
     {
      "ann_pct": 3.21,
-     "ann_pct_calendar": 3.19,
+     "ann_pct_calendar": 3.18,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.7,
+     "excess_over_cash_pp": 0.69,
      "face": "census_bond_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 0.89,
+     "n": 2393,
+     "paired_mean_ann_pp": 0.88,
      "paired_t": 0.43,
      "variant": "tsmom|{'lookback': 60, 'skip': 21}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 3.21,
-     "ann_pct_calendar": 3.19,
+     "ann_pct_calendar": 3.18,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.7,
+     "excess_over_cash_pp": 0.69,
      "face": "census_bond_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 0.9,
-     "paired_t": 0.43,
+     "n": 2393,
+     "paired_mean_ann_pp": 0.89,
+     "paired_t": 0.42,
      "variant": "tsmom|{'lookback': 120, 'skip': 21}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 2.84,
-     "ann_pct_calendar": 2.82,
+     "ann_pct_calendar": 2.81,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.33,
+     "excess_over_cash_pp": 0.32,
      "face": "census_bond_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 0.54,
-     "paired_t": 0.26,
+     "n": 2393,
+     "paired_mean_ann_pp": 0.53,
+     "paired_t": 0.25,
      "variant": "tsmom|{'lookback': 250, 'skip': 21}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 1.92,
-     "ann_pct_calendar": 1.91,
+     "ann_pct_calendar": 1.9,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -0.58,
+     "excess_over_cash_pp": -0.59,
      "face": "census_bond_futures",
      "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -0.38,
+     "n": 2393,
+     "paired_mean_ann_pp": -0.4,
      "paired_t": -0.2,
      "variant": "ma_cross|{'fast': 20, 'slow': 60}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 4.02,
-     "ann_pct_calendar": 4.0,
+     "ann_pct_calendar": 3.98,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 1.51,
+     "excess_over_cash_pp": 1.49,
      "face": "census_bond_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.68,
-     "paired_t": 0.8,
+     "n": 2393,
+     "paired_mean_ann_pp": 1.67,
+     "paired_t": 0.79,
      "variant": "ma_cross|{'fast': 50, 'slow': 200}|long",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -97,7 +97,7 @@
    "evidence_cutoff": "2026-11-26",
    "face": "census_commodity",
    "n_arm_specs": 14,
-   "n_bars": 4599,
+   "n_bars": 4600,
    "n_reproduced": 14,
    "n_rows": 14,
    "rows": [
@@ -108,7 +108,7 @@
      "excess_over_cash_pp": 0.51,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
+     "n": 4600,
      "paired_mean_ann_pp": 0.71,
      "paired_t": 0.47,
      "variant": "tsmom|{'lookback': 60, 'skip': 21}|long",
@@ -116,25 +116,25 @@
     },
     {
      "ann_pct": 1.52,
-     "ann_pct_calendar": 1.51,
+     "ann_pct_calendar": 1.47,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.74,
+     "excess_over_cash_pp": -0.78,
      "face": "census_commodity",
      "label": "LOSES_TO_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": -0.36,
-     "paired_t": -0.18,
+     "n": 4600,
+     "paired_mean_ann_pp": -0.4,
+     "paired_t": -0.2,
      "variant": "tsmom|{'lookback': 60, 'skip': 21}|ls",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 4.42,
-     "ann_pct_calendar": 4.41,
+     "ann_pct_calendar": 4.4,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.16,
+     "excess_over_cash_pp": 2.15,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
+     "n": 4600,
      "paired_mean_ann_pp": 2.29,
      "paired_t": 1.57,
      "variant": "tsmom|{'lookback': 120, 'skip': 21}|long",
@@ -142,40 +142,40 @@
     },
     {
      "ann_pct": 4.99,
-     "ann_pct_calendar": 4.98,
+     "ann_pct_calendar": 4.93,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.73,
+     "excess_over_cash_pp": 2.68,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 2.99,
-     "paired_t": 1.55,
+     "n": 4600,
+     "paired_mean_ann_pp": 2.95,
+     "paired_t": 1.53,
      "variant": "tsmom|{'lookback': 120, 'skip': 21}|ls",
      "verdict": "GO"
     },
     {
      "ann_pct": 4.54,
-     "ann_pct_calendar": 4.53,
+     "ann_pct_calendar": 4.56,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.28,
+     "excess_over_cash_pp": 2.31,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 2.4,
-     "paired_t": 1.69,
+     "n": 4600,
+     "paired_mean_ann_pp": 2.43,
+     "paired_t": 1.71,
      "variant": "tsmom|{'lookback': 250, 'skip': 21}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 5.19,
-     "ann_pct_calendar": 5.18,
+     "ann_pct_calendar": 5.21,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.93,
+     "excess_over_cash_pp": 2.96,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 3.16,
-     "paired_t": 1.69,
+     "n": 4600,
+     "paired_mean_ann_pp": 3.19,
+     "paired_t": 1.71,
      "variant": "tsmom|{'lookback': 250, 'skip': 21}|ls",
      "verdict": "GO"
     },
@@ -186,7 +186,7 @@
      "excess_over_cash_pp": 0.77,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
+     "n": 4600,
      "paired_mean_ann_pp": 0.97,
      "paired_t": 0.63,
      "variant": "ma_cross|{'fast': 20, 'slow': 60}|long",
@@ -194,14 +194,14 @@
     },
     {
      "ann_pct": 2.46,
-     "ann_pct_calendar": 2.45,
+     "ann_pct_calendar": 2.41,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 0.2,
+     "excess_over_cash_pp": 0.16,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 0.58,
-     "paired_t": 0.29,
+     "n": 4600,
+     "paired_mean_ann_pp": 0.54,
+     "paired_t": 0.27,
      "variant": "ma_cross|{'fast': 20, 'slow': 60}|ls",
      "verdict": "NO_EDGE"
     },
@@ -212,81 +212,81 @@
      "excess_over_cash_pp": 2.09,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 2.23,
+     "n": 4600,
+     "paired_mean_ann_pp": 2.24,
      "paired_t": 1.5,
      "variant": "ma_cross|{'fast': 50, 'slow': 200}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 4.09,
-     "ann_pct_calendar": 4.08,
+     "ann_pct_calendar": 4.05,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 1.83,
+     "excess_over_cash_pp": 1.8,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 2.15,
-     "paired_t": 1.07,
+     "n": 4600,
+     "paired_mean_ann_pp": 2.13,
+     "paired_t": 1.06,
      "variant": "ma_cross|{'fast': 50, 'slow': 200}|ls",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 3.37,
-     "ann_pct_calendar": 3.36,
+     "ann_pct_calendar": 3.32,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 1.11,
+     "excess_over_cash_pp": 1.07,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 1.51,
-     "paired_t": 0.71,
+     "n": 4600,
+     "paired_mean_ann_pp": 1.47,
+     "paired_t": 0.69,
      "variant": "donchian|{'entry': 20, 'exit': 10}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 2.07,
-     "ann_pct_calendar": 2.06,
+     "ann_pct_calendar": 2.02,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.19,
+     "excess_over_cash_pp": -0.23,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 0.2,
-     "paired_t": 0.1,
+     "n": 4600,
+     "paired_mean_ann_pp": 0.16,
+     "paired_t": 0.08,
      "variant": "donchian|{'entry': 20, 'exit': 10}|ls",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 2.08,
-     "ann_pct_calendar": 2.07,
+     "ann_pct_calendar": 2.03,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.18,
+     "excess_over_cash_pp": -0.22,
      "face": "census_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 0.25,
-     "paired_t": 0.12,
+     "n": 4600,
+     "paired_mean_ann_pp": 0.21,
+     "paired_t": 0.1,
      "variant": "donchian|{'entry': 55, 'exit': 20}|long",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 1.82,
-     "ann_pct_calendar": 1.81,
+     "ann_pct_calendar": 1.77,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.44,
+     "excess_over_cash_pp": -0.48,
      "face": "census_commodity",
      "label": "LOSES_TO_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": -0.04,
-     "paired_t": -0.02,
+     "n": 4600,
+     "paired_mean_ann_pp": -0.08,
+     "paired_t": -0.04,
      "variant": "donchian|{'entry': 55, 'exit': 20}|ls",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -294,9 +294,9 @@
    "evidence_cutoff": "2026-11-26",
    "face": "census_index_futures",
    "n_arm_specs": 20,
-   "n_bars": 2392,
-   "n_reproduced": 20,
-   "n_rows": 20,
+   "n_bars": 2393,
+   "n_reproduced": 7,
+   "n_rows": 7,
    "rows": [
     {
      "ann_pct": 1.42,
@@ -305,23 +305,10 @@
      "excess_over_cash_pp": -1.08,
      "face": "census_index_futures",
      "label": "LOSES_TO_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": -0.61,
      "paired_t": -0.2,
      "variant": "ma_cross|{'fast': 20, 'slow': 60}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -0.08,
-     "ann_pct_calendar": -0.08,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -2.57,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -1.77,
-     "paired_t": -0.44,
-     "variant": "ma_cross|{'fast': 20, 'slow': 60}|ls",
      "verdict": "NO_EDGE"
     },
     {
@@ -331,24 +318,11 @@
      "excess_over_cash_pp": 1.6,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 2.04,
      "paired_t": 0.65,
      "variant": "ma_cross|{'fast': 50, 'slow': 100}|long",
      "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 5.5,
-     "ann_pct_calendar": 5.47,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 2.98,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 3.65,
-     "paired_t": 0.92,
-     "variant": "ma_cross|{'fast': 50, 'slow': 100}|ls",
-     "verdict": "UNINFORMATIVE_AT_TARGET"
     },
     {
      "ann_pct": 3.98,
@@ -357,24 +331,11 @@
      "excess_over_cash_pp": 1.46,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 1.89,
      "paired_t": 0.61,
      "variant": "ma_cross|{'fast': 50, 'slow': 200}|long",
      "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 6.78,
-     "ann_pct_calendar": 6.74,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 4.25,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 4.82,
-     "paired_t": 1.24,
-     "variant": "ma_cross|{'fast': 50, 'slow': 200}|ls",
-     "verdict": "UNINFORMATIVE_AT_TARGET"
     },
     {
      "ann_pct": 2.48,
@@ -383,23 +344,10 @@
      "excess_over_cash_pp": -0.03,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 0.45,
      "paired_t": 0.14,
      "variant": "ma_cross|{'fast': 100, 'slow': 200}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 3.77,
-     "ann_pct_calendar": 3.75,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 1.26,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.95,
-     "paired_t": 0.51,
-     "variant": "ma_cross|{'fast': 100, 'slow': 200}|ls",
      "verdict": "NO_EDGE"
     },
     {
@@ -409,49 +357,23 @@
      "excess_over_cash_pp": 0.74,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 1.17,
      "paired_t": 0.39,
      "variant": "tsmom|{'lookback': 60, 'skip': 21}|long",
      "verdict": "NO_EDGE"
     },
     {
-     "ann_pct": 3.64,
-     "ann_pct_calendar": 3.62,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 1.13,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.84,
-     "paired_t": 0.48,
-     "variant": "tsmom|{'lookback': 60, 'skip': 21}|ls",
-     "verdict": "NO_EDGE"
-    },
-    {
      "ann_pct": 2.75,
-     "ann_pct_calendar": 2.74,
+     "ann_pct_calendar": 2.73,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.25,
+     "excess_over_cash_pp": 0.24,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 0.69,
      "paired_t": 0.23,
      "variant": "tsmom|{'lookback': 120, 'skip': 21}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 3.56,
-     "ann_pct_calendar": 3.54,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 1.05,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.76,
-     "paired_t": 0.45,
-     "variant": "tsmom|{'lookback': 120, 'skip': 21}|ls",
      "verdict": "NO_EDGE"
     },
     {
@@ -461,107 +383,16 @@
      "excess_over_cash_pp": -0.12,
      "face": "census_index_futures",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 0.31,
      "paired_t": 0.11,
      "variant": "tsmom|{'lookback': 250, 'skip': 21}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 3.54,
-     "ann_pct_calendar": 3.52,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 1.03,
-     "face": "census_index_futures",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.71,
-     "paired_t": 0.45,
-     "variant": "tsmom|{'lookback': 250, 'skip': 21}|ls",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 0.75,
-     "ann_pct_calendar": 0.75,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -1.74,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -0.96,
-     "paired_t": -0.24,
-     "variant": "donchian|{'entry': 20, 'exit': 10}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -2.93,
-     "ann_pct_calendar": -2.92,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -5.41,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -4.72,
-     "paired_t": -1.22,
-     "variant": "donchian|{'entry': 20, 'exit': 10}|ls",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 0.06,
-     "ann_pct_calendar": 0.06,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -2.43,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -1.63,
-     "paired_t": -0.41,
-     "variant": "donchian|{'entry': 40, 'exit': 15}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -1.2,
-     "ann_pct_calendar": -1.19,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -3.68,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -2.91,
-     "paired_t": -0.73,
-     "variant": "donchian|{'entry': 40, 'exit': 15}|ls",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 1.4,
-     "ann_pct_calendar": 1.39,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -1.1,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -0.33,
-     "paired_t": -0.08,
-     "variant": "donchian|{'entry': 55, 'exit': 20}|long",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -0.11,
-     "ann_pct_calendar": -0.11,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -2.6,
-     "face": "census_index_futures",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -1.85,
-     "paired_t": -0.48,
-     "variant": "donchian|{'entry': 55, 'exit': 20}|ls",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -569,27 +400,13 @@
    "evidence_cutoff": "2026-11-26",
    "face": "pair_all10_60d",
    "n_arm_specs": 1,
-   "n_bars": 4600,
-   "n_reproduced": 1,
-   "n_rows": 1,
-   "rows": [
-    {
-     "ann_pct": 1.41,
-     "ann_pct_calendar": 1.41,
-     "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.84,
-     "face": "pair_all10_60d",
-     "label": "BEATS_CASH",
-     "n": 4600,
-     "paired_mean_ann_pp": 0.14,
-     "paired_t": 0.04,
-     "variant": "pair_all10_60d",
-     "verdict": "NO_EDGE"
-    }
-   ],
+   "n_bars": 4601,
+   "n_reproduced": 0,
+   "n_rows": 0,
+   "rows": [],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -597,7 +414,7 @@
    "evidence_cutoff": "2026-11-26",
    "face": "pair_bond_curve_60d",
    "n_arm_specs": 1,
-   "n_bars": 2392,
+   "n_bars": 2393,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
@@ -608,7 +425,7 @@
      "excess_over_cash_pp": -4.39,
      "face": "pair_bond_curve_60d",
      "label": "LOSES_TO_CASH_SIGNIFICANTLY",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": -4.23,
      "paired_t": -2.25,
      "variant": "pair_bond_curve_60d",
@@ -617,7 +434,7 @@
    ],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -625,27 +442,27 @@
    "evidence_cutoff": "2026-11-26",
    "face": "pair_commodity_60d",
    "n_arm_specs": 1,
-   "n_bars": 4599,
+   "n_bars": 4600,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
     {
      "ann_pct": 1.3,
-     "ann_pct_calendar": 1.29,
+     "ann_pct_calendar": 1.27,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.96,
+     "excess_over_cash_pp": -0.98,
      "face": "pair_commodity_60d",
      "label": "LOSES_TO_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": -0.28,
-     "paired_t": -0.1,
+     "n": 4600,
+     "paired_mean_ann_pp": -0.3,
+     "paired_t": -0.11,
      "variant": "pair_commodity_60d",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -653,27 +470,13 @@
    "evidence_cutoff": "2026-11-26",
    "face": "pair_index_60d",
    "n_arm_specs": 1,
-   "n_bars": 2392,
-   "n_reproduced": 1,
-   "n_rows": 1,
-   "rows": [
-    {
-     "ann_pct": 2.97,
-     "ann_pct_calendar": 2.96,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.47,
-     "face": "pair_index_60d",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 1.53,
-     "paired_t": 0.33,
-     "variant": "pair_index_60d",
-     "verdict": "NO_EDGE"
-    }
-   ],
+   "n_bars": 2393,
+   "n_reproduced": 0,
+   "n_rows": 0,
+   "rows": [],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -681,27 +484,27 @@
    "evidence_cutoff": "2026-11-26",
    "face": "reversal_commodity_5d",
    "n_arm_specs": 1,
-   "n_bars": 4599,
+   "n_bars": 4600,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
     {
      "ann_pct": -4.2,
-     "ann_pct_calendar": -4.19,
+     "ann_pct_calendar": -4.15,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -6.44,
+     "excess_over_cash_pp": -6.4,
      "face": "reversal_commodity_5d",
      "label": "LOSES_TO_CASH_SIGNIFICANTLY",
-     "n": 4599,
-     "paired_mean_ann_pp": -6.15,
-     "paired_t": -3.08,
+     "n": 4600,
+     "paired_mean_ann_pp": -6.11,
+     "paired_t": -3.06,
      "variant": "reversal_commodity_5d",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -709,27 +512,13 @@
    "evidence_cutoff": "2026-11-26",
    "face": "reversal_index_5d",
    "n_arm_specs": 1,
-   "n_bars": 2392,
-   "n_reproduced": 1,
-   "n_rows": 1,
-   "rows": [
-    {
-     "ann_pct": 2.28,
-     "ann_pct_calendar": 2.26,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -0.23,
-     "face": "reversal_index_5d",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 0.2,
-     "paired_t": 0.07,
-     "variant": "reversal_index_5d",
-     "verdict": "NO_EDGE"
-    }
-   ],
+   "n_bars": 2393,
+   "n_reproduced": 0,
+   "n_rows": 0,
+   "rows": [],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -737,53 +526,13 @@
    "evidence_cutoff": "2026-11-26",
    "face": "robust_donchian_index",
    "n_arm_specs": 3,
-   "n_bars": 2392,
-   "n_reproduced": 3,
-   "n_rows": 3,
-   "rows": [
-    {
-     "ann_pct": -2.93,
-     "ann_pct_calendar": -2.92,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -5.41,
-     "face": "robust_donchian_index",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -4.72,
-     "paired_t": -1.22,
-     "variant": "20_10",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -1.2,
-     "ann_pct_calendar": -1.19,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -3.68,
-     "face": "robust_donchian_index",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -2.91,
-     "paired_t": -0.73,
-     "variant": "40_15",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": -0.11,
-     "ann_pct_calendar": -0.11,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -2.6,
-     "face": "robust_donchian_index",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -1.85,
-     "paired_t": -0.48,
-     "variant": "55_20",
-     "verdict": "NO_EDGE"
-    }
-   ],
+   "n_bars": 2393,
+   "n_reproduced": 0,
+   "n_rows": 0,
+   "rows": [],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -791,53 +540,13 @@
    "evidence_cutoff": "2026-11-26",
    "face": "robust_ma_index",
    "n_arm_specs": 3,
-   "n_bars": 2392,
-   "n_reproduced": 3,
-   "n_rows": 3,
-   "rows": [
-    {
-     "ann_pct": -0.96,
-     "ann_pct_calendar": -0.95,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": -3.44,
-     "face": "robust_ma_index",
-     "label": "LOSES_TO_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": -2.67,
-     "paired_t": -0.68,
-     "variant": "20_50",
-     "verdict": "NO_EDGE"
-    },
-    {
-     "ann_pct": 5.5,
-     "ann_pct_calendar": 5.47,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 2.98,
-     "face": "robust_ma_index",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 3.65,
-     "paired_t": 0.92,
-     "variant": "50_100",
-     "verdict": "UNINFORMATIVE_AT_TARGET"
-    },
-    {
-     "ann_pct": 6.78,
-     "ann_pct_calendar": 6.74,
-     "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 4.25,
-     "face": "robust_ma_index",
-     "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 4.82,
-     "paired_t": 1.24,
-     "variant": "50_200",
-     "verdict": "UNINFORMATIVE_AT_TARGET"
-    }
-   ],
+   "n_bars": 2393,
+   "n_reproduced": 0,
+   "n_rows": 0,
+   "rows": [],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -845,53 +554,53 @@
    "evidence_cutoff": "2026-11-26",
    "face": "robust_tsmom_commodity",
    "n_arm_specs": 3,
-   "n_bars": 4599,
+   "n_bars": 4600,
    "n_reproduced": 3,
    "n_rows": 3,
    "rows": [
     {
      "ann_pct": 1.52,
-     "ann_pct_calendar": 1.51,
+     "ann_pct_calendar": 1.47,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": -0.74,
+     "excess_over_cash_pp": -0.78,
      "face": "robust_tsmom_commodity",
      "label": "LOSES_TO_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": -0.36,
-     "paired_t": -0.18,
+     "n": 4600,
+     "paired_mean_ann_pp": -0.4,
+     "paired_t": -0.2,
      "variant": "60d",
      "verdict": "NO_EDGE"
     },
     {
      "ann_pct": 4.99,
-     "ann_pct_calendar": 4.98,
+     "ann_pct_calendar": 4.93,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.73,
+     "excess_over_cash_pp": 2.68,
      "face": "robust_tsmom_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 2.99,
-     "paired_t": 1.55,
+     "n": 4600,
+     "paired_mean_ann_pp": 2.95,
+     "paired_t": 1.53,
      "variant": "120d",
      "verdict": "GO"
     },
     {
      "ann_pct": 5.19,
-     "ann_pct_calendar": 5.18,
+     "ann_pct_calendar": 5.21,
      "cash_ann_pct": 2.25,
-     "excess_over_cash_pp": 2.93,
+     "excess_over_cash_pp": 2.96,
      "face": "robust_tsmom_commodity",
      "label": "BEATS_CASH",
-     "n": 4599,
-     "paired_mean_ann_pp": 3.16,
-     "paired_t": 1.69,
+     "n": 4600,
+     "paired_mean_ann_pp": 3.19,
+     "paired_t": 1.71,
      "variant": "250d",
      "verdict": "GO"
     }
    ],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -899,7 +608,7 @@
    "evidence_cutoff": "2026-11-26",
    "face": "trend_single_AU_long",
    "n_arm_specs": 1,
-   "n_bars": 4599,
+   "n_bars": 4600,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
@@ -910,7 +619,7 @@
      "excess_over_cash_pp": 5.68,
      "face": "trend_single_AU_long",
      "label": "BEATS_CASH_SIGNIFICANTLY",
-     "n": 4599,
+     "n": 4600,
      "paired_mean_ann_pp": 5.78,
      "paired_t": 2.94,
      "variant": "trend_single_AU_long",
@@ -919,7 +628,7 @@
    ],
    "window": [
     "2008-01-09",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -927,7 +636,7 @@
    "evidence_cutoff": "2026-11-26",
    "face": "trend_single_IC_long",
    "n_arm_specs": 1,
-   "n_bars": 2392,
+   "n_bars": 2393,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
@@ -938,7 +647,7 @@
      "excess_over_cash_pp": 0.48,
      "face": "trend_single_IC_long",
      "label": "BEATS_CASH",
-     "n": 2392,
+     "n": 2393,
      "paired_mean_ann_pp": 0.79,
      "paired_t": 0.31,
      "variant": "trend_single_IC_long",
@@ -947,7 +656,7 @@
    ],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -955,7 +664,7 @@
    "evidence_cutoff": "2026-11-26",
    "face": "trend_single_RB_long",
    "n_arm_specs": 1,
-   "n_bars": 4290,
+   "n_bars": 4291,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
@@ -966,7 +675,7 @@
      "excess_over_cash_pp": -1.92,
      "face": "trend_single_RB_long",
      "label": "LOSES_TO_CASH",
-     "n": 4290,
+     "n": 4291,
      "paired_mean_ann_pp": -1.65,
      "paired_t": -0.98,
      "variant": "trend_single_RB_long",
@@ -975,7 +684,7 @@
    ],
    "window": [
     "2009-03-27",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -983,27 +692,27 @@
    "evidence_cutoff": "2026-11-26",
    "face": "trend_single_SC_long",
    "n_arm_specs": 1,
-   "n_bars": 2104,
+   "n_bars": 2105,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
     {
      "ann_pct": -1.03,
-     "ann_pct_calendar": -1.02,
+     "ann_pct_calendar": -0.99,
      "cash_ann_pct": 2.22,
-     "excess_over_cash_pp": -3.24,
+     "excess_over_cash_pp": -3.21,
      "face": "trend_single_SC_long",
      "label": "LOSES_TO_CASH",
-     "n": 2104,
-     "paired_mean_ann_pp": -2.98,
-     "paired_t": -1.21,
+     "n": 2105,
+     "paired_mean_ann_pp": -2.94,
+     "paired_t": -1.2,
      "variant": "trend_single_SC_long",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2018-03-26",
-    "2026-11-26"
+    "2026-11-27"
    ]
   },
   {
@@ -1011,31 +720,31 @@
    "evidence_cutoff": "2026-11-26",
    "face": "trend_single_T_long",
    "n_arm_specs": 1,
-   "n_bars": 2392,
+   "n_bars": 2393,
    "n_reproduced": 1,
    "n_rows": 1,
    "rows": [
     {
      "ann_pct": 3.09,
-     "ann_pct_calendar": 3.07,
+     "ann_pct_calendar": 3.06,
      "cash_ann_pct": 2.49,
-     "excess_over_cash_pp": 0.58,
+     "excess_over_cash_pp": 0.57,
      "face": "trend_single_T_long",
      "label": "BEATS_CASH",
-     "n": 2392,
-     "paired_mean_ann_pp": 0.66,
-     "paired_t": 0.47,
+     "n": 2393,
+     "paired_mean_ann_pp": 0.65,
+     "paired_t": 0.46,
      "variant": "trend_single_T_long",
      "verdict": "NO_EDGE"
     }
    ],
    "window": [
     "2017-01-17",
-    "2026-11-26"
+    "2026-11-27"
    ]
   }
  ],
- "generated": "2026-11-27T03:05:09+08:00",
+ "generated": "2026-11-28T12:14:27+08:00",
  "headline": {
   "best_arm": {
    "excess_over_cash_pp": 5.68,
@@ -1048,19 +757,19 @@
    2.22,
    2.49
   ],
-  "expected_false_positives_one_sided": 1.5,
+  "expected_false_positives_one_sided": 0.9,
   "h1_line_above_cash_pp": [
    1.51,
    1.78
   ],
   "h1_line_pp": 4.0,
-  "n_arms": 59,
-  "n_beats_cash": 38,
+  "n_arms": 37,
+  "n_beats_cash": 27,
   "n_beats_cash_significant": 1,
   "n_faces": 17,
   "n_loses_cash_significant": 2,
-  "n_point_beat_but_not_significant": 37,
-  "n_trials": 59
+  "n_point_beat_but_not_significant": 26,
+  "n_trials": 37
  },
  "multiplicity_rule": "with N arms tested at 2.5% one-sided, ~N*0.025 spurious positives are expected; a count at or below that is not evidence of a cash-beating arm",
  "schema": "bench-cash-yardstick/v1",

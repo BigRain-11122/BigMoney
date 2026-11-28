@@ -17,9 +17,9 @@ date. Anything the market did cancels out, so what is left is membership.
 
 - median |churn| **2.30 pp**, p90 **5.98 pp**, max **13.63 pp**
 - ordinary (non-swap) day: median **0.78 pp**, p90 **2.71 pp**
-- ratio churn/ordinary **2.95**; biggest swap is **5.04x** an ordinary p90 day
+- ratio churn/ordinary **2.94**; biggest swap is **5.04x** an ordinary p90 day
 - month ends within 10 bars of a swap: **52**, of which a bucket changed: **16**
-- today: reading **8.769%**, nearest edge **0.48 pp** away, swap p90 **5.98 pp** → inside the swap step: **yes**
+- today: reading **11.420%**, nearest edge **2.17 pp** away, swap p90 **5.98 pp** → inside the swap step: **yes**
 
 ## How to use it
 

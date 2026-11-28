@@ -1,20 +1,20 @@
 # 判决里的钱：三本候选的一年集中度（etf_book_year_concentration_money）
 
-证据截止 **2026-11-27**；源面 `results/etf_book_year_gate/YEAR-GATE.json`（asof 2026-11-27T20:05:44+0800）；本金 **1,000,000 元**；年集中线 **70%** 从 `candidate_year_gate.TOP2_SHARE_MAX` 导入。
+证据截止 **2026-11-27**；源面 `results/etf_book_year_gate/YEAR-GATE.json`（asof 2026-11-27T20:53:33+0800）；本金 **1,000,000 元**；年集中线 **70%** 从 `candidate_year_gate.TOP2_SHARE_MAX` 导入。
 
 ## 一句话
 
-- nobond_vt08_adopted: best year 2025 at 43.06% is worth 601,616 of the lifetime gain (60.2% of it); -9.84pp on that one year (-139,013 on the capital standing then) flips to a pass — top-2 share now 73.78% against the 70.00% line
-- nobond_base: best year 2025 at 53.73% is worth 881,794 of the lifetime gain (57.9% of it); -3.97pp on that one year (-64,512 on the capital standing then) flips to a pass — top-2 share now 71.12% against the 70.00% line
+- nobond_vt08_adopted: best year 2025 at 43.06% is worth 603,756 of the lifetime gain (60.0% of it); -9.02pp on that one year (-127,414 on the capital standing then) flips to a pass — top-2 share now 73.45% against the 70.00% line
+- nobond_base: best year 2025 at 53.73% is worth 885,518 of the lifetime gain (57.7% of it); -2.97pp on that one year (-48,343 on the capital standing then) flips to a pass — top-2 share now 70.83% against the 70.00% line
 - all_classes_published: best year 2025 at 36.34% is worth 481,009 of the lifetime gain (59.8% of it); -16.68pp on that one year (-219,095 on the capital standing then) flips to a pass — top-2 share now 77.60% against the 70.00% line
-- 最薄的那一本是 nobond_base：top-2 份额 71.12% 对 70.00% 的线，只差 1.12pp；换成钱，就是 2025 年那一年只要多印（或少印）3.97pp、当时本金上 64,512 元，判词就翻面。这不是能力测量，是一次舍入测量。
+- 最薄的那一本是 nobond_base：top-2 份额 70.83% 对 70.00% 的线，只差 0.83pp；换成钱，就是 2025 年那一年只要多印（或少印）2.97pp、当时本金上 48,343 元，判词就翻面。这不是能力测量，是一次舍入测量。
 
 ## 逐本读数
 
 | 书 | 已发布判词 | 全期倍数 | 年化(年桶重算/在印) | 百万本金到 2026-11-27 | 最好一年 | 该年值多少钱 | 占全期总赚 | 到线的距离 | 该距离值多少钱 |
 |---|---|---|---|---|---|---|---|---|---|
-| nobond_vt08_adopted | CONDITIONAL | 1.9987× | 10.40% / 10.89% | 1,998,686 | 2025 43.06% | 601,616 | 60.2% | -9.843pp | -139,013 |
-| nobond_base | CONDITIONAL | 2.5229× | 14.13% / 14.84% | 2,522,869 | 2025 53.73% | 881,794 | 57.9% | -3.969pp | -64,512 |
+| nobond_vt08_adopted | CONDITIONAL | 2.0058× | 10.45% / 10.94% | 2,005,797 | 2025 43.06% | 603,756 | 60.0% | -9.022pp | -127,414 |
+| nobond_base | CONDITIONAL | 2.5335× | 14.20% / 14.90% | 2,533,523 | 2025 53.73% | 885,518 | 57.7% | -2.974pp | -48,343 |
 | all_classes_published | CONDITIONAL | 1.8046× | 8.80% / — | 1,804,643 | 2025 36.34% | 481,009 | 59.8% | -16.677pp | -219,095 |
 
 ## 去掉最好那一年还剩什么（leave-one-out·百万本金）
@@ -23,25 +23,25 @@
 
 | 去掉哪一年 | 保留比例 | 年化(其余年) | 百万本金剩 | 该年部分年 |
 |---|---|---|---|---|
-| 2020 | 0.9469 | 11.22% | 1,892,566 | 否 |
-| 2021 | 0.9291 | 10.87% | 1,857,030 | 否 |
-| 2022 | 0.9724 | 11.71% | 1,943,505 | 否 |
-| 2023 | 0.9481 | 11.24% | 1,894,974 | 否 |
-| 2024 | 0.8730 | 9.72% | 1,744,822 | 否 |
-| 2025 **（最好的一年）** | 0.6990 | 5.73% | 1,397,070 | 否 |
-| 2026 | 1.0109 | 12.44% | 2,020,410 | 是 |
+| 2020 | 0.9469 | 11.28% | 1,899,300 | 否 |
+| 2021 | 0.9291 | 10.93% | 1,863,637 | 否 |
+| 2022 | 0.9724 | 11.78% | 1,950,420 | 否 |
+| 2023 | 0.9481 | 11.31% | 1,901,716 | 否 |
+| 2024 | 0.8730 | 9.79% | 1,751,030 | 否 |
+| 2025 **（最好的一年）** | 0.6990 | 5.79% | 1,402,041 | 否 |
+| 2026 | 1.0073 | 12.44% | 2,020,410 | 是 |
 
 **nobond_base**（已发布判词 CONDITIONAL）
 
 | 去掉哪一年 | 保留比例 | 年化(其余年) | 百万本金剩 | 该年部分年 |
 |---|---|---|---|---|
-| 2020 | 0.8184 | 12.84% | 2,064,637 | 否 |
-| 2021 | 0.9148 | 14.96% | 2,308,014 | 否 |
-| 2022 | 0.9772 | 16.23% | 2,465,393 | 否 |
-| 2023 | 0.9500 | 15.68% | 2,396,624 | 否 |
-| 2024 | 0.8852 | 14.33% | 2,233,241 | 否 |
-| 2025 **（最好的一年）** | 0.6505 | 8.61% | 1,641,075 | 否 |
-| 2026 | 0.9905 | 16.49% | 2,498,828 | 是 |
+| 2020 | 0.8184 | 12.92% | 2,073,356 | 否 |
+| 2021 | 0.9148 | 15.04% | 2,317,760 | 否 |
+| 2022 | 0.9772 | 16.31% | 2,475,803 | 否 |
+| 2023 | 0.9500 | 15.76% | 2,406,744 | 否 |
+| 2024 | 0.8852 | 14.41% | 2,242,671 | 否 |
+| 2025 **（最好的一年）** | 0.6505 | 8.68% | 1,648,005 | 否 |
+| 2026 | 0.9863 | 16.49% | 2,498,828 | 是 |
 
 **all_classes_published**（已发布判词 CONDITIONAL）
 
@@ -67,5 +67,5 @@ every published book lands on the same side of the line, so this set cannot show
 - 最好一年的归因是**乘积的分解**，不与其它年份相加；同一年在 leave-one-out 里的保留比例才是可加的口径，两者不可混读。
 - 这本书每本都有一个部分年（本批是 2026），它出现在最好一年或 leave-one-out 时会改变倍数——表里逐行标了「部分年」，没有把它当完整年用。
 - 本面不动任何判词：它只重读年门的 top-2 这一行，并把到线的距离换成钱；判词以 YEAR-GATE 为正身。
-- 年化有两把尺：在印的是「净值曲线 ÷ bar 数」，本表重算的是「日历年的乘积开 N 次方」，2026 是部分年，所以两者有可见差：nobond_vt08_adopted -0.49pp；nobond_base -0.71pp。倍数与金额用的是年桶这把尺，判词与在印年化以源面为准。
+- 年化有两把尺：在印的是「净值曲线 ÷ bar 数」，本表重算的是「日历年的乘积开 N 次方」，2026 是部分年，所以两者有可见差：nobond_vt08_adopted -0.49pp；nobond_base -0.70pp。倍数与金额用的是年桶这把尺，判词与在印年化以源面为准。
 

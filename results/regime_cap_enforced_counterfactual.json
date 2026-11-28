@@ -3,24 +3,24 @@
     "always_cap": {
       "cost_cny": 2347.44,
       "cost_sensitivity": {
-        "0": 48095.39,
-        "13.041": 45747.95,
-        "26.082": 43400.51
+        "0": 35827.92,
+        "13.041": 33480.48,
+        "26.082": 31133.04
       },
-      "delta_gross_cny": 48095.39,
-      "delta_net_cny": 45747.95,
+      "delta_gross_cny": 35827.92,
+      "delta_net_cny": 33480.48,
       "per_trader": {
         "COMPOSITE-CE-01": {
           "cost_cny": 978.94,
-          "delta_cny": 23294.66,
-          "excess_cny": 24933008.99,
-          "sessions_bound": 37
+          "delta_cny": 17452.51,
+          "excess_cny": 25673735.83,
+          "sessions_bound": 38
         },
         "COMPOSITE-CE-02": {
           "cost_cny": 978.14,
-          "delta_cny": 19693.52,
-          "excess_cny": 22883835.23,
-          "sessions_bound": 37
+          "delta_cny": 14904.89,
+          "excess_cny": 23403334.4,
+          "sessions_bound": 38
         },
         "DROUGHT-CE-01": {
           "cost_cny": 0.0,
@@ -36,9 +36,9 @@
         },
         "VOLATILITY-CE-01": {
           "cost_cny": 390.36,
-          "delta_cny": 5107.2,
-          "excess_cny": 8854762.68,
-          "sessions_bound": 37
+          "delta_cny": 3470.52,
+          "excess_cny": 9055532.09,
+          "sessions_bound": 38
         }
       },
       "rows": [
@@ -2366,33 +2366,93 @@
           "trader": "VOLATILITY-CE-01",
           "unpriced_legs": [],
           "weight": 0.403256
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -5842.15,
+          "priced_share": 1.0,
+          "r_deployed": 0.007925,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.959397
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -4788.63,
+          "priced_share": 1.0,
+          "r_deployed": 0.00925573,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-02",
+          "unpriced_legs": [],
+          "weight": 0.735358
+        },
+        {
+          "binds": false,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": 0.0,
+          "priced_share": 1.0,
+          "r_deployed": 0.08433239,
+          "r_repo": 3.79452e-05,
+          "target": 0.096003,
+          "trader": "ENGULF-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.096003
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -1636.68,
+          "priced_share": 1.0,
+          "r_deployed": 0.00818999,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "VOLATILITY-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.403329
         }
       ],
-      "sessions_bound": 37,
-      "sessions_matched": 38,
+      "sessions_bound": 38,
+      "sessions_matched": 39,
       "sessions_skipped": 0
     },
     "bear_rule": {
       "cost_cny": 3726.17,
       "cost_sensitivity": {
-        "0": 15494.14,
-        "13.041": 11767.97,
-        "26.082": 8041.8
+        "0": 3226.67,
+        "13.041": -499.5,
+        "26.082": -4225.67
       },
-      "delta_gross_cny": 15494.14,
-      "delta_net_cny": 11767.97,
+      "delta_gross_cny": 3226.67,
+      "delta_net_cny": -499.5,
       "per_trader": {
         "COMPOSITE-CE-01": {
           "cost_cny": 1706.11,
-          "delta_cny": 6054.25,
-          "excess_cny": 5784313.52,
-          "sessions_bound": 8
+          "delta_cny": 212.1,
+          "excess_cny": 6525040.36,
+          "sessions_bound": 9
         },
         "COMPOSITE-CE-02": {
           "cost_cny": 1501.6,
-          "delta_cny": 8770.58,
-          "excess_cny": 5126640.58,
-          "sessions_bound": 8
+          "delta_cny": 3981.95,
+          "excess_cny": 5646139.75,
+          "sessions_bound": 9
         },
         "DROUGHT-CE-01": {
           "cost_cny": 0.0,
@@ -2408,9 +2468,9 @@
         },
         "VOLATILITY-CE-01": {
           "cost_cny": 518.45,
-          "delta_cny": 669.31,
-          "excess_cny": 1498391.93,
-          "sessions_bound": 8
+          "delta_cny": -967.38,
+          "excess_cny": 1699161.34,
+          "sessions_bound": 9
         }
       },
       "rows": [
@@ -2893,33 +2953,93 @@
           "trader": "VOLATILITY-CE-01",
           "unpriced_legs": [],
           "weight": 0.403256
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -5842.15,
+          "priced_share": 1.0,
+          "r_deployed": 0.007925,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.959397
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -4788.63,
+          "priced_share": 1.0,
+          "r_deployed": 0.00925573,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-02",
+          "unpriced_legs": [],
+          "weight": 0.735358
+        },
+        {
+          "binds": false,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": 0.0,
+          "priced_share": 1.0,
+          "r_deployed": 0.08433239,
+          "r_repo": 3.79452e-05,
+          "target": 0.096003,
+          "trader": "ENGULF-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.096003
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -1636.68,
+          "priced_share": 1.0,
+          "r_deployed": 0.00818999,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "VOLATILITY-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.403329
         }
       ],
-      "sessions_bound": 8,
-      "sessions_matched": 8,
+      "sessions_bound": 9,
+      "sessions_matched": 9,
       "sessions_skipped": 0
     },
     "red_label": {
       "cost_cny": 3171.34,
       "cost_sensitivity": {
-        "0": 25882.76,
-        "13.041": 22711.41,
-        "26.082": 19540.07
+        "0": 13615.29,
+        "13.041": 10443.94,
+        "26.082": 7272.6
       },
-      "delta_gross_cny": 25882.76,
-      "delta_net_cny": 22711.41,
+      "delta_gross_cny": 13615.29,
+      "delta_net_cny": 10443.94,
       "per_trader": {
         "COMPOSITE-CE-01": {
           "cost_cny": 1461.57,
-          "delta_cny": 13716.7,
-          "excess_cny": 9336487.72,
-          "sessions_bound": 14
+          "delta_cny": 7874.54,
+          "excess_cny": 10077214.56,
+          "sessions_bound": 15
         },
         "COMPOSITE-CE-02": {
           "cost_cny": 1184.0,
-          "delta_cny": 10354.21,
-          "excess_cny": 8212237.13,
-          "sessions_bound": 14
+          "delta_cny": 5565.58,
+          "excess_cny": 8731736.3,
+          "sessions_bound": 15
         },
         "DROUGHT-CE-01": {
           "cost_cny": 0.0,
@@ -2935,9 +3055,9 @@
         },
         "VOLATILITY-CE-01": {
           "cost_cny": 525.77,
-          "delta_cny": 1811.85,
-          "excess_cny": 2696500.29,
-          "sessions_bound": 14
+          "delta_cny": 175.17,
+          "excess_cny": 2897269.7,
+          "sessions_bound": 15
         }
       },
       "rows": [
@@ -3840,10 +3960,70 @@
           "trader": "VOLATILITY-CE-01",
           "unpriced_legs": [],
           "weight": 0.403256
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -5842.15,
+          "priced_share": 1.0,
+          "r_deployed": 0.007925,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.959397
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -4788.63,
+          "priced_share": 1.0,
+          "r_deployed": 0.00925573,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "COMPOSITE-CE-02",
+          "unpriced_legs": [],
+          "weight": 0.735358
+        },
+        {
+          "binds": false,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": 0.0,
+          "priced_share": 1.0,
+          "r_deployed": 0.08433239,
+          "r_repo": 3.79452e-05,
+          "target": 0.096003,
+          "trader": "ENGULF-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.096003
+        },
+        {
+          "binds": true,
+          "bound": true,
+          "cost_cny": 0.0,
+          "d0": "2026-11-26",
+          "d1": "2026-11-27",
+          "delta_cny": -1636.68,
+          "priced_share": 1.0,
+          "r_deployed": 0.00818999,
+          "r_repo": 3.79452e-05,
+          "target": 0.2,
+          "trader": "VOLATILITY-CE-01",
+          "unpriced_legs": [],
+          "weight": 0.403329
         }
       ],
-      "sessions_bound": 14,
-      "sessions_matched": 15,
+      "sessions_bound": 15,
+      "sessions_matched": 16,
       "sessions_skipped": 0
     }
   },
@@ -3857,51 +4037,52 @@
       "2026-11-19": 12854.22,
       "2026-11-20": -5909.3,
       "2026-11-24": 12728.39,
-      "2026-11-25": -2424.7
+      "2026-11-25": -2424.7,
+      "2026-11-26": -12267.46
     },
     "largest_cny": 12854.22,
     "largest_session": "2026-11-19",
-    "largest_share_of_total": 0.8296,
-    "total_cny": 15494.11,
-    "total_without_largest_cny": 2639.89
+    "largest_share_of_total": 3.9838,
+    "total_cny": 3226.65,
+    "total_without_largest_cny": -9627.57
   },
   "cross_gate": {
-    "checked": 234,
+    "checked": 240,
     "mismatches": [],
     "status": "AGREE"
   },
-  "error_budget_cny": 286.8,
-  "evidence_cutoff": "2026-11-26",
+  "error_budget_cny": 322.65,
+  "evidence_cutoff": "2026-11-27",
   "export_span": {
     "first": "2026-09-24",
-    "last": "2026-11-26",
-    "sessions": 39
+    "last": "2026-11-27",
+    "sessions": 40
   },
-  "generated": "2026-11-26T23:38:03+08:00",
+  "generated": "2026-11-28T11:33:43+08:00",
   "implementation": {
     "bear": "firm/risk/regime.py::major_bear_series",
     "cap": "firm/risk/regime.py::CAP_MAJOR_BEAR",
     "cost_bp_side": 13.041,
     "flip_repair": "scripts/etf_equity_alpha.py::repair_flips"
   },
-  "inputs_digest": "032c30ed814c4f0f",
+  "inputs_digest": "6ffdeb2fa1ce0761",
   "limits": [
-    "绑定会话 8 个（2026-10-30、2026-11-16、2026-11-17、2026-11-18、2026-11-19、2026-11-20、2026-11-24、2026-11-25），其中 5 个落在 2026-11-16..11-20 这段回撤里。在一个下跌窗口里少持仓按构造就会赢——这个数说明的是「这段行情里守帽更省」，不是「帽子长期免费赚钱」。",
-    "单场依赖：2026-11-19 一天 +12854.22 元，其余 7 场合计 +2639.89 元——总量是这一天的形状，不是一条每场都成立的规律。",
-    "有交易日的 29 个会话对不参与价格基准校验（账本记的是成交价，这张面只看得见收盘）；绑定会话里若当天有交易，账户实现的路径与本面的当期差本来就不是一回事。",
+    "绑定会话 9 个（2026-10-30、2026-11-16、2026-11-17、2026-11-18、2026-11-19、2026-11-20、2026-11-24、2026-11-25、2026-11-26），其中 5 个落在 2026-11-16..11-20 这段回撤里。在一个下跌窗口里少持仓按构造就会赢——这个数说明的是「这段行情里守帽更省」，不是「帽子长期免费赚钱」。",
+    "单场依赖：2026-11-19 一天 +12854.22 元，其余 8 场合计 -9627.57 元——总量是这一天的形状，不是一条每场都成立的规律。",
+    "有交易日的 30 个会话对不参与价格基准校验（账本记的是成交价，这张面只看得见收盘）；绑定会话里若当天有交易，账户实现的路径与本面的当期差本来就不是一回事。",
     "只覆盖六员纸盘账户；ETF 复合书按自己的规则不在本梯子里。",
     "成本只在毛差之外按每个绑定片段一次卖出计入净额列，来回一趟由 26.082bp 的敏感列代表。"
   ],
   "model": {
     "clean_pairs": 9,
-    "deployed_mv_cny": 82112960.11,
+    "deployed_mv_cny": 84254765.71,
     "error_money_cny": 382.01,
     "max_abs_pp": 0.003649,
     "mean_abs_pp": 0.001201,
     "mean_equity_cny": 995001.99,
     "n_account_sessions": 32,
     "priced_share": 1.0,
-    "traded_pairs_excluded": 29,
+    "traded_pairs_excluded": 30,
     "unpriced_mv_cny": 0.0
   },
   "notes": [],
@@ -3911,17 +4092,15 @@
   },
   "problems_hard": [],
   "schema": "regime-cap-enforced-counterfactual/v1",
-  "sentence": "按规则原文（大熊市）守帽，这 8 个会话合计比实际多赚 15494.14 元；按 RED 标签的 14 个会话算则是 +25882.76 元；一直压在 20% 的参照臂 37 个会话是 +48095.39 元。但这笔钱不是一场一场攒出来的：2026-11-19 一天就 +12854.22 元，其余 7 场合计 +2639.89 元。这是把每个会话的当期差相加，不是重跑账户，卖出后的后续成交没有重演。",
+  "sentence": "按规则原文（大熊市）守帽，这 9 个会话合计比实际多赚 3226.67 元；按 RED 标签的 15 个会话算则是 +13615.29 元；一直压在 20% 的参照臂 38 个会话是 +35827.92 元。但这笔钱不是一场一场攒出来的：2026-11-19 一天就 +12854.22 元，其余 8 场合计 -9627.57 元。这是把每个会话的当期差相加，不是重跑账户，卖出后的后续成交没有重演。",
   "uncovered": {
-    "bear_sessions_outside_pairs": [
-      "2026-11-26"
-    ],
+    "bear_sessions_outside_pairs": [],
     "red_sessions_outside_pairs": [
-      "2026-11-26"
+      "2026-11-27"
     ],
     "sessions_without_a_next_export": [
-      "2026-11-26"
+      "2026-11-27"
     ]
   },
-  "verdict": "ENFORCING_THE_CAP_WOULD_HAVE_PAID_15494_14_CNY"
+  "verdict": "ENFORCING_THE_CAP_WOULD_HAVE_PAID_3226_67_CNY"
 }

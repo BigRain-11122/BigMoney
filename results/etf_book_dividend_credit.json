@@ -1,8 +1,8 @@
 {
- "evidence_cutoff": "2026-11-26",
- "generated": "2026-11-27T07:00:03+0800",
+ "evidence_cutoff": "2026-11-27",
+ "generated": "2026-11-28T06:21:18+0800",
  "inputs": {
-  "panel_last_bar": "2026-11-26"
+  "panel_last_bar": "2026-11-27"
  },
  "caliber": {
   "engine": "etf_robust_pf.open_to_open_equity (rebal=20, n_hold=5, cost=10bp/side, vol_target=8%)",
@@ -16,19 +16,19 @@
    "label": "price_lag0",
    "years": 6.9,
    "start_level": 1.008,
-   "cagr": 0.1089,
+   "cagr": 0.1094,
    "vol": 0.1051,
-   "sharpe": 1.076,
+   "sharpe": 1.08,
    "maxdd": -0.1056,
-   "worst_year": -0.0108,
+   "worst_year": -0.0072,
    "neg_years": 1,
    "worst_month": -0.043,
    "pos_months_pct": 0.598,
    "cagr_is": 0.0581,
    "sharpe_is": 0.621,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.183,
-   "sharpe_oos": 1.678,
+   "cagr_oos": 0.1843,
+   "sharpe_oos": 1.688,
    "maxdd_oos": -0.1056,
    "turnover": 1.082
   },
@@ -36,19 +36,19 @@
    "label": "price_lag1",
    "years": 6.9,
    "start_level": 0.9993,
-   "cagr": 0.0986,
+   "cagr": 0.0991,
    "vol": 0.1064,
-   "sharpe": 0.973,
+   "sharpe": 0.978,
    "maxdd": -0.1011,
-   "worst_year": 0.0086,
+   "worst_year": 0.0122,
    "neg_years": 0,
    "worst_month": -0.0338,
    "pos_months_pct": 0.61,
    "cagr_is": 0.0421,
    "sharpe_is": 0.463,
    "maxdd_is": -0.0986,
-   "cagr_oos": 0.1816,
-   "sharpe_oos": 1.651,
+   "cagr_oos": 0.1828,
+   "sharpe_oos": 1.661,
    "maxdd_oos": -0.1011,
    "turnover": 1.082
   },
@@ -56,19 +56,19 @@
    "label": "with_dividends_lag0",
    "years": 6.9,
    "start_level": 1.008,
-   "cagr": 0.1124,
+   "cagr": 0.1129,
    "vol": 0.105,
-   "sharpe": 1.109,
+   "sharpe": 1.114,
    "maxdd": -0.1031,
-   "worst_year": -0.0083,
+   "worst_year": -0.0048,
    "neg_years": 1,
    "worst_month": -0.043,
    "pos_months_pct": 0.598,
    "cagr_is": 0.0582,
    "sharpe_is": 0.622,
    "maxdd_is": -0.088,
-   "cagr_oos": 0.1918,
-   "sharpe_oos": 1.755,
+   "cagr_oos": 0.1931,
+   "sharpe_oos": 1.765,
    "maxdd_oos": -0.1031,
    "turnover": 1.083
   },
@@ -76,39 +76,39 @@
    "label": "with_dividends_lag1",
    "years": 6.9,
    "start_level": 0.9993,
-   "cagr": 0.1019,
+   "cagr": 0.1025,
    "vol": 0.1062,
-   "sharpe": 1.004,
+   "sharpe": 1.009,
    "maxdd": -0.0986,
-   "worst_year": 0.0099,
+   "worst_year": 0.0135,
    "neg_years": 0,
    "worst_month": -0.0338,
    "pos_months_pct": 0.61,
    "cagr_is": 0.0423,
    "sharpe_is": 0.464,
    "maxdd_is": -0.0986,
-   "cagr_oos": 0.1899,
-   "sharpe_oos": 1.723,
+   "cagr_oos": 0.1912,
+   "sharpe_oos": 1.734,
    "maxdd_oos": -0.0986,
    "turnover": 1.083
   }
  },
  "dividend_credit": {
   "lag0_cagr_pp": 0.35,
-  "lag0_sharpe_delta": 0.033,
+  "lag0_sharpe_delta": 0.034,
   "lag0_maxdd_pp": 0.25,
-  "lag1_cagr_pp": 0.33,
+  "lag1_cagr_pp": 0.34,
   "lag1_sharpe_delta": 0.031,
   "lag1_maxdd_pp": 0.25,
   "execution_penalty_pp": 1.03,
-  "dividend_to_execution_ratio": 0.32
+  "dividend_to_execution_ratio": 0.33
  },
  "verdict": "DIVIDENDS_ARE_NOISE",
  "coverage": {
-  "names_held_or_live": 124,
-  "names_with_sina_records": 55,
-  "names_paying_inside_window": 33,
-  "coverage_pct": 26.6,
+  "names_held_or_live": 123,
+  "names_with_sina_records": 54,
+  "names_paying_inside_window": 32,
+  "coverage_pct": 26.0,
   "events_dropped_as_non_cash": {
    "510230": 1,
    "512040": 1,
@@ -142,7 +142,6 @@
   "159922": 6.825,
   "520550": 6.471,
   "510310": 6.464,
-  "159207": 5.079,
   "510230": 4.855,
   "513690": 4.223,
   "159333": 4.076,
@@ -157,7 +156,6 @@
   "159501": 0.0,
   "159519": 0.0,
   "159525": 0.0,
-  "159549": 0.0,
   "159552": 0.0,
   "159561": 0.0,
   "159577": 0.0,
@@ -222,6 +220,7 @@
   "513730": 0.0,
   "513850": 0.0,
   "513910": 0.0,
+  "515020": 0.0,
   "515290": 0.0,
   "515350": 0.0,
   "515650": 0.0,
@@ -246,11 +245,6 @@
   "563330": 0.0
  },
  "records": {
-  "159207": {
-   "events": 1,
-   "last_ex_date": "2025-12-10",
-   "cum_per_share": 0.0546
-  },
   "159263": {
    "events": 0,
    "last_ex_date": null,
@@ -290,11 +284,6 @@
    "events": 3,
    "last_ex_date": "2026-09-14",
    "cum_per_share": 0.036
-  },
-  "159549": {
-   "events": 0,
-   "last_ex_date": null,
-   "cum_per_share": 0.0
   },
   "159552": {
    "events": 0,
@@ -706,6 +695,11 @@
    "last_ex_date": "2026-10-22",
    "cum_per_share": 0.1925
   },
+  "515020": {
+   "events": 0,
+   "last_ex_date": null,
+   "cum_per_share": 0.0
+  },
   "515080": {
    "events": 18,
    "last_ex_date": "2026-09-16",
@@ -868,13 +862,13 @@
   }
  },
  "live_picks": {
-  "as_of": "2026-11-26",
+  "as_of": "2026-11-27",
   "picks": [
-   "159207",
-   "159549",
+   "515020",
+   "512820",
+   "515290",
    "515300",
-   "562060",
-   "513690"
+   "159887"
   ]
  }
 }

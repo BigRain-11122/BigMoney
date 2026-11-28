@@ -1,7 +1,7 @@
 {
   "schema": "idx-fut-carry-rent-by-component/v1",
   "kind": "carry_rent_by_component",
-  "evidence_cutoff": "2026-11-26",
+  "evidence_cutoff": "2026-11-27",
   "inputs": {
     "lattice": {
       "path": "results/policy_return_lattice.json",
@@ -9,7 +9,7 @@
     },
     "l1_arm": {
       "path": "results/etf_nobond_vt.json",
-      "sha256": "479730ff58a1ab5776095a443c4cc54e895dcebd045ec9c332ddd8b1661dbc1f"
+      "sha256": "e719648703faf1b035c851a98ee28a7ccdad741c44a85199868d165ea3425697"
     },
     "ladder_risk": {
       "path": "results/idx_fut_carry_ladder_risk.json",
@@ -23,23 +23,23 @@
       "IC": {
         "span": [
           "2018-10-23",
-          "2026-11-26"
+          "2026-11-27"
         ],
-        "days": 1965,
+        "days": 1966,
         "index": "sh000905"
       },
       "IM": {
         "span": [
           "2022-07-25",
-          "2026-11-26"
+          "2026-11-27"
         ],
-        "days": 1053,
+        "days": 1054,
         "index": "sh000852"
       }
     },
     "equity_span": [
       "2020-01-06",
-      "2026-11-26"
+      "2026-11-27"
     ],
     "thresholds": {
       "rent_paid": 1.25,
@@ -60,54 +60,54 @@
         "IM_leg": 1.08688,
         "cash": 0.0
       },
-      "days": 1053,
+      "days": 1054,
       "span": [
         "2022-07-25",
-        "2026-11-26"
+        "2026-11-27"
       ],
       "components": [
         {
           "name": "equity_arm",
           "label": "equity sleeve (k x L1)",
           "weight_x_nav": 0.4347,
-          "ann_arith_pct": 6.206849,
-          "return_share": 0.244382,
-          "cov_with_total": 6.041338495809274e-06,
-          "risk_share": 0.074509,
-          "rent": 3.279919,
-          "vol_pct": 4.258,
-          "corr_with_total": 0.24613
+          "ann_arith_pct": 6.236765,
+          "return_share": 0.239594,
+          "cov_with_total": 6.069097583850879e-06,
+          "risk_share": 0.074273,
+          "rent": 3.225861,
+          "vol_pct": 4.2564,
+          "corr_with_total": 0.24639
         },
         {
           "name": "IC_leg",
           "label": "IC basis leg",
           "weight_x_nav": 1.1538,
-          "ann_arith_pct": 8.005835,
-          "return_share": 0.315213,
-          "cov_with_total": 3.595078169191864e-05,
-          "risk_share": 0.443385,
-          "rent": 0.710924,
-          "vol_pct": 6.838,
-          "corr_with_total": 0.91203
+          "ann_arith_pct": 8.415908,
+          "return_share": 0.323308,
+          "cov_with_total": 3.637578931378006e-05,
+          "risk_share": 0.445162,
+          "rent": 0.726271,
+          "vol_pct": 6.8877,
+          "corr_with_total": 0.91261
         },
         {
           "name": "IM_leg",
           "label": "IM basis leg",
           "weight_x_nav": 1.08688,
-          "ann_arith_pct": 10.771961,
-          "return_share": 0.424124,
-          "cov_with_total": 3.9090373228760445e-05,
-          "risk_share": 0.482106,
-          "rent": 0.879731,
-          "vol_pct": 7.4231,
-          "corr_with_total": 0.91351
+          "ann_arith_pct": 10.964428,
+          "return_share": 0.421213,
+          "cov_with_total": 3.9268750901859685e-05,
+          "risk_share": 0.480565,
+          "rent": 0.876495,
+          "vol_pct": 7.4304,
+          "corr_with_total": 0.91324
         },
         {
           "name": "cash",
           "label": "cash arm (riskless)",
           "weight_x_nav": 0.0,
           "ann_arith_pct": 0.4135,
-          "return_share": 0.016281,
+          "return_share": 0.015885,
           "cov_with_total": 0.0,
           "risk_share": 0.0,
           "rent": null,
@@ -116,74 +116,74 @@
         }
       ],
       "book": {
-        "ann_compound_pct": 27.6431,
-        "ann_arith_pct": 25.3981,
-        "vol_pct": 14.0656,
-        "sharpe": 1.8661,
+        "ann_compound_pct": 28.4424,
+        "ann_arith_pct": 26.0306,
+        "vol_pct": 14.1202,
+        "sharpe": 1.9155,
         "mdd_pct": -10.964,
-        "days": 1053
+        "days": 1054
       },
       "leave_one_out": {
         "equity_arm": {
-          "ann_compound_pct": 20.037,
-          "vol_pct": 13.6561,
-          "sharpe": 1.3651,
-          "d_ann_pp": -7.6061
+          "ann_compound_pct": 20.7536,
+          "vol_pct": 13.707,
+          "sharpe": 1.4123,
+          "d_ann_pp": -7.6888
         },
         "IC_leg": {
-          "ann_compound_pct": 18.5807,
-          "vol_pct": 8.3162,
-          "sharpe": 2.0665,
-          "d_ann_pp": -9.0624
+          "ann_compound_pct": 18.8437,
+          "vol_pct": 8.3251,
+          "sharpe": 2.0959,
+          "d_ann_pp": -9.5988
         },
         "IM_leg": {
-          "ann_compound_pct": 15.3865,
-          "vol_pct": 7.8856,
-          "sharpe": 1.7743,
-          "d_ann_pp": -12.2566
+          "ann_compound_pct": 15.8906,
+          "vol_pct": 7.9348,
+          "sharpe": 1.8268,
+          "d_ann_pp": -12.5519
         },
         "cash": {
-          "ann_compound_pct": 27.1169,
-          "vol_pct": 14.0656,
-          "sharpe": 1.8287,
-          "d_ann_pp": -0.5262
+          "ann_compound_pct": 27.9129,
+          "vol_pct": 14.1202,
+          "sharpe": 1.878,
+          "d_ann_pp": -0.5295
         }
       },
       "carry_vs_equity": {
-        "beta": -0.186949,
-        "corr": -0.058291,
-        "r2": 0.003398,
-        "carry_ann_arith_pct": 18.777796,
-        "equity_vol_pct": 4.25797,
-        "beta_times_equity_vol_pp": -0.796024
+        "beta": -0.182611,
+        "corr": -0.056706,
+        "r2": 0.003216,
+        "carry_ann_arith_pct": 19.380337,
+        "equity_vol_pct": 4.256402,
+        "beta_times_equity_vol_pp": -0.777267
       },
       "equal_risk_share_capped": {
         "implied_notional_x_nav": {
           "equity_arm": 1.0,
-          "IC_leg": 0.446032,
-          "IM_leg": 0.386416
+          "IC_leg": 0.442846,
+          "IM_leg": 0.386428
         },
         "book": {
-          "ann_compound_pct": 23.4048,
-          "ann_arith_pct": 21.6166,
-          "vol_pct": 10.7607,
-          "sharpe": 2.0454,
-          "mdd_pct": -9.3043,
-          "days": 1053
+          "ann_compound_pct": 23.7408,
+          "ann_arith_pct": 21.8892,
+          "vol_pct": 10.7653,
+          "sharpe": 2.0757,
+          "mdd_pct": -9.3078,
+          "days": 1054
         }
       },
       "judgment": {
         "rent": "MIXED_RENT",
         "rents": {
-          "equity_arm": 3.2799,
-          "IC_leg": 0.7109,
-          "IM_leg": 0.8797
+          "equity_arm": 3.2259,
+          "IC_leg": 0.7263,
+          "IM_leg": 0.8765
         },
         "biggest_risk_buyer": "IM_leg",
         "biggest_earner": "IM_leg",
         "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
         "rebudget": "REBUDGETING_WOULD_HELP",
-        "rebudget_sharpe_gain": 0.1793
+        "rebudget_sharpe_gain": 0.1602
       }
     },
     "0/1": {
@@ -195,23 +195,23 @@
         "IM_leg": 1.08688,
         "cash": 0.0
       },
-      "days": 1053,
+      "days": 1054,
       "span": [
         "2022-07-25",
-        "2026-11-26"
+        "2026-11-27"
       ],
       "components": [
         {
           "name": "equity_arm",
           "label": "equity sleeve (k x L1)",
           "weight_x_nav": 0.4347,
-          "ann_arith_pct": 6.206849,
-          "return_share": 0.352954,
-          "cov_with_total": 6.595722174527083e-06,
-          "risk_share": 0.232701,
-          "rent": 1.516771,
-          "vol_pct": 4.258,
-          "corr_with_total": 0.45449
+          "ann_arith_pct": 6.236765,
+          "return_share": 0.350227,
+          "cov_with_total": 6.601236354507835e-06,
+          "risk_share": 0.232399,
+          "rent": 1.507009,
+          "vol_pct": 4.2564,
+          "corr_with_total": 0.45455
         },
         {
           "name": "IC_leg",
@@ -229,20 +229,20 @@
           "name": "IM_leg",
           "label": "IM basis leg",
           "weight_x_nav": 1.08688,
-          "ann_arith_pct": 10.771961,
-          "return_share": 0.612551,
-          "cov_with_total": 2.174844842202711e-05,
-          "risk_share": 0.767299,
-          "rent": 0.798321,
-          "vol_pct": 7.4231,
-          "corr_with_total": 0.85961
+          "ann_arith_pct": 10.964428,
+          "return_share": 0.61571,
+          "cov_with_total": 2.1803568514947905e-05,
+          "risk_share": 0.767601,
+          "rent": 0.802121,
+          "vol_pct": 7.4304,
+          "corr_with_total": 0.86003
         },
         {
           "name": "cash",
           "label": "cash arm (riskless)",
           "weight_x_nav": 0.0,
           "ann_arith_pct": 0.6066,
-          "return_share": 0.034495,
+          "return_share": 0.034064,
           "cov_with_total": 0.0,
           "risk_share": 0.0,
           "rent": null,
@@ -251,54 +251,54 @@
         }
       ],
       "book": {
-        "ann_compound_pct": 18.8098,
-        "ann_arith_pct": 17.5854,
-        "vol_pct": 8.3162,
-        "sharpe": 2.0941,
+        "ann_compound_pct": 19.0732,
+        "ann_arith_pct": 17.8078,
+        "vol_pct": 8.3251,
+        "sharpe": 2.1235,
         "mdd_pct": -5.7759,
-        "days": 1053
+        "days": 1054
       },
       "leave_one_out": {
         "equity_arm": {
-          "ann_compound_pct": 11.7423,
-          "vol_pct": 7.4231,
-          "sharpe": 1.3939,
-          "d_ann_pp": -7.0675
+          "ann_compound_pct": 11.9569,
+          "vol_pct": 7.4304,
+          "sharpe": 1.4214,
+          "d_ann_pp": -7.1163
         },
         "IC_leg": {
-          "ann_compound_pct": 18.8098,
-          "vol_pct": 8.3162,
-          "sharpe": 2.0941,
+          "ann_compound_pct": 19.0732,
+          "vol_pct": 8.3251,
+          "sharpe": 2.1235,
           "d_ann_pp": 0.0
         },
         "IM_leg": {
-          "ann_compound_pct": 6.9531,
-          "vol_pct": 4.258,
-          "sharpe": 1.3053,
-          "d_ann_pp": -11.8567
+          "ann_compound_pct": 6.9852,
+          "vol_pct": 4.2564,
+          "sharpe": 1.3134,
+          "d_ann_pp": -12.0881
         },
         "cash": {
-          "ann_compound_pct": 18.0917,
-          "vol_pct": 8.3162,
-          "sharpe": 2.0077,
-          "d_ann_pp": -0.718
+          "ann_compound_pct": 18.3536,
+          "vol_pct": 8.3251,
+          "sharpe": 2.037,
+          "d_ann_pp": -0.7196
         }
       },
       "carry_vs_equity": {
-        "beta": -0.112339,
-        "corr": -0.064439,
-        "r2": 0.004152,
-        "carry_ann_arith_pct": 10.771961,
-        "equity_vol_pct": 4.25797,
-        "beta_times_equity_vol_pp": -0.478338
+        "beta": -0.110943,
+        "corr": -0.063552,
+        "r2": 0.004039,
+        "carry_ann_arith_pct": 10.964428,
+        "equity_vol_pct": 4.256402,
+        "beta_times_equity_vol_pp": -0.472216
       },
       "equal_risk_share_capped": null,
       "judgment": {
         "rent": "MIXED_RENT",
         "rents": {
-          "equity_arm": 1.5168,
+          "equity_arm": 1.507,
           "IC_leg": null,
-          "IM_leg": 0.7983
+          "IM_leg": 0.8021
         },
         "biggest_risk_buyer": "IM_leg",
         "biggest_earner": "IM_leg",
@@ -314,22 +314,22 @@
     "engine": {
       "rent": "MIXED_RENT",
       "rents": {
-        "equity_arm": 3.2799,
-        "IC_leg": 0.7109,
-        "IM_leg": 0.8797
+        "equity_arm": 3.2259,
+        "IC_leg": 0.7263,
+        "IM_leg": 0.8765
       },
       "biggest_risk_buyer": "IM_leg",
       "biggest_earner": "IM_leg",
       "neutrality": "CARRY_LEGS_MARKET_NEUTRAL",
       "rebudget": "REBUDGETING_WOULD_HELP",
-      "rebudget_sharpe_gain": 0.1793
+      "rebudget_sharpe_gain": 0.1602
     },
     "band": {
       "rent": "MIXED_RENT",
       "rents": {
-        "equity_arm": 1.5168,
+        "equity_arm": 1.507,
         "IC_leg": null,
-        "IM_leg": 0.7983
+        "IM_leg": 0.8021
       },
       "biggest_risk_buyer": "IM_leg",
       "biggest_earner": "IM_leg",
@@ -343,9 +343,9 @@
     "sha256": "8e55395200d55ef8033b8eb0195e440f73da3a38d7f24072d678b1012ffc9323",
     "engine_rung": "1/1",
     "their_ann_pct": 26.667,
-    "my_book_without_cash_pct": 27.1169,
-    "delta_pp": 0.4499,
-    "with_cash_pct": 27.6431,
+    "my_book_without_cash_pct": 27.9129,
+    "delta_pp": 1.2459,
+    "with_cash_pct": 28.4424,
     "verdict": "CROSS_FACE_DIVERGES",
     "explanation": "that face prices the rung without the riskless cash arm; this face adds it as a fourth component, so the like-for-like comparison is with the leave-the-cash-out column"
   },
@@ -361,5 +361,5 @@
     "the futures leg spreads (check re-probes their presence, not their values)"
   ],
   "check_scope": "check re-probes the two input faces' digests and re-derives every share / rent / sign / verdict token from the stored component moments; it never re-derives the equity sleeve, and it does not gate on the cross_face snapshot (that face is another writer's surface)",
-  "generated": "2026-11-27T00:25:29+08:00"
+  "generated": "2026-11-28T12:11:45+08:00"
 }

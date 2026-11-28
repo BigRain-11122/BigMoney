@@ -2,7 +2,7 @@
 
 **Does 'the cb sleeve is expensive' mean the same thing on the market's median premium as on the premium of the 20 bonds the sleeve actually holds?**
 
-generated 2026-11-27T20:51:42+08:00 · cutoff 2026-11-26 · book 30.0% cb share
+generated 2026-11-28T06:02:32+08:00 · cutoff 2026-11-27 · book 30.0% cb share
 
 | verdict | |
 |---|---|
@@ -12,9 +12,9 @@ generated 2026-11-27T20:51:42+08:00 · cutoff 2026-11-26 · book 30.0% cb share
 
 | ruler | label in force | read at | sleeve | today's reading | its own rich line | expensive now? |
 |---|---|---|---|---|---|---|
-| market median | rich | 2026-10-31 | 收进现金 | 70.34% | 32.64% | 贵 |
-| our 20 bonds | rich | 2026-10-31 | 收进现金 | 8.77% | 15.23% | 不贵 |
-| our bonds, 3y window | rich | 2026-10-31 | 收进现金 | 8.77% | 12.28% | 不贵 |
+| market median | rich | 2026-10-31 | 收进现金 | 65.61% | 32.66% | 贵 |
+| our 20 bonds | rich | 2026-10-31 | 收进现金 | 11.42% | 15.23% | 不贵 |
+| our bonds, 3y window | rich | 2026-10-31 | 收进现金 | 11.42% | 12.28% | 不贵 |
 
 > 两把尺的**当日读数**不同向：the label in force was read at the previous month end; the bonds the sleeve holds today read differently, so the call is a month-old reading of a sleeve that has since re-picked
 
@@ -22,9 +22,9 @@ generated 2026-11-27T20:51:42+08:00 · cutoff 2026-11-26 · book 30.0% cb share
 
 | ruler | cash months | rule CAGR | rule Sharpe | rule MDD | always-on Sharpe | edge/mo | band | verdict |
 |---|---|---|---|---|---|---|---|---|
-| market median | 46/81 | 10.0% | +1.38 | -4.4% | +1.21 | +0.14 pp | +0.02 .. +0.28 | THE_RULE_BEATS_ITS_OWN_EXPOSURE |
-| our 20 bonds | 3/81 | 9.4% | +1.25 | -8.1% | +1.21 | +0.01 pp | -0.03 .. +0.06 | RULE_EDGE_NOT_SEPARABLE_FROM_NOISE |
-| our bonds, 3y window | 28/81 | 9.3% | +1.25 | -6.8% | +1.21 | +0.05 pp | -0.06 .. +0.17 | RULE_EDGE_NOT_SEPARABLE_FROM_NOISE |
+| market median | 46/81 | 10.0% | +1.39 | -4.4% | +1.23 | +0.14 pp | +0.02 .. +0.27 | THE_RULE_BEATS_ITS_OWN_EXPOSURE |
+| our 20 bonds | 3/81 | 9.4% | +1.25 | -7.9% | +1.23 | +0.01 pp | -0.03 .. +0.04 | RULE_EDGE_NOT_SEPARABLE_FROM_NOISE |
+| our bonds, 3y window | 28/81 | 9.3% | +1.26 | -6.6% | +1.23 | +0.05 pp | -0.06 .. +0.16 | RULE_EDGE_NOT_SEPARABLE_FROM_NOISE |
 
 ## Where the two rulers disagree
 

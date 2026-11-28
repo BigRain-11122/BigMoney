@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-11-27T01:29:39+0800",
- "evidence_cutoff": "2026-11-26",
+ "generated": "2026-11-28T09:19:44+0800",
+ "evidence_cutoff": "2026-11-27",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
   "status": "live",
@@ -30,15 +30,15 @@
    "2026-11-23",
    "2026-11-24",
    "2026-11-25",
-   "2026-11-26"
+   "2026-11-26",
+   "2026-11-27"
   ],
   "drift": {
    "faces": [],
    "max_abs": 1.000000082740371e-10,
-   "checked_bars": 25,
+   "checked_bars": 26,
    "gate": "settled_bars_only",
    "settled_bars": [
-    "2026-11-12",
     "2026-11-13",
     "2026-11-16",
     "2026-11-17",
@@ -47,17 +47,20 @@
     "2026-11-20",
     "2026-11-23",
     "2026-11-24",
-    "2026-11-25"
-   ],
-   "provisional_bars": [
+    "2026-11-25",
     "2026-11-26"
    ],
-   "carry_last_bar": "2026-11-25",
+   "provisional_bars": [
+    "2026-11-27"
+   ],
+   "carry_last_bar": "2026-11-27",
    "settled_faces": [],
    "provisional_faces": [],
    "benchmark_settled_faces": [],
    "benchmark_provisional_faces": [],
-   "restated_bars": [],
+   "restated_bars": [
+    "2026-11-26"
+   ],
    "withdrawn_bars": [],
    "panel_moved_bars": [],
    "panel_moved": {},
@@ -86,7 +89,8 @@
     "2026-11-23": "PANEL_SAME",
     "2026-11-24": "PANEL_SAME",
     "2026-11-25": "PANEL_SAME",
-    "2026-11-26": "PANEL_SAME"
+    "2026-11-26": "PANEL_SAME",
+    "2026-11-27": "PANEL_SAME"
    },
    "panel_fp_legacy_bars": [],
    "panel_fp_backfilled_bars": [
@@ -122,7 +126,6 @@
   "daily_dir": "data\\daily",
   "universe_symbols": 1725,
   "coverage_by_day": {
-   "2026-11-13": 1719,
    "2026-11-16": 1722,
    "2026-11-17": 1722,
    "2026-11-18": 1719,
@@ -131,10 +134,10 @@
    "2026-11-23": 1720,
    "2026-11-24": 1719,
    "2026-11-25": 1719,
-   "2026-11-26": 1717
+   "2026-11-26": 1717,
+   "2026-11-27": 1719
   },
   "pending_symbols_by_day": {
-   "2026-11-13": 6,
    "2026-11-16": 3,
    "2026-11-17": 3,
    "2026-11-18": 6,
@@ -143,7 +146,8 @@
    "2026-11-23": 5,
    "2026-11-24": 6,
    "2026-11-25": 6,
-   "2026-11-26": 8
+   "2026-11-26": 8,
+   "2026-11-27": 6
   }
  },
  "classification": {
@@ -172,10 +176,11 @@
    "2026-11-20",
    "2026-11-23",
    "2026-11-24",
-   "2026-11-25"
+   "2026-11-25",
+   "2026-11-26"
   ],
   "provisional": [
-   "2026-11-26"
+   "2026-11-27"
   ],
   "drifted_bars": [],
   "max_abs": 1.000000082740371e-10,
@@ -183,14 +188,14 @@
    "drift_faces_are_provisional": true,
    "no_settled_bar_drifted": true,
    "worst_within_tol": true,
-   "checked_bars": 25,
-   "published_bars": 25
+   "checked_bars": 26,
+   "published_bars": 26
   },
-  "newest_bar": "2026-11-26",
-  "panel_last_date": "2026-11-26"
+  "newest_bar": "2026-11-27",
+  "panel_last_date": "2026-11-27"
  },
  "restatement": {
-  "n_restated": 11,
+  "n_restated": 12,
   "restated_bars": [
    {
     "bar": "2026-10-29",
@@ -204,8 +209,8 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-10-30T19:18:29+0800",
-    "tail_rows_total": 19,
-    "tail_rows_settled": 18,
+    "tail_rows_total": 20,
+    "tail_rows_settled": 19,
     "restated_value_fails_gate_now": false,
     "history_status": "published_value_never_committed",
     "history_note": "no committed ledger still carried nav 1.014536476 for 2026-10-29 -- the movement happened between commits",
@@ -223,8 +228,8 @@
     "rescaled_known": false,
     "chain_verdict": "not_measured",
     "restated_at": "2026-11-05T20:29:33+0800",
-    "tail_rows_total": 17,
-    "tail_rows_settled": 16,
+    "tail_rows_total": 18,
+    "tail_rows_settled": 17,
     "restated_value_fails_gate_now": false,
     "history_status": "published_value_never_committed",
     "history_note": "no committed ledger still carried nav 1.0037553579 for 2026-11-03 -- the movement happened between commits",
@@ -242,8 +247,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-13T23:20:05+0800",
-    "tail_rows_total": 10,
-    "tail_rows_settled": 9,
+    "tail_rows_total": 11,
+    "tail_rows_settled": 10,
     "restated_value_fails_gate_now": false
    },
    {
@@ -258,8 +263,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-16T18:21:44+0800",
-    "tail_rows_total": 9,
-    "tail_rows_settled": 8,
+    "tail_rows_total": 10,
+    "tail_rows_settled": 9,
     "restated_value_fails_gate_now": false
    },
    {
@@ -274,8 +279,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-17T21:49:05+0800",
-    "tail_rows_total": 8,
-    "tail_rows_settled": 7,
+    "tail_rows_total": 9,
+    "tail_rows_settled": 8,
     "restated_value_fails_gate_now": false
    },
    {
@@ -290,8 +295,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-19T13:50:38+0800",
-    "tail_rows_total": 7,
-    "tail_rows_settled": 6,
+    "tail_rows_total": 8,
+    "tail_rows_settled": 7,
     "restated_value_fails_gate_now": false
    },
    {
@@ -306,8 +311,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-19T23:45:13+0800",
-    "tail_rows_total": 6,
-    "tail_rows_settled": 5,
+    "tail_rows_total": 7,
+    "tail_rows_settled": 6,
     "restated_value_fails_gate_now": false
    },
    {
@@ -322,8 +327,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-21T07:31:31+0800",
-    "tail_rows_total": 5,
-    "tail_rows_settled": 4,
+    "tail_rows_total": 6,
+    "tail_rows_settled": 5,
     "restated_value_fails_gate_now": false
    },
    {
@@ -338,8 +343,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-24T16:21:09+0800",
-    "tail_rows_total": 4,
-    "tail_rows_settled": 3,
+    "tail_rows_total": 5,
+    "tail_rows_settled": 4,
     "restated_value_fails_gate_now": false
    },
    {
@@ -354,8 +359,8 @@
     "rescaled_known": true,
     "chain_verdict": "broken",
     "restated_at": "2026-11-26T10:34:48+0800",
-    "tail_rows_total": 3,
-    "tail_rows_settled": 2,
+    "tail_rows_total": 4,
+    "tail_rows_settled": 3,
     "restated_value_fails_gate_now": false
    },
    {
@@ -370,12 +375,28 @@
     "rescaled_known": true,
     "chain_verdict": "intact",
     "restated_at": "2026-11-26T10:34:48+0800",
-    "tail_rows_total": 2,
-    "tail_rows_settled": 1,
+    "tail_rows_total": 3,
+    "tail_rows_settled": 2,
+    "restated_value_fails_gate_now": false
+   },
+   {
+    "bar": "2026-11-26",
+    "now_settled": true,
+    "now_provisional": false,
+    "on_row": true,
+    "nav_published": 0.9737473496,
+    "nav_settled": 0.9737458854,
+    "nav_factor_applied": 0.999998496325,
+    "later_rows_rescaled": 1,
+    "rescaled_known": true,
+    "chain_verdict": "broken",
+    "restated_at": "2026-11-28T09:18:55+0800",
+    "tail_rows_total": 1,
+    "tail_rows_settled": 0,
     "restated_value_fails_gate_now": false
    }
   ],
-  "n_restated_now_settled": 11,
+  "n_restated_now_settled": 12,
   "chain_measured_on": [
    "2026-11-12",
    "2026-11-13",
@@ -385,7 +406,8 @@
    "2026-11-19",
    "2026-11-20",
    "2026-11-23",
-   "2026-11-24"
+   "2026-11-24",
+   "2026-11-26"
   ],
   "chain_unmeasured_on": [
    "2026-10-29",
@@ -400,11 +422,12 @@
    "2026-11-18",
    "2026-11-19",
    "2026-11-20",
-   "2026-11-23"
+   "2026-11-23",
+   "2026-11-26"
   ],
   "fail_gate_now": [],
-  "settled_bars_policed_now": 24,
-  "ledger_checked_bars_field": 25,
+  "settled_bars_policed_now": 25,
+  "ledger_checked_bars_field": 26,
   "ledger_checked_bars_note": "the ledger's checked_bars counts published bars, not re-derived ones; settled_bars_policed_now is the set this audit makes a claim about",
   "checks": {
    "restated_settled_bars_reproduce": true,
@@ -415,9 +438,8 @@
   "verdict": "restatement_left_a_broken_chain"
  },
  "data_lag_audit": {
-  "as_of": "2026-11-27T01:15:57",
+  "as_of": "2026-11-28T09:05:17",
   "coverage_by_day": {
-   "2026-11-13": 1.0,
    "2026-11-16": 1.0,
    "2026-11-17": 1.0,
    "2026-11-18": 1.0,
@@ -426,12 +448,13 @@
    "2026-11-23": 1.0,
    "2026-11-24": 0.9994,
    "2026-11-25": 0.9994,
-   "2026-11-26": 0.9977
+   "2026-11-26": 0.9988,
+   "2026-11-27": 0.9988
   },
   "detail": "the maintained panel covers every official trading day it should by now; 4 file(s) sit outside the active cohort: 510880_t73 (declared_out_of_scope; last bar 2026-09-22), sh512390 (source_ended; last bar 2026-09-04), sh530080 (source_ended; last bar 2026-11-12), sz159528 (source_ended; last bar 2026",
-  "ledger_last_bar": "2026-11-26"
+  "ledger_last_bar": "2026-11-27"
  },
- "headline": "ledger re-derives clean | 11 published bar(s) restated after publication, 11 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-23, 2026-11-24; the record does not say how many later rows moved behind 2026-10-29, 2026-11-03; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-23; every restated settled bar re-derives off the panel now",
+ "headline": "ledger re-derives clean | 12 published bar(s) restated after publication, 12 of them inside today's settled partition; chain verified on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-23, 2026-11-24, 2026-11-26; the record does not say how many later rows moved behind 2026-10-29, 2026-11-03; CHAIN BROKEN on 2026-11-12, 2026-11-13, 2026-11-16, 2026-11-17, 2026-11-18, 2026-11-19, 2026-11-20, 2026-11-23, 2026-11-26; every restated settled bar re-derives off the panel now",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
  "caveats": [
   "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",

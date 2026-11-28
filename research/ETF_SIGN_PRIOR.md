@@ -1,6 +1,6 @@
 # ETF book -- hindsight signs or textbook signs?
 
-_generated 2026-11-26T21:16:32+08:00 | evidence cutoff 2026-11-26 | source face results/etf_sign_stability.json (64 arms, digest 8d8c608f57ed)_
+_generated 2026-11-28T09:41:25+08:00 | evidence cutoff 2026-11-27 | source face results/etf_sign_stability.json (64 arms, digest cff7f5439255)_
 
 ## The question
 
@@ -27,19 +27,19 @@ The textbook key `mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intrada
 
 | arm | IS cagr (rank) | OOS cagr (rank) |
 |---|---|---|
-| **textbook / production** | +2.12% (8/64) | +12.17% (8/64) |
-| in-sample best (what peeking picks) | +4.81% (1/64) | -9.27% (49/64) |
+| **textbook / production** | +2.12% (8/64) | +12.12% (9/64) |
+| in-sample best (what peeking picks) | +4.81% (1/64) | -4.65% (48/64) |
 | out-of-sample best (hindsight only) | -4.89% (37/64) | +30.58% (1/64) |
-| every prior flipped | -5.38% (39/64) | +1.34% (30/64) |
-| median of all 64 (no information) | -4.27% | +0.28% |
+| every prior flipped | -5.38% (39/64) | +6.16% (20/64) |
+| median of all 64 (no information) | -4.27% | +1.91% |
 
-Prior arm top-quartile in **both** halves: **yes** (shared set size 7 of 64). 33 of 64 arms earn a positive OOS cagr -- the panel itself was kind, which is why the comparison is against the median arm and not against zero.
+Prior arm top-quartile in **both** halves: **yes** (shared set size 7 of 64). 39 of 64 arms earn a positive OOS cagr -- the panel itself was kind, which is why the comparison is against the median arm and not against zero.
 
 ## Verdict
 
 **`peeking_loses_to_the_textbook`**
 
-Reading: the production sign set is the textbook sign set. Peeking at the panel picks the in-sample-best arm, and that arm's out-of-sample number is -9.27% against a median arm of +0.28% -- so on this panel hindsight was not merely unnecessary, it was worse. The `signs_in_sample` flag on this book therefore records a **fact about how the config was written**, not a hidden premium in the published return.
+Reading: the production sign set is the textbook sign set. Peeking at the panel picks the in-sample-best arm, and that arm's out-of-sample number is -4.65% against a median arm of +1.91% -- so on this panel hindsight was not merely unnecessary, it was worse. The `signs_in_sample` flag on this book therefore records a **fact about how the config was written**, not a hidden premium in the published return.
 
 ## Caveats
 

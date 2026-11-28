@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-leverage-budget/v1",
- "generated": "2026-11-28T02:31:17+08:00",
+ "generated": "2026-11-28T12:24:10+08:00",
  "evidence_cutoff": "2026-11-27",
  "headline": {
   "verdict": "THE_BOOK_ALREADY_RUNS_ABOVE_ITS_TARGET",
@@ -28,24 +28,24 @@
  "mix_leverage_131x": {
   "status": "ok",
   "face": "results/three_book_wallet.json",
-  "generated": "2026-11-28T02:04:03+08:00",
-  "evidence_cutoff": "2026-11-26",
+  "generated": "2026-11-28T12:18:04+08:00",
+  "evidence_cutoff": "2026-11-27",
   "mix_weights": [
    0.65,
    0.35,
    0.0
   ],
-  "mix_cagr": 0.065078,
-  "mix_vol": 0.061235,
-  "mix_sharpe": 1.060401,
-  "leverage_k": 1.3065,
-  "cagr_at_8pct_gross": 0.08585599999999999,
-  "borrow_pp": 1.839,
-  "net_cagr_at_8pct": 0.067466,
-  "net_sharpe_at_8pct": 0.843325,
-  "sharpe_change": -0.217076,
+  "mix_cagr": 0.065725,
+  "mix_vol": 0.061243,
+  "mix_sharpe": 1.070186,
+  "leverage_k": 1.3063,
+  "cagr_at_8pct_gross": 0.086706,
+  "borrow_pp": 1.8378,
+  "net_cagr_at_8pct": 0.068328,
+  "net_sharpe_at_8pct": 0.8541,
+  "sharpe_change": -0.216086,
   "verdict": "LEVERAGE_TO_THE_TARGET_COSTS_MORE_SHARPE_THAN_IT_BUYS_VOL",
-  "assumption": "annualised rates are added linearly: a 1.3065x book pays 0.3065 of a 6% rate on its borrowed share; a real margin account has haircuts and roll rules this does not model"
+  "assumption": "annualised rates are added linearly: a 1.3063x book pays 0.3063 of a 6% rate on its borrowed share; a real margin account has haircuts and roll rules this does not model"
  },
  "arms": {
   "cap_1.00": {
@@ -298,8 +298,8 @@
   ],
   "parent_face": {
    "path": "results/etf_nobond_vt.json",
-   "size": 3374,
-   "mtime": "2026-11-27T13:38:43+08:00"
+   "size": 3368,
+   "mtime": "2026-11-28T12:02:33+08:00"
   },
   "parent_arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
   "parent_full_history": {

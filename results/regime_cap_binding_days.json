@@ -10,10 +10,10 @@
   },
   "export_span": {
     "first": "2026-09-24",
-    "last": "2026-11-26",
-    "sessions": 39
+    "last": "2026-11-27",
+    "sessions": 40
   },
-  "evidence_cutoff": "2026-11-26",
+  "evidence_cutoff": "2026-11-27",
   "sessions": [
     {
       "date": "2026-09-24",
@@ -365,6 +365,15 @@
       "n_accounts": 6,
       "n_above": 3,
       "excess_cny": 1460995.42
+    },
+    {
+      "date": "2026-11-27",
+      "is_bear": false,
+      "red_label": "RED",
+      "labels_agree": false,
+      "n_accounts": 6,
+      "n_above": 3,
+      "excess_cny": 1535025.74
     }
   ],
   "accounts": [
@@ -383,14 +392,14 @@
         "2026-11-25",
         "2026-11-26"
       ],
-      "red_sessions": 16,
-      "red_above": 15,
+      "red_sessions": 17,
+      "red_above": 16,
       "latest": {
-        "date": "2026-11-26",
-        "weight_pct": 95.94,
-        "excess_cny": 740726.84,
+        "date": "2026-11-27",
+        "weight_pct": 95.97,
+        "excess_cny": 746659.87,
         "above": true,
-        "is_bear": true
+        "is_bear": false
       }
     },
     {
@@ -408,14 +417,14 @@
         "2026-11-25",
         "2026-11-26"
       ],
-      "red_sessions": 16,
-      "red_above": 15,
+      "red_sessions": 17,
+      "red_above": 16,
       "latest": {
-        "date": "2026-11-26",
-        "weight_pct": 73.54,
-        "excess_cny": 519499.17,
+        "date": "2026-11-27",
+        "weight_pct": 79.82,
+        "excess_cny": 584987.12,
         "above": true,
-        "is_bear": true
+        "is_bear": false
       }
     },
     {
@@ -423,14 +432,14 @@
       "bear_sessions": 9,
       "bear_above": 0,
       "bear_above_dates": [],
-      "red_sessions": 16,
+      "red_sessions": 17,
       "red_above": 0,
       "latest": {
-        "date": "2026-11-26",
+        "date": "2026-11-27",
         "weight_pct": 0.0,
         "excess_cny": 0.0,
         "above": false,
-        "is_bear": true
+        "is_bear": false
       }
     },
     {
@@ -438,14 +447,14 @@
       "bear_sessions": 9,
       "bear_above": 0,
       "bear_above_dates": [],
-      "red_sessions": 16,
+      "red_sessions": 17,
       "red_above": 0,
       "latest": {
-        "date": "2026-11-26",
-        "weight_pct": 9.6,
+        "date": "2026-11-27",
+        "weight_pct": 10.33,
         "excess_cny": 0.0,
         "above": false,
-        "is_bear": true
+        "is_bear": false
       }
     },
     {
@@ -453,14 +462,14 @@
       "bear_sessions": 9,
       "bear_above": 0,
       "bear_above_dates": [],
-      "red_sessions": 16,
+      "red_sessions": 17,
       "red_above": 0,
       "latest": {
-        "date": "2026-11-26",
+        "date": "2026-11-27",
         "weight_pct": 0.0,
         "excess_cny": 0.0,
         "above": false,
-        "is_bear": true
+        "is_bear": false
       }
     },
     {
@@ -478,14 +487,14 @@
         "2026-11-25",
         "2026-11-26"
       ],
-      "red_sessions": 16,
-      "red_above": 15,
+      "red_sessions": 17,
+      "red_above": 16,
       "latest": {
-        "date": "2026-11-26",
-        "weight_pct": 40.33,
-        "excess_cny": 200769.41,
+        "date": "2026-11-27",
+        "weight_pct": 40.53,
+        "excess_cny": 203378.75,
         "above": true,
-        "is_bear": true
+        "is_bear": false
       }
     }
   ],
@@ -497,7 +506,8 @@
       "2026-11-10",
       "2026-11-11",
       "2026-11-12",
-      "2026-11-13"
+      "2026-11-13",
+      "2026-11-27"
     ],
     "bear_but_not_red": [],
     "bear_unlabelled": [],
@@ -516,7 +526,7 @@
       "2026-11-04",
       "2026-11-05"
     ],
-    "n_red": 16,
+    "n_red": 17,
     "n_bear": 9
   },
   "input_problems": [],
@@ -527,11 +537,15 @@
   },
   "red_span": {
     "first": "2026-10-30",
-    "last": "2026-11-26",
-    "sessions": 16
+    "last": "2026-11-27",
+    "sessions": 17
   },
   "cross_gate_mismatches": [],
-  "verdict": "FACES_ARE_ONE_GENERATION_APART",
-  "sentence": "R-配3 的帽子（20%）只在「大熊市」双条件下生效，而纸盘历史里有 16 个会话被标为 RED、只有 9 个会话真的满足大熊市双条件。其中 7 个 RED 会话（2026-11-02、2026-11-06、2026-11-09、2026-11-10、2026-11-11、2026-11-12、2026-11-13）不满足大熊市——按规则原文，那些天帽子根本不生效。大熊市里没有任何一个会话回到帽内——3 户在 9 个熊市会话里全部站在 20% 上方。",
-  "generated": "2026-11-27T01:39:11+08:00"
+  "red_compliant_days": [
+    "2026-11-09"
+  ],
+  "bear_compliant_days": [],
+  "verdict": "THE_ONE_COMPLIANT_DAY_IS_OUTSIDE_THE_BEAR",
+  "sentence": "R-配3 的帽子（20%）只在「大熊市」双条件下生效，而纸盘历史里有 17 个会话被标为 RED、只有 9 个会话真的满足大熊市双条件。其中 8 个 RED 会话（2026-11-02、2026-11-06、2026-11-09、2026-11-10、2026-11-11、2026-11-12、2026-11-13、2026-11-27）不满足大熊市——按规则原文，那些天帽子根本不生效。上一张面（r1983）记的「唯一合规日」是 2026-11-09，而它不在大熊市里——按规则原文那一天不构成合规，真正的熊市合规日是 **0** 天。",
+  "generated": "2026-11-28T11:33:38+08:00"
 }

@@ -1,7 +1,7 @@
 {
  "schema": "etf-book-card-track/v1",
- "ts": "2026-11-27T02:27:06",
- "evidence_cutoff": "2026-11-26",
+ "ts": "2026-11-28T10:17:26",
+ "evidence_cutoff": "2026-11-27",
  "card_path": "etf_book_production\\latest.json",
  "ledger_path": "etf_book_forward\\LEDGER.json",
  "agreement": {
@@ -42,10 +42,10 @@
  },
  "card_ticket": {
   "present": true,
-  "ticket_path": "etf_book_order\\TICKET-2026-11-26-card.json",
+  "ticket_path": "etf_book_order\\TICKET-2026-11-27-card.json",
   "card_decided_bar": "2026-11-11",
   "ticket_decided_bar": "2026-11-11",
-  "ticket_priced_bar": "2026-11-26",
+  "ticket_priced_bar": "2026-11-27",
   "same_decision_bar": true,
   "card_names": 12,
   "ticket_names": 12,
@@ -65,7 +65,7 @@
   "seed_bar": "2026-10-23",
   "anchor_bar": "2026-11-12",
   "anchor_note": "the replay is indexed at this bar and the recorded nav is divided by this bar's nav: the shares are bought at the fill, so a mark before the fill would price them from a bar they did not exist on (r1585)",
-  "last_bar": "2026-11-26",
+  "last_bar": "2026-11-27",
   "names": 12,
   "target_weight_each": 0.075782,
   "cash_target": 0.090616,
@@ -84,28 +84,28 @@
    "513500": 0.075778
   },
   "weights_at_last": {
-   "510760": 0.074594,
-   "512040": 0.076787,
-   "159655": 0.073927,
-   "513690": 0.076282,
-   "159519": 0.075736,
-   "513650": 0.073904,
-   "510210": 0.074708,
-   "562060": 0.0773,
-   "513630": 0.076791,
-   "159207": 0.077974,
-   "511180": 0.072985,
-   "513500": 0.073902
+   "510760": 0.076533,
+   "512040": 0.07715,
+   "159655": 0.074897,
+   "513690": 0.074616,
+   "159519": 0.074398,
+   "513650": 0.074532,
+   "510210": 0.076788,
+   "562060": 0.076666,
+   "513630": 0.074692,
+   "159207": 0.07728,
+   "511180": 0.07435,
+   "513500": 0.074391
   },
-  "top_drift_pp": -0.2797,
-  "top_drift_name": "511180",
-  "max_abs_weight_drift_pp": 0.2797,
-  "drift_turnover_one_way": 0.010719,
-  "drift_cost_bp": 0.11,
-  "next_decision_bars": 9,
-  "panel_last": "2026-11-26",
-  "ledger_last": "2026-11-26",
-  "replay_last": "2026-11-26",
+  "top_drift_pp": 0.1498,
+  "top_drift_name": "159207",
+  "max_abs_weight_drift_pp": 0.1498,
+  "drift_turnover_one_way": 0.008597,
+  "drift_cost_bp": 0.09,
+  "next_decision_bars": 8,
+  "panel_last": "2026-11-27",
+  "ledger_last": "2026-11-27",
+  "replay_last": "2026-11-27",
   "bars_not_on_panel": [],
   "lag_on_panel_bars": 0,
   "nav_identity_max_dev": 8.7e-09,
@@ -123,7 +123,8 @@
    "2026-11-20": 6.5e-09,
    "2026-11-23": 7.1e-09,
    "2026-11-24": 6.3e-09,
-   "2026-11-25": 8.7e-09
+   "2026-11-25": 8.7e-09,
+   "2026-11-26": 7.8e-09
   },
   "nav_identity_tolerance": {
    "floor": 5e-09,
@@ -134,13 +135,13 @@
   },
   "nav_buyhold_gap": null,
   "nav_buyhold_gap_bp": null,
-  "cum_carry_bars": 0.0002481197,
-  "bars_matched": 10,
+  "cum_carry_bars": 0.0002500685,
+  "bars_matched": 11,
   "identity_not_policed": [
-   "2026-11-26"
+   "2026-11-27"
   ],
   "identity_provisional_bars": [
-   "2026-11-26"
+   "2026-11-27"
   ],
   "identity_provisional_note": "the ledger published these bars while the panel for their date was still gaining symbols; its own gate restates or promotes them, so this face prints their live deviation instead of failing on work that belongs to the producer",
   "identity_cause": {
@@ -168,20 +169,19 @@
    "2026-11-23": "PANEL_SAME",
    "2026-11-24": "PANEL_SAME",
    "2026-11-25": "PANEL_SAME",
-   "2026-11-26": "PANEL_SAME"
+   "2026-11-26": "PANEL_SAME",
+   "2026-11-27": "PANEL_SAME"
   },
   "identity_panel_moved_bars": [],
   "identity_panel_moved": {},
   "identity_cause_note": "PANEL_MOVED_SINCE = the closes this bar was marked on are no longer the closes on disk (baseline_stamped says the digest was taken after publication, so the move is dated from that stamp); PANEL_SAME = same closes, so a deviation there is the book's own; FP_BASELINE_ONLY = the digest was stamped after the fact and can only witness later revisions; NO_FP_LEGACY = published before the ledger recorded its closes",
   "carry_coverage": {
-   "carry_last": "2026-11-25",
-   "bars_beyond_carry": [
-    "2026-11-26"
-   ],
+   "carry_last": "2026-11-27",
+   "bars_beyond_carry": [],
    "note": "bars beyond the repo ladder's last priced day are provisional: their cash leg is a forward-filled rate, so a NAV that disagrees with the re-derivation there measures the rate panel, not the book"
   },
   "identity_not_policed_dev": {
-   "2026-11-26": 7.8e-09
+   "2026-11-27": 1.475e-06
   },
   "bars_withheld": [],
   "convention": "ledger books constant target weights every bar (costless implicit rebalance) + carry on the target cash fraction; a card follower holds drifting weights, so nav_buyhold_gap is the convention's own footprint"

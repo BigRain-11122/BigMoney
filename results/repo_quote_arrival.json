@@ -1,5 +1,5 @@
 {
- "batched_commits": 8,
+ "batched_commits": 9,
  "batches": [
   {
    "at": "2026-09-27T14:40:55+08:00",
@@ -3919,6 +3919,17 @@
     "2026-11-20"
    ],
    "sha": "7fb4c5285e1ddfea7c656a7a060d3a6ed1e09c02"
+  },
+  {
+   "at": "2026-11-27T16:08:09+08:00",
+   "n_sessions": 4,
+   "sessions": [
+    "2026-11-23",
+    "2026-11-24",
+    "2026-11-25",
+    "2026-11-26"
+   ],
+   "sha": "2959a66aa8809a994df7dc7b71ab8ca58873711f"
   }
  ],
  "bulk_imports": [
@@ -3928,31 +3939,31 @@
    "sha": "a36cf53c"
   }
  ],
- "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff": "2026-11-26",
  "first_session": "2011-05-13",
- "generated": "2026-11-27T03:11:33+08:00",
+ "generated": "2026-11-28T11:33:54+08:00",
  "lag_days": {
   "max": 10,
   "median": 1,
   "min": 0,
-  "n": 35,
+  "n": 39,
   "p90": 5,
-  "share_next_day_or_later": 0.6857
+  "share_next_day_or_later": 0.7179
  },
  "lag_days_all_history": {
   "max": 5616,
-  "median": 2783,
+  "median": 2781,
   "min": 0,
-  "n": 3772,
+  "n": 3776,
   "p90": 5052,
   "share_next_day_or_later": 0.9971
  },
- "last_session": "2026-11-20",
+ "last_session": "2026-11-26",
  "max_batch": 3737,
  "method": "first commit whose tail reaches a session dates that session's arrival; lag_days = commit date - session date, bulk imports (>=20 sessions in one commit) excluded from the headline",
  "page_vs_frontier": {
   "pages_behind": 0,
-  "pages_judged": 11,
+  "pages_judged": 12,
   "rows": [
    {
     "frontier": "2026-11-17",
@@ -4035,12 +4046,20 @@
     "written": "2026-11-26T23:38:10"
    },
    {
-    "frontier": "2026-11-20",
-    "gap_days": -5,
+    "frontier": "2026-11-26",
+    "gap_days": 0,
     "page": "LIVE-2026-11-27.json",
-    "priced": "2026-11-25",
+    "priced": "2026-11-26",
     "verdict": "AT_FRONTIER",
-    "written": "2026-11-27T03:11:27"
+    "written": "2026-11-27T21:06:10"
+   },
+   {
+    "frontier": "2026-11-26",
+    "gap_days": -1,
+    "page": "LIVE-2026-11-28.json",
+    "priced": "2026-11-27",
+    "verdict": "AT_FRONTIER",
+    "written": "2026-11-28T11:33:49"
    }
   ],
   "verdict": "PAGE_AT_FRONTIER",
@@ -22906,9 +22925,29 @@
    "arrived": "2026-11-22T10:25:22+08:00",
    "bulk": false,
    "lag_days": 2
+  },
+  "2026-11-23": {
+   "arrived": "2026-11-27T16:08:09+08:00",
+   "bulk": false,
+   "lag_days": 4
+  },
+  "2026-11-24": {
+   "arrived": "2026-11-27T16:08:09+08:00",
+   "bulk": false,
+   "lag_days": 3
+  },
+  "2026-11-25": {
+   "arrived": "2026-11-27T16:08:09+08:00",
+   "bulk": false,
+   "lag_days": 2
+  },
+  "2026-11-26": {
+   "arrived": "2026-11-27T16:08:09+08:00",
+   "bulk": false,
+   "lag_days": 1
   }
  },
- "sessions_seen": 3772,
- "share_next_day_or_later": 0.6857,
+ "sessions_seen": 3776,
+ "share_next_day_or_later": 0.7179,
  "source": "data/repo_daily/GC001.csv"
 }

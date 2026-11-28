@@ -2,20 +2,20 @@
 
 **verdict** `DEFENCE_IS_A_SPELL_NOT_A_STATE` / `A_HALF_LIFE_YOU_CAN_BUDGET`
 
-cell N5_R20_10bp · evidence_cutoff 2026-11-26 · panel 1671 bars from 2005-02-23
+cell N5_R20_10bp · evidence_cutoff 2026-11-27 · panel 1672 bars from 2005-02-23
 
-The book is defensive (equity weight <= 0) on **911 of 1671 bars (54.5%)**, in **17 spells**;
-a spell lasts a median **20 bars** (p90 **108**, longest **191**).
+The book is defensive (equity weight <= 0) on **912 of 1672 bars (54.5%)**, in **17 spells**;
+a spell lasts a median **20 bars** (p90 **108**, longest **192**).
 
 While defensive the book earns **2.51%/yr**; while offensive **18.09%/yr**.
-Forced to hold the eligible equity sleeve over the same defensive bars instead, the rule is worth **-0.0200 log** in total (**-20036 CNY** on the 1000000 ticket), helping in **9 of 17 spells**;
+Forced to hold the eligible equity sleeve over the same defensive bars instead, the rule is worth **-0.0905 log** in total (**-90496 CNY** on the 1000000 ticket), helping in **9 of 17 spells**;
 its worst call was 2024-08-16 (80 bars, -0.2055 log vs equities)
 
-What the -20036 bought: inside the defensive bars the equity sleeve's worst peak-to-trough was **-31.4%** while the book's was **-5.8%**; over the whole sample the book's max drawdown is **-13.4%** against the sleeve's **-52.8%** -- the defence did not add return, it bought the journey.
+What the -90496 bought: inside the defensive bars the equity sleeve's worst peak-to-trough was **-31.4%** while the book's was **-5.8%**; over the whole sample the book's max drawdown is **-13.4%** against the sleeve's **-52.8%** -- the defence did not add return, it bought the journey.
 
 Re-entry sticks less often than it feels: **0 of 16** spell ends are back in defence inside 20 bars (0.0%).
 
-**Today (2026-11-26): the book is defensive, this spell is 191 bars old, and 0.0% of prior spells ran at least as long.**
+**Today (2026-11-27): the book is defensive, this spell is 192 bars old, and 0.0% of prior spells ran at least as long.**
 
 | start | end | bars | cal days | book log | equity log (same bars) | book - equity |
 |---|---|---:|---:|---:|---:|---:|
@@ -35,9 +35,9 @@ Re-entry sticks less often than it feels: **0 of 16** spell ends are back in def
 | 2024-08-16 | 2024-12-16 | 80 | 122 | +0.0054 | +0.2109 | -0.2055 |
 | 2025-01-15 | 2025-02-19 | 20 | 35 | +0.0313 | +0.0776 | -0.0463 |
 | 2025-12-12 | 2026-01-12 | 20 | 31 | -0.0023 | +0.0846 | -0.0869 |
-| 2026-02-10 | 2026-11-26 | 191 | 289 | +0.0019 | -0.2619 | +0.2638 |
+| 2026-02-10 | 2026-11-27 | 192 | 290 | +0.0019 | -0.1914 | +0.1933 |
 
-tags: `n_spells=17` / `defensive_pct=54.5` / `bars_median=20` / `bars_p90=108` / `defense_added_log=-0.0200` / `false_start_pct=0.0`
+tags: `n_spells=17` / `defensive_pct=54.5` / `bars_median=20` / `bars_p90=108` / `defense_added_log=-0.0905` / `false_start_pct=0.0`
 
 ## caveats
 

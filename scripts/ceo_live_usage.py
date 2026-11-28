@@ -188,6 +188,15 @@ ETF_PREMIUM_JSON = os.path.join(ROOT, "results", "etf_book_premium_leak.json")
 ETF_PREMIUM_REL = "results/etf_book_premium_leak.json"
 ETF_PREMIUM_CHOICE_JSON = os.path.join(ROOT, "results", "etf_book_premium_choice.json")
 ETF_PREMIUM_CHOICE_REL = "results/etf_book_premium_choice.json"
+# r2218: the two blocks above answer "how expensive is this ticket" (leak: the legs it
+# can verify against a same-session NAV) and "should this one leg be swapped" (choice).
+# Neither answers the desk's own gate: "sum the overpay over every leg this face can
+# date; if it passes 500 CNY, tell me to stop."  That gate lives in
+# results/etf_premium/PREMIUM-<session>.json (over_hurdle) and it prices a DIFFERENT leg
+# set than the leak block, so the page must print it with its own coverage instead of
+# letting the reader reconcile two amounts for one question.  Read-only.
+ETF_PREMIUM_GATE_DIR = os.path.join(ROOT, "results", "etf_premium")
+ETF_PREMIUM_GATE_REL = "results/etf_premium/PREMIUM-{}.json"
 # r1824: the page prices the sleeve at the 1-day repo rate, which answers "how much does
 # the cash earn" and leaves "which tenor do I roll this morning" unanswered -- the ladder
 # face's own ticket is stamped with ITS cutoff (2026-10-27), so it reads as history. The
@@ -1933,6 +1942,67 @@ def _etf_premium_choice_face():
     }
 
 
+def _etf_premium_gate_face(session):
+    """r2218: the desk's own stop rule, on the reader's page.
+
+    Two blocks above already price this ticket, and neither answers "will this
+    ticket be stopped before it is bought".  The gate does: sum the overpay over
+    every leg it can date; past 500 CNY, tell the desk to stop.  It is a third
+    measurement, not a third opinion -- it prices a DIFFERENT leg set (it can
+    rebase a leg whose date is only a label, so it counts 4 of 5 legs where the
+    leak block can only verify 3), which is exactly why the two CNY amounts on
+    one page differ.  So the page prints this block with:
+
+    * its own coverage (priced legs / all legs, and which leg carries no CNY
+      figure at all -- a leg without a figure is excluded, never counted as 0);
+    * the legs whose date is only a label and the extra they could move (the
+      gate widens to the WORST case; the verdict is only comfortable in that
+      worst case, not in the point estimate);
+    * its own session + fetch stamp (r1781: another script, another trip), and
+      nothing at all when the face priced a different ticket than the sheet.
+    """
+    if not session:
+        return {"present": False,
+                "note": "这一页的执行单没有日期，执行闸没有可对齐的场"}
+    path = os.path.join(ETF_PREMIUM_GATE_DIR,
+                        "PREMIUM-{}.json".format(str(session)[:10]))
+    rel = ETF_PREMIUM_GATE_REL.format(str(session)[:10])
+    try:
+        d = _read_json(path)
+    except (OSError, ValueError):
+        return {"present": False, "path": rel,
+                "note": "执行闸面未产出（缺面不读 0）"}
+    oh = d.get("over_hurdle") or {}
+    if not oh:
+        return {"present": False, "path": rel,
+                "note": "执行闸面没有闸读数（缺面不读 0）"}
+    legs = d.get("legs") or []
+    return {
+        "present": True,
+        "path": rel,
+        "session": d.get("session"),
+        "fetched_at": (d.get("source") or {}).get("fetched_at"),
+        "ticket": (d.get("ticket") or {}).get("path"),
+        "n_legs": len(legs),
+        "n_priced": d.get("priced_legs"),
+        "hurdle_cny": oh.get("hurdle_cny"),
+        "total_over_nav_cny": oh.get("total_over_nav_cny"),
+        "priced_amount_cny": oh.get("priced_amount_cny"),
+        "share_of_plan_pct": oh.get("share_of_plan_pct"),
+        "bounded_total_cny": oh.get("bounded_total_cny"),
+        "exposure_cny": oh.get("exposure_cny"),
+        "verdict": oh.get("verdict"),
+        "breached": oh.get("breached"),
+        "unproven": oh.get("unproven") or [],
+        "settled_by_rebase": oh.get("settled_by_rebase") or [],
+        # a leg with no CNY figure at all: excluded from both sums, never counted as 0.
+        # Read from the leg's own over_nav_cny (the quantity the gate sums), not from a
+        # side list -- a list can disagree with the sum and the reader would not see it.
+        "no_figure_legs": [str(l.get("symbol")) for l in legs
+                           if l.get("over_nav_cny") is None],
+    }
+
+
 def _next_decision_face(t):
     """r1825: "16 bars away" is not a date.
 
@@ -3212,6 +3282,10 @@ def build_payload(day: str) -> dict:
     book = _etf_book_face()
     tape = _risk_tape_face()
     rec_face = _recommendation_face()
+    # r2218: the premium gate prices the SAME session the execution sheet is for, so it
+    # is resolved from that sheet's own date rather than from a "latest" glob (two files
+    # agreeing by luck is not a guard: r1780/r1781).
+    _eo_face = _etf_order_with_cash_roll()
     return {
         "schema": "ceo_live_usage_v1_9",
         "ticket": "T-202609-28-105",
@@ -3261,12 +3335,13 @@ def build_payload(day: str) -> dict:
         "etf_book": book,
         "etf_book_periods": _etf_book_period_face(),
         "etf_permission": _etf_permission_face(),
-        "etf_order": _etf_order_with_cash_roll(),
+        "etf_order": _eo_face,
         "etf_entry_price": _etf_entry_price_face(),
         # r1893: the "should we wait for a sharper ruler" reading, on the CEO's page.
         "precision_wait": _precision_wait_face(),
         "etf_premium": _etf_premium_face(),
         "etf_premium_choice": _etf_premium_choice_face(),
+        "etf_premium_gate": _etf_premium_gate_face(_eo_face.get("bar")),
         "etf_capacity": _etf_capacity_face(),
         "etf_capacity_at_size": _etf_capacity_at_size_face(),
         "etf_punctuality": _etf_punctuality_face(),
@@ -4700,6 +4775,83 @@ def render_md(p: dict) -> str:
         L.append(
             "    - 出处：`{}`（票面 {}·as_of {}·换腿门槛与年化上限都是冻结常量）".format(
                 ETF_PREMIUM_CHOICE_REL, _pc.get("ticket"), _pc.get("as_of")))
+    # ---- r2218: the desk's own stop rule.  The two blocks above answer "how expensive"
+    # and "swap this leg?"; neither says whether this ticket would be STOPPED.  The gate
+    # answers that, and it prices a different leg set than the leak block -- so this
+    # block must name its own coverage and say why the two CNY amounts differ, or the
+    # reader has two numbers for one question and no way to choose between them.
+    _pg = p.get("etf_premium_gate") or {}
+    _pg_tk = os.path.basename(str(_pg.get("ticket") or ""))
+    if not _pg.get("present"):
+        L.append("  - **这张票会不会被自己的规矩喊停**（多付到 ¥500 就提示停手）："
+                 "{}——今天不印数".format(
+                     _pg.get("note") or "执行闸面未产出（缺面不读 0）"))
+    elif _pg_tk and _eo_tk and _pg_tk != os.path.basename(str(_eo_tk)):
+        L.append("  - **这张票会不会被自己的规矩喊停**：执行闸价的票面是 `{}`，"
+                 "与这一页的执行单 `{}` 不是同一张——今天不印这个数".format(
+                     _pg_tk, _eo_tk))
+    else:
+        _hv = _pg.get("verdict")
+        _hur = _pg.get("hurdle_cny")
+        _tot = _pg.get("total_over_nav_cny")
+        _bnd = _pg.get("bounded_total_cny")
+        _cny_priced = _pg.get("priced_amount_cny")
+        if _hv == "breached":
+            _gate_word = "**提示停手**（越过阈值）"
+        elif _hv == "clean":
+            _gate_word = "**不提示**（点数就在阈值内）"
+        elif _hv == "clean-even-worst-case":
+            _gate_word = "**不提示**（连最坏情况也在阈值内）"
+        else:
+            _gate_word = "**不作判断**（不确定度大到阈值里放不下）"
+        L.append(
+            "  - **这张票会不会被自己的规矩喊停**（多付到 ¥{} 就提示停手）：{}".format(
+                _fmt_cny(_hur) if _hur is not None else "?", _gate_word))
+        if _tot is not None:
+            L.append(
+                "    - 闸自己的读数：可定价 {} 腿（共 {} 腿）合计 ¥{}，相对净值{}"
+                " **{}{}**（＝计划的 {}%）；{}".format(
+                    _pg.get("n_priced") if _pg.get("n_priced") is not None else "?",
+                    _pg.get("n_legs") if _pg.get("n_legs") is not None else "?",
+                    _fmt_cny(_cny_priced) if _cny_priced is not None else "?",
+                    "多付" if _tot >= 0 else "少付（净折价）",
+                    "-" if _tot < 0 else "",
+                    _fmt_cny(abs(_tot)),
+                    "{:+.4f}".format(_pg.get("share_of_plan_pct"))
+                    if _pg.get("share_of_plan_pct") is not None else "?",
+                    "最坏情况 {}{}".format(
+                        "-" if _bnd is not None and _bnd < 0 else "",
+                        _fmt_cny(abs(_bnd)))
+                    if _bnd is not None else "无不确定度项"))
+        _unp = _pg.get("unproven") or []
+        if _unp:
+            L.append(
+                "    - 撑开闸的那几腿（日期只算标签，两条净值日都自洽）：{}".format(
+                    "；".join(
+                        "{} 当日价动 {:+.2f}%→最多再偏 ¥{}".format(
+                            u.get("symbol"),
+                            u.get("move_pct") or 0.0,
+                            _fmt_cny(u.get("exposure_cny"))
+                            if u.get("exposure_cny") is not None else "?")
+                        for u in _unp)))
+        _nofig = _pg.get("no_figure_legs") or []
+        if _nofig:
+            L.append(
+                "    - 没有任何金额进合计的腿：{}（本场没有可定日的净值，"
+                "既不算 0 也不算进合计——它让这条闸只覆盖 {} 腿）".format(
+                    "、".join(_nofig),
+                    _pg.get("n_priced") if _pg.get("n_priced") is not None else "?"))
+        _reb = _pg.get("settled_by_rebase") or []
+        if _reb:
+            L.append(
+                "    - 上面那节「有多少是溢价」只给同日可核的腿；本节把 {} 用本场净值"
+                "换基后算进去，这一腿就是两处钱数差的主要来源。同一批腿两处逐腿读数"
+                "一致，剩下的零头是各自的舍入（<¥10）——不是同一个数被算了两遍".format(
+                    "、".join(str(u.get("symbol")) for u in _reb)))
+        L.append(
+            "    - 出处：`{}`（场 {}·取价 {}·闸阈值是冻结常量）".format(
+                _pg.get("path"), _pg.get("session"),
+                _pg.get("fetched_at") or "面未自带"))
     # ---- r1908: the blocks above price what each leg costs and what the premium
     # costs; this one prices the cash the book sits in whenever the score says
     # defence.  The engine pays that cash 0%, which reads like a measurement until
@@ -7000,6 +7152,43 @@ def selftest() -> int:
                   "不是同一张" in _p7
                   and (_paid1 is None or _fmt_cny(abs(_paid1)) not in _p7)
                   and "多付" not in _p7)
+        # ---- r2218: the desk's stop rule.  Three things must reach the page together:
+        # the verdict word (so the reader knows whether the ticket is stopped), the leg
+        # coverage (the gate counts a different set than the block above), and the leg
+        # that carries no CNY figure at all -- an excluded leg is not a zero.  The
+        # negative control flips the gate to breached and demands the page says stop.
+        _pg1 = p1.get("etf_premium_gate") or {}
+        if not _pg1.get("present"):
+            print("  [SKIP] premium gate block: the face is absent")
+        else:
+            _pg_line = [ln for ln in md1.splitlines()
+                        if "这张票会不会被自己的规矩喊停" in ln]
+            _pg_txt = "\n".join(_pg_line)
+            check("the page says whether the ticket gets stopped by its own rule (r2218)",
+                  bool(_pg_line)
+                  and (("不提示" in _pg_txt) if not _pg1.get("breached")
+                       else ("提示停手" in _pg_txt)))
+            check("the gate block prints its own leg coverage, not just an amount (r2218)",
+                  "可定价" in md1
+                  and str(_pg1.get("n_priced")) in md1
+                  and str(_pg1.get("n_legs")) in md1
+                  and (not _pg1.get("no_figure_legs")
+                       or all(str(s) in md1 for s in _pg1["no_figure_legs"])))
+            _deg8 = json.loads(json.dumps(p1))
+            _deg8["etf_premium_gate"] = dict(_deg8.get("etf_premium_gate") or {})
+            _deg8["etf_premium_gate"]["breached"] = True
+            _deg8["etf_premium_gate"]["verdict"] = "breached"
+            _md8 = render_md(_deg8)
+            check("a breached gate says stop on the page and never prints 不提示 (r2218)",
+                  "提示停手" in _md8
+                  and "这张票会不会被自己的规矩喊停**（多付到 ¥" in _md8)
+            _deg9 = json.loads(json.dumps(p1))
+            _deg9["etf_premium_gate"] = dict(_deg9.get("etf_premium_gate") or {})
+            _deg9["etf_premium_gate"]["ticket"] = (
+                "results/etf_book_order/TICKET-1999-01-01.json")
+            _md9 = render_md(_deg9)
+            check("a gate priced on another ticket is refused, not quoted (r2218)",
+                  "不是同一张" in _md9 and "提示停手" not in _md9)
         # ---- r1824: today's repo tenor for the uninvested sleeve
         _cr1 = ((p1.get("etf_order") or {}).get("cash_roll")) or {}
         if _cr1.get("present") and _cr1.get("verdict") != "NO_INSTRUCTION":

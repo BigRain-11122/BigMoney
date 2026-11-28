@@ -1,14 +1,14 @@
 {
  "face": "book_pair_blend",
- "generated_at": "2026-11-27T16:14:48+08:00",
- "evidence_cutoff": "2026-11-26",
+ "generated_at": "2026-11-28T05:56:58+08:00",
+ "evidence_cutoff": "2026-11-27",
  "question": "one wallet, two books: does splitting beat picking the better one?",
  "window": {
   "first": "2020-01-03",
-  "last": "2026-11-26",
-  "bars": 1671,
+  "last": "2026-11-27",
+  "bars": 1672,
   "why": "the overlap only -- cb runs since 2007, etf since 2020; a blend cannot be priced on days one of the books does not exist",
-  "cb_full_history_years": 19.376,
+  "cb_full_history_years": 19.379,
   "note_on_overlap_bias": "the overlap is the recent six years; cb's full-history CAGR is printed beside it, not blended with it"
  },
  "caliber": {
@@ -24,29 +24,29 @@
    "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
    "execution": "signal at close t, filled at close t+1",
    "full_history": {
-    "cagr": 0.0735481464,
-    "sharpe": 0.7581240491,
+    "cagr": 0.074202176,
+    "sharpe": 0.7639846765,
     "maxdd": -0.2258848187,
-    "vol": 0.1006748569,
-    "bars": 4710,
+    "vol": 0.1006997221,
+    "bars": 4711,
     "first": "2007-07-12",
-    "last": "2026-11-26",
-    "annual_turnover": 4.597568669
+    "last": "2026-11-27",
+    "annual_turnover": 4.5969191114
    },
    "panel": {
     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
-    "size": 25433554,
-    "mtime": "2026-11-27T11:34:31"
+    "size": 25443561,
+    "mtime": "2026-11-28T05:55:34"
    },
    "in_window": {
-    "bars": 1671,
-    "years": 6.897,
-    "cagr": 0.062937584,
-    "sharpe": 0.5402413276,
+    "bars": 1672,
+    "years": 6.899,
+    "cagr": 0.0647616198,
+    "sharpe": 0.5533782091,
     "maxdd": -0.2258848187,
-    "vol": 0.1292947496,
+    "vol": 0.1293344256,
     "first": "2020-01-03",
-    "last": "2026-11-26",
+    "last": "2026-11-27",
     "yearly": {
      "2020": 0.1076090973,
      "2021": 0.3324968291,
@@ -54,9 +54,9 @@
      "2023": -0.0217629394,
      "2024": 0.277903535,
      "2025": 0.0478509151,
-     "2026": -0.2075549299
+     "2026": -0.1979910861
     },
-    "worst_year": -0.2075549299,
+    "worst_year": -0.1979910861,
     "best_year": 0.3324968291,
     "neg_years": 3,
     "months": 82,
@@ -65,17 +65,17 @@
    "published": {
     "face": "results/cb_dual_low.json",
     "arm": "grid cell N20/R20/10bp",
-    "cagr": 0.0735481464,
-    "sharpe": 0.7581240491,
+    "cagr": 0.074202176,
+    "sharpe": 0.7639846765,
     "maxdd": -0.2258848187,
     "reproduced_here": {
-     "cagr": 0.0735481464,
-     "sharpe": 0.7581240491,
+     "cagr": 0.074202176,
+     "sharpe": 0.7639846765,
      "maxdd": -0.2258848187
     },
     "diff_pp": {
      "cagr": 0.0,
-     "sharpe": 0.0,
+     "sharpe": -0.0,
      "maxdd": 0.0
     }
    }
@@ -85,16 +85,16 @@
    "arm": "nobond_vt08 vol_target=8% n_hold=5 rebal=20 cost=10bp entry_lag=1",
    "execution": "decide at close t, own from the open of t+1",
    "full_history": {
-    "cagr": 0.0986,
-    "sharpe": 0.973,
+    "cagr": 0.0991,
+    "sharpe": 0.978,
     "maxdd": -0.1011,
     "vol": 0.1064,
-    "bars": 1671,
+    "bars": 1672,
     "first": "2020-01-03",
-    "last": "2026-11-26",
+    "last": "2026-11-27",
     "turnover": 1.08
    },
-   "universe": 1536,
+   "universe": 1539,
    "flips_repaired": 169,
    "panel": {
     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/daily/510300.csv",
@@ -102,14 +102,14 @@
     "mtime": "2026-11-27T15:33:57"
    },
    "in_window": {
-    "bars": 1671,
-    "years": 6.897,
-    "cagr": 0.0985934638,
-    "sharpe": 0.9578173792,
+    "bars": 1672,
+    "years": 6.899,
+    "cagr": 0.0991181321,
+    "sharpe": 0.9624321824,
     "maxdd": -0.1010854728,
-    "vol": 0.1046752945,
+    "vol": 0.1046508599,
     "first": "2020-01-03",
-    "last": "2026-11-26",
+    "last": "2026-11-27",
     "yearly": {
      "2020": 0.047516939,
      "2021": 0.0516767645,
@@ -117,9 +117,9 @@
      "2023": 0.023839174,
      "2024": 0.124109465,
      "2025": 0.4247368213,
-     "2026": 0.0085914188
+     "2026": 0.0121799778
     },
-    "worst_year": 0.0085914188,
+    "worst_year": 0.0121799778,
     "best_year": 0.4247368213,
     "neg_years": 0,
     "months": 82,
@@ -132,36 +132,36 @@
     "sharpe": 0.973,
     "maxdd": -0.1011,
     "reproduced_here": {
-     "cagr": 0.0986,
-     "sharpe": 0.973,
+     "cagr": 0.0991,
+     "sharpe": 0.978,
      "maxdd": -0.1011
     },
     "diff_pp": {
-     "cagr": 0.0,
-     "sharpe": 0.0,
+     "cagr": 0.05,
+     "sharpe": 0.5,
      "maxdd": 0.0
     }
    }
   }
  },
  "correlation": {
-  "daily": 0.0899,
-  "monthly": 0.1435,
-  "n_days": 1670,
+  "daily": 0.0902,
+  "monthly": 0.1364,
+  "n_days": 1671,
   "n_months": 82,
   "months_both_down": 19,
   "months_both_down_pct": 0.2317
  },
  "blends": [
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0987166442,
-   "sharpe": 0.9688976954,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0992419479,
+   "sharpe": 0.9735119512,
    "maxdd": -0.1010854728,
-   "vol": 0.1046635269,
+   "vol": 0.1046390613,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0553737473,
     "2021": 0.0516767645,
@@ -169,9 +169,9 @@
     "2023": 0.023839174,
     "2024": 0.124109465,
     "2025": 0.4247368213,
-    "2026": 0.0085914188
+    "2026": 0.0121799778
    },
-   "worst_year": 0.0085914188,
+   "worst_year": 0.0121799778,
    "best_year": 0.4247368213,
    "neg_years": 0,
    "months": 82,
@@ -181,14 +181,14 @@
    "annual_turnover": 1.08
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0963280568,
-   "sharpe": 1.0199272956,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0969881022,
+   "sharpe": 1.0261882001,
    "maxdd": -0.0943574599,
-   "vol": 0.0962330266,
+   "vol": 0.0962163832,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0616161664,
     "2021": 0.0779821266,
@@ -196,9 +196,9 @@
     "2023": 0.0197016486,
     "2024": 0.1406815089,
     "2025": 0.3830229847,
-    "2026": -0.0148266001
+    "2026": -0.0104829021
    },
-   "worst_year": -0.0148266001,
+   "worst_year": -0.0104829021,
    "best_year": 0.3830229847,
    "neg_years": 1,
    "months": 82,
@@ -208,14 +208,14 @@
    "annual_turnover": 1.432
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0936701354,
-   "sharpe": 1.0562194269,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0944641467,
+   "sharpe": 1.0642316514,
    "maxdd": -0.087627516,
-   "vol": 0.0898422512,
+   "vol": 0.0898346308,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0674704075,
     "2021": 0.1046900305,
@@ -223,26 +223,26 @@
     "2023": 0.0154664052,
     "2024": 0.1570292254,
     "2025": 0.3422301362,
-    "2026": -0.0378348875
+    "2026": -0.0327737563
    },
-   "worst_year": -0.0378348875,
+   "worst_year": -0.0327737563,
    "best_year": 0.3422301362,
    "neg_years": 1,
    "months": 82,
    "pos_months_pct": 0.6341463415,
    "w_cb": 0.2,
    "w_etf": 0.8,
-   "annual_turnover": 1.784
+   "annual_turnover": 1.783
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.090745109,
-   "sharpe": 1.0661818364,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0916722122,
+   "sharpe": 1.0759045683,
    "maxdd": -0.0927277208,
-   "vol": 0.0859474139,
+   "vol": 0.0859496284,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0729299724,
     "2021": 0.1317981669,
@@ -250,9 +250,9 @@
     "2023": 0.0111348229,
     "2024": 0.1731371665,
     "2025": 0.3023488455,
-    "2026": -0.0604366502
+    "2026": -0.0546947653
    },
-   "worst_year": -0.0604366502,
+   "worst_year": -0.0546947653,
    "best_year": 0.3023488455,
    "neg_years": 1,
    "months": 82,
@@ -262,14 +262,14 @@
    "annual_turnover": 2.135
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0875553852,
-   "sharpe": 1.0410548875,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0886146094,
+   "sharpe": 1.0522648295,
    "maxdd": -0.1120718816,
-   "vol": 0.0848927498,
+   "vol": 0.0849048032,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0779887757,
     "2021": 0.1593038966,
@@ -277,9 +277,9 @@
     "2023": 0.0067083052,
     "2024": 0.1889899617,
     "2025": 0.2633693737,
-    "2026": -0.0826351921
+    "2026": -0.0762482178
    },
-   "worst_year": -0.0826351921,
+   "worst_year": -0.0762482178,
    "best_year": 0.2633693737,
    "neg_years": 2,
    "months": 82,
@@ -289,14 +289,14 @@
    "annual_turnover": 2.487
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0841035474,
-   "sharpe": 0.980855236,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0852938258,
+   "sharpe": 0.9931834345,
    "maxdd": -0.1311134082,
-   "vol": 0.0867818711,
+   "vol": 0.0868027754,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0826411558,
     "2021": 0.1872042436,
@@ -304,26 +304,26 @@
     "2023": 0.0021882795,
     "2024": 0.2045723413,
     "2025": 0.2252816916,
-    "2026": -0.1044339094
+    "2026": -0.0974365072
    },
-   "worst_year": -0.1044339094,
+   "worst_year": -0.0974365072,
    "best_year": 0.2252816916,
    "neg_years": 2,
    "months": 82,
    "pos_months_pct": 0.5731707317,
    "w_cb": 0.5,
    "w_etf": 0.5,
-   "annual_turnover": 2.839
+   "annual_turnover": 2.838
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0803923511,
-   "sharpe": 0.8953370067,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0817125232,
+   "sharpe": 0.9083680718,
    "maxdd": -0.1498539972,
-   "vol": 0.0914324914,
+   "vol": 0.0914605231,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0868818839,
     "2021": 0.2154958899,
@@ -331,26 +331,26 @@
     "2023": -0.0024238039,
     "2024": 0.2198691597,
     "2025": 0.1880754965,
-    "2026": -0.1258362866
+    "2026": -0.1182621272
    },
-   "worst_year": -0.1258362866,
+   "worst_year": -0.1182621272,
    "best_year": 0.2198691597,
    "neg_years": 3,
    "months": 82,
    "pos_months_pct": 0.5243902439,
    "w_cb": 0.6,
    "w_etf": 0.4,
-   "annual_turnover": 3.191
+   "annual_turnover": 3.19
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0764247214,
-   "sharpe": 0.7983961002,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0778735338,
+   "sharpe": 0.8117654281,
    "maxdd": -0.1682954253,
-   "vol": 0.0984540552,
+   "vol": 0.0984872682,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0907061741,
     "2021": 0.2441751698,
@@ -358,9 +358,9 @@
     "2023": -0.0071264722,
     "2024": 0.234865418,
     "2025": 0.1517402296,
-    "2026": -0.1468458919
+    "2026": -0.1387276682
    },
-   "worst_year": -0.1468458919,
+   "worst_year": -0.1387276682,
    "best_year": 0.2441751698,
    "neg_years": 3,
    "months": 82,
@@ -370,14 +370,14 @@
    "annual_turnover": 3.542
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.072203749,
-   "sharpe": 0.7016766793,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0737798575,
+   "sharpe": 0.715117611,
    "maxdd": -0.1865073101,
-   "vol": 0.107382469,
+   "vol": 0.1074191135,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0941096912,
     "2021": 0.2732380645,
@@ -385,9 +385,9 @@
     "2023": -0.0119182311,
     "2024": 0.2495462876,
     "2025": 0.1162650923,
-    "2026": -0.1674663734
+    "2026": -0.158835813
    },
-   "worst_year": -0.1674663734,
+   "worst_year": -0.158835813,
    "best_year": 0.2732380645,
    "neg_years": 3,
    "months": 82,
@@ -397,14 +397,14 @@
    "annual_turnover": 3.894
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0677326865,
-   "sharpe": 0.6120497442,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.069434658,
+   "sharpe": 0.6253929129,
    "maxdd": -0.2052656906,
-   "vol": 0.1177848949,
+   "vol": 0.1178235932,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.0970885583,
     "2021": 0.3026801975,
@@ -412,26 +412,26 @@
     "2023": -0.0167975653,
     "2024": 0.263897133,
     "2025": 0.0816390635,
-    "2026": -0.1877014544
+    "2026": -0.1785893334
    },
-   "worst_year": -0.1877014544,
+   "worst_year": -0.1785893334,
    "best_year": 0.3026801975,
    "neg_years": 3,
    "months": 82,
    "pos_months_pct": 0.512195122,
    "w_cb": 0.9,
    "w_etf": 0.1,
-   "annual_turnover": 4.246
+   "annual_turnover": 4.245
   },
   {
-   "bars": 1670,
-   "years": 6.888,
-   "cagr": 0.0630149452,
-   "sharpe": 0.5323234385,
+   "bars": 1671,
+   "years": 6.891,
+   "cagr": 0.0648412591,
+   "sharpe": 0.5454739838,
    "maxdd": -0.2258848187,
-   "vol": 0.1293060766,
+   "vol": 0.1293458216,
    "first": "2020-01-06",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "yearly": {
     "2020": 0.099639364,
     "2021": 0.3324968291,
@@ -439,47 +439,47 @@
     "2023": -0.0217629394,
     "2024": 0.277903535,
     "2025": 0.0478509151,
-    "2026": -0.2075549299
+    "2026": -0.1979910861
    },
-   "worst_year": -0.2075549299,
+   "worst_year": -0.1979910861,
    "best_year": 0.3324968291,
    "neg_years": 3,
    "months": 82,
    "pos_months_pct": 0.512195122,
    "w_cb": 1.0,
    "w_etf": 0.0,
-   "annual_turnover": 4.598
+   "annual_turnover": 4.597
   }
  ],
  "best": {
   "w_cb": 0.3,
-  "cagr": 0.090745109,
-  "sharpe": 1.0661818364,
+  "cagr": 0.0916722122,
+  "sharpe": 1.0759045683,
   "maxdd": -0.0927277208,
-  "vol": 0.0859474139,
-  "worst_year": -0.0604366502
+  "vol": 0.0859496284,
+  "worst_year": -0.0546947653
  },
  "reconciliation": {
   "why": "the two edge weights must land on the two parents measured on this same window -- if they do not, this face is not blending the published books",
-  "w1_cagr": 0.0630149452,
-  "cb_in_window_cagr": 0.062937584,
+  "w1_cagr": 0.0648412591,
+  "cb_in_window_cagr": 0.0647616198,
   "w1_matches_cb": true,
-  "w0_cagr": 0.0987166442,
-  "etf_in_window_cagr": 0.0985934638,
+  "w0_cagr": 0.0992419479,
+  "etf_in_window_cagr": 0.0991181321,
   "w0_matches_etf": true
  },
  "verdict": {
   "word": "DIVERSIFICATION_PAYS",
-  "sharpe_gain_vs_best_parent": 0.1084,
-  "sentence": "Splitting the wallet beats either book on its own: 30% convertible / 70% ETF gives Sharpe 1.066 (vs 0.540 and 0.958), worst year -6.0%, max drawdown -9.3%; the two books move together on the daily tape (corr 0.0899) and go down in 23% of months together -- read the gain as +0.11 Sharpe, not as insurance"
+  "sharpe_gain_vs_best_parent": 0.1135,
+  "sentence": "Splitting the wallet beats either book on its own: 30% convertible / 70% ETF gives Sharpe 1.076 (vs 0.553 and 0.962), worst year -5.5%, max drawdown -9.3%; the two books move together on the daily tape (corr 0.0902) and go down in 23% of months together -- read the gain as +0.11 Sharpe, not as insurance"
  },
  "live": {
   "note": "read from each book's published live picks; this face does not re-derive holdings",
   "cb": {
    "face": "results/cb_book_ticket_floor.json",
-   "bar": "2026-11-26",
-   "one_lot_floor_cny": 25850.2,
-   "clean_capital_cny": 518625,
+   "bar": "2026-11-27",
+   "one_lot_floor_cny": 25875.8,
+   "clean_capital_cny": 538811,
    "why_it_matters": "a 30% convertible sleeve of a small wallet may be below one lot -- read this beside the weight"
   },
   "etf": {
@@ -495,10 +495,10 @@
   }
  },
  "executable_floor": {
-  "cb_one_lot_floor_cny": 25850.2,
+  "cb_one_lot_floor_cny": 25875.8,
   "w_cb": 0.3,
-  "min_wallet_cny": 86167.0,
-  "sentence": "a 30% convertible sleeve needs the wallet to be at least 86,167 CNY before the twenty-name book fits in it at all"
+  "min_wallet_cny": 86253.0,
+  "sentence": "a 30% convertible sleeve needs the wallet to be at least 86,253 CNY before the twenty-name book fits in it at all"
  },
  "unverified": [
   "no rebalancing cost between the two wallets is modelled",

@@ -18122,7 +18122,7 @@ import_git_coverage（顺带补 etf_book_bond_bear_stress / etf_book_leverage_bu
 不同，直接相减就是拿尺子比书（r2128 姊妹面）；②「今天」必须印，因为那是读者唯一能动手的那一格——
 本窗实测今天就是整窗最深一格（-6.72% @2026-11-26，峰值 1.6506 @2026-01-29，301 天前），
 这句话若只写在历史统计里，读者会以为自己还有时间；③**新面必须先复现父面**：钱包臂的
-cagr/sharpe/vol/maxdd 与父面 est_inside_gate 逐位相同（容差 5e-6）才算同一把尺，不等就是引用了
+cagr/sharpe/vol/maxdd 与父面 best_inside_gate 逐位相同（容差 5e-6）才算同一把尺，不等就是引用了
 另一把尺子，报 CHECK FAILED 而不是发布。
 
 **行为腿（证明它会响）**：改上游 stamp → STALE rc3；把 identity 置红 → CHECK FAILED rc2 且文本不含
@@ -18205,7 +18205,7 @@ How：正身=scripts/etf_premium_face.py（`NavBoard`、`leg_face`、`_save_nav_
 ## E-20261128-r2212 · 批量贴上日期的面，不是可定日的面
 
 **症状**：溢价面的分母来自 \data/etf_premium/snap/<session>.navok.json\——1,676 个值共用一个 \session\ 标签、
-行内只有数值，**没有逐行日期也没有逐行来历**。而 sina \u_<code>\ 在第 7 字段自己印日期。
+行内只有数值，**没有逐行日期也没有逐行来历**。而 sina \fu_<code>\ 在第 7 字段自己印日期。
 新面 \scripts/etf_nav_two_source_audit.py\ 逐标的对账（2026-11-27）：502 对可比，中位差 **0.0335%**（两源基本同一个量），
 但 **173 行（34%）差 ≥0.10%**，最差 159546 板 0.6088 vs 带日期 0.5320 = **14.44%**；
 另有 **12 行带日期源说自己是 11-26**（159519 在内 = r2211 刚修过的那条腿）。
@@ -18215,6 +18215,26 @@ How：正身=scripts/etf_premium_face.py（`NavBoard`、`leg_face`、`_save_nav_
 因此「板上有这个标的」不等于「板上这个数是当天的」——r2211 只修了一腿的信任标签，本卡是它的全池面。
 
 **How**：正身=\scripts/etf_nav_two_source_audit.py\（un\/\check\/\selftest\ 10/10，含「无日期源拒收」
-「零净值拒收」「跨日计入」「空集判 CANNOT_VERIFY 不判 AGREE」四条行为腿）+ esults/etf_nav/TWO-SOURCE.md\。
-**未做（如实）**：接进 \tf_premium_face\ 与链腿/冒烟腿——在飞链 2209 正持共享树，本轮只落新增文件面（r1907）。
+「零净值拒收」「跨日计入」「空集判 CANNOT_VERIFY 不判 AGREE」四条行为腿）+ results/etf_nav/TWO-SOURCE.md\。
+**未做（如实）**：接进 \etf_premium_face\ 与链腿/冒烟腿——在飞链 2209 正持共享树，本轮只落新增文件面（r1907）。
 下一步必须先解释 159xxx 那簇 8–14% 的差（份额折算 vs 陈旧板值），再判谁错。
+
+
+## E-20261128-r2217 · 读数是中位数的时候，档位一半是成员
+
+**症状**：CEO 页 ⑩b 把「袖自己 20 只的溢价中位」印在贵线旁边（今天 11.42% vs 贵线 15.23%，判「不贵」），
+读者读成答案。可这个读数是**规则今天持有的那 20 只**的中位，而一次调仓换掉一半（全窗 140 次，中位换手 25%）：
+同一天读两次、市场不动，中位就挪 **2.30pp**（p90 5.98pp），是普通一天变化（0.78pp）的 **2.95 倍**；
+今天读数离最近档位线只有 **2.17pp**——步长比余量大，所以「不贵」里有一部分是「挂着哪 20 只」；
+全窗 81 个月末里 **16 个**的桶是被换仓换掉的（面：results/book_pair_sleeve_turnover.json）。
+
+**判据**：任何以「组合成员的中位数/均值」为读数的尺，读数的不确定度**不只是市场的波动**，
+还包括**成员本身**；只要这个步长与读数到判据线的距离同量级，档位标签就必须与步长一起印，
+否则读者会把「换仓噪声」当成「估值判断」。三件一起做：①步长单独定价（同日双读，市场不可能在两侧之间动）；
+②与普通日的变化比（否则读者无法判断步长大小）；③在**读者打开的那一页**印出「这一格有多少是成员」
+（r1782：面自洽 ≠ 读者可读）。
+
+**How**：正身=scripts/book_pair_sleeve_turnover.py（build/check/selftest 14/14，today.inside_the_swap_noise
+= |margin| < churn_median）、消费面 scripts/ceo_live_usage.py ⑩b、链腿 book_pair_sleeve_turnover
+（417 腿，父面之后、CEO 页之前）、冒烟腿「the sleeve page says how much of today's label is membership」。
+**诚实边界**：成员按父面公式重建（父面不公布持仓）；反事实会丢摘牌券；三分位是粗尺；churn 是中位数的中位数=下界。

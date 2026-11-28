@@ -5,19 +5,18 @@ Judge is `git ls-tree`, not `it runs here` (r1783 / r2202 class).
 
 | field | value |
 |---|---|
-| headline | `SOME_COMMITTED_FILES_ARE_NOT_PYTHON` |
-| files scanned | 2950 |
-| imports parsed | 21031 |
-| local import edges | 3568 |
+| headline | `EVERY_IMPORTED_MODULE_AND_EVERY_NAMED_LEG_IS_IN_GIT` |
+| files scanned | 2956 |
+| imports parsed | 21082 |
+| local import edges | 3570 |
 | imports missing in git | 0 |
-| committed files that cannot be parsed | 1 broken / 1 templates |
-| chain legs named | 343 |
+| committed files that cannot be parsed | 0 broken / 1 templates |
+| chain legs named | 346 |
 | chain legs missing on disk | 0 |
 | chain legs missing in git | 0 |
 | evidence cutoff | 2026-11-28 |
 
 ## Files that cannot be parsed
 
-- `Tools/_r820bmc_close.py` -- in git and not Python (line 130: unterminated string literal (detected at line 130)); repair or retire
 - `_w231bmc_prereg_derive_tpl.py` -- carries an unsubstituted `@@SLOT@@`, so it is a generator template by content, not a broken script
 

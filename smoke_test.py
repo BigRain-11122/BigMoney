@@ -1662,6 +1662,62 @@ def main() -> int:
         check("product: the split's cushion band must match its verdict, and the cushioned "
               "mean must be the sleeve mix (r2185)",
               False, repr(_e85)[:160])
+    # r2217: the CEO page prints the sleeve's own premium reading next to its rich line,
+    # which a reader takes as "not expensive today".  The reading is a median of whichever
+    # 20 bonds the rule holds and a re-pick moves about half of them on the same day, so
+    # the page now also prints that step.  This leg re-derives which side of the step the
+    # margin is on from the turnover face, then checks the sentence on the page a person
+    # actually opens -- a face that agrees with itself but never reaches the page is the
+    # r1782 class, and a page sentence that no longer follows the face's numbers is the
+    # r1788 class.
+    try:
+        from config import PATHS as _P86
+        _f86 = os.path.join(_P86.results_dir, "book_pair_sleeve_turnover.json")
+        _bad86 = []
+        _pg86 = os.path.join(_P86.root, "docs", "live_usage", "LIVE-latest.md")
+        if not os.path.exists(_f86):
+            _bad86.append("results/book_pair_sleeve_turnover.json missing")
+        elif not os.path.exists(_pg86):
+            _bad86.append("docs/live_usage/LIVE-latest.md missing")
+        else:
+            with open(_f86, encoding="utf-8") as _fh86:
+                _t86 = json.load(_fh86) or {}
+            with open(_pg86, encoding="utf-8") as _fh86:
+                _md86 = _fh86.read()
+            _td86 = _t86.get("today") or {}
+            _mg86 = _td86.get("margin_to_nearest_edge_pp")
+            _ch86 = _td86.get("churn_abs_median_pp")
+            if _mg86 is None or _ch86 is None:
+                _bad86.append("the face does not print today's margin and step")
+            else:
+                _inside86 = abs(float(_mg86)) < float(_ch86)
+                if bool(_td86.get("inside_the_swap_noise")) != _inside86:
+                    _bad86.append("inside_the_swap_noise=%r but margin %.3f vs step %.3f"
+                                  % (_td86.get("inside_the_swap_noise"), _mg86, _ch86))
+                if "⑩b 换一把尺" in _md86:
+                    _sec86 = _md86.split("⑩b 换一把尺")[1].split("## ⑪")[0]
+                    if ("%.2fpp" % float(_mg86)) not in _sec86:
+                        _bad86.append("the page does not print the margin %.2fpp" % _mg86)
+                    if ("%.2fpp" % float(_ch86)) not in _sec86:
+                        _bad86.append("the page does not print the step %.2fpp" % _ch86)
+                    _want86 = ("有一部分是成员" if _inside86
+                               else "不是换仓噪声造出来的")
+                    if _want86 not in _sec86:
+                        _bad86.append("the page does not say which side of the step "
+                                      "today's label sits on (%r wanted)" % _want86)
+                    if "book_pair_sleeve_turnover.json" not in _sec86:
+                        _bad86.append("the swap-step line does not name its own face")
+                else:
+                    _bad86.append("the page has no ⑩b block to carry the step")
+            if not str(_t86.get("evidence_cutoff") or ""):
+                _bad86.append("no evidence_cutoff printed")
+        check("product: the sleeve page says how much of today's label is membership (r2217)",
+              not _bad86, "; ".join(_bad86)[:220]
+              or "margin re-derived against the step; the page prints both numbers, the "
+                 "side they put the label on, and the face they came from")
+    except Exception as _e86:
+        check("product: the sleeve page says how much of today's label is membership (r2217)",
+              False, repr(_e86)[:160])
     # r1900: a percent is a ruler a person cannot weigh. The book seeds its own
     # capital (`seed.capital_cny` in the forward ledger), so the same nav pair can
     # be printed in money -- and the leg re-derives that money here rather than

@@ -1,7 +1,7 @@
 {
  "face": "results/book_pair_cushion_regime.json",
- "generated_at": "2026-11-27T19:36:59+08:00",
- "evidence_cutoff": "2026-11-26",
+ "generated_at": "2026-11-28T06:01:42+08:00",
+ "evidence_cutoff": "2026-11-27",
  "question": "Is the 30/70 cushion a permanent property of the sleeve, or only what a cheap convertible market pays?",
  "caliber": {
   "weight": "read from results/book_pair_blend.json best.w_cb",
@@ -13,7 +13,7 @@
  "window": {
   "first": "2020-02-29",
   "last": "2026-11-30",
-  "last_bar": "2026-11-26",
+  "last_bar": "2026-11-27",
   "final_month_is_month_to_date": true,
   "months": 82,
   "labelled_months": 81,
@@ -26,20 +26,20 @@
    "w_cb": 0.3,
    "stamp": {
     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/book_pair_blend.json",
-    "size": 13535,
-    "mtime": "2026-11-27T16:14:48"
+    "size": 13537,
+    "mtime": "2026-11-28T05:56:58"
    }
   },
   "cb": {
    "arm": "n_hold=20 rebal=20 cost=10bp phase=0",
-   "bars": 4710,
-   "cagr": 0.07354814635438323,
-   "sharpe": 0.7581240490932695,
-   "last": "2026-11-26",
+   "bars": 4711,
+   "cagr": 0.07420217603337487,
+   "sharpe": 0.7639846764940398,
+   "last": "2026-11-27",
    "panel": {
     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
-    "size": 25433554,
-    "mtime": "2026-11-27T11:34:31"
+    "size": 25443561,
+    "mtime": "2026-11-28T05:55:34"
    }
   },
   "etf": {
@@ -51,9 +51,9 @@
     "size": 102490,
     "mtime": "2026-11-27T15:33:57"
    },
-   "universe": 1536
+   "universe": 1539
   },
-  "premium_days": 4710
+  "premium_days": 4711
  },
  "regimes": {
   "cheap": {
@@ -76,9 +76,9 @@
   },
   "rich": {
    "months": 46,
-   "mean_month_pct": 0.269,
+   "mean_month_pct": 0.281,
    "down_months": 22,
-   "cushion_pp": 0.251,
+   "cushion_pp": 0.262,
    "down_improved": 10,
    "up_months": 24,
    "give_pp": -0.702
@@ -90,38 +90,38 @@
   "min_side_required": 8
  },
  "cushion_difference": {
-  "point_pp": -0.455,
-  "lo_pp": -1.365,
+  "point_pp": -0.444,
+  "lo_pp": -1.337,
   "hi_pp": 0.653,
-  "share_le_0": 0.81,
+  "share_le_0": 0.8062,
   "n": 31,
   "block_len": 3,
   "draws": 3963
  },
  "rule": {
   "rule": {
-   "cagr": 0.099694,
-   "sharpe": 1.383456,
+   "cagr": 0.100095,
+   "sharpe": 1.391404,
    "maxdd": -0.043718,
-   "vol": 0.070717,
+   "vol": 0.07057,
    "months": 81,
    "worst_month": -0.035604,
    "pos_pct": 0.6173
   },
   "always_on": {
-   "cagr": 0.092871,
-   "sharpe": 1.21465,
-   "maxdd": -0.089574,
-   "vol": 0.075677,
+   "cagr": 0.093852,
+   "sharpe": 1.234035,
+   "maxdd": -0.084045,
+   "vol": 0.07519,
    "months": 81,
-   "worst_month": -0.037076,
+   "worst_month": -0.035745,
    "pos_pct": 0.6049
   },
   "matched_exposure": {
-   "cagr": 0.081515,
-   "sharpe": 1.266249,
-   "maxdd": -0.051633,
-   "vol": 0.063643,
+   "cagr": 0.082157,
+   "sharpe": 1.281467,
+   "maxdd": -0.047828,
+   "vol": 0.063338,
    "months": 81,
    "worst_month": -0.028884,
    "pos_pct": 0.642
@@ -212,7 +212,7 @@
    -0.00195869,
    -0.00647617,
    -0.00668833,
-   -0.02171595
+   -0.01930262
   ],
   "matched_rets": [
    -0.00886172,
@@ -295,31 +295,31 @@
    -0.00237085,
    -0.00986665,
    -0.01150675,
-   -0.028353
+   -0.0244553
   ]
  },
  "rule_verdict": "THE_RULE_BEATS_ITS_OWN_EXPOSURE",
- "rule_verdict_edge": 0.1172,
+ "rule_verdict_edge": 0.1099,
  "rule_edge_band": {
-  "point_pp": 0.144,
-  "lo_pp": 0.018,
-  "hi_pp": 0.275,
-  "share_le_0": 0.0127,
+  "point_pp": 0.142,
+  "lo_pp": 0.017,
+  "hi_pp": 0.271,
+  "share_le_0": 0.013,
   "n": 81,
   "block_len": 3,
   "draws": 4000
  },
  "rule_edge_concentration": {
-  "total_pp": 11.64,
+  "total_pp": 11.492,
   "top_k": 5,
   "top_k_pp": 7.529,
-  "top_k_share": 0.6468,
+  "top_k_share": 0.6552,
   "months": 81
  },
  "current": {
-  "asof": "2026-11-26",
-  "median_conv_premium_pct": 70.345,
-  "percentile_in_own_history": 0.9817,
+  "asof": "2026-11-27",
+  "median_conv_premium_pct": 65.611,
+  "percentile_in_own_history": 0.9773,
   "last_label": 2,
   "last_label_name": "rich",
   "label_asof_month_end": "2026-11-30",
@@ -335,27 +335,27 @@
  },
  "reconciliation": {
   "ok": true,
-  "bars": 1671,
-  "bars_want": 1671,
-  "cagr": 0.062937584,
-  "cagr_want": 0.062937584,
-  "sharpe": 0.5402413276,
-  "sharpe_want": 0.5402413276,
+  "bars": 1672,
+  "bars_want": 1672,
+  "cagr": 0.0647616198,
+  "cagr_want": 0.0647616198,
+  "sharpe": 0.5533782091,
+  "sharpe_want": 0.5533782091,
   "window": [
    "2020-01-03",
-   "2026-11-26"
+   "2026-11-27"
   ]
  },
  "verdict": "CUSHION_DIFFERENCE_NOT_SEPARABLE",
  "verdict_band": {
-  "lo_pp": -1.365,
+  "lo_pp": -1.337,
   "hi_pp": 0.653
  },
  "unverified": [
   "the premium regime is a market-wide median; the sleeve holds 20 bonds, so a market-rich month need not be a sleeve-rich month",
   "the rule is priced on monthly switches only; intra-month runs are not modelled",
   "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them",
-  "there is one window: 2020-02-29..2026-11-26. The CB market was rich in 46 of 81 labelled months and in cash in 46 of them, so the rule reads mostly as 'be out of the sleeve when it is expensive' over a single premium cycle -- a repeated reading is what would make its 0.144 pp a month edge durable",
+  "there is one window: 2020-02-29..2026-11-27. The CB market was rich in 46 of 81 labelled months and in cash in 46 of them, so the rule reads mostly as 'be out of the sleeve when it is expensive' over a single premium cycle -- a repeated reading is what would make its 0.142 pp a month edge durable",
   "the cheap side holds only 3 falling months -- the cheap-vs-rich split is printed for the record and is not evidence of anything"
  ]
 }

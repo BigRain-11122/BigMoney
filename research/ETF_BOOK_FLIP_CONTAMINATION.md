@@ -1,6 +1,6 @@
 # ETF book -- quote-flip contamination in its published numbers
 
-Evidence cutoff 2026-11-26 · production rule untouched · repair = `etf_equity_alpha.repair_flips` (imported, not re-written)
+Evidence cutoff 2026-11-27 · production rule untouched · repair = `etf_equity_alpha.repair_flips` (imported, not re-written)
 
 ## The answer
 
@@ -10,16 +10,16 @@ Verdict: **MATERIAL** (band: 0.50pp CAGR / 0.50pp drawdown / 0.10 Sharpe).
 
 ## The panel
 
-1645 symbols x 5289 bars; **169** flip prints flattened (159 of 1645 symbols carry at least one, on 126 distinct days).
+1648 symbols x 5290 bars; **169** flip prints flattened (159 of 1648 symbols carry at least one, on 126 distinct days).
 
 | window | bars | | CAGR | Sharpe | max drawdown | worst day |
 | --- | --- | --- | --- | --- | --- | --- |
-| full_history | 1544 | raw | 6.16% | 0.997 | -6.91% | -4.70% (2025-07-07) |
-| full_history | 1544 | clean | 7.32% | 1.275 | -5.78% | -2.88% (2025-04-23) |
-| full_history | 1544 | **delta** | **+1.16pp** | **+0.278** | **+1.13pp** | |
-| since_inception | 574 | raw | 15.33% | 0.945 | -13.06% | -9.66% (2025-07-07) |
-| since_inception | 574 | clean | 20.55% | 1.287 | -13.06% | -6.07% (2025-04-23) |
-| since_inception | 574 | **delta** | **+5.22pp** | **+0.342** | **+0.00pp** | |
+| full_history | 1545 | raw | 6.28% | 1.015 | -6.91% | -4.70% (2025-07-07) |
+| full_history | 1545 | clean | 7.44% | 1.293 | -5.78% | -2.88% (2025-04-23) |
+| full_history | 1545 | **delta** | **+1.16pp** | **+0.278** | **+1.13pp** | |
+| since_inception | 575 | raw | 15.87% | 0.973 | -13.06% | -9.66% (2025-07-07) |
+| since_inception | 575 | clean | 21.13% | 1.317 | -13.06% | -6.07% (2025-04-23) |
+| since_inception | 575 | **delta** | **+5.26pp** | **+0.344** | **+0.00pp** | |
 
 ## The ten deepest prints on the panel
 

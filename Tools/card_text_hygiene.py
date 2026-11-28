@@ -163,6 +163,27 @@ REPAIRS = [
         "restored": "链腿 entry_price_write",
         "proof": "Tools/s6_chain_bmc.py:758 registers the entry_price_write leg",
     },
+    # r2214: the r2212/r2213 cards took the same path a fourth time -- `\b` -> 0x08,
+    # `\f` -> 0x0c and `\e` -> 0x1b, each eating the first letter of a token that the
+    # paragraph before it was about. Found by the r1383 smoke leg at 12:20, hours after
+    # the cards were committed green.
+    {
+        "damaged": "与父面 \x08est_inside_gate 逐位相同",
+        "restored": "与父面 best_inside_gate 逐位相同",
+        "proof": "scripts/three_book_wallet.py / _ladder / _ride / _holdout all define "
+                 "best_inside_gate (4-7 occurrences each)",
+    },
+    {
+        "damaged": "sina \\\x0cu_<code>\\ 在第 7 字段自己印日期",
+        "restored": "sina \\fu_<code>\\ 在第 7 字段自己印日期",
+        "proof": "scripts/etf_nav_source_dating.py::fetch_nav sweeps 'fu_' + code; sina's "
+                 "field 7 is where parse_fu reads the date",
+    },
+    {
+        "damaged": "接进 \\\x1btf_premium_face\\ 与链腿",
+        "restored": "接进 \\etf_premium_face\\ 与链腿",
+        "proof": "scripts/etf_premium_face.py exists and is the face the card describes",
+    },
 ]
 
 RECEIPT = os.path.join("results", "card_text_hygiene.json")

@@ -3,37 +3,38 @@
  "target": "knowledge/METHODOLOGY_ASSETS.md",
  "sites": [
   {
-   "line": 17341,
-   "damaged": "：\fees_cny 舍到 2 位后",
-   "restored": "：fees_cny 舍到 2 位后",
-   "proof": "scripts/etf_book_entry_price.py:98 emits fees_cny"
+   "line": 18125,
+   "damaged": "与父面 \best_inside_gate 逐位相同",
+   "restored": "与父面 best_inside_gate 逐位相同",
+   "proof": "scripts/three_book_wallet.py / _ladder / _ride / _holdout all define best_inside_gate (4-7 occurrences each)"
   },
   {
-   "line": 17344,
-   "damaged": "链腿 \u001bntry_price_write",
-   "restored": "链腿 entry_price_write",
-   "proof": "Tools/s6_chain_bmc.py:758 registers the entry_price_write leg"
+   "line": 18208,
+   "damaged": "sina \\\fu_<code>\\ 在第 7 字段自己印日期",
+   "restored": "sina \\fu_<code>\\ 在第 7 字段自己印日期",
+   "proof": "scripts/etf_nav_source_dating.py::fetch_nav sweeps 'fu_' + code; sina's field 7 is where parse_fu reads the date"
   },
   {
-   "line": 17337,
-   "damaged": "esults/etf_book_ticket_floor.json",
-   "restored": "results/etf_book_ticket_floor.json",
-   "proof": "restored path exists"
+   "line": 18219,
+   "damaged": "接进 \\\u001btf_premium_face\\ 与链腿",
+   "restored": "接进 \\etf_premium_face\\ 与链腿",
+   "proof": "scripts/etf_premium_face.py exists and is the face the card describes"
   },
   {
-   "line": 17344,
-   "damaged": "esults/etf_book_entry_price.json",
-   "restored": "results/etf_book_entry_price.json",
+   "line": 18218,
+   "damaged": "esults/etf_nav/TWO-SOURCE.md",
+   "restored": "results/etf_nav/TWO-SOURCE.md",
    "proof": "restored path exists"
   }
  ],
  "lines_touched": [
-  17337,
-  17341,
-  17344
+  18125,
+  18208,
+  18218,
+  18219
  ],
- "before_bytes": 1763257,
- "after_bytes": 1763259,
+ "before_bytes": 1877557,
+ "after_bytes": 1877558,
  "guard_note": "treasure_guard prescan rejects this file by design (registry hit, rc3); the permitted path is a line-level union with a receipt, which is what this is -- every other byte is asserted unchanged",
  "files": [],
  "applied": true,
@@ -113,6 +114,37 @@
    "files": [],
    "before_bytes": 1763257,
    "after_bytes": 1763259
+  },
+  {
+   "sites": [
+    {
+     "line": 18125,
+     "damaged": "与父面 \best_inside_gate 逐位相同",
+     "restored": "与父面 best_inside_gate 逐位相同",
+     "proof": "scripts/three_book_wallet.py / _ladder / _ride / _holdout all define best_inside_gate (4-7 occurrences each)"
+    },
+    {
+     "line": 18208,
+     "damaged": "sina \\\fu_<code>\\ 在第 7 字段自己印日期",
+     "restored": "sina \\fu_<code>\\ 在第 7 字段自己印日期",
+     "proof": "scripts/etf_nav_source_dating.py::fetch_nav sweeps 'fu_' + code; sina's field 7 is where parse_fu reads the date"
+    },
+    {
+     "line": 18219,
+     "damaged": "接进 \\\u001btf_premium_face\\ 与链腿",
+     "restored": "接进 \\etf_premium_face\\ 与链腿",
+     "proof": "scripts/etf_premium_face.py exists and is the face the card describes"
+    },
+    {
+     "line": 18218,
+     "damaged": "esults/etf_nav/TWO-SOURCE.md",
+     "restored": "results/etf_nav/TWO-SOURCE.md",
+     "proof": "restored path exists"
+    }
+   ],
+   "files": [],
+   "before_bytes": 1877557,
+   "after_bytes": 1877558
   }
  ]
 }

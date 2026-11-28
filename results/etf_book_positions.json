@@ -14,7 +14,7 @@
  "unexplained": [],
  "unexplained_total_cny": 0,
  "unexplained_unpriced_rows": 0,
- "ledger_action": "updated",
+ "ledger_action": "kept",
  "ledger_row": {
   "bar": "2026-11-27",
   "kind": "execution",
@@ -175,9 +175,9 @@
   "last": null,
   "rows_detail": [],
   "panel_missing_symbols": [],
-  "repo_quotes": 3776,
-  "rate_latest_bar": "2026-11-26",
-  "rate_latest": 1.385,
+  "repo_quotes": 3777,
+  "rate_latest_bar": "2026-11-27",
+  "rate_latest": 1.47,
   "valued_upto_bar": "2026-11-27"
  },
  "accrual_rows": [],
@@ -196,13 +196,13 @@
   "legs_first_bar": 440288.4,
   "legs_last_bar": 434655.7,
   "legs_ret": -0.01279321,
-  "cash_interest_cny": 529.8,
+  "cash_interest_cny": 552.59,
   "identity_delta_cny": 0.0,
   "identity_status": "PRICED_BAR",
   "identity_holds": true,
   "base_bar_missing_closes": [],
   "base_bar_last_priced_day": "2026-11-27",
-  "rf_missing_bars": 1,
+  "rf_missing_bars": 0,
   "stale_bars": 0
  },
  "engine_book": {
@@ -290,9 +290,24 @@
   "trail_starts_with_this_version": true,
   "trail_covers_bar": true,
   "page_block": {
-   "bar": "2026-11-26",
-   "same_bar": false
-  }
+   "bar": "2026-11-27",
+   "same_bar": true,
+   "lots": {
+    "159519": 516,
+    "159655": 451,
+    "510760": 691,
+    "512040": 733,
+    "513690": 788
+   },
+   "cash_cny": 565344.0
+  },
+  "page_vs_ledger_lots": [],
+  "page_vs_ledger_cash": {
+   "page": 565344.0,
+   "ledger": 565344.3,
+   "page_minus_ledger": -0.3
+  },
+  "page_vs_ledger_agree": false
  },
  "caveats": [
   "the reconciliation compares two documents, not two accounts: it says what the printed rows leave behind relative to the book the same face declares, and it cannot see whether the broker actually filled those lots",

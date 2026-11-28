@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-27 09:38:55",
- "elapsed_sec": 56.9,
- "evidence_cutoff": "2026-11-26",
- "bars": 1671,
+ "generated": "2026-11-28 10:52:36",
+ "elapsed_sec": 48.2,
+ "evidence_cutoff": "2026-11-27",
+ "bars": 1672,
  "question": "is the book's growth spread over its bars, or carried by a handful? priced with drop-best arms against a random-drop placebo",
  "criteria": {
   "k_drops": [
@@ -24,61 +24,61 @@
   "cost_bp": 10.0,
   "vol_target": 0.08,
   "carry": "ladder3 (GC007/GC014/GC028) commission charged",
-  "mean_exposure": 0.7086
+  "mean_exposure": 0.7087
  },
  "baseline": {
-  "cagr": 0.0847,
-  "sharpe": 0.89,
+  "cagr": 0.087,
+  "sharpe": 0.911,
   "maxdd": -0.1326,
-  "vol": 0.1007,
+  "vol": 0.1009,
   "years": 6.9
  },
- "top_share": 0.0628,
+ "top_share": 0.0625,
  "top_share_n": 10,
  "best_month": {
   "month": "2025-08",
-  "cagr_without_it": 0.0744,
-  "cagr_delta_pp": -1.03
+  "cagr_without_it": 0.0768,
+  "cagr_delta_pp": -1.02
  },
  "drops": [
   {
    "k": 1,
-   "cagr": 0.079,
-   "sharpe": 0.843,
+   "cagr": 0.0813,
+   "sharpe": 0.865,
    "maxdd": -0.1326,
    "cagr_delta_pp": -0.57,
    "placebo_pct": 0.0,
-   "placebo_cagr_p05": 0.0867,
-   "placebo_cagr_p50": 0.0881
+   "placebo_cagr_p05": 0.0892,
+   "placebo_cagr_p50": 0.0906
   },
   {
    "k": 5,
-   "cagr": 0.0624,
-   "sharpe": 0.696,
+   "cagr": 0.0647,
+   "sharpe": 0.718,
    "maxdd": -0.1326,
    "cagr_delta_pp": -2.23,
    "placebo_pct": 0.0,
-   "placebo_cagr_p05": 0.0845,
-   "placebo_cagr_p50": 0.0879
+   "placebo_cagr_p05": 0.087,
+   "placebo_cagr_p50": 0.0904
   },
   {
    "k": 10,
-   "cagr": 0.0461,
-   "sharpe": 0.539,
+   "cagr": 0.0484,
+   "sharpe": 0.562,
    "maxdd": -0.1326,
    "cagr_delta_pp": -3.86,
    "placebo_pct": 0.0,
-   "placebo_cagr_p05": 0.0824,
-   "placebo_cagr_p50": 0.0876
+   "placebo_cagr_p05": 0.0851,
+   "placebo_cagr_p50": 0.0898
   }
  ],
  "panel": {
-  "n_instruments": 1645,
+  "n_instruments": 1648,
   "flips_repaired": 169,
-  "digest": "fdb64c20030d2fb9",
-  "bars_named": 5289,
+  "digest": "612e4257cd37fe8c",
+  "bars_named": 5290,
   "first_bar": "2005-02-23",
-  "last_bar": "2026-11-26",
+  "last_bar": "2026-11-27",
   "covers": [
    "close",
    "open",
@@ -86,31 +86,31 @@
   ],
   "sibling_faces": {
    "priced_face": "prefixed (sh|sz<code>.csv; _dedupe prefers it)",
-   "priced_tail": "2026-11-26",
-   "bare_face_tail": "2026-11-26",
+   "priced_tail": "2026-11-27",
+   "bare_face_tail": "2026-11-27",
    "bare_face_symbols": 49,
-   "wide_face_tail": "2026-11-26",
+   "wide_face_tail": "2026-11-27",
    "wide_face_symbols": 1676,
    "priced_face_lags_bare_sessions": null
   }
  },
  "sibling_face": {
   "state": "compared",
-  "sibling_file": "NAV-2026-11-26.json",
-  "sibling_cutoff": "2026-11-26",
-  "sibling_bars": 1670,
-  "overlap_bars": 1670,
+  "sibling_file": "NAV-2026-11-27.json",
+  "sibling_cutoff": "2026-11-27",
+  "sibling_bars": 1671,
+  "overlap_bars": 1671,
   "max_abs_return_diff": 0.04310869,
   "reproduces_bar_for_bar": false,
   "sibling_headline": {
-   "cagr": 0.0892,
-   "sharpe": 0.922,
+   "cagr": 0.0894,
+   "sharpe": 0.925,
    "maxdd": -0.1177,
    "vol": 0.1021,
    "years": 6.9
   },
   "note": "the sibling publishes NAV to its own cutoff; a headline difference is either the extra bars this face has or a second implementation -- the bar-level diff separates the two",
-  "headline_delta_pp": -0.45
+  "headline_delta_pp": -0.24
  },
  "bars_series": [
   {
@@ -6795,7 +6795,11 @@
   },
   {
    "d": "2026-11-26",
-   "r": 0.004384
+   "r": 0.004383
+  },
+  {
+   "d": "2026-11-27",
+   "r": 0.015278
   }
  ],
  "notes": [
@@ -6805,14 +6809,14 @@
   "a book that survives losing its best 10 bars is a book; one that does not is a jackpot that already paid"
  ],
  "inputs": {
-  "panel_last_bar": "2026-11-26"
+  "panel_last_bar": "2026-11-27"
  },
  "verdict": {
   "state": "ROBUST_TO_TAILS",
-  "why": "the 10 best bars are only 6% of the up-move and the book keeps 54% of its cagr without its 10 best bars",
-  "top_share": 0.0628,
-  "cagr_after_drop5": 0.0624,
-  "cagr_after_drop10": 0.0461,
+  "why": "the 10 best bars are only 6% of the up-move and the book keeps 56% of its cagr without its 10 best bars",
+  "top_share": 0.0625,
+  "cagr_after_drop5": 0.0647,
+  "cagr_after_drop10": 0.0484,
   "placebo_pct_drop5": 0.0,
   "placebo_pct_drop10": 0.0
  }

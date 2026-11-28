@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T14:18:42",
+ "generated": "2026-11-28T15:37:53",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -581,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75176.9
+    "last_append_age_min": 75256.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -589,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 76021.4
+    "last_append_age_min": 76100.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -597,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72814.7
+    "last_append_age_min": 72893.9
    }
   ]
  },
@@ -685,7 +685,7 @@
  "etf_permission": {
   "present": true,
   "path": "results/etf_book_permission_vs_size.json",
-  "generated": "2026-11-28T11:43:42",
+  "generated": "2026-11-28T14:23:05",
   "cutoff": "2026-11-27",
   "verdict": "SIZE_IS_THE_ONLY_KNOB",
   "permission": "ADMIT",
@@ -1455,6 +1455,45 @@
   "share_one_window": 0.794,
   "best_saving_cny": 8998.83,
   "best_giveup_cny_per_window": 71.94
+ },
+ "etf_premium_gate": {
+  "present": true,
+  "path": "results/etf_premium/PREMIUM-2026-11-27.json",
+  "session": "2026-11-27",
+  "fetched_at": "2026-11-27T21:04:12+0800",
+  "ticket": "results/etf_book_order/TICKET-2026-11-27.json",
+  "n_legs": 5,
+  "n_priced": 4,
+  "hurdle_cny": 500.0,
+  "total_over_nav_cny": -1184.2,
+  "priced_amount_cny": 347793.1,
+  "share_of_plan_pct": -0.3405,
+  "bounded_total_cny": -558.32,
+  "exposure_cny": 625.88,
+  "verdict": "clean-even-worst-case",
+  "breached": false,
+  "unproven": [
+   {
+    "symbol": "513690",
+    "date_proof": "label-only",
+    "move_pct": -0.7201,
+    "amount_cny": 86916.4,
+    "exposure_cny": 625.88
+   }
+  ],
+  "settled_by_rebase": [
+   {
+    "symbol": "159519",
+    "date_proof": "label-only",
+    "move_pct": -0.2959,
+    "amount_cny": 86946.0,
+    "exposure_cny": 257.27,
+    "settled_by_rebase": true
+   }
+  ],
+  "no_figure_legs": [
+   "159655"
+  ]
  },
  "etf_capacity": {
   "present": true,

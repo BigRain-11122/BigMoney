@@ -1,6 +1,6 @@
 # The books at their worst: does the split hold where the ETF book actually hurts?
 
-- generated: 2026-11-27T17:05:16+08:00 · evidence cutoff: **2026-11-26** · window 2020-01-06..2026-11-26 (1670 bars)
+- generated: 2026-11-28T06:00:12+08:00 · evidence cutoff: **2026-11-27** · window 2020-01-06..2026-11-27 (1671 bars)
 - sleeve: 30% convertible / 70% ETF (parent's own choice, not re-chosen)
 - verdict: **CUSHION_PARTIAL**
 
@@ -12,7 +12,7 @@
 | blend 30/70, same bars | 2021-09-10 .. 2022-09-27 | **-4.97%** |
 | convertible, same bars | 2021-09-10 .. 2022-09-27 | -1.83% |
 
-The ETF book had **78** negative 252-bar windows out of 1419.
+The ETF book had **79** negative 252-bar windows out of 1420.
 
 For reference the blend's own worst 252 bars: 2025-11-12 .. 2026-11-26 = **-6.20%** (ETF -0.13%, cb -19.43%).
 
@@ -22,11 +22,11 @@ Months the ETF book ended down: **32**. The blend was better in **16** of them.
 
 | on those same months | mean |
 |---|---|
-| ETF | -1.41% |
-| blend 30/70 | **-0.98%** |
-| convertible | +0.01% |
+| ETF | -1.40% |
+| blend 30/70 | **-0.96%** |
+| convertible | +0.05% |
 
-Worst of those months for the blend: **2026-11** — ETF -3.10%, blend -3.70%, cb -5.12%.
+Worst of those months for the blend: **2022-04** — ETF -3.38%, blend -3.55%, cb -4.03%.
 
 ## What this does and does not settle
 

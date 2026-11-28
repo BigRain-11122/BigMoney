@@ -1,6 +1,6 @@
 # The sleeve's premium reading: how much of it is which bonds we hold?
 
-generated 2026-11-27T22:04:25+08:00 · evidence cutoff 2026-11-26 · bar 2026-11-27
+generated 2026-11-28T14:14:34+08:00 · evidence cutoff 2026-11-27 · bar 2026-11-27
 
 **THE_SWAP_ALONE_CAN_CHANGE_THE_BUCKET**
 
@@ -14,7 +14,7 @@ generated 2026-11-27T22:04:25+08:00 · evidence cutoff 2026-11-26 · bar 2026-11
 | membership step: largest |churn| | 13.63 pp |
 | ordinary day (not a swap): median |change| | 0.78 pp |
 | ordinary day: p90 |change| | 2.71 pp |
-| churn median ÷ ordinary-day median | 2.95 |
+| churn median ÷ ordinary-day median | 2.94 |
 | biggest swap ÷ ordinary-day p90 | 5.04 |
 
 ## Does a swap alone move a label?
@@ -27,16 +27,16 @@ generated 2026-11-27T22:04:25+08:00 · evidence cutoff 2026-11-26 · bar 2026-11
 
 | what | value |
 |---|---|
-| reading (2026-11-26) | 8.769% |
-| cheap below / rich above | 9.246% / 15.233% |
-| distance to nearest edge | 0.48 pp |
+| reading (2026-11-27) | 11.420% |
+| cheap below / rich above | 9.247% / 15.231% |
+| distance to nearest edge | 2.17 pp |
 | swap step p90 | 5.98 pp |
 | reading sits inside the swap step | yes |
 | label in force (parent face, read 2026-10-31) | rich |
 
 ## Reconciliation with the parent face
 
-`book_pair_sleeve_premium.sleeve_premium` — 3489 days compared, max |diff| **0.0** (tolerance 1e-09).
+`book_pair_sleeve_premium.sleeve_premium` — 3490 days compared, max |diff| **0.0** (tolerance 1e-09).
 
 
 ## The swaps that moved it most

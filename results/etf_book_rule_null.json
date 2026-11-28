@@ -15,7 +15,7 @@
  "rules_source": "scripts/etf_book_phase_atlas_arms.py::judge (imported, not copied)",
  "source": {
   "face": "results/etf_book_phase_atlas_arms.json",
-  "inputs_sha256": "046325d90e105e64f44ea972be2eca0b1668ce2a9a2ab7ab136bc50723d0fe8f"
+  "inputs_sha256": "2e3f0cb6ca3289a605b746ac49cabab61a46d0bd76597ad7dedb12b71fd329b8"
  },
  "null": {
   "trials": 20000,
@@ -29,15 +29,15 @@
  "observed": [
   {
    "arm": "buffer_k05",
-   "median_delta_pp": -0.055,
+   "median_delta_pp": 0.545,
    "cells_beyond_own_band": 0,
-   "verdict": "REJECT",
+   "verdict": "NOT-SEPARABLE",
    "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.9647
+   "null_p_same_or_worse": 0.0353
   },
   {
    "arm": "cost05",
-   "median_delta_pp": 0.788,
+   "median_delta_pp": 0.758,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
    "verdict_published_on_arms_face": false,
@@ -45,7 +45,7 @@
   },
   {
    "arm": "cost20",
-   "median_delta_pp": -1.323,
+   "median_delta_pp": -1.35,
    "cells_beyond_own_band": 0,
    "verdict": "REJECT",
    "verdict_published_on_arms_face": false,
@@ -53,7 +53,7 @@
   },
   {
    "arm": "cost40",
-   "median_delta_pp": -3.212,
+   "median_delta_pp": -3.242,
    "cells_beyond_own_band": 4,
    "verdict": "REJECT",
    "verdict_published_on_arms_face": false,
@@ -61,19 +61,19 @@
   },
   {
    "arm": "buffer_k10",
-   "median_delta_pp": 0.085,
+   "median_delta_pp": 0.048,
    "cells_beyond_own_band": 0,
-   "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.0353
+   "verdict": "REJECT",
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.9647
   },
   {
    "arm": "buffer_k20",
-   "median_delta_pp": 0.19,
+   "median_delta_pp": 0.16,
    "cells_beyond_own_band": 0,
-   "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
-   "null_p_same_or_worse": 0.0353
+   "verdict": "REJECT",
+   "verdict_published_on_arms_face": false,
+   "null_p_same_or_worse": 0.9647
   },
   {
    "arm": "buffer_k02",
@@ -85,15 +85,15 @@
   },
   {
    "arm": "buffer_k40",
-   "median_delta_pp": 0.45,
+   "median_delta_pp": 0.42,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
-   "verdict_published_on_arms_face": true,
+   "verdict_published_on_arms_face": false,
    "null_p_same_or_worse": 0.0353
   },
   {
    "arm": "buffer_k05_cost20",
-   "median_delta_pp": -1.513,
+   "median_delta_pp": -1.533,
    "cells_beyond_own_band": 0,
    "verdict": "REJECT",
    "verdict_published_on_arms_face": false,
@@ -101,7 +101,7 @@
   },
   {
    "arm": "cost0",
-   "median_delta_pp": 1.465,
+   "median_delta_pp": 1.438,
    "cells_beyond_own_band": 0,
    "verdict": "NOT-SEPARABLE",
    "verdict_published_on_arms_face": false,
@@ -110,7 +110,7 @@
  ],
  "verdict": "REJECT_IS_THE_DEFAULT",
  "verdict_reasons": [
-  "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.5x smaller than one sigma (2.02pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction"
+  "an effect-free panel reads REJECT 96.5% of the time, so a published REJECT transmits almost nothing; the rule's informative branch is the rare one (NOT-SEPARABLE 3.5%, ADOPT 0.0%, NOT-ASSESSED 0.0%). Mechanism: the cell floor -0.15pp is 13.5x smaller than one sigma (2.03pp) of these cells, so about half of them land under it by chance and the not-worse share (floor 0.80) fails by construction"
  ],
- "evidence_cutoff": "2026-11-26"
+ "evidence_cutoff": "2026-11-27"
 }

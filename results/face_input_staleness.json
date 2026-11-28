@@ -1,6 +1,6 @@
 {
  "face": "face_input_staleness",
- "generated": "2026-11-27T03:11:38+08:00",
+ "generated": "2026-11-28T11:33:57+08:00",
  "compared": 3,
  "stale": [],
  "unreadable": [],
@@ -9,7 +9,7 @@
   {
    "derived": "results/etf_book_cut_order_gap.json",
    "derived_field": "generated",
-   "derived_stamp": "2026-11-27T03:07:37+08:00",
+   "derived_stamp": "2026-11-28T11:28:06+08:00",
    "derived_reason": "",
    "why": "r1590: priced at 19:56, permission rewritten at 20:11, gap kept the old decision date",
    "verdict": "FRESH",
@@ -19,17 +19,17 @@
     {
      "input": "results/etf_book_rebalance_permission.json",
      "input_field": "generated",
-     "input_stamp": "2026-11-27T03:07:06+08:00",
+     "input_stamp": "2026-11-28T11:27:09+08:00",
      "input_reason": "",
      "verdict": "FRESH",
-     "lag_sec": -31.0
+     "lag_sec": -57.0
     }
    ]
   },
   {
    "derived": "results/etf_book_order/latest.json",
    "derived_field": "generated",
-   "derived_stamp": "2026-11-27T02:59:26+08:00",
+   "derived_stamp": "2026-11-28T11:10:44+08:00",
    "derived_reason": "",
    "why": "r1596: the sheet quotes the ledger's bar and k; written before the ledger's last run it prices the previous world",
    "verdict": "FRESH",
@@ -39,17 +39,17 @@
     {
      "input": "results/etf_book_forward/LEDGER.json",
      "input_field": "runs.-1.ts",
-     "input_stamp": "2026-11-27T01:27:56+08:00",
+     "input_stamp": "2026-11-28T09:18:59+08:00",
      "input_reason": "",
      "verdict": "FRESH",
-     "lag_sec": -5490.0
+     "lag_sec": -6705.0
     }
    ]
   },
   {
    "derived": "results/etf_book_order/latest.json",
    "derived_field": "generated",
-   "derived_stamp": "2026-11-27T02:59:26+08:00",
+   "derived_stamp": "2026-11-28T11:10:44+08:00",
    "derived_reason": "",
    "why": "r1889: the ticket embeds the positions face; a ledger row written after the ticket is a missed run, not a content defect",
    "verdict": "FRESH",
@@ -59,10 +59,10 @@
     {
      "input": "results/etf_book_positions/LEDGER.json",
      "input_field": "rows.-1.written_ts",
-     "input_stamp": "2026-11-27T02:22:15+08:00",
+     "input_stamp": "2026-11-27T21:04:52+08:00",
      "input_reason": "",
      "verdict": "FRESH",
-     "lag_sec": -2231.0
+     "lag_sec": -50752.0
     }
    ]
   }

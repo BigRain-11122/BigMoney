@@ -22,6 +22,12 @@
 
 ## What the ordering is worth
 
+# The cash shelf's depressed side: NO_CATCH_UP_IN_THE_SHELF
+
+**Product increment, not a ticket.** On the shelf r2048's census priced as money/bond, this face buys the K members trading furthest below their own 20-bar median at the next open and sells one window later, charging both trips. Window: 2013-04-09 .. 2026-11-27, 45 members, 118 rebalances.
+
+## What the ordering is worth
+
 <!-- CATCHUP-TABLE:BEGIN -->
 | H | K | cost/side | rebalances | cheap bp/win | t | rich bp/win | t | IC | gross pp/yr | cost pp/yr | **net pp/yr** |
 |---|---|---|---|---|---|---|---|---|---|---|---|

@@ -5,16 +5,16 @@
   "results",
   "docs"
  ],
- "files_scanned": 15307,
- "n_hits": 1131,
+ "files_scanned": 15476,
+ "n_hits": 1442,
  "counts": {
   "closed-round-evidence": 303,
   "code-string": 88,
-  "frozen-evidence": 390,
-  "live-face": 169,
+  "frozen-evidence": 391,
+  "live-face": 171,
   "machine-status": 1,
   "pool-record": 100,
-  "self-census": 80
+  "self-census": 388
  },
  "gated_buckets": [
   "live-face",
@@ -1542,6 +1542,24 @@
    "token": "%%",
    "bucket": "live-face",
    "text": "手数 | 占 ADV%%/日 | 规则冲击 bp"
+  },
+  {
+   "file": "results/three_book_wallet_ladder.json",
+   "json_path": "/caveats[6]",
+   "key": "caveats",
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "the rungs are the 8%% target's arithmetic, not a law: moving the target moves every rung in proportion (see entry.target_sensitivity, and section 5b of the page)"
+  },
+  {
+   "file": "results/three_book_wallet_ladder.md",
+   "json_path": "L107",
+   "key": null,
+   "kind": "doubled-percent",
+   "token": "%%",
+   "bucket": "live-face",
+   "text": "- the rungs are the 8%% target's arithmetic, not a law: moving the target moves every rung in proportion (see entry.target_sensitivity, and section 5b of the page)"
   }
  ],
  "offender_files": [
@@ -1551,7 +1569,9 @@
   "results/etf_paper_marks.json",
   "results/idx_fut_carry_portfolio.json",
   "results/money_band_blind_spot.json",
-  "results/page_fmt_guard_v2.scan.json"
+  "results/page_fmt_guard_v2.scan.json",
+  "results/three_book_wallet_ladder.json",
+  "results/three_book_wallet_ladder.md"
  ],
  "advisory": {
   "closed-round-evidence": {
@@ -1688,7 +1708,7 @@
    ]
   },
   "frozen-evidence": {
-   "n": 390,
+   "n": 391,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
@@ -1838,7 +1858,7 @@
    ]
   },
   "self-census": {
-   "n": 80,
+   "n": 388,
    "files": [
     "results/reader_text_audit.json"
    ],
@@ -1883,10 +1903,10 @@
      "file": "results/reader_text_audit.json",
      "json_path": "/offenders[2]/token",
      "key": "token",
-     "kind": "doubled-percent",
-     "token": "%%",
+     "kind": "printf-token",
+     "token": "%s",
      "bucket": "self-census",
-     "text": "%%"
+     "text": "%s"
     }
    ]
   }

@@ -226,6 +226,15 @@ LEGS = [
     ("book_pair_sleeve_premium",
      ["python", "scripts/book_pair_sleeve_premium.py", "check"],
      ["python", "scripts/book_pair_sleeve_premium.py", "run"]),
+    # r2217: the CEO page's ⑩b prints the sleeve's reading next to its own rich line, and
+    # that reads like an answer -- but the reading is a median of whichever 20 bonds the
+    # rule holds, and a re-pick moves about half of them the same day.  This face prices
+    # that step against an ordinary day's move and against today's distance to the nearest
+    # tertile edge.  It must land AFTER its parent (it reconciles to it at 1e-9) and
+    # BEFORE ceo_live_usage (r1318 producer-before-consumer); ~20s, no network.
+    ("book_pair_sleeve_turnover",
+     ["python", "scripts/book_pair_sleeve_turnover.py", "check"],
+     ["python", "scripts/book_pair_sleeve_turnover.py", "build"]),
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py", "--takeover"]),
     # r1850: this lane is bm-a's (R31), and bm-a's heartbeat had been silent 25.6h --

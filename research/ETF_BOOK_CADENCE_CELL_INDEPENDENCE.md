@@ -61,15 +61,3 @@ n=6 时四分位位置落在 1.25 与 3.75，也就是第 1-2 名与第 3-4 名�
 1. 上游 `etf_book_cadence_regime_split.py` 的 `channels()` 应在建网格时先折叠 1e-9 内重复的格，并把 `n_independent` 印在逐季表里 —— 这是共享代码面改动，本轮同树另有宿主在动，未动。
 2. 该面接 S6 链 + 两条冒烟腿（一：去重后路径中位仍低于行情段中位；二：任何季度出现复核仍被当作独立格时腿红），同样等竞争窗。
 
-### 五之二、已落地（r2155，竞争窗 CLEAN 后当轮执行）
-
-上两条已做完，实物与读数：
-
-- 上游 `channels()` 现在按 `DEDUPE_TOL_PP = 1e-9` 折叠，逐季表带 `n_independent` / `collapsed_segments`，去重前数字留在 `*_raw`。
-  cutoff 2026-11-26 重生后：**路径通道中位 1.997 pp（raw 1.728）、行情段通道 4.454 pp（未动）、判词 `REGIME_DOMINATES | BOTH_CHANNELS_READ` 不变**，
-  被折叠的季度=2024Q2..2025Q4 共 7 个、被折叠的书=0 本 —— 复印只发生在同一季度内的两个起跑日之间，与本文第一节的物理读法一致。
-- 新子命令 `assert-dedup --leg {independent,channel}` + 冒烟两条腿 + S6 链两条腿
-  （`cadence_regime_split` 探针/刷新、`cadence_cell_independence` 读表腿，writer 在前）。
-- 三面互证：上游 1.997 pp、本面重生后 2.00 pp、本文 2.00 pp；证伪路径实测（篡改 collapsed / 篡改 regime 各回 rc1）。
-- 证据：`qa/cadence-regime-dedup-r2155.md`。
-

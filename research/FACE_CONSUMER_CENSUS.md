@@ -4,15 +4,15 @@ evidence set: `results/**/*.json` (depth <= 2), readable against `scripts/`, `To
 
 | tier | faces | what it means |
 | --- | --- | --- |
-| CODE_MULTI | 801 | >=2 source files name this face |
-| CODE_SINGLE | 923 | exactly one source file names it (producer or lone reader) |
+| CODE_MULTI | 820 | >=2 source files name this face |
+| CODE_SINGLE | 940 | exactly one source file names it (producer or lone reader) |
 | PROSE_ONLY | 74 | only docs/research names it |
 | ORPHAN | 370 | nothing names it (undated only) |
-| DATED_CODE | 367 | dated snapshot, named somewhere |
-| DATED_ORPHAN | 549 | dated snapshot, named nowhere |
-| SCRATCH | 4245 | not a face (receipts / backups / hash scratch) |
+| DATED_CODE | 370 | dated snapshot, named somewhere |
+| DATED_ORPHAN | 569 | dated snapshot, named nowhere |
+| SCRATCH | 4320 | not a face (receipts / backups / hash scratch) |
 
-undated faces: **2168** of 7329 (dated snapshots and scratch excluded from every verdict below)
+undated faces: **2204** of 7463 (dated snapshots and scratch excluded from every verdict below)
 
 ## undated faces nothing names (370)
 
@@ -64,7 +64,7 @@ undated faces: **2168** of 7329 (dated snapshots and scratch excluded from every
 - `results/bench_robust_tsmom_commodity.json` ← `research/BENCH-VERDICT-BOOK.md`、`research/BENCH_COST_STAMP_CENSUS.md`
 - `results/bench_trend_single_AU_long.json` ← `research/BENCH-VERDICT-BOOK.md`、`research/BENCH_COST_STAMP_CENSUS.md`
 
-## named by exactly one source file (923, 61 money-ish)
+## named by exactly one source file (940, 66 money-ish)
 
 One file naming a face is not a consumer: it is usually the producer. These are the first place to look when asking "is this number read?"
 
@@ -77,11 +77,11 @@ One file naming a face is not a consumer: it is usually the producer. These are 
 - `results/bench_ledger_donchian_exposure.json` ← `scripts/bench_ledger_donchian_exposure.py`
 - `results/capital_marginal_road.json` ← `scripts/capital_marginal_road.py`
 - `results/capital_placement_rent_audit.json` ← `scripts/capital_placement_rent_audit.py`
+- `results/carry_entry_window_yield.json` ← `scripts/carry_entry_window_yield.py`
+- `results/carry_im_same_rule.json` ← `scripts/carry_im_same_rule.py`
+- `results/carry_three_lines_common_window.json` ← `scripts/carry_three_lines_common_window.py`
 - `results/cash_shelf_total_return_audit.json` ← `scripts/cash_shelf_total_return_audit.py`
 - `results/core_ddctl_probe.json` ← `scripts/cn_core_ddctl_p1.py`
 - `results/cycle_position_census.json` ← `scripts/cycle_position_census.py`
-- `results/e33_ladder_baseline/Q2-LADDER-CADENCE-WIN-FULL.json` ← `scripts/e33_ladder_census.py`
-- `results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-2018.json` ← `scripts/e33_ladder_census.py`
-- `results/e33_ladder_baseline/Q3-LADDER-MEMBERSHIP-WIN-FULL.json` ← `scripts/e33_ladder_census.py`
 
-`generated` 2026-11-27T03:31:47+08:00 · every count above is a face count, not a read count.
+`generated` 2026-11-28T11:59:43+08:00 · every count above is a face count, not a read count.

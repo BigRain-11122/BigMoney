@@ -2,21 +2,21 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-27T19:41:04+0800",
+ "generated": "2026-11-28T14:31:36+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
  },
  "chain": "Tools\\s6_chain_bmc.py",
- "chain_sha256": "ff52a85a3e0dbd88f6f6e17e5656d52c0e2b162cd8dfeb983aeac5aa1ccba26a",
- "n_legs": 405,
- "n_writer_legs": 148,
- "n_candidates": 13,
- "n_probed": 13,
+ "chain_sha256": "cde54a5d193fc13618e39dec67cc2c3a4fb990f9892178184ee85e59e13aa4b6",
+ "n_legs": 417,
+ "n_writer_legs": 160,
+ "n_candidates": 14,
+ "n_probed": 14,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 22.9,
+ "elapsed_sec": 30.6,
  "rows": [
   {
    "leg": "etf_book_fill_venue",
@@ -130,7 +130,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **39 手 + 40 手 + 25 手 + 42 手 + 28 手**，按各自的价折成 **23,447.80 元**。 想先补回**一手**，最便宜的是 **159519**：159519 的额度上调 **0.0172pp** 就够买它那一手，其余每名各要 0.0237~0.0540pp。"
+   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **37 手 + 40 手 + 25 手 + 43 手 + 28 手**，按各自的价折成 **23,678.20 元**。 想先补回**一手**，最便宜的是 **513690**：513690 的额度上调 **0.0131pp** 就够买它那一手，其余每名各要 0.0259~0.0611pp。"
   },
   {
    "leg": "sibling_entry",
@@ -146,7 +146,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "[sibling_entry] CHECK_OK the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,684"
+   "first_line": "[sibling_entry] CHECK_OK the ticket already buys the cheapest live ticker of every index it holds: no swap saves anything on 434,656"
   },
   {
    "leg": "toll_scope",
@@ -231,6 +231,20 @@
    "state": "CURRENT",
    "rc": 0,
    "first_line": "CHECK OK: DIRECTION_BLIND_MEMBERS_NAMED | faces 5 | admitted 2 | negative 2"
+  },
+  {
+   "leg": "etf_book_bond_bear_stress",
+   "script": "scripts/etf_book_bond_bear_stress.py",
+   "check_cmd": [
+    "python",
+    "scripts/etf_book_bond_bear_stress.py",
+    "check"
+   ],
+   "script_sha256": "272e5b79491a27a8f4090323cfa6a84a16ecba205cb600b9b86b6e09c3471eb7",
+   "drift_words": [],
+   "state": "CURRENT",
+   "rc": 0,
+   "first_line": "check ok: 4 arms, base 8.95% -> flat 7.72%, gate 0.0"
   }
  ]
 }

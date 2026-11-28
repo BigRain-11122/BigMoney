@@ -1,7 +1,7 @@
 {
  "cell": "idx_fut_carry_roll_step_reversal",
- "generated": "2026-11-26T20:37:16+08:00",
- "evidence_cutoff": "2026-11-26",
+ "generated": "2026-11-28T06:12:01+08:00",
+ "evidence_cutoff": "2026-11-27",
  "question": "is the roll-day step inside spread a splice artefact (drop it) or a cost the book pays every month (book it)?",
  "test": "mean spread the day AFTER a roll day, minus non-roll mean, annualised; 5,000-draw permutation against random non-roll days; give-back ratio",
  "criteria": {
@@ -14,9 +14,9 @@
  },
  "products": {
   "IC": {
-   "bars": 2391,
+   "bars": 2392,
    "first": "2017-01-18",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "rulers": {
     "published": {
      "verdict": "DATA_BLOCKED",
@@ -25,27 +25,27 @@
     "calendar": {
      "pairs": 118,
      "window_pairs": 116,
-     "T_pp": 21.789,
-     "p_value": 0.0016,
+     "T_pp": 21.705,
+     "p_value": 0.0014,
      "give_back_ratio": 0.17,
      "mean_spread_on_roll_ann_pct": -185.523,
      "mean_spread_next_day_ann_pct": 31.545,
-     "mean_spread_nonroll_ann_pct": 9.756,
+     "mean_spread_nonroll_ann_pct": 9.84,
      "after_minus_before_pp": -3.964,
      "p_after_minus_before": 0.026,
      "verdict": "COST_BOOKED_BY_LATER_CARRY",
      "days_dropped": 118,
-     "share_of_days_pct": 4.94
+     "share_of_days_pct": 4.93
     },
     "strictest": {
      "pairs": 128,
      "window_pairs": 126,
-     "T_pp": 17.42,
-     "p_value": 0.0034,
+     "T_pp": 17.336,
+     "p_value": 0.0018,
      "give_back_ratio": 0.159,
      "mean_spread_on_roll_ann_pct": -171.025,
      "mean_spread_next_day_ann_pct": 27.22,
-     "mean_spread_nonroll_ann_pct": 9.799,
+     "mean_spread_nonroll_ann_pct": 9.884,
      "after_minus_before_pp": -5.287,
      "p_after_minus_before": 0.03,
      "verdict": "COST_BOOKED_BY_LATER_CARRY",
@@ -55,9 +55,9 @@
    }
   },
   "IM": {
-   "bars": 1053,
+   "bars": 1054,
    "first": "2022-07-25",
-   "last": "2026-11-26",
+   "last": "2026-11-27",
    "rulers": {
     "published": {
      "verdict": "DATA_BLOCKED",
@@ -66,12 +66,12 @@
     "calendar": {
      "pairs": 51,
      "window_pairs": 50,
-     "T_pp": 38.27,
-     "p_value": 0.0022,
+     "T_pp": 38.084,
+     "p_value": 0.0026,
      "give_back_ratio": 0.218,
      "mean_spread_on_roll_ann_pct": -230.181,
      "mean_spread_next_day_ann_pct": 50.179,
-     "mean_spread_nonroll_ann_pct": 11.909,
+     "mean_spread_nonroll_ann_pct": 12.095,
      "after_minus_before_pp": -1.756,
      "p_after_minus_before": 0.6071,
      "verdict": "PARTIAL_REVERSAL",
@@ -81,17 +81,17 @@
     "strictest": {
      "pairs": 60,
      "window_pairs": 59,
-     "T_pp": 2.145,
-     "p_value": 0.4069,
+     "T_pp": 1.958,
+     "p_value": 0.4121,
      "give_back_ratio": 0.073,
      "mean_spread_on_roll_ann_pct": -187.435,
      "mean_spread_next_day_ann_pct": 13.666,
-     "mean_spread_nonroll_ann_pct": 11.52,
+     "mean_spread_nonroll_ann_pct": 11.708,
      "after_minus_before_pp": -5.569,
      "p_after_minus_before": 0.2517,
      "verdict": "REAL_COST",
      "days_dropped": 60,
-     "share_of_days_pct": 5.7
+     "share_of_days_pct": 5.69
     }
    }
   }
@@ -102,13 +102,13 @@
     "mean_roll_day_spread_ann_pct": -185.523,
     "next_day_ann_pct": 31.545,
     "days_dropped": 118,
-    "if_booked_pp": 9.156
+    "if_booked_pp": 9.152
    },
    "strictest": {
     "mean_roll_day_spread_ann_pct": -171.025,
     "next_day_ann_pct": 27.22,
     "days_dropped": 128,
-    "if_booked_pp": 9.156
+    "if_booked_pp": 9.152
    }
   },
   "IM": {
@@ -116,13 +116,13 @@
     "mean_roll_day_spread_ann_pct": -230.181,
     "next_day_ann_pct": 50.179,
     "days_dropped": 51,
-    "if_booked_pp": 11.148
+    "if_booked_pp": 11.138
    },
    "strictest": {
     "mean_roll_day_spread_ann_pct": -187.435,
     "next_day_ann_pct": 13.666,
     "days_dropped": 60,
-    "if_booked_pp": 10.68
+    "if_booked_pp": 10.67
    }
   }
  },

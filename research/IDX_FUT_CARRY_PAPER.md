@@ -1,6 +1,6 @@
 # the carry sleeve, booked forward
 
-evidence cutoff: **2026-11-26** | contract bars to **2026-11-26** | generated 2026-11-27T02:33:05 | source judgement: `results/idx_fut_desk_sheet.json`
+evidence cutoff: **2026-11-27** | contract bars to **2026-11-27** | generated 2026-11-28T09:11:00 | source judgement: `results/idx_fut_desk_sheet.json`
 
 The two dates are printed because they are two dates: the ticket is judged on the continuous panel and the contract cache can lag it by a few sessions, so a ticket stamped with the judgement date is not a fill at that date.
 
@@ -10,35 +10,35 @@ Forward lines only.  The forward series starts at the anchor below and grows one
 
 | product | contract | lots | notional | since | bars | NAV (CNY) | P&L | index leg | discount leg | max DD | rolls |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| IC | IC2612 | 4 | 800 x spot | 2026-11-13 | 10 | 532,000.00 | -46.8000% | -474,978 | +6,978 | -46.800% | 0 |
-| IM | IM2612 | 4 | 800 x spot | 2026-11-13 | 10 | 353,760.00 | -64.6240% | -651,979 | +5,739 | -64.624% | 0 |
+| IC | IC2612 | 4 | 800 x spot | 2026-11-13 | 11 | 960,160.00 | -3.9840% | -119,784 | +79,944 | -3.984% | 0 |
+| IM | IM2612 | 4 | 800 x spot | 2026-11-13 | 11 | 745,760.00 | -25.4240% | -295,691 | +41,451 | -25.424% | 0 |
 
 ## replay (the same position over the last 1 year -- a backtest, kept apart)
 
 | product | window | days | total | of which index | of which discount | max DD |
 |---|---|---|---|---|---|---|
-| IC | 2025-11-26..2026-11-26 | 242 | -29.94% of capital | -87.43% | +57.50% | -76.53% |
-| IM | 2025-11-26..2026-11-26 | 242 | -61.73% of capital | -135.96% | +74.23% | -86.98% |
+| IC | 2025-11-27..2026-11-27 | 242 | +13.94% of capital | -50.61% | +64.54% | -76.26% |
+| IM | 2025-11-27..2026-11-27 | 242 | -22.75% of capital | -100.86% | +78.11% | -87.05% |
 
 **Read the two legs together.**  The ticket's headline carry is an *excess* number: it is what the future earns over the index, not what the account earns.  At this size the index leg dominates the absolute line, so a year that looks like a broken carry can be a working carry inside a falling index -- and the reverse.  Sizing is therefore a decision about the index exposure, not about the discount.
 
 ## the same position at the 8% vol target (two arms, because they are two trades)
 
-Vol is measured on the same replay window as the block above (2025-11-26..2026-11-26, 242 bar(s)), not on the full contract history, so it answers 'what would this size have put on the table this year' rather than 'how volatile is the discount forever'.
+Vol is measured on the same replay window as the block above (2025-11-27..2026-11-27, 242 bar(s)), not on the full contract history, so it answers 'what would this size have put on the table this year' rather than 'how volatile is the discount forever'.
 
 | product | arm | vol of 1 lot | lots for 8% | lots at or below | capital for 1 lot | this ticket's lots | vol of those lots |
 |---|---|---|---|---|---|---|---|
-| IC | index + carry | 453,853 CNY/yr (45.39% of capital) | 0.18 | 0 | 5,673,165 | 4 | 181.54% |
-| IC | carry only | 91,029 CNY/yr (9.10% of capital) | 0.88 | 0 | 1,137,863 | 4 | 36.41% |
-| IM | index + carry | 438,091 CNY/yr (43.81% of capital) | 0.18 | 0 | 5,476,139 | 4 | 175.24% |
-| IM | carry only | 93,260 CNY/yr (9.33% of capital) | 0.86 | 0 | 1,165,749 | 4 | 37.30% |
+| IC | index + carry | 466,878 CNY/yr (46.69% of capital) | 0.17 | 0 | 5,835,973 | 4 | 186.75% |
+| IC | carry only | 92,768 CNY/yr (9.28% of capital) | 0.86 | 0 | 1,159,599 | 4 | 37.11% |
+| IM | index + carry | 449,505 CNY/yr (44.95% of capital) | 0.18 | 0 | 5,618,813 | 4 | 179.80% |
+| IM | carry only | 93,600 CNY/yr (9.36% of capital) | 0.85 | 0 | 1,169,997 | 4 | 37.44% |
 
 ## what the hedge costs (the short leg's carry, not an estimate)
 
 | product | long carry | cheapest hedge | hedge cost | net carry | verdict | index corr |
 |---|---|---|---|---|---|---|
-| IC | 6.521 pp/yr | short IF | 0.569 pp/yr | +5.952 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.880 |
-| IM | 7.413 pp/yr | short IF | 0.569 pp/yr | +6.844 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.822 |
+| IC | 6.660 pp/yr | short IF | 0.627 pp/yr | +6.033 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.887 |
+| IM | 7.636 pp/yr | short IF | 0.627 pp/yr | +7.009 pp/yr | HEDGE_KEEPS_THE_CARRY | 0.833 |
 
 **Read the two arms together.**  The ticket sizes on drawdown survival -- how many lots survive the drawdown this sleeve has already seen.  That is a different ruler from the book's 8% vol target: unhedged, one lot is mostly index beta, so the target buys a fraction of a lot; hedged to the discount it buys a whole lot or more.  The hedge is priced at the short leg's own carry, which is why the cheap hedge is the contract sitting nearest par -- shorting a leg that carries as much as the long one hands the sleeve away, and that shows up as a negative net carry rather than as a caveat.
 
@@ -71,7 +71,7 @@ Zero lots at this capital is the rule's answer, not a missing measurement: one h
 
 To open this book at all needs 1,137,862 CNY of capital (IC account). IC is 137,862 CNY short of its first lot (capital 1,000,000, gap 13.79%). IM is 165,749 CNY short of its first lot (capital 1,000,000, gap 16.57%). IC: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0; IM: the desk's 4 lot(s) are withdrawn from the ticket and the executable line is 0. The forward paper series that ran on 8 lot(s) across the accounts is kept and labelled FUNDED_BY_A_LARGER_CAPITAL: it is what a larger account would have done, not what this one can. It comes back the moment the capital does.
 
-Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-27T01:21:28+08:00, cutoff 2026-11-26), so a reader can see which pass it came from.
+Funding line read from `results/idx_fut_carry_open_capital.json` (generated 2026-11-28T06:11:58+08:00, cutoff 2026-11-27), so a reader can see which pass it came from.
 
 | product | executable lots | desk lots withdrawn | forward paper lots (relabelled) | first rung (CNY) | gap at this capital (CNY) | capital those desk lots would need (CNY) |
 |---|---|---|---|---|---|---|
