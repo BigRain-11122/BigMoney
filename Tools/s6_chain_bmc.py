@@ -2962,9 +2962,15 @@ LEGS = [
     # face asks each instrument's own price path instead. The probe is local (~2s, re-derives
     # every printed label); the writer costs one network sweep (~90s, 42 throttled requests, no
     # panel touch). It reads data/etf_premium/snap/, not a face another leg writes.
+    #
+    # r2214: the flag is spelled `--sample=0`, not `--sample 0`. Tools/chain_writer_audit.py
+    # keys a writer to its reader on (script, scope), and scope drops flags but keeps bare
+    # positional tokens -- so `--sample 0` gave the writer scope ("0",) while its check had
+    # scope (), and the census reported WRITER_MODE_EXISTS_NOT_ON_CHAIN for a face that was in
+    # fact paired. One `=` is what makes the two legs the same subject.
     ("etf_nav_source_dating",
      ["python", "scripts/etf_nav_source_dating.py", "check"],
-     ["python", "scripts/etf_nav_source_dating.py", "run", "--sample", "0"]),
+     ["python", "scripts/etf_nav_source_dating.py", "run", "--sample=0"]),
 ]
 
 

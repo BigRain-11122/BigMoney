@@ -1,17 +1,38 @@
 # Which day is this NAV from?
 
-board session: 2026-11-27 · rows with a price: 1673 · minimum move that can date a row: 1.0%
+board session: 2026-11-27 · rows with a price: 1674 · minimum move that can date a row: 1.0%
 
 ## Verdict
 
 - ALL: BOTH_CURRENT_BUT_SINA_LAGS_ON_115 -- board 1371/1439 on today's path, dated sina 1157/1439 on it and 115/1439 on yesterday's close even though it prints today; 59 board rows sit beyond the day's move (44 with the price at the band and both sources agreeing, 15 with the sources disagreeing)
 - R2212_GAP_SET: BOTH_CURRENT_BUT_SINA_LAGS_ON_18 -- board 43/47 on today's path, dated sina 28/47 on it and 18/47 on yesterday's close even though it prints today; 3 board rows sit beyond the day's move (2 with the price at the band and both sources agreeing, 1 with the sources disagreeing)
+- TICKET: ONE_OR_MORE_LEGS_UNPROVEN -- 3/5 dated; 2 on today's path; 1 on yesterday's close (159655); 2 undecidable (price barely moved: 513690, 159519)
+
+## The legs on the ticket (TICKET-2026-11-27.json)
+
+| leg | class | amount CNY | board | sina | source date | board t | sina t | move% | status |
+|---|---|---|---|---|---|---|---|---|---|
+| 510760 | equity | 86996.9 | SAME_SESSION | SAME_SESSION | 2026-11-27 | 0.928 | 0.922 | 4.14 | DATED |
+| 512040 | equity | 86933.8 | SAME_SESSION | SAME_SESSION | 2026-11-27 | 0.891 | 0.883 | 1.98 | DATED |
+| 159655 | crossborder | 86862.6 | NO_DATA (board has no row) | PREV_SESSION | 2026-11-28 | n/a | -2.485 | 2.83 | DATED |
+| 513690 | crossborder | 86916.4 | UNDECIDABLE | UNDECIDABLE | 2026-11-27 | n/a | n/a | -0.72 | UNDECIDABLE |
+| 159519 | crossborder | 86946.0 | UNDECIDABLE | UNDECIDABLE | 2026-11-26 | n/a | n/a | -0.30 | UNDECIDABLE |
+
+A leg marked `UNDECIDABLE` is one whose price barely moved: its NAV cannot be
+placed on either day from price alone, which is a refusal, not a clean bill.
+A leg marked `NO_PRICE` has no quote row at all. Either one means the ticket's
+denominator for that leg is unproven on this face.
+
+**The `source date` column is not a session.** 2 row(s) print a date LATER than
+the board session (2026-11-27) -- e.g. a Saturday -- on a number the feed did not
+recompute: 159655, 513310.
+
 
 ## Counts by group (price-decidable rows only)
 
 | group | rows | decidable | board SAME | board PREV | board beyond: capped | beyond: agreed | beyond: sources disagree | sina SAME | sina PREV | sina missing |
 |---|---|---|---|---|---|---|---|---|---|---|
-| all tickers | 1673 | 1439 | 1371 | 8 | 21 | 23 | 15 | 1157 | 115 | 180 |
+| all tickers | 1674 | 1439 | 1371 | 8 | 21 | 23 | 15 | 1157 | 115 | 180 |
 | r2212 gap set | 53 | 47 | 43 | 1 | 0 | 2 | 1 | 28 | 18 | 0 |
 
 Legend: SAME_SESSION = the number sits on today's close path; PREV_SESSION = it
@@ -87,9 +108,9 @@ board 21 and sina 22 of 1439 decidable rows sit this close to a line.
 | 159615 | 1.0292 | 0.9749 | 2026-11-26 | 0.9740 | 1.0270 | 5.44 | 0.017 |
 | 159628 | 1.0922 | 1.0121 | 2026-11-27 | 1.0080 | 1.1090 | 10.02 | 0.041 |
 | 159639 | 0.7942 | 0.7654 | 2026-11-27 | 0.7630 | 0.7930 | 3.93 | 0.080 |
+| 159655 | None | 1.7413 | 2026-11-28 | 1.8730 | 1.9260 | 2.83 | -2.485 |
 | 159661 | 1.2596 | 1.204 | 2026-11-27 | 1.2020 | 1.2620 | 4.99 | 0.033 |
-| 159675 | 1.023 | 0.9171 | 2026-11-27 | 0.9180 | 1.0260 | 11.76 | -0.008 |
-| ... | | | | | | 90 more |
+| ... | | | | | | 91 more |
 
 ## Board numbers beyond the day's move, with both sources agreeing
 

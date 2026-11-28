@@ -5876,7 +5876,21 @@ def main() -> int:
                                       encoding="utf-8")).get("machine_id")
                        if os.path.exists(os.path.join("fleet", "machine.json")) else None)
                 _frozen_foreign = _behind_only and bool(_owner) and _owner != _me
-                if not _frozen_foreign:
+                # r2214: the writer of this lane IS this machine, but its gate refuses to
+                # collect outside 09:15-15:30 on a workday. On a Saturday every hole the
+                # calendar just opened is unreachable, so the strict comparison below would
+                # print a red that no run today can clear -- and a red nobody can act on
+                # teaches readers to skip reds (r1789 family). The exemption is narrow: the
+                # block is behind (not wrong), the tails match the archives, and the gate is
+                # closed RIGHT NOW. Monday after 09:15 the same numbers are red again.
+                _frozen_self = None
+                if _behind_only and _owner == _me:
+                    _now6 = dt.datetime.now()
+                    if _now6.weekday() >= 5:
+                        _frozen_self = "non-workday"
+                    elif _now6.time() < _umf.OPEN_GATE_T:
+                        _frozen_self = "before 09:15"
+                if not _frozen_foreign and not _frozen_self:
                     if _re["missing_sessions"] != (_cov.get("missing_sessions") or {}):
                         _why6.append("the named holes differ from the holes the "
                                      "archives actually have")
@@ -5886,6 +5900,14 @@ def main() -> int:
                     if _cov.get("symbols_covering") != (len(_disk)
                                                         - len(_re["missing_sessions"])):
                         _why6.append("covering count does not follow the named holes")
+                elif _frozen_self:
+                    _behind_n = len(_re["missing_sessions"] or {})
+                    _frozen_note6 = (f"block computed for {_blk_last}; the calendar now "
+                                     f"allows {_re['last_completed_session']} and "
+                                     f"{_behind_n} symbol(s) miss it -- this machine IS the "
+                                     f"writer but its gate is closed ({_frozen_self}), so "
+                                     f"no run today can advance it (waiting on the gate, "
+                                     f"not a defect)")
                 else:
                     _behind_n = len(_re["missing_sessions"] or {})
                     _frozen_note6 = (f"block computed for {_blk_last}; the calendar now "
@@ -9697,6 +9719,36 @@ def main() -> int:
               _nrc == 0, _ntext[:220])
     except Exception as e:
         check("config: every NAV date is re-derived from that instrument's own price path",
+              False, repr(e)[:160])
+
+    # r2214: the dating table used to hold only tickers the board answered for, so the one
+    # cross-border leg the ticket actually spends money on (159655) had no row at all -- "no
+    # number" read exactly like "no problem". The face now unions both sources and reports a
+    # status per ticket leg; this leg holds it to that, because a per-leg table that silently
+    # loses a leg is the same defect wearing a richer table.
+    try:
+        _nsd = _nav_source_dating()
+        _nface = json.load(open(_nsd.FACE, encoding="utf-8"))
+        _ntk = _nface.get("ticket") or {}
+        _nlegs = _nface.get("ticket_legs") or []
+        _nbad = []
+        if _ntk.get("status") == "ok" and not _nlegs:
+            _nbad.append("ticket read as ok but no leg is dated")
+        if len(_nlegs) != len(_ntk.get("legs") or []):
+            _nbad.append("%d leg(s) on the ticket, %d dated"
+                         % (len(_ntk.get("legs") or []), len(_nlegs)))
+        _nnostatus = [l.get("symbol") for l in _nlegs
+                      if l.get("status") not in ("DATED", "UNDECIDABLE", "NO_PRICE")]
+        if _nnostatus:
+            _nbad.append("leg(s) with no verdict: " + ", ".join(str(s) for s in _nnostatus[:4]))
+        _nund = [l.get("symbol") for l in _nlegs if l.get("status") == "UNDECIDABLE"]
+        check("config: every leg on the ticket says which day its NAV is from",
+              not _nbad,
+              "; ".join(_nbad)[:220] if _nbad else
+              "%d leg(s) dated (%d undecidable: %s)"
+              % (len(_nlegs), len(_nund), ", ".join(_nund) or "none"))
+    except Exception as e:
+        check("config: every leg on the ticket says which day its NAV is from",
               False, repr(e)[:160])
 
     # r1619: the two legs above catch a face that cannot be dated or a leg priced against

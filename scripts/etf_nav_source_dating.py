@@ -249,17 +249,118 @@ def beyond_kind(nav, other_nav, prev, last, min_move=MIN_MOVE, cross_tol=CROSS_T
     return "AGREED_BEYOND"
 
 
+TICKET_GLOB = os.path.join(ROOT, "results", "etf_book_order", "TICKET-*.json")
+
+
+def load_ticket(session=None):
+    """The ticket this face must answer for. Pure read; never guessed.
+
+    Returns `{"status": ...}` on failure instead of raising, so a face built without a
+    ticket says so rather than printing an empty table that reads like "no legs".
+    """
+    paths = sorted(glob.glob(TICKET_GLOB))
+    if not paths:
+        return {"status": "missing", "why": "no ticket file on disk", "legs": []}
+    path = paths[-1]
+    if session:
+        match = [p for p in paths if session in os.path.basename(p)]
+        if match:
+            path = match[-1]
+        else:
+            return {"status": "no_ticket_for_session", "ticket": os.path.basename(path),
+                    "why": "the newest ticket is for another session than the board",
+                    "legs": []}
+    try:
+        d = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:
+        return {"status": "unreadable", "ticket": os.path.basename(path),
+                "why": str(exc)[:120], "legs": []}
+    order = ((d.get("ticket") or {}).get("order")) or []
+    legs = [{"symbol": str(o.get("symbol")), "class": o.get("class"),
+             "weight": o.get("weight"), "amount_cny": o.get("amount")} for o in order]
+    return {"status": "ok" if legs else "empty", "ticket": os.path.basename(path),
+            "generated": d.get("generated"), "session": d.get("evidence_cutoff"),
+            "legs": legs}
+
+
+def ticket_legs(ticket, rows_by_code):
+    """Every leg on the ticket, with the dating verdict for its own denominator. Pure.
+
+    The ticket is the only consumer that spends money, so it is the one place where "I
+    could not date this NAV" has to be printed next to the leg instead of left in a table
+    the reader has to join by hand.
+    """
+    out = []
+    for leg in (ticket.get("legs") or []):
+        code = leg["symbol"]
+        r = rows_by_code.get(code)
+        if r is None:
+            out.append({"symbol": code, "class": leg.get("class"), "amount_cny": leg.get("amount_cny"),
+                        "status": "NO_PRICE",
+                        "why": "no price row for this ticker -> nothing to date"})
+            continue
+        dated = [lab for lab in (r.get("board_position"), r.get("sina_position"))
+                 if lab in ("SAME_SESSION", "PREV_SESSION")]
+        status = "DATED" if dated else "UNDECIDABLE"
+        out.append({
+            "symbol": code, "class": leg.get("class"), "amount_cny": leg.get("amount_cny"),
+            "status": status,
+            "board_position": r.get("board_position"),
+            "sina_position": r.get("sina_position"),
+            "sina_nav_date": r.get("sina_nav_date"),
+            "board_missing": r.get("board_missing"),
+            "board_nav": r.get("board_nav"), "sina_nav": r.get("sina_nav"),
+            "board_t": r.get("board_t"), "sina_t": r.get("sina_t"),
+            "move_pct": r.get("move_pct"),
+        })
+    return out
+
+
+def ticket_verdict(legs):
+    """One sentence about the ticket's own denominators. Pure."""
+    if not legs:
+        return "TICKET: CANNOT_VERIFY -- no legs to date (ticket missing or empty)"
+    n = len(legs)
+    no_price = [l["symbol"] for l in legs if l["status"] == "NO_PRICE"]
+    undec = [l["symbol"] for l in legs if l["status"] == "UNDECIDABLE"]
+    dated = [l for l in legs if l["status"] == "DATED"]
+    same = [l["symbol"] for l in dated
+            if l.get("board_position") == "SAME_SESSION" or l.get("sina_position") == "SAME_SESSION"]
+    prev = [l["symbol"] for l in dated
+            if l.get("board_position") != "SAME_SESSION" and l.get("sina_position") != "SAME_SESSION"]
+    parts = ["%d/%d dated" % (len(dated), n)]
+    if same:
+        parts.append("%d on today's path" % len(same))
+    if prev:
+        parts.append("%d on yesterday's close (%s)" % (len(prev), ", ".join(prev)))
+    if undec:
+        parts.append("%d undecidable (price barely moved: %s)" % (len(undec), ", ".join(undec)))
+    if no_price:
+        parts.append("%d without a price (%s)" % (len(no_price), ", ".join(no_price)))
+    bad = bool(prev or no_price)
+    return "TICKET: %s -- %s" % ("ONE_OR_MORE_LEGS_UNPROVEN" if bad else "EVERY_LEG_DATED",
+                                  "; ".join(parts))
+
+
 def build(board_session, board_nav, sina_nav, prices, gap_codes=None):
-    """Pure. One row per ticker that has a price and a board value."""
+    """Pure. One row per ticker that has a price and at least one NAV source.
+
+    r2214: the row set is the UNION of both sources, not the board alone. A ticker the
+    board never answered for (cross-border funds priced off sina's own NAV) used to fall
+    out of this face entirely -- and those are exactly the legs whose denominator the
+    ticket leans on. Such a row carries `board_missing: true`, so a missing board value
+    is never read as a board value that agrees.
+    """
     gap_codes = gap_codes or set()
     rows = []
-    for code in sorted(set(board_nav) & set(prices)):
+    for code in sorted((set(board_nav) | set(sina_nav)) & set(prices)):
         px = prices[code]
         b = board_nav.get(code)
         s = (sina_nav.get(code) or {}).get("nav")
         rows.append({
             "code": code,
             "board_nav": b,
+            "board_missing": b is None,
             "sina_nav": s,
             "sina_nav_date": (sina_nav.get(code) or {}).get("nav_date"),
             "prev_close": px["prev_close"],
@@ -272,18 +373,30 @@ def build(board_session, board_nav, sina_nav, prices, gap_codes=None):
             "board_beyond": beyond_kind(b, s, px["prev_close"], px["last"]),
             "in_r2212_gap_set": code in gap_codes,
         })
+    # A source date that is LATER than the board session is not a future NAV: it is the
+    # feed stamping a non-session day onto a number it did not recompute (159655 prints
+    # 2026-11-28, a Saturday, on the 4th). The date field is a claim about the feed, so
+    # the face counts those rows instead of trusting the field to be a session at all.
+    after = [r["code"] for r in rows
+             if r.get("sina_nav_date") and board_session and r["sina_nav_date"] > board_session]
     return {
         "board_session": board_session,
         "min_move_pct": MIN_MOVE * 100.0,
         "n_rows": len(rows),
         "all": summarize(rows),
         "r2212_gap": summarize([r for r in rows if r["in_r2212_gap_set"]]),
+        "sina_date_after_board": {"n": len(after), "codes": after[:12]},
         "rows": rows,
     }
 
 
 def summarize(rows):
-    dec = [r for r in rows if r["board_position"] != "UNDECIDABLE"]
+    # A row that only one source answered for is NO_DATA on the other side, and a NO_DATA
+    # row cannot date anything: keeping it in the denominator would inflate every share
+    # in the table (r2214: the union row set makes this reachable, so it is excluded here
+    # rather than assumed away).
+    dec = [r for r in rows if r["board_position"] not in ("UNDECIDABLE", "NO_DATA")]
+    n_board_missing = sum(1 for r in rows if r.get("board_missing"))
 
     def near(key):
         n = 0
@@ -296,6 +409,7 @@ def summarize(rows):
     return {
         "n_rows": len(rows),
         "n_decidable": len(dec),
+        "n_board_missing": n_board_missing,
         "board": {k: sum(1 for r in dec if r["board_position"] == k) for k in LABELS},
         "board_beyond": {k: sum(1 for r in dec if r.get("board_beyond") == k) for k in BEYOND},
         "board_marginal": near("board_t"),
@@ -360,6 +474,39 @@ def render(face, verdict):
          "## Verdict", ""]
     for part in verdict.split(" || "):
         L.append("- " + part)
+    tk = face.get("ticket") or {}
+    legs = face.get("ticket_legs") or []
+    L += ["", "## The legs on the ticket (%s)" % (tk.get("ticket") or "no ticket file"), ""]
+    if not legs:
+        L += ["No leg could be read: %s. An empty table here is not 'no denominators to",
+              "date' -- it means the ticket itself was unreadable." % (tk.get("why") or "unknown"), ""]
+    else:
+        L += ["| leg | class | amount CNY | board | sina | source date | board t | sina t | move% | status |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+
+        def _f(v):
+            return "%.3f" % v if v is not None else "n/a"
+
+        for l in legs:
+            L.append("| %s | %s | %s | %s%s | %s | %s | %s | %s | %.2f | %s |" % (
+                l["symbol"], l.get("class") or "", l.get("amount_cny") if l.get("amount_cny") is not None else "",
+                l.get("board_position") or "n/a",
+                " (board has no row)" if l.get("board_missing") else "",
+                l.get("sina_position") or "n/a", l.get("sina_nav_date") or "n/a",
+                _f(l.get("board_t")), _f(l.get("sina_t")),
+                l.get("move_pct") if l.get("move_pct") is not None else float("nan"),
+                l.get("status")))
+        L += ["", "A leg marked `UNDECIDABLE` is one whose price barely moved: its NAV cannot be",
+              "placed on either day from price alone, which is a refusal, not a clean bill.",
+              "A leg marked `NO_PRICE` has no quote row at all. Either one means the ticket's",
+              "denominator for that leg is unproven on this face.", ""]
+    da = face.get("sina_date_after_board") or {}
+    if da.get("n"):
+        L += ["**The `source date` column is not a session.** %d row(s) print a date LATER than"
+              % da["n"],
+              "the board session (%s) -- e.g. a Saturday -- on a number the feed did not"
+              % face.get("board_session"),
+              "recompute: %s." % ", ".join(da.get("codes") or []), ""]
     L += ["", "## Counts by group (price-decidable rows only)", "",
           "| group | rows | decidable | board SAME | board PREV | board beyond: capped | beyond: agreed | beyond: sources disagree | sina SAME | sina PREV | sina missing |",
           "|---|---|---|---|---|---|---|---|---|---|---|"]
@@ -466,21 +613,31 @@ def cmd_run(sample):
         return 2
     path, d = got
     board_session, board_nav = d.get("session"), d.get("nav") or {}
-    codes = sorted(board_nav)[:sample] if sample else sorted(board_nav)
+    ticket = load_ticket(board_session)
+    leg_syms = [l["symbol"] for l in (ticket.get("legs") or [])]
+    board_codes = sorted(board_nav)[:sample] if sample else sorted(board_nav)
+    # The ticket's own legs are always fetched, whatever the sample cut says: the face
+    # exists to answer for the legs that spend money.
+    codes = sorted(set(board_codes) | set(leg_syms))
     gap_codes, gap_session = gap_set_from_peer()
     if gap_session and board_session and gap_session != board_session:
         print("note: r2212 gap set is for %s, board is %s -- group comparison is cross-session"
               % (gap_session, board_session))
-    print("board: %s (%d values) sample=%d  gap-set codes=%d" % (
-        os.path.basename(path), len(board_nav), len(codes), len(gap_codes)))
+    print("board: %s (%d values) sample=%d  ticket legs=%d  sweep=%d  gap-set codes=%d" % (
+        os.path.basename(path), len(board_nav), len(board_codes), len(leg_syms),
+        len(codes), len(gap_codes)))
     sina, f1 = fetch_nav(codes)
     prices, f2 = fetch_price(codes)
     print("sina nav: %d   prices: %d   failed batches: %d" % (len(sina), len(prices), f1 + f2))
-    face = build(board_session, {c: board_nav[c] for c in codes}, sina, prices, gap_codes)
+    face = build(board_session, {c: board_nav[c] for c in codes if c in board_nav},
+                 sina, prices, gap_codes)
+    rows_by_code = {r["code"]: r for r in face["rows"]}
+    face["ticket"] = ticket
+    face["ticket_legs"] = ticket_legs(ticket, rows_by_code)
     face["generated"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     face["failed_batches"] = f1 + f2
     face["sample"] = sample
-    face["verdict"] = verdict_of(face)
+    face["verdict"] = verdict_of(face) + " || " + ticket_verdict(face["ticket_legs"])
     os.makedirs(OUT_DIR, exist_ok=True)
     json.dump(face, open(FACE, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     open(DOC, "w", encoding="utf-8").write(render(face, face["verdict"]))
@@ -531,14 +688,33 @@ def verify():
         want = summarize([r for r in rows if key == "all" or r.get("in_r2212_gap_set")])
         if want != (face.get(key) or {}):
             problems.append("%s block does not recount from its own rows" % name)
-    if (face.get("verdict") or "") != verdict_of(face):
+    legs = face.get("ticket_legs") or []
+    tk = face.get("ticket") or {}
+    if tk.get("status") == "ok" and not legs:
+        problems.append("ticket read as ok but no leg is dated")
+    if len(legs) != len(tk.get("legs") or []):
+        problems.append("ticket has %d legs but %d are dated"
+                        % (len(tk.get("legs") or []), len(legs)))
+    want_legs = ticket_legs(tk, {r["code"]: r for r in rows})
+    if want_legs != legs:
+        problems.append("ticket legs do not re-derive from the rows")
+    want_verdict = verdict_of(face) + " || " + ticket_verdict(legs)
+    if (face.get("verdict") or "") != want_verdict:
         problems.append("verdict does not follow from its own counts")
+    after = [r["code"] for r in rows
+             if r.get("sina_nav_date") and face.get("board_session")
+             and r["sina_nav_date"] > face["board_session"]]
+    want_after = {"n": len(after), "codes": after[:12]}
+    if want_after != (face.get("sina_date_after_board") or {"n": 0, "codes": []}):
+        problems.append("sina_date_after_board does not recount from its own rows")
     if problems:
         return 3, "CHECK FAILED: " + " | ".join(problems[:4])
-    return 0, ("CHECK_OK rows=%d decidable=%d board_same=%d board_prev=%d sina_prev=%d gap_set_rows=%d"
+    return 0, ("CHECK_OK rows=%d decidable=%d board_same=%d board_prev=%d sina_prev=%d "
+               "gap_set_rows=%d ticket_legs=%d ticket_dated=%d"
                % (len(rows), face["all"]["n_decidable"], face["all"]["board"]["SAME_SESSION"],
                   face["all"]["board"]["PREV_SESSION"], face["all"]["sina"]["PREV_SESSION"],
-                  face["r2212_gap"]["n_rows"]))
+                  face["r2212_gap"]["n_rows"], len(legs),
+                  sum(1 for l in legs if l.get("status") == "DATED")))
 
 
 def cmd_check():
@@ -656,6 +832,44 @@ def cmd_selftest():
     chk("L23 path_t refuses what position refuses",
         path_t(None, 1.0, 1.1) is None and path_t(1.05, 1.0, 1.001) is None
         and path_t(-1.0, 1.0, 1.1) is None)
+
+    # --- a ticker only one source answered for is still a row, never a silent skip -----
+    # r2214: 159655 (cross-border, priced off sina's own NAV) fell out of the face
+    # entirely because the board never answered for it -- while the ticket spent 8.7%
+    # on it. The union row set brings it back, and the missing board value is `NO_DATA`,
+    # never a board value that agrees.
+    f = build("2026-11-27", {"G": 1.05},
+              {"G": {"nav": 1.0}, "H": {"nav": 1.001, "nav_date": "2026-11-26"}},
+              {"G": {"prev_close": 1.0, "last": 1.1},
+               "H": {"prev_close": 1.0, "last": 1.1}})
+    rh = [r for r in f["rows"] if r["code"] == "H"][0]
+    chk("L24 a ticker with no board row is still a row, flagged board_missing",
+        len(f["rows"]) == 2 and rh["board_missing"] is True
+        and rh["board_position"] == "NO_DATA" and rh["sina_position"] == "PREV_SESSION")
+    chk("L25 a NO_DATA row does not inflate the denominator",
+        f["all"]["n_decidable"] == 1 and f["all"]["n_board_missing"] == 1)
+
+    tk = {"status": "ok", "ticket": "TICKET-X.json",
+          "legs": [{"symbol": "G", "class": "equity", "amount_cny": 1.0},
+                   {"symbol": "H", "class": "crossborder", "amount_cny": 2.0},
+                   {"symbol": "Z", "class": "equity", "amount_cny": 3.0}]}
+    tlegs = ticket_legs(tk, {r["code"]: r for r in f["rows"]})
+    by = {l["symbol"]: l for l in tlegs}
+    chk("L26 every ticket leg gets a dating status (dated / undecidable / no price)",
+        by["G"]["status"] == "DATED" and by["H"]["status"] == "DATED"
+        and by["Z"]["status"] == "NO_PRICE")
+    v = ticket_verdict(tlegs)
+    chk("L27 the ticket sentence names the legs it could not prove",
+        v.startswith("TICKET: ONE_OR_MORE_LEGS_UNPROVEN") and "Z" in v
+        and ticket_verdict([]).startswith("TICKET: CANNOT_VERIFY"))
+
+    # A date field can name a day that is not a session at all (159655 prints a Saturday).
+    f = build("2026-11-27", {"K": 1.05},
+              {"K": {"nav": 1.0, "nav_date": "2026-11-28"},
+               "L": {"nav": 1.0, "nav_date": "2026-11-27"}},
+              {"K": {"prev_close": 1.0, "last": 1.1}, "L": {"prev_close": 1.0, "last": 1.1}})
+    chk("L28 a source date after the board session is counted, not trusted",
+        f["sina_date_after_board"] == {"n": 1, "codes": ["K"]})
 
     for n, ok in legs:
         print(("PASS " if ok else "FAIL ") + n)
