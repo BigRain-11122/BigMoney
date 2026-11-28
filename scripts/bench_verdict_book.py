@@ -39,6 +39,7 @@ import io
 import json
 import os
 import re
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -423,9 +424,11 @@ def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None)
 
     fv = payload.get("verdict") if isinstance(payload, dict) else None
     if isinstance(fv, str) and fv.upper() not in ALIVE_WORDS:
+        gap = face_verdict_gap(payload)
         out.append({
             "what": "脸级判词",
-            "text": f"这张卡自己的证据面判 **{fv}**，行上的 {row_verdict or '-'} 是单臂/单相读数——面自己没认这个 GO",
+            "text": f"这张卡自己的证据面判 **{fv}**，行上的 {row_verdict or '-'} 是单臂/单相读数——面自己没认这个 GO"
+                    + (f"。差在哪：{gap}" if gap else ""),
             "source": face_rel,
         })
 
@@ -559,6 +562,94 @@ def order_condition(rows):
     if blocked and unknown:
         tail += "；另有未测：" + "、".join(unknown)
     return {"what": "可下单条件", "text": " 且 ".join(shapes) + "。" + tail, "source": None}
+
+
+_CHECK_ZH = {
+    "H1_full_ge": "H1 全程",
+    "H2_oos_ge": "H2 样本外",
+    "H3_both_halves": "H3 两半段",
+    "H4_drop_best": "H4 去最好年",
+    "H5_control": "H5 置换",
+}
+# a census arm is named "tsmom|{'lookback': 250, 'skip': 21}|ls": true and unreadable.
+_PARAMS_RE = re.compile(r"\{\s*['\"]([a-z_]+)['\"]\s*:\s*(-?\d+)\s*"
+                        r"(?:,\s*['\"]([a-z_]+)['\"]\s*:\s*(-?\d+)\s*)?\}")
+
+
+def _short_name(raw):
+    s = _PARAMS_RE.sub(
+        lambda m: f"{m.group(1)}={m.group(2)}" + (f",{m.group(3)}={m.group(4)}" if m.group(3) else ""),
+        str(raw))
+    s = s.replace("|", " ").replace("'", "").replace('"', "").strip()
+    return s if len(s) <= 46 else s[:45] + "…"
+
+
+def face_verdict_gap(payload):
+    """Say the distance between a face verdict and the arms underneath it.
+
+    r2223 shipped "the face says another word", and the next question is always
+    "差多少". Nothing new is judged here: the face already publishes every arm's
+    annualised return, its own resolution (mde_pp) and each check's boolean, so the
+    sentence is read off those fields. A face with fewer than two arms says nothing —
+    one arm has nothing to be unstable against.
+    """
+    if not isinstance(payload, dict):
+        return None
+    arms = [a for a in (payload.get("arms") or []) if isinstance(a, dict)]
+    if len(arms) < 2:
+        return None
+
+    def name(a):
+        tags = a.get("tags") or {}
+        return _short_name(tags.get("variant") or a.get("name") or "-")
+
+    def ann(a):
+        v = (a.get("common_window") or {}).get("ann_pct")
+        return v if isinstance(v, (int, float)) else None
+
+    def is_go(a):
+        return str(a.get("verdict") or "").upper() == "GO"
+
+    go = [a for a in arms if is_go(a)]
+    head = f"{len(arms)} 臂里 {len(go)} 臂 GO"
+    ctype = str((payload.get("config") or {}).get("type") or "").lower()
+    if ctype == "census":
+        head += "，面判词描述的是空间、不下单，看臂"
+    blocked = [a for a in arms if not is_go(a)]
+    if not blocked:
+        return head
+    measured = [a for a in blocked if ann(a) is not None]
+    if not measured:
+        return head + "；挡路的臂没有公布年化（未测不是零）"
+    near = max(measured, key=ann)
+    bits = [f"最近的未过臂 {name(near)} 年化 {ann(near):g}%"]
+    m = near.get("mde_pp")
+    if isinstance(m, (int, float)) and m > ann(near):
+        bits.append(f"低于它自己的分辨率线 {m:g}%（还差 {m - ann(near):.2f}pp）")
+    failed = [k for k, v in (near.get("checks") or {}).items() if v is False]
+    if failed:
+        bits.append("挡它的检查 " + "、".join(_CHECK_ZH.get(k, k) for k in failed))
+    p = (near.get("control") or {}).get("p_value")
+    if isinstance(p, (int, float)):
+        bits.append(f"置换 p={p:g}")
+    if not failed:
+        # a face that publishes only a verdict leaves the reader guessing why a
+        # positive number failed; print the readings it did publish, and say that
+        # the check detail is missing rather than inventing one.
+        windows = near.get("common_window") or {}
+        oos = (near.get("oos_2024_after") or {}).get("ann_pct")
+        sharpe = windows.get("sharpe")
+        tail = []
+        if isinstance(sharpe, (int, float)):
+            tail.append(f"夏普 {sharpe:g}")
+        if isinstance(oos, (int, float)):
+            tail.append(f"样本外年化 {oos:g}%")
+        if tail:
+            bits.append("它的面没公布检查明细，只给读数：" + "、".join(tail))
+    if go:
+        more = "等" if len(go) > 2 else ""
+        bits.insert(0, "已 GO 的 " + "、".join(name(a) for a in go[:2]) + more)
+    return head + "；" + "，".join(bits)
 
 
 def _num(head, key, suffix=""):
@@ -846,6 +937,41 @@ def selftest():
     ])
     checks.append(("one condition quoted per account prints once, not twice",
                    two_accounts is not None and two_accounts["text"].count("首档 1 手买得起") == 1))
+
+    # r2223: "面自己判的是另一个词" is not actionable — the face already publishes the
+    # distance, so the same sentence names the arm in the way and how far it is.
+    gap_rob = face_verdict_gap({"config": {"type": "robust"}, "arms": [
+        {"tags": {"variant": "60d"}, "common_window": {"ann_pct": 1.52}, "mde_pp": 3.86,
+         "checks": {"H1_full_ge": False, "H4_drop_best": True}, "control": {"p_value": 0.45},
+         "verdict": "NO_EDGE"},
+        {"tags": {"variant": "120d"}, "common_window": {"ann_pct": 4.99}, "mde_pp": 3.78,
+         "checks": {}, "verdict": "GO"},
+        {"tags": {"variant": "250d"}, "common_window": {"ann_pct": 5.19}, "mde_pp": 3.66,
+         "checks": {}, "verdict": "GO"},
+    ]})
+    checks.append(("the face verdict names the arm in the way and how far it is",
+                   bool(gap_rob) and "60d" in gap_rob and "3.86" in gap_rob and "2.34" in gap_rob))
+    checks.append(("the arms that already passed are named, so the reader sees what is left",
+                   bool(gap_rob) and "120d" in gap_rob and "250d" in gap_rob))
+    checks.append(("a failed check is printed in words, not as a bare key",
+                   bool(gap_rob) and "H1 全程" in gap_rob and "H4" not in gap_rob))
+    gap_census = face_verdict_gap({"config": {"type": "census"}, "arms": [
+        {"tags": {"variant": "a"}, "common_window": {"ann_pct": 1.0}, "verdict": "NO_EDGE"},
+        {"tags": {"variant": "b"}, "common_window": {"ann_pct": 2.0}, "verdict": "NO_EDGE"},
+    ]})
+    checks.append(("a census face says it is a description of the space, not a veto",
+                   bool(gap_census) and "空间" in gap_census and "0 臂 GO" in gap_census))
+    checks.append(("a one-arm face invents no distance",
+                   face_verdict_gap({"arms": [{"tags": {"variant": "x"}}]}) is None))
+    checks.append(("an arm named by its parameter dict is short-named for the reader",
+                   _short_name("tsmom|{'lookback': 250, 'skip': 21}|ls") == "tsmom lookback=250,skip=21 ls"))
+    gap_blind = face_verdict_gap({"config": {"type": "census"}, "arms": [
+        {"tags": {"variant": "a"}, "common_window": {"ann_pct": 4.54, "sharpe": 0.752},
+         "oos_2024_after": {"ann_pct": 3.1}, "verdict": "NO_EDGE"},
+        {"tags": {"variant": "b"}, "common_window": {"ann_pct": 1.0}, "verdict": "GO"},
+    ]})
+    checks.append(("a face that publishes no check detail says so and prints its readings",
+                   bool(gap_blind) and "没公布检查明细" in gap_blind and "夏普 0.752" in gap_blind))
 
     bad = [n for n, ok in checks if not ok]
     for n, ok in checks:

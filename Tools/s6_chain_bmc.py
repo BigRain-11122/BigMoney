@@ -2998,6 +2998,15 @@ LEGS = [
     ("bench_cmdty_capacity",
      ["python", "scripts/bench_cmdty_capacity.py", "--check"],
      ["python", "scripts/bench_cmdty_capacity.py"]),
+    # r2223: the CEO page's ⑪ section quotes the answer book above, but the page leg runs
+    # EARLIER in this chain -- so on the trip where the book (or the capacity face the book
+    # quotes) actually rewrites, the page a reader opens still carries the previous book.
+    # The fix is not a reorder (the book reads 33 result faces written all over the chain);
+    # it is the r1907 shape: a probe that compares only mtimes, and pays a ~1.2s redraw
+    # only when the book is newer than the page.  Absent book = "face missing" = repairable.
+    ("ceo_page_answer_book",
+     ["python", "scripts/ceo_live_usage.py", "check"],
+     ["python", "scripts/ceo_live_usage.py"]),
 ]
 
 

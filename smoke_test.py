@@ -16878,6 +16878,124 @@ def _legs_supply_and_book():
         check("product: the CEO page prints what a year of holding the wallet feels like",
               False, repr(e)[:180])
 
+    # r2223: r2220-r2222 built the answer book (96 verdict rows, 6 live candidates folded
+    # into 4 questions, and a condition sentence per card) but it lived in research/ only
+    # -- the reader of the one-pager could not learn that 0 of those 4 can be ordered
+    # today, nor which gate bites.  The page carries ⑪ now: the legs ask the published
+    # files whether the section names every live card, its blocker, its capacity and the
+    # generation of the book it quoted (the book is rebuilt AFTER the page in the chain).
+    try:
+        _bad105 = ceo_page_answer_book_problems()
+        check("product: the CEO page says which conclusions can be ordered and what blocks them",
+              not _bad105, "; ".join(_bad105)[:240]
+              or "⑪ names every live card, the gate that blocks it, the capacity and the "
+                 "book generation it quoted")
+        _neg105 = ceo_page_answer_book_problems(face_override={
+            "to_order": {"basis_timing_size": [
+                {"what": "可下单条件",
+                 "text": "成本按声明的 bp 计。今天卡在：券商专线没通"}]}})
+        check("product: the answer-book predicate speaks when a blocker moves",
+              len(_neg105) >= 1, "negative control: %r" % (_neg105,))
+    except Exception as e:
+        check("product: the CEO page says which conclusions can be ordered and what blocks them",
+              False, repr(e)[:180])
+
+
+def ceo_page_answer_book_problems(face_override=None, root=None):
+    """Does the reader's page say what is still standing, and what blocks each one? (r2223)
+
+    The section is quoted, not recomputed, so this is a transcription question asked of
+    the two published files: every live card the book prints must appear in ⑪ together
+    with the blocker its OWN condition sentence names and the capacity figure it priced;
+    the section must stamp the generation it quoted, because the answer book is rebuilt
+    after this page in the chain (r1781).  The slice is section-scoped and fails closed
+    (r2208): a page that lost the ⑪ heading borrows no text from anywhere else.
+    """
+    root = root or os.path.dirname(os.path.abspath(__file__))
+    problems = []
+    fp = os.path.join(root, "results", "bench_verdict_book.json")
+    mp = os.path.join(root, "docs", "live_usage", "LIVE-latest.md")
+    jp = os.path.join(root, "docs", "live_usage", "LIVE-latest.json")
+    for p, name in ((fp, "results/bench_verdict_book.json"),
+                    (mp, "docs/live_usage/LIVE-latest.md"),
+                    (jp, "docs/live_usage/LIVE-latest.json")):
+        if not os.path.exists(p):
+            problems.append("%s missing" % name)
+    if problems:
+        return problems
+    with open(fp, encoding="utf-8") as fh:
+        book = json.load(fh) or {}
+    with open(jp, encoding="utf-8") as fh:
+        page = json.load(fh) or {}
+    with open(mp, encoding="utf-8") as fh:
+        md = fh.read()
+    if face_override:
+        book = json.loads(json.dumps(book))
+        book.update(face_override)
+
+    head = md.find("## ⑪ ")
+    tail = md.find("## ⑫ ")
+    if head < 0 or tail < 0 or tail <= head:
+        return ["page carries no ⑪ section before ⑫"]
+
+    sec = md[head:tail]
+    pw = page.get("answer_book") or {}
+    if not pw.get("present"):
+        return ["page payload carries no answer_book block"]
+    if pw.get("generated") and book.get("generated") and pw["generated"] != book["generated"]:
+        # the book moved after this page was drawn: the only thing still verifiable is
+        # that the section names the generation it actually quoted.
+        if pw["generated"] not in sec:
+            problems.append("section does not stamp the generation it quoted (%r)"
+                            % (pw.get("generated"),))
+        return problems
+    if book.get("generated") and book["generated"] not in sec:
+        problems.append("section does not stamp the book's own generated %r"
+                        % (book.get("generated"),))
+
+    rows = book.get("rows") or []
+    to_order = book.get("to_order") or {}
+    for cid, items in to_order.items():
+        live = [r for r in rows if r.get("id") == cid
+                and r.get("disposition") == "CANDIDATE"]
+        if not live:
+            continue
+        if cid not in sec:
+            problems.append("section does not name the live question %s" % cid)
+            continue
+        cond = next((i for i in items if i.get("what") == "可下单条件"), {}) or {}
+        text = cond.get("text") or ""
+        if "今天卡在：" in text:
+            blocker = text.split("今天卡在：")[-1].strip()
+            if blocker and blocker not in sec:
+                problems.append("section does not say %r is what blocks %s"
+                                % (blocker, cid))
+        cap = next((i for i in items if i.get("what") == "容量"), {}) or {}
+        m = re.search(r"([\d.]+)× 本书", cap.get("text") or "")
+        if m and m.group(1) not in sec:
+            problems.append("section does not print the %sx capacity for %s"
+                            % (m.group(1), cid))
+
+        # r2223: a face verdict that says "another word" is not actionable; the book now
+        # names the arm in the way and how far. If that sentence exists in the book it
+        # must reach the page, or the reader is back to guessing the distance.
+        face_line = next((i for i in items if i.get("what") == "脸级判词"), {}) or {}
+        ftext = face_line.get("text") or ""
+        if "差在哪：" in ftext:
+            arm = re.search(r"最近的未过臂 (.+?) 年化", ftext)
+            if "差在哪" not in sec:
+                problems.append("section does not say how far %s is from its face verdict" % cid)
+            elif arm and arm.group(1) not in sec:
+                problems.append("section does not name the arm in the way for %s (%r)"
+                                % (cid, arm.group(1)))
+
+    blocked = sum(1 for items in to_order.values()
+                  if any("今天卡在：" in (i.get("text") or "") for i in items))
+    want_n = len(to_order) - blocked
+    if to_order and ("今天能下单 %d 条" % want_n) not in sec:
+        problems.append("section does not print today's orderable count (%d)" % want_n)
+    return problems
+
 
 def ceo_page_wallet_ride_problems(face_override=None, root=None):
     """Does the reader's page carry the ride, with the ride face's own numbers? (r2205)
@@ -16918,9 +17036,9 @@ def ceo_page_wallet_ride_problems(face_override=None, root=None):
                 face[k] = v
 
     head = md.find("⑩c")
-    tail = md.find("⑪ 诚实免责")
+    tail = md.find("⑫ 诚实免责")
     if head < 0 or tail < 0 or tail <= head:
-        return ["page carries no ⑩c section before ⑪"]
+        return ["page carries no ⑩c section before ⑫"]
     sec = md[head:tail]
 
     wallet = ((face.get("arms") or {}).get("wallet") or {})

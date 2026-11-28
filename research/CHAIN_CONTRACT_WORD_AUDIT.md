@@ -1,12 +1,12 @@
 # 哪些链腿永远不会自己好
 
-> 生成 2026-11-28T17:57:08+0800 ｜ 链 `Tools\s6_chain_bmc.py` ｜ 419 腿 / 162 条带写者的腿
+> 生成 2026-11-28T19:07:45+0800 ｜ 链 `Tools\s6_chain_bmc.py` ｜ 420 腿 / 163 条带写者的腿
 
 ## 一句话
 
 链只在探针自己印出 **STALE**（或“face missing”）时才付钱重生一张面（r1934/r1850 判例，这条规矩是对的——放宽它等于用重生把真缺陷抹掉）。于是凡是把「上游动了」写成 “behind / moved / advanced” 而从不写 STALE 的腿，就成了**永久红**：写者永远不会被买，面停在旧 bar 上，只有人手动跑一次才会绿。
 
-读数：**162 条带写者的腿里 14 条不会说那个词，其中今天红着、且无法自愈的 0 条**。判词 **STRUCTURAL_RISK_ONLY**。
+读数：**163 条带写者的腿里 14 条不会说那个词，其中今天红着、且无法自愈的 0 条**。判词 **STRUCTURAL_RISK_ONLY**。
 
 ## 逐腿
 
@@ -35,5 +35,5 @@
 
 - 只查 `s6_chain_bmc.py` 的 LEGS 表；冒烟腿与人工跑的面不在射程。
 
-复现：`python scripts\chain_contract_word_audit.py run`（只跑候选腿，约 24.4s）；`--check` 静态复核 + 摘要门；`--selftest` 离线行为腿。
+复现：`python scripts\chain_contract_word_audit.py run`（只跑候选腿，约 20.1s）；`--check` 静态复核 + 摘要门；`--selftest` 离线行为腿。
 

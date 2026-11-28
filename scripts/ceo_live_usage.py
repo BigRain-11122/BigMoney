@@ -282,6 +282,20 @@ SLEEVE_TURNOVER_REL = "results/book_pair_sleeve_turnover.json"
 WALLET_RIDE_JSON = os.path.join(ROOT, "results", "three_book_wallet_ride.json")
 WALLET_RIDE_REL = "results/three_book_wallet_ride.json"
 
+# r2223: ⑤ counts the batches still burning and ⑥-⑩ price each book on its own, but
+# nothing on this page said which of the desk's OWN conclusions are still standing, what
+# each one would need before it can be ordered, or which of those conditions bites TODAY.
+# r2220-r2222 built that book (results/bench_verdict_book.json: 96 verdict rows, 6
+# candidates, and a `to_order` block that quotes each card's cost / capital line /
+# capacity and folds them into one condition sentence), but it lived in research/ only --
+# r1782: a decision that exists only in results/ is not a product.  Two laws apply:
+#   * the answer book is rebuilt at the TAIL of the chain, i.e. AFTER this leg, so the
+#     section prints the generation it quoted and never pretends to be current (r1781);
+#   * a probe leg right after the book pays a page redraw the moment the book moves, so
+#     the reader is one chain trip behind at worst, not one round.
+ANSWER_BOOK_JSON = os.path.join(ROOT, "results", "bench_verdict_book.json")
+ANSWER_BOOK_REL = "results/bench_verdict_book.json"
+
 # v2.2 (r1782): the index-futures carry book is the second money candidate, and
 # until now its only sentence on this page was nothing at all -- "this book buys
 # zero lots" lived in a research file.  The reader needs the funding line that
@@ -2893,6 +2907,57 @@ def _wallet_ride_face():
     }
 
 
+def _answer_book_face():
+    """r2223: what the desk's own verdict book says is still standing, and what blocks it.
+
+    Quoted, never re-derived: the book already decided which rows are CANDIDATE and
+    already wrote one condition sentence per card (`to_order`), so this function only
+    lifts three things per live question -- the verdict the card's row carries, the
+    capacity the book measured (a card nobody has sized stays "未测", never 0), and the
+    sentence that says which condition bites today.  A missing book reads as missing,
+    not as "nothing is standing" (r98 family).
+    """
+    d = _read_json(ANSWER_BOOK_JSON)
+    if not d:
+        return {"present": False, "path": ANSWER_BOOK_REL,
+                "note": "答案簿未产出（缺面不读 0）"}
+    rows = d.get("rows") or []
+    questions = []
+    for cid, items in (d.get("to_order") or {}).items():
+        mine = [r for r in rows if r.get("id") == cid]
+        live = [r for r in mine if r.get("disposition") == "CANDIDATE"]
+        cond = next((i for i in items if i.get("what") == "可下单条件"), {}) or {}
+        cap = next((i for i in items if i.get("what") == "容量"), {}) or {}
+        face = next((i for i in items if i.get("what") == "脸级判词"), {}) or {}
+        heads = [r.get("headline") or {} for r in live]
+        ann = next((h.get("ann_pct") for h in heads if h.get("ann_pct") is not None), None)
+        mdd = next((h.get("mdd_pct") for h in heads if h.get("mdd_pct") is not None), None)
+        questions.append({
+            "id": cid,
+            "family": (mine[0].get("family_label") if mine else None),
+            "verdicts": sorted({r.get("verdict") for r in live if r.get("verdict")}),
+            "arms": [r.get("arm") for r in live if r.get("arm")],
+            "ann_pct": ann,
+            "mdd_pct": mdd,
+            "capacity": cap.get("text"),
+            "capacity_source": cap.get("source"),
+            "face_verdict": face.get("text"),
+            "condition": cond.get("text"),
+            "blocked_on": ((cond.get("text") or "").split("今天卡在：")[-1]
+                           if "今天卡在：" in (cond.get("text") or "") else None),
+        })
+    return {
+        "present": True,
+        "path": ANSWER_BOOK_REL,
+        "generated": d.get("generated"),
+        "cutoff": d.get("evidence_cutoff"),
+        "n_rows": len(rows),
+        "n_questions": len(d.get("to_order") or {}),
+        "dispositions": d.get("dispositions") or {},
+        "questions": questions,
+    }
+
+
 # ---------------------------------------------------------------- v2.1 ----
 # Freshness (r1281).  Every section already prints its own asof, but nothing on
 # the page said HOW OLD those numbers are relative to the market the reader is
@@ -3388,6 +3453,11 @@ def build_payload(day: str) -> dict:
         # it asks is what a year of holding FEELS like -- a range and a path, and on
         # 2026-11-26 the book sat in the deepest hole of its published life.
         "wallet_ride": _wallet_ride_face(),
+        # r2223: the desk's own answers, and what each one still needs before it is an
+        # order.  Quoted from the answer book; the book is rebuilt after this leg, so the
+        # section stamps the generation it quoted and a probe leg behind the book redraws
+        # this page when the book moves (r1781 ordering law).
+        "answer_book": _answer_book_face(),
         # r1933: how many ETF-core yuan one hedged futures lot stands in for (three
         # rulers, never averaged) -- the seam between the two money candidates.
         "capital_substitution": _capital_substitution_face(),
@@ -5818,12 +5888,106 @@ def render_md(p: dict) -> str:
                  f"｜generated {wr.get('generated')}｜窗口 "
                  f"{_w.get('first')}~{_w.get('last')}（{_w.get('bars')} bar）")
     L.append("")
-    L.append("## ⑪ 诚实免责")
+    L.append("## ⑪ 今天哪条结论能下单、卡在哪（答案簿·纯读出）")
+    L.append("")
+    ab = p.get("answer_book") or {}
+    if not ab.get("present"):
+        L.append(f"- {ab.get('note') or '答案簿未产出'}（指针 "
+                 f"`{ab.get('path')}`）——**今天读不到「哪些结论还活着」；"
+                 "缺面不是「一条都没活」**")
+    else:
+        _qs = ab.get("questions") or []
+        _disp = ab.get("dispositions") or {}
+        _free = [q for q in _qs if not q.get("blocked_on")]
+        _n_blk = len(_qs) - len(_free)
+        if not _qs:
+            L.append("- 答案簿今天**没有可下单条目**：它的 `to_order` 是空的——"
+                     "这不是「都卡住了」，是**没有任何结论被推到下单这一步**")
+        else:
+            L.append(f"- 答案簿 {ab.get('n_rows')} 行判词里还活着 "
+                     f"**{_disp.get('CANDIDATE', 0)} 行**，收成 **{len(_qs)} 个问题**；"
+                     f"按它们自己的条件句，**今天能下单 {len(_free)} 条、"
+                     f"卡住 {_n_blk} 条**")
+        # Group by the blocker the book's own condition sentence names: the two basis
+        # cards share one sentence and the two commodity cards share another, so
+        # printing per card would be the same measurement offered twice (r1911) --
+        # and the group is what the reader can act on ("this gate is what bites").
+        _groups = {}
+        for q in _qs:
+            _groups.setdefault(q.get("blocked_on") or "", []).append(q)
+        for _blk in sorted(_groups, key=lambda k: (k == "", k)):
+            _grp = _groups[_blk]
+            if _blk:
+                L.append(f"- **今天卡在「{_blk}」的 {len(_grp)} 张**：")
+            else:
+                L.append(f"- **今天这一关都过了的 {len(_grp)} 张**（仍非下单指令，"
+                         "见 ⑫ 免责）：")
+            for q in _grp:
+                _v = "/".join(q.get("verdicts") or []) or "无判词"
+                _bits = [f"判词 **{_v}**"]
+                if q.get("ann_pct") is not None:
+                    _bits.append(f"年化 {q['ann_pct']:+.2f}%")
+                if q.get("mdd_pct") is not None:
+                    _bits.append(f"回撤 {q['mdd_pct']:+.2f}%")
+                L.append(f"  - `{q.get('id')}`（{q.get('family') or '未标族'}）："
+                         + " · ".join(_bits))
+                if q.get("face_verdict"):
+                    L.append(f"    - {q['face_verdict']}")
+            _cond = next((q.get("condition") for q in _grp if q.get("condition")), None)
+            if _cond:
+                L.append(f"  - 这一关怎么算过（答案簿原句）：{_cond}")
+            _cap = next((q for q in _grp if q.get("capacity")), None)
+            if _cap:
+                L.append(f"  - 容量这一关：{_cap['capacity']}"
+                         + (f"（{_cap['capacity_source']}）"
+                            if _cap.get("capacity_source") else ""))
+            else:
+                L.append("  - 容量这一关：**没有任何面量过**（未测不是零，"
+                         "先补一张容量面再谈下单）")
+        L.append(f"- 出处：`{ab.get('path')}`｜cutoff {ab.get('cutoff')}"
+                 f"｜generated {ab.get('generated')}——**答案簿在链尾重建，"
+                 "这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿"
+                 "会把这一页重画一遍")
+    L.append("")
+    L.append("## ⑫ 诚实免责")
     L.append("")
     for d in p["disclaimers"]:
         L.append(f"- {d}")
     L.append("")
     return "\n".join(L)
+
+
+def answer_book_check() -> int:
+    """r2223: has the answer book moved since this page was drawn?
+
+    The page leg runs BEFORE the two bench legs in the chain, so on the trip where the
+    book actually rewrites, this page quotes the previous trip's book.  That is legal
+    (the section prints the generation it quoted) but it should not last a whole round.
+    This probe is the cheap question that decides whether to pay for a redraw (~1.2s):
+    a book -- or the capacity face the book quotes -- with a newer mtime than the page
+    means the page is STALE, the word the chain pays for (r1850/r1907).  A missing face
+    is 'face missing', never OK: nothing to compare is not 'up to date'.
+    """
+    page = os.path.join(OUT_DIR, "LIVE-latest.md")
+    if not os.path.exists(page):
+        print("ceo_live_usage: face missing -- no page on disk to judge")
+        return 3
+    page_m = os.path.getmtime(page)
+    for rel, path in ((ANSWER_BOOK_REL, ANSWER_BOOK_JSON),
+                      ("results/bench_cmdty_capacity.json",
+                       os.path.join(ROOT, "results", "bench_cmdty_capacity.json"))):
+        if not os.path.exists(path):
+            print(f"ceo_live_usage: face missing -- {rel} not on disk")
+            return 3
+        moved = os.path.getmtime(path)
+        if moved > page_m:
+            print(f"ceo_live_usage: STALE -- {rel} written "
+                  f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(moved))}, "
+                  f"page drawn "
+                  f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(page_m))}")
+            return 3
+    print("ceo_live_usage: OK -- the page is at least as new as the answer book")
+    return 0
 
 
 def run() -> int:
@@ -6220,7 +6384,8 @@ def selftest() -> int:
                                  "⑧ 可转债双低书",
                                  "⑨ 一笔钱分两本书",
                                  "⑩ 这个月转债那半边该不该在仓里",
-                                 "⑪ 诚实免责")))
+                                 "⑪ 今天哪条结论能下单、卡在哪",
+                                 "⑫ 诚实免责")))
     # r2184: the sleeve-today block must (a) print the side the producer's own
     # `current.today` says, stamped with that producer's generation, and (b) say
     # "I could not read the rule" instead of printing a split when the face is
@@ -7518,6 +7683,62 @@ def selftest() -> int:
     _md_io4 = render_md(_po_ur)
     check("an unreadable input-order face says so, never fine (r1890)",
           "读不到不等于对得上" in _md_io4 and "少跑一趟" not in _md_io4)
+    # ---- r2223: the answer book on the page.  r2220-r2222 built the book and priced
+    # what each live conclusion still needs, but it lived in research/ only.  The legs
+    # below are deliberately SECTION-scoped (r2208: a whole-page substring proves
+    # nothing -- the same word lives in other sections) and fail closed: a page that
+    # lost the ⑪ heading gives an empty slice, so every assertion under it goes red
+    # instead of passing on text borrowed from somewhere else.
+    def _answer_sec(md_text):
+        i = md_text.find("## ⑪ ")
+        if i < 0:
+            return ""
+        j = md_text.find("\n## ", i + 5)
+        return md_text[i:j if j > 0 else len(md_text)]
+
+    _ab = p1.get("answer_book") or {}
+    _md_ab = render_md(p1)
+    _sec_ab = _answer_sec(_md_ab)
+    check("answer book: the page carries a ⑪ section at all (r2223)",
+          bool(_sec_ab))
+    if _ab.get("present"):
+        _qs_ab = _ab.get("questions") or []
+        check("answer book: every live question is on the page with its blocker (r2223)",
+              bool(_qs_ab)
+              and all(str(q.get("id")) in _sec_ab for q in _qs_ab)
+              and all((q.get("blocked_on") or "") in _sec_ab
+                      for q in _qs_ab if q.get("blocked_on")))
+        check("answer book: the section stamps the generation it quoted (r1781)",
+              bool(_ab.get("generated")) and _ab["generated"] in _sec_ab
+              and str(_ab.get("cutoff")) in _sec_ab)
+        # negative control: move the blocker (on every card that carried it) and the
+        # page must say the new word and stop printing the old one.
+        _p_ab = json.loads(json.dumps(p1))
+        _qs2 = _p_ab["answer_book"]["questions"]
+        _old = _qs2[0].get("blocked_on")
+        for _q in _qs2:
+            if _q.get("blocked_on") == _old:
+                _q["blocked_on"] = "保证金追缴线"
+                if _q.get("condition") and _old:
+                    _q["condition"] = _q["condition"].replace(_old, "保证金追缴线")
+        _sec2 = _answer_sec(render_md(_p_ab))
+        check("answer book: a moved blocker reaches the page (r2223)",
+              "保证金追缴线" in _sec2
+              and not (_old and _old != "保证金追缴线" and _old in _sec2))
+        _p_ab2 = json.loads(json.dumps(p1))
+        for _q in _p_ab2["answer_book"]["questions"]:
+            _q["blocked_on"] = None
+        _sec3 = _answer_sec(render_md(_p_ab2))
+        check("answer book: clearing every blocker reads as orderable, not as silence "
+              "(r2223)", "今天能下单" in _sec3
+              and f"今天能下单 {len(_p_ab2['answer_book']['questions'])} 条" in _sec3)
+    _p_abm = json.loads(json.dumps(p1))
+    _p_abm["answer_book"] = {"present": False, "path": ANSWER_BOOK_REL,
+                             "note": "答案簿未产出（缺面不读 0）"}
+    _sec_missing = _answer_sec(render_md(_p_abm))
+    check("answer book: a missing book reads as missing, never as 'none standing' (r2223)",
+          "读不到「哪些结论还活着」" in _sec_missing
+          and "今天能下单" not in _sec_missing)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
@@ -7526,6 +7747,8 @@ def main(argv):
     if len(argv) > 1 and argv[1] == "selftest":
         print("=== ceo_live_usage selftest (read-only, no network) ===")
         return selftest()
+    if len(argv) > 1 and argv[1] == "check":
+        return answer_book_check()
     return run()
 
 
