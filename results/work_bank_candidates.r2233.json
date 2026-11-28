@@ -1,0 +1,50 @@
+{
+ "face": "work_bank_candidates",
+ "round": "bm-c r2233",
+ "why": "W1_supply 红块的唯一缺失是「没人写下下一张卡」——18 张已答、7 张在飞、未取 0。本文件按 research/WORK-BANK.json 的卡格式写下三张新卡，等持有该面写权的轮次合入银行（本文件只读不写银行面：r1907 CONTENTION 下禁改共享面）。",
+ "schema_ref": "research/WORK-BANK.json",
+ "items": [
+  {
+   "id": "etf_loss_odds_cash_rate",
+   "question": "把现金腿从 0% 换成真实逆回购利率（GC001 日线，data 在盘）之后，生产候选书（无债 + 8% 波动目标）持有一年亏钱的起点数会降到多少？",
+   "type": "book_money",
+   "rule": "same_engine_plus_cash_leg",
+   "params": {"cash_rate_source": "data/repo_daily/GC001.csv", "vol_target": 0.08, "entry_lag": 1},
+   "cost_bp_side": 10.0,
+   "crit": {"H1_cagr_lift_pp": 1.0, "H2_losing_starts_drop_pct": 20.0, "H3_worst_12m_improve_pp": 1.0},
+   "target_edge_pp": 1.0,
+   "decides": "生产候选的赔率面要不要改用带息现金口径发布（现在的 0% 是保守设定，读者可能因此高估亏损概率）",
+   "blocked_on": "none — 逆回购面板与引擎都已在盘，scripts/etf_book_losing_odds.py 已具两条口径的骨架",
+   "status": "proposed",
+   "raised_by": "results/etf_book_losing_odds.json（本条把「现金 0% 计息」列为读数边界之一）"
+  },
+  {
+   "id": "etf_loss_odds_prehistory",
+   "question": "「持有一年 6.5% 的起点亏钱、完整年份六年零亏」这句话，在 2013-2019 前史面板上还成立吗？",
+   "type": "book_money",
+   "rule": "prehistory_rerun",
+   "params": {"window": "2013-01-01..2019-12-31", "same_engine": true, "vol_target": 0.08},
+   "cost_bp_side": 10.0,
+   "crit": {"H1_share_losing_inside_band": [0.02, 0.15], "H2_any_full_year_negative": true, "H3_maxdd_within_1_5x": true},
+   "target_edge_pp": 2.0,
+   "decides": "赔率面能不能跨到 2020 前发布；不能则页面必须写明「只在 2020 后有观测」",
+   "blocked_on": "none — scripts/etf_book_pre2020.py 与 results/etf_book_pre2020.json 都在盘，先读那条面判它覆盖的是哪个口径再定重跑范围",
+   "status": "proposed",
+   "raised_by": "results/etf_book_losing_odds.json（三年判读只有 2 个独立观测）"
+  },
+  {
+   "id": "etf_loss_start_onset_visible",
+   "question": "亏钱的 12 个月起点集中在 2020-2021，这件事在起点当天能不能用 t-1 可见状态看出来（篮子自身回撤深度 / 距前高的天数 / 已连涨月数）？",
+   "type": "book_money",
+   "rule": "onset_classifier",
+   "params": {"features": ["basket_dd_depth", "bars_since_high", "consecutive_up_months"], "shift_bars": 1},
+   "cost_bp_side": 0.0,
+   "crit": {"H1_auc": 0.60, "H2_block_perm_p": 0.05, "H3_independent_block_size": 20},
+   "target_edge_pp": 0.0,
+   "decides": "赔率面要不要加一句「什么状态下开始持有最容易亏」；不过线则页面只印历史事实、不给状态提示",
+   "blocked_on": "none — 与 r2232 的「承载超额的日子能不能事前认出」同法但不同标签（那里是超额 bar，这里是负一年窗口），必须用块置换门（r2232 已证 i.i.d. 门太窄）",
+   "status": "proposed",
+   "raised_by": "results/etf_book_losing_odds.json losing_start_years = {2020: 20, 2021: 67, 2023: 5, 2025: 1}"
+  }
+ ]
+}
