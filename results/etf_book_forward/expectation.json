@@ -1,0 +1,484 @@
+{
+ "backtest": {
+  "carry": "on (the arm the live path is on; see `ruler`)",
+  "carry_note": "ladder3 (GC007/GC014/GC028) commission charged",
+  "config": {
+   "cash": "cash held at the start of a bar earns that bar's repo carry (ladder3 = GC007/GC014/GC028 equal rungs, exchange commission charged, panel from scripts/update_repo.py); --carry=0 reproduces the zero-carry book",
+   "classes": [
+    "equity",
+    "commodity",
+    "convertible"
+   ],
+   "cost_per_side": 0.001,
+   "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+   "n_hold": 12,
+   "rebal": 20,
+   "vol_target": 0.08
+  },
+  "engine": "etf_book_forward.Forward (the same state machine the ledger runs)",
+  "faces": {
+   "bars": 1673,
+   "cagr": 0.087287,
+   "max_drawdown": -0.132645,
+   "sharpe": 0.8926,
+   "vol_annual": 0.099314
+  },
+  "first_bar": "2020-01-02",
+  "last_bar": "2026-11-27",
+  "mean_cash_share": 0.2913,
+  "mean_turnover": 0.9382,
+  "n_fills": 84,
+  "panel_flips_repaired": 169
+ },
+ "caveats": [
+  "26 bars is five weeks. The overlapping window count is not a sample size; the disjoint count is, and both are printed.",
+  "The pool is today's listed ETFs, so the equity sleeve still carries survivorship (inherited from the backtest, not introduced here).",
+  "A window inside the historical range is not evidence the book is fine -- it is evidence that nothing in these five weeks separates it from the backtest.",
+  "The live book is running at 12.00% annualised vol against an 8.00% target on a 26-bar estimate: the vol window is the one number this face cannot separate from noise at this length.",
+  "Research output, not an investment recommendation."
+ ],
+ "evidence_cutoff": "2026-11-27",
+ "excess_vs_basket": {
+  "21": {
+   "bars": 21,
+   "label": "4 weeks",
+   "live_excess": 0.027942,
+   "share_as_bad_or_worse": 0.89958,
+   "verdict": "INSIDE_THE_USUAL_RANGE",
+   "windows": {
+    "max": 0.095984,
+    "mean": 0.000118,
+    "median": 0.00025,
+    "min": -0.088636,
+    "n": 1653,
+    "p05": -0.038857,
+    "p10": -0.028088,
+    "p25": -0.012955,
+    "p75": 0.014303,
+    "p90": 0.027954,
+    "p95": 0.036932,
+    "sd": 0.023863
+   }
+  },
+  "26": {
+   "bars": 26,
+   "label": "5 weeks (the live window)",
+   "live_excess": 0.027942,
+   "share_as_bad_or_worse": 0.87379,
+   "verdict": "INSIDE_THE_USUAL_RANGE",
+   "windows": {
+    "max": 0.09228,
+    "mean": 0.000262,
+    "median": 1.9e-05,
+    "min": -0.104653,
+    "n": 1648,
+    "p05": -0.043643,
+    "p10": -0.030313,
+    "p25": -0.014573,
+    "p75": 0.016672,
+    "p90": 0.031998,
+    "p95": 0.04233,
+    "sd": 0.025937
+   }
+  },
+  "42": {
+   "bars": 42,
+   "label": "8 weeks",
+   "live_excess": 0.027942,
+   "share_as_bad_or_worse": 0.82353,
+   "verdict": "INSIDE_THE_USUAL_RANGE",
+   "windows": {
+    "max": 0.11471,
+    "mean": 0.00049,
+    "median": -0.000792,
+    "min": -0.109922,
+    "n": 1632,
+    "p05": -0.048638,
+    "p10": -0.036088,
+    "p25": -0.018534,
+    "p75": 0.019979,
+    "p90": 0.040081,
+    "p95": 0.053989,
+    "sd": 0.031966
+   }
+  },
+  "63": {
+   "bars": 63,
+   "label": "3 months",
+   "live_excess": 0.027942,
+   "share_as_bad_or_worse": 0.77964,
+   "verdict": "INSIDE_THE_USUAL_RANGE",
+   "windows": {
+    "max": 0.141181,
+    "mean": 0.000277,
+    "median": -0.001531,
+    "min": -0.125825,
+    "n": 1611,
+    "p05": -0.058853,
+    "p10": -0.043852,
+    "p25": -0.022462,
+    "p75": 0.024885,
+    "p90": 0.045661,
+    "p95": 0.067391,
+    "sd": 0.039196
+   }
+  }
+ },
+ "generated_ts": "2026-11-28T23:46:53+0800",
+ "horizons": {
+  "21": {
+   "bars": 21,
+   "disjoint": {
+    "drawdowns": {
+     "max": -0.001739,
+     "mean": -0.022985,
+     "median": -0.017383,
+     "min": -0.096974,
+     "n": 79,
+     "p05": -0.049142,
+     "p10": -0.040974,
+     "p25": -0.028953,
+     "p75": -0.012738,
+     "p90": -0.007839,
+     "p95": -0.006323,
+     "sd": 0.015405
+    },
+    "n": 79,
+    "returns": {
+     "max": 0.132355,
+     "mean": 0.008194,
+     "median": 0.006651,
+     "min": -0.053857,
+     "n": 79,
+     "p05": -0.02869,
+     "p10": -0.020486,
+     "p25": -0.006952,
+     "p75": 0.020537,
+     "p90": 0.033111,
+     "p95": 0.045521,
+     "sd": 0.026705
+    }
+   },
+   "drawdowns": {
+    "max": -0.001388,
+    "mean": -0.023589,
+    "median": -0.01961,
+    "min": -0.096974,
+    "n": 1653,
+    "p05": -0.054076,
+    "p10": -0.046763,
+    "p25": -0.029604,
+    "p75": -0.013422,
+    "p90": -0.009304,
+    "p95": -0.00641,
+    "sd": 0.01523
+   },
+   "label": "4 weeks",
+   "live_dd": -0.026986,
+   "live_return": -0.011378,
+   "one_in_drawdown": 3,
+   "one_in_returns": 5,
+   "returns": {
+    "max": 0.161772,
+    "mean": 0.00762,
+    "median": 0.00571,
+    "min": -0.067011,
+    "n": 1653,
+    "p05": -0.031933,
+    "p10": -0.021721,
+    "p25": -0.008789,
+    "p75": 0.020181,
+    "p90": 0.038811,
+    "p95": 0.053246,
+    "sd": 0.026702
+   },
+   "share_as_bad_or_worse": 0.21113,
+   "share_dd_as_deep_or_deeper": 0.31337,
+   "verdict_drawdown": "INSIDE_THE_USUAL_RANGE",
+   "verdict_return": "INSIDE_THE_USUAL_RANGE"
+  },
+  "26": {
+   "bars": 26,
+   "disjoint": {
+    "drawdowns": {
+     "max": -0.004986,
+     "mean": -0.027467,
+     "median": -0.021747,
+     "min": -0.096974,
+     "n": 64,
+     "p05": -0.063026,
+     "p10": -0.053455,
+     "p25": -0.03604,
+     "p75": -0.014499,
+     "p90": -0.011038,
+     "p95": -0.009808,
+     "sd": 0.017912
+    },
+    "n": 64,
+    "returns": {
+     "max": 0.147857,
+     "mean": 0.007958,
+     "median": 0.008534,
+     "min": -0.064644,
+     "n": 64,
+     "p05": -0.037751,
+     "p10": -0.034029,
+     "p25": -0.012297,
+     "p75": 0.023373,
+     "p90": 0.042328,
+     "p95": 0.054212,
+     "sd": 0.033983
+    }
+   },
+   "drawdowns": {
+    "max": -0.001388,
+    "mean": -0.026621,
+    "median": -0.022706,
+    "min": -0.096974,
+    "n": 1648,
+    "p05": -0.056744,
+    "p10": -0.051158,
+    "p25": -0.033696,
+    "p75": -0.014795,
+    "p90": -0.01121,
+    "p95": -0.008134,
+    "sd": 0.01583
+   },
+   "label": "5 weeks (the live window)",
+   "live_dd": -0.026986,
+   "live_return": -0.011378,
+   "one_in_drawdown": 3,
+   "one_in_returns": 5,
+   "returns": {
+    "max": 0.181581,
+    "mean": 0.009649,
+    "median": 0.006905,
+    "min": -0.064644,
+    "n": 1648,
+    "p05": -0.034233,
+    "p10": -0.023415,
+    "p25": -0.009363,
+    "p75": 0.02427,
+    "p90": 0.044655,
+    "p95": 0.062686,
+    "sd": 0.029309
+   },
+   "share_as_bad_or_worse": 0.22209,
+   "share_dd_as_deep_or_deeper": 0.38956,
+   "verdict_drawdown": "INSIDE_THE_USUAL_RANGE",
+   "verdict_return": "INSIDE_THE_USUAL_RANGE"
+  },
+  "42": {
+   "bars": 42,
+   "disjoint": {
+    "drawdowns": {
+     "max": -0.008134,
+     "mean": -0.033407,
+     "median": -0.029152,
+     "min": -0.096974,
+     "n": 39,
+     "p05": -0.05815,
+     "p10": -0.054411,
+     "p25": -0.046937,
+     "p75": -0.018375,
+     "p90": -0.01535,
+     "p95": -0.0135,
+     "sd": 0.018331
+    },
+    "n": 39,
+    "returns": {
+     "max": 0.111437,
+     "mean": 0.017373,
+     "median": 0.013671,
+     "min": -0.06248,
+     "n": 39,
+     "p05": -0.033636,
+     "p10": -0.019714,
+     "p25": -0.013106,
+     "p75": 0.038719,
+     "p90": 0.062004,
+     "p95": 0.092904,
+     "sd": 0.03813
+    }
+   },
+   "drawdowns": {
+    "max": -0.008134,
+    "mean": -0.033944,
+    "median": -0.030976,
+    "min": -0.096974,
+    "n": 1632,
+    "p05": -0.065859,
+    "p10": -0.056744,
+    "p25": -0.046234,
+    "p75": -0.021716,
+    "p90": -0.015459,
+    "p95": -0.013425,
+    "sd": 0.016814
+   },
+   "label": "8 weeks",
+   "live_dd": -0.026986,
+   "live_return": -0.011378,
+   "one_in_drawdown": 2,
+   "one_in_returns": 4,
+   "returns": {
+    "max": 0.226409,
+    "mean": 0.016293,
+    "median": 0.01144,
+    "min": -0.09497,
+    "n": 1632,
+    "p05": -0.033409,
+    "p10": -0.024051,
+    "p25": -0.009293,
+    "p75": 0.036223,
+    "p90": 0.062602,
+    "p95": 0.083157,
+    "sd": 0.038347
+   },
+   "share_as_bad_or_worse": 0.22365,
+   "share_dd_as_deep_or_deeper": 0.60233,
+   "verdict_drawdown": "INSIDE_THE_USUAL_RANGE",
+   "verdict_return": "INSIDE_THE_USUAL_RANGE"
+  },
+  "63": {
+   "bars": 63,
+   "disjoint": {
+    "drawdowns": {
+     "max": -0.008134,
+     "mean": -0.040992,
+     "median": -0.034941,
+     "min": -0.098288,
+     "n": 26,
+     "p05": -0.074112,
+     "p10": -0.064794,
+     "p25": -0.054827,
+     "p75": -0.027759,
+     "p90": -0.021755,
+     "p95": -0.017909,
+     "sd": 0.020458
+    },
+    "n": 26,
+    "returns": {
+     "max": 0.130526,
+     "mean": 0.025356,
+     "median": 0.017464,
+     "min": -0.05536,
+     "n": 26,
+     "p05": -0.020186,
+     "p10": -0.018734,
+     "p25": -0.006771,
+     "p75": 0.042259,
+     "p90": 0.096298,
+     "p95": 0.121832,
+     "sd": 0.045709
+    }
+   },
+   "drawdowns": {
+    "max": -0.008134,
+    "mean": -0.041052,
+    "median": -0.038482,
+    "min": -0.099468,
+    "n": 1611,
+    "p05": -0.069444,
+    "p10": -0.060173,
+    "p25": -0.052263,
+    "p75": -0.027629,
+    "p90": -0.021716,
+    "p95": -0.02092,
+    "sd": 0.017371
+   },
+   "label": "3 months",
+   "live_dd": -0.026986,
+   "live_return": -0.011378,
+   "one_in_drawdown": 1,
+   "one_in_returns": 5,
+   "returns": {
+    "max": 0.282514,
+    "mean": 0.025853,
+    "median": 0.01823,
+    "min": -0.073613,
+    "n": 1611,
+    "p05": -0.034451,
+    "p10": -0.025905,
+    "p25": -0.006455,
+    "p75": 0.048933,
+    "p90": 0.084503,
+    "p95": 0.112629,
+    "sd": 0.04926
+   },
+   "share_as_bad_or_worse": 0.20174,
+   "share_dd_as_deep_or_deeper": 0.78957,
+   "verdict_drawdown": "INSIDE_THE_USUAL_RANGE",
+   "verdict_return": "INSIDE_THE_USUAL_RANGE"
+  }
+ },
+ "live": {
+  "bars": 26,
+  "cash_last": 0.090616,
+  "drawdown_last": -0.026986,
+  "first_bar": "2026-10-23",
+  "flat_bars": {
+   "flat_bars": 0,
+   "share": 0.0
+  },
+  "last_bar": "2026-11-27",
+  "ledger": "results/etf_book_forward/LEDGER.json",
+  "ledger_sha256_16": "f067f3b6447af067",
+  "nav_last": 0.98862169,
+  "open_names": 12,
+  "realised_vol_annual": 0.120031,
+  "scale_in_force": 0.909384,
+  "total_return": -0.011378
+ },
+ "recovery": {
+  "0.0114": {
+   "censored_still_under_water": 1,
+   "depth": 0.0114,
+   "episodes": 23,
+   "max_bars": 392,
+   "median_bars": 14,
+   "p90_bars": 159,
+   "recovered": 22,
+   "share_within_63": 0.6818
+  },
+  "0.0270": {
+   "censored_still_under_water": 1,
+   "depth": 0.027,
+   "episodes": 14,
+   "max_bars": 389,
+   "median_bars": 76,
+   "p90_bars": 226,
+   "recovered": 13,
+   "share_within_63": 0.4615
+  }
+ },
+ "ruler": {
+  "carry_off_face": {
+   "bars": 1673,
+   "cagr": 0.081387,
+   "max_drawdown": -0.135692,
+   "sharpe": 0.8378,
+   "vol_annual": 0.099311
+  },
+  "carry_on_face": {
+   "bars": 1673,
+   "cagr": 0.087287,
+   "max_drawdown": -0.132645,
+   "sharpe": 0.8926,
+   "vol_annual": 0.099314
+  },
+  "gap_cagr_pp": 0.59,
+  "ledger_config_cash_field": "cash leg earns 0 in the ledger (disclosed, not modelled away)",
+  "live_bars": 26,
+  "live_bars_with_carry": 23,
+  "live_books_cash_carry": true,
+  "note": "the ledger's `config.cash` field ('cash leg earns 0 in the ledger (disclosed, not modelled away)') contradicts its own bars: 23 of 26 book a positive carry, and its `engine.cash_leg` says the repo ladder is charged. This face reads the bars, and says so rather than picking the string."
+ },
+ "schema": "etf-book-forward-expectation/v1",
+ "verdict": {
+  "drawdown_reading": "INSIDE_THE_USUAL_RANGE",
+  "one_in_drawdown": 3,
+  "one_in_returns": 5,
+  "return_reading": "INSIDE_THE_USUAL_RANGE",
+  "sentence": "The live book is -1.14% after 26 bars (2026-10-23 to 2026-11-27). In this book's own history, 22.2% of 26-bar windows ended at or below that, i.e. roughly one window in 5; the drawdown of 2.70% was matched or exceeded by 39.0% of windows (one in 3). Against a plain four-ETF basket the same window is +2.79pp, which sits at the 87.4% mark of the book's own excess windows. Reaching this depth has happened 23 times since 2020-01-02; the book came back in a median of 14 bars (68% within a quarter), so the honest expectation is weeks under water, not days."
+ }
+}
