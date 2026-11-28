@@ -248,6 +248,7 @@ def summarize(rows, unmeasured, n_same_day, other_unmeasured=0, n_events=0):
         "identity_max_residual_pp": max(resids) if resids else None,
         "identity_rows_checked": len(resids),
         "by_lag_median_abs_pp": {k: statistics.median(v) for k, v in sorted(by_lag.items())},
+        "by_lag_n": {k: len(v) for k, v in sorted(by_lag.items())},
         "per_code": {code: {
             "n": len(v),
             "median_abs_error_pp": statistics.median([abs(x["error_pp"]) for x in v]),
@@ -349,6 +350,9 @@ def build(snaps, index, hist):
     tapes.update({k: v for k, v in tapes_s.items()
                   if k not in tapes})
     band = band_check(rows, tapes)
+    # the published row list is the tail, not the population: aggregates are the
+    # face, and a 3.6 MB re-commit every session is a cost with no reader
+    tail = sorted(rows, key=lambda r: -abs(r["error_pp"]))[:30]
     latest = max([r["session"] for r in rows], default=None)
     face = {
         "generated": None,
@@ -356,7 +360,10 @@ def build(snaps, index, hist):
         "n_snapshots": len(snaps),
         "summary": summary,
         "band": band,
-        "rows": rows,
+        "n_rows": len(rows),
+        "rows": tail,
+        "rows_note": ("the 30 largest |error| rows; the aggregate in `summary` is "
+                      "derived over all rows, rerun `run` for the population"),
         "verdict": verdict_for(summary),
         "statement": None,
         "thresholds": {"big_error_pp": 100.0 * BIG_ERROR_LINE,
@@ -462,9 +469,7 @@ def write_faces(face):
             code, st["n"], 100 * st["median_printed_premium"],
             st["median_abs_error_pp"], st["max_abs_error_pp"]))
     if s["by_lag_median_abs_pp"]:
-        counts = {}
-        for r in face["rows"]:
-            counts[str(r["lag_trading_days"])] = counts.get(str(r["lag_trading_days"]), 0) + 1
+        counts = s.get("by_lag_n") or {}
         lines += ["", "### By lag length", "",
                   "| lag (trading days) | prints | median abs error |", "|---|---|---|"]
         for lag, med in s["by_lag_median_abs_pp"].items():
@@ -477,6 +482,8 @@ def write_faces(face):
             if b_.get("n"):
                 lines.append("| %s | %d | %.2f pp |"
                              % (k, b_["n"], b_["median_abs_error_pp"]))
+    lines += ["", "Rows published above are the 30 largest |error| of %d; the "
+              "aggregates are derived over every row." % face.get("n_rows", 0), ""]
     lines += ["", "### Identity check (printed - true == r*(1+true))", "",
               "| rows checked | max abs residual |", "|---|---|",
               "| %d | %.2e pp |" % (s["identity_rows_checked"],
@@ -505,8 +512,8 @@ def run_check():
     face = build(_snapshot_prints(snaps), L.index_of(L.load_calendar()),
                  load_history(HIST_PATH))
     on_disk = json.load(open(OUT_JSON, encoding="utf-8"))
-    problems = [k for k in ("evidence_cutoff", "summary", "band", "verdict",
-                            "rows", "statement")
+    problems = [k for k in ("evidence_cutoff", "n_rows", "summary", "band",
+                            "verdict", "rows", "statement")
                 if on_disk.get(k) != face.get(k)]
     if problems:
         print("STALE: %s drifted from its inputs (%s). Rerun `run`."

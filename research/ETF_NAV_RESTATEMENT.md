@@ -1,6 +1,6 @@
 # ETF NAV restatement face
 
-Generated 2026-11-28T23:20:20+0800 · evidence cutoff 2026-11-26
+Generated 2026-11-28T23:22:25+0800 · evidence cutoff 2026-11-26
 
 Verdict: `THE_DISPLACEMENT_IS_THE_NAV_DAY_AND_IT_IS_SMALL_ON_MEDIAN`
 
@@ -36,6 +36,9 @@ Verdict: `THE_DISPLACEMENT_IS_THE_NAV_DAY_AND_IT_IS_SMALL_ON_MEDIAN`
 | 0.5-1% | 1850 | 0.70 pp |
 | 1-2% | 1394 | 1.32 pp |
 | >=2% | 376 | 2.47 pp |
+
+Rows published above are the 30 largest |error| of 6505; the aggregates are derived over every row.
+
 
 ### Identity check (printed - true == r*(1+true))
 
