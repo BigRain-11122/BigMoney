@@ -2894,3 +2894,43 @@ Tools/_r820bmc_close.py（已提交但 line 130 字面量未闭合，永不可�
 | 2026-11-28T07:39+08:00 | 2207 | 修红：把整个「面代差」族从 11-26 推到 11-27——先让溢价面板自己的写者把 premium_history 推进（6536→6541 行），再重 derive 十大 ETF 面 + 两张期指面，13 面逐面 check rc=0；CEO 页重新发布，四处带日期面全部同步 2026-11-27。可读产品：11-27 这张票上有两只腿在自己历史溢价的最高 2%（159655=99.3 分位 / 510760=99.7 分位），同族历史上≥98 分位之后的下一交易日溢价中位 +0.32%、34% 下跌（139 例）；篮子判词不变 HIGH_PREMIUM_PAYS（h=20，rank-IC +0.012）。未清（如实）：k_grid identity arm gap 0.27pp 与 ceo_page 475/479 同源，根在 identity arms 面还停在 11-26；METHODOLOGY_ASSETS L18125 一枚 0x08 被 treasure_guard 硬拒故不动；全量冒烟未在终态复跑故不宣称红数下降。竞争 CLEAN、孤儿面 0、decisions/orders 水位零新、未回执 0 | QA qa/face-lag-clear-r2207.md；面上证据 results/etf_premium/PREMIUM-FORWARD.json + docs/live_usage/LIVE-2026-11-28.md；竞争 results/_repo_write_contention.bm-c.json | 下一轮：刷 identity arms 面 + 复跑全量冒烟拿真实红数
 | 2026-11-28T08:06+08:00 | 2208 | 修红闭环：CEO 页三行压回同一把尺子。真因=第一行出自 etf_book_window_label 面，该面停在 11-26 （panel 指纹 fdb64c20→612e4257，自检只重算自己故一直绿）而另两行已到 11-27 → k_grid 差 0.27pp、band_ruler 身份门 IDENTITY_FAILED 并拒报旋钮价。自下而上重 derive：window_label（票 2024+ 11.76%→12.03%、full 7.32→7.44）→ 重发 CEO 页（三行 priced_bar 全 2026-11-27）→ band_ruler（三臂 delta 全 0.000 PASS，旋钮 起点+4.56/股票池+0.43/信号时点-0.26/成本-0.15）→ k_grid rc0 GRID_COSTS delta=-0.28pp spread=0.45pp；另修两条自检红：L75 假红（整页子串撞上回购梯「5 年 +5.9 bp」，断言改为切成本带小节、标题改名则空切片 fail-closed）、L240（do_or_wait 记上游 digest 故重 derive 后自身 stale，13/13）。页自检 479/479（原 475/479）；--only 六链腿 6/6 rc0；attrition CLEAN；竞争 rc0 CLEAN 单宿主；孤儿面 0；未回执 0；decisions 与 orders 水位零新 | QA qa/ceo-page-one-ruler-r2208.md；链记录 results/_r2208bmc_s6_chain.only-cut_order_gap-do_or_wait-etf_book_band+6-75357c24.json；页面 docs/live_book/LIVE-BOOK-20261128.md L728/L791/L794 | 下一轮：live_book_section_bars 判 PAGE_MIXES_BARS（75 节仅 35 节在 11-27，最旧 alias_census 停在 11-17，另 3 节无日期）+ 全量冒烟取真实红数，窗 ≤48h |
 | 2026-11-28T09:27:23+08:00 | 2209 | 本轮主产出=修两个「自己说自己坏」的实缺陷（不是新面）：①`Tools/_r820bmc_close.py` 自提交起不可解析（L130 字符串未闭合）→ 补两枚引号后 py_compile rc=0，并重 derive `import_git_coverage` 面：`committed files that cannot be parsed: 1 broken → 0 broken`（面原文 EVERY_IMPORTED_MODULE_AND_EVERY_NAMED_LEG_IS_IN_GIT，2953 文件 / 21055 imports / 3569 边，imports missing in git: 0，链名脚本 345 全在盘全在 git）——清掉 r2200/r2203 挂了两轮的 repair-or-retire 欠账；②`round_reports-bm-c.md` L2895（r2208 那行）是没被格式化的模板，字面百分号占位行加单百分号泄漏 → 就地代入 2026-11-28T08:06+08:00 / 2208 并还原 `%`，正文一字未改、残留占位符与双百分号均为 False。| 验证：py_compile rc=0（修前 SyntaxError L130）·treasure_guard prescan rc=0 零命中·rg 证明无任何代码 import 该文件·import_git_coverage run rc=0 且 0 broken·轮报行 L2895 修后自检双干净 | 水印红牌=false lane=healthy；decisions.md origin blob 250,586B sha 79e3083b85c1 == 自持水位（零新决策）；orders.md 115,550B sha 9ff2f31c4d38 与上轮同（零新增涉本司行）；fleet/orders 119 文件 vs 心跳 ack 337 → 未回执 0；fleet/inbox 空；board open=0；孤儿面=0（py_faces=6 orphans=0 resident_servers=2）；竞争探针 rc=0 CLEAN（results/_repo_write_contention.bm-c.json，单宿主 pid=24212）；本地未达 origin commit 数=0。**在飞链占共享面（如实）**：pid 33880 `python -u Tools\s6_chain_bmc.py 2209` 09:04:54 起、round=2209 已 leg_done 106/415，非零腿仅 capital_marginal_road rc=3；当前腿 `etf_book_pre2020.py refresh` 09:20:49 起 21 分钟、8 秒采样 CPU +7.98s=活性正常非死锁 → 按 r1907 同树多宿主律本轮不重跑链、不抢共享面，故**不宣称红数下降**；`live_book_section_bars` check=CHECK_OK verdict=PAGE_MIXES_BARS headline=2026-11-27 off=36 unknown=4，其中 lag=1 的 30 节由在飞链负责（etf_book_spanning 已被它刷到 11-27 实证）。CEO 三行：当前活=收两枚实缺陷 + 让出共享面给在飞全链 | 最近实物=results/import_git_coverage.json（0 broken）与 round_reports-bm-c.md L2895 修好 | 下个里程碑=等全链落地后复核 36 节代差是否闭合并复跑全量冒烟拿真实红数，窗 ≤48h | QA qa/fix-broken-close-script-r2209.md
+
+## 2026-11-28T09:59+08:00 ｜ r2210 ｜ 新面：回撤事件日记（每一次跌下去，用了多久爬回来）
+
+**实况三行**
+- 当前活：S1 全量冒烟跑完取真实红数（676 腿 / 12 红，逐条判归属）+ 本轮新增一个可读面
+- 最近实物：results/three_book_drawdown_diary.json + research/THREE_BOOK_DRAWDOWN_DIARY.md（2026-11-28T09:5x+08:00，18/18 selftest 绿）
+- 下个里程碑：把这条面接上链腿与冒烟腿（本轮共享面被在飞全链占用故未接，窗 ≤48h）+ 12 条冒烟红按归属复判
+
+**判词**：THE_DEEPEST_HOLE_IS_THE_ONE_YOU_ARE_SITTING_IN —— 把钱包的同一根已发布序列切成 63 次
+「峰→谷→回原高」事件：中位深度 -0.57%、**≥2% 的 14 次深坑中位 54 根 bar（78 日历天）才回原高、最长 208 根**；
+今天这一格是整窗最深（-6.72%，2026-01-29 起、谷底 2026-11-26），已水下 **198 bar / 301 天**，本窗没有任何
+已关闭事件至少这么深 → 「多久回来」没有直接先例，只能给分布；最近的尺子（比它浅的 62 次）中位 6 bar、
+最长 208 bar，今天已越过所有更浅先例的长端。
+**动作**：新增 scripts/three_book_drawdown_diary.py（run/check/selftest/show），只读 three_book_wallet.load_books()
++ blend() 重建同一根钱包序列，不重算策略；面带 identity 三腿（最深事件==父面 maxdd、今天==ride 面 peak/hole/bars、
+事件与新高 bar 恰好铺满窗口）与漂移分类（上游动=STALE rc3、自相矛盾=CHECK FAILED rc2 不带 STALE）。
+**S1 冒烟（本轮终局）**：全量 **808 腿 / 775 PASS / 33 FAIL**（跑完 1077s；中段 3 红、后段 12 红是链推进中
+的中间态读数，终局才是判据）。33 红按归属分三族：①**在飞全链未跑到的写者**（premium_percentile_write 链位
+146 / etf_book_order 148 / ceo_live_usage 281 / permission_vs_size 342 vs 链当前 115/415；ticket-check 原文
+「ticket reads the 2026-11-26 face, this face is 2026-11-27」、permission_vs_size 原文 STALE + 上游面 moved）
+②CEO 页与钱包族小节缺自印戳/缺判词（r1781 与 wallet ladder 文档，同一批写者未到）③METHODOLOGY_ASSETS
+L18125 一枚 0x08（r2207 已知，被 treasure_guard 硬拒）。
+**唯一确认的硬缺陷（不是面代差）**：`results/etf_premium/PREMIUM-2026-11-27.json` legs/4 159519 = 
+MONEY_ON_FOREIGN_NAV —— 这腿把 CNY 金额（-635.17）印在 2026-11-26 的 NAV 上，同时标 trust=
+`iopv+same-day-nav` 自相矛盾（同文件的 159655 在 11-27 无官方净值时正确降级 unverified/None）。
+实测净值板：159519 的 11-27 官方单位净值=1.7010 已发布，面里的 IOPV=1.6974 接近 11-26 的 1.6969——
+即钱真的按昨日 NAV 算，而这一天更准的分母已在盘后公布。两条候选修法（下一轮 P0，不盲改）：
+（a）nav board 有当日官方净值时改用官方 NAV 做分母重算 premium 与金额（影响整族读数，须整族重发）；
+（b）保守档：分母非本 session 时一律降级 unverified 且金额置 None。本轮不动在飞链正在写的定价语义。
+**S0/S0.5 实况**：machine.json=bm-c；repo_write_contention --lookback-min 45 = **rc0 CLEAN**（<2 hosts，
+本宿主 pid 39812）；孤儿面 **orphans=0**（py_faces 6 / resident_servers 2）；orders 119 件 vs 心跳 ack 337 →
+**未回执差集 0**；集团 docs/decisions.md 原生字节 250,586B sha256 79e3083b85c1 == 自持水位 → **零新决策零动作**；
+fleet/inbox 无件；saturation_engine status rc0 alive（idle, claimable 0）；watermark red=false lane=healthy；
+本地未达 origin commit 数=0。
+**在飞面（如实）**：pid 33880 `Tools\s6_chain_bmc.py 2209` 09:04:54 起、115/415 腿（1 非零 =
+capital_marginal_road rc3），进度件 09:48 仍在写 → 本轮不重跑链、不抢共享面。
+**记账**：轮报告 1 + state 1 + 心跳 1 = 3（QA/脚本/面/研究文档属产品产出不计记账）。
+**未做**：链腿与冒烟腿未接（共享面被在飞链占用）；全链 415 腿未由本窗整跑；本面是 2020-2026 样本内形状不是预测。
+
+| 2026-11-28T09:59+08:00 | 2210 | 新面「回撤事件日记」（63 次事件、≥2% 深坑中位 54 bar/最长 208 才回原高；今天 -6.72% 是整窗最深、已水下 198 bar/301 天、无更深先例可比）+ 全量冒烟终局 808 腿/33 红逐族归属，揪出一条硬缺陷（溢价面 159519 把钱印在昨日 NAV 上且标 same-day） | run rc0 · check rc0（identity 三腿全 True）· selftest 18/18（含 5 条行为腿）· 冒烟 775/808 PASS 33 FAIL · premium_leg_session_audit 27 面/146 腿复现 MONEY_ON_FOREIGN_NAV 1 例并实测净值板定谳 · attrition CLEAN · 竞争 CLEAN · 孤儿面 0 · 未回执 0 · decisions 水位零新 | 下一轮：溢价分母语义 P0（两候选修法）+ 接新面链腿/冒烟腿 + 链落地后复跑冒烟 |
