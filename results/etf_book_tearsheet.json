@@ -1,26 +1,26 @@
 {
  "tool": "etf_book_tearsheet",
- "evidence_cutoff": "2026-11-20",
+ "evidence_cutoff": "2026-11-27",
  "first_bar": "2020-01-03",
- "bars": 1667,
+ "bars": 1672,
  "config": {
   "rebal": 20,
   "n_hold": 5,
   "cost_bp_per_side": 10.0,
   "vol_target": 0.08,
-  "universe": 1528,
+  "universe": 1539,
   "flips_repaired": 169
  },
  "book": {
   "label": "book",
-  "years": 6.88,
+  "years": 6.9,
   "start_level": 1.008,
-  "cagr": 0.1116,
-  "vol": 0.105,
-  "sharpe": 1.101,
+  "cagr": 0.1094,
+  "vol": 0.1051,
+  "sharpe": 1.08,
   "maxdd": -0.1056,
-  "worst_year": 0.0044,
-  "neg_years": 0,
+  "worst_year": -0.0072,
+  "neg_years": 1,
   "worst_month": -0.043,
   "pos_months_pct": 0.598
  },
@@ -28,29 +28,29 @@
  "benchmarks": {
   "equal_weight_etf": {
    "label": "ew",
-   "years": 6.88,
+   "years": 6.9,
    "start_level": 1.0,
-   "cagr": 0.007,
-   "vol": 0.1107,
-   "sharpe": 0.121,
-   "maxdd": -0.2412,
-   "worst_year": -0.1804,
+   "cagr": 0.0133,
+   "vol": 0.1131,
+   "sharpe": 0.178,
+   "maxdd": -0.2536,
+   "worst_year": -0.1428,
    "neg_years": 3,
-   "worst_month": -0.1104,
-   "pos_months_pct": 0.524
+   "worst_month": -0.1102,
+   "pos_months_pct": 0.537
   },
   "hs300": {
    "label": "hs300",
-   "years": 6.88,
+   "years": 6.9,
    "start_level": 1.0,
-   "cagr": -0.0043,
-   "vol": 0.1907,
-   "sharpe": 0.072,
+   "cagr": 0.0008,
+   "vol": 0.1916,
+   "sharpe": 0.1,
    "maxdd": -0.451,
    "worst_year": -0.2108,
    "neg_years": 4,
    "worst_month": -0.0907,
-   "pos_months_pct": 0.512
+   "pos_months_pct": 0.524
   }
  },
  "calendar_years": {
@@ -60,18 +60,18 @@
   "2023": 0.058802,
   "2024": 0.145768,
   "2025": 0.430127,
-  "2026": 0.00894
+  "2026": -0.002725
  },
  "calendar_years_ew": {
-  "2020": 0.04563,
-  "2021": 0.016219,
-  "2022": -0.073099,
-  "2023": -0.036495,
-  "2024": 0.087724,
-  "2025": 0.21629,
-  "2026": -0.164311
+  "2020": 0.0453,
+  "2021": 0.016108,
+  "2022": -0.072576,
+  "2023": -0.036226,
+  "2024": 0.087144,
+  "2025": 0.21466,
+  "2026": -0.126081
  },
- "drawdown_now": -0.056945,
+ "drawdown_now": -0.067849,
  "control_arm": {
   "ok": true,
   "tolerance": 5e-05,
@@ -81,7 +81,7 @@
    "maxdd": 0.0
   }
  },
- "control_arm_source": "results\\etf_book_production\\PRODUCTION-2026-11-20.json",
+ "control_arm_source": "results\\etf_book_production\\PRODUCTION-2026-11-27.json",
  "png": "results\\etf_book_tearsheet.png",
  "ticket": {
   "bar": "2026-11-06",

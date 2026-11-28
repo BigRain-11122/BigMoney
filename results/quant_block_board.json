@@ -1,10 +1,10 @@
 {
- "generated": "2026-11-28T15:21:12+08:00",
+ "generated": "2026-11-28T17:06:52+08:00",
  "version": "1.0",
  "target_edge_pp": 5.0,
  "blocks": 26,
- "green": 22,
- "red": 4,
+ "green": 23,
+ "red": 3,
  "groups": {
   "数据": {
    "total": 7,
@@ -23,8 +23,8 @@
   },
   "风控": {
    "total": 2,
-   "green": 1,
-   "red": 1
+   "green": 2,
+   "red": 0
   },
   "治理": {
    "total": 9,
@@ -90,7 +90,7 @@
     "data-quality-checker"
    ],
    "status": "GREEN",
-   "detail": "modal bar 2026-11-27 (99% of 2 sampled dates)",
+   "detail": "modal bar 2026-11-27 (100% of 2 sampled dates)",
    "cadence_h": 24,
    "on_red": "A股格子自动 DATA-BLOCKED",
    "auto_fix": null
@@ -105,7 +105,7 @@
     "data-quality-checker"
    ],
    "status": "GREEN",
-   "detail": "9.4h old",
+   "detail": "11.2h old",
    "cadence_h": 168,
    "on_red": "转债类格子停",
    "auto_fix": "python scripts/cb_dual_low.py fetch"
@@ -135,7 +135,7 @@
     "data-quality-checker"
    ],
    "status": "GREEN",
-   "detail": "3.8h old",
+   "detail": "5.6h old",
    "cadence_h": 24,
    "on_red": "无法判断数据是否停更",
    "auto_fix": "python scripts/data_lane_freshness.py run"
@@ -151,7 +151,7 @@
     "gate-rigor"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 15.0h old",
+   "detail": "keys ok, 16.7h old",
    "cadence_h": 24,
    "on_red": "研究线断供",
    "auto_fix": "python scripts/bench_hub.py --selftest"
@@ -166,7 +166,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "15.0h old",
+   "detail": "16.7h old",
    "cadence_h": 1,
    "on_red": "执行器死→检查计划任务 Bigmoney-StrategyBench",
    "auto_fix": "python scripts/bench_hub.py --next"
@@ -182,7 +182,7 @@
     "gate-rigor"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 15.0h old",
+   "detail": "keys ok, 16.7h old",
    "cadence_h": 24,
    "on_red": "判决不可信",
    "auto_fix": "python scripts/bench_power.py"
@@ -197,7 +197,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "15.0h old",
+   "detail": "16.7h old",
    "cadence_h": 12,
    "on_red": "旧结论可能在漂移而无人知",
    "auto_fix": "python scripts/bench_revalidate.py"
@@ -212,7 +212,7 @@
     "quant-backtest-gate"
    ],
    "status": "GREEN",
-   "detail": "keys ok, 136.3h old",
+   "detail": "keys ok, 138.0h old",
    "cadence_h": 168,
    "on_red": "发布数字不可引用",
    "auto_fix": "python scripts/bench_audit_fut_trend.py"
@@ -227,7 +227,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "5.1h old",
+   "detail": "6.9h old",
    "cadence_h": 24,
    "on_red": "生产书不可复现",
    "auto_fix": null
@@ -258,7 +258,7 @@
     "position-sizer"
    ],
    "status": "GREEN",
-   "detail": "6.2h old",
+   "detail": "8.0h old",
    "cadence_h": 72,
    "on_red": "不知道能装多少钱",
    "auto_fix": null
@@ -272,8 +272,8 @@
    "skills": [
     "drawdown-circuit-breaker"
    ],
-   "status": "RED",
-   "detail": "135.9h old > 120h",
+   "status": "GREEN",
+   "detail": "0.1h old",
    "cadence_h": 72,
    "on_red": "风控盲区",
    "auto_fix": "python scripts/etf_book_tearsheet.py run"
@@ -288,7 +288,7 @@
     "cost-ledger"
    ],
    "status": "GREEN",
-   "detail": "verdict=PASS, 0.3h old",
+   "detail": "verdict=PASS, 0.4h old",
    "cadence_h": 24,
    "on_red": "账面不可信",
    "auto_fix": null
@@ -303,7 +303,7 @@
     "cost-ledger"
    ],
    "status": "GREEN",
-   "detail": "15.0h old",
+   "detail": "16.7h old",
    "cadence_h": 24,
    "on_red": "无法复盘",
    "auto_fix": null
@@ -318,7 +318,7 @@
     "session-handoff"
    ],
    "status": "GREEN",
-   "detail": "64 files, newest 3.8h",
+   "detail": "64 files, newest 5.6h",
    "cadence_h": 24,
    "on_red": "读者看不到今天发生了什么",
    "auto_fix": null
@@ -333,7 +333,7 @@
     "signal-postmortem"
    ],
    "status": "GREEN",
-   "detail": "15.0h old",
+   "detail": "16.7h old",
    "cadence_h": 72,
    "on_red": "同一个坑会再踩",
    "auto_fix": "python scripts/bench_power.py"
@@ -348,7 +348,7 @@
     "fleet-ops"
    ],
    "status": "GREEN",
-   "detail": "1.0h old",
+   "detail": "0.3h old",
    "cadence_h": 24,
    "on_red": "CEO 看到的是旧数",
    "auto_fix": null
@@ -363,7 +363,7 @@
     "fleet-ops"
    ],
    "status": "GREEN",
-   "detail": "board 1.0h old",
+   "detail": "board 0.8h old",
    "cadence_h": 1,
    "on_red": "整条线可能在空转",
    "auto_fix": "python scripts/block_board.py --fix-safe"
@@ -429,14 +429,6 @@
    "cadence_h": 1,
    "on_red": "看 STATE.verdict：STARVED=没有有效活可排（补 CPU-WORK 或补数据）；PARTIAL=被仲裁让路",
    "auto_fix": null
-  }
- ],
- "fixes_applied": [
-  {
-   "block": "C4_drawdown_guard",
-   "cmd": "python scripts/etf_book_tearsheet.py run",
-   "rc": 2,
-   "seconds": 1.1
   }
  ]
 }

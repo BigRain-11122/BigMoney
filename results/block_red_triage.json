@@ -1,64 +1,74 @@
 {
-  "generated": "2026-11-27T01:32:12+08:00",
-  "evidence_cutoff": "2026-11-26",
+  "generated": "2026-11-28T17:06:10+08:00",
+  "evidence_cutoff": "2026-11-27",
   "board": {
     "rows": 26,
-    "red": 3,
+    "red": 4,
     "line_state_printed": "STARVING",
     "queue_pending": 0,
-    "bank_claimable": 18,
-    "line_state_honest": "BUSY"
+    "bank_claimable": 0,
+    "bank_claimable_naive": 18,
+    "line_state_honest": "STARVING"
   },
   "cash_panel": {
-    "modal_bar": "2026-11-25",
+    "modal_bar": "2026-11-27",
     "files": 11,
     "hist": {
-      "2026-11-25": 11
+      "2026-11-27": 11
     },
     "allowance_days": 4,
-    "printed_lag": 2,
-    "honest_lag": 1,
-    "horizon": "2026-11-26",
-    "sessions": 1,
-    "calendar_sessions": 1672,
-    "calendar_last": "2026-11-26"
+    "printed_lag": 0,
+    "honest_lag": 0,
+    "horizon": "2026-11-27",
+    "sessions": 0,
+    "calendar_sessions": 1673,
+    "calendar_last": "2026-11-27"
   },
   "class_counts": {
-    "FALSE_RED_READER": 1,
-    "FALSE_GREEN_PRODUCER": 1,
-    "UNCLASSIFIED": 1
+    "UNCLASSIFIED": 2,
+    "REAL": 1,
+    "FALSE_GREEN_PRODUCER": 1
   },
-  "real_gaps": [],
-  "false_reds": [
+  "real_gaps": [
     "W1_supply"
   ],
+  "false_reds": [],
   "untrusted_verdicts": [
     "G6_ingest"
   ],
   "reds": [
     {
+      "id": "C4_drawdown_guard",
+      "board_status": "RED",
+      "board_detail": "136.9h old > 120h",
+      "class": "UNCLASSIFIED",
+      "patch": null,
+      "proof": "no independent probe for this probe type yet"
+    },
+    {
       "id": "W1_supply",
       "board_status": "RED",
       "board_detail": "no open question left; blocked on data: options_vol_premium, minute_intraday_reversal",
-      "class": "FALSE_RED_READER",
+      "class": "REAL",
       "producer_wrote": {
         "bank_items": 20,
         "bank_status_hist": {
           "queued": 18,
           "blocked": 2
         },
-        "bench_queue_pending": 0
+        "bench_queue_pending": 0,
+        "claimable_but_already_answered": 18
       },
       "reader_counts": {
         "claimable_under_shipped_reader": 0
       },
       "true_state": {
-        "claimable_now": 18,
-        "row_would_be": "GREEN"
+        "claimable_now": 0,
+        "row_would_be": "RED"
       },
       "patch": "scripts/block_board.py::probe_supply -- count CLAIMABLE = ('open','queued','ready','todo') instead of ('open',), and read the same set in build()'s line_state",
-      "proof": "bank=20 items in {'queued': 18, 'blocked': 2}; shipped reader counts 0 -> RED; patched predicate counts 18 -> GREEN",
-      "why_it_matters": "every round the board hands the line the same 'refill the bank' instruction while the bank holds 18 pre-registered questions; a red that cannot go green is ignored, and a STARVING label on a line with 18 banked questions misdirects the next round"
+      "proof": "bank=20 items in {'queued': 18, 'blocked': 2}; 18 of the 18 claimable ones already have a verdict (results/work_bank_supply_truth.json); shipped reader counts 0 -> RED; patched predicate counts 0 unconsumed -> RED",
+      "why_it_matters": "every round the board hands the line the same 'refill the bank' instruction; this row is red for the right reason (nothing startable) even though 18 cards carry status=queued -- they are answers, not work, and 0 remain unconsumed"
     },
     {
       "id": "G6_ingest",

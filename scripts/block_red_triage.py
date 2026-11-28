@@ -125,9 +125,31 @@ def claimable_under_reader(bank, reader_words=("open",)):
     return sum(1 for i in (bank.get("items") or []) if i.get("status") in reader_words)
 
 
-def claimable_true(bank):
-    """How many bank items are actually startable work."""
-    return sum(1 for i in (bank.get("items") or []) if i.get("status") in CLAIMABLE)
+def claimable_true(bank, answered=()):
+    """How many bank items are actually startable work.
+
+    r2220: a "queued" card that already has a done cell and a verdict is not work
+    to take -- it is an answer nobody read. Counting it as claimable is the same
+    mistake as counting it as shipped: both ask the bank's own status word instead
+    of asking whether the question has been paid for (work_bank_supply_truth.py is
+    the face that already knows; this reader now consults it).
+    """
+    answered = set(answered or ())
+    return sum(1 for i in (bank.get("items") or [])
+               if i.get("status") in CLAIMABLE and i.get("id") not in answered)
+
+
+def load_answered():
+    """Ids already paid for, straight from the supply-truth face (empty if absent)."""
+    path = os.path.join(ROOT, "results", "work_bank_supply_truth.json")
+    if not os.path.exists(path):
+        return set()
+    try:
+        with io.open(path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return set()
+    return {r.get("id") for r in (d.get("rows") or []) if r.get("state") == "ANSWERED"}
 
 
 def status_hist(bank):
@@ -244,7 +266,10 @@ def triage_row(row, spec, ctx):
         hist = status_hist(bank)
         pending_queue = ctx["queue_pending"]
         reader_n = claimable_under_reader(bank)
-        true_n = claimable_true(bank)
+        answered = ctx.get("answered") or set()
+        true_n = claimable_true(bank, answered)
+        already_answered = sum(1 for i in (bank.get("items") or [])
+                               if i.get("status") in CLAIMABLE and i.get("id") in answered)
         ok_after = bool(pending_queue or true_n)
         if not ok_after:
             cls = "REAL"
@@ -263,17 +288,21 @@ def triage_row(row, spec, ctx):
                 "bank_items": len(bank.get("items") or []),
                 "bank_status_hist": hist,
                 "bench_queue_pending": pending_queue,
+                "claimable_but_already_answered": already_answered,
             },
             "reader_counts": {"claimable_under_shipped_reader": reader_n},
             "true_state": {"claimable_now": true_n, "row_would_be": "GREEN" if ok_after else "RED"},
             "patch": "scripts/block_board.py::probe_supply -- count CLAIMABLE = ('open','queued','ready','todo')"
                      " instead of ('open',), and read the same set in build()'s line_state",
-            "proof": ("bank=%d items in %s; shipped reader counts %d -> RED; patched predicate counts %d -> %s"
-                      % (len(bank.get("items") or []), hist, reader_n, true_n, "GREEN" if ok_after else "RED")),
-            "why_it_matters": ("every round the board hands the line the same 'refill the bank' instruction while the "
-                               "bank holds %d pre-registered questions; a red that cannot go green is ignored, "
-                               "and a STARVING label on a line with %d banked questions misdirects the next round"
-                               % (true_n, true_n)),
+            "proof": ("bank=%d items in %s; %d of the %d claimable ones already have a verdict "
+                      "(results/work_bank_supply_truth.json); shipped reader counts %d -> RED; "
+                      "patched predicate counts %d unconsumed -> %s"
+                      % (len(bank.get("items") or []), hist, already_answered, reader_n + already_answered,
+                         reader_n, true_n, "GREEN" if ok_after else "RED")),
+            "why_it_matters": ("every round the board hands the line the same 'refill the bank' instruction; "
+                               "this row is red for the right reason (nothing startable) even though %d cards "
+                               "carry status=queued -- they are answers, not work, and %d remain unconsumed"
+                               % (already_answered, true_n)),
         }
 
     if pid == "G6_ingest":
@@ -395,7 +424,7 @@ def build():
     }
 
     pend = sum(1 for c in (queue.get("cells") or []) if c.get("status") in ("pending", "failed"))
-    ctx = {"bank": bank, "queue_pending": pend,
+    ctx = {"bank": bank, "queue_pending": pend, "answered": load_answered(),
            "diff": ingest_sides_distinct(diff) if diff else {"trustworthy": False, "lanes": 0,
                                                              "identical_lanes": 0, "machine_theirs": None,
                                                              "machine_ours": None, "same_generated": None,
@@ -419,9 +448,11 @@ def build():
         "board": {"rows": len(board["rows"]), "red": len(reds),
                   "line_state_printed": board.get("line_state"),
                   "queue_pending": pend,
-                  "bank_claimable": claimable_true(bank),
+                  # r2220: claimable means "startable", and a card with a verdict is not.
+                  "bank_claimable": claimable_true(bank, ctx["answered"]),
+                  "bank_claimable_naive": claimable_true(bank),
                   "line_state_honest": (
-                      "BUSY" if (pend or claimable_true(bank)) else
+                      "BUSY" if (pend or claimable_true(bank, ctx["answered"])) else
                       ("STARVING" if real_gaps else "LEGIT_IDLE"))},
         "cash_panel": cash,
         "class_counts": dict(classes),
@@ -686,6 +717,31 @@ def selftest():
         row = {"id": "W1_supply", "status": "RED", "detail": "no open question left"}
         assert triage_row(row, {}, ctx)["class"] == "REAL"
 
+    def t_class_real_when_queued_are_all_answered():
+        # r2220: the shipped reader understands this bank as "18 questions to start";
+        # if every one of them already has a verdict, the RED row is correct and the
+        # reader is the thing that was wrong.
+        bank = {"items": [{"id": "q1", "status": "queued"},
+                          {"id": "q2", "status": "queued"},
+                          {"id": "q3", "status": "blocked"}]}
+        ctx = {"bank": bank, "queue_pending": 0, "diff": {}, "cash": {},
+               "answered": {"q1", "q2"}}
+        row = {"id": "W1_supply", "status": "RED", "detail": "no open question left"}
+        r = triage_row(row, {}, ctx)
+        assert r["class"] == "REAL", r["class"]
+        assert r["true_state"]["claimable_now"] == 0, r["true_state"]
+        assert r["producer_wrote"]["claimable_but_already_answered"] == 2
+
+    def t_class_false_red_when_one_queued_is_unanswered():
+        bank = {"items": [{"id": "q1", "status": "queued"},
+                          {"id": "q2", "status": "queued"}]}
+        ctx = {"bank": bank, "queue_pending": 0, "diff": {}, "cash": {},
+               "answered": {"q1"}}
+        row = {"id": "W1_supply", "status": "RED", "detail": "no open question left"}
+        r = triage_row(row, {}, ctx)
+        assert r["class"] == "FALSE_RED_READER", r["class"]
+        assert r["true_state"]["claimable_now"] == 1
+
     def t_class_ingest():
         d = {"theirs": {"machine": "HOST", "generated": "G"}, "ours": {"machine": "HOST", "generated": "G"},
              "lanes": _lanes(2), "verdict": "COMPLETE"}
@@ -748,6 +804,10 @@ def selftest():
         ("an empty diff is untrusted", t_empty_diff_untrusted),
         ("a queued bank classifies as a reader false red", t_class_false_red_reader),
         ("an all-blocked bank stays a real red", t_class_real_when_bank_empty),
+        ("a queued bank whose cards all have verdicts is a real red",
+         t_class_real_when_queued_are_all_answered),
+        ("one unconsumed queued card keeps the row a reader false red",
+         t_class_false_red_when_one_queued_is_unanswered),
         ("a self-diff classifies as a producer false green", t_class_ingest),
         ("the cash row classifies as uninformative", t_class_cash_uninformative),
         ("a nine-day cash gap is a real red", t_class_cash_real),

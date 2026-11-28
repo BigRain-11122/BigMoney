@@ -17582,6 +17582,23 @@ def _finish() -> int:
               + " | ".join("%s [%s %s]" % (k["name"][:70], k.get("hex") or k.get("rc"),
                                            (k.get("why") or "").split("(")[0].strip())
                            for k in KILLED))
+    # r2220: two faces this round were written and wired to the chain but had no leg here,
+    # so the only thing that would notice them rotting was a person (r1282 orphan class).
+    # Both probes are offline and cheap; the legs go red if either self-check stops passing.
+    for _n220, _c220 in (
+            ("bench_verdict_book speaks OK/STALE/FAILED, never one word for both",
+             [sys.executable, "scripts/bench_verdict_book.py", "--check"]),
+            ("the red-block triage asks the bank whether the question was already paid for",
+             [sys.executable, "scripts/block_red_triage.py", "--selftest"])):
+        try:
+            _p220 = subprocess.run(_c220, cwd=os.path.dirname(os.path.abspath(__file__)),
+                                   capture_output=True, text=True, timeout=180,
+                                   creationflags=0x08000000)
+            _tail220 = (_p220.stdout or "").strip().splitlines()
+            check("product: " + _n220, _p220.returncode == 0,
+                  (_tail220[-1][:160] if _tail220 else repr(_p220.stderr)[:160]))
+        except Exception as _e220:                                   # noqa: BLE001
+            check("product: " + _n220, False, repr(_e220)[:160])
     try:
         _rec = _verdict_record()
         print("record: logs/smoke_legs.json failed=%d%s"

@@ -2980,6 +2980,16 @@ LEGS = [
     ("etf_nav_source_dating",
      ["python", "scripts/etf_nav_source_dating.py", "check"],
      ["python", "scripts/etf_nav_source_dating.py", "run", "--sample=0"]),
+    # r2220: the answer book. 31 cards (18 bank + 13 off-bank) already had verdicts in
+    # results/bench_*.json, but nothing put them on one page -- so every later round had
+    # to open them one by one to find out what had already been paid for, and the supply
+    # block read "no open question" while the answers were never consumed anywhere. The
+    # probe re-derives the whole book offline (~1s) and speaks STALE when an evidence
+    # file or the bank moves, FAILED only when the same inputs stop reproducing the
+    # printed numbers (r1850/r1934: the word is the contract that pays for the rebuild).
+    ("bench_verdict_book",
+     ["python", "scripts/bench_verdict_book.py", "--verify"],
+     ["python", "scripts/bench_verdict_book.py"]),
 ]
 
 

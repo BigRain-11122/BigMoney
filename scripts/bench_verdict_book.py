@@ -360,6 +360,32 @@ def render(report):
     )
     lines.append("")
 
+    # r2220: six candidate rows are three questions, each asked twice (a 120d/250d pair,
+    # and two implementations of the same commodity TSMOM). A reader deciding what to
+    # push should see conclusions, not a row count -- one line per card, arms folded.
+    alive = {}
+    for c in report["rows"]:
+        if c["disposition"] != CANDIDATE:
+            continue
+        slot = alive.setdefault(c["id"], {"arms": [], "verdicts": [],
+                                          "evidence": c["result"], "digest": c["evidence_digest"]})
+        if c["arm"]:
+            slot["arms"].append(str(c["arm"]))
+        if c["verdict"] and c["verdict"] not in slot["verdicts"]:
+            slot["verdicts"].append(c["verdict"])
+    if alive:
+        lines.append(f"## 还活着的结论（{d.get(CANDIDATE, 0)} 行压成 {len(alive)} 个问题）")
+        lines.append("")
+        lines.append("| 问题卡 | 臂 | 判词 | 证据 |")
+        lines.append("|---|---|---|---|")
+        for cid, slot in sorted(alive.items()):
+            arms = ", ".join(slot["arms"]) if slot["arms"] else "-"
+            verdicts = "/".join(slot["verdicts"]) or "-"
+            lines.append(f"| {cid} | {arms} | {verdicts} | {slot['evidence']} @{slot['digest']} |")
+        lines.append("")
+        lines.append("这一节只搬判词与证据，不追加任何新判定；行级数字与关卡在上面的分族表里。")
+        lines.append("")
+
     families = {}
     for c in report["rows"]:
         families.setdefault((c["family"], c["family_label"]), []).append(c)
@@ -486,6 +512,25 @@ def selftest():
     checks.append(("a NO_EDGE row never prints an empty number as 0",
                    _num(rows[("pair_index_60d", "IC-IF:zrev")]["headline"], "excess_pp") == "-"))
 
+    # r2220: the chain pays for a rebuild only when the probe says STALE, so a
+    # moved input and a wrong number must not share one word (r1850/r1934).
+    rep2 = json.loads(json.dumps(rep, ensure_ascii=False))
+    checks.append(("an unchanged book classifies as OK",
+                   classify_drift(rep2, rep2) == "OK"))
+    moved = json.loads(json.dumps(rep2, ensure_ascii=False))
+    moved["rows"][0]["evidence_digest"] = "a1b2c3d4e5f6"
+    checks.append(("a moved evidence file speaks STALE, not CHECK FAILED",
+                   classify_drift(rep2, moved) == "STALE"))
+    wrong = json.loads(json.dumps(rep2, ensure_ascii=False))
+    for row in wrong["rows"]:
+        if row.get("headline"):
+            for k, v in list(row["headline"].items()):
+                if isinstance(v, (int, float)) and not isinstance(v, bool):
+                    row["headline"][k] = v + 1
+            break
+    checks.append(("a number that does not re-derive stays CHECK FAILED (no STALE word)",
+                   classify_drift(rep2, wrong) == "FAILED"))
+
     bad = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(("PASS " if ok else "FAIL ") + n)
@@ -499,6 +544,24 @@ def _strip_volatile(report):
     return r
 
 
+def _input_stamps(rep):
+    """The stamps that belong to the inputs, not to our own arithmetic."""
+    rows = rep.get("rows") or []
+    return (rep.get("source_digest"),
+            tuple(sorted({(c.get("id"), str(c.get("arm")), c.get("evidence_digest"))
+                          for c in rows})))
+
+
+def classify_drift(prev, fresh):
+    """OK / STALE (an input moved) / FAILED (same inputs, different arithmetic)."""
+    a, b = _strip_volatile(prev), _strip_volatile(fresh)
+    if a == b:
+        return "OK"
+    if _input_stamps(a) != _input_stamps(b):
+        return "STALE"
+    return "FAILED"
+
+
 def verify():
     prev_path = OUT_JSON
     if not os.path.exists(prev_path):
@@ -506,10 +569,16 @@ def verify():
         return 3
     prev = _load(prev_path)
     fresh = build(supply.build(supply._load(supply.BANK), supply._load(supply.QUEUE)))
-    a, b = _strip_volatile(prev), _strip_volatile(fresh)
-    if a == b:
+    verdict = classify_drift(prev, fresh)
+    if verdict == "OK":
         print(f"OK {os.path.relpath(prev_path, ROOT)} re-derives byte-for-byte (modulo generated)")
         return 0
+    if verdict == "STALE":
+        old, new = _input_stamps(prev), _input_stamps(fresh)
+        print("STALE: inputs moved since this book was published "
+              f"(source_digest {old[0]} -> {new[0]}); rebuild pays for the new verdicts")
+        return 3
+    a, b = _strip_volatile(prev), _strip_volatile(fresh)
     diffs = [k for k in set(a) | set(b) if a.get(k) != b.get(k)]
     print("CHECK FAILED: published book disagrees with a fresh derive on " + ", ".join(sorted(diffs)))
     return 3

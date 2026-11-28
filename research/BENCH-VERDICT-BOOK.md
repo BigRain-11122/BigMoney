@@ -1,5 +1,5 @@
-generated 2026-11-26T23:15:50+08:00
-evidence_cutoff 2026-11-25
+generated 2026-11-28T17:04:58+08:00
+evidence_cutoff 2026-11-28
 
 门票面 33 张 → 判词行 96 行
 
@@ -11,11 +11,22 @@ evidence_cutoff 2026-11-25
 | REVALIDATED | 1 | 复验通行证，不是策略 |
 | OTHER | 12 | 判词不在这四类里，按原词读 |
 
+## 还活着的结论（6 行压成 4 个问题）
+
+| 问题卡 | 臂 | 判词 | 证据 |
+|---|---|---|---|
+| basis_timing_perm | - | SIGNIFICANT | results/bench_basis_timing_perm.json @725f58b4ed40 |
+| basis_timing_size | - | GO | results/bench_basis_timing_size.json @7b40930c05d4 |
+| census_commodity | variant=tsmom|{'lookback': 120, 'skip': 21}|ls, variant=tsmom|{'lookback': 250, 'skip': 21}|ls | GO | results/bench_census_commodity.json @439853fc21b0 |
+| robust_tsmom_commodity | variant=120d, variant=250d | GO | results/bench_robust_tsmom_commodity.json @e0b474690ec9 |
+
+这一节只搬判词与证据，不追加任何新判定；行级数字与关卡在上面的分族表里。
+
 ## A 股选股（astock）· 4 行
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| astock_lowvol | - | NO_EDGE | EXHAUSTED | 6.12% | 0.93pp | - | - | 4/5 缺 H5_excess_ge_2pct_t_ge_1.5 | results/bench_astock_lowvol.json @a8854f45ed69 |
+| astock_lowvol | - | NO_EDGE | EXHAUSTED | 6.12% | 0.93pp | - | - | 4/5 缺 H5_excess_ge_2pct_t_ge_1.5 | results/bench_astock_lowvol.json @eea9e094a2c0 |
 | astock_resid_industry_reuse | arm1 | ONE_YEAR_STORY | OTHER | 3.76% | - | - | - | - | results/astock_rankind_stability.json @6507fdcbb65b |
 | astock_resid_industry_reuse | arm2 | ONE_YEAR_STORY | OTHER | 3.76% | - | - | - | - | results/astock_rankind_stability.json @6507fdcbb65b |
 | astock_resid_industry_reuse | arm3 | ONE_YEAR_STORY | OTHER | 3.76% | - | - | - | - | results/astock_rankind_stability.json @6507fdcbb65b |
@@ -24,27 +35,27 @@ evidence_cutoff 2026-11-25
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| basis_capacity | - | CAPACITY_OK_AND_SIZED | OTHER | - | - | - | - | 3/3 | results/bench_basis_capacity.json @167a0b375b0e |
-| basis_timing_size | - | GO | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_size.json @47d863b7d056 |
-| basis_timing_perm | - | SIGNIFICANT | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_perm.json @2a737315a04b |
+| basis_capacity | - | CAPACITY_OK_AND_SIZED | OTHER | - | - | - | - | 3/3 | results/bench_basis_capacity.json @230ddce7bbeb |
+| basis_timing_size | - | GO | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_size.json @7b40930c05d4 |
+| basis_timing_perm | - | SIGNIFICANT | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_perm.json @725f58b4ed40 |
 
 ## 国债/债券（bond）· 7 行
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| bond_curve | T-TF:zrev | NO_EDGE | EXHAUSTED | 1.77% | - | 0.443 | -12.6% | 1/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct | results/bench_bond_curve.json @24f82971ef40 |
-| bond_curve | T-TF:trend | NO_EDGE | EXHAUSTED | -1.84% | - | -0.406 | -19.27% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @24f82971ef40 |
-| bond_curve | T-TS:zrev | NO_EDGE | EXHAUSTED | -1.06% | - | -0.167 | -21.37% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @24f82971ef40 |
-| bond_curve | T-TS:trend | NO_EDGE | EXHAUSTED | -1.97% | - | -0.332 | -27.96% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @24f82971ef40 |
-| bond_curve | TF-TS:zrev | NO_EDGE | EXHAUSTED | -0.74% | - | -0.171 | -12.42% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @24f82971ef40 |
-| bond_curve | TF-TS:trend | NO_EDGE | EXHAUSTED | -3.62% | - | -0.913 | -28.83% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @24f82971ef40 |
-| bond_defensive | - | NO_EDGE | EXHAUSTED | - | - | - | - | 4/5 缺 H3_positive_in_both_bear_years | results/bench_bond_defensive.json @866c6dc4e4c5 |
+| bond_curve | T-TF:zrev | NO_EDGE | EXHAUSTED | 1.77% | - | 0.443 | -12.6% | 1/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct | results/bench_bond_curve.json @5359064cfe3e |
+| bond_curve | T-TF:trend | NO_EDGE | EXHAUSTED | -1.84% | - | -0.406 | -19.27% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @5359064cfe3e |
+| bond_curve | T-TS:zrev | NO_EDGE | EXHAUSTED | -1.06% | - | -0.166 | -21.37% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @5359064cfe3e |
+| bond_curve | T-TS:trend | NO_EDGE | EXHAUSTED | -1.97% | - | -0.333 | -27.96% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @5359064cfe3e |
+| bond_curve | TF-TS:zrev | NO_EDGE | EXHAUSTED | -0.73% | - | -0.17 | -12.42% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @5359064cfe3e |
+| bond_curve | TF-TS:trend | NO_EDGE | EXHAUSTED | -3.62% | - | -0.913 | -28.83% | 0/5 缺 H1_full_ge_4pct,H2_oos_ge_3pct_and_sr_ge_0.4,H3_both_halves_positive,H4_drop_best_year_ge_1.5pct,H5_control_p_lt_0.05 | results/bench_bond_curve.json @5359064cfe3e |
+| bond_defensive | - | NO_EDGE | EXHAUSTED | - | - | - | - | 4/5 缺 H3_positive_in_both_bear_years | results/bench_bond_defensive.json @725429ea8f8f |
 
 ## cb（cb）· 2 行
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| cb_dual_low_reuse | - | NO_EDGE | EXHAUSTED | 7.64% | - | - | - | - | results/cb_dual_low.json @0a6ae4c7d691 |
+| cb_dual_low_reuse | - | NO_EDGE | EXHAUSTED | 7.64% | - | - | - | - | results/cb_dual_low.json @f16b2a5b5190 |
 | cb_floor | - | CLOSED_AT_POWER | OTHER | - | - | - | - | 0/5 缺 H1_excess_ge_2pp,H2_both_halves_positive,H3_mde_le_5pp,H4_beats_random_control,H5_survives_double_cost | results/bench_cb_floor.json @951d0cf1b532 |
 
 ## census（census）· 39 行
@@ -95,17 +106,17 @@ evidence_cutoff 2026-11-25
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| fut_trend | tsmom | NO_EDGE | EXHAUSTED | 6.21% | - | 0.51 | -23.05% | 4/5 缺 H5_control_p_lt_0.05 | results/bench_fut_trend.json @be23bd36578a |
-| fut_trend | ma_cross | NO_EDGE_REPACKAGES_BETA | EXHAUSTED | 13.43% | - | 0.993 | -20.86% | 5/5 | results/bench_fut_trend.json @be23bd36578a |
-| fut_trend | donchian | NO_EDGE | EXHAUSTED | -2.12% | - | -0.086 | -39.7% | 0/5 缺 H1_full_ge_6pct,H2_oos_ge_4pct_and_sr_ge_0.5,H3_both_halves_positive,H4_drop_best_year_ge_2pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @be23bd36578a |
-| fut_trend | reversal | NO_EDGE | EXHAUSTED | -0.58% | - | 0.026 | -36.05% | 0/5 缺 H1_full_ge_6pct,H2_oos_ge_4pct_and_sr_ge_0.5,H3_both_halves_positive,H4_drop_best_year_ge_2pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @be23bd36578a |
-| fut_trend | xs_mom | NO_EDGE | EXHAUSTED | 3.79% | - | 0.319 | -30.9% | 3/5 缺 H1_full_ge_6pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @be23bd36578a |
+| fut_trend | tsmom | NO_EDGE | EXHAUSTED | 6.21% | - | 0.51 | -23.05% | 4/5 缺 H5_control_p_lt_0.05 | results/bench_fut_trend.json @554b692fa91c |
+| fut_trend | ma_cross | NO_EDGE_REPACKAGES_BETA | EXHAUSTED | 13.38% | - | 0.989 | -20.86% | 5/5 | results/bench_fut_trend.json @554b692fa91c |
+| fut_trend | donchian | NO_EDGE | EXHAUSTED | -2.2% | - | -0.092 | -39.7% | 0/5 缺 H1_full_ge_6pct,H2_oos_ge_4pct_and_sr_ge_0.5,H3_both_halves_positive,H4_drop_best_year_ge_2pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @554b692fa91c |
+| fut_trend | reversal | NO_EDGE | EXHAUSTED | -0.5% | - | 0.031 | -36.05% | 0/5 缺 H1_full_ge_6pct,H2_oos_ge_4pct_and_sr_ge_0.5,H3_both_halves_positive,H4_drop_best_year_ge_2pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @554b692fa91c |
+| fut_trend | xs_mom | NO_EDGE | EXHAUSTED | 3.76% | - | 0.317 | -30.9% | 3/5 缺 H1_full_ge_6pct,H5_control_p_lt_0.05 | results/bench_fut_trend.json @554b692fa91c |
 
 ## idx（idx）· 1 行
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| idx_fut_basis_reuse | - | {"IC_net_carry_pp": 4.15, "IF_net_carry_pp": 0.74, "IH_net_carry_pp": 1.74, "IM_net_carry_pp": 5.89, "booked": "IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)", "kind": "reuse"} | OTHER | - | - | - | - | - | results/idx_fut_basis.json @9a53ef92029f |
+| idx_fut_basis_reuse | - | {"IC_net_carry_pp": 4.15, "IF_net_carry_pp": 0.74, "IH_net_carry_pp": 1.74, "IM_net_carry_pp": 5.89, "booked": "IC/IF/IM admitted at default cost (idx_fut_real_nav: booked)", "kind": "reuse"} | OTHER | - | - | - | - | - | results/idx_fut_basis.json @54f97f525abf |
 
 ## minute（minute）· 1 行
 
@@ -132,7 +143,7 @@ evidence_cutoff 2026-11-25
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| paper_basis_timing | - | TRACKING | OTHER | - | - | - | - | - | results/paper_basis_timing/STATE.json @ae09358d9b36 |
+| paper_basis_timing | - | TRACKING | OTHER | - | - | - | - | - | results/paper_basis_timing/STATE.json @0e1f08c739bf |
 
 ## repo（repo）· 11 行
 
@@ -154,7 +165,7 @@ evidence_cutoff 2026-11-25
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
-| revalidate | - | ALL_HOLD | REVALIDATED | - | - | - | - | - | results/bench_revalidate.json @bbb160e43afd |
+| revalidate | - | ALL_HOLD | REVALIDATED | - | - | - | - | - | results/bench_revalidate.json @ff0e8ffacbad |
 
 ## reversal（reversal）· 2 行
 
