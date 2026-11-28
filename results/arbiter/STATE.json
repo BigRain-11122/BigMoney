@@ -1,7 +1,7 @@
 {
- "ts": "2026-11-28T17:51:38+08:00",
- "ram_free_gb": 29.53,
- "cpu_load_pct": 13.8,
+ "ts": "2026-11-28T18:11:37+08:00",
+ "ram_free_gb": 29.61,
+ "cpu_load_pct": 12.4,
  "gpu": {
   "available": true,
   "util_pct": 1,
@@ -19,19 +19,24 @@
  "media_jobs": [
   {
    "pid": 8664,
-   "mb": 3874,
+   "mb": 3873,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8189 --disable-smart-memory"
   },
   {
    "pid": 18716,
-   "mb": 3488,
+   "mb": 3899,
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188"
   }
  ],
  "quant_jobs": [
   {
+   "pid": 2388,
+   "mb": 90,
+   "cmd": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -Command python -c \"\nimport re\ns=open('results/_smoke_r2222.out.txt',encoding='utf-8',errors='replace').read()"
+  },
+  {
    "pid": 19424,
-   "mb": 323,
+   "mb": 324,
    "cmd": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\iteration_loop.ps"
   },
   {
@@ -40,11 +45,11 @@
    "cmd": "wscript.exe //B //nologo K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\InvisibleRunner.vbs powershell.exe -NoProfile -ExecutionPolicy Bypass -File K:\\Fluxgroup\\Fl"
   },
   {
-   "pid": 42276,
-   "mb": 344,
+   "pid": 42356,
+   "mb": 317,
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u -m smoke_test"
   }
  ],
  "media_cpu_jobs": 2,
- "media_ram_gb": 7.19
+ "media_ram_gb": 7.59
 }
