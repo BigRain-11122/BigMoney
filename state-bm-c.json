@@ -2952,5 +2952,6 @@
  "s6_note_r2211": "own chain Tools/s6_chain_bmc.py 2209 still in flight (started 09:04, 133/415 legs at 10:09:51, probe leg etf_premium=#103 already passed) -- round did NOT launch a second chain; shared-face writes limited to the premium faces which this round's P0 owns.",
  "smoke_note_r2211": "full smoke not re-run: an in-flight chain rewrites shared faces mid-run (r1861 UNVERIFIED family) and r2210 left 33 reds open; targeted legs run instead (etf_premium_face selftest 49/49, premium_session_guard 0 undatable, premium_leg_session_audit --check rc0).",
  "竞争_r2211": "Tools/repo_write_contention.py --lookback-min 45 = rc0 CLEAN (single host pid 35456)",
- "记账_r2211": "轮报告 1 + state 1 + 心跳 1 = 3（脚本/面/QA/资产卡属产品产出不计记账）"
+ "记账_r2211": "轮报告 1 + state 1 + 心跳 1 = 3（脚本/面/QA/资产卡属产品产出不计记账）",
+ "s7_logon_r2211": "Bigmoney-IterationLoop + Bigmoney-LoopWatchdog re-registered this round but both sit at LogonType=Interactive: the S4U XML flip was refused (拒绝访问 = needs elevation), so the r2026-10-15 law 'every lane task is S4U' is still unmet on this machine. Logged as debt, not silently dropped; the visible-window half of that hazard is already covered by the HKCU\\Console\\%%Startup delegation fix (r2026-10-25)."
 }
