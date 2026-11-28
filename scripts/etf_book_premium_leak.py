@@ -257,10 +257,68 @@ def history_stats(values, code):
             "min_pct": round(min(vals) * 100.0, 4)}
 
 
-def nav_ruler_history(symbols):
-    """Premium on the OTHER ruler: close / published NAV - 1, from the fund premium panel."""
+def _snap_digest(navhist_dir=None):
+    """Names+sizes of the snapshot panel -- the input this face's NAV-ruler history reads.
+
+    16 hex chars over `name:size` lines: a new daily snapshot (or a rewritten one) moves it,
+    which is the only external proof that this face is pricing the panel a reader sees
+    (r1935: a check that only recomputes itself never says "I am stale").
+    """
+    import hashlib
+    d = navhist_dir or NAVHIST_DIR
+    items = []
+    for p in sorted(glob.glob(os.path.join(d, "*.csv"))):
+        try:
+            items.append("%s:%d" % (os.path.basename(p), os.path.getsize(p)))
+        except OSError:
+            continue
+    return hashlib.sha256("\n".join(items).encode("utf-8")).hexdigest()[:16], len(items)
+
+
+def stale_word(face, navhist_dir=None):
+    """None when this face was written against the panel now on disk, else the STALE line.
+
+    Pure over (face, directory) so a selftest can add one file and watch the word appear;
+    the sentence must contain "STALE" because that is the word the chain pays to refresh on
+    (r1850/r1935). A face from an older producer records no inputs at all -- that is not
+    proof, so it is stale too.
+    """
+    got_sha, got_n = _snap_digest(navhist_dir)
+    stored = face.get("inputs") or {}
+    if stored.get("snapshots_sha") == got_sha:
+        return None
+    return ("STALE: snapshot panel is %d files (sha %s) but this face was written against "
+            "%r/%r" % (got_n, got_sha, stored.get("snapshots_sha"),
+                       stored.get("snapshots_n")))
+
+
+def resolve_nav_cell(nav, nav_prev):
+    """Take whichever column actually carries a NAV, and say which one it was.
+
+    The bulk endpoint fills `nav` only when that fund has published the session's NAV.
+    Cross-border funds (QDII) publish a session late, so their row leaves `nav` empty
+    and parks the last published NAV in `nav_prev`. Reading `nav` alone therefore made a
+    QDII fund's NAV-ruler history permanently blank -- which reads as "no history" when
+    the number sat in the same row all along (r2220). Pure; returns (value, column).
+    """
+    a = _num(nav)
+    if a is not None and a > 0:
+        return a, "nav"
+    b = _num(nav_prev)
+    if b is not None and b > 0:
+        return b, "nav_prev"
+    return None, None
+
+
+def nav_ruler_history(symbols, navhist_dir=None):
+    """Premium on the OTHER ruler: close / published NAV - 1, from the fund premium panel.
+
+    A row priced off `nav_prev` is priced off the PREVIOUS session's NAV, so its premium
+    is overstated by that day's move. The share of such rows is printed per fund rather
+    than hidden inside the median (r2220).
+    """
     out = {}
-    files = sorted(glob.glob(os.path.join(NAVHIST_DIR, "*.csv")))
+    files = sorted(glob.glob(os.path.join(navhist_dir or NAVHIST_DIR, "*.csv")))
     if not files:
         return out
     import pandas as pd
@@ -269,25 +327,33 @@ def nav_ruler_history(symbols):
     for f in files:
         d = pd.read_csv(f, dtype={"code": str})
         d["code"] = d["code"].astype(str).str.zfill(6)
+        if "nav_prev" not in d.columns:
+            d["nav_prev"] = None
         sub = d[d["code"].isin(want)]
         if len(sub):
             sub = sub.copy()
             sub["day"] = os.path.basename(f)[:10]
-            rows.append(sub[["day", "code", "nav", "mkt_price"]])
+            rows.append(sub[["day", "code", "nav", "nav_prev", "mkt_price"]])
     if not rows:
         for c in symbols:
             out[c] = history_stats([], c)
         return out
     h = pd.concat(rows)
+    pairs = [resolve_nav_cell(a, b) for a, b in zip(h["nav"], h["nav_prev"])]
+    h["nav_val"] = [p[0] for p in pairs]
+    h["nav_col"] = [p[1] for p in pairs]
     h["prem"] = pd.to_numeric(h["mkt_price"], errors="coerce") / \
-        pd.to_numeric(h["nav"], errors="coerce") - 1.0
+        pd.to_numeric(h["nav_val"], errors="coerce") - 1.0
     for c in symbols:
         g = h[h["code"] == c].dropna(subset=["prem"]).sort_values("day")
         st = history_stats([float(x) for x in g["prem"].tolist()], c)
+        prev_rows = int((g["nav_col"] == "nav_prev").sum()) if len(g) else 0
         if st["status"] == "OK":
             st["first_day"] = str(g["day"].iloc[0])
             st["last_day"] = str(g["day"].iloc[-1])
             st["last_pct"] = round(float(g["prem"].iloc[-1]) * 100.0, 4)
+        st["nav_prev_rows"] = prev_rows
+        st["nav_prev_share_pct"] = round(100.0 * prev_rows / len(g), 2) if len(g) else None
         out[c] = st
     return out
 
@@ -530,7 +596,14 @@ def build(ticket_path=None):
             "history": "close / published unit NAV - 1, disclosure-lagged (NOT the same "
                        "quantity, printed separately, never blended)",
         },
+        "nav_ruler_column_note": (
+            "a row's denominator is taken from `nav` when that column carries a published "
+            "NAV, else from `nav_prev` (a cross-border fund publishes a session late). The "
+            "`nav_prev` rows price a previous-session NAV, so their premium is overstated "
+            "by that day's move -- nav_prev_share_pct prints how much of each history is "
+            "such a row (r2220)"),
         "nav_ruler_history": hist,
+        "inputs": {"snapshots_sha": _snap_digest()[0], "snapshots_n": _snap_digest()[1]},
         "own_criteria": {"min_obs": OWN_MIN_OBS, "top_decile_pctile": OWN_DECILE_PCTILE},
         "own_ruler": own,
         "own_ruler_summary": own_s,
@@ -604,6 +677,12 @@ def check(path=OUT_JSON):
         fails.append("own median-reversion %.2f != recomputed %.2f"
                      % (stored.get("revert_to_own_median_cny"),
                         recomputed["revert_to_own_median_cny"]))
+    # (r2220) the NAV-ruler history is derived from the snapshot panel; if a new daily
+    # snapshot landed after this face was written, the history is one day shorter than the
+    # panel it claims to describe. STALE is the word the chain pays to refresh on.
+    _stale = stale_word(face)
+    if _stale:
+        fails.append(_stale)
     if fails:
         print("[check] FAIL")
         for f in fails:
@@ -827,6 +906,50 @@ def selftest():
        == "NO_NAME_ABOVE_OWN_TOP_DECILE")
     ck("L17c", own_summary({"100001": {"status": "NO_LOCAL_HISTORY"}}, rows_fix)["verdict"]
        == "OWN_HISTORY_UNREADABLE")
+
+    # L18 a NAV lives in whichever column carries it, and the prev-column share is printed
+    # (r2220: a cross-border fund read as "no history" because only `nav` was read)
+    ck("L18a", resolve_nav_cell("1.234", "1.200") == (1.234, "nav"))
+    ck("L18b", resolve_nav_cell(None, "1.200") == (1.2, "nav_prev"))
+    ck("L18c", resolve_nav_cell("", None) == (None, None)
+       and resolve_nav_cell(0, "0") == (None, None))
+    import csv as _csv
+    import shutil
+    import tempfile
+    base = tempfile.mkdtemp(prefix="r2220_")
+    try:
+        nd = os.path.join(base, "snapshots")
+        os.makedirs(nd)
+        for day, nav, prev in (("2026-11-24", "", "1.7000"),
+                               ("2026-11-25", "", "1.7100"),
+                               ("2026-11-26", "", "1.7200")):
+            with open(os.path.join(nd, day + ".csv"), "w", encoding="utf-8", newline="") as f:
+                w = _csv.writer(f)
+                w.writerow(["code", "name", "ftype", "nav", "acc_nav", "nav_prev",
+                            "acc_nav_prev", "growth", "growth_rate", "mkt_price",
+                            "discount_rate"])
+                w.writerow(["159655", "QDII", "QDII", nav, "", prev, "", "", "", "1.900",
+                            "---"])
+        st = nav_ruler_history(["159655"], navhist_dir=nd).get("159655") or {}
+        ck("L18d", st.get("status") == "OK" and st.get("n_obs") == 3
+           and st.get("nav_prev_share_pct") == 100.0, str(st))
+        ck("L18e", st.get("last_pct") is not None and st.get("last_pct") > 9.0, str(st))
+        # L18f/g the face must notice a snapshot it never priced (r1935: a check that only
+        # recomputes itself can never say it is stale)
+        face_fix = {"inputs": {"snapshots_sha": _snap_digest(nd)[0],
+                               "snapshots_n": _snap_digest(nd)[1]}}
+        ck("L18f", stale_word(face_fix, navhist_dir=nd) is None)
+        with open(os.path.join(nd, "2026-11-27.csv"), "w", encoding="utf-8", newline="") as f:
+            w = _csv.writer(f)
+            w.writerow(["code", "name", "ftype", "nav", "acc_nav", "nav_prev",
+                        "acc_nav_prev", "growth", "growth_rate", "mkt_price",
+                        "discount_rate"])
+            w.writerow(["159655", "QDII", "QDII", "", "", "1.7300", "", "", "", "1.910",
+                        "---"])
+        w2 = stale_word(face_fix, navhist_dir=nd) or ""
+        ck("L18g", "STALE" in w2, w2)
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
 
     if fails:
         print("[selftest] %d FAIL" % len(fails))

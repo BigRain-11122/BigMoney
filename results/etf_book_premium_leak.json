@@ -124,6 +124,7 @@
   "entry": "price / IOPV - 1, same session (this is what the order pays)",
   "history": "close / published unit NAV - 1, disclosure-lagged (NOT the same quantity, printed separately, never blended)"
  },
+ "nav_ruler_column_note": "a row's denominator is taken from `nav` when that column carries a published NAV, else from `nav_prev` (a cross-border fund publishes a session late). The `nav_prev` rows price a previous-session NAV, so their premium is overstated by that day's move -- nav_prev_share_pct prints how much of each history is such a row (r2220)",
  "nav_ruler_history": {
   "510760": {
    "symbol": "510760",
@@ -134,7 +135,9 @@
    "min_pct": -1.5,
    "first_day": "2026-09-24",
    "last_day": "2026-11-26",
-   "last_pct": -0.3215
+   "last_pct": -0.3215,
+   "nav_prev_rows": 0,
+   "nav_prev_share_pct": 0.0
   },
   "512040": {
    "symbol": "512040",
@@ -145,18 +148,22 @@
    "min_pct": -1.3591,
    "first_day": "2026-09-24",
    "last_day": "2026-11-26",
-   "last_pct": -0.2145
+   "last_pct": -0.2145,
+   "nav_prev_rows": 0,
+   "nav_prev_share_pct": 0.0
   },
   "159655": {
    "symbol": "159655",
-   "n_obs": 6,
+   "n_obs": 25,
    "status": "OK",
-   "median_pct": 8.0193,
+   "median_pct": 7.428,
    "max_pct": 9.1737,
-   "min_pct": 6.4233,
-   "first_day": "2026-10-27",
-   "last_day": "2026-11-23",
-   "last_pct": 8.0312
+   "min_pct": 5.9133,
+   "first_day": "2026-09-24",
+   "last_day": "2026-11-26",
+   "last_pct": 7.3106,
+   "nav_prev_rows": 19,
+   "nav_prev_share_pct": 76.0
   },
   "513690": {
    "symbol": "513690",
@@ -167,7 +174,9 @@
    "min_pct": -2.3195,
    "first_day": "2026-09-24",
    "last_day": "2026-11-26",
-   "last_pct": -0.5817
+   "last_pct": -0.5817,
+   "nav_prev_rows": 0,
+   "nav_prev_share_pct": 0.0
   },
   "159519": {
    "symbol": "159519",
@@ -178,8 +187,14 @@
    "min_pct": -2.0037,
    "first_day": "2026-09-24",
    "last_day": "2026-11-26",
-   "last_pct": -0.4066
+   "last_pct": -0.4066,
+   "nav_prev_rows": 0,
+   "nav_prev_share_pct": 0.0
   }
+ },
+ "inputs": {
+  "snapshots_sha": "a1b67d57a985d2cb",
+  "snapshots_n": 26
  },
  "own_criteria": {
   "min_obs": 60,

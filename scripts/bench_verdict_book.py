@@ -69,6 +69,37 @@ FAMILY_LABELS = {
 # numbers worth quoting, in the order they should be read
 HEADLINE_KEYS = ("ann_pct", "net_ann_pct", "excess_pp", "vol_pct", "sharpe", "mdd_pct", "t_stat")
 
+# a face that keeps its numbers under products[P].weighted uses these spellings
+PRODUCT_ALIASES = {
+    "carry_ann_pct": "ann_pct",
+    "net_ann_pct": "ann_pct",
+    "weighted_ann_pct": "ann_pct",
+    "carry_mdd_pct": "mdd_pct",
+    "difference_pp": "excess_pp",
+    "ann_sharpe": "sharpe",
+}
+
+# r2221: a GO row on this page is a verdict, not a ticket. For each card still alive,
+# name what stands between the number and an order -- read from the faces that already
+# own that question, never re-typed here. No face = "未测", never a zero.
+TO_ORDER_FACES = {
+    "basis_timing_size": {
+        "capital": "results/idx_fut_carry_open_capital.json",
+        "capacity": "results/bench_basis_capacity.json",
+        "accounts": ("IC", "IM"),
+    },
+    "basis_timing_perm": {
+        "capital": "results/idx_fut_carry_open_capital.json",
+        "capacity": "results/bench_basis_capacity.json",
+        "accounts": ("IC", "IM"),
+    },
+    "census_commodity": {"capital": None, "capacity": None, "accounts": ()},
+    "robust_tsmom_commodity": {"capital": None, "capacity": None, "accounts": ()},
+}
+
+# the two words this book treats as "still alive"
+ALIVE_WORDS = ("GO", "SIGNIFICANT")
+
 
 def _load(path):
     with io.open(path, encoding="utf-8") as f:
@@ -105,6 +136,27 @@ def headline_of(payload, arm=None):
         if nums:
             return nums
     out = {k: payload[k] for k in HEADLINE_KEYS if isinstance(payload.get(k), (int, float))}
+    if out:
+        return out
+    # r2221: two live conclusions (the basis-timing pair) keep their numbers one level
+    # deeper, under products[P].weighted -- so the page printed "-" in every numeric
+    # column of a GO row. Read that shape instead of leaving the card blank.
+    prods = payload.get("products")
+    if isinstance(prods, dict):
+        for name in sorted(prods):
+            p = prods[name]
+            if not isinstance(p, dict):
+                continue
+            bag = {}
+            for src in (p.get("weighted"), p):
+                if not isinstance(src, dict):
+                    continue
+                for k, v in src.items():
+                    key = PRODUCT_ALIASES.get(k)
+                    if key and isinstance(v, (int, float)) and not isinstance(v, bool) and key not in bag:
+                        bag[key] = v
+            if bag:
+                return bag
     return out
 
 
@@ -316,6 +368,28 @@ def build(supply_report, loader=_load, digester=digest_of):
         disp[c["disposition"]] = disp.get(c["disposition"], 0) + 1
 
     fin = [c["finished"] for c in cards if c.get("finished")]
+
+    # r2221: one row per card still alive, naming the obstacle between the number and
+    # a ticket. Built from the faces that own each question so it re-derives with them.
+    to_order = {}
+    first_by_id = {}
+    for c in cards:
+        if c["disposition"] != CANDIDATE:
+            continue
+        first_by_id.setdefault(c["id"], c)
+    for cid in sorted(first_by_id):
+        c = first_by_id[cid]
+        payload = None
+        if c.get("result"):
+            p = c["result"] if os.path.isabs(c["result"]) else os.path.join(ROOT, c["result"])
+            try:
+                payload = loader(p)
+            except (OSError, ValueError):
+                payload = None
+        rows = to_order_blockers(cid, c.get("verdict"), payload, loader, face_rel=c.get("result"))
+        if rows:
+            to_order[cid] = rows
+
     return {
         "schema": "bench-verdict-book/v1",
         "evidence_cutoff": max(fin)[:10] if fin else None,
@@ -328,8 +402,84 @@ def build(supply_report, loader=_load, digester=digest_of):
         "dispositions": disp,
         "duplicate_questions": dups,
         "missing_evidence": [c["id"] for c in cards if c["result"] and not c["result_present"]],
+        "to_order": to_order,
         "rows": cards,
     }
+
+
+def to_order_blockers(card_id, row_verdict, payload, loader=None, face_rel=None):
+    """What stands between a live verdict and a ticket, quoted from the faces that own it.
+
+    Nothing here judges the strategy: each line either quotes the card's own evidence
+    face, or names the face that would answer the question and says it is not on disk.
+    """
+    loader = loader or _load
+    spec = TO_ORDER_FACES.get(card_id) or {}
+    face_rel = face_rel or spec.get("face")
+    out = []
+
+    fv = payload.get("verdict") if isinstance(payload, dict) else None
+    if isinstance(fv, str) and fv.upper() not in ALIVE_WORDS:
+        out.append({
+            "what": "脸级判词",
+            "text": f"这张卡自己的证据面判 **{fv}**，行上的 {row_verdict or '-'} 是单臂/单相读数——面自己没认这个 GO",
+            "source": face_rel,
+        })
+
+    cost = None
+    for bag in ((payload or {}).get("criteria"), (payload or {}).get("config"),
+                (payload or {}).get("rule")):
+        if isinstance(bag, dict) and isinstance(bag.get("cost_bp_side"), (int, float)):
+            cost = bag["cost_bp_side"]
+            break
+    if cost is not None:
+        out.append({"what": "成本", "text": f"按 {cost:g} bp/边计；无冲击曲线、无保证金资金成本",
+                    "source": face_rel})
+
+    cap_rel = spec.get("capital")
+    if cap_rel:
+        try:
+            cap = loader(os.path.join(ROOT, cap_rel))
+        except (OSError, ValueError):
+            cap = None
+        if cap is None:
+            out.append({"what": "资本线", "text": "面不在盘上（不是「不差钱」，是没读到）", "source": cap_rel})
+        else:
+            for acct in spec.get("accounts") or ():
+                a = ((cap.get("accounts") or {}).get(acct) or {})
+                fund = a.get("funding") or {}
+                if not fund:
+                    continue
+                state = (a.get("executable_ticket") or {}).get("state")
+                out.append({
+                    "what": f"资本线 {acct}",
+                    "text": (f"首档 1 手要 ￥{fund.get('first_rung_cny'):,.0f}，"
+                             f"本金 ￥{a.get('capital_cny'):,.0f}，差 ￥{fund.get('gap_cny'):,.0f}"
+                             f"（{fund.get('gap_pct_of_capital'):.2f}%）；可执行票状态 {state}"),
+                    "source": f"{cap_rel} @{cap.get('generated')}",
+                    "stamp": f"{cap_rel}#{digest_of(os.path.join(ROOT, cap_rel))}",
+                })
+
+    q_rel = spec.get("capacity")
+    if q_rel:
+        try:
+            q = loader(os.path.join(ROOT, q_rel))
+        except (OSError, ValueError):
+            q = None
+        if q is None:
+            out.append({"what": "容量", "text": "面不在盘上（未测，不是零）", "source": q_rel})
+        else:
+            mult = q.get("total_capacity_multiple_of_book")
+            out.append({
+                "what": "容量",
+                "text": f"{q.get('verdict')}·总容量 {mult:g}× 本书" if isinstance(mult, (int, float))
+                        else f"{q.get('verdict')}",
+                "source": f"{q_rel} @{q.get('generated')}",
+                "stamp": f"{q_rel}#{digest_of(os.path.join(ROOT, q_rel))}",
+            })
+    elif card_id and not spec.get("capacity"):
+        out.append({"what": "容量", "text": "没有任何面量过这本书的容量（未测，不是零）", "source": None})
+    return out
 
 
 def _num(head, key, suffix=""):
@@ -384,6 +534,20 @@ def render(report):
             lines.append(f"| {cid} | {arms} | {verdicts} | {slot['evidence']} @{slot['digest']} |")
         lines.append("")
         lines.append("这一节只搬判词与证据，不追加任何新判定；行级数字与关卡在上面的分族表里。")
+        lines.append("")
+
+    # r2221: a GO on this page is a verdict, not a ticket. Say what still stands in the way.
+    if report.get("to_order"):
+        lines.append("## 离下单还差什么（每个活结论一行）")
+        lines.append("")
+        for cid in sorted(report["to_order"]):
+            lines.append(f"**{cid}**")
+            for b in report["to_order"][cid]:
+                src = f"（{b['source']}）" if b.get("source") else ""
+                lines.append(f"- {b['what']}：{b['text']}{src}")
+            lines.append("")
+        lines.append("读法：这些行不是新的判词，是把「还差什么」从各自的面上取过来——"
+                     "写着「未测」的地方是没有人量过，不是量出来是零。")
         lines.append("")
 
     families = {}
@@ -531,6 +695,44 @@ def selftest():
     checks.append(("a number that does not re-derive stays CHECK FAILED (no STALE word)",
                    classify_drift(rep2, wrong) == "FAILED"))
 
+    # r2221: "alive" is a verdict on this page, not a ticket. The obstacle between the
+    # number and an order must be printed, and a face that is not on disk must say so.
+    def _missing(_p):
+        raise OSError("not on disk")
+
+    b_rob = to_order_blockers("robust_tsmom_commodity", "GO",
+                              {"verdict": "UNSTABLE_ACROSS_PARAMS", "criteria": {"cost_bp_side": 3.0}},
+                              loader=_missing)
+    checks.append(("a GO row whose own face withdrew it says so",
+                   any(b["what"] == "脸级判词" and "UNSTABLE_ACROSS_PARAMS" in b["text"] for b in b_rob)))
+    checks.append(("a family nobody measured says 未测, not zero",
+                   any(b["what"] == "容量" and "未测" in b["text"] for b in b_rob)))
+    b_bas = to_order_blockers("basis_timing_size", "GO", {"verdict": "GO"}, loader=_missing)
+    checks.append(("a capital face that is not on disk is named, never a zero",
+                   any(b["what"] == "资本线" and "面不在盘上" in b["text"] for b in b_bas)))
+    cap_fake = {"generated": "2026-11-28T09:13:00+08:00",
+                "accounts": {"IC": {"capital_cny": 1000000.0,
+                                    "funding": {"first_rung_cny": 1159598.62, "gap_cny": 159598.62,
+                                                "gap_pct_of_capital": 15.9599},
+                                    "executable_ticket": {"state": "WITHDRAWN"}}}}
+
+    def _cap_loader(p):
+        return cap_fake if p.endswith("idx_fut_carry_open_capital.json") else (_ for _ in ()).throw(OSError(p))
+
+    b_cap = to_order_blockers("basis_timing_size", "GO", {"verdict": "GO"}, loader=_cap_loader)
+    checks.append(("the capital line is quoted from its own face, with the gap",
+                   any(b["what"] == "资本线 IC" and "159,599" in b["text"] and "WITHDRAWN" in b["text"]
+                       for b in b_cap)))
+    checks.append(("a GO face that agrees with its row is not flagged as a contradiction",
+                   not any(b["what"] == "脸级判词" for b in b_cap)))
+
+    base_o = json.loads(json.dumps(rep2, ensure_ascii=False))
+    base_o["to_order"] = {"x": [{"what": "容量", "text": "t", "source": "s", "stamp": "f#bbbb"}]}
+    moved_o = json.loads(json.dumps(base_o, ensure_ascii=False))
+    moved_o["to_order"]["x"][0]["stamp"] = "f#aaaa"
+    checks.append(("a face behind the to-order block moving speaks STALE",
+                   classify_drift(base_o, moved_o) == "STALE"))
+
     bad = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(("PASS " if ok else "FAIL ") + n)
@@ -548,6 +750,10 @@ def _input_stamps(rep):
     """The stamps that belong to the inputs, not to our own arithmetic."""
     rows = rep.get("rows") or []
     return (rep.get("source_digest"),
+            # r2221: the to-order block is read from other faces, so a face that moved
+            # must read as STALE, not as "we compute differently now".
+            tuple(sorted({r.get("stamp") for v in (rep.get("to_order") or {}).values()
+                          for r in v if r.get("stamp")})),
             tuple(sorted({(c.get("id"), str(c.get("arm")), c.get("evidence_digest"))
                           for c in rows})))
 

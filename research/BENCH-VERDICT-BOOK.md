@@ -1,4 +1,4 @@
-generated 2026-11-28T17:04:58+08:00
+generated 2026-11-28T17:25:52+08:00
 evidence_cutoff 2026-11-28
 
 门票面 33 张 → 判词行 96 行
@@ -22,6 +22,32 @@ evidence_cutoff 2026-11-28
 
 这一节只搬判词与证据，不追加任何新判定；行级数字与关卡在上面的分族表里。
 
+## 离下单还差什么（每个活结论一行）
+
+**basis_timing_perm**
+- 成本：按 1.5 bp/边计；无冲击曲线、无保证金资金成本（results/bench_basis_timing_perm.json）
+- 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
+- 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
+- 容量：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
+
+**basis_timing_size**
+- 成本：按 1.5 bp/边计；无冲击曲线、无保证金资金成本（results/bench_basis_timing_size.json）
+- 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
+- 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN（results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00）
+- 容量：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
+
+**census_commodity**
+- 脸级判词：这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO（results/bench_census_commodity.json）
+- 成本：按 3 bp/边计；无冲击曲线、无保证金资金成本（results/bench_census_commodity.json）
+- 容量：没有任何面量过这本书的容量（未测，不是零）
+
+**robust_tsmom_commodity**
+- 脸级判词：这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO（results/bench_robust_tsmom_commodity.json）
+- 成本：按 3 bp/边计；无冲击曲线、无保证金资金成本（results/bench_robust_tsmom_commodity.json）
+- 容量：没有任何面量过这本书的容量（未测，不是零）
+
+读法：这些行不是新的判词，是把「还差什么」从各自的面上取过来——写着「未测」的地方是没有人量过，不是量出来是零。
+
 ## A 股选股（astock）· 4 行
 
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
@@ -36,8 +62,8 @@ evidence_cutoff 2026-11-28
 | 卡 | 臂 | 判词 | 处置 | 净年化 | 超额 | 夏普 | 回撤 | 关卡 | 证据 |
 |---|---|---|---|---|---|---|---|---|---|
 | basis_capacity | - | CAPACITY_OK_AND_SIZED | OTHER | - | - | - | - | 3/3 | results/bench_basis_capacity.json @230ddce7bbeb |
-| basis_timing_size | - | GO | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_size.json @7b40930c05d4 |
-| basis_timing_perm | - | SIGNIFICANT | CANDIDATE | - | - | - | - | - | results/bench_basis_timing_perm.json @725f58b4ed40 |
+| basis_timing_size | - | GO | CANDIDATE | 10.16% | - | - | -1.89% | - | results/bench_basis_timing_size.json @7b40930c05d4 |
+| basis_timing_perm | - | SIGNIFICANT | CANDIDATE | 10.16% | 7.38pp | - | - | - | results/bench_basis_timing_perm.json @725f58b4ed40 |
 
 ## 国债/债券（bond）· 7 行
 

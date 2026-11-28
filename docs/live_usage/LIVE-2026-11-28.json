@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T16:13:01",
+ "generated": "2026-11-28T16:48:49",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -581,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75291.2
+    "last_append_age_min": 75327.0
    },
    {
     "family": "FUND-VALUE-P1",
@@ -589,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 76135.7
+    "last_append_age_min": 76171.5
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -597,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72929.0
+    "last_append_age_min": 72964.8
    }
   ]
  },
@@ -1421,7 +1421,40 @@
   ],
   "own_verdict": "SOME_NAMES_ABOVE_OWN_TOP_DECILE",
   "own_revert_cny": -278.47,
-  "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying"
+  "own_revert_note": "stress, not a forecast: it gives back only the part ABOVE each fund's own median premium, and only for names this order is buying",
+  "nav_ruler": {
+   "510760": {
+    "status": "OK",
+    "n_obs": 26,
+    "median_pct": -0.1016,
+    "nav_prev_share_pct": 0.0
+   },
+   "512040": {
+    "status": "OK",
+    "n_obs": 26,
+    "median_pct": -0.063,
+    "nav_prev_share_pct": 0.0
+   },
+   "159655": {
+    "status": "OK",
+    "n_obs": 25,
+    "median_pct": 7.428,
+    "nav_prev_share_pct": 76.0
+   },
+   "513690": {
+    "status": "OK",
+    "n_obs": 26,
+    "median_pct": -0.9083,
+    "nav_prev_share_pct": 0.0
+   },
+   "159519": {
+    "status": "OK",
+    "n_obs": 26,
+    "median_pct": -0.8422,
+    "nav_prev_share_pct": 0.0
+   }
+  },
+  "nav_ruler_note": "a row's denominator is taken from `nav` when that column carries a published NAV, else from `nav_prev` (a cross-border fund publishes a session late). The `nav_prev` rows price a previous-session NAV, so their premium is overstated by that day's move -- nav_prev_share_pct prints how much of each history is such a row (r2220)"
  },
  "etf_premium_choice": {
   "present": true,

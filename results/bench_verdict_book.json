@@ -9,7 +9,7 @@
  },
  "duplicate_questions": [],
  "evidence_cutoff": "2026-11-28",
- "generated": "2026-11-28T17:04:58+08:00",
+ "generated": "2026-11-28T17:25:52+08:00",
  "missing_evidence": [],
  "rows": [
   {
@@ -2082,7 +2082,10 @@
    "fingerprint_size": 0,
    "finished": null,
    "gates": null,
-   "headline": {},
+   "headline": {
+    "ann_pct": 10.16,
+    "mdd_pct": -1.89
+   },
    "id": "basis_timing_size",
    "off_bank": true,
    "question": null,
@@ -2401,7 +2404,10 @@
    "fingerprint_size": 0,
    "finished": null,
    "gates": null,
-   "headline": {},
+   "headline": {
+    "ann_pct": 10.16,
+    "excess_pp": 7.38
+   },
    "id": "basis_timing_perm",
    "off_bank": true,
    "question": null,
@@ -2413,5 +2419,91 @@
  ],
  "schema": "bench-verdict-book/v1",
  "source_digest": "248cc196bf23",
- "sources": 33
+ "sources": 33,
+ "to_order": {
+  "basis_timing_perm": [
+   {
+    "source": "results/bench_basis_timing_perm.json",
+    "text": "按 1.5 bp/边计；无冲击曲线、无保证金资金成本",
+    "what": "成本"
+   },
+   {
+    "source": "results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00",
+    "stamp": "results/idx_fut_carry_open_capital.json#cc670e81f80b",
+    "text": "首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN",
+    "what": "资本线 IC"
+   },
+   {
+    "source": "results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00",
+    "stamp": "results/idx_fut_carry_open_capital.json#cc670e81f80b",
+    "text": "首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN",
+    "what": "资本线 IM"
+   },
+   {
+    "source": "results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00",
+    "stamp": "results/bench_basis_capacity.json#230ddce7bbeb",
+    "text": "CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书",
+    "what": "容量"
+   }
+  ],
+  "basis_timing_size": [
+   {
+    "source": "results/bench_basis_timing_size.json",
+    "text": "按 1.5 bp/边计；无冲击曲线、无保证金资金成本",
+    "what": "成本"
+   },
+   {
+    "source": "results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00",
+    "stamp": "results/idx_fut_carry_open_capital.json#cc670e81f80b",
+    "text": "首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN",
+    "what": "资本线 IC"
+   },
+   {
+    "source": "results/idx_fut_carry_open_capital.json @2026-11-28T09:13:00+08:00",
+    "stamp": "results/idx_fut_carry_open_capital.json#cc670e81f80b",
+    "text": "首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN",
+    "what": "资本线 IM"
+   },
+   {
+    "source": "results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00",
+    "stamp": "results/bench_basis_capacity.json#230ddce7bbeb",
+    "text": "CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书",
+    "what": "容量"
+   }
+  ],
+  "census_commodity": [
+   {
+    "source": "results/bench_census_commodity.json",
+    "text": "这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO",
+    "what": "脸级判词"
+   },
+   {
+    "source": "results/bench_census_commodity.json",
+    "text": "按 3 bp/边计；无冲击曲线、无保证金资金成本",
+    "what": "成本"
+   },
+   {
+    "source": null,
+    "text": "没有任何面量过这本书的容量（未测，不是零）",
+    "what": "容量"
+   }
+  ],
+  "robust_tsmom_commodity": [
+   {
+    "source": "results/bench_robust_tsmom_commodity.json",
+    "text": "这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO",
+    "what": "脸级判词"
+   },
+   {
+    "source": "results/bench_robust_tsmom_commodity.json",
+    "text": "按 3 bp/边计；无冲击曲线、无保证金资金成本",
+    "what": "成本"
+   },
+   {
+    "source": null,
+    "text": "没有任何面量过这本书的容量（未测，不是零）",
+    "what": "容量"
+   }
+  ]
+ }
 }

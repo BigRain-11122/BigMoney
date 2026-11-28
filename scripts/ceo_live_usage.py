@@ -1850,6 +1850,13 @@ def _etf_premium_face():
             "status": n.get("status"),
         })
     own = d.get("own_ruler_summary") or {}
+    _hist = d.get("nav_ruler_history") or {}
+    nav_rows = {}
+    for _s, _st in (_hist or {}).items():
+        _st = _st or {}
+        nav_rows[str(_s)] = {"status": _st.get("status"), "n_obs": _st.get("n_obs"),
+                             "median_pct": _st.get("median_pct"),
+                             "nav_prev_share_pct": _st.get("nav_prev_share_pct")}
     return {
         "present": True,
         "verdict": d.get("verdict"),
@@ -1873,6 +1880,8 @@ def _etf_premium_face():
         "own_verdict": own.get("verdict"),
         "own_revert_cny": own.get("revert_to_own_median_cny"),
         "own_revert_note": own.get("revert_note"),
+        "nav_ruler": nav_rows,
+        "nav_ruler_note": d.get("nav_ruler_column_note"),
     }
 
 
@@ -4647,6 +4656,14 @@ def render_md(p: dict) -> str:
                 _bits.append("该基金近一年 {:.1f} 分位".format(_pl))
             if _r.get("symbol") in _own:
                 _bits.append("**在它自己历史的前 10% 高位**")
+            _nr = (_pm.get("nav_ruler") or {}).get(_r.get("symbol")) or {}
+            _sh = _nr.get("nav_prev_share_pct")
+            if _nr.get("status") == "OK" and _sh is not None and _sh >= 50.0:
+                # r2220: for a cross-border fund the published NAV arrives a session late, so
+                # most of this history is priced off the PREVIOUS session's NAV -- the number
+                # is real but leans high, and the reader has to be told which it is.
+                _bits.append("净值史 {} 天｜中位 {:+.2f}%｜其中 {:.0f}% 行用前一场净值（偏高）".format(
+                    _nr.get("n_obs"), _nr.get("median_pct") or 0.0, _sh))
             L.append("    - " + "｜".join(_bits))
         _st = _pm.get("stress") or {}
         _z = _st.get("if_premium_reverts_to_zero_cny")
@@ -7154,6 +7171,16 @@ def selftest() -> int:
                   str(_pm1.get("ticket")) in md1
                   and str(_pm1.get("ticket_session")) in md1
                   and str(_pm1.get("iopv_session")) in md1)
+            # r2220: a history whose rows are mostly priced off the PREVIOUS session's NAV is
+            # a real number leaning high -- the page must say which it is, and must stay quiet
+            # about it for a fund whose NAV history is all same-session rows.
+            _shares = [(s, (v or {}).get("nav_prev_share_pct"))
+                       for s, v in (_pm1.get("nav_ruler") or {}).items()
+                       if (v or {}).get("status") == "OK"
+                       and ((v or {}).get("nav_prev_share_pct") or 0.0) >= 50.0]
+            check("a NAV history that leans on the previous session says so (r2220)",
+                  all("{}｜".format(s) in md1 and "用前一场净值" in md1 for s, _ in _shares)
+                  if _shares else "用前一场净值" not in md1)
             _deg6 = json.loads(json.dumps(p1))
             _deg6["etf_premium"] = {"present": False,
                                     "note": "溢价面未产出（缺面不读 0）"}
