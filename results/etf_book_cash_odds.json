@@ -1,0 +1,512 @@
+{
+ "face": "etf_book_cash_odds",
+ "why": "the losing-year count is published with cash at 0%; the repo panel says it earns",
+ "wallet_cny": 1000000.0,
+ "config": {
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_bp_side": 10.0,
+  "vol_target": 0.08,
+  "entry_lag": 1,
+  "sleeves": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "cash_leg": "GC001 daily roll, net of commissions (etf_book_cash_ladder.roll_rung)"
+ },
+ "arms": {
+  "cash_off": {
+   "bars": 1672,
+   "first_bar": "2020-01-03",
+   "last_bar": "2026-11-27",
+   "level_end": 1.9180421580238785,
+   "years": 6.85,
+   "horizons": {
+    "1y": {
+     "n": 1428,
+     "share_losing": 0.06512605042016807,
+     "count_losing": 93,
+     "median": 0.09240369965360817,
+     "p10": 0.011659338220693297,
+     "p90": 0.33166142782294034,
+     "worst": -0.06466531614346982,
+     "best": 0.5282881078329971,
+     "median_cny": 92403.69965360817,
+     "worst_cny": -64665.31614346982,
+     "best_cny": 528288.1078329971,
+     "independent": {
+      "n": 6,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.05788243088055656,
+      "worst": 0.02435087751834808
+     }
+    },
+    "2y": {
+     "n": 1184,
+     "share_losing": 0.002533783783783784,
+     "count_losing": 3,
+     "median": 0.1703048656770927,
+     "p10": 0.05604649975508511,
+     "p90": 0.5796120061271062,
+     "worst": -0.001599854824405389,
+     "best": 0.7277651575982671,
+     "median_cny": 170304.8656770927,
+     "worst_cny": -1599.8548244053889,
+     "best_cny": 727765.1575982671,
+     "independent": {
+      "n": 3,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.10671233452855455,
+      "worst": 0.06639454400567879
+     }
+    },
+    "3y": {
+     "n": 940,
+     "share_losing": 0.0,
+     "count_losing": 0,
+     "median": 0.25143316461628995,
+     "p10": 0.1254289390553567,
+     "p90": 0.6745678397363868,
+     "worst": 0.06768312598061166,
+     "best": 0.8031799972732399,
+     "median_cny": 251433.16461628996,
+     "worst_cny": 67683.12598061166,
+     "best_cny": 803179.9972732399,
+     "independent": {
+      "n": 2,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.4220464098005009,
+      "worst": 0.14584712360256225
+     }
+    }
+   },
+   "years_rows": [
+    {
+     "year": 2020,
+     "ret": 0.04751693895040088,
+     "cny": 47516.93895040088,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2021,
+     "ret": 0.05167676445305669,
+     "cny": 51676.76445305669,
+     "bars": 243,
+     "partial": false
+    },
+    {
+     "year": 2022,
+     "ret": 0.028777086923309048,
+     "cny": 28777.08692330905,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2023,
+     "ret": 0.02383917404558966,
+     "cny": 23839.17404558966,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2024,
+     "ret": 0.12410946499133102,
+     "cny": 124109.46499133101,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2025,
+     "ret": 0.424736821305709,
+     "cny": 424736.821305709,
+     "bars": 243,
+     "partial": false
+    },
+    {
+     "year": 2026,
+     "ret": 0.012179977807715181,
+     "cny": 12179.97780771518,
+     "bars": 218,
+     "partial": true
+    }
+   ],
+   "underwater": [
+    {
+     "started_on": "2024-07-11",
+     "trough_on": "2024-09-12",
+     "depth": -0.10108547282064384,
+     "recovered_on": "2025-02-11",
+     "bars_under": 138,
+     "bars_to_recover": 94
+    },
+    {
+     "started_on": "2020-01-14",
+     "trough_on": "2020-03-19",
+     "depth": -0.09856108049473111,
+     "recovered_on": "2020-07-06",
+     "bars_under": 111,
+     "bars_to_recover": 71
+    },
+    {
+     "started_on": "2023-07-20",
+     "trough_on": "2024-01-23",
+     "depth": -0.08308106770685786,
+     "recovered_on": "2024-04-01",
+     "bars_under": 168,
+     "bars_to_recover": 43
+    },
+    {
+     "started_on": "2022-03-09",
+     "trough_on": "2022-04-27",
+     "depth": -0.08246637577621885,
+     "recovered_on": "2023-01-16",
+     "bars_under": 209,
+     "bars_to_recover": 177
+    },
+    {
+     "started_on": "2021-09-14",
+     "trough_on": "2021-10-13",
+     "depth": -0.06705326137909173,
+     "recovered_on": "2022-03-09",
+     "bars_under": 112,
+     "bars_to_recover": 99
+    },
+    {
+     "started_on": "2021-02-18",
+     "trough_on": "2021-08-20",
+     "depth": -0.06469101448005143,
+     "recovered_on": "2021-09-08",
+     "bars_under": 138,
+     "bars_to_recover": 13
+    },
+    {
+     "started_on": "2025-10-21",
+     "trough_on": "2025-12-17",
+     "depth": -0.061977466851354635,
+     "recovered_on": "2026-01-13",
+     "bars_under": 57,
+     "bars_to_recover": 17
+    },
+    {
+     "started_on": "2026-03-03",
+     "trough_on": "2026-03-24",
+     "depth": -0.05772661525584244,
+     "recovered_on": "2026-06-01",
+     "bars_under": 59,
+     "bars_to_recover": 45
+    }
+   ],
+   "deepest": {
+    "started_on": "2024-07-11",
+    "trough_on": "2024-09-12",
+    "depth": -0.10108547282064384,
+    "recovered_on": "2025-02-11",
+    "bars_under": 138,
+    "bars_to_recover": 94
+   },
+   "currently_underwater": true,
+   "current_underwater": {
+    "started_on": "2026-08-04",
+    "depth": -0.05691704085255045,
+    "bars_under": 76
+   },
+   "daily": {
+    "vol": 0.10461954133390242,
+    "sharpe": 0.9627202926036854
+   },
+   "start_level": 0.999257145704462,
+   "cagr": 0.09989232423524319,
+   "losing_start_years": {
+    "2020": 20,
+    "2021": 67,
+    "2023": 5,
+    "2025": 1
+   },
+   "verdict": "LOSES_MONEY_OVER_A_YEAR_SOMETIMES",
+   "label": "cash_off"
+  },
+  "cash_on": {
+   "bars": 1672,
+   "first_bar": "2020-01-03",
+   "last_bar": "2026-11-27",
+   "level_end": 1.9880393970377674,
+   "years": 6.85,
+   "horizons": {
+    "1y": {
+     "n": 1428,
+     "share_losing": 0.05322128851540616,
+     "count_losing": 76,
+     "median": 0.09832477526273875,
+     "p10": 0.01698591247716994,
+     "p90": 0.3365241940770006,
+     "worst": -0.06071428898851827,
+     "best": 0.5371362019945958,
+     "median_cny": 98324.77526273875,
+     "worst_cny": -60714.288988518274,
+     "best_cny": 537136.2019945958,
+     "independent": {
+      "n": 6,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.06570693421635698,
+      "worst": 0.030498471481952505
+     }
+    },
+    "2y": {
+     "n": 1184,
+     "share_losing": 0.0,
+     "count_losing": 0,
+     "median": 0.17975615928065902,
+     "p10": 0.06480734724058372,
+     "p90": 0.5947603730640204,
+     "worst": 0.01232666694189688,
+     "best": 0.7441761313988058,
+     "median_cny": 179756.15928065902,
+     "worst_cny": 12326.66694189688,
+     "best_cny": 744176.1313988058,
+     "independent": {
+      "n": 3,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.1260013582077315,
+      "worst": 0.07318223903899135
+     }
+    },
+    "3y": {
+     "n": 940,
+     "share_losing": 0.0,
+     "count_losing": 0,
+     "median": 0.26529380546205417,
+     "p10": 0.14086375048352745,
+     "p90": 0.6957383364459956,
+     "worst": 0.0807532686034187,
+     "best": 0.8240502722346519,
+     "median_cny": 265293.80546205415,
+     "worst_cny": 80753.26860341869,
+     "best_cny": 824050.2722346518,
+     "independent": {
+      "n": 2,
+      "count_losing": 0,
+      "share_losing": 0.0,
+      "median": 0.4445973806570782,
+      "worst": 0.16961980226153006
+     }
+    }
+   },
+   "years_rows": [
+    {
+     "year": 2020,
+     "ret": 0.0591478869910993,
+     "cny": 59147.886991099294,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2021,
+     "ret": 0.058038853953031655,
+     "cny": 58038.853953031656,
+     "bars": 243,
+     "partial": false
+    },
+    {
+     "year": 2022,
+     "ret": 0.032131784928686624,
+     "cny": 32131.784928686626,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2023,
+     "ret": 0.02691791568303281,
+     "cny": 26917.91568303281,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2024,
+     "ret": 0.12897629426279233,
+     "cny": 128976.29426279233,
+     "bars": 242,
+     "partial": false
+    },
+    {
+     "year": 2025,
+     "ret": 0.43181164709077136,
+     "cny": 431811.64709077135,
+     "bars": 243,
+     "partial": false
+    },
+    {
+     "year": 2026,
+     "ret": 0.015151553487701142,
+     "cny": 15151.553487701141,
+     "bars": 218,
+     "partial": true
+    }
+   ],
+   "underwater": [
+    {
+     "started_on": "2024-07-11",
+     "trough_on": "2024-09-12",
+     "depth": -0.10021106320702367,
+     "recovered_on": "2025-02-06",
+     "bars_under": 135,
+     "bars_to_recover": 91
+    },
+    {
+     "started_on": "2020-01-14",
+     "trough_on": "2020-03-19",
+     "depth": -0.0971206199038831,
+     "recovered_on": "2020-07-03",
+     "bars_under": 110,
+     "bars_to_recover": 70
+    },
+    {
+     "started_on": "2022-03-09",
+     "trough_on": "2022-04-27",
+     "depth": -0.08189724409604249,
+     "recovered_on": "2023-01-16",
+     "bars_under": 209,
+     "bars_to_recover": 177
+    },
+    {
+     "started_on": "2023-07-20",
+     "trough_on": "2024-01-23",
+     "depth": -0.08184333003922106,
+     "recovered_on": "2024-04-01",
+     "bars_under": 168,
+     "bars_to_recover": 43
+    },
+    {
+     "started_on": "2021-09-14",
+     "trough_on": "2021-10-13",
+     "depth": -0.06674653705529587,
+     "recovered_on": "2022-03-09",
+     "bars_under": 112,
+     "bars_to_recover": 99
+    },
+    {
+     "started_on": "2021-02-18",
+     "trough_on": "2021-08-20",
+     "depth": -0.06142660590831839,
+     "recovered_on": "2021-09-07",
+     "bars_under": 137,
+     "bars_to_recover": 12
+    },
+    {
+     "started_on": "2025-10-21",
+     "trough_on": "2025-12-17",
+     "depth": -0.06130195249431736,
+     "recovered_on": "2026-01-12",
+     "bars_under": 56,
+     "bars_to_recover": 16
+    },
+    {
+     "started_on": "2026-03-03",
+     "trough_on": "2026-03-24",
+     "depth": -0.05760730978848916,
+     "recovered_on": "2026-06-01",
+     "bars_under": 59,
+     "bars_to_recover": 45
+    }
+   ],
+   "deepest": {
+    "started_on": "2024-07-11",
+    "trough_on": "2024-09-12",
+    "depth": -0.10021106320702367,
+    "recovered_on": "2025-02-06",
+    "bars_under": 135,
+    "bars_to_recover": 91
+   },
+   "currently_underwater": true,
+   "current_underwater": {
+    "started_on": "2026-08-04",
+    "depth": -0.05590234866807997,
+    "bars_under": 76
+   },
+   "daily": {
+    "vol": 0.10461212750231885,
+    "sharpe": 1.012831243451022
+   },
+   "start_level": 0.999257145704462,
+   "cagr": 0.10566419601105292,
+   "losing_start_years": {
+    "2020": 11,
+    "2021": 60,
+    "2023": 5
+   },
+   "verdict": "LOSES_MONEY_OVER_A_YEAR_SOMETIMES",
+   "label": "cash_on"
+  }
+ },
+ "delta": {
+  "1y": {
+   "count_losing_off": 93,
+   "count_losing_on": 76,
+   "closed": 17,
+   "median_off": 0.09240369965360817,
+   "median_on": 0.09832477526273875,
+   "median_gain_pp": 0.5921075609130577,
+   "worst_off": -0.06466531614346982,
+   "worst_on": -0.06071428898851827,
+   "worst_gain_pp": 0.39510271549515474,
+   "worst_cny_off": -64665.31614346982,
+   "worst_cny_on": -60714.288988518274
+  },
+  "2y": {
+   "count_losing_off": 3,
+   "count_losing_on": 0,
+   "closed": 3,
+   "median_off": 0.1703048656770927,
+   "median_on": 0.17975615928065902,
+   "median_gain_pp": 0.9451293603566335,
+   "worst_off": -0.001599854824405389,
+   "worst_on": 0.01232666694189688,
+   "worst_gain_pp": 1.392652176630227,
+   "worst_cny_off": -1599.8548244053889,
+   "worst_cny_on": 12326.66694189688
+  },
+  "3y": {
+   "count_losing_off": 0,
+   "count_losing_on": 0,
+   "closed": 0,
+   "median_off": 0.25143316461628995,
+   "median_on": 0.26529380546205417,
+   "median_gain_pp": 1.3860640845764216,
+   "worst_off": 0.06768312598061166,
+   "worst_on": 0.0807532686034187,
+   "worst_gain_pp": 1.3070142622807035,
+   "worst_cny_off": 67683.12598061166,
+   "worst_cny_on": 80753.26860341869
+  }
+ },
+ "reconciliation": {
+  "prior_face": "results/etf_book_losing_odds.json",
+  "prior_count_losing": 93,
+  "mine_count_losing": 93,
+  "prior_n": 1428,
+  "mine_n": 1428,
+  "prior_median": 0.09240369965360817,
+  "mine_median": 0.09240369965360817,
+  "prior_worst": -0.06466531614346982,
+  "mine_worst": -0.06466531614346982,
+  "prior_last_bar": "2026-11-27",
+  "verdict": "REPRODUCED"
+ },
+ "control_max_rel_err": 2.6645352591003757e-15,
+ "cash_pp": 0.5771871775809734,
+ "cash_annual_pct": 1.7689985176688738,
+ "idle_share_mean": 0.3023346438981518,
+ "idle_share_median": 0.2921817893688975,
+ "turnover": 1.082465217182492,
+ "universe": 1539,
+ "flips_repaired": 169,
+ "evidence_cutoff": "2026-11-27",
+ "verdict": "CASH_CLOSES_SOME_LOSING_YEARS",
+ "headline": "让闲置的现金按 GC001 生息，一年期亏钱的起点从 93 个降到 76 个（共 1428 个起点）；最差的一年从 -6.47%（-64,665 元）变成 -6.07%（-60,714 元）。"
+}
