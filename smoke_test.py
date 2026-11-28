@@ -16962,14 +16962,25 @@ def three_book_wallet_ride_problems(face_override=None, root=None):
     if not face.get("identity_bars_match"):
         problems.append("window bars differ from the parent's window")
 
-    # 2. today's hole is the parent's own max drawdown, and the page prints it
+    # 2. the wallet arm IS the parent's book, and today's hole IS its own equity/peak.
+    # r2216: this leg compared today's hole (a POINT) with the parent's maxdd (a PATH MAX),
+    # so it could only be green on the day the wallet happened to sit at its deepest point
+    # -- a permanent red the moment it climbed one bar. Path is compared with path, and the
+    # point has to reconcile with the two numbers the face prints beside it.
     today = face.get("today") or {}
     hole = today.get("hole")
     pmdd = ((parent.get("best_inside_gate") or {}).get("maxdd"))
-    if hole is None or pmdd is None:
-        problems.append("today.hole or the parent's maxdd is missing")
-    elif abs(hole - pmdd) > 5e-6:
-        problems.append("today's hole %.6f is not the parent's maxdd %.6f" % (hole, pmdd))
+    wmdd = ((face.get("arms") or {}).get("wallet") or {}).get("maxdd")
+    if wmdd is None or pmdd is None:
+        problems.append("the wallet arm's maxdd or the parent's maxdd is missing")
+    elif abs(wmdd - pmdd) > 5e-6:
+        problems.append("the wallet arm's maxdd %.6f is not the parent's %.6f" % (wmdd, pmdd))
+    eq, pk = today.get("equity"), today.get("peak")
+    if hole is None or eq is None or pk is None or not pk:
+        problems.append("today.hole, today.equity or today.peak is missing")
+    elif abs(hole - (eq / pk - 1.0)) > 5e-6:
+        problems.append("today's hole %.6f is not its own equity/peak %.6f"
+                        % (hole, eq / pk - 1.0))
     if today.get("at_the_deepest_point"):
         if "%.2f%%" % (abs(hole or 0.0) * 100.0) not in page:
             problems.append("page does not print today's hole %.2f%%" % (abs(hole or 0.0) * 100.0))

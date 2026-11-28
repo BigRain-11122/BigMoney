@@ -470,6 +470,11 @@ def render_md(face):
         % (face["evidence_cutoff"], face["window"]["bars"], face["window"]["first"],
            face["window"]["last"]))
     add("> %s\n" % (face.get("sentence_zh") or face["sentence"]))
+    # r2216: the face derives a word for what the ladder is; a page that never prints it
+    # leaves the reader to re-derive the verdict from the table (and the smoke leg that
+    # checks "the page prints the verdict it derives" could only ever be red).
+    add("**判词：`%s`** —— 这个词由上面的门槛自己推出（右手合约不可分割 + 8%% 预算），"
+        "不是人工写死的结论。\n" % face["verdict"])
     add("## 1. 父面留在桌上的那一半\n")
     add("`three_book_wallet` 回答的是 1,000,000 元这一只钱包：三本书、一个钱包、carry 因为一手 IC "
         "合约吃掉 80,000 元波动预算里的 91,029 元而拿到权重 0.00，门的价格 0.784 夏普。"
