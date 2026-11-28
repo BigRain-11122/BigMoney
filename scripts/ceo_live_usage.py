@@ -251,6 +251,17 @@ CUSHION_REL = "results/book_pair_cushion_regime.json"
 SLEEVE_RULER_JSON = os.path.join(ROOT, "results", "book_pair_sleeve_premium.json")
 SLEEVE_RULER_REL = "results/book_pair_sleeve_premium.json"
 
+# r2217: ⑩b prints today's sleeve reading next to its own rich line, which reads like an
+# answer -- "the sleeve is not expensive today".  But the sleeve's reading is a median of
+# whichever 20 bonds the rule happens to hold, and a re-pick turns over about half of them
+# on the same day: results/book_pair_sleeve_turnover.json prices that step (churn_pp) and
+# asks whether today's reading sits close enough to a tertile edge that the step alone can
+# change the label.  When it does, the label is partly membership, not expensiveness, and
+# the page has to say so instead of letting the reader infer "not expensive" from a number
+# that would read the same under a different basket.
+SLEEVE_TURNOVER_JSON = os.path.join(ROOT, "results", "book_pair_sleeve_turnover.json")
+SLEEVE_TURNOVER_REL = "results/book_pair_sleeve_turnover.json"
+
 # r2205: ⑥/⑧/⑨/⑩ price the books and how to split the money, and every one of them
 # answers with a rate -- nothing on this page said what HOLDING the wallet feels like.
 # results/three_book_wallet_ride.json measures exactly that on the parent's own window
@@ -2704,6 +2715,47 @@ def _sleeve_ruler_second_opinion_face():
         "rebalances": (((d.get("inputs") or {}).get("sleeve_arm") or {})
                        .get("meta") or {}).get("rebalances"),
         "unverified": d.get("unverified") or [],
+        "swap_step": _sleeve_swap_step_face(),
+    })
+    return out
+
+
+def _sleeve_swap_step_face():
+    """r2217: how much of today's sleeve reading is which 20 bonds we hold.
+
+    `results/book_pair_sleeve_turnover.json` prices the same day twice on a re-pick
+    (median premium of the 20 held before vs after) so the market cannot move between
+    the two sides, and compares that step with an ordinary day's move on the same
+    series.  Its `today` block answers the page's question directly: is today's reading
+    close enough to a tertile edge that one swap can change the label?  Quoted, never
+    re-derived, and the producer's stamps travel with it (r1781) -- the turnover leg
+    runs after this page leg in the chain.
+    """
+    d = _read_json(SLEEVE_TURNOVER_JSON)
+    out = {"present": False, "path": SLEEVE_TURNOVER_REL}
+    if not d:
+        out["note"] = "换仓步长面未产出（缺面不读 0：今天的档位里有多少是换仓换来的，读不到）"
+        return out
+    today = d.get("today") or {}
+    jumps = d.get("jumps") or {}
+    labels = d.get("labels") or {}
+    out.update({
+        "present": True,
+        "generated": d.get("generated_at"),
+        "cutoff": d.get("evidence_cutoff"),
+        "verdict": d.get("verdict"),
+        "inside_the_swap_noise": today.get("inside_the_swap_noise"),
+        "margin_to_nearest_edge_pp": today.get("margin_to_nearest_edge_pp"),
+        "churn_abs_median_pp": today.get("churn_abs_median_pp"),
+        "churn_abs_p90_pp": today.get("churn_abs_p90_pp"),
+        "quiet_abs_change_median_pp": jumps.get("quiet_abs_change_median_pp"),
+        "churn_over_quiet_ratio": jumps.get("churn_over_quiet_ratio"),
+        "turnover_median": jumps.get("turnover_median"),
+        "month_ends_examined": labels.get("month_ends_examined"),
+        "month_ends_with_changed_bucket": labels.get("month_ends_with_changed_bucket"),
+        "label_names": today.get("label_names"),
+        "parent_label_in_force": today.get("parent_label_in_force"),
+        "asof": today.get("asof"),
     })
     return out
 
@@ -5465,6 +5517,31 @@ def render_md(p: dict) -> str:
                      "「不贵」）——⑩ 的标签是上一个月末读的，之后袖在自己的调仓网格里"
                      f"又换过一次仓（全窗共 {sr.get('rebalances')} 次），"
                      "这一次换掉了近一半的券")
+        _ss = sr.get("swap_step") or {}
+        if _ss.get("present"):
+            _mg = _ss.get("margin_to_nearest_edge_pp")
+            _ch = _ss.get("churn_abs_median_pp")
+            _p90 = _ss.get("churn_abs_p90_pp")
+            _chg = _ss.get("month_ends_with_changed_bucket")
+            _exa = _ss.get("month_ends_examined")
+            if _ss.get("inside_the_swap_noise"):
+                L.append(f"  - **这一格的档位有多少是「挂着哪 20 只」**：今天的袖读数离最近的"
+                         f"档位线只有 **{_sr_n(_mg)}pp**，而一次换仓单独就能把同一批券的"
+                         f"中位数挪 **{_sr_n(_ch)}pp**（p90 {_sr_n(_p90)}pp）——步长比余量大，"
+                         "所以今天的档位**有一部分是成员，不是贵不贵**"
+                         + (f"（全窗 {_exa} 个月末里 **{_chg}** 个的桶是被换仓换掉的）"
+                            if _chg is not None else ""))
+            else:
+                L.append(f"  - **这一格的档位有多少是「挂着哪 20 只」**：今天的袖读数离最近的"
+                         f"档位线 **{_sr_n(_mg)}pp**，大于一次换仓的典型步长 "
+                         f"**{_sr_n(_ch)}pp**（p90 {_sr_n(_p90)}pp）——本月这个档位不是"
+                         "换仓噪声造出来的")
+            L.append(f"    - 出处：`{_ss.get('path')}`｜cutoff {_ss.get('cutoff')}"
+                     f"｜generated {_ss.get('generated')}")
+        else:
+            L.append(f"  - {_ss.get('note') or '换仓步长面未产出'}"
+                     f"（指针 `{_ss.get('path')}`）——**今天的档位里有多少是换仓换来的，"
+                     "这张页读不到；别把「没读到」当成「档位是干净的」**")
         L.append(f"- 出处：`{sr.get('path')}`｜cutoff {sr.get('cutoff')}"
                  f"｜generated {sr.get('generated')}")
         _nv = len(sr.get("unverified") or [])
@@ -6005,6 +6082,38 @@ def selftest() -> int:
               "face absent -- nothing to stamp (r98)")
         check("the second-ruler block names the ruler each number came from", True,
               "face absent")
+    # r2217: a sleeve reading printed next to its own rich line reads like an answer, but
+    # the reading is a median of whichever 20 bonds the rule holds and a re-pick moves
+    # about half of them.  The page must print the step it is compared against, and a
+    # missing turnover face must read as "could not read it" rather than as a clean label.
+    _ss_pg = _sr.get("swap_step") or {}
+    _ssec_ss = (md1.split("⑩b 换一把尺")[1].split("## ⑪")[0]
+                if "⑩b 换一把尺" in md1 else "")
+    if _sr.get("present") and _ss_pg.get("present"):
+        _mg_ss = _ss_pg.get("margin_to_nearest_edge_pp")
+        _ch_ss = _ss_pg.get("churn_abs_median_pp")
+        _say = ("有一部分是成员" if _ss_pg.get("inside_the_swap_noise")
+                else "不是换仓噪声造出来的")
+        check("the second-ruler block says how much of today's label is membership (r2217)",
+              _mg_ss is not None and _ch_ss is not None
+              and f"{float(_mg_ss):.2f}pp" in _ssec_ss
+              and f"{float(_ch_ss):.2f}pp" in _ssec_ss
+              and _say in _ssec_ss)
+        check("the swap-step line carries the turnover face's own stamps (r2217)",
+              _ss_pg.get("generated") and _ss_pg.get("generated") in _ssec_ss
+              and _ss_pg.get("cutoff") and _ss_pg.get("cutoff") in _ssec_ss
+              and SLEEVE_TURNOVER_REL in _ssec_ss)
+    elif _sr.get("present"):
+        check("the second-ruler block says how much of today's label is membership (r2217)",
+              "换仓步长面未产出" in _ssec_ss,
+              "turnover face absent -- the page must say it could not read the step")
+        check("the swap-step line carries the turnover face's own stamps (r2217)", True,
+              "face absent -- nothing to stamp (r98)")
+    else:
+        check("the second-ruler block says how much of today's label is membership (r2217)",
+              True, "second-ruler face absent -- the whole block already says so")
+        check("the swap-step line carries the turnover face's own stamps (r2217)", True,
+              "second-ruler face absent")
     _p_sr = dict(p1)
     _p_sr["sleeve_ruler_second_opinion"] = {
         "present": False, "path": SLEEVE_RULER_REL,

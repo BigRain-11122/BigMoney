@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T13:53:18",
+ "generated": "2026-11-28T14:18:42",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -581,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75151.5
+    "last_append_age_min": 75176.9
    },
    {
     "family": "FUND-VALUE-P1",
@@ -589,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75996.0
+    "last_append_age_min": 76021.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -597,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 72789.3
+    "last_append_age_min": 72814.7
    }
   ]
  },
@@ -2608,7 +2608,26 @@
    "premium on a held bond can be stale on its last quoted day; the coverage gate drops a month below 80% coverage, it does not correct the rest",
    "the rule is priced on monthly switches only; intra-month runs are not modelled",
    "the cb arm and the etf arm are the parents' published arms -- this face does not re-test them"
-  ]
+  ],
+  "swap_step": {
+   "present": true,
+   "path": "results/book_pair_sleeve_turnover.json",
+   "generated": "2026-11-28T14:14:34+08:00",
+   "cutoff": "2026-11-27",
+   "verdict": "THE_SWAP_ALONE_CAN_CHANGE_THE_BUCKET",
+   "inside_the_swap_noise": true,
+   "margin_to_nearest_edge_pp": 2.173,
+   "churn_abs_median_pp": 2.3012,
+   "churn_abs_p90_pp": 5.9848,
+   "quiet_abs_change_median_pp": 0.7814,
+   "churn_over_quiet_ratio": 2.945,
+   "turnover_median": 0.25,
+   "month_ends_examined": 81,
+   "month_ends_with_changed_bucket": 16,
+   "label_names": "mid",
+   "parent_label_in_force": "rich",
+   "asof": "2026-11-27"
+  }
  },
  "wallet_ride": {
   "present": true,

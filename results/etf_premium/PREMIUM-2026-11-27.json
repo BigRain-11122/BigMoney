@@ -147,30 +147,26 @@
     "move_pct": -0.7201,
     "amount_cny": 86916.4,
     "exposure_cny": 625.88
-   },
+   }
+  ],
+  "settled_by_rebase": [
    {
     "symbol": "159519",
     "date_proof": "label-only",
     "move_pct": -0.2959,
     "amount_cny": 86946.0,
-    "exposure_cny": 257.27
+    "exposure_cny": 257.27,
+    "settled_by_rebase": true
    }
   ],
-  "exposure_cny": 883.15,
-  "bounded_total_cny": -301.05,
+  "exposure_cny": 625.88,
+  "bounded_total_cny": -558.32,
   "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero. A priced leg whose date is only a label adds at most |its own move| x amount to the sum -- that move is the largest difference the two candidate NAV days can carry -- so the gate certifies a saving only when even that worst case stays under the threshold."
  },
  "denominator_rebasis": {
   "n": 1,
   "legs": [
-   {
-    "symbol": "159519",
-    "board_nav": 1.6974,
-    "board_nav_session": "2026-11-26",
-    "premium_board_pct": -0.7305,
-    "same_day_nav": 1.701,
-    "premium_same_day_pct": -0.9406
-   }
+   "159519"
   ],
   "cross_date_unpriced": [],
   "basis": "a leg whose own denominator date is not this session is re-priced on the session's published unit NAV when the NAV board carries one; the board's own reading stays in board_reading. With no same-day NAV the leg is nav-cross-date: it keeps the percentage the board printed, carries no CNY, and never claims to be this session's premium."
@@ -270,17 +266,33 @@
   "min_move_pct": 1.0,
   "n_legs": 5,
   "by_proof": {
-   "label-only": 2,
-   "path-proven": 2,
-   "rebased-onto-session": 1
+   "label-only": 3,
+   "path-proven": 2
   },
   "overrules_label": [],
   "label_only": [
    "159655",
+   "513690",
+   "159519"
+  ],
+  "rebased_onto_session": [
+   "159519"
+  ],
+  "ambiguity_charged": [
    "513690"
   ],
+  "ambiguity_settled_by_rebase": [
+   {
+    "symbol": "159519",
+    "date_proof": "label-only",
+    "move_pct": -0.2959,
+    "amount_cny": 86946.0,
+    "exposure_cny": 257.27,
+    "settled_by_rebase": true
+   }
+  ],
   "why": null,
-  "basis": "a batch stamp says which day the snapshot was fetched; the dating face says which day each instrument's denominator belongs to, from the move that instrument made. Where the two disagree the path wins and the leg is priced as cross-date; where the path cannot tell (|move| under its threshold) the leg keeps its number and is marked label-only with the ambiguity printed."
+  "basis": "a batch stamp says which day the snapshot was fetched; the dating face says which day each instrument's denominator belongs to, from the move that instrument made. Where the two disagree the path wins and the leg is priced as cross-date; where the path cannot tell (|move| under its threshold) the leg keeps its number and is marked label-only with the ambiguity printed. A leg those two statements put in different sessions is re-priced on the NAV this session published -- its day is then decided by that repricing, so it stays on the label-only roster (how the original date was known) and off the gate's bill."
  },
  "caveats": [
   "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",

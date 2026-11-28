@@ -1,14 +1,14 @@
 {
  "artifact": "etf_book_premium_subscription",
  "blip_cadence_pooled": {
-  "base_share_modal": 0.2021,
-  "blip_share_modal": 0.4324,
+  "base_share_modal": 0.202,
+  "blip_share_modal": 0.4267,
   "blips_by_weekday": [
    16,
    32,
    3,
    13,
-   10
+   11
   ],
   "bracketed_by_exchange_only": 74,
   "day_of_month_top": [
@@ -27,17 +27,17 @@
   ],
   "modal_weekday": "Tue",
   "modal_weekday_index": 1,
-  "n_blocked": 99,
-  "n_one_row": 74,
+  "n_blocked": 100,
+  "n_one_row": 75,
   "nav_jump_gt3pct": 1,
   "sessions_by_weekday": [
    1279,
    1321,
    1323,
    1328,
-   1285
+   1290
   ],
-  "tail_p": 5.977234843015383e-06,
+  "tail_p": 8.270032514305723e-06,
   "verdict": "BLIP_WEEKDAY_CADENCE"
  },
  "blip_cause_cross": {
@@ -64,7 +64,7 @@
     "a": "159519",
     "b": "159655",
     "n_a": 16,
-    "n_b": 33,
+    "n_b": 34,
     "n_shared": 1,
     "shared_first": "2026-05-25",
     "shared_last": "2026-05-25"
@@ -72,7 +72,7 @@
    {
     "a": "159655",
     "b": "513690",
-    "n_a": 33,
+    "n_a": 34,
     "n_b": 24,
     "n_shared": 1,
     "shared_first": "2026-05-25",
@@ -81,9 +81,9 @@
   ]
  },
  "blip_cause_pooled": {
-  "base_rate": 0.043,
+  "base_rate": 0.0433,
   "both_channels_share": 1.0,
-  "both_channels_suspended": 74,
+  "both_channels_suspended": 75,
   "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
   "calendar_choice": {
    "named": "HKEX",
@@ -93,65 +93,65 @@
    "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
   },
   "calendar_named": "HKEX",
-  "closure_rate": 0.4595,
+  "closure_rate": 0.4667,
   "exact_carry": 2,
-  "hk_base_rate": 0.0594,
+  "hk_base_rate": 0.0589,
   "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-  "hk_lift": 10.23,
+  "hk_lift": 10.18,
   "hk_n_base_closure": 381,
-  "hk_n_base_sessions": 6412,
+  "hk_n_base_sessions": 6466,
   "hk_n_closed": 40,
   "hk_n_thin": 4,
-  "hk_n_unmatched": 29,
+  "hk_n_unmatched": 30,
   "hk_n_window": 1,
-  "hk_rate": 0.6081,
+  "hk_rate": 0.6,
   "hk_thin_sensitivity": {
    "0.50": {
     "n_matched": 43,
-    "rate": 0.5811
+    "rate": 0.5733
    },
    "0.60": {
     "n_matched": 45,
-    "rate": 0.6081
+    "rate": 0.6
    },
    "0.70": {
     "n_matched": 49,
-    "rate": 0.6622
+    "rate": 0.6533
    }
   },
-  "lift": 10.67,
-  "n_base_closure": 276,
-  "n_base_sessions": 6412,
-  "n_blocked": 99,
+  "lift": 10.78,
+  "n_base_closure": 280,
+  "n_base_sessions": 6466,
+  "n_blocked": 100,
   "n_closure_early": 0,
-  "n_closure_full": 34,
+  "n_closure_full": 35,
   "n_closure_unmatched": 40,
   "n_move_le_quarter": 46,
-  "n_move_ratio": 74,
-  "n_one_row": 74,
+  "n_move_ratio": 75,
+  "n_one_row": 75,
   "nav_move_basis": "largest / 90th percentile over the legs' one-row stamps",
   "nav_move_max_pct": 5.0722,
   "nav_move_max_stamp": "2024-08-14",
   "nav_move_p90_pct": 5.0722,
   "nav_move_ratio_basis": "median over legs of each leg's own median",
-  "nav_move_ratio_median": 0.1612,
-  "share_move_le_quarter": 0.6216,
+  "nav_move_ratio_median": 0.1622,
+  "share_move_le_quarter": 0.6133,
   "verdict": "CALENDAR_GAP"
  },
  "decisions": {},
- "evidence_cutoff": "2026-11-26",
+ "evidence_cutoff": "2026-11-27",
  "hk_index": {
   "first": "2013-08-20",
-  "last": "2026-11-26",
-  "n": 3267,
+  "last": "2026-11-27",
+  "n": 3268,
   "note": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-  "status": "cache"
+  "status": "fetched"
  },
  "legs": [
   {
-   "amount_cny": 86927.1,
+   "amount_cny": 86996.9,
    "blip_cadence": {
-    "base_share_modal": 0.2033,
+    "base_share_modal": 0.2032,
     "blip_share_modal": 1.0,
     "blips_by_weekday": [
      0,
@@ -184,13 +184,13 @@
      303,
      305,
      306,
-     298
+     299
     ],
-    "tail_p": 0.20332225913621263,
+    "tail_p": 0.20318725099601595,
     "verdict": "TOO_FEW_BLIPS"
    },
    "blip_cause": {
-    "base_rate": 0.0475,
+    "base_rate": 0.0478,
     "both_channels_share": 1.0,
     "both_channels_suspended": 1,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
@@ -202,13 +202,13 @@
     "calendar_named": null,
     "closure_rate": 0.0,
     "exact_carry": 0,
-    "hk_base_rate": 0.0656,
+    "hk_base_rate": 0.0651,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-26",
-    "hk_index_status": "cache",
+    "hk_index_last": "2026-11-27",
+    "hk_index_status": "fetched",
     "hk_lift": 0.0,
     "hk_n_base_closure": 98,
-    "hk_n_base_sessions": 1494,
+    "hk_n_base_sessions": 1505,
     "hk_n_closed": 0,
     "hk_n_thin": 0,
     "hk_n_unmatched": 1,
@@ -233,8 +233,8 @@
      "2024-08-14"
     ],
     "lift": 0.0,
-    "n_base_closure": 71,
-    "n_base_sessions": 1494,
+    "n_base_closure": 72,
+    "n_base_sessions": 1505,
     "n_blocked": 1,
     "n_closure_early": 0,
     "n_closure_full": 0,
@@ -246,7 +246,7 @@
     "nav_move_max_pct": 5.0722,
     "nav_move_max_stamp": "2024-08-14",
     "nav_move_p90_pct": 5.0722,
-    "nav_move_ratio_median": 9.8475,
+    "nav_move_ratio_median": 9.8503,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
     "one_row_stamps": [
      "2024-08-14"
@@ -260,31 +260,31 @@
    "block_contrast": {
     "excluded_requested": 0,
     "median_blocked_pct": 1.1885640860905822,
-    "median_exchange_pct": 0.03890746653242294,
+    "median_exchange_pct": 0.039308176100627534,
     "n_blocked": 1,
-    "n_exchange": 1504,
+    "n_exchange": 1505,
     "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 1,
     "median_blocked_pct": null,
-    "median_exchange_pct": 0.03890746653242294,
+    "median_exchange_pct": 0.039308176100627534,
     "n_blocked": 0,
-    "n_exchange": 1504,
+    "n_exchange": 1505,
     "n_excluded": 1,
     "verdict": "NO_CONTRAST"
    },
    "blocked_sessions": 1,
-   "board_premium_pct": -0.1816,
+   "board_premium_pct": 0.3107,
    "class": "equity",
    "episode_granularity": {
     "blocked_one_row": 1,
-    "episode_gap_pp": 1.1496566195581592,
+    "episode_gap_pp": 1.1492559099899546,
     "episodes_gap_positive": 1,
-    "exchange_baseline_pct": 0.03890746653242294,
+    "exchange_baseline_pct": 0.039308176100627534,
     "gap_without_longest_pp": null,
-    "longest_block_gap_pp": 1.1496566195581592,
+    "longest_block_gap_pp": 1.1492559099899546,
     "longest_blocked_first": "2024-08-15",
     "longest_blocked_last": "2024-08-15",
     "longest_blocked_rows": 1,
@@ -317,10 +317,10 @@
       "first_date": "2024-08-16",
       "first_nav_date": "2024-08-15",
       "kind": "closed",
-      "last_date": "2026-11-26",
-      "last_nav_date": "2026-11-11",
-      "median_pct": 0.09478672985783199,
-      "n_rows": 551,
+      "last_date": "2026-11-27",
+      "last_nav_date": "2026-11-26",
+      "median_pct": 0.0963543049789628,
+      "n_rows": 552,
       "word": "场内买入"
      }
     ],
@@ -335,27 +335,27 @@
     "share_closed_at_high": 1.0,
     "verdict": "HIGH_PREMIUM_WHILE_CLOSED"
    },
-   "latest_nav_date": "2026-11-11",
-   "latest_pct": -5.833787678168079,
-   "latest_price_date": "2026-11-26",
+   "latest_nav_date": "2026-11-26",
+   "latest_pct": 3.8008079808722783,
+   "latest_price_date": "2026-11-27",
    "latest_purchase": "场内买入",
    "latest_purchase_kind": "closed",
-   "n_sessions": 1505,
-   "n_status_rows": 1513,
+   "n_sessions": 1506,
+   "n_status_rows": 1514,
    "nav_cache_status": "cache-stale",
-   "priced_session": "2026-11-26",
+   "priced_session": "2026-11-27",
    "priced_vs_ticket": "same",
-   "ruler_gap_pp": -5.652187678168079,
+   "ruler_gap_pp": 3.4901079808722786,
    "status_source": "fetched",
    "symbol": "510760",
    "window_facts": {
-    "known": 1505,
+    "known": 1506,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
   },
   {
-   "amount_cny": 86992.4,
+   "amount_cny": 86933.8,
    "blip_cadence": {
     "base_share_modal": null,
     "blip_share_modal": null,
@@ -383,13 +383,13 @@
      387,
      387,
      389,
-     376
+     377
     ],
     "tail_p": null,
     "verdict": "TOO_FEW_BLIPS"
    },
    "blip_cause": {
-    "base_rate": 0.0467,
+    "base_rate": 0.047,
     "both_channels_share": null,
     "both_channels_suspended": 0,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
@@ -401,13 +401,13 @@
     "calendar_named": null,
     "closure_rate": null,
     "exact_carry": 0,
-    "hk_base_rate": 0.063,
+    "hk_base_rate": 0.0626,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-26",
-    "hk_index_status": "cache",
+    "hk_index_last": "2026-11-27",
+    "hk_index_status": "fetched",
     "hk_lift": null,
     "hk_n_base_closure": 120,
-    "hk_n_base_sessions": 1905,
+    "hk_n_base_sessions": 1916,
     "hk_n_closed": 0,
     "hk_n_thin": 0,
     "hk_n_unmatched": 0,
@@ -430,8 +430,8 @@
     },
     "hk_unmatched_stamps": [],
     "lift": null,
-    "n_base_closure": 89,
-    "n_base_sessions": 1905,
+    "n_base_closure": 90,
+    "n_base_sessions": 1916,
     "n_blocked": 0,
     "n_closure_early": 0,
     "n_closure_full": 0,
@@ -453,29 +453,29 @@
    "block_contrast": {
     "excluded_requested": 0,
     "median_blocked_pct": null,
-    "median_exchange_pct": 0.015850372483749986,
+    "median_exchange_pct": 0.015926466446702925,
     "n_blocked": 0,
-    "n_exchange": 1915,
+    "n_exchange": 1916,
     "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 0,
     "median_blocked_pct": null,
-    "median_exchange_pct": 0.015850372483749986,
+    "median_exchange_pct": 0.015926466446702925,
     "n_blocked": 0,
-    "n_exchange": 1915,
+    "n_exchange": 1916,
     "n_excluded": 0,
     "verdict": "NO_CONTRAST"
    },
    "blocked_sessions": 0,
-   "board_premium_pct": -0.2402,
+   "board_premium_pct": 0.2282,
    "class": "equity",
    "episode_granularity": {
     "blocked_one_row": 0,
     "episode_gap_pp": null,
     "episodes_gap_positive": 0,
-    "exchange_baseline_pct": 0.015850372483749986,
+    "exchange_baseline_pct": 0.015926466446702925,
     "gap_without_longest_pp": null,
     "longest_block_gap_pp": null,
     "longest_blocked_first": null,
@@ -490,10 +490,10 @@
       "first_date": "2019-01-03",
       "first_nav_date": "2019-01-02",
       "kind": "closed",
-      "last_date": "2026-11-26",
-      "last_nav_date": "2026-11-11",
-      "median_pct": 0.015850372483749986,
-      "n_rows": 1915,
+      "last_date": "2026-11-27",
+      "last_nav_date": "2026-11-26",
+      "median_pct": 0.015926466446702925,
+      "n_rows": 1916,
       "word": "场内买入"
      }
     ],
@@ -506,36 +506,36 @@
     "share_closed_at_high": null,
     "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-11",
-   "latest_pct": -2.945839939914874,
-   "latest_price_date": "2026-11-26",
+   "latest_nav_date": "2026-11-26",
+   "latest_pct": 1.7589017589017653,
+   "latest_price_date": "2026-11-27",
    "latest_purchase": "场内买入",
    "latest_purchase_kind": "closed",
-   "n_sessions": 1915,
-   "n_status_rows": 1920,
+   "n_sessions": 1916,
+   "n_status_rows": 1921,
    "nav_cache_status": "cache-stale",
-   "priced_session": "2026-11-26",
+   "priced_session": "2026-11-27",
    "priced_vs_ticket": "same",
-   "ruler_gap_pp": -2.7056399399148736,
+   "ruler_gap_pp": 1.5307017589017653,
    "status_source": "fetched",
    "symbol": "512040",
    "window_facts": {
-    "known": 1915,
+    "known": 1916,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
   },
   {
-   "amount_cny": 86907.2,
+   "amount_cny": 86862.6,
    "blip_cadence": {
-    "base_share_modal": 0.2034,
-    "blip_share_modal": 0.5455,
+    "base_share_modal": 0.2032,
+    "blip_share_modal": 0.5294,
     "blips_by_weekday": [
      4,
      18,
      1,
      2,
-     8
+     9
     ],
     "bracketed_by_exchange_only": 33,
     "day_of_month_top": [
@@ -560,8 +560,8 @@
     "modal_weekday": "Tue",
     "modal_weekday_index": 1,
     "n_blips_unreadable_date": 0,
-    "n_blocked": 34,
-    "n_one_row": 33,
+    "n_blocked": 35,
+    "n_one_row": 34,
     "n_sessions_unreadable_date": 0,
     "nav_jump_gt3pct": 0,
     "nav_jump_max_abs_pct": 0.5897,
@@ -571,15 +571,15 @@
      202,
      201,
      201,
-     194
+     195
     ],
-    "tail_p": 1.5149534738872345e-05,
+    "tail_p": 2.5689905414178067e-05,
     "verdict": "BLIP_WEEKDAY_CADENCE"
    },
    "blip_cause": {
-    "base_rate": 0.0179,
+    "base_rate": 0.0177,
     "both_channels_share": 1.0,
-    "both_channels_suspended": 33,
+    "both_channels_suspended": 34,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
     "calendar_choice": {
      "named": "NYSE",
@@ -589,33 +589,33 @@
      "reason": "ONE_CALENDAR_CLEARS_THE_BAR"
     },
     "calendar_named": "NYSE",
-    "closure_rate": 0.9697,
+    "closure_rate": 0.9706,
     "exact_carry": 2,
-    "hk_base_rate": 0.06,
+    "hk_base_rate": 0.0594,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-26",
-    "hk_index_status": "cache",
-    "hk_lift": 4.55,
+    "hk_index_last": "2026-11-27",
+    "hk_index_status": "fetched",
+    "hk_lift": 4.46,
     "hk_n_base_closure": 57,
-    "hk_n_base_sessions": 950,
+    "hk_n_base_sessions": 960,
     "hk_n_closed": 8,
     "hk_n_thin": 0,
-    "hk_n_unmatched": 24,
+    "hk_n_unmatched": 25,
     "hk_n_window": 1,
-    "hk_rate": 0.2727,
+    "hk_rate": 0.2647,
     "hk_thin_max": 0.6,
     "hk_thin_sensitivity": {
      "0.50": {
       "n_matched": 9,
-      "rate": 0.2727
+      "rate": 0.2647
      },
      "0.60": {
       "n_matched": 9,
-      "rate": 0.2727
+      "rate": 0.2647
      },
      "0.70": {
       "n_matched": 11,
-      "rate": 0.3333
+      "rate": 0.3235
      }
     },
     "hk_unmatched_stamps": [
@@ -632,21 +632,21 @@
      "2024-07-04",
      "2024-09-02"
     ],
-    "lift": 54.19,
+    "lift": 54.81,
     "n_base_closure": 17,
-    "n_base_sessions": 950,
-    "n_blocked": 34,
+    "n_base_sessions": 960,
+    "n_blocked": 35,
     "n_closure_early": 0,
-    "n_closure_full": 32,
+    "n_closure_full": 33,
     "n_closure_unmatched": 1,
     "n_move_le_quarter": 21,
-    "n_move_ratio": 33,
+    "n_move_ratio": 34,
     "n_multi_row": 1,
-    "n_one_row": 33,
+    "n_one_row": 34,
     "nav_move_max_pct": 0.5897,
     "nav_move_max_stamp": "2023-07-04",
     "nav_move_p90_pct": 0.3488,
-    "nav_move_ratio_median": 0.1927,
+    "nav_move_ratio_median": 0.1952,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
     "one_row_stamps": [
      "2022-11-24",
@@ -681,9 +681,10 @@
      "2026-04-03",
      "2026-05-25",
      "2026-07-03",
-     "2026-09-07"
+     "2026-09-07",
+     "2026-11-26"
     ],
-    "share_move_le_quarter": 0.6364,
+    "share_move_le_quarter": 0.6176,
     "unmatched_stamps": [
      "2025-01-09"
     ],
@@ -691,41 +692,41 @@
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 0.9582577844390094,
-    "median_blocked_pct": 1.906158357771237,
-    "median_exchange_pct": 0.9479005733322277,
-    "n_blocked": 91,
+    "gap_pp": 0.9467541450929762,
+    "median_blocked_pct": 1.9260678515548024,
+    "median_exchange_pct": 0.9793137064618262,
+    "n_blocked": 92,
     "n_exchange": 902,
     "n_excluded": 0,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "block_contrast_excl_gaps": {
-    "excluded_requested": 33,
-    "gap_pp": 0.9781672782225748,
+    "excluded_requested": 34,
+    "gap_pp": 0.9467541450929762,
     "median_blocked_pct": 1.9260678515548024,
-    "median_exchange_pct": 0.9479005733322277,
+    "median_exchange_pct": 0.9793137064618262,
     "n_blocked": 58,
     "n_exchange": 902,
-    "n_excluded": 33,
+    "n_excluded": 34,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
-   "blocked_sessions": 91,
-   "board_premium_pct": 7.3229,
+   "blocked_sessions": 92,
+   "board_premium_pct": 10.3598,
    "class": "crossborder",
    "episode_granularity": {
-    "blocked_one_row": 33,
-    "episode_gap_pp": 0.6727237298161381,
-    "episodes_gap_positive": 18,
-    "exchange_baseline_pct": 0.9479005733322277,
-    "gap_without_longest_pp": 0.36728018140970153,
-    "longest_block_gap_pp": 0.9781672782225748,
+    "blocked_one_row": 34,
+    "episode_gap_pp": 0.9467541450929762,
+    "episodes_gap_positive": 19,
+    "exchange_baseline_pct": 0.9793137064618262,
+    "gap_without_longest_pp": 0.7272277198601906,
+    "longest_block_gap_pp": 0.9467541450929762,
     "longest_blocked_first": "2024-03-07",
     "longest_blocked_last": "2024-06-03",
     "longest_blocked_rows": 58,
-    "median_blocked_rows": 1.0,
-    "n_blocked_episodes": 34,
-    "n_episodes": 69,
-    "n_gaps": 34,
+    "median_blocked_rows": 1,
+    "n_blocked_episodes": 35,
+    "n_episodes": 70,
+    "n_gaps": 35,
     "runs": [
      {
       "first_date": "2022-10-25",
@@ -1412,10 +1413,20 @@
       "first_nav_date": "2026-09-08",
       "kind": "closed",
       "last_date": "2026-11-26",
-      "last_nav_date": "2026-11-11",
-      "median_pct": 7.220083328938354,
+      "last_nav_date": "2026-11-25",
+      "median_pct": 7.474917266375991,
       "n_rows": 51,
       "word": "场内买入"
+     },
+     {
+      "first_date": "2026-11-27",
+      "first_nav_date": "2026-11-26",
+      "kind": "closed",
+      "last_date": "2026-11-27",
+      "last_nav_date": "2026-11-26",
+      "median_pct": 10.549879462748258,
+      "n_rows": 1,
+      "word": "暂停申购"
      }
     ],
     "verdict": "EPISODE_GAP_DOES_NOT_WIDEN",
@@ -1423,35 +1434,35 @@
    },
    "high_premium": {
     "first_high": "2024-01-24",
-    "last_high": "2025-01-24",
-    "n_high": 11,
-    "n_high_known": 11,
+    "last_high": "2026-11-27",
+    "n_high": 12,
+    "n_high_known": 12,
     "share_closed_at_high": 1.0,
     "verdict": "HIGH_PREMIUM_WHILE_CLOSED"
    },
-   "latest_nav_date": "2026-11-11",
-   "latest_pct": 1.1994813053814557,
-   "latest_price_date": "2026-11-26",
-   "latest_purchase": "场内买入",
+   "latest_nav_date": "2026-11-26",
+   "latest_pct": 10.549879462748258,
+   "latest_price_date": "2026-11-27",
+   "latest_purchase": "暂停申购",
    "latest_purchase_kind": "closed",
-   "n_sessions": 993,
-   "n_status_rows": 1000,
+   "n_sessions": 994,
+   "n_status_rows": 1001,
    "nav_cache_status": "cache-stale",
-   "priced_session": "2026-11-26",
+   "priced_session": "2026-11-27",
    "priced_vs_ticket": "same",
-   "ruler_gap_pp": -6.123418694618544,
+   "ruler_gap_pp": 0.19007946274825827,
    "status_source": "fetched",
    "symbol": "159655",
    "window_facts": {
-    "known": 993,
+    "known": 994,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
   },
   {
-   "amount_cny": 86991.3,
+   "amount_cny": 86916.4,
    "blip_cadence": {
-    "base_share_modal": 0.2015,
+    "base_share_modal": 0.2013,
     "blip_share_modal": 0.375,
     "blips_by_weekday": [
      7,
@@ -1494,13 +1505,13 @@
      270,
      271,
      273,
-     265
+     266
     ],
-    "tail_p": 0.03778218699050488,
+    "tail_p": 0.03761809422528974,
     "verdict": "BLIP_NO_CADENCE"
    },
    "blip_cause": {
-    "base_rate": 0.0475,
+    "base_rate": 0.0478,
     "both_channels_share": 1.0,
     "both_channels_suspended": 24,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
@@ -1514,13 +1525,13 @@
     "calendar_named": "HKEX",
     "closure_rate": 0.0417,
     "exact_carry": 0,
-    "hk_base_rate": 0.0528,
+    "hk_base_rate": 0.0524,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-26",
-    "hk_index_status": "cache",
-    "hk_lift": 16.56,
+    "hk_index_last": "2026-11-27",
+    "hk_index_status": "fetched",
+    "hk_lift": 16.7,
     "hk_n_base_closure": 69,
-    "hk_n_base_sessions": 1306,
+    "hk_n_base_sessions": 1317,
     "hk_n_closed": 19,
     "hk_n_thin": 2,
     "hk_n_unmatched": 3,
@@ -1546,9 +1557,9 @@
      "2022-08-25",
      "2025-12-31"
     ],
-    "lift": 0.88,
-    "n_base_closure": 62,
-    "n_base_sessions": 1306,
+    "lift": 0.87,
+    "n_base_closure": 63,
+    "n_base_sessions": 1317,
     "n_blocked": 42,
     "n_closure_early": 0,
     "n_closure_full": 1,
@@ -1607,34 +1618,34 @@
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 0.5380986845554825,
+    "gap_pp": 0.5361713826615766,
     "median_blocked_pct": 0.5007229601163621,
-    "median_exchange_pct": -0.037375724439120406,
+    "median_exchange_pct": -0.03544842254521452,
     "n_blocked": 64,
-    "n_exchange": 1276,
+    "n_exchange": 1277,
     "n_excluded": 0,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 24,
-    "gap_pp": 0.6554018517403837,
+    "gap_pp": 0.6534745498464778,
     "median_blocked_pct": 0.6180261273012633,
-    "median_exchange_pct": -0.037375724439120406,
+    "median_exchange_pct": -0.03544842254521452,
     "n_blocked": 40,
-    "n_exchange": 1276,
+    "n_exchange": 1277,
     "n_excluded": 24,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "blocked_sessions": 64,
-   "board_premium_pct": 0.3523,
+   "board_premium_pct": -0.9608,
    "class": "crossborder",
    "episode_granularity": {
     "blocked_one_row": 24,
-    "episode_gap_pp": 0.18709957022439716,
+    "episode_gap_pp": 0.18517226833049127,
     "episodes_gap_positive": 24,
-    "exchange_baseline_pct": -0.037375724439120406,
-    "gap_without_longest_pp": 0.21455741954179985,
-    "longest_block_gap_pp": -0.6610092602837014,
+    "exchange_baseline_pct": -0.03544842254521452,
+    "gap_without_longest_pp": 0.21263011764789397,
+    "longest_block_gap_pp": -0.6629365621776073,
     "longest_blocked_first": "2021-09-17",
     "longest_blocked_last": "2021-09-23",
     "longest_blocked_rows": 3,
@@ -2487,10 +2498,10 @@
       "first_date": "2026-10-21",
       "first_nav_date": "2026-10-20",
       "kind": "closed",
-      "last_date": "2026-11-26",
-      "last_nav_date": "2026-11-11",
-      "median_pct": -1.1263004040925173,
-      "n_rows": 27,
+      "last_date": "2026-11-27",
+      "last_nav_date": "2026-11-26",
+      "median_pct": -1.0743855303764205,
+      "n_rows": 28,
       "word": "场内买入"
      }
     ],
@@ -2503,29 +2514,29 @@
     "share_closed_at_high": null,
     "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-11",
-   "latest_pct": -4.479408477345026,
-   "latest_price_date": "2026-11-26",
+   "latest_nav_date": "2026-11-26",
+   "latest_pct": -1.2975391498881383,
+   "latest_price_date": "2026-11-27",
    "latest_purchase": "场内买入",
    "latest_purchase_kind": "closed",
-   "n_sessions": 1340,
-   "n_status_rows": 1347,
+   "n_sessions": 1341,
+   "n_status_rows": 1348,
    "nav_cache_status": "cache-stale",
-   "priced_session": "2026-11-26",
+   "priced_session": "2026-11-27",
    "priced_vs_ticket": "same",
-   "ruler_gap_pp": -4.831708477345026,
+   "ruler_gap_pp": -0.33673914988813836,
    "status_source": "fetched",
    "symbol": "513690",
    "window_facts": {
-    "known": 1340,
+    "known": 1341,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
   },
   {
-   "amount_cny": 86866.0,
+   "amount_cny": 86946.0,
    "blip_cadence": {
-    "base_share_modal": 0.1967,
+    "base_share_modal": 0.1964,
     "blip_share_modal": 0.3125,
     "blips_by_weekday": [
      5,
@@ -2568,13 +2579,13 @@
      159,
      159,
      159,
-     152
+     153
     ],
-    "tail_p": 0.1918921808989765,
+    "tail_p": 0.1911557252038421,
     "verdict": "BLIP_NO_CADENCE"
    },
    "blip_cause": {
-    "base_rate": 0.0489,
+    "base_rate": 0.0495,
     "both_channels_share": 1.0,
     "both_channels_suspended": 16,
     "calendar": "NYSE closures, rule-derived: New Year, MLK, Presidents, Good Friday, Memorial, Juneteenth (from 2022), Independence, Labor, Thanksgiving, Christmas -- plus the three scheduled 13:00 early closes",
@@ -2588,13 +2599,13 @@
     "calendar_named": "HKEX",
     "closure_rate": 0.0625,
     "exact_carry": 0,
-    "hk_base_rate": 0.0489,
+    "hk_base_rate": 0.0482,
     "hk_calendar": "HKEX calendar, measured on the HSI daily series (no bar = Hong Kong did not trade; a bar whose turnover is under 60% of its own trailing-20 median = a half day with no closing valuation). Statutory HK holidays follow the lunar calendar and the exchange also shuts for typhoons, so no rule set names this calendar -- the index does.",
-    "hk_index_last": "2026-11-26",
-    "hk_index_status": "cache",
-    "hk_lift": 19.18,
+    "hk_index_last": "2026-11-27",
+    "hk_index_status": "fetched",
+    "hk_lift": 19.46,
     "hk_n_base_closure": 37,
-    "hk_n_base_sessions": 757,
+    "hk_n_base_sessions": 768,
     "hk_n_closed": 13,
     "hk_n_thin": 2,
     "hk_n_unmatched": 1,
@@ -2618,9 +2629,9 @@
     "hk_unmatched_stamps": [
      "2025-12-31"
     ],
-    "lift": 1.28,
-    "n_base_closure": 37,
-    "n_base_sessions": 757,
+    "lift": 1.26,
+    "n_base_closure": 38,
+    "n_base_sessions": 768,
     "n_blocked": 22,
     "n_closure_early": 0,
     "n_closure_full": 1,
@@ -2632,7 +2643,7 @@
     "nav_move_max_pct": 1.5056,
     "nav_move_max_stamp": "2024-09-18",
     "nav_move_p90_pct": 0.7543,
-    "nav_move_ratio_median": 0.1297,
+    "nav_move_ratio_median": 0.1291,
     "not_proof": "the closure calendar explains the dates; it does not make the premium fair and it is not a statement about quotas",
     "one_row_stamps": [
      "2023-09-01",
@@ -2671,34 +2682,34 @@
    },
    "block_contrast": {
     "excluded_requested": 0,
-    "gap_pp": 0.2826625732901378,
+    "gap_pp": 0.28175876219465046,
     "median_blocked_pct": 0.5032305357935862,
-    "median_exchange_pct": 0.22056796250344846,
+    "median_exchange_pct": 0.22147177359893577,
     "n_blocked": 30,
-    "n_exchange": 753,
+    "n_exchange": 754,
     "n_excluded": 0,
     "verdict": "BLOCK_DOES_NOT_WIDEN"
    },
    "block_contrast_excl_gaps": {
     "excluded_requested": 16,
-    "gap_pp": 1.1810014991399997,
+    "gap_pp": 1.1800976880445124,
     "median_blocked_pct": 1.4015694616434482,
-    "median_exchange_pct": 0.22056796250344846,
+    "median_exchange_pct": 0.22147177359893577,
     "n_blocked": 14,
-    "n_exchange": 753,
+    "n_exchange": 754,
     "n_excluded": 16,
     "verdict": "BLOCK_WIDENS_PREMIUM"
    },
    "blocked_sessions": 30,
-   "board_premium_pct": -0.436,
+   "board_premium_pct": -0.9406,
    "class": "crossborder",
    "episode_granularity": {
     "blocked_one_row": 16,
-    "episode_gap_pp": 0.2654363401233373,
+    "episode_gap_pp": 0.26453252902784996,
     "episodes_gap_positive": 11,
-    "exchange_baseline_pct": 0.22056796250344846,
-    "gap_without_longest_pp": -0.0033425764880634645,
-    "longest_block_gap_pp": 2.5944252634486853,
+    "exchange_baseline_pct": 0.22147177359893577,
+    "gap_without_longest_pp": -0.004246387583550781,
+    "longest_block_gap_pp": 2.593521452353198,
     "longest_blocked_first": "2024-12-25",
     "longest_blocked_last": "2024-12-27",
     "longest_blocked_rows": 3,
@@ -3151,10 +3162,10 @@
       "first_date": "2026-10-21",
       "first_nav_date": "2026-10-20",
       "kind": "closed",
-      "last_date": "2026-11-26",
-      "last_nav_date": "2026-11-11",
-      "median_pct": -1.2196525140950376,
-      "n_rows": 27,
+      "last_date": "2026-11-27",
+      "last_nav_date": "2026-11-26",
+      "median_pct": -1.0753926787989365,
+      "n_rows": 28,
       "word": "场内买入"
      }
     ],
@@ -3167,21 +3178,21 @@
     "share_closed_at_high": null,
     "verdict": "NO_HIGH_SESSIONS"
    },
-   "latest_nav_date": "2026-11-11",
-   "latest_pct": -4.508984065996158,
-   "latest_price_date": "2026-11-26",
+   "latest_nav_date": "2026-11-26",
+   "latest_pct": -0.7012788025222427,
+   "latest_price_date": "2026-11-27",
    "latest_purchase": "场内买入",
    "latest_purchase_kind": "closed",
-   "n_sessions": 783,
-   "n_status_rows": 789,
+   "n_sessions": 784,
+   "n_status_rows": 790,
    "nav_cache_status": "cache-stale",
-   "priced_session": "2026-11-26",
+   "priced_session": "2026-11-27",
    "priced_vs_ticket": "same",
-   "ruler_gap_pp": -4.072984065996158,
+   "ruler_gap_pp": 0.23932119747775726,
    "status_source": "fetched",
    "symbol": "159519",
    "window_facts": {
-    "known": 783,
+    "known": 784,
     "open": 0
    },
    "window_verdict": "CHANNEL_CLOSED_THROUGHOUT"
@@ -3200,25 +3211,25 @@
   "agreement": "ALL_AT_TICKET_SESSION",
   "board": {
    "agrees_with_ticket": true,
-   "face_path": "results/etf_premium/PREMIUM-2026-11-26.json",
-   "face_session": "2026-11-26",
+   "face_path": "results/etf_premium/PREMIUM-2026-11-27.json",
+   "face_session": "2026-11-27",
    "face_session_conflict": false,
-   "requested_session": "2026-11-26",
-   "resolved_session": "2026-11-26",
+   "requested_session": "2026-11-27",
+   "resolved_session": "2026-11-27",
    "selected_by": "ticket_session"
   },
   "off_session_legs": [],
-  "panel_tail": "2026-11-26",
+  "panel_tail": "2026-11-27",
   "priced_sessions": [
-   "2026-11-26"
+   "2026-11-27"
   ],
-  "sentence": "premiums priced on 2026-11-26 against a ticket of 2026-11-26 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-26 board face (ticket_session)",
-  "ticket_session": "2026-11-26"
+  "sentence": "premiums priced on 2026-11-27 against a ticket of 2026-11-27 -- every leg prices the ticket's own session; the price/IOPV column comes from the 2026-11-27 board face (ticket_session)",
+  "ticket_session": "2026-11-27"
  },
- "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; exchange-only on their latest stamp: 510760, 512040, 159655, 513690, 159519; the 186 hard-suspended sessions are 99 runs (74 of them a single NAV row); with the 74 one-row valuation gaps removed the block still sits wider on 159519 and not on 159655, 513690; 510760 has no real suspension left at all; 159519's gap sits in its single 3-session run (own gap +2.59) while its other 21 runs read -0.00; the single-row runs are not spread over the calendar: Tue carries 43% of them against 20% of priced sessions (chance 6e-06), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 74/74 of them suspend 赎回 on the same row, they move the NAV by 0.16 of a normal session (median), and 45/74 sit on a session the HKEX calendar explains against 5.9% of ordinary sessions (10.2x); closed channel is consistent with a standing premium, not a verdict on it",
+ "summary_sentence": "5/5 legs show no open primary subscription anywhere in coverage; hard-suspended on their latest stamp: 159655; exchange-only on their latest stamp: 510760, 512040, 513690, 159519; the 187 hard-suspended sessions are 100 runs (75 of them a single NAV row); with the 75 one-row valuation gaps removed the block still sits wider on 159519 and not on 159655, 513690; 510760 has no real suspension left at all; 159519's gap sits in its single 3-session run (own gap +2.59) while its other 21 runs read -0.00; the single-row runs are not spread over the calendar: Tue carries 43% of them against 20% of priced sessions (chance 8e-06), so a one-row word is a word printed that session, not a fund policy; what those one-row words are is a valuation gap, not an announcement: 75/75 of them suspend 赎回 on the same row, they move the NAV by 0.16 of a normal session (median), and 45/75 sit on a session the HKEX calendar explains against 5.9% of ordinary sessions (10.2x); closed channel is consistent with a standing premium, not a verdict on it",
  "ticket": {
-  "as_of": "2026-11-26",
-  "path": "results\\etf_book_order\\TICKET-2026-11-26.json"
+  "as_of": "2026-11-27",
+  "path": "results\\etf_book_order\\TICKET-2026-11-27.json"
  },
  "verdicts": [
   "CHANNEL_CLOSED_THROUGHOUT"

@@ -640,11 +640,18 @@ def render_md(face: dict) -> str:
                          "日期只算标签）。（定日面 %s，板面 session %s）"
                          % (de.get("n_legs") or 0, bp.get("path-proven") or 0,
                             bp.get("path-proven-prev") or 0, bp.get("path-overrules-label") or 0,
-                            bp.get("rebased-onto-session") or 0,
+                            len(de.get("rebased_onto_session") or []),
                             bp.get("label-only") or 0, de.get("min_move_pct"),
                             de.get("generated") or "—", de.get("board_session") or "—"))
                 if de.get("label_only"):
+                    # r2217: the roster is the LEG's own verdict; the bill is separate.
+                    # Which of those legs the gate charges, and why one of them is not
+                    # charged, is said once -- in the gate block below (one measurement,
+                    # one place: a reader must not meet the same fact twice).
+                    charged = de.get("ambiguity_charged") or []
                     L.append("日期只算标签的腿：%s。" % "、".join(de["label_only"]))
+                    if charged:
+                        L.append("闸上真按不确定度计的腿：%s。" % "、".join(charged))
         L.append("")
         oh = face.get("over_hurdle") or {}
         if oh:
@@ -692,6 +699,12 @@ def render_md(face: dict) -> str:
                 L.append("执行闸：可核对腿合计多付 %s 元，未超阈值 %s 元，不提示。"
                          % (format(oh.get("total_over_nav_cny") or 0.0, ",.0f"),
                             format(oh.get("hurdle_cny") or 0.0, ",.0f")))
+            _stl = oh.get("settled_by_rebase") or []
+            if _stl:
+                L.append("")
+                L.append("另有 %d 腿（%s）的分母原本不在本场、日期只能算标签，但本面已用本场公布的净值"
+                         "换基——其日期由这次换基定死，不计入上面的不确定度。"
+                         % (len(_stl), "、".join(u["symbol"] for u in _stl)))
             L.append("")
     disp = face["dispersion"]
     den = face.get("denominator") or {}
@@ -854,13 +867,16 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
     # price path is one answer per instrument; a leg the board skips has no answer here.
     # A re-priced leg is its own case: its date is no longer a claim, it is the NAV this
     # face just replaced the denominator with.
+    # r2217: these are two orthogonal statements -- HOW the leg's original date was known,
+    # and whether this face then replaced the denominator.  Bucketing on the second alone
+    # dropped a label-only leg from the roster while the gate still charged it (159519 on
+    # the 2026-11-27 ticket), so one page listed two ambiguous legs and priced three.
     proof = {}
     for r in legs:
-        key = ("rebased-onto-session" if r.get("trust") == "nav-rebased-same-day"
-               else (r.get("date_proof") or "unknown"))
-        proof.setdefault(key, []).append(r["symbol"])
+        proof.setdefault(r.get("date_proof") or "unknown", []).append(r["symbol"])
     overruled = proof.get("path-overrules-label") or []
     label_only = proof.get("label-only") or []
+    rebased = [r["symbol"] for r in legs if r.get("trust") == "nav-rebased-same-day"]
     # The hurdle is summed over PRICED legs only: an unverified leg has no CNY figure
     # and is excluded rather than counted as zero, so a ticket made mostly of unverified
     # cross-border legs cannot look cheap.
@@ -875,14 +891,26 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
     # case is under the threshold too; otherwise the answer depends on a day this face
     # has not proven, and "under the line" would be a claim with no evidence behind it.
     unproven = []
+    settled = []
     for r in priced:
         dp = r.get("date_proof")
         if dp not in ("label-only", "no-evidence-face", "evidence-face-other-session"):
             continue
         mv = r.get("date_move_pct")
         exp = None if mv is None else round(abs(float(mv)) * r["amount_cny"] / 100.0, 2)
-        unproven.append({"symbol": r["symbol"], "date_proof": dp, "move_pct": mv,
-                         "amount_cny": r["amount_cny"], "exposure_cny": exp})
+        rec = {"symbol": r["symbol"], "date_proof": dp, "move_pct": mv,
+               "amount_cny": r["amount_cny"], "exposure_cny": exp}
+        # r2217: a leg this face RE-PRICED carries no undecided day -- its denominator is
+        # the NAV this session published (normalize_nav_board keeps only that day's
+        # column), so the repricing already answered the question the ambiguity was about.
+        # Charging it would widen the gate for a settled question, and the same face
+        # already treats a path-overruled rebase as settled.  Say it out loud instead of
+        # dropping it silently.
+        if r.get("trust") == "nav-rebased-same-day":
+            rec["settled_by_rebase"] = True
+            settled.append(rec)
+            continue
+        unproven.append(rec)
     exposure = (None if (not unproven) or any(u["exposure_cny"] is None for u in unproven)
                 else round(sum(u["exposure_cny"] for u in unproven), 2))
     bounded = None if exposure is None else round(tot + exposure, 2)
@@ -905,6 +933,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
         "breached": breached,
         "verdict": gate_verdict,
         "unproven": unproven,
+        "settled_by_rebase": settled,
         "exposure_cny": exposure,
         "bounded_total_cny": bounded,
         "basis": ("sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero. "
@@ -922,13 +951,19 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
         "by_proof": {k: len(v) for k, v in sorted(proof.items())},
         "overrules_label": overruled,
         "label_only": label_only,
+        "rebased_onto_session": rebased,
+        "ambiguity_charged": [u["symbol"] for u in unproven],
+        "ambiguity_settled_by_rebase": settled,
         "why": (None if (dating or {}).get("available") else
                 (dating or {}).get("why") or "no dating face"),
         "basis": ("a batch stamp says which day the snapshot was fetched; the dating face "
                   "says which day each instrument's denominator belongs to, from the move that "
                   "instrument made. Where the two disagree the path wins and the leg is priced "
                   "as cross-date; where the path cannot tell (|move| under its threshold) the leg "
-                  "keeps its number and is marked label-only with the ambiguity printed."),
+                  "keeps its number and is marked label-only with the ambiguity printed. A leg "
+                  "those two statements put in different sessions is re-priced on the NAV this "
+                  "session published -- its day is then decided by that repricing, so it stays on "
+                  "the label-only roster (how the original date was known) and off the gate's bill."),
     }
     return {
         "artifact": "etf_premium_face",
@@ -1740,6 +1775,48 @@ def selftest() -> int:
     leg("L51 a path-proven day leaves the gate a plain money reading",
         oh_ok["verdict"] == "clean" and oh_ok["unproven"] == []
         and oh_ok["exposure_cny"] is None and "不提示" in render_md(f_ok))
+
+    # L52-L53 (r2217) a RE-PRICED leg is the third case: the roster of ambiguous legs and
+    # the gate's bill have to agree about it.  The 2026-11-27 ticket printed two names in
+    # the roster and charged three (159519 was label-only AND rebased and fell out of the
+    # census), so a reader compiling "which dates are unproven" was short one leg while
+    # the money line already carried it.
+    b_re = board([["513690", "恒生红利ETF", 1.1030, 1.1161, 3e8, "2026-11-27"]])
+    b_re["净值日期"] = ["2026-11-26"] * len(b_re)          # the label says: another session
+    s_re = normalize_spot(b_re)
+    d_re = _dating([("513690", "UNDECIDABLE", -0.72, 1.1137, "2026-11-27", False)])
+    nav_re = NavBoard("2026-11-27", {"513690"}, {"513690": 1.1110})
+    f_re = build_face(s_re, t_gate, "t:0", nav_re, dating=d_re)
+    oh_re, de_re = f_re["over_hurdle"], f_re["date_evidence"]
+    md_re = render_md(f_re)
+    leg("L52 a rebased label-only leg stays on the roster and off the gate's bill",
+        [r["trust"] for r in f_re["legs"]] == ["nav-rebased-same-day"]
+        and de_re["label_only"] == ["513690"]            # roster: the leg's own verdict
+        and de_re["rebased_onto_session"] == ["513690"]
+        and de_re["ambiguity_charged"] == []             # bill: the repricing settled it
+        and oh_re["unproven"] == [] and oh_re["exposure_cny"] is None
+        and oh_re["verdict"] == "clean"
+        and [u["symbol"] for u in oh_re["settled_by_rebase"]] == ["513690"]
+        and "换基定死" in md_re and "不计入上面的不确定度" in md_re)
+
+    # L53 the negative control: take the rebase away (no session NAV published) and the
+    # same leg must reappear on the bill -- otherwise L52 would pass on a face that simply
+    # stopped charging anything.
+    f_un = build_face(s_re, t_gate, "t:0", None, dating=d_re)
+    oh_un = f_un["over_hurdle"]
+    leg("L53 without the repricing the same leg is priced as cross-date, not charged",
+        [r["trust"] for r in f_un["legs"]] == ["nav-cross-date"]
+        and oh_un["unproven"] == [] and oh_un["verdict"] == "clean")
+
+    # L53b ... and a label-only leg that was never rebased still widens the gate, so the
+    # two paths really are distinguishable rather than both landing on "clean".
+    b_u2 = board([["513690", "恒生红利ETF", 1.1030, 1.1161, 3e8, "2026-11-27"]])
+    b_u2["净值日期"] = ["2026-11-27"] * len(b_u2)
+    f_u2 = build_face(normalize_spot(b_u2), t_gate, "t:0", None, dating=d_re)
+    leg("L53b a label-only leg on this session's label is still charged",
+        f_u2["over_hurdle"]["unproven"] != []
+        and f_u2["date_evidence"]["ambiguity_charged"] == ["513690"]
+        and f_u2["over_hurdle"]["verdict"] != "clean")
 
     # ---- the daily-chain gate (r1398). This face moved from a hand-run to an S6
     # leg, so the gate is now load-bearing: a wrong branch either photographs an

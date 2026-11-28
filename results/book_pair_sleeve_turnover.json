@@ -1,11 +1,11 @@
 {
  "face": "results/book_pair_sleeve_turnover.json",
- "generated_at": "2026-11-27T22:04:25+08:00",
- "evidence_cutoff": "2026-11-26",
+ "generated_at": "2026-11-28T14:14:34+08:00",
+ "evidence_cutoff": "2026-11-27",
  "panels": {
   "etf": "2026-11-27",
-  "cb_arm": "2026-11-26",
-  "sleeve_premium": "2026-11-26"
+  "cb_arm": "2026-11-27",
+  "sleeve_premium": "2026-11-27"
  },
  "question": "How much of the sleeve's own premium reading is which 20 bonds the rule happens to hold, rather than how expensive they are?",
  "caliber": {
@@ -18,7 +18,7 @@
  },
  "window": {
   "first": "2007-07-12",
-  "last": "2026-11-26",
+  "last": "2026-11-27",
   "last_bar": "2026-11-27",
   "month_ends": 82
  },
@@ -26,8 +26,8 @@
   "cb": {
    "panel": {
     "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data/cb_panel.csv.gz",
-    "size": 25433554,
-    "mtime": "2026-11-27T11:34:31"
+    "size": 25443561,
+    "mtime": "2026-11-28T05:55:34"
    },
    "meta": {
     "arm": "n_hold=20 rebal=20 phase=0",
@@ -35,14 +35,14 @@
     "rebalances": 141,
     "short_pool_skips": 95,
     "first": "2007-07-12",
-    "last": "2026-11-26",
-    "days_with_a_level": 3489
+    "last": "2026-11-27",
+    "days_with_a_level": 3490
    }
   },
   "parent": {
    "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/book_pair_sleeve_premium.json",
-   "size": 14920,
-   "mtime": "2026-11-27T20:51:42"
+   "size": 14917,
+   "mtime": "2026-11-28T06:02:32"
   }
  },
  "timing": {
@@ -54,7 +54,7 @@
  "reconciliation": {
   "parent_rebalances": 141,
   "my_rebalances": 141,
-  "days_compared": 3489,
+  "days_compared": 3490,
   "max_abs_diff": 0.0,
   "tol": 1e-09,
   "ok": true
@@ -69,10 +69,10 @@
   "churn_abs_max_pp": 13.626,
   "churn_signed_median_pp": -1.5602,
   "churn_direction_up_share": 0.2446,
-  "quiet_days": 3410,
-  "quiet_abs_change_median_pp": 0.7811,
-  "quiet_abs_change_p90_pp": 2.706,
-  "churn_over_quiet_ratio": 2.946,
+  "quiet_days": 3411,
+  "quiet_abs_change_median_pp": 0.7814,
+  "quiet_abs_change_p90_pp": 2.7058,
+  "churn_over_quiet_ratio": 2.945,
   "biggest_swap_over_quiet_p90": 5.04
  },
  "biggest_swaps": [
@@ -903,18 +903,18 @@
   }
  ],
  "today": {
-  "asof": "2026-11-26",
-  "reading_pct": 8.769,
-  "cheap_below_pct": 9.246,
-  "rich_above_pct": 15.233,
-  "label_spot": 0,
+  "asof": "2026-11-27",
+  "reading_pct": 11.42,
+  "cheap_below_pct": 9.247,
+  "rich_above_pct": 15.231,
+  "label_spot": 1,
   "churn_abs_median_pp": 2.3012,
   "churn_abs_p90_pp": 5.9848,
-  "margin_to_cheap_edge_pp": -0.477,
-  "margin_to_rich_edge_pp": 6.464,
-  "margin_to_nearest_edge_pp": 0.477,
+  "margin_to_cheap_edge_pp": 2.173,
+  "margin_to_rich_edge_pp": 3.811,
+  "margin_to_nearest_edge_pp": 2.173,
   "inside_the_swap_noise": true,
-  "label_names": "cheap",
+  "label_names": "mid",
   "parent_label_in_force": "rich",
   "parent_read_at_month_end": "2026-10-31"
  },
