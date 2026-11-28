@@ -108,6 +108,51 @@ DISCOUNT_COLS = ["基金折价率", "基金折溢价率"]
 CROSS_CHECK_TOL_PP = 0.10
 
 
+DATING_PATH = os.path.join(ROOT, "results", "etf_nav", "source_dating.json")
+
+
+def load_dating(path=None) -> dict:
+    """Per-instrument NAV dates proven by the instrument's own price path (r2213 face).
+
+    r2215: everything below decides "is this leg's denominator from this session?" from
+    `nav_session`, and that field is ONE stamp for the whole batch -- the day the snapshot
+    was fetched.  r2213 proved those are two different questions: of 1,439 datable rows
+    under a single `2026-11-27` label, 1,371 sat on that day's price path, 8 sat on
+    yesterday's close and 59 sat beyond the day's move.  A face that reads the label
+    cannot see those 8, and one of them decided a ticket.
+
+    So the dating face is loaded here as EVIDENCE about the day, never as an authority
+    over the number: it answers per instrument, it names the day by the move that
+    instrument actually made, and where it cannot tell (|move| under its own threshold)
+    it says so -- a third answer the label does not have.
+    """
+    p = path or DATING_PATH
+    try:
+        with open(p, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return {"available": False,
+                "why": "no dating face at %s" % os.path.relpath(p, ROOT).replace("\\", "/")}
+    by = {}
+    for r in d.get("rows") or []:
+        c = str(r.get("code") or "").zfill(6)
+        if not c:
+            continue
+        by[c] = {
+            "position": r.get("board_position"),
+            "sina_position": r.get("sina_position"),
+            "move_pct": r.get("move_pct"),
+            "sina_nav": r.get("sina_nav"),
+            "sina_nav_date": r.get("sina_nav_date"),
+            "board_missing": bool(r.get("board_missing")),
+        }
+    return {"available": True,
+            "board_session": d.get("board_session"),
+            "min_move_pct": d.get("min_move_pct"),
+            "generated": d.get("generated"),
+            "by_code": by}
+
+
 def _num(s):
     return pd.to_numeric(s, errors="coerce")
 
@@ -294,7 +339,8 @@ def band(premium_pct: float) -> str:
     return "stretched"
 
 
-def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> list[dict]:
+def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None,
+             dating=None) -> list[dict]:
     """One row per ordered leg.  A leg the board does not carry is MISSING:
     its premium is None, and the face prints it as unknown rather than free.
 
@@ -313,15 +359,32 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
         the board's own reading kept in `board_reading` so nothing is hidden);
       * the board published nothing -> `nav-cross-date`: keep the percentage as the
         board printed it, but it is not this session's premium and it carries no CNY.
+
+    r2215: `nav_session` is a LABEL a whole batch shares, so "the label says this
+    session" is not the same claim as "this row's denominator is this session".  The
+    dating face (r2213) answers the second question per instrument from the move that
+    instrument made; where it contradicts the label it wins, and where it cannot tell
+    the leg says `label-only` with the size of the ambiguity printed.  A leg the board
+    does not carry at all also carries whatever a second source dated, so "no row here"
+    stops looking like "nothing known".
     """
     if session is None and "session" in spot.columns:
         seen = sorted(set(spot["session"].dropna()))
         session = seen[-1] if seen else None
     by_code = spot.set_index("code")
+    ev_by = (dating or {}).get("by_code") or {}
+    # r2215: an evidence face that describes a DIFFERENT session cannot overrule this
+    # one's label -- that would be yesterday's proof deciding today's date.
+    ev_bs = (dating or {}).get("board_session")
+    ev_avail = bool((dating or {}).get("available")) and (
+        ev_bs in (None, "") or session in (None, "") or str(ev_bs) == str(session))
+    amb_pp = (dating or {}).get("min_move_pct")
     rows = []
     for leg in ticket.get("order", []):
         code = str(leg.get("symbol", "")).zfill(6)
         amount = float(leg.get("amount") or 0.0)
+        ev = ev_by.get(code)
+        proven = (ev or {}).get("position")
         if code in by_code.index:
             r = by_code.loc[code]
             if isinstance(r, pd.DataFrame):
@@ -331,7 +394,23 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
             in_board = nav_ok is not None and code in nav_ok
             unverified = nav_ok is not None and not in_board
             # Is the DENOMINATOR this row is priced on from the face's own session?
-            same_day = den_date is None or session is None or den_date == session
+            label_same = den_date is None or session is None or den_date == session
+            # r2215: the label is a batch stamp; the price path is per instrument. Only a
+            # contradiction is overruled -- a path that says "same day" while the label
+            # says otherwise is recorded, not acted on, because the label is still the
+            # only statement about WHICH day the value belongs to.
+            same_day = label_same
+            if ev_avail and proven == "PREV_SESSION" and label_same:
+                same_day = False
+            if not ev_avail:
+                date_proof = ("no-evidence-face" if not (dating or {}).get("available")
+                              else "evidence-face-other-session")
+            elif proven == "SAME_SESSION":
+                date_proof = "path-proven"
+            elif proven == "PREV_SESSION":
+                date_proof = ("path-overrules-label" if label_same else "path-proven-prev")
+            else:
+                date_proof = "label-only"
             price = float(r["price"]) if np.isfinite(r["price"]) else None
             rebased_nav = None if same_day else _nav_value(nav_ok, code)
             board_reading = None
@@ -356,6 +435,11 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
                 "premium_pct": None if prem_used is None else round(prem_used, 4),
                 "band": band_used,
                 "trust": trust,
+                # r2215: HOW the date above is known -- a printed label, this instrument's
+                # own price path, or a path that contradicted the label.
+                "date_proof": date_proof,
+                "date_move_pct": None if not ev else ev.get("move_pct"),
+                "date_ambiguous_pp": (amb_pp if date_proof == "label-only" else None),
                 "over_nav_cny": round(amount * prem_used / 100.0, 2) if priced else None,
                 "iopv": None if not np.isfinite(r["iopv"]) else round(float(r["iopv"]), 4),
                 "price": price,
@@ -373,6 +457,14 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
                 "board_reading": board_reading,
             })
         else:
+            # r2215: the board has no row for this leg. That is a coverage hole in one
+            # source, not proof that nothing is known -- if the dated source carries a
+            # NAV for it, name it here rather than printing an empty cell.
+            alt = None
+            if ev and ev.get("sina_nav") is not None:
+                alt = {"nav": ev.get("sina_nav"), "date": ev.get("sina_nav_date"),
+                       "reader": "sina published NAV",
+                       "why_unused": "另一源的口径与板面不同源（公布净值≠IOPV），本面不拿它定价"}
             rows.append({
                 "symbol": code,
                 "name": "",
@@ -381,6 +473,11 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
                 "premium_pct": None,
                 "band": "missing",
                 "trust": "no-quote",
+                "date_proof": ("no-evidence-face" if not (dating or {}).get("available")
+                               else "evidence-face-other-session" if not ev_avail
+                               else "board-has-no-row"),
+                "date_move_pct": None if not ev else ev.get("move_pct"),
+                "date_ambiguous_pp": None,
                 "over_nav_cny": None,
                 "iopv": None,
                 "price": None,
@@ -388,6 +485,7 @@ def leg_face(ticket: dict, spot: pd.DataFrame, nav_ok=None, session=None) -> lis
                 "nav_session": None,
                 "denominator_nav": None,
                 "board_reading": None,
+                "alt_source": alt,
             })
     return rows
 
@@ -490,6 +588,24 @@ def render_md(face: dict) -> str:
                     br.get("raw_nav"), r.get("denominator_nav"))
             elif r.get("nav_session"):
                 reader_cell += " " + r["nav_session"]
+            # r2215: a printed date is a label; say whether anything proved it. A re-priced
+            # leg already says "换基 → 同日" above, which IS the proof, so it is not relabelled.
+            _dp = r.get("date_proof")
+            if r.get("trust") == "nav-rebased-same-day":
+                pass
+            elif _dp == "label-only":
+                reader_cell += "·日期未证（价动 %s%%，两日同量级）" % (
+                    "—" if r.get("date_move_pct") is None else "%.2f" % r["date_move_pct"])
+            elif _dp == "path-overrules-label":
+                reader_cell += "·价格路径说这是昨日净值"
+            elif _dp == "path-proven-prev":
+                reader_cell += "·路径证明在昨日"
+            elif _dp == "path-proven":
+                reader_cell += "·路径证明在当日"
+            alt = r.get("alt_source")
+            if alt:
+                reader_cell += "（板面无行；%s 有 %s %s，未采用）" % (
+                    alt.get("reader"), alt.get("date"), alt.get("nav"))
             L.append("| %s | %s | %s | %s | %s | %s | %s | %s |" % (
                 r["symbol"], r["name"] or "(板面未列)", r["class"],
                 format(r["amount_cny"], ",.0f"),
@@ -510,6 +626,25 @@ def render_md(face: dict) -> str:
             L.append("分母不在本场：%s（板面分母属于另一场的净值，而本场没有已公布净值可换基——"
                      "它们的百分比是跨日缺口，不是本场溢价，也不进上面的 CNY 合计）。"
                      % "、".join(cd))
+        de = face.get("date_evidence") or {}
+        if de:
+            L.append("")
+            if not de.get("available"):
+                L.append("分母日期证据：**没有可用的定日面**（%s）——上表的日期只能算标签，"
+                         "不能算证明。" % (de.get("why") or "缺件"))
+            else:
+                bp = de.get("by_proof") or {}
+                L.append("分母日期证据：本单 %d 腿里，价格路径证明在当日 %d 腿、路径证明在昨日 %d 腿、"
+                         "标签与路径不一致 %d 腿（已改按跨日处理）、按本场公布净值换基 %d 腿、"
+                         "路径判不了日 %d 腿（价动低于 %s%% 判据，两个日子的读数都自洽——数照印，"
+                         "日期只算标签）。（定日面 %s，板面 session %s）"
+                         % (de.get("n_legs") or 0, bp.get("path-proven") or 0,
+                            bp.get("path-proven-prev") or 0, bp.get("path-overrules-label") or 0,
+                            bp.get("rebased-onto-session") or 0,
+                            bp.get("label-only") or 0, de.get("min_move_pct"),
+                            de.get("generated") or "—", de.get("board_session") or "—"))
+                if de.get("label_only"):
+                    L.append("日期只算标签的腿：%s。" % "、".join(de["label_only"]))
         L.append("")
         oh = face.get("over_hurdle") or {}
         if oh:
@@ -662,7 +797,8 @@ def denominator_block(spot: pd.DataFrame, session: str, legs: list) -> dict:
     }
 
 
-def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -> dict:
+def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None,
+               dating=None) -> dict:
     sessions = sorted(set(spot["session"].dropna()))
     session = sessions[-1] if sessions else "unknown"
     bad = int(spot["cross_check_bad"].sum()) if "cross_check_bad" in spot.columns else 0
@@ -670,7 +806,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
     # The book's ticket nests its legs under "ticket"; a bare order list is also
     # accepted so this face can be pointed at any ticket-shaped file.
     inner = ticket.get("ticket") if isinstance(ticket.get("ticket"), dict) else ticket
-    legs = leg_face(inner, spot, nav_ok, session=session)
+    legs = leg_face(inner, spot, nav_ok, session=session, dating=dating)
     # r2211: a leg whose own denominator belonged to another session is either re-priced
     # onto this session's published NAV (and the board's reading kept beside it) or named
     # as cross-date. Both are counted here so the face says what it did, and a reader can
@@ -681,6 +817,17 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
                 "same_day_nav": r.get("denominator_nav"), "premium_same_day_pct": r["premium_pct"]}
                for r in legs if r["trust"] == "nav-rebased-same-day"]
     cross = [r["symbol"] for r in legs if r["trust"] == "nav-cross-date"]
+    # r2215: how each leg's date is known. A label is one answer for the whole batch; the
+    # price path is one answer per instrument; a leg the board skips has no answer here.
+    # A re-priced leg is its own case: its date is no longer a claim, it is the NAV this
+    # face just replaced the denominator with.
+    proof = {}
+    for r in legs:
+        key = ("rebased-onto-session" if r.get("trust") == "nav-rebased-same-day"
+               else (r.get("date_proof") or "unknown"))
+        proof.setdefault(key, []).append(r["symbol"])
+    overruled = proof.get("path-overrules-label") or []
+    label_only = proof.get("label-only") or []
     # The hurdle is summed over PRICED legs only: an unverified leg has no CNY figure
     # and is excluded rather than counted as zero, so a ticket made mostly of unverified
     # cross-border legs cannot look cheap.
@@ -694,6 +841,24 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         "share_of_plan_pct": round(100.0 * tot / known, 4) if known else None,
         "breached": bool(tot > OVER_HURDLE_CNY),
         "basis": "sum over priced legs only; unverified legs carry no CNY figure and are excluded, never counted as zero",
+    }
+    date_evidence = {
+        "available": bool((dating or {}).get("available")),
+        "face": "results/etf_nav/source_dating.json",
+        "board_session": (dating or {}).get("board_session"),
+        "generated": (dating or {}).get("generated"),
+        "min_move_pct": (dating or {}).get("min_move_pct"),
+        "n_legs": len(legs),
+        "by_proof": {k: len(v) for k, v in sorted(proof.items())},
+        "overrules_label": overruled,
+        "label_only": label_only,
+        "why": (None if (dating or {}).get("available") else
+                (dating or {}).get("why") or "no dating face"),
+        "basis": ("a batch stamp says which day the snapshot was fetched; the dating face "
+                  "says which day each instrument's denominator belongs to, from the move that "
+                  "instrument made. Where the two disagree the path wins and the leg is priced "
+                  "as cross-date; where the path cannot tell (|move| under its threshold) the leg "
+                  "keeps its number and is marked label-only with the ambiguity printed."),
     }
     return {
         "artifact": "etf_premium_face",
@@ -723,6 +888,7 @@ def build_face(spot: pd.DataFrame, ticket: dict, fetched_at: str, nav_ok=None) -
         },
         "dispersion": dispersion(spot, nav_ok=nav_ok, session=session),
         "denominator": denominator_block(spot, session, legs),
+        "date_evidence": date_evidence,
         "caveats": [
             "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",
             "the spot board publishes 折价率 (discount), the opposite sign of a premium -- this face recomputes from price/IOPV and reports any disagreement instead of choosing a side.",
@@ -1117,7 +1283,7 @@ def do_fetch(force=False, session=None) -> int:
     g["last_ok_ts"] = _t.strftime("%Y-%m-%dT%H:%M:%S")
     g["last_ok_source"] = source
     _write_gate(g)
-    return _render(spot, _t.strftime("%Y-%m-%dT%H:%M:%S%z"), nav_ok)
+    return _render(spot, _t.strftime("%Y-%m-%dT%H:%M:%S%z"), nav_ok, dating=load_dating())
 
 
 def fetch_nav_ok(session: str):
@@ -1182,14 +1348,14 @@ def _load_snapshot() -> pd.DataFrame | None:
                        keep_default_na=True).assign(code=lambda d: d["code"].str.zfill(6))
 
 
-def _render(spot: pd.DataFrame, fetched_at: str, nav_ok=None) -> int:
+def _render(spot: pd.DataFrame, fetched_at: str, nav_ok=None, dating=None) -> int:
     try:
         with open(TICKET_PATH, encoding="utf-8") as f:
             ticket = json.load(f)
     except (OSError, ValueError) as e:
         print("ticket unreadable: %s" % e)
         return 2
-    face = build_face(spot, ticket, fetched_at, nav_ok)
+    face = build_face(spot, ticket, fetched_at, nav_ok, dating=dating)
     os.makedirs(OUT_DIR, exist_ok=True)
     js = os.path.join(OUT_DIR, "PREMIUM-%s.json" % face["session"])
     md = os.path.join(OUT_DIR, "PREMIUM-%s.md" % face["session"])
@@ -1227,7 +1393,7 @@ def do_render() -> int:
     session = str(spot["session"].dropna().iloc[-1])
     print("rendering from local snapshot %s (no network)" % session)
     return _render(spot, _published_fetched_at(session) or "local:%s" % session,
-                   _cached_nav_ok(session))
+                   _cached_nav_ok(session), dating=load_dating())
 
 
 # ---------------------------------------------------------------- selftest
@@ -1380,6 +1546,82 @@ def selftest() -> int:
         rows[0]["band"] == "unverified" and rows[0]["over_nav_cny"] is None
         and abs(rows[0]["premium_pct"] - 21.2564) < 1e-3
         and rows[1]["band"] != "unverified" and rows[1]["over_nav_cny"] is not None)
+
+    # ---- r2215: a printed date is a label; the price path is a proof.
+    def _dating(items, min_move=1.0):
+        return {"available": True, "board_session": "2026-11-27", "min_move_pct": min_move,
+                "generated": "t:0",
+                "by_code": {c: {"position": p, "sina_position": p, "move_pct": m,
+                                "sina_nav": nv, "sina_nav_date": nd, "board_missing": bm}
+                            for c, p, m, nv, nd, bm in items}}
+
+    b_lab = board([["513630", "标普500ETF", 1.545, 1.5584, 3e8, "2026-11-27"],
+                   ["513690", "恒生红利ETF", 1.103, 1.1161, 3e8, "2026-11-27"]])
+    b_lab["净值日期"] = ["2026-11-27"] * len(b_lab)   # the batch stamp says this session
+    s_lab = normalize_spot(b_lab)
+    d_prev = _dating([("513630", "PREV_SESSION", -1.278, 1.5603, "2026-11-27", False)])
+
+    # L41 THE label defect: the row carries the session's own date only because the whole
+    # batch was stamped that day, while the instrument's own move says its denominator is
+    # yesterday's. The path wins: no same-day claim and no CNY figure.
+    r_lab = leg_face({"order": [{"symbol": "513630", "amount": 86916.0, "class": "crossborder"}]},
+                     s_lab, None, session="2026-11-27", dating=d_prev)[0]
+    leg("L41 a same-day label overruled by the price path is not priced as same-day",
+        r_lab["trust"] == "nav-cross-date" and r_lab["over_nav_cny"] is None
+        and r_lab["date_proof"] == "path-overrules-label")
+
+    # L42 ... and when the session's own NAV is on the board it is re-priced, not refused.
+    r_lab2 = leg_face({"order": [{"symbol": "513630", "amount": 100000.0, "class": "crossborder"}]},
+                      s_lab, NavBoard("2026-11-27", {"513630"}, {"513630": 1.5300}),
+                      session="2026-11-27", dating=d_prev)[0]
+    leg("L42 the overruled leg is re-priced on the session NAV when one is published",
+        r_lab2["trust"] == "nav-rebased-same-day"
+        and abs(r_lab2["premium_pct"] - 0.9804) < 1e-3
+        and r_lab2["date_proof"] == "path-overrules-label")
+
+    # L43 a date the path cannot pin (|move| under 1%) keeps its number and says it is a label.
+    d_und = _dating([("513690", "UNDECIDABLE", -0.7201, 1.1137, "2026-11-27", False)])
+    r_und = leg_face({"order": [{"symbol": "513690", "amount": 86916.0, "class": "crossborder"}]},
+                     s_lab, None, session="2026-11-27", dating=d_und)[0]
+    leg("L43 an unpinnable date keeps the number but is marked label-only",
+        r_und["date_proof"] == "label-only" and r_und["date_ambiguous_pp"] == 1.0
+        and r_und["over_nav_cny"] is not None)
+
+    # L44 no dating face at all: the older label behaviour stands, and the face says so
+    # rather than quietly looking proven.
+    r_noev = leg_face({"order": [{"symbol": "513690", "amount": 86916.0, "class": "crossborder"}]},
+                      s_lab, None, session="2026-11-27",
+                      dating={"available": False, "why": "x"})[0]
+    leg("L44 no dating face -> label behaviour unchanged, and dated 'no-evidence-face'",
+        r_noev["trust"] == "iopv+same-day-nav" and r_noev["date_proof"] == "no-evidence-face")
+
+    # L45 a leg the board skips is not a leg nothing is known about: name the dated value
+    # another source carries, and keep it out of the pricing (different reader).
+    d_alt = _dating([("159655", "NO_DATA", 2.8297, 1.7413, "2026-11-28", True)])
+    r_alt = leg_face({"order": [{"symbol": "159655", "amount": 86862.6, "class": "crossborder"}]},
+                     s_lab, None, session="2026-11-27", dating=d_alt)[0]
+    leg("L45 a board gap still names what another source dated (and does not price it)",
+        r_alt["trust"] == "no-quote" and r_alt["premium_pct"] is None
+        and r_alt["alt_source"]["nav"] == 1.7413 and r_alt["date_proof"] == "board-has-no-row")
+
+    # L47 evidence about another session may not decide this one: a dating face from a
+    # different board session is ignored (and named), not applied as yesterday's proof.
+    d_stale = _dating([("513630", "PREV_SESSION", -1.278, 1.5603, "2026-11-27", False)])
+    d_stale["board_session"] = "2026-11-26"
+    r_stale = leg_face({"order": [{"symbol": "513630", "amount": 86916.0, "class": "crossborder"}]},
+                       s_lab, None, session="2026-11-27", dating=d_stale)[0]
+    leg("L47 dating evidence about another session is named, not applied",
+        r_stale["date_proof"] == "evidence-face-other-session"
+        and r_stale["trust"] == "iopv+same-day-nav"
+        and r_stale["over_nav_cny"] is not None)
+
+    # L46 the page itself has to carry the distinction, not only the JSON.
+    f_ev = build_face(s_lab, {"order": [{"symbol": "513630", "amount": 86916.0, "class": "crossborder"}]},
+                      "t:0", None, dating=d_prev)
+    md_ev = render_md(f_ev)
+    leg("L46 the page says how each date is known, and names the overruled leg",
+        "分母日期证据" in md_ev and "标签与路径不一致 1 腿" in md_ev
+        and f_ev["date_evidence"]["overrules_label"] == ["513630"])
 
     # ---- the daily-chain gate (r1398). This face moved from a hand-run to an S6
     # leg, so the gate is now load-bearing: a wrong branch either photographs an

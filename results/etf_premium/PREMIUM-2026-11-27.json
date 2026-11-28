@@ -39,6 +39,9 @@
    "premium_pct": 0.3107,
    "band": "watch",
    "trust": "iopv+same-day-nav",
+   "date_proof": "path-proven",
+   "date_move_pct": 4.1356,
+   "date_ambiguous_pp": null,
    "over_nav_cny": 270.33,
    "iopv": 1.2551,
    "price": 1.259,
@@ -55,6 +58,9 @@
    "premium_pct": 0.2282,
    "band": "at-par",
    "trust": "iopv+same-day-nav",
+   "date_proof": "path-proven",
+   "date_move_pct": 1.9776,
+   "date_ambiguous_pp": null,
    "over_nav_cny": 198.36,
    "iopv": 1.1833,
    "price": 1.186,
@@ -71,6 +77,9 @@
    "premium_pct": 10.3598,
    "band": "unverified",
    "trust": "iopv-only",
+   "date_proof": "label-only",
+   "date_move_pct": 2.8297,
+   "date_ambiguous_pp": 1.0,
    "over_nav_cny": null,
    "iopv": 1.7452,
    "price": 1.926,
@@ -87,6 +96,9 @@
    "premium_pct": -0.9608,
    "band": "watch",
    "trust": "iopv+same-day-nav",
+   "date_proof": "label-only",
+   "date_move_pct": -0.7201,
+   "date_ambiguous_pp": 1.0,
    "over_nav_cny": -835.06,
    "iopv": 1.1137,
    "price": 1.103,
@@ -103,6 +115,9 @@
    "premium_pct": -0.9406,
    "band": "watch",
    "trust": "nav-rebased-same-day",
+   "date_proof": "label-only",
+   "date_move_pct": -0.2959,
+   "date_ambiguous_pp": 1.0,
    "over_nav_cny": -817.83,
    "iopv": 1.6974,
    "price": 1.685,
@@ -227,6 +242,26 @@
    "159655"
   ],
   "verdict": "mixed"
+ },
+ "date_evidence": {
+  "available": true,
+  "face": "results/etf_nav/source_dating.json",
+  "board_session": "2026-11-27",
+  "generated": "2026-11-28T12:20:31+0800",
+  "min_move_pct": 1.0,
+  "n_legs": 5,
+  "by_proof": {
+   "label-only": 2,
+   "path-proven": 2,
+   "rebased-onto-session": 1
+  },
+  "overrules_label": [],
+  "label_only": [
+   "159655",
+   "513690"
+  ],
+  "why": null,
+  "basis": "a batch stamp says which day the snapshot was fetched; the dating face says which day each instrument's denominator belongs to, from the move that instrument made. Where the two disagree the path wins and the leg is priced as cross-date; where the path cannot tell (|move| under its threshold) the leg keeps its number and is marked label-only with the ambiguity printed."
  },
  "caveats": [
   "IOPV is a real-time estimate of the basket, not the fund's published NAV; a premium measured against it inherits that error.",

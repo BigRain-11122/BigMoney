@@ -311,7 +311,7 @@
   "sha": "278bb79900"
  },
  "last_push_at": "2026-11-28T00:4x+08:00",
- "last_round": "2026-11-28T12:52:00+08:00",
+ "last_round": "2026-11-28T13:20:00+08:00",
  "last_round_at": "2026-11-28T10:00:03+08:00",
  "last_round_at_legacy": "2026-10-19T15:34:21+08:00",
  "last_round_closed": 1941,
@@ -1727,7 +1727,7 @@
  },
  "round_drift_note": "state said round_no=1937 while commit 6a3f33e30e already said round 1938 -> counters healed to 1939",
  "round_label": "r2063",
- "round_no": 2215,
+ "round_no": 2216,
  "round_no_label": "r2176",
  "round_no_landed": 2028,
  "round_no_note": "r2115: prev=2114 read from this file; the report rows above agree on r2114, so prev+1 is the free number this window",
@@ -2453,7 +2453,7 @@
  "ts_epoch": 1794812499,
  "unverified": "full suite not run on new code this round (needs its own window)",
  "update_daily": "rc0 0 new rows, cutoff 2026-11-13 (Sunday, no new bar)",
- "updated": "2026-11-28T12:52:00+08:00",
+ "updated": "2026-11-28T13:20:00+08:00",
  "updated_at": "2026-11-28T10:30:00+08:00",
  "vcpu": 32,
  "verdict": "healthy",
@@ -2967,5 +2967,7 @@
  "smoke_note_r2213": "full smoke not run (~950-1100s, and the in-flight chain rewrites shared faces mid-run = r1861 UNVERIFIED family). The new leg was exercised through the same call smoke makes (_nav_source_dating().verify() -> rc0). r2210's 33 reds are NOT claimed improved.",
  "carrier_debt_r2213": "paid: r2212's uncommitted face (source_dating) is now committed, chained and smoking; the verdict contradiction it shipped is repaired. still owed: METHODOLOGY card for 'a batch stamp is not a date' (blocked -- knowledge/METHODOLOGY_ASSETS.md L18125 holds 0x08 and treasure_guard prescan hard-rejects the file, rc3); CODELY.md card; full smoke; the board's 3 ticket legs with no NAV row (159655/513650/513500) are a coverage question, not a dating one.",
  "记账_r2213": "轮报告 1 + QA 1 + research 1 + scripts 1 + results(面)1 + 链文件 1 + 冒烟腿 1 + state 1 + 心跳 1 = 9 处（轮报/QA/research/state/心跳 5 处记账，其余产品产出；记账律内）",
- "下个里程碑_r2213": "①把跨境 8 行的定日语义接进溢价面披露（与 r2211 的 159519 修法同族）；②查板面为何缺 159655/513650/513500 三只票面腿的净值行；③链 2209 收口后复跑全量冒烟。窗 ≤48h"
+ "下个里程碑_r2213": "①把跨境 8 行的定日语义接进溢价面披露（与 r2211 的 159519 修法同族）；②查板面为何缺 159655/513650/513500 三只票面腿的净值行；③链 2209 收口后复跑全量冒烟。窗 ≤48h",
+ "r2215_product": "the premium face decides a leg's NAV day from that instrument's own price path, not from the batch stamp its row carries; an evidence face describing another session is refused and named",
+ "r2215_next": "name label-only legs inside the execution hurdle; turn the 8 cross-date rows into a queryable dating ledger; slim the 279KB heartbeat body"
 }
