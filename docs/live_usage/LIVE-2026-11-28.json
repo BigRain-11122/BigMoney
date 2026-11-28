@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_9",
  "ticket": "T-202609-28-105",
  "day": "2026-11-28",
- "generated": "2026-11-28T20:07:57",
+ "generated": "2026-11-28T20:42:34",
  "market": {
   "state": "RED",
   "asof": "2026-11-27",
@@ -581,7 +581,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 75526.2
+    "last_append_age_min": 75560.8
    },
    {
     "family": "FUND-VALUE-P1",
@@ -589,7 +589,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 76370.6
+    "last_append_age_min": 76405.2
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -597,7 +597,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 73164.0
+    "last_append_age_min": 73198.6
    }
   ]
  },
@@ -2012,6 +2012,44 @@
   "funding_all_cny": 2329595.74,
   "cheapest_product": "IC",
   "cheapest_cny": 1159598.62,
+  "roads": [
+   {
+    "road": "fund_to_first_rung",
+    "product": "IC",
+    "needs_cny": 1159598.62,
+    "needs_pct": null,
+    "gets": "1 lot (and one more lot per further rung)",
+    "adopted": true,
+    "because_not": null
+   },
+   {
+    "road": "B_keep_capital_lower_target",
+    "product": "IC",
+    "needs_cny": null,
+    "needs_pct": 9.2768,
+    "gets": "1 lot(s)",
+    "adopted": false,
+    "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record"
+   },
+   {
+    "road": "fund_to_first_rung",
+    "product": "IM",
+    "needs_cny": 1169997.12,
+    "needs_pct": null,
+    "gets": "1 lot (and one more lot per further rung)",
+    "adopted": true,
+    "because_not": null
+   },
+   {
+    "road": "B_keep_capital_lower_target",
+    "product": "IM",
+    "needs_cny": null,
+    "needs_pct": 9.36,
+    "gets": "1 lot(s)",
+    "adopted": false,
+    "because_not": "that road spends drawdown tolerance to fit a contract -- see the adoption record"
+   }
+  ],
   "decision": "WITHDRAW_FROM_TICKET",
   "decided": "2026-11-17",
   "decided_in": "bm-c round 1780",
@@ -2821,6 +2859,16 @@
     "mdd_pct": null,
     "capacity": "CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书",
     "capacity_source": "results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00",
+    "capital": [
+     {
+      "what": "资本线 IC",
+      "text": "首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN"
+     },
+     {
+      "what": "资本线 IM",
+      "text": "首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN"
+     }
+    ],
     "face_verdict": null,
     "condition": "成本按声明的 bp 计 且 IC/IM 首档 1 手买得起（未过） 且 容量至少 1 倍本书。今天卡在：资本线 IC、资本线 IM",
     "blocked_on": "资本线 IC、资本线 IM"
@@ -2836,6 +2884,16 @@
     "mdd_pct": -1.89,
     "capacity": "CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书",
     "capacity_source": "results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00",
+    "capital": [
+     {
+      "what": "资本线 IC",
+      "text": "首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN"
+     },
+     {
+      "what": "资本线 IM",
+      "text": "首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN"
+     }
+    ],
     "face_verdict": null,
     "condition": "成本按声明的 bp 计 且 IC/IM 首档 1 手买得起（未过） 且 容量至少 1 倍本书。今天卡在：资本线 IC、资本线 IM",
     "blocked_on": "资本线 IC、资本线 IM"
@@ -2854,6 +2912,7 @@
     "mdd_pct": -21.74,
     "capacity": "CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书",
     "capacity_source": "results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00",
+    "capital": [],
     "face_verdict": "这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%. 复验的价：不值得再烧——面的话由自家 2/14 臂 GO 支撑，缺的是票不是证据",
     "condition": "面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词",
     "blocked_on": "面判词"
@@ -2872,6 +2931,7 @@
     "mdd_pct": -21.74,
     "capacity": "CAPACITY_OK_FOR_THIS_BOOK·总容量 4293.7× 本书",
     "capacity_source": "results/bench_cmdty_capacity.json @2026-11-28T17:51:53+08:00",
+    "capital": [],
     "face_verdict": "这张卡自己的证据面判 **UNSTABLE_ACROSS_PARAMS**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：3 臂里 2 臂 GO；已 GO 的 120d、250d，最近的未过臂 60d 年化 1.52%，低于它自己的分辨率线 3.86%（还差 2.34pp），挡它的检查 H1 全程、H2 样本外、H5 置换，置换 p=0.45. 复验的价：不值得再烧——分辨率 3.86pp 已细于目标 5pp，读出 1.52%：测得够，却没有 edge",
     "condition": "面认这个结论（未过） 且 成本按声明的 bp 计 且 容量至少 1 倍本书。今天卡在：面判词",
     "blocked_on": "面判词"

@@ -2,21 +2,21 @@
  "artifact": "chain_contract_word_audit",
  "face": "results/chain_contract_word_audit.json",
  "script": "scripts/chain_contract_word_audit.py",
- "generated": "2026-11-28T19:07:45+0800",
+ "generated": "2026-11-28T21:01:16+0800",
  "contract": {
   "word": "stale / face missing",
   "source": "Tools/s6_chain_bmc.py::run_leg::_repairable"
  },
  "chain": "Tools\\s6_chain_bmc.py",
- "chain_sha256": "60aab454b2f227aa55ada5ff4f6da6ad5ea43fc094586183f9df1811f47c2420",
- "n_legs": 420,
- "n_writer_legs": 163,
+ "chain_sha256": "5623d97ac3c4d614897466815cf018b7aae812faad0e22fd1c453437a23ea5d7",
+ "n_legs": 421,
+ "n_writer_legs": 164,
  "n_candidates": 14,
  "n_probed": 14,
  "deep": false,
  "n_permanent_red": 0,
  "verdict": "STRUCTURAL_RISK_ONLY",
- "elapsed_sec": 20.1,
+ "elapsed_sec": 20.8,
  "rows": [
   {
    "leg": "etf_book_fill_venue",
@@ -130,7 +130,7 @@
    ],
    "state": "CURRENT",
    "rc": 0,
-   "first_line": "����Ҫ **0.458463**�����ֻ�� **0.435003**���� 2.35pp�������ŵ�������� **37 �� + 40 �� + 25 �� + 43 �� + 28 ��**�������Եļ��۳� **23,678.20 Ԫ**�� ���Ȳ���**һ��**������˵��� **513690**��513690 �Ķ���ϵ� **0.0131pp** �͹�������һ�֣�����ÿ����Ҫ 0.0259~0.0611pp��"
+   "first_line": "规则要 **0.458463**、额度只给 **0.435003**（差 2.35pp）：这张单因此少买 **37 手 + 40 手 + 25 手 + 43 手 + 28 手**，按各自的价折成 **23,678.20 元**。 想先补回**一手**，最便宜的是 **513690**：513690 的额度上调 **0.0131pp** 就够买它那一手，其余每名各要 0.0259~0.0611pp。"
   },
   {
    "leg": "sibling_entry",

@@ -1152,6 +1152,16 @@ def _carry_book_face():
         "funding_all_cny": book.get("funding_for_all_legs_cny"),
         "cheapest_product": (book.get("cheapest_to_open") or {}).get("product"),
         "cheapest_cny": (book.get("cheapest_to_open") or {}).get("funding_cny"),
+        # r2225: the face already decided which road brings the book back (r1779/r1780).
+        # The answer book quotes this face's gap but not its road, so the reader learns
+        # "short by 159,599" and stops -- this carries the adopted road verbatim.
+        "roads": [
+            {"road": r.get("road"), "product": r.get("product"),
+             "needs_cny": r.get("needs_cny"), "needs_pct": r.get("needs_pct"),
+             "gets": r.get("gets"), "adopted": bool(r.get("adopted")),
+             "because_not": r.get("because_not")}
+            for r in (d.get("roads_that_bring_it_back") or [])
+        ],
         "decision": wd.get("decision"),
         "decided": wd.get("decided"),
         "decided_in": wd.get("decided_in"),
@@ -2929,6 +2939,12 @@ def _answer_book_face():
         cond = next((i for i in items if i.get("what") == "可下单条件"), {}) or {}
         cap = next((i for i in items if i.get("what") == "容量"), {}) or {}
         face = next((i for i in items if i.get("what") == "脸级判词"), {}) or {}
+        # r2225: the condition sentence names the capital gate but stops at the name.
+        # Lift every 资本线 row verbatim (it already carries 首档 / 本金 / 差 / 票态), so
+        # the reader learns what the gate costs instead of only that it bites.
+        capital = [{"what": i.get("what"), "text": i.get("text")}
+                   for i in items
+                   if str(i.get("what") or "").startswith("资本线")]
         heads = [r.get("headline") or {} for r in live]
         ann = next((h.get("ann_pct") for h in heads if h.get("ann_pct") is not None), None)
         mdd = next((h.get("mdd_pct") for h in heads if h.get("mdd_pct") is not None), None)
@@ -2941,6 +2957,7 @@ def _answer_book_face():
             "mdd_pct": mdd,
             "capacity": cap.get("text"),
             "capacity_source": cap.get("source"),
+            "capital": capital,
             "face_verdict": face.get("text"),
             "condition": cond.get("text"),
             "blocked_on": ((cond.get("text") or "").split("今天卡在：")[-1]
@@ -5944,6 +5961,36 @@ def render_md(p: dict) -> str:
             else:
                 L.append("  - 容量这一关：**没有任何面量过**（未测不是零，"
                          "先补一张容量面再谈下单）")
+            # r2225: "blocked on the capital line" without a number is a gate the reader
+            # cannot price.  Each account's gap is lifted verbatim from the book's own
+            # 资本线 row (which quotes the capital face), and the adopted road back is
+            # printed once from the face that decided it.  Two cards share the same rows,
+            # so print each account once per group (r1911: one measurement, one line).
+            _cap_rows = [c for q in _grp for c in (q.get("capital") or [])]
+            if _cap_rows:
+                _seen_cap = set()
+                L.append("  - 这一关要多少钱（答案簿逐账户原句）：")
+                for _c in _cap_rows:
+                    if _c.get("what") in _seen_cap:
+                        continue
+                    _seen_cap.add(_c.get("what"))
+                    L.append(f"    - {_c.get('what')}：{_c.get('text')}")
+                _cb = p.get("carry_book") or {}
+                _roads = [r for r in (_cb.get("roads") or []) if r.get("adopted")]
+                if _roads:
+                    _r = _roads[0]
+                    _need = (f"补到首档 ￥{_r['needs_cny']:,.0f}"
+                             if _r.get("needs_cny") is not None
+                             else (f"目标波动降到 {_r['needs_pct']:.2f}% 以内"
+                                   if _r.get("needs_pct") is not None
+                                   else "一条已采纳但本面没有定价的路"))
+                    L.append(f"    - 回到能下单的那条路（`{_cb.get('path')}` 自己采纳的）："
+                             f"{_need} → 拿回 {_r.get('gets') or '未标'}；"
+                             f"出处 generated {_cb.get('source_generated')}｜"
+                             f"cutoff {_cb.get('evidence_cutoff')}")
+                else:
+                    L.append("  - 回到能下单的那条路：**资金线面没有采纳任何一条**"
+                             "（缺面不读 0，先看那张面为什么全否）")
         L.append(f"- 出处：`{ab.get('path')}`｜cutoff {ab.get('cutoff')}"
                  f"｜generated {ab.get('generated')}——**答案簿在链尾重建，"
                  "这一节印的是它上一趟写下的原话**；它一动，跟在它后面的探针腿"
@@ -5975,7 +6022,10 @@ def answer_book_check() -> int:
     page_m = os.path.getmtime(page)
     for rel, path in ((ANSWER_BOOK_REL, ANSWER_BOOK_JSON),
                       ("results/bench_cmdty_capacity.json",
-                       os.path.join(ROOT, "results", "bench_cmdty_capacity.json"))):
+                       os.path.join(ROOT, "results", "bench_cmdty_capacity.json")),
+                      # r2225: the ⑪ section now prices the capital gate from this face,
+                      # so a newer capital line makes the printed gap just as stale.
+                      (CARRY_OPEN_REL, CARRY_OPEN_JSON)):
         if not os.path.exists(path):
             print(f"ceo_live_usage: face missing -- {rel} not on disk")
             return 3
@@ -7732,6 +7782,35 @@ def selftest() -> int:
         check("answer book: clearing every blocker reads as orderable, not as silence "
               "(r2223)", "今天能下单" in _sec3
               and f"今天能下单 {len(_p_ab2['answer_book']['questions'])} 条" in _sec3)
+        # ---- r2225: "blocked on the capital line" must read as a number the reader can
+        # act on, and the adopted road back must be on the same section as the gap.
+        _cap_rows = [c for q in _qs_ab for c in (q.get("capital") or [])]
+        if _cap_rows:
+            _gaps = [c.get("text") or "" for c in _cap_rows]
+            check("answer book: the capital gate prints the gap, not only its name (r2225)",
+                  all("差 ￥" in t for t in _gaps)
+                  and all((t.split("；")[0] if "；" in t else t) in _sec_ab
+                          for t in _gaps))
+            _names = {c.get("what") for c in _cap_rows}
+            check("answer book: a shared capital row is printed once per group (r1911)",
+                  all(_sec_ab.count(f"{n}：") == 1 for n in _names))
+            _p_cap = json.loads(json.dumps(p1))
+            _c0 = next(c for q in _p_cap["answer_book"]["questions"]
+                       for c in (q.get("capital") or []))
+            _orig = _c0["text"]
+            _c0["text"] = _orig.replace("差 ￥", "差 ￥0#", 1)
+            _sec_cap = _answer_sec(render_md(_p_cap))
+            check("answer book: the printed gap follows the book's number (r2225)",
+                  "差 ￥0#" in _sec_cap
+                  and (_orig.split("；")[0] not in _sec_cap))
+        _p_nor = json.loads(json.dumps(p1))
+        _cb = _p_nor.get("carry_book") or {}
+        _cb["roads"] = []
+        _sec_nor = _answer_sec(render_md(_p_nor))
+        check("answer book: no adopted road reads as such, never as a blank (r2225)",
+              ("资金线面没有采纳任何一条" in _sec_nor)
+              if any(q.get("capital") for q in (_p_nor["answer_book"]["questions"] or []))
+              else True)
     _p_abm = json.loads(json.dumps(p1))
     _p_abm["answer_book"] = {"present": False, "path": ANSWER_BOOK_REL,
                              "note": "答案簿未产出（缺面不读 0）"}

@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-11-28
 
-> 自动生成 2026-11-28T20:07:57 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-11-28T20:42:34 · T-105 v2.1 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ⓪ 本页新鲜度（先读这个）
 
@@ -392,6 +392,10 @@
   - `basis_timing_size`（basis）：判词 **GO** · 年化 +10.16% · 回撤 -1.89%
   - 这一关怎么算过（答案簿原句）：成本按声明的 bp 计 且 IC/IM 首档 1 手买得起（未过） 且 容量至少 1 倍本书。今天卡在：资本线 IC、资本线 IM
   - 容量这一关：CAPACITY_OK_AND_SIZED·总容量 4321.8× 本书（results/bench_basis_capacity.json @2026-11-26T23:22:58+08:00）
+  - 这一关要多少钱（答案簿逐账户原句）：
+    - 资本线 IC：首档 1 手要 ￥1,159,599，本金 ￥1,000,000，差 ￥159,599（15.96%）；可执行票状态 WITHDRAWN
+    - 资本线 IM：首档 1 手要 ￥1,169,997，本金 ￥1,000,000，差 ￥169,997（17.00%）；可执行票状态 WITHDRAWN
+    - 回到能下单的那条路（`results/idx_fut_carry_open_capital.json` 自己采纳的）：补到首档 ￥1,159,599 → 拿回 1 lot (and one more lot per further rung)；出处 generated 2026-11-28T09:13:00+08:00｜cutoff 2026-11-27
 - **今天卡在「面判词」的 2 张**：
   - `census_commodity`（census）：判词 **GO** · 年化 +4.99% · 回撤 -21.74%
     - 这张卡自己的证据面判 **CENSUS_LEANS_POSITIVE**，行上的 GO 是单臂/单相读数——面自己没认这个 GO。差在哪：14 臂里 2 臂 GO，面判词描述的是空间、不下单，看臂；已 GO 的 tsmom lookback=120,skip=21 ls、tsmom lookback=250,skip=21 ls，最近的未过臂 tsmom lookback=250,skip=21 long 年化 4.54%，它的面没公布检查明细，只给读数：夏普 0.752、样本外年化 8.39%. 复验的价：不值得再烧——面的话由自家 2/14 臂 GO 支撑，缺的是票不是证据
